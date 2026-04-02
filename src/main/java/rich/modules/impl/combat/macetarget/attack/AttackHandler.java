@@ -3,12 +3,12 @@ package rich.modules.impl.combat.macetarget.attack;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.util.Hand;
-import rich.modules.impl.combat.aura.attack.StrikeManager;
 import rich.util.inventory.InventoryUtils;
 
 @Getter
@@ -25,12 +25,12 @@ public class AttackHandler {
 
     public void performAttack(LivingEntity target) {
         if (mc.player == null || target == null) return;
-        
+
         // Проверка кулдауна атаки через StrikeManager
         if (!isAttackReady()) {
             return;
         }
-        
+
         // Проверка умных критов
         if (!canCrit(target)) {
             return;
@@ -44,10 +44,10 @@ public class AttackHandler {
             mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(maceSlot));
         }
 
-        // Атака
-        mc.interactionManager.attackEntity(mc.player, target);
+        // Атака - отправляем пакет на сервер
+        mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack((Entity) target, mc.player.isSneaking()));
         mc.player.swingHand(Hand.MAIN_HAND);
-        
+
         // Обновляем время последней атаки
         lastAttackTime = System.currentTimeMillis();
 

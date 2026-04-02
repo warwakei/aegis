@@ -86,6 +86,9 @@ public class Instant180 extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void rotateTo(float yaw) {
+        // Поворачиваем камеру локально для мгновенного эффекта
+        mc.player.setYaw(yaw);
+        
         Angle angle = new Angle(yaw, mc.player.getPitch());
         Angle.VecRotation rotation = new Angle.VecRotation(angle, angle.toVector());
         AngleConfig config = new AngleConfig(new LinearConstructor(), true, silent.isValue());

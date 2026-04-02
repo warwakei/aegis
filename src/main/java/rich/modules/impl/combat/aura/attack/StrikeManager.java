@@ -437,7 +437,8 @@ public class StrikeManager implements IMinecraft {
             return;
         }
 
-        if (!clickScheduler.isCooldownComplete(0)) {
+        // Для 1.8 режима не проверяем clickScheduler - там своя логика CPS
+        if (!is1_8Mode && !clickScheduler.isCooldownComplete(0)) {
             return;
         }
 
@@ -550,6 +551,12 @@ public class StrikeManager implements IMinecraft {
     private void executeAttack(StrikerConstructor.AttackPerpetratorConfigurable config) {
         if (is1_8Mode) {
             // 1.8 режим с CPS и двойными кликами
+            // Проверяем можно ли кликать сейчас
+            if (!canAttack1_8()) {
+                return;
+            }
+            
+            // Выполняем атаку через CPS менеджер
             performAttack1_8(() -> {
                 mc.interactionManager.attackEntity(mc.player, config.getTarget());
                 mc.player.swingHand(Hand.MAIN_HAND);
@@ -658,6 +665,11 @@ public class StrikeManager implements IMinecraft {
             return false;
         if (isHoldingMace()) {
             return attackTimer.finished(25) && clickScheduler.isMaceFastAttack();
+        }
+
+        // Для 1.8 режима - проверяем CPS менеджер
+        if (is1_8Mode) {
+            return canCritNow();
         }
 
         if (!clickScheduler.isCooldownComplete(0)) {
