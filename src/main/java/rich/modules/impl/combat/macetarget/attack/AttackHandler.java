@@ -69,7 +69,8 @@ public class AttackHandler {
     /**
      * Проверка умных критов для булавы
      * Возвращает true если можно атаковать
-     * Атакуем на пике или в начале падения - ДО приземления
+     * Атакуем ТОЛЬКО в полёте: на пике или при падении
+     * На земле НЕ атакуем - взлетаем заново
      */
     private boolean canCrit(LivingEntity target) {
         if (mc.player == null) return false;
@@ -82,12 +83,12 @@ public class AttackHandler {
         double velocityY = mc.player.getVelocity().y;
         boolean onGround = mc.player.isOnGround();
 
-        // Если на земле - атакуем
+        // На земле НЕ атакуем! Пусть MaceTarget взлетает заново
         if (onGround) {
-            return true;
+            return false;
         }
 
-        // Атакуем на пике (velocityY ~= 0) или когда начинаем падать
+        // Атакуем на пике (velocityY ~= 0) или когда падаем
         // velocityY <= 0.1 значит мы на пике или уже падаем
         if (velocityY <= 0.1) {
             return true;
