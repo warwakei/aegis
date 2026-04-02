@@ -5,7 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -33,7 +35,10 @@ public class AutoTool extends ModuleStructure {
             .setValue(true);
 
     final BooleanSetting fullInventory = new BooleanSetting("Вне хотбара", "Искать инструмент во всём инвентаре")
-            .setValue(false);
+            .setValue(true);
+
+    final BooleanSetting stopSprint = new BooleanSetting("Стоп спринт", "Останавливать спринт при ломке (Legit режим)")
+            .setValue(true);
 
     long lastSwapTime = 0;
     long lastBreakTime = 0;
@@ -49,7 +54,7 @@ public class AutoTool extends ModuleStructure {
 
     public AutoTool() {
         super("AutoTool", "Auto Tool", ModuleCategory.PLAYER);
-        settings(modeSetting, swapBack, fullInventory);
+        settings(modeSetting, swapBack, fullInventory, stopSprint);
     }
 
     @Override
@@ -238,7 +243,7 @@ public class AutoTool extends ModuleStructure {
     }
 
     private boolean hasSwapCooldownPassed() {
-        return System.currentTimeMillis() - lastSwapTime >= 350;
+        return System.currentTimeMillis() - lastSwapTime >= 50;
     }
 
     private boolean hasBreakingCooldownPassed() {
@@ -254,6 +259,13 @@ public class AutoTool extends ModuleStructure {
     private void swapToHand(Slot slot) {
         if (mc.player == null || mc.interactionManager == null || slot == null) return;
         int hotbarSlot = mc.player.getInventory().getSelectedSlot();
+        
+        // Останавливаем спринт если нужно
+        if (stopSprint.isValue() && mc.player.isSprinting()) {
+            mc.player.setSprinting(false);
+            mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
+        }
+        
         mc.interactionManager.clickSlot(
                 mc.player.playerScreenHandler.syncId,
                 slot.id,
@@ -272,7 +284,11 @@ public class AutoTool extends ModuleStructure {
         if (targetSlot < 0 || targetSlot > 8) return;
         if (targetSlot == currentSlot) return;
 
+        // Отправляем пакет смены слота
         mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(targetSlot));
+        
+        // Обновляем selectedSlot локально через setSelectedSlot для корректной работы
+        mc.player.getInventory().setSelectedSlot(targetSlot);
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
