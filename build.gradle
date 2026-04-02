@@ -64,7 +64,22 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": inputs.properties.version
     }
+    filesMatching("rich/util/Version.java.template") {
+        expand "version": project.mod_version
+        rename { "Version.java" }
+    }
 }
+
+sourceSets.main.java.srcDirs += "build/generated-src"
+
+tasks.register('generateVersion', Copy) {
+    from 'src/main/resources/rich/util/Version.java.template'
+    into 'build/generated-src/rich/util'
+    expand 'version': project.mod_version
+    rename { 'Version.java' }
+}
+
+compileJava.dependsOn generateVersion
 
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
@@ -74,6 +89,10 @@ java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.named('sourcesJar') {
+    dependsOn generateVersion
 }
 
 jar {
