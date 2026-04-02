@@ -181,7 +181,7 @@ public class TargetFinder implements IMinecraft {
          * Возвращает true если игрок должен быть ОТФИЛЬТРОВАН (тиммейт)
          *
          * Логика:
-         * - Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - считаем ВСЕХ с кожаными шлемами тиммейтами и фильтруем
+         * - Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - НЕ фильтруем по тиммейтам (бьём всех)
          * - Если опция "BW Тиммейты" ВКЛЮЧЕНА - проверяем цвет шлема, фильтруем только если цвет совпадает
          */
         private boolean isBwTeammate(LivingEntity entity) {
@@ -193,9 +193,9 @@ public class TargetFinder implements IMinecraft {
             // Проверяем что шлем кожаный
             if (helmet.getItem() != Items.LEATHER_HELMET) return false;
 
-            // Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - фильтруем всех с кожаными шлемами
+            // Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - НЕ фильтруем (бьём всех с кожаными шлемами)
             if (!targetSettings.contains("BW Тиммейты")) {
-                return true; // Считаем тиммейтом, фильтруем
+                return false; // Не тиммейт, не фильтруем
             }
 
             // Если опция ВКЛЮЧЕНА - проверяем цвет шлема
@@ -204,6 +204,7 @@ public class TargetFinder implements IMinecraft {
             if (myHelmet.getItem() != Items.LEATHER_HELMET) return false;
 
             // Сравниваем цвета шлемов
+            // Если цвета совпадают - это тиммейт, фильтруем
             return getLeatherArmorColor(helmet) == getLeatherArmorColor(myHelmet);
         }
 
