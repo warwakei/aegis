@@ -21,7 +21,7 @@ public class AttackHandler {
     private boolean shouldDisableAfterAttack = false;
 
     private long lastAttackTime = 0;
-    private static final int MIN_ATTACK_DELAY_MS = 50;
+    private static final int MIN_ATTACK_DELAY_MS = 100;
 
     public void performAttack(LivingEntity target) {
         if (mc.player == null || target == null) return;
@@ -59,25 +59,17 @@ public class AttackHandler {
     
     /**
      * Проверка готовности атаки
-     * Для булавы уменьшенный кулдаун для быстрой атаки в полёте
+     * Для булавы минимальный кулдаун для быстрой атаки в полёте
      */
     private boolean isAttackReady() {
         long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
-
-        // Минимальная задержка между атаками - 250мс для булавы (быстрее)
-        if (timeSinceLastAttack < 250) {
-            return false;
-        }
-
-        // Для булавы достаточно 250мс вместо 1650мс
-        // Это позволяет атаковать ещё в полёте до приземления
-        return timeSinceLastAttack >= 250;
+        return timeSinceLastAttack >= MIN_ATTACK_DELAY_MS;
     }
 
     /**
      * Проверка умных критов для булавы
      * Возвращает true если можно атаковать
-     * Булава должна атаковать в полёте, не ждать приземления
+     * Булава должна атаковать сразу в полёте, без задержек
      */
     private boolean canCrit(LivingEntity target) {
         if (mc.player == null) return false;
@@ -87,24 +79,16 @@ public class AttackHandler {
             return true;
         }
 
-        // Для булавы - атакуем в полёте когда падаем
-        // Не ждём приземления!
-        boolean onGround = mc.player.isOnGround();
+        // Атакуем ВСЕГДА в полёте - не ждём ничего
+        // velocityY <= 0 значит мы падаем или на пике
         double velocityY = mc.player.getVelocity().y;
-        double fallDistance = mc.player.fallDistance;
-
-        // Если на земле - можно атаковать
-        if (onGround) {
-            return true;
-        }
-
-        // В полёте - атакуем когда падаем (velocityY <= 0)
-        // Не требуем большого fallDistance - булава работает и с небольшим падением
+        
+        // Атакуем сразу как начали падение (velocityY <= 0)
         if (velocityY <= 0.0) {
             return true;
         }
 
-        // Если летим вверх - всё равно можно атаковать (менее капризно)
+        // Если летим вверх - тоже атакуем (для быстрой реакции)
         return true;
     }
     

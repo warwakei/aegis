@@ -87,12 +87,12 @@ public class StageHandler {
             }
         }
 
-        // Ждём завершения свапа и задержку перед атакой
-        if (!armorSwapHandler.isActive() && swapTimer.finished(150)) {
-            // Переход к атаке только если мы близко к цели
+        // Быстрый переход к атаке - минимальная задержка 50мс
+        if (!armorSwapHandler.isActive() && swapTimer.finished(50)) {
+            // Переход к атаке сразу если мы близко к цели
             if (distance < attackRange) {
                 stage = Stage.ATTACKING;
-                swapTimer.reset(); // Сбрасываем для задержки перед атакой
+                swapTimer.reset();
             }
         }
     }
@@ -110,13 +110,13 @@ public class StageHandler {
         }
 
         if (!hasElytra && !armorSwapHandler.isActive() && distance < attackRange) {
-            // Ждём 100мс перед атакой для синхронизации с сервером
-            if (swapTimer.finished(100)) {
-                // Устанавливаем атаку и НЕ меняем стадию пока атака не выполнится
+            // Минимальная задержка перед атакой - 50мс для быстрой реакции
+            if (swapTimer.finished(50)) {
+                // Устанавливаем атаку сразу
                 if (!attackHandler.isPendingAttack()) {
                     attackHandler.setPendingAttack(true);
                 }
-                // Стадию меняем только после того как атака выполнена
+                // Стадию меняем сразу после атаки
                 if (attackHandler.getLastAttackTime() > 0) {
                     if (reallyWorldMode) {
                         attackHandler.setShouldDisableAfterAttack(true);
@@ -124,7 +124,7 @@ public class StageHandler {
                         stage = Stage.FLYING_UP;
                         fireworkTimer.reset();
                     }
-                    attackHandler.setLastAttackTime(0); // Сброс чтобы не менять стадию снова
+                    attackHandler.setLastAttackTime(0);
                 }
             }
         }
