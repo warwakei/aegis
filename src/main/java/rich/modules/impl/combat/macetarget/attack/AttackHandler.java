@@ -69,27 +69,39 @@ public class AttackHandler {
     /**
      * Проверка умных критов для булавы
      * Возвращает true если можно атаковать
-     * Булава должна атаковать сразу в полёте, без задержек
+     * Булава должна атаковать когда летим вниз к врагу, но ещё не на земле
      */
     private boolean canCrit(LivingEntity target) {
-        if (mc.player == null) return false;
+        if (mc.player == null || target == null) return false;
 
         // Не атакуем если в воде/лаве
         if (mc.player.isTouchingWaterOrRain() || mc.player.isInLava()) {
             return true;
         }
 
-        // Атакуем ВСЕГДА в полёте - не ждём ничего
-        // velocityY <= 0 значит мы падаем или на пике
+        double playerY = mc.player.getY();
+        double targetY = target.getY();
         double velocityY = mc.player.getVelocity().y;
-        
-        // Атакуем сразу как начали падение (velocityY <= 0)
-        if (velocityY <= 0.0) {
+        boolean onGround = mc.player.isOnGround();
+
+        // Если уже на земле - атакуем
+        if (onGround) {
             return true;
         }
 
-        // Если летим вверх - тоже атакуем (для быстрой реакции)
-        return true;
+        // Атакуем когда летим вниз (velocityY < 0) И мы уже ниже или на уровне цели
+        // Это значит что мы падаем к врагу и скоро приземлимся
+        if (velocityY < 0 && playerY <= targetY + 2.0) {
+            return true;
+        }
+
+        // Если летим вверх - не атакуем, ждём падения
+        if (velocityY > 0) {
+            return false;
+        }
+
+        // Падаем но ещё высоко - ждём пока подлетим ближе к цели
+        return false;
     }
     
     /**
