@@ -64,7 +64,7 @@ public class Aura extends ModuleStructure {
             .selected("Бить сквозь стены", "Рандомизация крита", "Не бить если ешь");
 
     private final MultiSelectSetting targetType = new MultiSelectSetting("Настройка целей", "Select target settings")
-            .value("Игроки", "Мобы", "Животные", "Друзья", "Стойки для брони", "BW Тиммейты", "Креатив")
+            .value("Игроки", "Мобы", "Животные", "Друзья", "Стойки для брони", "BW Тиммейты", "Креатив", "Инвизы", "Голые инвизы")
             .selected("Игроки", "Мобы", "Животные");
 
     @Getter
