@@ -63,16 +63,29 @@ public class FlightController {
      */
     private Vec3d findSmartPathPosition(LivingEntity target, Stage stage) {
         Vec3d basePos = getTargetPosition(target, stage);
-        
+
         if (!smartPathEnabled) {
-            return basePos;
+            // Без умного путя - просто летим вверх/вниз по Y
+            switch (stage) {
+                case FLYING_UP -> {
+                    // Летим строго вверх по Y
+                    return basePos.add(0, height, 0);
+                }
+                case TARGETTING, ATTACKING -> {
+                    // Летим строго к цели по Y
+                    return basePos;
+                }
+                default -> {
+                    return basePos;
+                }
+            }
         }
 
         switch (stage) {
             case FLYING_UP -> {
                 // Проверяем есть ли блок над целевой позицией
                 Vec3d flyTarget = basePos.add(0, height, 0);
-                
+
                 // Сканируем сверху вниз в поисках свободного места
                 for (int offset = 0; offset <= 10; offset++) {
                     Vec3d checkPos = basePos.add(0, height - offset, 0);
@@ -90,7 +103,7 @@ public class FlightController {
                         }
                     }
                 }
-                
+
                 // Если не нашли место сверху, пробуем обойти сбоку
                 for (int radius = 1; radius <= 5; radius++) {
                     for (int x = -radius; x <= radius; x++) {
@@ -112,7 +125,7 @@ public class FlightController {
                         }
                     }
                 }
-                
+
                 return flyTarget;
             }
             case TARGETTING, ATTACKING -> {
@@ -120,7 +133,7 @@ public class FlightController {
                 if (mc.world != null && mc.player != null) {
                     Vec3d start = mc.player.getEyePos();
                     Vec3d end = basePos;
-                    
+
                     // Raycast для проверки препятствий
                     var hitResult = mc.world.raycast(
                         new net.minecraft.world.RaycastContext(
@@ -130,7 +143,7 @@ public class FlightController {
                             mc.player
                         )
                     );
-                    
+
                     // Если попали в блок до цели - смещаемся вверх
                     if (hitResult.getType() == net.minecraft.util.hit.HitResult.Type.BLOCK) {
                         return basePos.add(0, 1, 0);

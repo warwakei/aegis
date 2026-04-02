@@ -58,74 +58,54 @@ public class AttackHandler {
     }
     
     /**
-     * Проверка готовности атаки через StrikeManager
+     * Проверка готовности атаки
+     * Для булавы уменьшенный кулдаун для быстрой атаки в полёте
      */
     private boolean isAttackReady() {
         long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
-        
-        // Минимальная задержка между атаками
-        if (timeSinceLastAttack < MIN_ATTACK_DELAY_MS) {
+
+        // Минимальная задержка между атаками - 250мс для булавы (быстрее)
+        if (timeSinceLastAttack < 250) {
             return false;
         }
-        
-        // Проверяем через StrikeManager (учитывает attack speed предмета)
-        // Для булавы: 1650мс, для меча: ~600мс, для топора: ~1250мс
-        return timeSinceLastAttack >= getCurrentWeaponCooldown();
+
+        // Для булавы достаточно 250мс вместо 1650мс
+        // Это позволяет атаковать ещё в полёте до приземления
+        return timeSinceLastAttack >= 250;
     }
-    
+
     /**
-     * Возвращает кулдаун текущего оружия в мс
-     */
-    private long getCurrentWeaponCooldown() {
-        if (mc.player == null) return 600;
-        
-        var stack = mc.player.getMainHandStack();
-        if (stack.isEmpty()) return 600;
-        
-        // Булава - 1650мс (33 тика)
-        if (stack.isOf(Items.MACE)) {
-            return 1650;
-        }
-        
-        // Для других предметов используем дефолтные значения
-        String itemId = stack.getItem().getTranslationKey().toLowerCase();
-        if (itemId.contains("sword")) return 600;    // 12 тиков
-        if (itemId.contains("axe")) return 1250;     // 25 тиков
-        if (itemId.contains("trident")) return 900;  // 18 тиков
-        
-        return 600; // Дефолт
-    }
-    
-    /**
-     * Проверка умных критов
+     * Проверка умных критов для булавы
      * Возвращает true если можно атаковать
-     * Для булавы криты важны, но не блокируем атаку если просто стоим на земле
+     * Булава должна атаковать в полёте, не ждать приземления
      */
     private boolean canCrit(LivingEntity target) {
         if (mc.player == null) return false;
 
         // Не атакуем если в воде/лаве
         if (mc.player.isTouchingWaterOrRain() || mc.player.isInLava()) {
-            return true; // Всё равно атакуем, критов не будет
+            return true;
         }
 
-        // Проверка: игрок не на земле и падает (для крита)
+        // Для булавы - атакуем в полёте когда падаем
+        // Не ждём приземления!
         boolean onGround = mc.player.isOnGround();
         double velocityY = mc.player.getVelocity().y;
         double fallDistance = mc.player.fallDistance;
 
-        // Если на земле - разрешаем атаку (булава работает и без крита)
+        // Если на земле - можно атаковать
         if (onGround) {
             return true;
         }
 
-        // Если летим вверх - ждём
-        if (velocityY > 0.0) {
-            return false;
+        // В полёте - атакуем когда падаем (velocityY <= 0)
+        // Не требуем большого fallDistance - булава работает и с небольшим падением
+        if (velocityY <= 0.0) {
+            return true;
         }
 
-        // Падаем вниз - можно атаковать
-        return fallDistance > 0.0 || onGround;
+        // Если летим вверх - всё равно можно атаковать (менее капризно)
+        return true;
     }
     
     /**

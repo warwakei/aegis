@@ -95,11 +95,23 @@ public class TargetFinder implements IMinecraft {
                 .map(LivingEntity.class::cast)
                 .filter(entity -> pointFinder.hasValidPoint(entity, maxDistance, ignoreWalls) && getFov(entity, maxDistance, ignoreWalls) < maxFov);
 
+        // Сначала фильтруем по максимальной дистанции (128 блоков для MaceTarget)
+        // Это нужно чтобы приоритет по ХП не выбирал цели слишком далеко
+        stream = stream.filter(entity -> entity.distanceTo(mc.player) <= maxDistance);
+
         // Сортировка по приоритету
         if ("Меньше ХП".equals(priority)) {
-            stream = stream.sorted(Comparator.comparingDouble(LivingEntity::getHealth));
+            // Приоритет по ХП + дистанция (чтобы не лететь слишком далеко)
+            stream = stream.sorted(
+                Comparator.comparingDouble((LivingEntity e) -> e.getHealth())
+                    .thenComparingDouble(e -> e.distanceTo(mc.player))
+            );
         } else if ("Больше ХП".equals(priority)) {
-            stream = stream.sorted(Comparator.comparingDouble(LivingEntity::getHealth).reversed());
+            // Приоритет по ХП + дистанция
+            stream = stream.sorted(
+                Comparator.comparingDouble((LivingEntity e) -> e.getHealth()).reversed()
+                    .thenComparingDouble(e -> e.distanceTo(mc.player))
+            );
         } else if ("Ближе всего".equals(priority)) {
             stream = stream.sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
         } else {
