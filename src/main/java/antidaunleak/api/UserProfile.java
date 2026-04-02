@@ -1,6 +1,6 @@
 package antidaunleak.api;
 
-import net.minecraft.client.MinecraftClient;
+import antidaunleak.api.annotation.Native;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,33 +15,41 @@ public class UserProfile {
 
     private final Map<String, String> cache = new HashMap<>();
 
-    public Map<String, String> getCache() {
-        return cache;
-    }
+    private boolean nativeFailed = false;
 
     private UserProfile() {
-        cache.put("username", getPlayerName());
-        cache.put("hwid", "Beta");
-        cache.put("role", "User");
-        cache.put("uid", "Beta");
-        cache.put("subTime", "unlimited");
-    }
-
-    private String getPlayerName() {
         try {
-            if (MinecraftClient.getInstance() != null && MinecraftClient.getInstance().getSession() != null) {
-                return MinecraftClient.getInstance().getSession().getUsername();
-            }
-        } catch (Exception ignored) {}
-        return "Player";
+            cache.put("username", getUsername());
+            cache.put("hwid", getHwid());
+            cache.put("role", getRole());
+            cache.put("uid", getUid());
+            cache.put("subTime", getSubsTime());
+        } catch (UnsatisfiedLinkError e) {
+            nativeFailed = true;
+            cache.put("username", "null");
+            cache.put("hwid", "null");
+            cache.put("role", "null");
+            cache.put("uid", "null");
+            cache.put("subTime", "null");
+        }
     }
 
-    public String profile(String key) {
-        if ("username".equals(key)) {
-            String name = getPlayerName();
-            cache.put("username", name);
-            return name;
-        }
-        return cache.get(key);
+    @Native(type = Native.Type.STANDARD)
+    private native String getUsername();
+
+    @Native(type = Native.Type.STANDARD)
+    private native String getHwid();
+
+    @Native(type = Native.Type.STANDARD)
+    private native String getRole();
+
+    @Native(type = Native.Type.STANDARD)
+    private native String getUid();
+
+    @Native(type = Native.Type.STANDARD)
+    private native String getSubsTime();
+
+    public String profile(String profile) {
+        return cache.getOrDefault(profile, "");
     }
 }

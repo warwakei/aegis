@@ -1,16 +1,10 @@
 pluginManagement {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        maven {
-            name = 'Fabric Snapshots'
-            url = 'https://maven.fabricmc.net/snapshots/'
-        }
-        gradlePluginPortal()
-        mavenCentral()
-    }
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		mavenCentral()
+		gradlePluginPortal()
+	}
 }
-
-rootProject.name = 'Aegis'
