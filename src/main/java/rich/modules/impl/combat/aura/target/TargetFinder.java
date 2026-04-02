@@ -156,16 +156,16 @@ public class TargetFinder implements IMinecraft {
         private boolean isInvisiblePlayer(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
 
-            // Проверяем ТОЛЬКО эффект зелья невидимости через getStatusEffects()
-            boolean hasInvisibility = false;
+            // Проверяем наличие эффекта невидимости через getStatusEffects()
+            boolean hasInvisibilityEffect = false;
             for (var effect : player.getStatusEffects()) {
                 if (effect.getEffectType() == StatusEffects.INVISIBILITY) {
-                    hasInvisibility = true;
+                    hasInvisibilityEffect = true;
                     break;
                 }
             }
             
-            if (!hasInvisibility) return false; // Нет эффекта невидимости - не фильтруем
+            if (!hasInvisibilityEffect) return false; // Нет эффекта невидимости - не фильтруем
 
             // Проверяем есть ли броня на игроке
             boolean hasArmor = hasAnyArmor(player);
