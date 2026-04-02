@@ -57,6 +57,13 @@ public class MaceTarget extends ModuleStructure {
             .range(5.0f, 60.0f)
             .setValue(30.0f);
 
+    final SelectSetting priority = new SelectSetting("Приоритет", "Приоритет выбора цели")
+            .value("Меньше ХП", "Больше ХП", "Ближе всего")
+            .selected("Меньше ХП");
+
+    final BooleanSetting smartPath = new BooleanSetting("Умный путь", "Обходить препятствия по Y (крыши, статуи)")
+            .setValue(false);
+
     final MultiSelectSetting targetType = new MultiSelectSetting("Цели", "Типы целей")
             .value("Игроки", "Мобы", "Животные")
             .selected("Игроки");
@@ -93,7 +100,7 @@ public class MaceTarget extends ModuleStructure {
 
     public MaceTarget() {
         super("MaceTarget", "Mace Target", ModuleCategory.COMBAT);
-        settings(serverMode, modeSetting, height, targetType, autoEquipChest, predictMovement, swapDistance, attackRange, strictValidation);
+        settings(serverMode, modeSetting, height, priority, smartPath, targetType, autoEquipChest, predictMovement, swapDistance, attackRange, strictValidation);
 
         flightController = new FlightController(predictor);
         armorSwapHandler = new ArmorSwapHandler(this::buildSettings);
@@ -124,6 +131,7 @@ public class MaceTarget extends ModuleStructure {
         stageHandler.setAttackRange(attackRange.getValue());
         flightController.setPredictionEnabled(predictMovement.isValue());
         flightController.setHeight(height.getValue());
+        flightController.setSmartPathEnabled(smartPath.isValue());
     }
 
     @Override
@@ -275,7 +283,7 @@ public class MaceTarget extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void findTarget() {
         TargetFinder.EntityFilter filter = new TargetFinder.EntityFilter(targetType.getSelected());
-        targetFinder.searchTargets(mc.world.getEntities(), 128.0f, 360, true);
+        targetFinder.searchTargetsWithPriority(mc.world.getEntities(), 128.0f, 360, true, priority.getSelected());
         targetFinder.validateTarget(t -> filter.isValid(t) && isTargetValid(t));
         target = targetFinder.getCurrentTarget();
     }

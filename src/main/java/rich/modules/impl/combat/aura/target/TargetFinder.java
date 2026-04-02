@@ -68,6 +68,14 @@ public class TargetFinder implements IMinecraft {
         this.potentialTargets = createStreamFromEntities(entities, maxDistance, maxFov, ignoreWalls);
     }
 
+    public void searchTargetsWithPriority(Iterable<Entity> entities, float maxDistance, float maxFov, boolean ignoreWalls, String priority) {
+        if (currentTarget != null && (!pointFinder.hasValidPoint(currentTarget, maxDistance, ignoreWalls) || getFov(currentTarget, maxDistance, ignoreWalls) > maxFov)) {
+            releaseTarget();
+        }
+
+        this.potentialTargets = createStreamFromEntitiesWithPriority(entities, maxDistance, maxFov, ignoreWalls, priority);
+    }
+
     private double getFov(LivingEntity entity, float maxDistance, boolean ignoreWalls) {
         Vec3d attackVector = pointFinder.computeVector(entity, maxDistance, AngleConnection.INSTANCE.getRotation(), new LinearConstructor().randomValue(), ignoreWalls).getLeft();
         return RaycastAngle.rayTrace(maxDistance, entity.getBoundingBox()) ? 0 : AngleConnection.computeRotationDifference(MathAngle.cameraAngle(), MathAngle.calculateAngle(attackVector));
@@ -79,6 +87,27 @@ public class TargetFinder implements IMinecraft {
                 .map(LivingEntity.class::cast)
                 .filter(entity -> pointFinder.hasValidPoint(entity, maxDistance, ignoreWalls) && getFov(entity, maxDistance, ignoreWalls) < maxFov)
                 .sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
+    }
+
+    private Stream<LivingEntity> createStreamFromEntitiesWithPriority(Iterable<Entity> entities, float maxDistance, float maxFov, boolean ignoreWalls, String priority) {
+        Stream<LivingEntity> stream = StreamSupport.stream(entities.spliterator(), false)
+                .filter(LivingEntity.class::isInstance)
+                .map(LivingEntity.class::cast)
+                .filter(entity -> pointFinder.hasValidPoint(entity, maxDistance, ignoreWalls) && getFov(entity, maxDistance, ignoreWalls) < maxFov);
+
+        // Сортировка по приоритету
+        if ("Меньше ХП".equals(priority)) {
+            stream = stream.sorted(Comparator.comparingDouble(LivingEntity::getHealth));
+        } else if ("Больше ХП".equals(priority)) {
+            stream = stream.sorted(Comparator.comparingDouble(LivingEntity::getHealth).reversed());
+        } else if ("Ближе всего".equals(priority)) {
+            stream = stream.sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
+        } else {
+            // По умолчанию - ближе всего
+            stream = stream.sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
+        }
+
+        return stream;
     }
 
     private Optional<LivingEntity> findFirstMatch(Predicate<LivingEntity> predicate) {

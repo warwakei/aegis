@@ -167,7 +167,10 @@ public class StrikeManager implements IMinecraft {
      */
     public void updateLastAttackTime() {
         lastAttackTime = System.currentTimeMillis();
-        clickScheduler.recalculate();
+        // Для 1.8 режима не обновляем clickScheduler - там своя логика CPS
+        if (!is1_8Mode) {
+            clickScheduler.recalculate();
+        }
     }
     
     /**
@@ -490,9 +493,22 @@ public class StrikeManager implements IMinecraft {
             return;
         if (!isLookingAtTarget(config))
             return;
-        if (!clickScheduler.isMaceFastAttack())
-            return;
-        if (!attackTimer.finished(25))
+
+        // Для 1.8 режима используем CPS логику, для обычного - clickScheduler
+        if (is1_8Mode) {
+            // 1.8 режим - проверяем CPS очередь
+            if (!canAttack1_8())
+                return;
+        } else {
+            // Обычный режим - проверяем clickScheduler
+            if (!clickScheduler.isMaceFastAttack())
+                return;
+            if (!attackTimer.finished(25))
+                return;
+        }
+
+        // Упрощённая проверка критов для булавы (менее капризна)
+        if (!canCritForMace())
             return;
 
         preAttackEntity(config);
@@ -549,13 +565,13 @@ public class StrikeManager implements IMinecraft {
     }
 
     private void executeAttack(StrikerConstructor.AttackPerpetratorConfigurable config) {
-        if (is1_8Mode) {
-            // 1.8 режим с CPS и двойными кликами
+        if (is1_8Mode && !isHoldingMace()) {
+            // 1.8 режим с CPS и двойными кликами (НЕ для булавы)
             // Проверяем можно ли кликать сейчас
             if (!canAttack1_8()) {
                 return;
             }
-            
+
             // Выполняем атаку через CPS менеджер
             performAttack1_8(() -> {
                 mc.interactionManager.attackEntity(mc.player, config.getTarget());
@@ -565,13 +581,45 @@ public class StrikeManager implements IMinecraft {
             count++;
             updateLastAttackTime();
         } else {
-            // Обычный режим
+            // Обычный режим ИЛИ булава в 1.8 режиме
             mc.interactionManager.attackEntity(mc.player, config.getTarget());
             mc.player.swingHand(Hand.MAIN_HAND);
             attackTimer.reset();
             count++;
             updateLastAttackTime();
         }
+    }
+
+    /**
+     * Упрощённая проверка критов для булавы (менее капризна)
+     * Булава должна работать почти всегда, только базовые проверки
+     */
+    private boolean canCritForMace() {
+        // В 1.8 режиме не проверяем криты вообще
+        if (is1_8Mode) {
+            return true;
+        }
+
+        Aura aura = Aura.getInstance();
+        boolean checkCritEnabled = aura.getCheckCrit().isValue();
+
+        // Если криты не обязательны - разрешаем атаку
+        if (!checkCritEnabled) {
+            return true;
+        }
+
+        // Базовые проверки - только вода и лава
+        if (isInWater()) {
+            return true; // В воде всё равно не будет крита
+        }
+
+        // Проверяем что не восходим
+        if (isAscending()) {
+            return false;
+        }
+
+        // Всё остальное разрешаем - булава менее капризна
+        return true;
     }
 
     void handleTriggerAttack(StrikerConstructor.AttackPerpetratorConfigurable config, TriggerBot triggerBot) {
@@ -664,12 +712,17 @@ public class StrikeManager implements IMinecraft {
         if (shouldWaitForEating())
             return false;
         if (isHoldingMace()) {
-            return attackTimer.finished(25) && clickScheduler.isMaceFastAttack();
+            // Для булавы - упрощённая проверка
+            if (is1_8Mode) {
+                return canCritForMace();
+            } else {
+                return attackTimer.finished(25) && clickScheduler.isMaceFastAttack();
+            }
         }
 
-        // Для 1.8 режима - проверяем CPS менеджер
+        // Для 1.8 режима - проверяем CPS менеджер, криты не проверяем
         if (is1_8Mode) {
-            return canCritNow();
+            return canAttack1_8();
         }
 
         if (!clickScheduler.isCooldownComplete(0)) {

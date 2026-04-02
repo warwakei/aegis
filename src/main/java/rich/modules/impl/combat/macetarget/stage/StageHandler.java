@@ -112,14 +112,20 @@ public class StageHandler {
         if (!hasElytra && !armorSwapHandler.isActive() && distance < attackRange) {
             // Ждём 100мс перед атакой для синхронизации с сервером
             if (swapTimer.finished(100)) {
-                attackHandler.setPendingAttack(true);
-            }
-
-            if (reallyWorldMode) {
-                attackHandler.setShouldDisableAfterAttack(true);
-            } else {
-                stage = Stage.FLYING_UP;
-                fireworkTimer.reset();
+                // Устанавливаем атаку и НЕ меняем стадию пока атака не выполнится
+                if (!attackHandler.isPendingAttack()) {
+                    attackHandler.setPendingAttack(true);
+                }
+                // Стадию меняем только после того как атака выполнена
+                if (attackHandler.getLastAttackTime() > 0) {
+                    if (reallyWorldMode) {
+                        attackHandler.setShouldDisableAfterAttack(true);
+                    } else {
+                        stage = Stage.FLYING_UP;
+                        fireworkTimer.reset();
+                    }
+                    attackHandler.setLastAttackTime(0); // Сброс чтобы не менять стадию снова
+                }
             }
         }
     }

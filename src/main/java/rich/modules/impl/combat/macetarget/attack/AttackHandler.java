@@ -19,7 +19,7 @@ public class AttackHandler {
 
     private boolean pendingAttack = false;
     private boolean shouldDisableAfterAttack = false;
-    
+
     private long lastAttackTime = 0;
     private static final int MIN_ATTACK_DELAY_MS = 50;
 
@@ -98,33 +98,34 @@ public class AttackHandler {
     
     /**
      * Проверка умных критов
-     * Возвращает true если можно атаковать (не в воде, не на земле, падаем)
+     * Возвращает true если можно атаковать
+     * Для булавы криты важны, но не блокируем атаку если просто стоим на земле
      */
     private boolean canCrit(LivingEntity target) {
         if (mc.player == null) return false;
-        
+
         // Не атакуем если в воде/лаве
         if (mc.player.isTouchingWaterOrRain() || mc.player.isInLava()) {
             return true; // Всё равно атакуем, критов не будет
         }
-        
+
         // Проверка: игрок не на земле и падает (для крита)
         boolean onGround = mc.player.isOnGround();
         double velocityY = mc.player.getVelocity().y;
         double fallDistance = mc.player.fallDistance;
-        
-        // Если на земле - не крит, пропускаем атаку
+
+        // Если на земле - разрешаем атаку (булава работает и без крита)
         if (onGround) {
-            return false;
+            return true;
         }
-        
+
         // Если летим вверх - ждём
         if (velocityY > 0.0) {
             return false;
         }
-        
+
         // Падаем вниз - можно атаковать
-        return fallDistance > 0.0;
+        return fallDistance > 0.0 || onGround;
     }
     
     /**
