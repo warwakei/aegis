@@ -95,7 +95,7 @@ public class TargetFinder implements IMinecraft {
             if (isInvalidHealth(entity)) return false;
             if (isBotPlayer(entity)) return false;
             if (isFriendPlayer(entity)) return false;
-            if (isCreativePlayer(entity)) return false;
+            if (isCreativeOrSpectator(entity)) return false;
             if (isInvisiblePlayer(entity)) return false;
             if (isBwTeammate(entity)) return false;
             return isValidEntityType(entity);
@@ -116,15 +116,19 @@ public class TargetFinder implements IMinecraft {
         /**
          * Проверяет нужно ли фильтровать игрока в креативе/спектре
          * Возвращает true если игрок должен быть ОТФИЛЬТРОВАН (не валидная цель)
+         * 
+         * Логика:
+         * - Если опция "Креатив" ВЫКЛЮЧЕНА - фильтруем креатив И спектаторов
+         * - Если опция "Креатив" ВКЛЮЧЕНА - не фильтруем (бьём всех)
          */
-        private boolean isCreativePlayer(LivingEntity entity) {
+        private boolean isCreativeOrSpectator(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
 
             // Проверяем креатив или спектр
             boolean isCreative = player.isCreative();
             boolean isSpectator = player.isSpectator();
 
-            if (!isCreative && !isSpectator) return false; // Не в креативе/спектре - валидная цель
+            if (!isCreative && !isSpectator) return false; // Не в креативе/спектре - не фильтруем
 
             // Если опция "Креатив" НЕ включена - фильтруем (не бьём креатив/спектр)
             // Если опция "Креатив" включена - не фильтруем (бьём креатив/спектр)
@@ -132,23 +136,26 @@ public class TargetFinder implements IMinecraft {
         }
 
         /**
-         * Проверяет нужно ли фильтровать невидимого игрока
+         * Проверяет нужно ли фильтровать невидимого игрока (с эффектом зелья)
          * Возвращает true если игрок должен быть ОТФИЛЬТРОВАН (не валидная цель)
          * 
          * Логика для "Инвизы":
-         * - Если опция "Инвизы" ВЫКЛЮЧЕНА - фильтруем всех невидимых (не бьём)
-         * - Если опция "Инвизы" ВКЛЮЧЕНА - не фильтруем невидимых (бьём)
+         * - Если опция "Инвизы" ВЫКЛЮЧЕНА - фильтруем невидимых В БРОНЕ (не бьём)
+         * - Если опция "Инвизы" ВКЛЮЧЕНА - не фильтруем невидимых В БРОНЕ (бьём)
          * 
          * Логика для "Голые инвизы":
-         * - Если опция "Голые инвизы" ВЫКЛЮЧЕНА - фильтруем невидимых без брони
-         * - Если опция "Голые инвизы" ВКЛЮЧЕНА - не фильтруем невидимых без брони (бьём)
+         * - Если опция "Голые инвизы" ВЫКЛЮЧЕНА - фильтруем невидимых БЕЗ БРОНИ (не бьём)
+         * - Если опция "Голые инвизы" ВКЛЮЧЕНА - не фильтруем невидимых БЕЗ БРОНИ (бьём)
+         * 
+         * ПРОВЕРЯЕМ ТОЛЬКО ЭФФЕКТ НЕВИДИМОСТИ (Potion Effect)
+         * Не проверяем GameMode (креатив/спектр) - это отдельная опция "Креатив"
          */
         private boolean isInvisiblePlayer(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
 
-            // Проверяем есть ли эффект невидимости
+            // Проверяем ТОЛЬКО эффект зелья невидимости
             boolean hasInvisibility = player.hasStatusEffect(StatusEffects.INVISIBILITY);
-            if (!hasInvisibility) return false; // Не невидим - не фильтруем
+            if (!hasInvisibility) return false; // Нет эффекта невидимости - не фильтруем
 
             // Проверяем есть ли броня на игроке
             boolean hasArmor = hasAnyArmor(player);
