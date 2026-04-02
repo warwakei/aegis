@@ -182,9 +182,7 @@ public class ConfigSerializer {
     private void deserializeModule(ModuleStructure module, JsonObject moduleJson) {
         if (moduleJson.has("enabled")) {
             boolean enabled = moduleJson.get("enabled").getAsBoolean();
-            if (enabled) {
-                module.setState(true);
-            }
+            module.setState(enabled);
         }
         if (moduleJson.has("key")) {
             module.setKey(moduleJson.get("key").getAsInt());
@@ -226,7 +224,14 @@ public class ConfigSerializer {
             } else if (setting instanceof TextSetting textSetting) {
                 textSetting.setText(element.getAsString());
             } else if (setting instanceof SelectSetting selectSetting) {
-                selectSetting.setSelected(element.getAsString());
+                String selected = element.getAsString();
+                // Проверяем что значение есть в списке доступных
+                if (selectSetting.getList().contains(selected)) {
+                    selectSetting.setSelected(selected);
+                } else {
+                    // Если значения нет - ставим первое доступное
+                    selectSetting.setSelected(selectSetting.getList().get(0));
+                }
             } else if (setting instanceof ColorSetting colorSetting) {
                 if (element.isJsonObject()) {
                     JsonObject colorJson = element.getAsJsonObject();
@@ -250,7 +255,11 @@ public class ConfigSerializer {
                     JsonArray array = element.getAsJsonArray();
                     List<String> selected = new ArrayList<>();
                     for (JsonElement e : array) {
-                        selected.add(e.getAsString());
+                        String value = e.getAsString();
+                        // Проверяем что значение есть в списке доступных
+                        if (multiSetting.getList().contains(value)) {
+                            selected.add(value);
+                        }
                     }
                     multiSetting.setSelected(selected);
                 }
@@ -270,7 +279,8 @@ public class ConfigSerializer {
                     }
                 }
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Logger.info("AutoConfiguration: Error deserializing setting '" + setting.getName() + "': " + e.getMessage());
         }
     }
 
