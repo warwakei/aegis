@@ -69,7 +69,7 @@ public class AttackHandler {
     /**
      * Проверка умных критов для булавы
      * Возвращает true если можно атаковать
-     * Булава должна атаковать когда летим вниз (падаем)
+     * Атакуем на пике или в начале падения - ДО приземления
      */
     private boolean canCrit(LivingEntity target) {
         if (mc.player == null) return false;
@@ -87,12 +87,13 @@ public class AttackHandler {
             return true;
         }
 
-        // Летим вниз (падаем) - атакуем!
-        if (velocityY < 0) {
+        // Атакуем на пике (velocityY ~= 0) или когда начинаем падать
+        // velocityY <= 0.1 значит мы на пике или уже падаем
+        if (velocityY <= 0.1) {
             return true;
         }
 
-        // Летим вверх - не атакуем, ждём пока начнём падать
+        // Летим вверх - не атакуем, ждём пик
         return false;
     }
     
