@@ -181,8 +181,8 @@ public class TargetFinder implements IMinecraft {
          * Возвращает true если игрок должен быть ОТФИЛЬТРОВАН (тиммейт)
          *
          * Логика:
-         * - Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - НЕ фильтруем по тиммейтам (бьём всех)
-         * - Если опция "BW Тиммейты" ВКЛЮЧЕНА - проверяем цвет шлема, фильтруем только если цвет совпадает
+         * - Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - проверяем цвет шлема, фильтруем тиммейтов (не бьём)
+         * - Если опция "BW Тиммейты" ВКЛЮЧЕНА - НЕ фильтруем (бьём всех, включая тиммейтов)
          */
         private boolean isBwTeammate(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
@@ -193,18 +193,18 @@ public class TargetFinder implements IMinecraft {
             // Проверяем что шлем кожаный
             if (helmet.getItem() != Items.LEATHER_HELMET) return false;
 
-            // Если опция "BW Тиммейты" ВЫКЛЮЧЕНА - НЕ фильтруем (бьём всех с кожаными шлемами)
-            if (!targetSettings.contains("BW Тиммейты")) {
-                return false; // Не тиммейт, не фильтруем
+            // Если опция "BW Тиммейты" ВКЛЮЧЕНА - НЕ фильтруем (бьём всех)
+            if (targetSettings.contains("BW Тиммейты")) {
+                return false; // Не фильтруем
             }
 
-            // Если опция ВКЛЮЧЕНА - проверяем цвет шлема
+            // Если опция ВЫКЛЮЧЕНА - проверяем цвет шлема
             ItemStack myHelmet = mc.player.getEquippedStack(EquipmentSlot.HEAD);
             if (myHelmet.isEmpty()) return false;
             if (myHelmet.getItem() != Items.LEATHER_HELMET) return false;
 
             // Сравниваем цвета шлемов
-            // Если цвета совпадают - это тиммейт, фильтруем
+            // Если цвета совпадают - это тиммейт, фильтруем (не бьём)
             return getLeatherArmorColor(helmet) == getLeatherArmorColor(myHelmet);
         }
 
