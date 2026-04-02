@@ -1,0 +1,1806 @@
+{
+  "md5": "b875d7d23e3277736eeae73695cdb099",
+  "sha2": "05cb11e709a10f0c7dbac4991aaa9b90bdbcbdd4",
+  "sha256": "e76ef2bc769c3061121b024491c3557394d85954011e685c65bb0e67845f2ec1",
+  "contents": {
+    "classes": {
+      "classes/com/sun/nio/sctp/AssociationChangeNotification.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/AssociationChangeNotification",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "nme": "event",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/SctpMultiChannel.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/SctpMultiChannel",
+        "super": "java/nio/channels/spi/AbstractSelectableChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/nio/channels/spi/SelectorProvider;)V"
+          },
+          {
+            "nme": "open",
+            "acc": 9,
+            "dsc": "()Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "associations",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/Association;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1025,
+            "dsc": "(Ljava/net/SocketAddress;I)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 17,
+            "dsc": "(Ljava/net/SocketAddress;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bindAddress",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unbindAddress",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAllLocalAddresses",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddresses",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)Ljava/util/Set;",
+            "sig": "(Lcom/sun/nio/sctp/Association;)Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "shutdown",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Lcom/sun/nio/sctp/Association;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;Lcom/sun/nio/sctp/Association;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Ljava/lang/Object;Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;TT;Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/SctpSocketOption<*>;>;"
+          },
+          {
+            "nme": "validOps",
+            "acc": 17,
+            "dsc": "()I"
+          },
+          {
+            "nme": "receive",
+            "acc": 1025,
+            "dsc": "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Lcom/sun/nio/sctp/NotificationHandler;)Lcom/sun/nio/sctp/MessageInfo;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/nio/ByteBuffer;TT;Lcom/sun/nio/sctp/NotificationHandler<TT;>;)Lcom/sun/nio/sctp/MessageInfo;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "send",
+            "acc": 1025,
+            "dsc": "(Ljava/nio/ByteBuffer;Lcom/sun/nio/sctp/MessageInfo;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "branch",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/nio/ch/sctp/SctpServerChannelImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/nio/ch/sctp/SctpServerChannelImpl",
+        "super": "com/sun/nio/sctp/SctpServerChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/channels/spi/SelectorProvider;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 1,
+            "dsc": "()Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1,
+            "dsc": "(Ljava/net/SocketAddress;I)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bindAddress",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unbindAddress",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAllLocalAddresses",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Ljava/lang/Object;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;TT;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/SctpSocketOption<*>;>;"
+          },
+          {
+            "nme": "implConfigureBlocking",
+            "acc": 4,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implCloseSelectableChannel",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/HandlerResult.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/nio/sctp/HandlerResult",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "CONTINUE",
+            "dsc": "Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "acc": 16409,
+            "nme": "RETURN",
+            "dsc": "Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/sctp/HandlerResult;"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/SctpSocketOption.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/nio/sctp/SctpSocketOption",
+        "super": "java/lang/Object",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/nio/ch/sctp/SctpMultiChannelImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/nio/ch/sctp/SctpMultiChannelImpl",
+        "super": "com/sun/nio/sctp/SctpMultiChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/channels/spi/SelectorProvider;)V"
+          },
+          {
+            "nme": "associations",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/Association;>;"
+          },
+          {
+            "nme": "bind",
+            "acc": 1,
+            "dsc": "(Ljava/net/SocketAddress;I)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bindAddress",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unbindAddress",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAllLocalAddresses",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddresses",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)Ljava/util/Set;",
+            "sig": "(Lcom/sun/nio/sctp/Association;)Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "shutdown",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Lcom/sun/nio/sctp/Association;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;Lcom/sun/nio/sctp/Association;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Ljava/lang/Object;Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;TT;Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpMultiChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/SctpSocketOption<*>;>;"
+          },
+          {
+            "nme": "receive",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Lcom/sun/nio/sctp/NotificationHandler;)Lcom/sun/nio/sctp/MessageInfo;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/nio/ByteBuffer;TT;Lcom/sun/nio/sctp/NotificationHandler<TT;>;)Lcom/sun/nio/sctp/MessageInfo;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "send",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;Lcom/sun/nio/sctp/MessageInfo;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "branch",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implConfigureBlocking",
+            "acc": 4,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implCloseSelectableChannel",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/SctpStandardSocketOptions.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/nio/sctp/SctpStandardSocketOptions",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "SCTP_DISABLE_FRAGMENTS",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Boolean;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_EXPLICIT_COMPLETE",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Boolean;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_FRAGMENT_INTERLEAVE",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_INIT_MAXSTREAMS",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Lcom/sun/nio/sctp/SctpStandardSocketOptions$InitMaxStreams;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_NODELAY",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Boolean;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_PRIMARY_ADDR",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/net/SocketAddress;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_SET_PEER_PRIMARY_ADDR",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/net/SocketAddress;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SO_SNDBUF",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SO_RCVBUF",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SO_LINGER",
+            "dsc": "Lcom/sun/nio/sctp/SctpSocketOption;",
+            "sig": "Lcom/sun/nio/sctp/SctpSocketOption<Ljava/lang/Integer;>;"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/Association.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/nio/sctp/Association",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(III)V"
+          },
+          {
+            "nme": "associationID",
+            "acc": 17,
+            "dsc": "()I"
+          },
+          {
+            "nme": "maxInboundStreams",
+            "acc": 17,
+            "dsc": "()I"
+          },
+          {
+            "nme": "maxOutboundStreams",
+            "acc": 17,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "associationID",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "maxInStreams",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "maxOutStreams",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/ShutdownNotification.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/ShutdownNotification",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "ADDR_AVAILABLE",
+            "dsc": "Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "ADDR_UNREACHABLE",
+            "dsc": "Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "ADDR_REMOVED",
+            "dsc": "Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "ADDR_ADDED",
+            "dsc": "Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "ADDR_MADE_PRIMARY",
+            "dsc": "Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "ADDR_CONFIRMED",
+            "dsc": "Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/IllegalUnbindException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/nio/sctp/IllegalUnbindException",
+        "super": "java/lang/IllegalStateException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -310540883995532224
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/SctpStandardSocketOptions$InitMaxStreams.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/nio/sctp/SctpStandardSocketOptions$InitMaxStreams",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(II)V"
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "(II)Lcom/sun/nio/sctp/SctpStandardSocketOptions$InitMaxStreams;"
+          },
+          {
+            "nme": "maxInStreams",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "maxOutStreams",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "maxInStreams",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "maxOutStreams",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "COMM_UP",
+            "dsc": "Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "COMM_LOST",
+            "dsc": "Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "RESTART",
+            "dsc": "Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "SHUTDOWN",
+            "dsc": "Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "acc": 16409,
+            "nme": "CANT_START",
+            "dsc": "Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/sctp/AssociationChangeNotification$AssocChangeEvent;"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/IllegalReceiveException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/nio/sctp/IllegalReceiveException",
+        "super": "java/lang/IllegalStateException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 2296619040988576224
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/InvalidStreamException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/nio/sctp/InvalidStreamException",
+        "super": "java/lang/IllegalArgumentException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -9172703378046665558
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/MessageInfo.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/MessageInfo",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createOutgoing",
+            "acc": 9,
+            "dsc": "(Ljava/net/SocketAddress;I)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "createOutgoing",
+            "acc": 9,
+            "dsc": "(Lcom/sun/nio/sctp/Association;Ljava/net/SocketAddress;I)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "address",
+            "acc": 1025,
+            "dsc": "()Ljava/net/SocketAddress;"
+          },
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "nme": "bytes",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "complete",
+            "acc": 1025,
+            "dsc": "(Z)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "isUnordered",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unordered",
+            "acc": 1025,
+            "dsc": "(Z)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "payloadProtocolID",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "payloadProtocolID",
+            "acc": 1025,
+            "dsc": "(I)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "streamNumber",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "streamNumber",
+            "acc": 1025,
+            "dsc": "(I)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "timeToLive",
+            "acc": 1025,
+            "dsc": "()J"
+          },
+          {
+            "nme": "timeToLive",
+            "acc": 1025,
+            "dsc": "(J)Lcom/sun/nio/sctp/MessageInfo;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/PeerAddressChangeNotification.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/PeerAddressChangeNotification",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "address",
+            "acc": 1025,
+            "dsc": "()Ljava/net/SocketAddress;"
+          },
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "nme": "event",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/PeerAddressChangeNotification$AddressChangeEvent;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/nio/ch/sctp/SctpStdSocketOption.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/nio/ch/sctp/SctpStdSocketOption",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Class;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/Class<TT;>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Class;I)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/Class<TT;>;I)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "type",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<TT;>;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "constValue",
+            "acc": 0,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "SCTP_DISABLE_FRAGMENTS",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_EXPLICIT_COMPLETE",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_FRAGMENT_INTERLEAVE",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 25,
+            "nme": "SCTP_NODELAY",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 25,
+            "nme": "SO_SNDBUF",
+            "dsc": "I",
+            "val": 5
+          },
+          {
+            "acc": 25,
+            "nme": "SO_RCVBUF",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 25,
+            "nme": "SO_LINGER",
+            "dsc": "I",
+            "val": 7
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "type",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<TT;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "constValue",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/nio/sctp/SctpServerChannel.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/SctpServerChannel",
+        "super": "java/nio/channels/spi/AbstractSelectableChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/nio/channels/spi/SelectorProvider;)V"
+          },
+          {
+            "nme": "open",
+            "acc": 9,
+            "dsc": "()Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "accept",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 17,
+            "dsc": "(Ljava/net/SocketAddress;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1025,
+            "dsc": "(Ljava/net/SocketAddress;I)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bindAddress",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unbindAddress",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAllLocalAddresses",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Ljava/lang/Object;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;TT;)Lcom/sun/nio/sctp/SctpServerChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/SctpSocketOption<*>;>;"
+          },
+          {
+            "nme": "validOps",
+            "acc": 17,
+            "dsc": "()I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/NotificationHandler.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/nio/sctp/NotificationHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "handleNotification",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/Notification;Ljava/lang/Object;)Lcom/sun/nio/sctp/HandlerResult;",
+            "sig": "(Lcom/sun/nio/sctp/Notification;TT;)Lcom/sun/nio/sctp/HandlerResult;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/AbstractNotificationHandler.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/nio/sctp/AbstractNotificationHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "handleNotification",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/Notification;Ljava/lang/Object;)Lcom/sun/nio/sctp/HandlerResult;",
+            "sig": "(Lcom/sun/nio/sctp/Notification;TT;)Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "handleNotification",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/AssociationChangeNotification;Ljava/lang/Object;)Lcom/sun/nio/sctp/HandlerResult;",
+            "sig": "(Lcom/sun/nio/sctp/AssociationChangeNotification;TT;)Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "handleNotification",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/PeerAddressChangeNotification;Ljava/lang/Object;)Lcom/sun/nio/sctp/HandlerResult;",
+            "sig": "(Lcom/sun/nio/sctp/PeerAddressChangeNotification;TT;)Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "handleNotification",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SendFailedNotification;Ljava/lang/Object;)Lcom/sun/nio/sctp/HandlerResult;",
+            "sig": "(Lcom/sun/nio/sctp/SendFailedNotification;TT;)Lcom/sun/nio/sctp/HandlerResult;"
+          },
+          {
+            "nme": "handleNotification",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/ShutdownNotification;Ljava/lang/Object;)Lcom/sun/nio/sctp/HandlerResult;",
+            "sig": "(Lcom/sun/nio/sctp/ShutdownNotification;TT;)Lcom/sun/nio/sctp/HandlerResult;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/nio/ch/sctp/SctpChannelImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/nio/ch/sctp/SctpChannelImpl",
+        "super": "com/sun/nio/sctp/SctpChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/channels/spi/SelectorProvider;)V"
+          },
+          {
+            "nme": "association",
+            "acc": 1,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "nme": "bind",
+            "acc": 1,
+            "dsc": "(Ljava/net/SocketAddress;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bindAddress",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unbindAddress",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "connect",
+            "acc": 1,
+            "dsc": "(Ljava/net/SocketAddress;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "connect",
+            "acc": 1,
+            "dsc": "(Ljava/net/SocketAddress;II)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isConnectionPending",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "finishConnect",
+            "acc": 1,
+            "dsc": "()Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAllLocalAddresses",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddresses",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "shutdown",
+            "acc": 1,
+            "dsc": "()Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Ljava/lang/Object;)Lcom/sun/nio/sctp/SctpChannel;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;TT;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/SctpSocketOption<*>;>;"
+          },
+          {
+            "nme": "receive",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Lcom/sun/nio/sctp/NotificationHandler;)Lcom/sun/nio/sctp/MessageInfo;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/nio/ByteBuffer;TT;Lcom/sun/nio/sctp/NotificationHandler<TT;>;)Lcom/sun/nio/sctp/MessageInfo;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "send",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;Lcom/sun/nio/sctp/MessageInfo;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implConfigureBlocking",
+            "acc": 4,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implCloseSelectableChannel",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/SctpChannel.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/SctpChannel",
+        "super": "java/nio/channels/spi/AbstractSelectableChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/nio/channels/spi/SelectorProvider;)V"
+          },
+          {
+            "nme": "open",
+            "acc": 9,
+            "dsc": "()Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "open",
+            "acc": 9,
+            "dsc": "(Ljava/net/SocketAddress;II)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1025,
+            "dsc": "(Ljava/net/SocketAddress;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bindAddress",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unbindAddress",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetAddress;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "connect",
+            "acc": 1025,
+            "dsc": "(Ljava/net/SocketAddress;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "connect",
+            "acc": 1025,
+            "dsc": "(Ljava/net/SocketAddress;II)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isConnectionPending",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "finishConnect",
+            "acc": 1025,
+            "dsc": "()Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAllLocalAddresses",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddresses",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketAddress;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "shutdown",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/nio/sctp/SctpSocketOption;Ljava/lang/Object;)Lcom/sun/nio/sctp/SctpChannel;",
+            "sig": "<T:Ljava/lang/Object;>(Lcom/sun/nio/sctp/SctpSocketOption<TT;>;TT;)Lcom/sun/nio/sctp/SctpChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lcom/sun/nio/sctp/SctpSocketOption<*>;>;"
+          },
+          {
+            "nme": "validOps",
+            "acc": 17,
+            "dsc": "()I"
+          },
+          {
+            "nme": "receive",
+            "acc": 1025,
+            "dsc": "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Lcom/sun/nio/sctp/NotificationHandler;)Lcom/sun/nio/sctp/MessageInfo;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/nio/ByteBuffer;TT;Lcom/sun/nio/sctp/NotificationHandler<TT;>;)Lcom/sun/nio/sctp/MessageInfo;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "send",
+            "acc": 1025,
+            "dsc": "(Ljava/nio/ByteBuffer;Lcom/sun/nio/sctp/MessageInfo;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/Notification.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/nio/sctp/Notification",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/sctp/SendFailedNotification.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/nio/sctp/SendFailedNotification",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "association",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "nme": "address",
+            "acc": 1025,
+            "dsc": "()Ljava/net/SocketAddress;"
+          },
+          {
+            "nme": "buffer",
+            "acc": 1025,
+            "dsc": "()Ljava/nio/ByteBuffer;"
+          },
+          {
+            "nme": "errorCode",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "streamNumber",
+            "acc": 1025,
+            "dsc": "()I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/nio/ch/sctp/MessageInfoImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/nio/ch/sctp/MessageInfoImpl",
+        "super": "com/sun/nio/sctp/MessageInfo",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/nio/sctp/Association;Ljava/net/SocketAddress;I)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(ILjava/net/SocketAddress;IIZZI)V"
+          },
+          {
+            "nme": "association",
+            "acc": 1,
+            "dsc": "()Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "nme": "setAssociation",
+            "acc": 0,
+            "dsc": "(Lcom/sun/nio/sctp/Association;)V"
+          },
+          {
+            "nme": "associationID",
+            "acc": 0,
+            "dsc": "()I"
+          },
+          {
+            "nme": "address",
+            "acc": 1,
+            "dsc": "()Ljava/net/SocketAddress;"
+          },
+          {
+            "nme": "bytes",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "streamNumber",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "streamNumber",
+            "acc": 1,
+            "dsc": "(I)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "payloadProtocolID",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "payloadProtocolID",
+            "acc": 1,
+            "dsc": "(I)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "complete",
+            "acc": 1,
+            "dsc": "(Z)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "isUnordered",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unordered",
+            "acc": 1,
+            "dsc": "(Z)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "timeToLive",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "timeToLive",
+            "acc": 1,
+            "dsc": "(J)Lcom/sun/nio/sctp/MessageInfo;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "address",
+            "dsc": "Ljava/net/SocketAddress;"
+          },
+          {
+            "acc": 18,
+            "nme": "bytes",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "association",
+            "dsc": "Lcom/sun/nio/sctp/Association;"
+          },
+          {
+            "acc": 2,
+            "nme": "assocId",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "streamNumber",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "complete",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "unordered",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "timeToLive",
+            "dsc": "J"
+          },
+          {
+            "acc": 2,
+            "nme": "ppid",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/nio/ch/sctp/UnsupportedUtil.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/nio/ch/sctp/UnsupportedUtil",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "sctpUnsupported",
+            "acc": 8,
+            "dsc": "()Ljava/lang/UnsupportedOperationException;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MESSAGE",
+            "dsc": "Ljava/lang/String;",
+            "val": "SCTP not supported on this platform"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,4950 @@
+{
+  "md5": "c439a69806abe8f498853aa9eff097bb",
+  "sha2": "f757ba99403096e37674bd18d0c6feace91f0511",
+  "sha256": "825c280a0e5c1992195168de7c133eb953b6a48553747b5adb37c63e494008c2",
+  "contents": {
+    "classes": {
+      "classes/jdk/nio/zipfs/ZipFileSystem.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem",
+        "super": "java/nio/file/FileSystem",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystemProvider;Ljava/nio/file/Path;Ljava/util/Map;)V",
+            "sig": "(Ljdk/nio/zipfs/ZipFileSystemProvider;Ljava/nio/file/Path;Ljava/util/Map<Ljava/lang/String;*>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getDefaultCompressionMethod",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;)I",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)I"
+          },
+          {
+            "nme": "isTrue",
+            "acc": 10,
+            "dsc": "(Ljava/util/Map;Ljava/lang/String;)Z",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "initOwner",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Map;)Ljava/nio/file/attribute/UserPrincipal;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Map<Ljava/lang/String;*>;)Ljava/nio/file/attribute/UserPrincipal;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "initGroup",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Map;)Ljava/nio/file/attribute/GroupPrincipal;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Map<Ljava/lang/String;*>;)Ljava/nio/file/attribute/GroupPrincipal;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "initPermissions",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;)Ljava/util/Set;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;"
+          },
+          {
+            "nme": "provider",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/spi/FileSystemProvider;"
+          },
+          {
+            "nme": "getSeparator",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isOpen",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isReadOnly",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "checkWritable",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setReadOnly",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRootDirectories",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Iterable;",
+            "sig": "()Ljava/lang/Iterable<Ljava/nio/file/Path;>;"
+          },
+          {
+            "nme": "getRootDir",
+            "acc": 0,
+            "dsc": "()Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "getPath",
+            "acc": 129,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "getUserPrincipalLookupService",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/UserPrincipalLookupService;"
+          },
+          {
+            "nme": "newWatchService",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/WatchService;"
+          },
+          {
+            "nme": "getFileStore",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;)Ljava/nio/file/FileStore;"
+          },
+          {
+            "nme": "getFileStores",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Iterable;",
+            "sig": "()Ljava/lang/Iterable<Ljava/nio/file/FileStore;>;"
+          },
+          {
+            "nme": "supportedFileAttributeViews",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getZipFile",
+            "acc": 0,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getPathMatcher",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/nio/file/PathMatcher;"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getFileAttributes",
+            "acc": 0,
+            "dsc": "([B)Ljdk/nio/zipfs/ZipFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkAccess",
+            "acc": 0,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setTimes",
+            "acc": 0,
+            "dsc": "([BLjava/nio/file/attribute/FileTime;Ljava/nio/file/attribute/FileTime;Ljava/nio/file/attribute/FileTime;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOwner",
+            "acc": 0,
+            "dsc": "([BLjava/nio/file/attribute/UserPrincipal;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setGroup",
+            "acc": 0,
+            "dsc": "([BLjava/nio/file/attribute/GroupPrincipal;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setPermissions",
+            "acc": 0,
+            "dsc": "([BLjava/util/Set;)V",
+            "sig": "([BLjava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "exists",
+            "acc": 0,
+            "dsc": "([B)Z"
+          },
+          {
+            "nme": "isDirectory",
+            "acc": 0,
+            "dsc": "([B)Z"
+          },
+          {
+            "nme": "iteratorOf",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;Ljava/nio/file/DirectoryStream$Filter;)Ljava/util/Iterator;",
+            "sig": "(Ljdk/nio/zipfs/ZipPath;Ljava/nio/file/DirectoryStream$Filter<-Ljava/nio/file/Path;>;)Ljava/util/Iterator<Ljava/nio/file/Path;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "createDirectory",
+            "acc": 128,
+            "dsc": "([B[Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "([B[Ljava/nio/file/attribute/FileAttribute<*>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copyFile",
+            "acc": 128,
+            "dsc": "(Z[B[B[Ljava/nio/file/CopyOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newOutputStream",
+            "acc": 128,
+            "dsc": "([B[Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newInputStream",
+            "acc": 0,
+            "dsc": "([B)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkOptions",
+            "acc": 2,
+            "dsc": "(Ljava/util/Set;)V",
+            "sig": "(Ljava/util/Set<+Ljava/nio/file/OpenOption;>;)V"
+          },
+          {
+            "nme": "newByteChannel",
+            "acc": 128,
+            "dsc": "([BLjava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/SeekableByteChannel;",
+            "sig": "([BLjava/util/Set<+Ljava/nio/file/OpenOption;>;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newFileChannel",
+            "acc": 128,
+            "dsc": "([BLjava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/FileChannel;",
+            "sig": "([BLjava/util/Set<+Ljava/nio/file/OpenOption;>;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/FileChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getTempPathForEntry",
+            "acc": 2,
+            "dsc": "([B)Ljava/nio/file/Path;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "removeTempPathForEntry",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkParents",
+            "acc": 2,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getParent",
+            "acc": 10,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "getParentOff",
+            "acc": 10,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "beginWrite",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "endWrite",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "beginRead",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "endRead",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 16,
+            "dsc": "(Ljava/lang/String;)[B"
+          },
+          {
+            "nme": "getString",
+            "acc": 16,
+            "dsc": "([B)Ljava/lang/String;"
+          },
+          {
+            "nme": "finalize",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readFullyAt",
+            "acc": 16,
+            "dsc": "([BIJJ)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readFullyAt",
+            "acc": 2,
+            "dsc": "(Ljava/nio/ByteBuffer;J)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "findEND",
+            "acc": 2,
+            "dsc": "()Ljdk/nio/zipfs/ZipFileSystem$END;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "makeParentDirs",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V"
+          },
+          {
+            "nme": "buildNodeTree",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "removeFromTree",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V"
+          },
+          {
+            "nme": "initializeReleaseVersion",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isMultiReleaseJar",
+            "acc": 2,
+            "dsc": "()Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "createVersionedLinks",
+            "acc": 2,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "lookupPath",
+            "acc": 0,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "getVersionMap",
+            "acc": 2,
+            "dsc": "(ILjdk/nio/zipfs/ZipFileSystem$IndexNode;)Ljava/util/TreeMap;",
+            "sig": "(ILjdk/nio/zipfs/ZipFileSystem$IndexNode;)Ljava/util/TreeMap<Ljava/lang/Integer;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;>;"
+          },
+          {
+            "nme": "getVersion",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)Ljava/lang/Integer;"
+          },
+          {
+            "nme": "walk",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljava/util/function/Consumer;)V",
+            "sig": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljava/util/function/Consumer<Ljdk/nio/zipfs/ZipFileSystem$IndexNode;>;)V"
+          },
+          {
+            "nme": "getRootName",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)[B"
+          },
+          {
+            "nme": "initCEN",
+            "acc": 2,
+            "dsc": "()[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkUTF8",
+            "acc": 18,
+            "dsc": "([B)V",
+            "exs": [
+              "java/util/zip/ZipException"
+            ]
+          },
+          {
+            "nme": "checkEncoding",
+            "acc": 18,
+            "dsc": "([B)V",
+            "exs": [
+              "java/util/zip/ZipException"
+            ]
+          },
+          {
+            "nme": "ensureOpen",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createTempFileInSameDirectoryAs",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "updateDelete",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V"
+          },
+          {
+            "nme": "update",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;)V"
+          },
+          {
+            "nme": "copyLOCEntry",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;ZLjava/io/OutputStream;J[B)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeEntry",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;Ljava/io/OutputStream;)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeTo",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "sync",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getPosixAttributes",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/attribute/PosixFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getInode",
+            "acc": 2,
+            "dsc": "([B)Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "nme": "getOrCreateInode",
+            "acc": 2,
+            "dsc": "([BZ)Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "nme": "getEntry",
+            "acc": 2,
+            "dsc": "([B)Ljdk/nio/zipfs/ZipFileSystem$Entry;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "deleteFile",
+            "acc": 1,
+            "dsc": "([BZ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOutputStream",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;)Ljava/io/OutputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getInputStream",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getInflater",
+            "acc": 2,
+            "dsc": "()Ljava/util/zip/Inflater;"
+          },
+          {
+            "nme": "releaseInflater",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/Inflater;)V"
+          },
+          {
+            "nme": "getDeflater",
+            "acc": 2,
+            "dsc": "()Ljava/util/zip/Deflater;"
+          },
+          {
+            "nme": "releaseDeflater",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/Deflater;)V"
+          },
+          {
+            "nme": "getPath",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "lambda$createVersionedLinks$13",
+            "acc": 4106,
+            "dsc": "(Ljava/util/HashMap;[B)[B"
+          },
+          {
+            "nme": "lambda$createVersionedLinks$12",
+            "acc": 4098,
+            "dsc": "(Ljava/util/HashMap;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V"
+          },
+          {
+            "nme": "lambda$createVersionedLinks$11",
+            "acc": 4098,
+            "dsc": "(Ljava/util/HashMap;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V"
+          },
+          {
+            "nme": "lambda$close$10",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/lang/Boolean;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "lambda$close$9",
+            "acc": 4098,
+            "dsc": "()Ljava/lang/Void;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "lambda$getPathMatcher$8",
+            "acc": 4106,
+            "dsc": "(Ljava/util/regex/Pattern;Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "lambda$initGroup$7",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$initGroup$6",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/attribute/PosixFileAttributeView;)Ljava/nio/file/attribute/GroupPrincipal;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "lambda$initOwner$5",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$initOwner$4",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$initOwner$3",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$initOwner$2",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/attribute/UserPrincipal;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "lambda$new$1",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/lang/Boolean;"
+          },
+          {
+            "nme": "lambda$static$0",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/Boolean;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "isWindows",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "ROOTPATH",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_POSIX",
+            "dsc": "Ljava/lang/String;",
+            "val": "enablePosixFileAttributes"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_DEFAULT_OWNER",
+            "dsc": "Ljava/lang/String;",
+            "val": "defaultOwner"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_DEFAULT_GROUP",
+            "dsc": "Ljava/lang/String;",
+            "val": "defaultGroup"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_DEFAULT_PERMISSIONS",
+            "dsc": "Ljava/lang/String;",
+            "val": "defaultPermissions"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_RELEASE_VERSION",
+            "dsc": "Ljava/lang/String;",
+            "val": "releaseVersion"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_MULTI_RELEASE",
+            "dsc": "Ljava/lang/String;",
+            "val": "multi-release"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_PERMISSIONS",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "PROPERTY_COMPRESSION_METHOD",
+            "dsc": "Ljava/lang/String;",
+            "val": "compressionMethod"
+          },
+          {
+            "acc": 26,
+            "nme": "COMPRESSION_METHOD_DEFLATED",
+            "dsc": "Ljava/lang/String;",
+            "val": "DEFLATED"
+          },
+          {
+            "acc": 26,
+            "nme": "COMPRESSION_METHOD_STORED",
+            "dsc": "Ljava/lang/String;",
+            "val": "STORED"
+          },
+          {
+            "acc": 18,
+            "nme": "provider",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystemProvider;"
+          },
+          {
+            "acc": 18,
+            "nme": "zfpath",
+            "dsc": "Ljava/nio/file/Path;"
+          },
+          {
+            "acc": 16,
+            "nme": "zc",
+            "dsc": "Ljdk/nio/zipfs/ZipCoder;"
+          },
+          {
+            "acc": 18,
+            "nme": "rootdir",
+            "dsc": "Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "acc": 2,
+            "nme": "readOnly",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "zfsDefaultTimeStamp",
+            "dsc": "J"
+          },
+          {
+            "acc": 18,
+            "nme": "noExtt",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "useTempFile",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "tempFileCreationThreshold",
+            "dsc": "I",
+            "val": 10485760
+          },
+          {
+            "acc": 18,
+            "nme": "forceEnd64",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "defaultCompressionMethod",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "entryLookup",
+            "dsc": "Ljava/util/function/Function;",
+            "sig": "Ljava/util/function/Function<[B[B>;"
+          },
+          {
+            "acc": 16,
+            "nme": "supportPosix",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "defaultOwner",
+            "dsc": "Ljava/nio/file/attribute/UserPrincipal;"
+          },
+          {
+            "acc": 18,
+            "nme": "defaultGroup",
+            "dsc": "Ljava/nio/file/attribute/GroupPrincipal;"
+          },
+          {
+            "acc": 18,
+            "nme": "defaultPermissions",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "supportedFileAttributeViews",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "GLOB_SYNTAX",
+            "dsc": "Ljava/lang/String;",
+            "val": "glob"
+          },
+          {
+            "acc": 26,
+            "nme": "REGEX_SYNTAX",
+            "dsc": "Ljava/lang/String;",
+            "val": "regex"
+          },
+          {
+            "acc": 2,
+            "nme": "streams",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/io/InputStream;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "tmppaths",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/nio/file/Path;>;"
+          },
+          {
+            "acc": 66,
+            "nme": "isOpen",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "ch",
+            "dsc": "Ljava/nio/channels/SeekableByteChannel;"
+          },
+          {
+            "acc": 16,
+            "nme": "cen",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "end",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$END;"
+          },
+          {
+            "acc": 2,
+            "nme": "locpos",
+            "dsc": "J"
+          },
+          {
+            "acc": 18,
+            "nme": "rwlock",
+            "dsc": "Ljava/util/concurrent/locks/ReadWriteLock;"
+          },
+          {
+            "acc": 2,
+            "nme": "inodes",
+            "dsc": "Ljava/util/LinkedHashMap;",
+            "sig": "Ljava/util/LinkedHashMap<Ljdk/nio/zipfs/ZipFileSystem$IndexNode;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "hasUpdate",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "LOOKUPKEY",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "acc": 18,
+            "nme": "MAX_FLATER",
+            "dsc": "I",
+            "val": 20
+          },
+          {
+            "acc": 18,
+            "nme": "inflaters",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/util/zip/Inflater;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "deflaters",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/util/zip/Deflater;>;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$END.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$END",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "write",
+            "acc": 0,
+            "dsc": "(Ljava/io/OutputStream;JZ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "centot",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "cenlen",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "cenoff",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "endpos",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$EntryOutputChannel.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$EntryOutputChannel",
+        "super": "jdk/nio/zipfs/ByteArrayChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;)V"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "e",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipDirectoryStream$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipDirectoryStream$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipDirectoryStream;)V"
+          },
+          {
+            "nme": "hasNext",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "next",
+            "acc": 33,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "next",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipDirectoryStream;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$EntryOutputStreamDef.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$EntryOutputStreamDef",
+        "super": "java/util/zip/DeflaterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "crc",
+            "dsc": "Ljava/util/zip/CRC32;"
+          },
+          {
+            "acc": 18,
+            "nme": "e",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 2,
+            "nme": "isClosed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipPath$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipPath$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;)V"
+          },
+          {
+            "nme": "hasNext",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "next",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "next",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "i",
+            "dsc": "I"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipPath;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipInfo.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/nio/zipfs/ZipInfo",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "print",
+            "acc": 138,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "printLOC",
+            "acc": 10,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "printCEN",
+            "acc": 10,
+            "dsc": "([BI)V"
+          },
+          {
+            "nme": "locoff",
+            "acc": 10,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "printExtra",
+            "acc": 10,
+            "dsc": "([BII)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/nio/zipfs/ZipFileStore.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "jdk/nio/zipfs/ZipFileStore",
+        "super": "java/nio/file/FileStore",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "type",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isReadOnly",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "supportsFileAttributeView",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)Z",
+            "sig": "(Ljava/lang/Class<+Ljava/nio/file/attribute/FileAttributeView;>;)Z"
+          },
+          {
+            "nme": "supportsFileAttributeView",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "getFileStoreAttributeView",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)Ljava/nio/file/attribute/FileStoreAttributeView;",
+            "sig": "<V::Ljava/nio/file/attribute/FileStoreAttributeView;>(Ljava/lang/Class<TV;>;)TV;"
+          },
+          {
+            "nme": "getTotalSpace",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getUsableSpace",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getUnallocatedSpace",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "zfs",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileAttributes.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "jdk/nio/zipfs/ZipFileAttributes",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "compressedSize",
+            "acc": 1025,
+            "dsc": "()J"
+          },
+          {
+            "nme": "crc",
+            "acc": 1025,
+            "dsc": "()J"
+          },
+          {
+            "nme": "method",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "extra",
+            "acc": 1025,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "comment",
+            "acc": 1025,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "storedPermissions",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;>;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/nio/zipfs/ZipConstants.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipConstants",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "CH",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "SH",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "LG",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "LL",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "getSig",
+            "acc": 8,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "pkSigAt",
+            "acc": 10,
+            "dsc": "([BIII)Z"
+          },
+          {
+            "nme": "cenSigAt",
+            "acc": 8,
+            "dsc": "([BI)Z"
+          },
+          {
+            "nme": "locSigAt",
+            "acc": 8,
+            "dsc": "([BI)Z"
+          },
+          {
+            "nme": "endSigAt",
+            "acc": 8,
+            "dsc": "([BI)Z"
+          },
+          {
+            "nme": "extSigAt",
+            "acc": 8,
+            "dsc": "([BI)Z"
+          },
+          {
+            "nme": "end64SigAt",
+            "acc": 8,
+            "dsc": "([BI)Z"
+          },
+          {
+            "nme": "locator64SigAt",
+            "acc": 8,
+            "dsc": "([BI)Z"
+          },
+          {
+            "nme": "LOCSIG",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "LOCVER",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "LOCFLG",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "LOCHOW",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "LOCTIM",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "LOCCRC",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "LOCSIZ",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "LOCLEN",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "LOCNAM",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "LOCEXT",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "EXTCRC",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "EXTSIZ",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "EXTLEN",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ENDSUB",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "ENDTOT",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "ENDSIZ",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ENDOFF",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ENDCOM",
+            "acc": 24,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "ENDCOM",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "ZIP64_ENDTOD",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ZIP64_ENDTOT",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ZIP64_ENDSIZ",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ZIP64_ENDOFF",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "ZIP64_LOCOFF",
+            "acc": 24,
+            "dsc": "([B)J"
+          },
+          {
+            "nme": "CENSIG",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "CENVEM",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENVEM_FA",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENVER",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENFLG",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENHOW",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENTIM",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "CENCRC",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "CENSIZ",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "CENLEN",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "CENNAM",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENEXT",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENCOM",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENDSK",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENATT",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENATX",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "CENATX_PERMS",
+            "acc": 24,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "CENOFF",
+            "acc": 24,
+            "dsc": "([BI)J"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "METHOD_STORED",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 24,
+            "nme": "METHOD_DEFLATED",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "METHOD_DEFLATED64",
+            "dsc": "I",
+            "val": 9
+          },
+          {
+            "acc": 24,
+            "nme": "METHOD_BZIP2",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "METHOD_LZMA",
+            "dsc": "I",
+            "val": 14
+          },
+          {
+            "acc": 24,
+            "nme": "METHOD_LZ77",
+            "dsc": "I",
+            "val": 19
+          },
+          {
+            "acc": 24,
+            "nme": "METHOD_AES",
+            "dsc": "I",
+            "val": 99
+          },
+          {
+            "acc": 24,
+            "nme": "FLAG_ENCRYPTED",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "FLAG_DATADESCR",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "FLAG_USE_UTF8",
+            "dsc": "I",
+            "val": 2048
+          },
+          {
+            "acc": 8,
+            "nme": "LOCSIG",
+            "dsc": "J"
+          },
+          {
+            "acc": 8,
+            "nme": "EXTSIG",
+            "dsc": "J"
+          },
+          {
+            "acc": 8,
+            "nme": "CENSIG",
+            "dsc": "J"
+          },
+          {
+            "acc": 8,
+            "nme": "ENDSIG",
+            "dsc": "J"
+          },
+          {
+            "acc": 24,
+            "nme": "LOCHDR",
+            "dsc": "I",
+            "val": 30
+          },
+          {
+            "acc": 24,
+            "nme": "EXTHDR",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "CENHDR",
+            "dsc": "I",
+            "val": 46
+          },
+          {
+            "acc": 24,
+            "nme": "ENDHDR",
+            "dsc": "I",
+            "val": 22
+          },
+          {
+            "acc": 24,
+            "nme": "FILE_ATTRIBUTES_UNIX",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 24,
+            "nme": "VERSION_MADE_BY_BASE_UNIX",
+            "dsc": "I",
+            "val": 768
+          },
+          {
+            "acc": 24,
+            "nme": "LOCVER",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "LOCFLG",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 24,
+            "nme": "LOCHOW",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "LOCTIM",
+            "dsc": "I",
+            "val": 10
+          },
+          {
+            "acc": 24,
+            "nme": "LOCCRC",
+            "dsc": "I",
+            "val": 14
+          },
+          {
+            "acc": 24,
+            "nme": "LOCSIZ",
+            "dsc": "I",
+            "val": 18
+          },
+          {
+            "acc": 24,
+            "nme": "LOCLEN",
+            "dsc": "I",
+            "val": 22
+          },
+          {
+            "acc": 24,
+            "nme": "LOCNAM",
+            "dsc": "I",
+            "val": 26
+          },
+          {
+            "acc": 24,
+            "nme": "LOCEXT",
+            "dsc": "I",
+            "val": 28
+          },
+          {
+            "acc": 24,
+            "nme": "EXTCRC",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "EXTSIZ",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "EXTLEN",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "CENVEM",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "CENVER",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 24,
+            "nme": "CENFLG",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "CENHOW",
+            "dsc": "I",
+            "val": 10
+          },
+          {
+            "acc": 24,
+            "nme": "CENTIM",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "CENCRC",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "CENSIZ",
+            "dsc": "I",
+            "val": 20
+          },
+          {
+            "acc": 24,
+            "nme": "CENLEN",
+            "dsc": "I",
+            "val": 24
+          },
+          {
+            "acc": 24,
+            "nme": "CENNAM",
+            "dsc": "I",
+            "val": 28
+          },
+          {
+            "acc": 24,
+            "nme": "CENEXT",
+            "dsc": "I",
+            "val": 30
+          },
+          {
+            "acc": 24,
+            "nme": "CENCOM",
+            "dsc": "I",
+            "val": 32
+          },
+          {
+            "acc": 24,
+            "nme": "CENDSK",
+            "dsc": "I",
+            "val": 34
+          },
+          {
+            "acc": 24,
+            "nme": "CENATT",
+            "dsc": "I",
+            "val": 36
+          },
+          {
+            "acc": 24,
+            "nme": "CENATX",
+            "dsc": "I",
+            "val": 38
+          },
+          {
+            "acc": 24,
+            "nme": "CENOFF",
+            "dsc": "I",
+            "val": 42
+          },
+          {
+            "acc": 24,
+            "nme": "ENDSUB",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "ENDTOT",
+            "dsc": "I",
+            "val": 10
+          },
+          {
+            "acc": 24,
+            "nme": "ENDSIZ",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "ENDOFF",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "ENDCOM",
+            "dsc": "I",
+            "val": 20
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDSIG",
+            "dsc": "J",
+            "val": 101075792
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_LOCSIG",
+            "dsc": "J",
+            "val": 117853008
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDHDR",
+            "dsc": "I",
+            "val": 56
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_LOCHDR",
+            "dsc": "I",
+            "val": 20
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_EXTHDR",
+            "dsc": "I",
+            "val": 24
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_EXTID",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_MINVAL32",
+            "dsc": "I",
+            "val": 65535
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_MINVAL",
+            "dsc": "J",
+            "val": 4294967295
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDLEN",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDVEM",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDVER",
+            "dsc": "I",
+            "val": 14
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDNMD",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDDSK",
+            "dsc": "I",
+            "val": 20
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDTOD",
+            "dsc": "I",
+            "val": 24
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDTOT",
+            "dsc": "I",
+            "val": 32
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDSIZ",
+            "dsc": "I",
+            "val": 40
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDOFF",
+            "dsc": "I",
+            "val": 48
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_ENDEXT",
+            "dsc": "I",
+            "val": 56
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_LOCDSK",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_LOCOFF",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_LOCTOT",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_EXTCRC",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_EXTSIZ",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "ZIP64_EXTLEN",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "EXTID_ZIP64",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "EXTID_NTFS",
+            "dsc": "I",
+            "val": 10
+          },
+          {
+            "acc": 24,
+            "nme": "EXTID_UNIX",
+            "dsc": "I",
+            "val": 13
+          },
+          {
+            "acc": 24,
+            "nme": "EXTID_EFS",
+            "dsc": "I",
+            "val": 23
+          },
+          {
+            "acc": 24,
+            "nme": "EXTID_EXTT",
+            "dsc": "I",
+            "val": 21589
+          },
+          {
+            "acc": 24,
+            "nme": "END_MAXLEN",
+            "dsc": "J",
+            "val": 65557
+          },
+          {
+            "acc": 24,
+            "nme": "READBLOCKSZ",
+            "dsc": "I",
+            "val": 128
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$1",
+        "super": "java/nio/channels/FileChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljava/nio/channels/FileChannel;ZLjdk/nio/zipfs/ZipFileSystem$Entry;ZLjava/nio/file/Path;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([Ljava/nio/ByteBuffer;II)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "position",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "position",
+            "acc": 1,
+            "dsc": "(J)Ljava/nio/channels/FileChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "size",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "truncate",
+            "acc": 1,
+            "dsc": "(J)Ljava/nio/channels/FileChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "force",
+            "acc": 1,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "transferTo",
+            "acc": 1,
+            "dsc": "(JJLjava/nio/channels/WritableByteChannel;)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "transferFrom",
+            "acc": 1,
+            "dsc": "(Ljava/nio/channels/ReadableByteChannel;JJ)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;J)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "([Ljava/nio/ByteBuffer;II)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;J)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "map",
+            "acc": 1,
+            "dsc": "(Ljava/nio/channels/FileChannel$MapMode;JJ)Ljava/nio/MappedByteBuffer;"
+          },
+          {
+            "nme": "lock",
+            "acc": 1,
+            "dsc": "(JJZ)Ljava/nio/channels/FileLock;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "tryLock",
+            "acc": 1,
+            "dsc": "(JJZ)Ljava/nio/channels/FileLock;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implCloseChannel",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "truncate",
+            "acc": 4161,
+            "dsc": "(J)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "position",
+            "acc": 4161,
+            "dsc": "(J)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$fch",
+            "dsc": "Ljava/nio/channels/FileChannel;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$forWrite",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$u",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$isFCH",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$tmpfile",
+            "dsc": "Ljava/nio/file/Path;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileAttributeView$AttrID.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/nio/zipfs/ZipFileAttributeView$AttrID",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "size",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "creationTime",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "lastAccessTime",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "lastModifiedTime",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "isDirectory",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "isRegularFile",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "isSymbolicLink",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "isOther",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "fileKey",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "compressedSize",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "crc",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "method",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "owner",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "group",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 16409,
+            "nme": "permissions",
+            "dsc": "Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipPosixFileAttributeView.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipPosixFileAttributeView",
+        "super": "jdk/nio/zipfs/ZipFileAttributeView",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;Z)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/PosixFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOwner",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/UserPrincipal;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOwner",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/attribute/UserPrincipal;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setGroup",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/attribute/GroupPrincipal;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "attribute",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;Ljdk/nio/zipfs/ZipFileAttributes;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 4161,
+            "dsc": "()Ljava/nio/file/attribute/BasicFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "isOwnerView",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$DeflatingEntryOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$DeflatingEntryOutputStream",
+        "super": "java/util/zip/DeflaterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 33,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 33,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "crc",
+            "dsc": "Ljava/util/zip/CRC32;"
+          },
+          {
+            "acc": 18,
+            "nme": "e",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 2,
+            "nme": "isClosed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipUtils.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipUtils",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "permToFlag",
+            "acc": 8,
+            "dsc": "(Ljava/nio/file/attribute/PosixFilePermission;)I"
+          },
+          {
+            "nme": "permsToFlags",
+            "acc": 8,
+            "dsc": "(Ljava/util/Set;)I",
+            "sig": "(Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;)I"
+          },
+          {
+            "nme": "writeShort",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeInt",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeLong",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeBytes",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;[B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeBytes",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;[BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toDirectoryPath",
+            "acc": 9,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "dosToJavaTime",
+            "acc": 9,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "overflowDosToJavaTime",
+            "acc": 10,
+            "dsc": "(IIIIII)J"
+          },
+          {
+            "nme": "javaToDosTime",
+            "acc": 9,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "winToJavaTime",
+            "acc": 9,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "javaToWinTime",
+            "acc": 9,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "unixToJavaTime",
+            "acc": 9,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "javaToUnixTime",
+            "acc": 9,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "isRegexMeta",
+            "acc": 10,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "isGlobMeta",
+            "acc": 10,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "next",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;I)C"
+          },
+          {
+            "nme": "toRegexPattern",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "POSIX_USER_READ",
+            "dsc": "I",
+            "val": 256
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_USER_WRITE",
+            "dsc": "I",
+            "val": 128
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_USER_EXECUTE",
+            "dsc": "I",
+            "val": 64
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_GROUP_READ",
+            "dsc": "I",
+            "val": 32
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_GROUP_WRITE",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_GROUP_EXECUTE",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_OTHER_READ",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_OTHER_WRITE",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 24,
+            "nme": "POSIX_OTHER_EXECUTE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "WINDOWS_EPOCH_IN_MICROSECONDS",
+            "dsc": "J",
+            "val": -11644473600000000
+          },
+          {
+            "acc": 26,
+            "nme": "regexMetaChars",
+            "dsc": "Ljava/lang/String;",
+            "val": ".^$+{[]|()"
+          },
+          {
+            "acc": 26,
+            "nme": "globMetaChars",
+            "dsc": "Ljava/lang/String;",
+            "val": "\\*?[{"
+          },
+          {
+            "acc": 10,
+            "nme": "EOL",
+            "dsc": "C"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/jdk/nio/zipfs/ByteArrayChannel.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/nio/zipfs/ByteArrayChannel",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(IZ)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([BZ)V"
+          },
+          {
+            "nme": "isOpen",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "position",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "position",
+            "acc": 1,
+            "dsc": "(J)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "truncate",
+            "acc": 1,
+            "dsc": "(J)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "size",
+            "acc": 1,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toByteArray",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "ensureOpen",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "beginWrite",
+            "acc": 16,
+            "dsc": "()V"
+          },
+          {
+            "nme": "endWrite",
+            "acc": 16,
+            "dsc": "()V"
+          },
+          {
+            "nme": "beginRead",
+            "acc": 18,
+            "dsc": "()V"
+          },
+          {
+            "nme": "endRead",
+            "acc": 18,
+            "dsc": "()V"
+          },
+          {
+            "nme": "ensureCapacity",
+            "acc": 2,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "grow",
+            "acc": 2,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "hugeCapacity",
+            "acc": 10,
+            "dsc": "(I)I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "rwlock",
+            "dsc": "Ljava/util/concurrent/locks/ReadWriteLock;"
+          },
+          {
+            "acc": 2,
+            "nme": "buf",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "pos",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "last",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "readonly",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "MAX_ARRAY_SIZE",
+            "dsc": "I",
+            "val": 2147483639
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$ParentLookup.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$ParentLookup",
+        "super": "jdk/nio/zipfs/ZipFileSystem$IndexNode",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "as",
+            "acc": 16,
+            "dsc": "([BI)Ljdk/nio/zipfs/ZipFileSystem$ParentLookup;"
+          },
+          {
+            "nme": "name",
+            "acc": 0,
+            "dsc": "([BI)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "len",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipDirectoryStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipDirectoryStream",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;Ljava/nio/file/DirectoryStream$Filter;)V",
+            "sig": "(Ljdk/nio/zipfs/ZipPath;Ljava/nio/file/DirectoryStream$Filter<-Ljava/nio/file/Path;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "iterator",
+            "acc": 33,
+            "dsc": "()Ljava/util/Iterator;",
+            "sig": "()Ljava/util/Iterator<Ljava/nio/file/Path;>;"
+          },
+          {
+            "nme": "close",
+            "acc": 33,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "zipfs",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          },
+          {
+            "acc": 18,
+            "nme": "dir",
+            "dsc": "Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "acc": 18,
+            "nme": "filter",
+            "dsc": "Ljava/nio/file/DirectoryStream$Filter;",
+            "sig": "Ljava/nio/file/DirectoryStream$Filter<-Ljava/nio/file/Path;>;"
+          },
+          {
+            "acc": 66,
+            "nme": "isClosed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 66,
+            "nme": "itr",
+            "dsc": "Ljava/util/Iterator;",
+            "sig": "Ljava/util/Iterator<Ljava/nio/file/Path;>;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipPath$2.class": {
+        "ver": 65,
+        "acc": 4128,
+        "nme": "jdk/nio/zipfs/ZipPath$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$SwitchMap$java$nio$file$AccessMode",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$EntryOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$EntryOutputStream",
+        "super": "java/io/FilterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 33,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 33,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 33,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "e",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 2,
+            "nme": "written",
+            "dsc": "J"
+          },
+          {
+            "acc": 2,
+            "nme": "isClosed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipPath.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "jdk/nio/zipfs/ZipPath",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;[B)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;[BZ)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getRoot",
+            "acc": 1,
+            "dsc": "()Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "getFileName",
+            "acc": 1,
+            "dsc": "()Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "getParent",
+            "acc": 1,
+            "dsc": "()Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "getNameCount",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "(I)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "subpath",
+            "acc": 1,
+            "dsc": "(II)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "toRealPath",
+            "acc": 129,
+            "dsc": "([Ljava/nio/file/LinkOption;)Ljdk/nio/zipfs/ZipPath;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isHidden",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "toAbsolutePath",
+            "acc": 1,
+            "dsc": "()Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "toUri",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRealPath",
+            "acc": 2,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "equalsNameAt",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;I)Z"
+          },
+          {
+            "nme": "relativize",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getFileSystem",
+            "acc": 1,
+            "dsc": "()Ljdk/nio/zipfs/ZipFileSystem;"
+          },
+          {
+            "nme": "isAbsolute",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "resolve",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "resolve",
+            "acc": 2,
+            "dsc": "([B)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "resolveSibling",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "startsWith",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "endsWith",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "resolve",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "resolveSibling",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "startsWith",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "endsWith",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "normalize",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "checkPath",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "initOffsets",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getResolvedPath",
+            "acc": 0,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "([BI)[B"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)[B"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;II)[B"
+          },
+          {
+            "nme": "getResolved",
+            "acc": 2,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "resolve0",
+            "acc": 2,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "compareTo",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)I"
+          },
+          {
+            "nme": "register",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/WatchService;[Ljava/nio/file/WatchEvent$Kind;[Ljava/nio/file/WatchEvent$Modifier;)Ljava/nio/file/WatchKey;",
+            "sig": "(Ljava/nio/file/WatchService;[Ljava/nio/file/WatchEvent$Kind<*>;[Ljava/nio/file/WatchEvent$Modifier;)Ljava/nio/file/WatchKey;"
+          },
+          {
+            "nme": "register",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/WatchService;[Ljava/nio/file/WatchEvent$Kind;)Ljava/nio/file/WatchKey;",
+            "sig": "(Ljava/nio/file/WatchService;[Ljava/nio/file/WatchEvent$Kind<*>;)Ljava/nio/file/WatchKey;"
+          },
+          {
+            "nme": "toFile",
+            "acc": 1,
+            "dsc": "()Ljava/io/File;"
+          },
+          {
+            "nme": "iterator",
+            "acc": 1,
+            "dsc": "()Ljava/util/Iterator;",
+            "sig": "()Ljava/util/Iterator<Ljava/nio/file/Path;>;"
+          },
+          {
+            "nme": "getFileAttributeView",
+            "acc": 0,
+            "dsc": "(Ljava/lang/Class;)Ljava/nio/file/attribute/FileAttributeView;",
+            "sig": "<V::Ljava/nio/file/attribute/FileAttributeView;>(Ljava/lang/Class<TV;>;)TV;"
+          },
+          {
+            "nme": "getFileAttributeView",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljdk/nio/zipfs/ZipFileAttributeView;"
+          },
+          {
+            "nme": "createDirectory",
+            "acc": 128,
+            "dsc": "([Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "([Ljava/nio/file/attribute/FileAttribute<*>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newInputStream",
+            "acc": 128,
+            "dsc": "([Ljava/nio/file/OpenOption;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newDirectoryStream",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/DirectoryStream$Filter;)Ljava/nio/file/DirectoryStream;",
+            "sig": "(Ljava/nio/file/DirectoryStream$Filter<-Ljava/nio/file/Path;>;)Ljava/nio/file/DirectoryStream<Ljava/nio/file/Path;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "delete",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "deleteIfExists",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 0,
+            "dsc": "()Ljdk/nio/zipfs/ZipFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 0,
+            "dsc": "(Ljava/lang/Class;)Ljava/nio/file/attribute/BasicFileAttributes;",
+            "sig": "<A::Ljava/nio/file/attribute/BasicFileAttributes;>(Ljava/lang/Class<TA;>;)TA;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 128,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;[Ljava/nio/file/LinkOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setTimes",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/attribute/FileTime;Ljava/nio/file/attribute/FileTime;Ljava/nio/file/attribute/FileTime;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setOwner",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/attribute/UserPrincipal;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setPermissions",
+            "acc": 0,
+            "dsc": "(Ljava/util/Set;)V",
+            "sig": "(Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setGroup",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/attribute/GroupPrincipal;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 128,
+            "dsc": "(Ljava/lang/String;[Ljava/nio/file/LinkOption;)Ljava/util/Map;",
+            "sig": "(Ljava/lang/String;[Ljava/nio/file/LinkOption;)Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributesIfExists",
+            "acc": 0,
+            "dsc": "()Ljdk/nio/zipfs/ZipFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getFileStore",
+            "acc": 0,
+            "dsc": "()Ljava/nio/file/FileStore;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isSameFile",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newByteChannel",
+            "acc": 128,
+            "dsc": "(Ljava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/SeekableByteChannel;",
+            "sig": "(Ljava/util/Set<+Ljava/nio/file/OpenOption;>;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newFileChannel",
+            "acc": 128,
+            "dsc": "(Ljava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/FileChannel;",
+            "sig": "(Ljava/util/Set<+Ljava/nio/file/OpenOption;>;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/FileChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkAccess",
+            "acc": 128,
+            "dsc": "([Ljava/nio/file/AccessMode;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "exists",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "newOutputStream",
+            "acc": 128,
+            "dsc": "([Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "move",
+            "acc": 128,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;[Ljava/nio/file/CopyOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copy",
+            "acc": 128,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;[Ljava/nio/file/CopyOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copyToTarget",
+            "acc": 130,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;[Ljava/nio/file/CopyOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "decode",
+            "acc": 10,
+            "dsc": "(C)I"
+          },
+          {
+            "nme": "decodeUri",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "toRealPath",
+            "acc": 4161,
+            "dsc": "([Ljava/nio/file/LinkOption;)Ljava/nio/file/Path;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toAbsolutePath",
+            "acc": 4161,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "resolve",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "resolve",
+            "acc": 4161,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "subpath",
+            "acc": 4161,
+            "dsc": "(II)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getName",
+            "acc": 4161,
+            "dsc": "(I)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getParent",
+            "acc": 4161,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getFileName",
+            "acc": 4161,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getRoot",
+            "acc": 4161,
+            "dsc": "()Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getFileSystem",
+            "acc": 4161,
+            "dsc": "()Ljava/nio/file/FileSystem;"
+          },
+          {
+            "nme": "compareTo",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "zfs",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          },
+          {
+            "acc": 18,
+            "nme": "path",
+            "dsc": "[B"
+          },
+          {
+            "acc": 66,
+            "nme": "offsets",
+            "dsc": "[I"
+          },
+          {
+            "acc": 2,
+            "nme": "hashcode",
+            "dsc": "I"
+          },
+          {
+            "acc": 66,
+            "nme": "resolved",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$EntryInputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$EntryInputStream",
+        "super": "java/io/InputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "skip",
+            "acc": 1,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "available",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "initDataPos",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "pos",
+            "dsc": "J"
+          },
+          {
+            "acc": 2,
+            "nme": "rem",
+            "dsc": "J"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileAttributeView.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileAttributeView",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipPath;Z)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/BasicFileAttributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setTimes",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/attribute/FileTime;Ljava/nio/file/attribute/FileTime;Ljava/nio/file/attribute/FileTime;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setPermissions",
+            "acc": 1,
+            "dsc": "(Ljava/util/Set;)V",
+            "sig": "(Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Map;",
+            "sig": "(Ljava/lang/String;)Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "attribute",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileAttributeView$AttrID;Ljdk/nio/zipfs/ZipFileAttributes;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "path",
+            "dsc": "Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "acc": 18,
+            "nme": "isZipView",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipUtils$1.class": {
+        "ver": 65,
+        "acc": 4128,
+        "nme": "jdk/nio/zipfs/ZipUtils$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$SwitchMap$java$nio$file$attribute$PosixFilePermission",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileStore$ZipFileStoreAttributes.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "jdk/nio/zipfs/ZipFileStore$ZipFileStoreAttributes",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileStore;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "totalSpace",
+            "acc": 0,
+            "dsc": "()J"
+          },
+          {
+            "nme": "usableSpace",
+            "acc": 0,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unallocatedSpace",
+            "acc": 0,
+            "dsc": "()J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "fstore",
+            "dsc": "Ljava/nio/file/FileStore;"
+          },
+          {
+            "acc": 16,
+            "nme": "size",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$IndexNode.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$IndexNode",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([BZ)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([BI)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "([BI)[B"
+          },
+          {
+            "nme": "keyOf",
+            "acc": 24,
+            "dsc": "([B)Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "nme": "name",
+            "acc": 16,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "as",
+            "acc": 16,
+            "dsc": "([B)Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "nme": "isDir",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "pathHasDotOrDotDot",
+            "acc": 2,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "nameAsString",
+            "acc": 4,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "name",
+            "dsc": "[B"
+          },
+          {
+            "acc": 0,
+            "nme": "hashcode",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "isdir",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "pos",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "child",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "acc": 0,
+            "nme": "sibling",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$IndexNode;"
+          },
+          {
+            "acc": 26,
+            "nme": "cachedKey",
+            "dsc": "Ljava/lang/ThreadLocal;",
+            "sig": "Ljava/lang/ThreadLocal<Ljdk/nio/zipfs/ZipFileSystem$IndexNode;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystemProvider.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/nio/zipfs/ZipFileSystemProvider",
+        "super": "java/nio/file/spi/FileSystemProvider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getScheme",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "uriToPath",
+            "acc": 4,
+            "dsc": "(Ljava/net/URI;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "ensureFile",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "newFileSystem",
+            "acc": 1,
+            "dsc": "(Ljava/net/URI;Ljava/util/Map;)Ljava/nio/file/FileSystem;",
+            "sig": "(Ljava/net/URI;Ljava/util/Map<Ljava/lang/String;*>;)Ljava/nio/file/FileSystem;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newFileSystem",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Map;)Ljava/nio/file/FileSystem;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Map<Ljava/lang/String;*>;)Ljava/nio/file/FileSystem;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getZipFileSystem",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Map;)Ljdk/nio/zipfs/ZipFileSystem;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Map<Ljava/lang/String;*>;)Ljdk/nio/zipfs/ZipFileSystem;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getPath",
+            "acc": 1,
+            "dsc": "(Ljava/net/URI;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "getFileSystem",
+            "acc": 1,
+            "dsc": "(Ljava/net/URI;)Ljava/nio/file/FileSystem;"
+          },
+          {
+            "nme": "toZipPath",
+            "acc": 10,
+            "dsc": "(Ljava/nio/file/Path;)Ljdk/nio/zipfs/ZipPath;"
+          },
+          {
+            "nme": "checkAccess",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;[Ljava/nio/file/AccessMode;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copy",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/nio/file/Path;[Ljava/nio/file/CopyOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "createDirectory",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;[Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "(Ljava/nio/file/Path;[Ljava/nio/file/attribute/FileAttribute<*>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "delete",
+            "acc": 17,
+            "dsc": "(Ljava/nio/file/Path;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "exists",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z"
+          },
+          {
+            "nme": "getFileAttributeView",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/lang/Class;[Ljava/nio/file/LinkOption;)Ljava/nio/file/attribute/FileAttributeView;",
+            "sig": "<V::Ljava/nio/file/attribute/FileAttributeView;>(Ljava/nio/file/Path;Ljava/lang/Class<TV;>;[Ljava/nio/file/LinkOption;)TV;"
+          },
+          {
+            "nme": "getFileStore",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/FileStore;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isHidden",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "isSameFile",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;Ljava/nio/file/Path;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "move",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/nio/file/Path;[Ljava/nio/file/CopyOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newAsynchronousFileChannel",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Set;Ljava/util/concurrent/ExecutorService;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/AsynchronousFileChannel;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Set<+Ljava/nio/file/OpenOption;>;Ljava/util/concurrent/ExecutorService;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/AsynchronousFileChannel;"
+          },
+          {
+            "nme": "newByteChannel",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/SeekableByteChannel;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Set<+Ljava/nio/file/OpenOption;>;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/SeekableByteChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newDirectoryStream",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;Ljava/nio/file/DirectoryStream$Filter;)Ljava/nio/file/DirectoryStream;",
+            "sig": "(Ljava/nio/file/Path;Ljava/nio/file/DirectoryStream$Filter<-Ljava/nio/file/Path;>;)Ljava/nio/file/DirectoryStream<Ljava/nio/file/Path;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newFileChannel",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/FileChannel;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/Set<+Ljava/nio/file/OpenOption;>;[Ljava/nio/file/attribute/FileAttribute<*>;)Ljava/nio/channels/FileChannel;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newInputStream",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "newOutputStream",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/lang/Class;[Ljava/nio/file/LinkOption;)Ljava/nio/file/attribute/BasicFileAttributes;",
+            "sig": "<A::Ljava/nio/file/attribute/BasicFileAttributes;>(Ljava/nio/file/Path;Ljava/lang/Class<TA;>;[Ljava/nio/file/LinkOption;)TA;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributes",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/lang/String;[Ljava/nio/file/LinkOption;)Ljava/util/Map;",
+            "sig": "(Ljava/nio/file/Path;Ljava/lang/String;[Ljava/nio/file/LinkOption;)Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAttributesIfExists",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/lang/Class;[Ljava/nio/file/LinkOption;)Ljava/nio/file/attribute/BasicFileAttributes;",
+            "sig": "<A::Ljava/nio/file/attribute/BasicFileAttributes;>(Ljava/nio/file/Path;Ljava/lang/Class<TA;>;[Ljava/nio/file/LinkOption;)TA;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readSymbolicLink",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 129,
+            "dsc": "(Ljava/nio/file/Path;Ljava/lang/String;Ljava/lang/Object;[Ljava/nio/file/LinkOption;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "removeFileSystem",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;Ljdk/nio/zipfs/ZipFileSystem;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "lambda$removeFileSystem$0",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "filesystems",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/nio/file/Path;Ljdk/nio/zipfs/ZipFileSystem;>;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$2",
+        "super": "java/util/zip/InflaterInputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljava/io/InputStream;Ljava/util/zip/Inflater;IJ)V"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "fill",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "available",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "isClosed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "eof",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$size",
+            "dsc": "J"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipPosixFileAttributeView$1.class": {
+        "ver": 65,
+        "acc": 4128,
+        "nme": "jdk/nio/zipfs/ZipPosixFileAttributeView$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$SwitchMap$jdk$nio$zipfs$ZipFileAttributeView$AttrID",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipCoder.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipCoder",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "get",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljdk/nio/zipfs/ZipCoder;"
+          },
+          {
+            "nme": "toString",
+            "acc": 0,
+            "dsc": "([B)Ljava/lang/String;"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)[B"
+          },
+          {
+            "nme": "isUTF8",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/nio/charset/Charset;)V"
+          },
+          {
+            "nme": "decoder",
+            "acc": 2,
+            "dsc": "()Ljava/nio/charset/CharsetDecoder;"
+          },
+          {
+            "nme": "encoder",
+            "acc": 2,
+            "dsc": "()Ljava/nio/charset/CharsetEncoder;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "utf8",
+            "dsc": "Ljdk/nio/zipfs/ZipCoder;"
+          },
+          {
+            "acc": 2,
+            "nme": "cs",
+            "dsc": "Ljava/nio/charset/Charset;"
+          },
+          {
+            "acc": 18,
+            "nme": "decTL",
+            "dsc": "Ljava/lang/ThreadLocal;",
+            "sig": "Ljava/lang/ThreadLocal<Ljava/nio/charset/CharsetDecoder;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "encTL",
+            "dsc": "Ljava/lang/ThreadLocal;",
+            "sig": "Ljava/lang/ThreadLocal<Ljava/nio/charset/CharsetEncoder;>;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipCoder$UTF8.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipCoder$UTF8",
+        "super": "jdk/nio/zipfs/ZipCoder",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)[B"
+          },
+          {
+            "nme": "toString",
+            "acc": 0,
+            "dsc": "([B)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$EntryOutputStreamCRC32.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$EntryOutputStreamCRC32",
+        "super": "java/io/FilterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "crc",
+            "dsc": "Ljava/util/zip/CRC32;"
+          },
+          {
+            "acc": 18,
+            "nme": "e",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 2,
+            "nme": "written",
+            "dsc": "J"
+          },
+          {
+            "acc": 2,
+            "nme": "isClosed",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$Entry.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$Entry",
+        "super": "jdk/nio/zipfs/ZipFileSystem$IndexNode",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([BZI)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "([BIZI[Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "([BIZI[Ljava/nio/file/attribute/FileAttribute<*>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "([BLjava/nio/file/Path;I[Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "([BLjava/nio/file/Path;I[Ljava/nio/file/attribute/FileAttribute<*>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;II)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem$Entry;I)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "version",
+            "acc": 2,
+            "dsc": "(Z)I",
+            "exs": [
+              "java/util/zip/ZipException"
+            ]
+          },
+          {
+            "nme": "versionMadeBy",
+            "acc": 2,
+            "dsc": "(I)I"
+          },
+          {
+            "nme": "readCEN",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeCEN",
+            "acc": 2,
+            "dsc": "(Ljava/io/OutputStream;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeLOC",
+            "acc": 2,
+            "dsc": "(Ljava/io/OutputStream;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeEXT",
+            "acc": 2,
+            "dsc": "(Ljava/io/OutputStream;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readExtra",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isZip64ExtBlockSizeValid",
+            "acc": 10,
+            "dsc": "(I)Z"
+          },
+          {
+            "nme": "readLocEXTT",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "creationTime",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/FileTime;"
+          },
+          {
+            "nme": "isDirectory",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isOther",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRegularFile",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "lastAccessTime",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/FileTime;"
+          },
+          {
+            "nme": "lastModifiedTime",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/FileTime;"
+          },
+          {
+            "nme": "size",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "isSymbolicLink",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "fileKey",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "compressedSize",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "crc",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "method",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "extra",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "comment",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "storedPermissions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "CEN",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "NEW",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 24,
+            "nme": "FILECH",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 24,
+            "nme": "COPY",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 0,
+            "nme": "bytes",
+            "dsc": "[B"
+          },
+          {
+            "acc": 0,
+            "nme": "file",
+            "dsc": "Ljava/nio/file/Path;"
+          },
+          {
+            "acc": 0,
+            "nme": "type",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "version",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "flag",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "posixPerms",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "method",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "mtime",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "atime",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "ctime",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "crc",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "csize",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "size",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "extra",
+            "dsc": "[B"
+          },
+          {
+            "acc": 0,
+            "nme": "locoff",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "comment",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$FileRolloverOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$FileRolloverOutputStream",
+        "super": "java/io/OutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$Entry;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "flush",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeToFile",
+            "acc": 2,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeToFile",
+            "acc": 2,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "transferToFile",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toByteArray",
+            "acc": 2,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "baos",
+            "dsc": "Ljava/io/ByteArrayOutputStream;"
+          },
+          {
+            "acc": 18,
+            "nme": "entry",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem$Entry;"
+          },
+          {
+            "acc": 2,
+            "nme": "tmpFileOS",
+            "dsc": "Ljava/io/OutputStream;"
+          },
+          {
+            "acc": 2,
+            "nme": "totalWritten",
+            "dsc": "J"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      },
+      "classes/jdk/nio/zipfs/ZipFileSystem$PosixEntry.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "jdk/nio/zipfs/ZipFileSystem$PosixEntry",
+        "super": "jdk/nio/zipfs/ZipFileSystem$Entry",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;[BZI)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;[BIZI[Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "([BIZI[Ljava/nio/file/attribute/FileAttribute<*>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;[BLjava/nio/file/Path;I[Ljava/nio/file/attribute/FileAttribute;)V",
+            "sig": "([BLjava/nio/file/Path;I[Ljava/nio/file/attribute/FileAttribute<*>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$PosixEntry;II)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$PosixEntry;I)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem;Ljdk/nio/zipfs/ZipFileSystem$IndexNode;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "owner",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/UserPrincipal;"
+          },
+          {
+            "nme": "group",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/GroupPrincipal;"
+          },
+          {
+            "nme": "permissions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/nio/file/attribute/PosixFilePermission;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "owner",
+            "dsc": "Ljava/nio/file/attribute/UserPrincipal;"
+          },
+          {
+            "acc": 2,
+            "nme": "group",
+            "dsc": "Ljava/nio/file/attribute/GroupPrincipal;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Ljdk/nio/zipfs/ZipFileSystem;"
+          }
+        ]
+      }
+    }
+  }
+}

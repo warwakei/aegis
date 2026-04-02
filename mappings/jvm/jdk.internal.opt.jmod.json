@@ -1,0 +1,3498 @@
+{
+  "md5": "f47c2f455a77bd47e83c20d90b421ee9",
+  "sha2": "2548e308fdb9cc89978be28e5507a9c2abb7c2f5",
+  "sha256": "e22dbf12ea9369949e4842cc7a8aca8a381a3673febbcb1902d6aa66c8f6f3c1",
+  "contents": {
+    "classes": {
+      "classes/jdk/internal/joptsimple/internal/MethodInvokingValueConverter.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/internal/MethodInvokingValueConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/reflect/Method;Ljava/lang/Class;)V",
+            "sig": "(Ljava/lang/reflect/Method;Ljava/lang/Class<TV;>;)V"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<TV;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "method",
+            "dsc": "Ljava/lang/reflect/Method;"
+          },
+          {
+            "acc": 18,
+            "nme": "clazz",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<TV;>;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties$1.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/internal/joptsimple/util/PathProperties$1",
+        "super": "jdk/internal/joptsimple/util/PathProperties",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/NoArgumentOptionSpec.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/NoArgumentOptionSpec",
+        "super": "jdk/internal/joptsimple/AbstractOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "handleOption",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "acceptsArguments",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "requiresArgument",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "argumentDescription",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "argumentTypeIndicator",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "convert",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Void;"
+          },
+          {
+            "nme": "defaultValues",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljava/lang/Void;>;"
+          },
+          {
+            "nme": "convert",
+            "acc": 4164,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/AlternativeLongOptionSpec.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/AlternativeLongOptionSpec",
+        "super": "jdk/internal/joptsimple/ArgumentAcceptingOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "detectOptionArgument",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/OptionParser.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/OptionParser",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "accepts",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "accepts",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "acceptsAll",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "acceptsAll",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "nonOptions",
+            "acc": 1,
+            "dsc": "()Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "()Ljdk/internal/joptsimple/NonOptionArgumentSpec<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "nonOptions",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/NonOptionArgumentSpec<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "posixlyCorrect",
+            "acc": 1,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "posixlyCorrect",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "allowsUnrecognizedOptions",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "doesAllowsUnrecognizedOptions",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "recognizeAlternativeLongOptions",
+            "acc": 1,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "recognize",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/AbstractOptionSpec;)V",
+            "sig": "(Ljdk/internal/joptsimple/AbstractOptionSpec<*>;)V"
+          },
+          {
+            "nme": "printHelpOn",
+            "acc": 1,
+            "dsc": "(Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "printHelpOn",
+            "acc": 1,
+            "dsc": "(Ljava/io/Writer;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "formatHelpWith",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/joptsimple/HelpFormatter;)V"
+          },
+          {
+            "nme": "recognizedOptions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;Ljdk/internal/joptsimple/OptionSpec<*>;>;"
+          },
+          {
+            "nme": "_recognizedOptions",
+            "acc": 2,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "nme": "parse",
+            "acc": 129,
+            "dsc": "([Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSet;"
+          },
+          {
+            "nme": "mutuallyExclusive",
+            "acc": 129,
+            "dsc": "([Ljdk/internal/joptsimple/OptionSpecBuilder;)V"
+          },
+          {
+            "nme": "ensureRequiredOptions",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "ensureAllowedOptions",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "missingRequiredOptions",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List<Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "nme": "unavailableOptions",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List<Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "nme": "optionsHasAnyOf",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;Ljava/util/Collection;)Z",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;Ljava/util/Collection<Ljdk/internal/joptsimple/OptionSpec<*>;>;)Z"
+          },
+          {
+            "nme": "isHelpOptionPresent",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Z"
+          },
+          {
+            "nme": "handleLongOptionToken",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "handleShortOptionToken",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "handleShortOptionCluster",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "handleNonOptionArgument",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "noMoreOptions",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "looksLikeAnOption",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isRecognized",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "requiredIf",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "requiredIf",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljdk/internal/joptsimple/OptionSpec;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljdk/internal/joptsimple/OptionSpec<*>;)V"
+          },
+          {
+            "nme": "requiredUnless",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "requiredUnless",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljdk/internal/joptsimple/OptionSpec;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljdk/internal/joptsimple/OptionSpec<*>;)V"
+          },
+          {
+            "nme": "availableIf",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "availableIf",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljdk/internal/joptsimple/OptionSpec;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljdk/internal/joptsimple/OptionSpec<*>;)V"
+          },
+          {
+            "nme": "availableUnless",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "availableUnless",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljdk/internal/joptsimple/OptionSpec;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljdk/internal/joptsimple/OptionSpec<*>;)V"
+          },
+          {
+            "nme": "putDependentOption",
+            "acc": 2,
+            "dsc": "(Ljava/util/List;Ljdk/internal/joptsimple/OptionSpec;Ljava/util/Map;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljdk/internal/joptsimple/OptionSpec<*>;Ljava/util/Map<Ljava/util/List<Ljava/lang/String;>;Ljava/util/Set<Ljdk/internal/joptsimple/OptionSpec<*>;>;>;)V"
+          },
+          {
+            "nme": "specFor",
+            "acc": 2,
+            "dsc": "(C)Ljdk/internal/joptsimple/AbstractOptionSpec;",
+            "sig": "(C)Ljdk/internal/joptsimple/AbstractOptionSpec<*>;"
+          },
+          {
+            "nme": "specFor",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/AbstractOptionSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/AbstractOptionSpec<*>;"
+          },
+          {
+            "nme": "reset",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "extractShortOptionsFrom",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)[C"
+          },
+          {
+            "nme": "validateOptionCharacters",
+            "acc": 2,
+            "dsc": "([C)V"
+          },
+          {
+            "nme": "parseLongOptionWithArgument",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/util/KeyValuePair;"
+          },
+          {
+            "nme": "parseShortOptionWithArgument",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/util/KeyValuePair;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "recognizedOptions",
+            "dsc": "Ljdk/internal/joptsimple/internal/OptionNameMap;",
+            "sig": "Ljdk/internal/joptsimple/internal/OptionNameMap<Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "trainingOrder",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "requiredIf",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/util/List<Ljava/lang/String;>;Ljava/util/Set<Ljdk/internal/joptsimple/OptionSpec<*>;>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "requiredUnless",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/util/List<Ljava/lang/String;>;Ljava/util/Set<Ljdk/internal/joptsimple/OptionSpec<*>;>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "availableIf",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/util/List<Ljava/lang/String;>;Ljava/util/Set<Ljdk/internal/joptsimple/OptionSpec<*>;>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "availableUnless",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/util/List<Ljava/lang/String;>;Ljava/util/Set<Ljdk/internal/joptsimple/OptionSpec<*>;>;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "state",
+            "dsc": "Ljdk/internal/joptsimple/OptionParserState;"
+          },
+          {
+            "acc": 2,
+            "nme": "posixlyCorrect",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "allowsUnrecognizedOptions",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "helpFormatter",
+            "dsc": "Ljdk/internal/joptsimple/HelpFormatter;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/ArgumentList.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/ArgumentList",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "hasMore",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "next",
+            "acc": 0,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "peek",
+            "acc": 0,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "treatNextAsLongOption",
+            "acc": 0,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "arguments",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "currentIndex",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionArgumentConversionException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/OptionArgumentConversionException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;Ljava/lang/String;Ljava/lang/Throwable;)V",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;Ljava/lang/String;Ljava/lang/Throwable;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          },
+          {
+            "acc": 18,
+            "nme": "argument",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/RegexMatcher.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/util/RegexMatcher",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "regex",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/ValueConverter;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/ValueConverter<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "raiseValueConversionFailure",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "convert",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "pattern",
+            "dsc": "Ljava/util/regex/Pattern;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/ValueConverter.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/internal/joptsimple/ValueConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "convert",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<+TV;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/ValueConversionException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/ValueConversionException",
+        "super": "java/lang/RuntimeException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Throwable;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/MissingRequiredOptionsException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/MissingRequiredOptionsException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<+Ljdk/internal/joptsimple/OptionSpec<*>;>;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties$4.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/internal/joptsimple/util/PathProperties$4",
+        "super": "jdk/internal/joptsimple/util/PathProperties",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/internal/Rows.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/internal/Rows",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(II)V"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "add",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/internal/Row;)V"
+          },
+          {
+            "nme": "reset",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "fitToWidth",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "render",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "optionWidth",
+            "acc": 2,
+            "dsc": "()I"
+          },
+          {
+            "nme": "descriptionWidth",
+            "acc": 2,
+            "dsc": "()I"
+          },
+          {
+            "nme": "pad",
+            "acc": 2,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/String;I)Ljava/lang/StringBuilder;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "overallWidth",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "columnSeparatorWidth",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "rows",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljdk/internal/joptsimple/internal/Row;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "widthOfWidestOption",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "widthOfWidestDescription",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/BuiltinHelpFormatter$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/BuiltinHelpFormatter$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/BuiltinHelpFormatter;)V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/joptsimple/OptionDescriptor;Ljdk/internal/joptsimple/OptionDescriptor;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/AbstractOptionSpec.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "jdk/internal/joptsimple/AbstractOptionSpec",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "options",
+            "acc": 17,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "values",
+            "acc": 17,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List<TV;>;"
+          },
+          {
+            "nme": "value",
+            "acc": 17,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/lang/Object;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;)TV;"
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "forHelp",
+            "acc": 17,
+            "dsc": "()Ljdk/internal/joptsimple/AbstractOptionSpec;",
+            "sig": "()Ljdk/internal/joptsimple/AbstractOptionSpec<TV;>;"
+          },
+          {
+            "nme": "isForHelp",
+            "acc": 17,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "representsNonOptions",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "convert",
+            "acc": 1028,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "convertWith",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/ValueConverter;Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljdk/internal/joptsimple/ValueConverter<TV;>;Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "argumentTypeIndicatorFrom",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/ValueConverter;)Ljava/lang/String;",
+            "sig": "(Ljdk/internal/joptsimple/ValueConverter<TV;>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "handleOption",
+            "acc": 1024,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "arrangeOptions",
+            "acc": 2,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "options",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "description",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "forHelp",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionParserState$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/OptionParserState$1",
+        "super": "jdk/internal/joptsimple/OptionParserState",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "handleArgument",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/util/InetAddressConverter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/util/InetAddressConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/net/InetAddress;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<Ljava/net/InetAddress;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "message",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "convert",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/opt/CommandLine.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/internal/opt/CommandLine",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "parse",
+            "acc": 137,
+            "dsc": "([Ljava/lang/String;)[Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "parse",
+            "acc": 9,
+            "dsc": "(Ljava/util/List;)Ljava/util/List;",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)Ljava/util/List<Ljava/lang/String;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "appendParsedCommandArgs",
+            "acc": 10,
+            "dsc": "(Ljava/util/List;Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/util/List<Ljava/lang/String;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "parse",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)Ljava/util/List<Ljava/lang/String;>;",
+            "exs": [
+              "java/io/IOException",
+              "jdk/internal/opt/CommandLine$UnmatchedQuote"
+            ]
+          },
+          {
+            "nme": "loadCmdFile",
+            "acc": 9,
+            "dsc": "(Ljava/io/InputStream;Ljava/util/List;)V",
+            "sig": "(Ljava/io/InputStream;Ljava/util/List<Ljava/lang/String;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadCmdFile",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)V",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadCmdFileAndCloseReader",
+            "acc": 10,
+            "dsc": "(Ljava/io/Reader;Ljava/util/List;)V",
+            "sig": "(Ljava/io/Reader;Ljava/util/List<Ljava/lang/String;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "appendParsedEnvVariables",
+            "acc": 10,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V",
+            "exs": [
+              "jdk/internal/opt/CommandLine$UnmatchedQuote"
+            ]
+          },
+          {
+            "nme": "lambda$parse$0",
+            "acc": 4106,
+            "dsc": "(I)[Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/UnavailableOptionException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/UnavailableOptionException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<+Ljdk/internal/joptsimple/OptionSpec<*>;>;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionDescriptor.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/internal/joptsimple/OptionDescriptor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "options",
+            "acc": 1025,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "description",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "defaultValues",
+            "acc": 1025,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<*>;"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "acceptsArguments",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "requiresArgument",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "argumentDescription",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "argumentTypeIndicator",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "representsNonOptions",
+            "acc": 1025,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/OptionSpecTokenizer.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/OptionSpecTokenizer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "hasMore",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "next",
+            "acc": 0,
+            "dsc": "()Ljdk/internal/joptsimple/AbstractOptionSpec;",
+            "sig": "()Ljdk/internal/joptsimple/AbstractOptionSpec<*>;"
+          },
+          {
+            "nme": "configure",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;)V"
+          },
+          {
+            "nme": "adjustForPosixlyCorrect",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;)V"
+          },
+          {
+            "nme": "handleReservedForExtensionsToken",
+            "acc": 2,
+            "dsc": "()Ljdk/internal/joptsimple/AbstractOptionSpec;",
+            "sig": "()Ljdk/internal/joptsimple/AbstractOptionSpec<*>;"
+          },
+          {
+            "nme": "handleArgumentAcceptingOption",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/AbstractOptionSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/AbstractOptionSpec<*>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "POSIXLY_CORRECT_MARKER",
+            "dsc": "C",
+            "val": 43
+          },
+          {
+            "acc": 26,
+            "nme": "HELP_MARKER",
+            "dsc": "C",
+            "val": 42
+          },
+          {
+            "acc": 2,
+            "nme": "specification",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "index",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/Classes.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/internal/joptsimple/internal/Classes",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "shortNameOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "wrapperOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/Class;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)Ljava/lang/Class<TT;>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "WRAPPERS",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Class<*>;Ljava/lang/Class<*>;>;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/EnumConverter.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "jdk/internal/joptsimple/util/EnumConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/lang/Class;)V",
+            "sig": "(Ljava/lang/Class<TE;>;)V"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Enum;",
+            "sig": "(Ljava/lang/String;)TE;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<TE;>;"
+          },
+          {
+            "nme": "setDelimiters",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "message",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "convert",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "clazz",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<TE;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "delimiters",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/UnrecognizedOptionException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/UnrecognizedOptionException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionSet.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/OptionSet",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;)V"
+          },
+          {
+            "nme": "hasOptions",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "has",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "has",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)Z",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;)Z"
+          },
+          {
+            "nme": "hasArgument",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "hasArgument",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)Z",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;)Z"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)Ljava/lang/Object;",
+            "sig": "<V:Ljava/lang/Object;>(Ljdk/internal/joptsimple/OptionSpec<TV;>;)TV;"
+          },
+          {
+            "nme": "valuesOf",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<*>;"
+          },
+          {
+            "nme": "valuesOf",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)Ljava/util/List;",
+            "sig": "<V:Ljava/lang/Object;>(Ljdk/internal/joptsimple/OptionSpec<TV;>;)Ljava/util/List<TV;>;"
+          },
+          {
+            "nme": "specs",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljdk/internal/joptsimple/OptionSpec<*>;>;"
+          },
+          {
+            "nme": "asMap",
+            "acc": 1,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljdk/internal/joptsimple/OptionSpec<*>;Ljava/util/List<*>;>;"
+          },
+          {
+            "nme": "nonOptionArguments",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<*>;"
+          },
+          {
+            "nme": "add",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/AbstractOptionSpec;)V",
+            "sig": "(Ljdk/internal/joptsimple/AbstractOptionSpec<*>;)V"
+          },
+          {
+            "nme": "addWithArgument",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/AbstractOptionSpec;Ljava/lang/String;)V",
+            "sig": "(Ljdk/internal/joptsimple/AbstractOptionSpec<*>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "defaultValuesFor",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "<V:Ljava/lang/Object;>(Ljava/lang/String;)Ljava/util/List<TV;>;"
+          },
+          {
+            "nme": "defaultValueFor",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)Ljava/util/List;",
+            "sig": "<V:Ljava/lang/Object;>(Ljdk/internal/joptsimple/OptionSpec<TV;>;)Ljava/util/List<TV;>;"
+          },
+          {
+            "nme": "defaultValues",
+            "acc": 10,
+            "dsc": "(Ljava/util/Map;)Ljava/util/Map;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;)Ljava/util/Map<Ljava/lang/String;Ljava/util/List<*>;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "detectedSpecs",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljdk/internal/joptsimple/OptionSpec<*>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "detectedOptions",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "optionsToArguments",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljdk/internal/joptsimple/AbstractOptionSpec<*>;Ljava/util/List<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "recognizedSpecs",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljdk/internal/joptsimple/AbstractOptionSpec<*>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "defaultValues",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/util/List<*>;>;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/ConstructorInvokingValueConverter.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/internal/ConstructorInvokingValueConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/reflect/Constructor;)V",
+            "sig": "(Ljava/lang/reflect/Constructor<TV;>;)V"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<TV;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "ctor",
+            "dsc": "Ljava/lang/reflect/Constructor;",
+            "sig": "Ljava/lang/reflect/Constructor<TV;>;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties$2.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/internal/joptsimple/util/PathProperties$2",
+        "super": "jdk/internal/joptsimple/util/PathProperties",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties.class": {
+        "ver": 65,
+        "acc": 17441,
+        "nme": "jdk/internal/joptsimple/util/PathProperties",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V",
+            "sig": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 1024,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "getMessageKey",
+            "acc": 0,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "FILE_EXISTING",
+            "dsc": "Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "acc": 16409,
+            "nme": "DIRECTORY_EXISTING",
+            "dsc": "Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "acc": 16409,
+            "nme": "NOT_EXISTING",
+            "dsc": "Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "acc": 16409,
+            "nme": "FILE_OVERWRITABLE",
+            "dsc": "Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "acc": 16409,
+            "nme": "READABLE",
+            "dsc": "Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "acc": 16409,
+            "nme": "WRITABLE",
+            "dsc": "Ljdk/internal/joptsimple/util/PathProperties;"
+          },
+          {
+            "acc": 18,
+            "nme": "messageKey",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Ljdk/internal/joptsimple/util/PathProperties;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/Messages.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/internal/Messages",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "message",
+            "acc": 137,
+            "dsc": "(Ljava/util/Locale;Ljava/lang/String;Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;",
+            "sig": "(Ljava/util/Locale;Ljava/lang/String;Ljava/lang/Class<*>;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/RequiredArgumentOptionSpec.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/RequiredArgumentOptionSpec",
+        "super": "jdk/internal/joptsimple/ArgumentAcceptingOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "detectOptionArgument",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/internal/OptionNameMap.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/internal/joptsimple/internal/OptionNameMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "contains",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "get",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "put",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "sig": "(Ljava/lang/String;TV;)V"
+          },
+          {
+            "nme": "putAll",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/Iterable;Ljava/lang/Object;)V",
+            "sig": "(Ljava/lang/Iterable<Ljava/lang/String;>;TV;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "toJavaUtilMap",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;TV;>;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties$5.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/internal/joptsimple/util/PathProperties$5",
+        "super": "jdk/internal/joptsimple/util/PathProperties",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/OptionDeclarer.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/internal/joptsimple/OptionDeclarer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "accepts",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "accepts",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "acceptsAll",
+            "acc": 1025,
+            "dsc": "(Ljava/util/List;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "acceptsAll",
+            "acc": 1025,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "nonOptions",
+            "acc": 1025,
+            "dsc": "()Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "()Ljdk/internal/joptsimple/NonOptionArgumentSpec<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "nonOptions",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/NonOptionArgumentSpec<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "posixlyCorrect",
+            "acc": 1025,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "allowsUnrecognizedOptions",
+            "acc": 1025,
+            "dsc": "()V"
+          },
+          {
+            "nme": "recognizeAlternativeLongOptions",
+            "acc": 1025,
+            "dsc": "(Z)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/IllegalOptionSpecificationException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/IllegalOptionSpecificationException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/opt/CommandLine$Tokenizer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/opt/CommandLine$Tokenizer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/io/Reader;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "nextToken",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "skipWhite",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "in",
+            "dsc": "Ljava/io/Reader;"
+          },
+          {
+            "acc": 2,
+            "nme": "ch",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/ArgumentAcceptingOptionSpec.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "jdk/internal/joptsimple/ArgumentAcceptingOptionSpec",
+        "super": "jdk/internal/joptsimple/AbstractOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Z)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;ZLjava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;ZLjava/lang/String;)V"
+          },
+          {
+            "nme": "ofType",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TT;>;"
+          },
+          {
+            "nme": "withValuesConvertedBy",
+            "acc": 17,
+            "dsc": "(Ljdk/internal/joptsimple/ValueConverter;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "<T:Ljava/lang/Object;>(Ljdk/internal/joptsimple/ValueConverter<TT;>;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TT;>;"
+          },
+          {
+            "nme": "describedAs",
+            "acc": 17,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TV;>;"
+          },
+          {
+            "nme": "withValuesSeparatedBy",
+            "acc": 17,
+            "dsc": "(C)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "(C)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TV;>;"
+          },
+          {
+            "nme": "withValuesSeparatedBy",
+            "acc": 17,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TV;>;"
+          },
+          {
+            "nme": "defaultsTo",
+            "acc": 145,
+            "dsc": "(Ljava/lang/Object;[Ljava/lang/Object;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "(TV;[TV;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TV;>;",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/SafeVarargs;"
+              }
+            ]
+          },
+          {
+            "nme": "defaultsTo",
+            "acc": 1,
+            "dsc": "([Ljava/lang/Object;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "([TV;)Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TV;>;"
+          },
+          {
+            "nme": "required",
+            "acc": 1,
+            "dsc": "()Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "()Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<TV;>;"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "addDefaultValue",
+            "acc": 2,
+            "dsc": "(Ljava/lang/Object;)V",
+            "sig": "(TV;)V"
+          },
+          {
+            "nme": "handleOption",
+            "acc": 16,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "addArguments",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "detectOptionArgument",
+            "acc": 1028,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "convert",
+            "acc": 20,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "canConvertArgument",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isArgumentOfNumberType",
+            "acc": 4,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "acceptsArguments",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "requiresArgument",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "argumentDescription",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "argumentTypeIndicator",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "defaultValues",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<TV;>;"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "NIL_VALUE_SEPARATOR",
+            "dsc": "C",
+            "val": 0
+          },
+          {
+            "acc": 18,
+            "nme": "argumentRequired",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "defaultValues",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<TV;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "optionRequired",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "converter",
+            "dsc": "Ljdk/internal/joptsimple/ValueConverter;",
+            "sig": "Ljdk/internal/joptsimple/ValueConverter<TV;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "argumentDescription",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "valueSeparator",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionSpec.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/internal/joptsimple/OptionSpec",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 1025,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/util/List<TV;>;"
+          },
+          {
+            "nme": "value",
+            "acc": 1025,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSet;)Ljava/lang/Object;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSet;)TV;"
+          },
+          {
+            "nme": "options",
+            "acc": 1025,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "isForHelp",
+            "acc": 1025,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/OptionMissingRequiredArgumentException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/OptionMissingRequiredArgumentException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)V",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/opt/CommandLine$UnmatchedQuote.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/opt/CommandLine$UnmatchedQuote",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 0
+          },
+          {
+            "acc": 17,
+            "nme": "variableName",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/ParserRules.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "jdk/internal/joptsimple/ParserRules",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "isShortOptionToken",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isLongOptionToken",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isOptionTerminator",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "ensureLegalOption",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "ensureLegalOptions",
+            "acc": 8,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "ensureLegalOptionCharacter",
+            "acc": 10,
+            "dsc": "(C)V"
+          },
+          {
+            "nme": "isAllowedPunctuation",
+            "acc": 10,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "HYPHEN_CHAR",
+            "dsc": "C",
+            "val": 45
+          },
+          {
+            "acc": 24,
+            "nme": "HYPHEN",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 24,
+            "nme": "DOUBLE_HYPHEN",
+            "dsc": "Ljava/lang/String;",
+            "val": "--"
+          },
+          {
+            "acc": 24,
+            "nme": "OPTION_TERMINATOR",
+            "dsc": "Ljava/lang/String;",
+            "val": "--"
+          },
+          {
+            "acc": 24,
+            "nme": "RESERVED_FOR_EXTENSIONS",
+            "dsc": "Ljava/lang/String;",
+            "val": "W"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties$3.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/internal/joptsimple/util/PathProperties$3",
+        "super": "jdk/internal/joptsimple/util/PathProperties",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/util/PathProperties$6.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "jdk/internal/joptsimple/util/PathProperties$6",
+        "super": "jdk/internal/joptsimple/util/PathProperties",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/internal/Row.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/internal/Row",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "option",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 16,
+            "nme": "description",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/Reflection.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/internal/joptsimple/internal/Reflection",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "findConverter",
+            "acc": 9,
+            "dsc": "(Ljava/lang/Class;)Ljdk/internal/joptsimple/ValueConverter;",
+            "sig": "<V:Ljava/lang/Object;>(Ljava/lang/Class<TV;>;)Ljdk/internal/joptsimple/ValueConverter<TV;>;"
+          },
+          {
+            "nme": "valueOfConverter",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Class;)Ljdk/internal/joptsimple/ValueConverter;",
+            "sig": "<V:Ljava/lang/Object;>(Ljava/lang/Class<TV;>;)Ljdk/internal/joptsimple/ValueConverter<TV;>;"
+          },
+          {
+            "nme": "constructorConverter",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Class;)Ljdk/internal/joptsimple/ValueConverter;",
+            "sig": "<V:Ljava/lang/Object;>(Ljava/lang/Class<TV;>;)Ljdk/internal/joptsimple/ValueConverter<TV;>;"
+          },
+          {
+            "nme": "instantiate",
+            "acc": 137,
+            "dsc": "(Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/lang/reflect/Constructor<TT;>;[Ljava/lang/Object;)TT;"
+          },
+          {
+            "nme": "invoke",
+            "acc": 137,
+            "dsc": "(Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "convertWith",
+            "acc": 9,
+            "dsc": "(Ljdk/internal/joptsimple/ValueConverter;Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "<V:Ljava/lang/Object;>(Ljdk/internal/joptsimple/ValueConverter<TV;>;Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "meetsConverterRequirements",
+            "acc": 10,
+            "dsc": "(Ljava/lang/reflect/Method;Ljava/lang/Class;)Z",
+            "sig": "(Ljava/lang/reflect/Method;Ljava/lang/Class<*>;)Z"
+          },
+          {
+            "nme": "reflectionException",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Exception;)Ljava/lang/RuntimeException;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/OptionParserState.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "jdk/internal/joptsimple/OptionParserState",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "noMoreOptions",
+            "acc": 8,
+            "dsc": "()Ljdk/internal/joptsimple/OptionParserState;"
+          },
+          {
+            "nme": "moreOptions",
+            "acc": 8,
+            "dsc": "(Z)Ljdk/internal/joptsimple/OptionParserState;"
+          },
+          {
+            "nme": "handleArgument",
+            "acc": 1028,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/internal/AbbreviationMap.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/internal/AbbreviationMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "contains",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "put",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "sig": "(Ljava/lang/String;TV;)V"
+          },
+          {
+            "nme": "putAll",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Iterable;Ljava/lang/Object;)V",
+            "sig": "(Ljava/lang/Iterable<Ljava/lang/String;>;TV;)V"
+          },
+          {
+            "nme": "add",
+            "acc": 2,
+            "dsc": "([CLjava/lang/Object;II)Z",
+            "sig": "([CTV;II)Z"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 2,
+            "dsc": "([CII)Z"
+          },
+          {
+            "nme": "setValueToThatOfOnlyChild",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "removeAtEndOfKey",
+            "acc": 2,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "toJavaUtilMap",
+            "acc": 1,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;TV;>;"
+          },
+          {
+            "nme": "addToMappings",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;TV;>;)V"
+          },
+          {
+            "nme": "charsOf",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)[C"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "children",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Character;Ljdk/internal/joptsimple/internal/AbbreviationMap<TV;>;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "key",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "value",
+            "dsc": "Ljava/lang/Object;",
+            "sig": "TV;"
+          },
+          {
+            "acc": 2,
+            "nme": "keysBeyond",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/Columns.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/internal/Columns",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(II)V"
+          },
+          {
+            "nme": "fit",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/internal/Row;)Ljava/util/List;",
+            "sig": "(Ljdk/internal/joptsimple/internal/Row;)Ljava/util/List<Ljdk/internal/joptsimple/internal/Row;>;"
+          },
+          {
+            "nme": "itemOrEmpty",
+            "acc": 10,
+            "dsc": "(Ljava/util/List;I)Ljava/lang/String;",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;I)Ljava/lang/String;"
+          },
+          {
+            "nme": "piecesOf",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;I)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "piecesOfEmbeddedLine",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;I)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "processNextWord",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/StringBuilder;IIILjava/util/List;)Ljava/lang/StringBuilder;",
+            "sig": "(Ljava/lang/String;Ljava/lang/StringBuilder;IIILjava/util/List<Ljava/lang/String;>;)Ljava/lang/StringBuilder;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "INDENT_WIDTH",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 18,
+            "nme": "optionWidth",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "descriptionWidth",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/ReflectionException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/internal/ReflectionException",
+        "super": "java/lang/RuntimeException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/Throwable;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -2
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/UnconfiguredOptionException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/UnconfiguredOptionException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionException.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "jdk/internal/joptsimple/OptionException",
+        "super": "java/lang/RuntimeException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;)V",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionSpec<*>;>;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;Ljava/lang/Throwable;)V",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionSpec<*>;>;Ljava/lang/Throwable;)V"
+          },
+          {
+            "nme": "specsToStrings",
+            "acc": 2,
+            "dsc": "(Ljava/util/Collection;)Ljava/util/List;",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionSpec<*>;>;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "specToString",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)Ljava/lang/String;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "options",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "singleOptionString",
+            "acc": 20,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "singleOptionString",
+            "acc": 20,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "multipleOptionString",
+            "acc": 20,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "unrecognizedOption",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/OptionException;"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 17,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "localizedMessage",
+            "acc": 16,
+            "dsc": "(Ljava/util/Locale;)Ljava/lang/String;"
+          },
+          {
+            "nme": "formattedMessage",
+            "acc": 2,
+            "dsc": "(Ljava/util/Locale;)Ljava/lang/String;"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 1024,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          },
+          {
+            "acc": 18,
+            "nme": "options",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/KeyValuePair.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/internal/joptsimple/util/KeyValuePair",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/util/KeyValuePair;"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 17,
+            "nme": "key",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 17,
+            "nme": "value",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionSpecBuilder.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/OptionSpecBuilder",
+        "super": "jdk/internal/joptsimple/NoArgumentOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljdk/internal/joptsimple/OptionParser;Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "attachToParser",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "withRequiredArg",
+            "acc": 1,
+            "dsc": "()Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "()Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "withOptionalArg",
+            "acc": 1,
+            "dsc": "()Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec;",
+            "sig": "()Ljdk/internal/joptsimple/ArgumentAcceptingOptionSpec<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "requiredIf",
+            "acc": 129,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "requiredIf",
+            "acc": 129,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;[Ljdk/internal/joptsimple/OptionSpec;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;[Ljdk/internal/joptsimple/OptionSpec<*>;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "requiredUnless",
+            "acc": 129,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "requiredUnless",
+            "acc": 129,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;[Ljdk/internal/joptsimple/OptionSpec;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;[Ljdk/internal/joptsimple/OptionSpec<*>;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "availableIf",
+            "acc": 129,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "availableIf",
+            "acc": 129,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;[Ljdk/internal/joptsimple/OptionSpec;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;[Ljdk/internal/joptsimple/OptionSpec<*>;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "availableUnless",
+            "acc": 129,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "availableUnless",
+            "acc": 129,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;[Ljdk/internal/joptsimple/OptionSpec;)Ljdk/internal/joptsimple/OptionSpecBuilder;",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;[Ljdk/internal/joptsimple/OptionSpec<*>;)Ljdk/internal/joptsimple/OptionSpecBuilder;"
+          },
+          {
+            "nme": "validatedDependents",
+            "acc": 130,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;[Ljava/lang/String;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "defaultValues",
+            "acc": 4161,
+            "dsc": "()Ljava/util/List;"
+          },
+          {
+            "nme": "argumentTypeIndicator",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "argumentDescription",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 4161,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "requiresArgument",
+            "acc": 4161,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "acceptsArguments",
+            "acc": 4161,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "parser",
+            "dsc": "Ljdk/internal/joptsimple/OptionParser;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/HelpFormatter.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/internal/joptsimple/HelpFormatter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "format",
+            "acc": 1025,
+            "dsc": "(Ljava/util/Map;)Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;+Ljdk/internal/joptsimple/OptionDescriptor;>;)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/internal/joptsimple/BuiltinHelpFormatter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/BuiltinHelpFormatter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(II)V"
+          },
+          {
+            "nme": "format",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;+Ljdk/internal/joptsimple/OptionDescriptor;>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "addOptionRow",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "addOptionRow",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "addNonOptionRow",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "fitRowsToWidth",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "nonOptionOutput",
+            "acc": 4,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "optionOutput",
+            "acc": 4,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "formattedHelpOutput",
+            "acc": 4,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "addRows",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;)V",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionDescriptor;>;)V"
+          },
+          {
+            "nme": "addNonOptionsDescription",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;)V",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionDescriptor;>;)V"
+          },
+          {
+            "nme": "shouldShowNonOptionArgumentDisplay",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionDescriptor;)Z"
+          },
+          {
+            "nme": "createNonOptionArgumentsDisplay",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionDescriptor;)Ljava/lang/String;"
+          },
+          {
+            "nme": "maybeAppendNonOptionsDescription",
+            "acc": 4,
+            "dsc": "(Ljava/lang/StringBuilder;Ljdk/internal/joptsimple/OptionDescriptor;)V"
+          },
+          {
+            "nme": "findAndRemoveNonOptionsSpec",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;)Ljdk/internal/joptsimple/OptionDescriptor;",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionDescriptor;>;)Ljdk/internal/joptsimple/OptionDescriptor;"
+          },
+          {
+            "nme": "addHeaders",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;)V",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionDescriptor;>;)V"
+          },
+          {
+            "nme": "hasRequiredOption",
+            "acc": 20,
+            "dsc": "(Ljava/util/Collection;)Z",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionDescriptor;>;)Z"
+          },
+          {
+            "nme": "addOptions",
+            "acc": 4,
+            "dsc": "(Ljava/util/Collection;)V",
+            "sig": "(Ljava/util/Collection<+Ljdk/internal/joptsimple/OptionDescriptor;>;)V"
+          },
+          {
+            "nme": "createOptionDisplay",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionDescriptor;)Ljava/lang/String;"
+          },
+          {
+            "nme": "optionLeader",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "maybeAppendOptionInfo",
+            "acc": 4,
+            "dsc": "(Ljava/lang/StringBuilder;Ljdk/internal/joptsimple/OptionDescriptor;)V"
+          },
+          {
+            "nme": "extractTypeIndicator",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionDescriptor;)Ljava/lang/String;"
+          },
+          {
+            "nme": "appendOptionHelp",
+            "acc": 4,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/String;Ljava/lang/String;Z)V"
+          },
+          {
+            "nme": "appendTypeIndicator",
+            "acc": 4,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/String;Ljava/lang/String;CC)V"
+          },
+          {
+            "nme": "createDescriptionDisplay",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionDescriptor;)Ljava/lang/String;"
+          },
+          {
+            "nme": "createDefaultValuesDisplay",
+            "acc": 4,
+            "dsc": "(Ljava/util/List;)Ljava/lang/String;",
+            "sig": "(Ljava/util/List<*>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "message",
+            "acc": 132,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "nonOptionRows",
+            "dsc": "Ljdk/internal/joptsimple/internal/Rows;"
+          },
+          {
+            "acc": 18,
+            "nme": "optionRows",
+            "dsc": "Ljdk/internal/joptsimple/internal/Rows;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/PathConverter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/util/PathConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 129,
+            "dsc": "([Ljdk/internal/joptsimple/util/PathProperties;)V"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<Ljava/nio/file/Path;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "message",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "convert",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "pathProperties",
+            "dsc": "[Ljdk/internal/joptsimple/util/PathProperties;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/util/DateConverter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/util/DateConverter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/text/DateFormat;)V"
+          },
+          {
+            "nme": "datePattern",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/util/DateConverter;"
+          },
+          {
+            "nme": "convert",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Date;"
+          },
+          {
+            "nme": "valueType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<Ljava/util/Date;>;"
+          },
+          {
+            "nme": "valuePattern",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "message",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "convert",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "formatter",
+            "dsc": "Ljava/text/DateFormat;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionParserState$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/OptionParserState$2",
+        "super": "jdk/internal/joptsimple/OptionParserState",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "handleArgument",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$posixlyCorrect",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/MultipleArgumentsForOptionException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/MultipleArgumentsForOptionException",
+        "super": "jdk/internal/joptsimple/OptionException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionSpec;)V",
+            "sig": "(Ljdk/internal/joptsimple/OptionSpec<*>;)V"
+          },
+          {
+            "nme": "messageArguments",
+            "acc": 0,
+            "dsc": "()[Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/NonOptionArgumentSpec.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/NonOptionArgumentSpec",
+        "super": "jdk/internal/joptsimple/AbstractOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "ofType",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)Ljdk/internal/joptsimple/NonOptionArgumentSpec<TT;>;"
+          },
+          {
+            "nme": "withValuesConvertedBy",
+            "acc": 17,
+            "dsc": "(Ljdk/internal/joptsimple/ValueConverter;)Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "<T:Ljava/lang/Object;>(Ljdk/internal/joptsimple/ValueConverter<TT;>;)Ljdk/internal/joptsimple/NonOptionArgumentSpec<TT;>;"
+          },
+          {
+            "nme": "describedAs",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/joptsimple/NonOptionArgumentSpec;",
+            "sig": "(Ljava/lang/String;)Ljdk/internal/joptsimple/NonOptionArgumentSpec<TV;>;"
+          },
+          {
+            "nme": "convert",
+            "acc": 20,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "handleOption",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "defaultValues",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<*>;"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "acceptsArguments",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "requiresArgument",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "argumentDescription",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "argumentTypeIndicator",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "representsNonOptions",
+            "acc": 1,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "[arguments]"
+          },
+          {
+            "acc": 2,
+            "nme": "converter",
+            "dsc": "Ljdk/internal/joptsimple/ValueConverter;",
+            "sig": "Ljdk/internal/joptsimple/ValueConverter<TV;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "argumentDescription",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/SimpleOptionNameMap.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/internal/joptsimple/internal/SimpleOptionNameMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "contains",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/String;)TV;"
+          },
+          {
+            "nme": "put",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "sig": "(Ljava/lang/String;TV;)V"
+          },
+          {
+            "nme": "putAll",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Iterable;Ljava/lang/Object;)V",
+            "sig": "(Ljava/lang/Iterable<Ljava/lang/String;>;TV;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "toJavaUtilMap",
+            "acc": 1,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;TV;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "map",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;TV;>;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/internal/Strings.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/internal/joptsimple/internal/Strings",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "repeat",
+            "acc": 9,
+            "dsc": "(CI)Ljava/lang/String;"
+          },
+          {
+            "nme": "isNullOrEmpty",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "surround",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;CC)Ljava/lang/String;"
+          },
+          {
+            "nme": "join",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "join",
+            "acc": 9,
+            "dsc": "(Ljava/lang/Iterable;Ljava/lang/String;)Ljava/lang/String;",
+            "sig": "(Ljava/lang/Iterable<Ljava/lang/String;>;Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "EMPTY",
+            "dsc": "Ljava/lang/String;",
+            "val": ""
+          },
+          {
+            "acc": 25,
+            "nme": "LINE_SEPARATOR",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/jdk/internal/joptsimple/OptionalArgumentOptionSpec.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/internal/joptsimple/OptionalArgumentOptionSpec",
+        "super": "jdk/internal/joptsimple/ArgumentAcceptingOptionSpec",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "detectOptionArgument",
+            "acc": 4,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/ArgumentList;Ljdk/internal/joptsimple/OptionSet;)V"
+          },
+          {
+            "nme": "handleOptionArgument",
+            "acc": 2,
+            "dsc": "(Ljdk/internal/joptsimple/OptionParser;Ljdk/internal/joptsimple/OptionSet;Ljdk/internal/joptsimple/ArgumentList;)V"
+          }
+        ],
+        "flds": []
+      }
+    }
+  }
+}

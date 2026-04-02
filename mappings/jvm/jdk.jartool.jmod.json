@@ -1,0 +1,4067 @@
+{
+  "md5": "ed076cd8643551841684539aed3404a9",
+  "sha2": "a8b39a759c7d988b590b9920c946ffb5035492bb",
+  "sha256": "ac65d7f9e939fb356c49477878e2ae33dbe8c8e68518f713b4f4bc2c7234217f",
+  "contents": {
+    "classes": {
+      "classes/sun/tools/jar/GNUStyleOptions$OptionType.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "sun/tools/jar/GNUStyleOptions$OptionType",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)V",
+            "sig": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "MAIN_OPERATION",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "ANY",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "CREATE",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "CREATE_UPDATE",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "CREATE_UPDATE_INDEX",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "OTHER",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          },
+          {
+            "acc": 16,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$19.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$19",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$1",
+        "super": "java/util/HashSet",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;)V"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "(Ljava/util/zip/ZipEntry;)Z"
+          },
+          {
+            "nme": "add",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/tools/jar/Main;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/FingerPrint.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/tools/jar/FingerPrint",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;I[B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isClass",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isNestedClass",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isPublicClass",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isIdentical",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jar/FingerPrint;)Z"
+          },
+          {
+            "nme": "isCompatibleVersion",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jar/FingerPrint;)Z"
+          },
+          {
+            "nme": "isSameAPI",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jar/FingerPrint;)Z"
+          },
+          {
+            "nme": "basename",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "entryName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "className",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "mrversion",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "outerClassName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "sha1",
+            "acc": 2,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "sha1",
+            "acc": 2,
+            "dsc": "([BI)[B"
+          },
+          {
+            "nme": "isEqual",
+            "acc": 2,
+            "dsc": "([B[B)Z"
+          },
+          {
+            "nme": "isCafeBabe",
+            "acc": 2,
+            "dsc": "([B)Z"
+          },
+          {
+            "nme": "getClassAttributes",
+            "acc": 10,
+            "dsc": "([B)Lsun/tools/jar/FingerPrint$ClassAttributes;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MD",
+            "dsc": "Ljava/security/MessageDigest;"
+          },
+          {
+            "acc": 18,
+            "nme": "basename",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "entryName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "mrversion",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "sha1",
+            "dsc": "[B"
+          },
+          {
+            "acc": 18,
+            "nme": "attrs",
+            "dsc": "Lsun/tools/jar/FingerPrint$ClassAttributes;"
+          },
+          {
+            "acc": 18,
+            "nme": "isClassEntry",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "cafeBabe",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/sun/security/tools/jarsigner/Resources_de.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/tools/jarsigner/Resources_de",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 1,
+            "dsc": "()[[Ljava/lang/Object;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "contents",
+            "dsc": "[[Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main$ZipFileModuleInfoEntry.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$ZipFileModuleInfoEntry",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/zip/ZipFile;Ljava/util/zip/ZipEntry;)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "bytes",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getLastModifiedTime",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/FileTime;"
+          },
+          {
+            "nme": "uriString",
+            "acc": 1,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<Ljava/lang/String;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "zipFile",
+            "dsc": "Ljava/util/zip/ZipFile;"
+          },
+          {
+            "acc": 18,
+            "nme": "entry",
+            "dsc": "Ljava/util/zip/ZipEntry;"
+          }
+        ]
+      },
+      "classes/sun/security/tools/jarsigner/Resources_zh_CN.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/tools/jarsigner/Resources_zh_CN",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 1,
+            "dsc": "()[[Ljava/lang/Object;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "contents",
+            "dsc": "[[Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$8.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$8",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jar/Main",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getMsg",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "formatMsg",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "formatMsg2",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/io/PrintStream;Ljava/io/PrintStream;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/io/PrintWriter;Ljava/io/PrintWriter;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "createTempFileInSameDirectoryAs",
+            "acc": 10,
+            "dsc": "(Ljava/io/File;)Ljava/io/File;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "run",
+            "acc": 33,
+            "dsc": "([Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "validateJar",
+            "acc": 2,
+            "dsc": "(Ljava/io/File;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "validateAndClose",
+            "acc": 2,
+            "dsc": "(Ljava/io/File;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "filesMapToFiles",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/Integer;[Ljava/lang/String;>;)[Ljava/lang/String;"
+          },
+          {
+            "nme": "filesToEntryNames",
+            "acc": 0,
+            "dsc": "(Ljava/util/Map$Entry;)Ljava/util/stream/Stream;",
+            "sig": "(Ljava/util/Map$Entry<Ljava/lang/Integer;[Ljava/lang/String;>;)Ljava/util/stream/Stream<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "parseArgs",
+            "acc": 0,
+            "dsc": "([Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "addPackageIfNamed",
+            "acc": 0,
+            "dsc": "(Ljava/util/Set;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/Set<Ljava/lang/String;>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "toEntryName",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/util/Set;Z)Ljava/lang/String;",
+            "sig": "(Ljava/lang/String;Ljava/util/Set<Ljava/lang/String;>;Z)Ljava/lang/String;"
+          },
+          {
+            "nme": "toVersionedName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;I)Ljava/lang/String;"
+          },
+          {
+            "nme": "toPackageName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "expand",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "expand",
+            "acc": 2,
+            "dsc": "(Ljava/io/File;[Ljava/lang/String;Ljava/util/Set;I)V",
+            "sig": "(Ljava/io/File;[Ljava/lang/String;Ljava/util/Set<Ljava/lang/String;>;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "create",
+            "acc": 0,
+            "dsc": "(Ljava/io/OutputStream;Ljava/util/jar/Manifest;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toUpperCaseASCII",
+            "acc": 2,
+            "dsc": "(C)C"
+          },
+          {
+            "nme": "equalsIgnoreCase",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "update",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/io/InputStream;Ljava/util/Map;Lsun/tools/jar/JarIndex;)Z",
+            "sig": "(Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/io/InputStream;Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/Main$ModuleInfoEntry;>;Lsun/tools/jar/JarIndex;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "addIndex",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/JarIndex;Ljava/util/zip/ZipOutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "updateModuleInfo",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;Ljava/util/zip/ZipOutputStream;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/Main$ModuleInfoEntry;>;Ljava/util/zip/ZipOutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "updateManifest",
+            "acc": 2,
+            "dsc": "(Ljava/util/jar/Manifest;Ljava/util/zip/ZipOutputStream;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isWinDriveLetter",
+            "acc": 26,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "safeName",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "addVersion",
+            "acc": 2,
+            "dsc": "(Ljava/util/jar/Manifest;)V"
+          },
+          {
+            "nme": "addCreatedBy",
+            "acc": 2,
+            "dsc": "(Ljava/util/jar/Manifest;)V"
+          },
+          {
+            "nme": "addMainClass",
+            "acc": 2,
+            "dsc": "(Ljava/util/jar/Manifest;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "addMultiRelease",
+            "acc": 2,
+            "dsc": "(Ljava/util/jar/Manifest;)V"
+          },
+          {
+            "nme": "isAmbiguousMainClass",
+            "acc": 2,
+            "dsc": "(Ljava/util/jar/Manifest;)Z"
+          },
+          {
+            "nme": "addFile",
+            "acc": 0,
+            "dsc": "(Ljava/util/zip/ZipOutputStream;Lsun/tools/jar/Main$Entry;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copy",
+            "acc": 2,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copy",
+            "acc": 2,
+            "dsc": "(Ljava/io/File;Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "copy",
+            "acc": 2,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/File;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "crc32ModuleInfo",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;[B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "crc32Manifest",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;Ljava/util/jar/Manifest;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "crc32File",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;Ljava/io/File;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "replaceFSC",
+            "acc": 0,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/Integer;[Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "newDirSet",
+            "acc": 0,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/util/zip/ZipEntry;>;"
+          },
+          {
+            "nme": "updateLastModifiedTime",
+            "acc": 0,
+            "dsc": "(Ljava/util/Set;)V",
+            "sig": "(Ljava/util/Set<Ljava/util/zip/ZipEntry;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "extract",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;[Ljava/lang/String;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "extract",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "extractFile",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;Ljava/util/zip/ZipEntry;)Ljava/util/zip/ZipEntry;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "list",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;[Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "list",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "dumpIndex",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Lsun/tools/jar/JarIndex;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getJarPath",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Ljava/lang/String;>;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "genIndex",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "printEntry",
+            "acc": 0,
+            "dsc": "(Ljava/util/zip/ZipEntry;[Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "printEntry",
+            "acc": 0,
+            "dsc": "(Ljava/util/zip/ZipEntry;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "usageError",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "fatalError",
+            "acc": 0,
+            "dsc": "(Ljava/lang/Exception;)V"
+          },
+          {
+            "nme": "fatalError",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "output",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "error",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "warn",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "createTemporaryFile",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;"
+          },
+          {
+            "nme": "describeModule",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipFile;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "describeModuleFromStream",
+            "acc": 2,
+            "dsc": "(Ljava/io/FileInputStream;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "lessThanEqualReleaseValue",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/Main$ModuleInfoEntry;)Z"
+          },
+          {
+            "nme": "versionFromEntryName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "intVersionFromEntry",
+            "acc": 10,
+            "dsc": "(Lsun/tools/jar/Main$ModuleInfoEntry;)I"
+          },
+          {
+            "nme": "describeModuleFromEntries",
+            "acc": 2,
+            "dsc": "([Lsun/tools/jar/Main$ModuleInfoEntry;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toLowerCaseString",
+            "acc": 8,
+            "dsc": "(Ljava/util/Collection;)Ljava/lang/String;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/util/Collection<TT;>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "toString",
+            "acc": 8,
+            "dsc": "(Ljava/util/Collection;)Ljava/lang/String;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/util/Collection<TT;>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "describeModule",
+            "acc": 2,
+            "dsc": "(Ljava/io/InputStream;Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "describeModule",
+            "acc": 2,
+            "dsc": "(Ljava/lang/module/ModuleDescriptor;Ljdk/internal/module/ModuleTarget;Ljdk/internal/module/ModuleHashes;Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "toHex",
+            "acc": 10,
+            "dsc": "([B)Ljava/lang/String;"
+          },
+          {
+            "nme": "toBinaryName",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "checkModuleInfo",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/Main$ModuleInfoEntry;Ljava/util/Set;)Z",
+            "sig": "(Lsun/tools/jar/Main$ModuleInfoEntry;Ljava/util/Set<Ljava/lang/String;>;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "addExtendedModuleAttributes",
+            "acc": 2,
+            "dsc": "(Ljava/util/Map;Ljava/util/Set;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/Main$ModuleInfoEntry;>;Ljava/util/Set<Ljava/lang/String;>;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isModuleInfoEntry",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "extendedInfoBytes",
+            "acc": 2,
+            "dsc": "(Ljava/lang/module/ModuleDescriptor;[BLjava/util/Set;)[B",
+            "sig": "(Ljava/lang/module/ModuleDescriptor;[BLjava/util/Set<Ljava/lang/String;>;)[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setZipEntryTime",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;)V"
+          },
+          {
+            "nme": "setZipEntryTime",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;J)V"
+          },
+          {
+            "nme": "lambda$static$27",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)I"
+          },
+          {
+            "nme": "lambda$checkModuleInfo$26",
+            "acc": 4098,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$checkModuleInfo$25",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Set;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "lambda$describeModule$24",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljdk/internal/module/ModuleHashes;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$describeModule$23",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$describeModule$22",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$describeModule$21",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/module/ModuleDescriptor$Opens;)V"
+          },
+          {
+            "nme": "lambda$describeModule$20",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/module/ModuleDescriptor$Opens;)V"
+          },
+          {
+            "nme": "lambda$describeModule$19",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/module/ModuleDescriptor$Opens;)Z"
+          },
+          {
+            "nme": "lambda$describeModule$18",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/module/ModuleDescriptor$Exports;)V"
+          },
+          {
+            "nme": "lambda$describeModule$17",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/module/ModuleDescriptor$Provides;)V"
+          },
+          {
+            "nme": "lambda$describeModule$16",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$describeModule$15",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/module/ModuleDescriptor$Requires;)V"
+          },
+          {
+            "nme": "lambda$describeModule$14",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/lang/module/ModuleDescriptor$Exports;)V"
+          },
+          {
+            "nme": "lambda$describeModule$13",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/module/ModuleDescriptor$Exports;)Z"
+          },
+          {
+            "nme": "lambda$toString$12",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$toLowerCaseString$11",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$describeModuleFromEntries$10",
+            "acc": 4106,
+            "dsc": "(Lsun/tools/jar/Main$ModuleInfoEntry;)Z"
+          },
+          {
+            "nme": "lambda$describeModuleFromStream$9",
+            "acc": 4106,
+            "dsc": "(I)[Lsun/tools/jar/Main$ModuleInfoEntry;"
+          },
+          {
+            "nme": "lambda$describeModule$8",
+            "acc": 4106,
+            "dsc": "(I)[Lsun/tools/jar/Main$ZipFileModuleInfoEntry;"
+          },
+          {
+            "nme": "lambda$describeModule$7",
+            "acc": 4106,
+            "dsc": "(Ljava/util/zip/ZipFile;Ljava/util/zip/ZipEntry;)Lsun/tools/jar/Main$ZipFileModuleInfoEntry;"
+          },
+          {
+            "nme": "lambda$describeModule$6",
+            "acc": 4106,
+            "dsc": "(Ljava/util/zip/ZipEntry;)Z"
+          },
+          {
+            "nme": "lambda$replaceFSC$5",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Map;Ljava/lang/Integer;)V"
+          },
+          {
+            "nme": "lambda$update$4",
+            "acc": 4098,
+            "dsc": "(Ljava/util/Set;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$filesToEntryNames$3",
+            "acc": 4098,
+            "dsc": "(Ljava/util/Set;ILjava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$filesMapToFiles$2",
+            "acc": 4106,
+            "dsc": "(I)[Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$run$1",
+            "acc": 4098,
+            "dsc": "(Ljava/util/Set;Ljava/util/Set;Lsun/tools/jar/Main$Entry;)V"
+          },
+          {
+            "nme": "lambda$run$0",
+            "acc": 4106,
+            "dsc": "(Lsun/tools/jar/Main$Entry;)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "program",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "out",
+            "dsc": "Ljava/io/PrintWriter;"
+          },
+          {
+            "acc": 0,
+            "nme": "err",
+            "dsc": "Ljava/io/PrintWriter;"
+          },
+          {
+            "acc": 0,
+            "nme": "fname",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "mname",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "ename",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "zname",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "rootjar",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "BASE_VERSION",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 0,
+            "nme": "entryMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/Main$Entry;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "entries",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/tools/jar/Main$Entry;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "moduleInfos",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/Main$ModuleInfoEntry;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "pathsMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Integer;Ljava/util/Set<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "filesMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Integer;[Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "isMultiRelease",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "releaseValue",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "cflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "uflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "xflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "tflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "vflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "flag0",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "Mflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "iflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "pflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "dflag",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "validate",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "suppressDeprecateMsg",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "info",
+            "dsc": "Ljava/util/function/Consumer;",
+            "sig": "Ljava/util/function/Consumer<Ljava/io/PrintWriter;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "moduleVersion",
+            "dsc": "Ljava/lang/module/ModuleDescriptor$Version;"
+          },
+          {
+            "acc": 0,
+            "nme": "modulesToHash",
+            "dsc": "Ljava/util/regex/Pattern;"
+          },
+          {
+            "acc": 0,
+            "nme": "moduleResolution",
+            "dsc": "Ljdk/internal/module/ModuleResolution;"
+          },
+          {
+            "acc": 0,
+            "nme": "moduleFinder",
+            "dsc": "Ljava/lang/module/ModuleFinder;"
+          },
+          {
+            "acc": 24,
+            "nme": "MODULE_INFO",
+            "dsc": "Ljava/lang/String;",
+            "val": "module-info.class"
+          },
+          {
+            "acc": 24,
+            "nme": "MANIFEST_DIR",
+            "dsc": "Ljava/lang/String;",
+            "val": "META-INF/"
+          },
+          {
+            "acc": 24,
+            "nme": "VERSIONS_DIR",
+            "dsc": "Ljava/lang/String;",
+            "val": "META-INF/versions/"
+          },
+          {
+            "acc": 24,
+            "nme": "VERSION",
+            "dsc": "Ljava/lang/String;",
+            "val": "1.0"
+          },
+          {
+            "acc": 24,
+            "nme": "VERSIONS_DIR_LENGTH",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "rsrc",
+            "dsc": "Ljava/util/ResourceBundle;"
+          },
+          {
+            "acc": 0,
+            "nme": "date",
+            "dsc": "Ljava/time/LocalDateTime;"
+          },
+          {
+            "acc": 26,
+            "nme": "useExtractionTime",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "ok",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "copyBuf",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "jarPaths",
+            "dsc": "Ljava/util/HashSet;",
+            "sig": "Ljava/util/HashSet<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 8,
+            "nme": "ENTRYNAME_COMPARATOR",
+            "dsc": "Ljava/util/Comparator;",
+            "sig": "Ljava/util/Comparator<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 8,
+            "nme": "ENTRY_COMPARATOR",
+            "dsc": "Ljava/util/Comparator;",
+            "sig": "Ljava/util/Comparator<Ljava/util/zip/ZipEntry;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$16.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$16",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "isExtra",
+            "acc": 0,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/FingerPrint$ClassAttributes.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/tools/jar/FingerPrint$ClassAttributes",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/classfile/AccessFlags;Ljava/lang/String;Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "accept",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/classfile/ClassElement;)V"
+          },
+          {
+            "nme": "isPublic",
+            "acc": 10,
+            "dsc": "(Ljdk/internal/classfile/AccessFlags;)Z"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "accept",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "lambda$accept$1",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Set;Ljdk/internal/classfile/attribute/ExceptionsAttribute;)V"
+          },
+          {
+            "nme": "lambda$accept$0",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Set;Ljdk/internal/classfile/constantpool/ClassEntry;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "outerClassName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "superName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "majorVersion",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "access",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "publicClass",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "maybeNestedClass",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "fields",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/tools/jar/FingerPrint$Field;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "methods",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/tools/jar/FingerPrint$Method;>;"
+          }
+        ]
+      },
+      "classes/jdk/security/jarsigner/JarSignerException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/security/jarsigner/JarSignerException",
+        "super": "java/lang/RuntimeException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Throwable;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -4732217075689309530
+          }
+        ]
+      },
+      "classes/sun/tools/jar/FingerPrint$Field.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/tools/jar/FingerPrint$Field",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(ILjava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "access",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "desc",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$5.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$5",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/resources/jar_zh_CN.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/tools/jar/resources/jar_zh_CN",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/tools/jarsigner/Resources.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/tools/jarsigner/Resources",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 1,
+            "dsc": "()[[Ljava/lang/Object;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "contents",
+            "dsc": "[[Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$BadArgs.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$BadArgs",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "showUsage",
+            "acc": 0,
+            "dsc": "(Z)Lsun/tools/jar/GNUStyleOptions$BadArgs;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 0
+          },
+          {
+            "acc": 0,
+            "nme": "showUsage",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$Option.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/tools/jar/GNUStyleOptions$Option",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "isHidden",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isExtra",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "matches",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "process",
+            "acc": 1024,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "hasArg",
+            "dsc": "Z"
+          },
+          {
+            "acc": 16,
+            "nme": "argIsOptional",
+            "dsc": "Z"
+          },
+          {
+            "acc": 16,
+            "nme": "aliases",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 16,
+            "nme": "type",
+            "dsc": "Lsun/tools/jar/GNUStyleOptions$OptionType;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$18.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$18",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$23.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$23",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$7.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$7",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main$ModuleInfoEntry.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "sun/tools/jar/Main$ModuleInfoEntry",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "name",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "uriString",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "bytes",
+            "acc": 1025,
+            "dsc": "()Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getLastModifiedTime",
+            "acc": 1025,
+            "dsc": "()Ljava/nio/file/attribute/FileTime;"
+          },
+          {
+            "nme": "readAllBytes",
+            "acc": 1,
+            "dsc": "()[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Validator.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/tools/jar/Validator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/util/zip/ZipFile;)V"
+          },
+          {
+            "nme": "validate",
+            "acc": 8,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/util/zip/ZipFile;)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "validate",
+            "acc": 2,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "sameNameFingerPrint",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/FingerPrint;Lsun/tools/jar/FingerPrint;)Lsun/tools/jar/FingerPrint;"
+          },
+          {
+            "nme": "getFingerPrint",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;)Lsun/tools/jar/FingerPrint;"
+          },
+          {
+            "nme": "validateBase",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/FingerPrint;>;)V"
+          },
+          {
+            "nme": "validateVersioned",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/FingerPrint;>;)V"
+          },
+          {
+            "nme": "checkModuleDescriptor",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "checkClassName",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/FingerPrint;)Z"
+          },
+          {
+            "nme": "checkNestedClass",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jar/FingerPrint;Ljava/util/Map;)Z",
+            "sig": "(Lsun/tools/jar/FingerPrint;Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/FingerPrint;>;)Z"
+          },
+          {
+            "nme": "isConcealed",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isPlatformModule",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "className",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "error",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "errorAndInvalid",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "warn",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$checkModuleDescriptor$5",
+            "acc": 4098,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$checkModuleDescriptor$4",
+            "acc": 4098,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "lambda$validateVersioned$3",
+            "acc": 4098,
+            "dsc": "(Ljava/util/Map;Lsun/tools/jar/FingerPrint;)V"
+          },
+          {
+            "nme": "lambda$validateBase$2",
+            "acc": 4098,
+            "dsc": "(Ljava/util/Map;Lsun/tools/jar/FingerPrint;)V"
+          },
+          {
+            "nme": "lambda$validate$1",
+            "acc": 4098,
+            "dsc": "(Ljava/lang/Integer;Ljava/util/Map;)V"
+          },
+          {
+            "nme": "lambda$validate$0",
+            "acc": 4106,
+            "dsc": "(Ljava/util/zip/ZipEntry;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "classes",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Lsun/tools/jar/FingerPrint;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "main",
+            "dsc": "Lsun/tools/jar/Main;"
+          },
+          {
+            "acc": 18,
+            "nme": "zf",
+            "dsc": "Ljava/util/zip/ZipFile;"
+          },
+          {
+            "acc": 2,
+            "nme": "isValid",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "concealedPkgs",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "md",
+            "dsc": "Ljava/lang/module/ModuleDescriptor;"
+          },
+          {
+            "acc": 2,
+            "nme": "mdName",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$12.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$12",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$20.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$20",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "isHidden",
+            "acc": 0,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$4.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$4",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main$Hasher$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$Hasher$1",
+        "super": "java/lang/module/ModuleReference",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main$Hasher;Ljava/lang/module/ModuleDescriptor;Ljava/net/URI;Lsun/tools/jar/Main;)V"
+          },
+          {
+            "nme": "open",
+            "acc": 1,
+            "dsc": "()Ljava/lang/module/ModuleReader;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$this$0",
+            "dsc": "Lsun/tools/jar/Main;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$1",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$15.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$15",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/JarException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jar/JarException",
+        "super": "java/io/IOException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -4351820108009811497
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$14.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$14",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$6.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$6",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/resources/jar_ja.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/tools/jar/resources/jar_ja",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/resources/jar_de.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/tools/jar/resources/jar_de",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$3.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$3",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$2",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main$CRC32OutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$CRC32OutputStream",
+        "super": "java/io/OutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "updateEntry",
+            "acc": 1,
+            "dsc": "(Ljava/util/zip/ZipEntry;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "crc",
+            "dsc": "Ljava/util/zip/CRC32;"
+          },
+          {
+            "acc": 0,
+            "nme": "n",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/Main$Entry.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$Entry",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/io/File;Ljava/lang/String;Z)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 16,
+            "nme": "file",
+            "dsc": "Ljava/io/File;"
+          },
+          {
+            "acc": 16,
+            "nme": "isDir",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/security/jarsigner/JarSigner$Builder.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "jdk/security/jarsigner/JarSigner$Builder",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/security/KeyStore$PrivateKeyEntry;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/security/PrivateKey;Ljava/security/cert/CertPath;)V"
+          },
+          {
+            "nme": "digestAlgorithm",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/security/jarsigner/JarSigner$Builder;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "digestAlgorithm",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/security/Provider;)Ljdk/security/jarsigner/JarSigner$Builder;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "signatureAlgorithm",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/security/jarsigner/JarSigner$Builder;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "signatureAlgorithm",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/security/Provider;)Ljdk/security/jarsigner/JarSigner$Builder;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "tsa",
+            "acc": 1,
+            "dsc": "(Ljava/net/URI;)Ljdk/security/jarsigner/JarSigner$Builder;"
+          },
+          {
+            "nme": "signerName",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljdk/security/jarsigner/JarSigner$Builder;"
+          },
+          {
+            "nme": "eventHandler",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/BiConsumer;)Ljdk/security/jarsigner/JarSigner$Builder;",
+            "sig": "(Ljava/util/function/BiConsumer<Ljava/lang/String;Ljava/lang/String;>;)Ljdk/security/jarsigner/JarSigner$Builder;"
+          },
+          {
+            "nme": "setProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljdk/security/jarsigner/JarSigner$Builder;"
+          },
+          {
+            "nme": "parseBoolean",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "getDefaultDigestAlgorithm",
+            "acc": 9,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getDefaultSignatureAlgorithm",
+            "acc": 9,
+            "dsc": "(Ljava/security/PrivateKey;)Ljava/lang/String;"
+          },
+          {
+            "nme": "build",
+            "acc": 1,
+            "dsc": "()Ljdk/security/jarsigner/JarSigner;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "privateKey",
+            "dsc": "Ljava/security/PrivateKey;"
+          },
+          {
+            "acc": 16,
+            "nme": "certChain",
+            "dsc": "[Ljava/security/cert/X509Certificate;"
+          },
+          {
+            "acc": 0,
+            "nme": "digestalg",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "sigalg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "digestProvider",
+            "dsc": "Ljava/security/Provider;"
+          },
+          {
+            "acc": 0,
+            "nme": "sigProvider",
+            "dsc": "Ljava/security/Provider;"
+          },
+          {
+            "acc": 0,
+            "nme": "tsaUrl",
+            "dsc": "Ljava/net/URI;"
+          },
+          {
+            "acc": 0,
+            "nme": "signerName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "handler",
+            "dsc": "Ljava/util/function/BiConsumer;",
+            "sig": "Ljava/util/function/BiConsumer<Ljava/lang/String;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "tSAPolicyID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "tSADigestAlg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "sectionsonly",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "internalsf",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/security/jarsigner/JarSigner.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/security/jarsigner/JarSigner",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljdk/security/jarsigner/JarSigner$Builder;)V"
+          },
+          {
+            "nme": "sign",
+            "acc": 1,
+            "dsc": "(Ljava/util/zip/ZipFile;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "getDigestAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSignatureAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getTsa",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getSignerName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "sign0",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipFile;Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/cert/CertificateException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/SignatureException",
+              "java/security/InvalidKeyException",
+              "java/security/spec/InvalidParameterSpecException"
+            ]
+          },
+          {
+            "nme": "writeEntry",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipFile;Ljava/util/zip/ZipOutputStream;Ljava/util/zip/ZipEntry;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeBytes",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipFile;Ljava/util/zip/ZipEntry;Ljava/util/zip/ZipOutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "updateDigests",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;Ljava/util/zip/ZipFile;[Ljava/security/MessageDigest;Ljava/util/jar/Manifest;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getDigestAttributes",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;Ljava/util/zip/ZipFile;[Ljava/security/MessageDigest;)Ljava/util/jar/Attributes;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getManifestFile",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipFile;)Ljava/util/zip/ZipEntry;"
+          },
+          {
+            "nme": "getDigests",
+            "acc": 2,
+            "dsc": "(Ljava/util/zip/ZipEntry;Ljava/util/zip/ZipFile;[Ljava/security/MessageDigest;)[Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "lambda$sign0$0",
+            "acc": 4098,
+            "dsc": "([B)Lsun/security/pkcs/PKCS9Attributes;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "JUZFA",
+            "dsc": "Ljdk/internal/access/JavaUtilZipFileAccess;"
+          },
+          {
+            "acc": 18,
+            "nme": "privateKey",
+            "dsc": "Ljava/security/PrivateKey;"
+          },
+          {
+            "acc": 18,
+            "nme": "certChain",
+            "dsc": "[Ljava/security/cert/X509Certificate;"
+          },
+          {
+            "acc": 18,
+            "nme": "digestalg",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "sigalg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "digestProvider",
+            "dsc": "Ljava/security/Provider;"
+          },
+          {
+            "acc": 18,
+            "nme": "sigProvider",
+            "dsc": "Ljava/security/Provider;"
+          },
+          {
+            "acc": 18,
+            "nme": "tsaUrl",
+            "dsc": "Ljava/net/URI;"
+          },
+          {
+            "acc": 18,
+            "nme": "signerName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "handler",
+            "dsc": "Ljava/util/function/BiConsumer;",
+            "sig": "Ljava/util/function/BiConsumer<Ljava/lang/String;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "tSAPolicyID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "tSADigestAlg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "sectionsonly",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "internalsf",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "extraAttrsDetected",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "parseOptions",
+            "acc": 8,
+            "dsc": "(Lsun/tools/jar/Main;[Ljava/lang/String;)I",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Lsun/tools/jar/GNUStyleOptions$Option;",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          },
+          {
+            "nme": "printHelpExtra",
+            "acc": 8,
+            "dsc": "(Ljava/io/PrintWriter;)V"
+          },
+          {
+            "nme": "printHelp",
+            "acc": 8,
+            "dsc": "(Ljava/io/PrintWriter;)V"
+          },
+          {
+            "nme": "printHelp0",
+            "acc": 10,
+            "dsc": "(Ljava/io/PrintWriter;Z)V"
+          },
+          {
+            "nme": "printCompatHelp",
+            "acc": 8,
+            "dsc": "(Ljava/io/PrintWriter;)V"
+          },
+          {
+            "nme": "printUsageTryHelp",
+            "acc": 8,
+            "dsc": "(Ljava/io/PrintWriter;)V"
+          },
+          {
+            "nme": "printVersion",
+            "acc": 8,
+            "dsc": "(Ljava/io/PrintWriter;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "DATE_MIN",
+            "dsc": "Ljava/time/ZonedDateTime;"
+          },
+          {
+            "acc": 24,
+            "nme": "DATE_MAX",
+            "dsc": "Ljava/time/ZonedDateTime;"
+          },
+          {
+            "acc": 8,
+            "nme": "recognizedOptions",
+            "dsc": "[Lsun/tools/jar/GNUStyleOptions$Option;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$11.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$11",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$21.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$21",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/FingerPrint$Method.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/tools/jar/FingerPrint$Method",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(ILjava/lang/String;Ljava/lang/String;Ljava/util/Set;)V",
+            "sig": "(ILjava/lang/String;Ljava/lang/String;Ljava/util/Set<Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "access",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "desc",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "exceptions",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          }
+        ]
+      },
+      "classes/jdk/security/jarsigner/JarSigner$SignatureFile.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/security/jarsigner/JarSigner$SignatureFile",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([Ljava/security/MessageDigest;Ljava/util/jar/Manifest;Lsun/security/util/ManifestDigester;Ljava/lang/String;Z)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getBaseSignatureFilesName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "getMetaName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getBlockName",
+            "acc": 1,
+            "dsc": "(Ljava/security/PrivateKey;)Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "sf",
+            "dsc": "Ljava/util/jar/Manifest;"
+          },
+          {
+            "acc": 0,
+            "nme": "baseName",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$13.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$13",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/Main$Hasher$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$Hasher$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main$Hasher;Lsun/tools/jar/Main;Ljava/lang/module/ModuleDescriptor;Ljava/lang/module/ModuleReference;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "find",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Optional;",
+            "sig": "(Ljava/lang/String;)Ljava/util/Optional<Ljava/lang/module/ModuleReference;>;"
+          },
+          {
+            "nme": "findAll",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/module/ModuleReference;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$this$0",
+            "dsc": "Lsun/tools/jar/Main;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$descriptor",
+            "dsc": "Ljava/lang/module/ModuleDescriptor;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$mref",
+            "dsc": "Ljava/lang/module/ModuleReference;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/resources/jar.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/tools/jar/resources/jar",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$17.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$17",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          },
+          {
+            "nme": "isExtra",
+            "acc": 0,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$9.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$9",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/JarIndex.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/JarIndex",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "addToList",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/HashMap;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/HashMap<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;)V"
+          },
+          {
+            "nme": "add",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "addMapping",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "parseJars",
+            "acc": 2,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "indexMap",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "jarMap",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "jarFiles",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 24,
+            "nme": "INDEX_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "META-INF/INDEX.LIST"
+          },
+          {
+            "acc": 26,
+            "nme": "metaInfFilenames",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/Main$StreamedModuleInfoEntry.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$StreamedModuleInfoEntry",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;[BLjava/nio/file/attribute/FileTime;)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "bytes",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readAllBytes",
+            "acc": 1,
+            "dsc": "()[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getLastModifiedTime",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/FileTime;"
+          },
+          {
+            "nme": "uriString",
+            "acc": 1,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<Ljava/lang/String;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "bytes",
+            "dsc": "[B"
+          },
+          {
+            "acc": 18,
+            "nme": "lastModifiedTime",
+            "dsc": "Ljava/nio/file/attribute/FileTime;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/Main$Hasher.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Main$Hasher",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/module/ModuleDescriptor;Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "computeHashes",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Ljdk/internal/module/ModuleHashes;"
+          },
+          {
+            "nme": "lambda$new$2",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Set;Ljava/lang/module/ModuleFinder;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "lambda$new$1",
+            "acc": 4098,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "lambda$new$0",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/module/ModuleReference;)Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "hashesBuilder",
+            "dsc": "Ljdk/internal/module/ModuleHashesBuilder;"
+          },
+          {
+            "acc": 16,
+            "nme": "finder",
+            "dsc": "Ljava/lang/module/ModuleFinder;"
+          },
+          {
+            "acc": 16,
+            "nme": "modules",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/tools/jar/Main;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/Validator$InvalidJarException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/Validator$InvalidJarException",
+        "super": "java/lang/RuntimeException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -3642329147299217726
+          }
+        ]
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$10.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$10",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jar/GNUStyleOptions$22.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jar/GNUStyleOptions$22",
+        "super": "sun/tools/jar/GNUStyleOptions$Option",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 128,
+            "dsc": "(ZLsun/tools/jar/GNUStyleOptions$OptionType;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "process",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jar/Main;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jar/GNUStyleOptions$BadArgs"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/tools/jarsigner/Main.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/tools/jarsigner/Main",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "parseArgs",
+            "acc": 0,
+            "dsc": "([Ljava/lang/String;)[Ljava/lang/String;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "getPass",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)[C"
+          },
+          {
+            "nme": "usageNoArg",
+            "acc": 8,
+            "dsc": "()V"
+          },
+          {
+            "nme": "usage",
+            "acc": 8,
+            "dsc": "()V"
+          },
+          {
+            "nme": "doPrintVersion",
+            "acc": 8,
+            "dsc": "()V"
+          },
+          {
+            "nme": "fullusage",
+            "acc": 8,
+            "dsc": "()V"
+          },
+          {
+            "nme": "verifyJar",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "displayMessagesAndResult",
+            "acc": 2,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "verifyWithWeak",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/util/Set;ZLsun/security/util/JarConstraintsParameters;Ljava/security/AlgorithmParameters;)Ljava/lang/String;",
+            "sig": "(Ljava/lang/String;Ljava/util/Set<Ljava/security/CryptoPrimitive;>;ZLsun/security/util/JarConstraintsParameters;Ljava/security/AlgorithmParameters;)Ljava/lang/String;"
+          },
+          {
+            "nme": "verifyWithWeak",
+            "acc": 2,
+            "dsc": "(Ljava/security/PublicKey;Lsun/security/util/JarConstraintsParameters;)Ljava/lang/String;"
+          },
+          {
+            "nme": "checkWeakSign",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/util/Set;ZLsun/security/util/JarConstraintsParameters;)V",
+            "sig": "(Ljava/lang/String;Ljava/util/Set<Ljava/security/CryptoPrimitive;>;ZLsun/security/util/JarConstraintsParameters;)V"
+          },
+          {
+            "nme": "checkWeakSign",
+            "acc": 2,
+            "dsc": "(Ljava/security/PrivateKey;Lsun/security/util/JarConstraintsParameters;)V"
+          },
+          {
+            "nme": "checkWeakKey",
+            "acc": 10,
+            "dsc": "(Ljava/security/PublicKey;Lsun/security/provider/certpath/CertPathConstraintsParameters;)Ljava/lang/String;"
+          },
+          {
+            "nme": "checkWeakAlg",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Lsun/security/provider/certpath/CertPathConstraintsParameters;)Ljava/lang/String;"
+          },
+          {
+            "nme": "printCert",
+            "acc": 0,
+            "dsc": "(ZLjava/lang/String;Ljava/security/cert/Certificate;Ljava/util/Date;ZLsun/security/provider/certpath/CertPathConstraintsParameters;)Ljava/lang/String;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "printTimestamp",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/security/Timestamp;)Ljava/lang/String;"
+          },
+          {
+            "nme": "inKeyStoreForOneSigner",
+            "acc": 2,
+            "dsc": "(Ljava/security/CodeSigner;)I"
+          },
+          {
+            "nme": "inKeyStore",
+            "acc": 0,
+            "dsc": "([Ljava/security/CodeSigner;)I"
+          },
+          {
+            "nme": "signJar",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "signatureRelated",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "signerInfo",
+            "acc": 2,
+            "dsc": "(Ljava/security/CodeSigner;Ljava/lang/String;)Ljava/lang/String;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "certsAndTSInfo",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/security/Timestamp;)Ljava/lang/String;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/List<+Ljava/security/cert/Certificate;>;Ljava/security/Timestamp;)Ljava/lang/String;",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "findTrustAnchor",
+            "acc": 2,
+            "dsc": "(Ljava/util/List;)Ljava/security/cert/TrustAnchor;",
+            "sig": "(Ljava/util/List<Ljava/security/cert/X509Certificate;>;)Ljava/security/cert/TrustAnchor;"
+          },
+          {
+            "nme": "loadKeyStore",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Z)V"
+          },
+          {
+            "nme": "getTsaCert",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)Ljava/security/cert/X509Certificate;"
+          },
+          {
+            "nme": "checkCertUsage",
+            "acc": 0,
+            "dsc": "(Ljava/security/cert/X509Certificate;[Z)V"
+          },
+          {
+            "nme": "getAliasInfo",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "error",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "error",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Throwable;)V"
+          },
+          {
+            "nme": "validateCertChain",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;Ljava/security/Timestamp;)V",
+            "sig": "(Ljava/lang/String;Ljava/util/List<+Ljava/security/cert/Certificate;>;Ljava/security/Timestamp;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "getPass",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)[C"
+          },
+          {
+            "nme": "lambda$loadKeyStore$5",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "lambda$loadKeyStore$4",
+            "acc": 4106,
+            "dsc": "(Ljava/security/cert/X509Certificate;)Ljava/security/cert/TrustAnchor;"
+          },
+          {
+            "nme": "lambda$findTrustAnchor$3",
+            "acc": 4106,
+            "dsc": "(Ljava/security/cert/X509Certificate;Ljava/security/cert/X509Certificate;)Z"
+          },
+          {
+            "nme": "lambda$signJar$2",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "lambda$signJar$1",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$parseArgs$0",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "rb",
+            "dsc": "Ljava/util/ResourceBundle;"
+          },
+          {
+            "acc": 26,
+            "nme": "collator",
+            "dsc": "Ljava/text/Collator;"
+          },
+          {
+            "acc": 26,
+            "nme": "NONE",
+            "dsc": "Ljava/lang/String;",
+            "val": "NONE"
+          },
+          {
+            "acc": 26,
+            "nme": "P11KEYSTORE",
+            "dsc": "Ljava/lang/String;",
+            "val": "PKCS11"
+          },
+          {
+            "acc": 26,
+            "nme": "SIX_MONTHS",
+            "dsc": "J",
+            "val": 15552000000
+          },
+          {
+            "acc": 26,
+            "nme": "ONE_YEAR",
+            "dsc": "J",
+            "val": 31622400000
+          },
+          {
+            "acc": 26,
+            "nme": "JAR_DISABLED_CHECK",
+            "dsc": "Lsun/security/util/DisabledAlgorithmConstraints;"
+          },
+          {
+            "acc": 26,
+            "nme": "CERTPATH_DISABLED_CHECK",
+            "dsc": "Lsun/security/util/DisabledAlgorithmConstraints;"
+          },
+          {
+            "acc": 26,
+            "nme": "LEGACY_CHECK",
+            "dsc": "Lsun/security/util/DisabledAlgorithmConstraints;"
+          },
+          {
+            "acc": 26,
+            "nme": "DIGEST_PRIMITIVE_SET",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/security/CryptoPrimitive;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "SIG_PRIMITIVE_SET",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/security/CryptoPrimitive;>;"
+          },
+          {
+            "acc": 10,
+            "nme": "extraAttrsDetected",
+            "dsc": "Z"
+          },
+          {
+            "acc": 24,
+            "nme": "VERSION",
+            "dsc": "Ljava/lang/String;",
+            "val": "1.0"
+          },
+          {
+            "acc": 24,
+            "nme": "IN_KEYSTORE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "NOT_ALIAS",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "SIGNED_BY_ALIAS",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "SOME_ALIASES_NOT_FOUND",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "JUZFA",
+            "dsc": "Ljdk/internal/access/JavaUtilZipFileAccess;"
+          },
+          {
+            "acc": 0,
+            "nme": "certChain",
+            "dsc": "[Ljava/security/cert/X509Certificate;"
+          },
+          {
+            "acc": 0,
+            "nme": "privateKey",
+            "dsc": "Ljava/security/PrivateKey;"
+          },
+          {
+            "acc": 0,
+            "nme": "store",
+            "dsc": "Ljava/security/KeyStore;"
+          },
+          {
+            "acc": 0,
+            "nme": "keystore",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "nullStream",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "token",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "jarfile",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "alias",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "ckaliases",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "storepass",
+            "dsc": "[C"
+          },
+          {
+            "acc": 0,
+            "nme": "protectedPath",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "storetype",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "providerName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "providers",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "providerClasses",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "providerArgs",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "pathlist",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "keypass",
+            "dsc": "[C"
+          },
+          {
+            "acc": 0,
+            "nme": "sigfile",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "sigalg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "digestalg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "signedjar",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "tsaUrl",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "tsaAlias",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "altCertChain",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "tSAPolicyID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "tSADigestAlg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "verify",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "version",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "verbose",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "showcerts",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "signManifest",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "externalSF",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "strict",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "revocationCheck",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "zipFile",
+            "dsc": "Ljava/util/zip/ZipFile;"
+          },
+          {
+            "acc": 2,
+            "nme": "hasExpiringCert",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "hasExpiringTsaCert",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "noTimestamp",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "expireDate",
+            "dsc": "Ljava/util/Date;"
+          },
+          {
+            "acc": 2,
+            "nme": "tsaExpireDate",
+            "dsc": "Ljava/util/Date;"
+          },
+          {
+            "acc": 0,
+            "nme": "hasTimestampBlock",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "weakPublicKey",
+            "dsc": "Ljava/security/PublicKey;"
+          },
+          {
+            "acc": 2,
+            "nme": "disabledAlgFound",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "legacyDigestAlg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "legacyTsaDigestAlg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "legacySigAlg",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "legacyAlg",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "disabledAlg",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "hasExpiredCert",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "hasExpiredTsaCert",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "notYetValidCert",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "chainNotValidated",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "tsaChainNotValidated",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "notSignedByAlias",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "aliasNotInStore",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "hasUnsignedEntry",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "badKeyUsage",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "badExtendedKeyUsage",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "badNetscapeCertType",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "signerSelfSigned",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "allAliasesFound",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "chainNotValidatedReason",
+            "dsc": "Ljava/lang/Throwable;"
+          },
+          {
+            "acc": 2,
+            "nme": "tsaChainNotValidatedReason",
+            "dsc": "Ljava/lang/Throwable;"
+          },
+          {
+            "acc": 0,
+            "nme": "pkixParameters",
+            "dsc": "Ljava/security/cert/PKIXBuilderParameters;"
+          },
+          {
+            "acc": 0,
+            "nme": "trustedCerts",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/security/cert/X509Certificate;>;"
+          },
+          {
+            "acc": 10,
+            "nme": "validityTimeForm",
+            "dsc": "Ljava/text/MessageFormat;"
+          },
+          {
+            "acc": 10,
+            "nme": "notYetTimeForm",
+            "dsc": "Ljava/text/MessageFormat;"
+          },
+          {
+            "acc": 10,
+            "nme": "expiredTimeForm",
+            "dsc": "Ljava/text/MessageFormat;"
+          },
+          {
+            "acc": 10,
+            "nme": "expiringTimeForm",
+            "dsc": "Ljava/text/MessageFormat;"
+          },
+          {
+            "acc": 10,
+            "nme": "signTimeForm",
+            "dsc": "Ljava/text/MessageFormat;"
+          },
+          {
+            "acc": 2,
+            "nme": "cacheForInKS",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/security/CodeSigner;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "storeHash",
+            "dsc": "Ljava/util/Hashtable;",
+            "sig": "Ljava/util/Hashtable<Ljava/security/cert/Certificate;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "cacheForSignerInfo",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/security/CodeSigner;Ljava/lang/String;>;"
+          }
+        ]
+      },
+      "classes/sun/tools/jar/JarToolProvider.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jar/JarToolProvider",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "run",
+            "acc": 129,
+            "dsc": "(Ljava/io/PrintWriter;Ljava/io/PrintWriter;[Ljava/lang/String;)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/tools/jarsigner/Resources_ja.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/tools/jarsigner/Resources_ja",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 1,
+            "dsc": "()[[Ljava/lang/Object;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "contents",
+            "dsc": "[[Ljava/lang/Object;"
+          }
+        ]
+      }
+    }
+  }
+}

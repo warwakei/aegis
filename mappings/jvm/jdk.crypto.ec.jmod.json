@@ -1,0 +1,4637 @@
+{
+  "md5": "3e0c31c2edc3919ca5cd942f11f40103",
+  "sha2": "a57967c5f1cd0ddc5f7a00e77376b18734e646b2",
+  "sha256": "ca19c0adea87459b2e479a8b647a497367fe7ff48137203aebd3022862f92a3d",
+  "contents": {
+    "classes": {
+      "classes/sun/security/ec/SunEC$ProviderService.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/SunEC$ProviderService",
+        "super": "java/security/Provider$Service",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/HashMap;)V",
+            "sig": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;Ljava/util/HashMap<Ljava/lang/String;Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "newInstance",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDHKeyAgreement.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDHKeyAgreement",
+        "super": "javax/crypto/KeyAgreementSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "init",
+            "acc": 2,
+            "dsc": "(Ljava/security/Key;)V",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineDoPhase",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Z)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/lang/IllegalStateException"
+            ]
+          },
+          {
+            "nme": "validateCoordinate",
+            "acc": 10,
+            "dsc": "(Ljava/math/BigInteger;Ljava/math/BigInteger;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "validate",
+            "acc": 10,
+            "dsc": "(Lsun/security/ec/ECOperations;Ljava/security/interfaces/ECPublicKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineGenerateSecret",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/lang/IllegalStateException"
+            ]
+          },
+          {
+            "nme": "engineGenerateSecret",
+            "acc": 4,
+            "dsc": "([BI)I",
+            "exs": [
+              "java/lang/IllegalStateException",
+              "javax/crypto/ShortBufferException"
+            ]
+          },
+          {
+            "nme": "engineGenerateSecret",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)Ljavax/crypto/SecretKey;",
+            "exs": [
+              "java/lang/IllegalStateException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "deriveKeyImpl",
+            "acc": 10,
+            "dsc": "(Ljava/security/interfaces/ECPrivateKey;Lsun/security/ec/ECOperations;Ljava/security/interfaces/ECPublicKey;)[B",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "privateKey",
+            "dsc": "Ljava/security/interfaces/ECPrivateKey;"
+          },
+          {
+            "acc": 0,
+            "nme": "privateKeyOps",
+            "dsc": "Lsun/security/ec/ECOperations;"
+          },
+          {
+            "acc": 2,
+            "nme": "publicKey",
+            "dsc": "Ljava/security/interfaces/ECPublicKey;"
+          },
+          {
+            "acc": 2,
+            "nme": "secretLen",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHKeyPairGenerator$X25519.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/XDHKeyPairGenerator$X25519",
+        "super": "sun/security/ec/XDHKeyPairGenerator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_512.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_512",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$RawinP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$RawinP1363Format",
+        "super": "sun/security/ec/ECDSASignature$RawECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_224.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_224",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/security/ec/ECDSASignature",
+        "super": "java/security/SignatureSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Z)V"
+          },
+          {
+            "nme": "engineInitVerify",
+            "acc": 4,
+            "dsc": "(Ljava/security/PublicKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "resetDigest",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getDigestValue",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(B)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "signDigestImpl",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/ECDSAOperations;I[BLjava/security/interfaces/ECPrivateKey;Ljava/security/SecureRandom;)[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineSign",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineVerify",
+            "acc": 4,
+            "dsc": "([B)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineGetParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "engineGetParameters",
+            "acc": 4,
+            "dsc": "()Ljava/security/AlgorithmParameters;"
+          },
+          {
+            "nme": "lambda$engineVerify$0",
+            "acc": 4106,
+            "dsc": "(Ljava/security/spec/ECParameterSpec;)Ljava/security/SignatureException;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "messageDigest",
+            "dsc": "Ljava/security/MessageDigest;"
+          },
+          {
+            "acc": 2,
+            "nme": "random",
+            "dsc": "Ljava/security/SecureRandom;"
+          },
+          {
+            "acc": 2,
+            "nme": "needsReset",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "privateKey",
+            "dsc": "Ljava/security/interfaces/ECPrivateKey;"
+          },
+          {
+            "acc": 2,
+            "nme": "publicKey",
+            "dsc": "Ljava/security/interfaces/ECPublicKey;"
+          },
+          {
+            "acc": 18,
+            "nme": "p1363Format",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSASignature$Ed25519.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSASignature$Ed25519",
+        "super": "sun/security/ec/ed/EdDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/XECOperations.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/XECOperations",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/XECParameters;)V"
+          },
+          {
+            "nme": "getParameters",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/XECParameters;"
+          },
+          {
+            "nme": "generatePrivate",
+            "acc": 1,
+            "dsc": "(Ljava/security/SecureRandom;)[B"
+          },
+          {
+            "nme": "computePublic",
+            "acc": 1,
+            "dsc": "([B)Ljava/math/BigInteger;"
+          },
+          {
+            "nme": "encodedPointMultiply",
+            "acc": 1,
+            "dsc": "([BLjava/math/BigInteger;)[B"
+          },
+          {
+            "nme": "encodedPointMultiply",
+            "acc": 1,
+            "dsc": "([B[B)[B"
+          },
+          {
+            "nme": "decodeU",
+            "acc": 2,
+            "dsc": "([BI)Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "nme": "maskHighOrder",
+            "acc": 10,
+            "dsc": "([BI)B"
+          },
+          {
+            "nme": "pruneK",
+            "acc": 10,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "pruneK",
+            "acc": 2,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "decodeU",
+            "acc": 2,
+            "dsc": "([B)Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "nme": "cswap",
+            "acc": 10,
+            "dsc": "(ILsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "getIntegerFieldModulo",
+            "acc": 10,
+            "dsc": "(Ljava/math/BigInteger;)Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "bitAt",
+            "acc": 2,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "pointMultiply",
+            "acc": 2,
+            "dsc": "([BLsun/security/util/math/ImmutableIntegerModuloP;)Lsun/security/util/math/IntegerModuloP;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "params",
+            "dsc": "Lsun/security/ec/XECParameters;"
+          },
+          {
+            "acc": 18,
+            "nme": "field",
+            "dsc": "Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "zero",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "one",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "a24",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 18,
+            "nme": "basePoint",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA1.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA1",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/XDHKeyFactory$X25519.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/XDHKeyFactory$X25519",
+        "super": "sun/security/ec/XDHKeyFactory",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/XDHPrivateKeyImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/XDHPrivateKeyImpl",
+        "super": "sun/security/pkcs/PKCS8Key",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/XECParameters;[B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLength",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/XECParameters;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "getK",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/AlgorithmParameterSpec;"
+          },
+          {
+            "nme": "getScalar",
+            "acc": 1,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<[B>;"
+          },
+          {
+            "nme": "calculatePublicKey",
+            "acc": 1,
+            "dsc": "()Ljava/security/PublicKey;"
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 1
+          },
+          {
+            "acc": 18,
+            "nme": "paramSpec",
+            "dsc": "Ljava/security/spec/NamedParameterSpec;"
+          },
+          {
+            "acc": 2,
+            "nme": "k",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSAOperations.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ECDSAOperations",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/ECOperations;Ljava/security/spec/ECPoint;)V"
+          },
+          {
+            "nme": "getEcOperations",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/ECOperations;"
+          },
+          {
+            "nme": "basePointMultiply",
+            "acc": 1,
+            "dsc": "([B)Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "nme": "toAffinePoint",
+            "acc": 9,
+            "dsc": "(Ljava/security/spec/ECPoint;Lsun/security/util/math/IntegerFieldModuloP;)Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "nme": "forParameters",
+            "acc": 9,
+            "dsc": "(Ljava/security/spec/ECParameterSpec;)Ljava/util/Optional;",
+            "sig": "(Ljava/security/spec/ECParameterSpec;)Ljava/util/Optional<Lsun/security/ec/ECDSAOperations;>;"
+          },
+          {
+            "nme": "signDigest",
+            "acc": 1,
+            "dsc": "([B[BLsun/security/ec/ECDSAOperations$Seed;)[B",
+            "exs": [
+              "sun/security/ec/ECOperations$IntermediateValueException"
+            ]
+          },
+          {
+            "nme": "signDigest",
+            "acc": 1,
+            "dsc": "([B[BLsun/security/ec/ECDSAOperations$Nonce;)[B",
+            "exs": [
+              "sun/security/ec/ECOperations$IntermediateValueException"
+            ]
+          },
+          {
+            "nme": "verifySignedDigest",
+            "acc": 1,
+            "dsc": "([B[BLjava/security/spec/ECPoint;)Z"
+          },
+          {
+            "nme": "b2a",
+            "acc": 9,
+            "dsc": "(Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerFieldModuloP;[B)Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "nme": "lambda$forParameters$0",
+            "acc": 4106,
+            "dsc": "(Ljava/security/spec/ECParameterSpec;Lsun/security/ec/ECOperations;)Lsun/security/ec/ECDSAOperations;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "ecOps",
+            "dsc": "Lsun/security/ec/ECOperations;"
+          },
+          {
+            "acc": 18,
+            "nme": "basePoint",
+            "dsc": "Lsun/security/ec/point/AffinePoint;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECOperations$IntermediateValueException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ECOperations$IntermediateValueException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 1
+          }
+        ]
+      },
+      "classes/sun/security/ec/ParametersMap$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ParametersMap$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/function/Function;Ljava/lang/Object;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;",
+            "sig": "()TB;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$func",
+            "dsc": "Ljava/util/function/Function;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$a",
+            "dsc": "Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/point/AffinePoint.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/point/AffinePoint",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "fromECPoint",
+            "acc": 9,
+            "dsc": "(Ljava/security/spec/ECPoint;Lsun/security/util/math/IntegerFieldModuloP;)Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "nme": "toECPoint",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/ECPoint;"
+          },
+          {
+            "nme": "getX",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "nme": "getY",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "x",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "y",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAParameters",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/security/util/ObjectIdentifier;Lsun/security/util/math/IntegerFieldModuloP;Lsun/security/util/math/IntegerFieldModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/ec/ed/EdECOperations;Lsun/security/ec/ed/EdDSAParameters$DigesterFactory;Ljava/util/function/Function;III)V",
+            "sig": "(Ljava/lang/String;Lsun/security/util/ObjectIdentifier;Lsun/security/util/math/IntegerFieldModuloP;Lsun/security/util/math/IntegerFieldModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/ec/ed/EdECOperations;Lsun/security/ec/ed/EdDSAParameters$DigesterFactory;Ljava/util/function/Function<Ljava/security/spec/EdDSAParameterSpec;[B>;III)V"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getOid",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/ObjectIdentifier;"
+          },
+          {
+            "nme": "getField",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "getOrderField",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "getD",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "nme": "getEdOperations",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/ed/EdECOperations;"
+          },
+          {
+            "nme": "getKeyLength",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBits",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getLogCofactor",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "createDigester",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          },
+          {
+            "nme": "createDigester",
+            "acc": 1,
+            "dsc": "(I)Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          },
+          {
+            "nme": "digest",
+            "acc": 129,
+            "dsc": "([[B)[B"
+          },
+          {
+            "nme": "dom",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;)[B"
+          },
+          {
+            "nme": "dom2",
+            "acc": 8,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;)[B"
+          },
+          {
+            "nme": "dom4",
+            "acc": 8,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;)[B"
+          },
+          {
+            "nme": "domImpl",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;Ljava/security/spec/EdDSAParameterSpec;)[B"
+          },
+          {
+            "nme": "getBySize",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Function;I)Lsun/security/ec/ed/EdDSAParameters;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;I)Lsun/security/ec/ed/EdDSAParameters;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "get",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/x509/AlgorithmId;)Lsun/security/ec/ed/EdDSAParameters;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Lsun/security/x509/AlgorithmId;)Lsun/security/ec/ed/EdDSAParameters;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "get",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Function;Ljava/security/spec/AlgorithmParameterSpec;)Lsun/security/ec/ed/EdDSAParameters;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Ljava/security/spec/AlgorithmParameterSpec;)Lsun/security/ec/ed/EdDSAParameters;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 8,
+            "nme": "namedParams",
+            "dsc": "Lsun/security/ec/ParametersMap;",
+            "sig": "Lsun/security/ec/ParametersMap<Lsun/security/ec/ed/EdDSAParameters;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "oid",
+            "dsc": "Lsun/security/util/ObjectIdentifier;"
+          },
+          {
+            "acc": 18,
+            "nme": "field",
+            "dsc": "Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "orderField",
+            "dsc": "Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "d",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "edOperations",
+            "dsc": "Lsun/security/ec/ed/EdECOperations;"
+          },
+          {
+            "acc": 18,
+            "nme": "digester",
+            "dsc": "Lsun/security/ec/ed/EdDSAParameters$DigesterFactory;"
+          },
+          {
+            "acc": 18,
+            "nme": "keyLength",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "bits",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "logCofactor",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "dom",
+            "dsc": "Ljava/util/function/Function;",
+            "sig": "Ljava/util/function/Function<Ljava/security/spec/EdDSAParameterSpec;[B>;"
+          },
+          {
+            "acc": 26,
+            "nme": "prefixStr25519",
+            "dsc": "Ljava/lang/String;",
+            "val": "SigEd25519 no Ed25519 collisions"
+          },
+          {
+            "acc": 26,
+            "nme": "prefixStr448",
+            "dsc": "Ljava/lang/String;",
+            "val": "SigEd448"
+          }
+        ]
+      },
+      "classes/sun/security/ec/SunEC.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/SunEC",
+        "super": "java/security/Provider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "putEntries",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "putXDHEntries",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "putEdDSAEntries",
+            "acc": 2,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -2279741672933606418
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHPublicKeyImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/XDHPublicKeyImpl",
+        "super": "sun/security/x509/X509Key",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/XECParameters;Ljava/math/BigInteger;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLength",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/XECParameters;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "getU",
+            "acc": 1,
+            "dsc": "()Ljava/math/BigInteger;"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/AlgorithmParameterSpec;"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "writeReplace",
+            "acc": 2,
+            "dsc": "()Ljava/lang/Object;",
+            "exs": [
+              "java/io/ObjectStreamException"
+            ]
+          },
+          {
+            "nme": "swap",
+            "acc": 10,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "reverse",
+            "acc": 10,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 1
+          },
+          {
+            "acc": 18,
+            "nme": "u",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 18,
+            "nme": "paramSpec",
+            "dsc": "Ljava/security/spec/NamedParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/Ed25519Operations.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/Ed25519Operations",
+        "super": "sun/security/ec/ed/EdECOperations",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/ImmutableIntegerModuloP;Ljava/math/BigInteger;Ljava/math/BigInteger;)V"
+          },
+          {
+            "nme": "basePointMultiply",
+            "acc": 1,
+            "dsc": "([B)Lsun/security/ec/point/Point;"
+          },
+          {
+            "nme": "getNeutral",
+            "acc": 4,
+            "dsc": "()Lsun/security/ec/point/ExtendedHomogeneousPoint$Immutable;"
+          },
+          {
+            "nme": "setSum",
+            "acc": 4,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/ec/point/MutablePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setDouble",
+            "acc": 4,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "of",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Immutable;"
+          },
+          {
+            "nme": "decodeAffinePoint",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;ILsun/security/util/math/IntegerModuloP;)Lsun/security/ec/point/AffinePoint;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;ILsun/security/util/math/IntegerModuloP;)Lsun/security/ec/point/AffinePoint;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "setSum",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "setDouble",
+            "acc": 4,
+            "dsc": "(Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "getNeutral",
+            "acc": 4164,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "of",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "two",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 18,
+            "nme": "d",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "basePoint",
+            "dsc": "Lsun/security/ec/point/ExtendedHomogeneousPoint$Immutable;"
+          },
+          {
+            "acc": 26,
+            "nme": "TWO",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 26,
+            "nme": "SEVEN",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 18,
+            "nme": "sizeMinus5",
+            "dsc": "Ljava/math/BigInteger;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdECOperations.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/security/ec/ed/EdECOperations",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "basePointMultiply",
+            "acc": 1025,
+            "dsc": "([B)Lsun/security/ec/point/Point;"
+          },
+          {
+            "nme": "decodeAffinePoint",
+            "acc": 1025,
+            "dsc": "(Ljava/util/function/Function;ILsun/security/util/math/IntegerModuloP;)Lsun/security/ec/point/AffinePoint;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;ILsun/security/util/math/IntegerModuloP;)Lsun/security/ec/point/AffinePoint;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "of",
+            "acc": 1025,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "setSum",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/ec/point/MutablePoint;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setProduct",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;[B)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "getNeutral",
+            "acc": 1028,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "setSum",
+            "acc": 1028,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/ec/point/MutablePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setDouble",
+            "acc": 1028,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "bitAt",
+            "acc": 10,
+            "dsc": "([BI)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECKeyFactory.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECKeyFactory",
+        "super": "java/security/KeyFactorySpi",
+        "mthds": [
+          {
+            "nme": "getInstance",
+            "acc": 10,
+            "dsc": "()Ljava/security/KeyFactory;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "toECKey",
+            "acc": 9,
+            "dsc": "(Ljava/security/Key;)Ljava/security/interfaces/ECKey;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkKey",
+            "acc": 10,
+            "dsc": "(Ljava/security/interfaces/ECKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineTranslateKey",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineGeneratePublic",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "engineGeneratePrivate",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "implTranslatePublicKey",
+            "acc": 2,
+            "dsc": "(Ljava/security/PublicKey;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "implTranslatePrivateKey",
+            "acc": 2,
+            "dsc": "(Ljava/security/PrivateKey;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "implGeneratePublic",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/GeneralSecurityException"
+            ]
+          },
+          {
+            "nme": "implGeneratePrivate",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/GeneralSecurityException"
+            ]
+          },
+          {
+            "nme": "engineGetKeySpec",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/lang/Class;)Ljava/security/spec/KeySpec;",
+            "sig": "<T::Ljava/security/spec/KeySpec;>(Ljava/security/Key;Ljava/lang/Class<TT;>;)TT;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "instance",
+            "dsc": "Ljava/security/KeyFactory;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHKeyFactory$X448.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/XDHKeyFactory$X448",
+        "super": "sun/security/ec/XDHKeyFactory",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAKeyFactory$Ed25519.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAKeyFactory$Ed25519",
+        "super": "sun/security/ec/ed/EdDSAKeyFactory",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA256inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA256inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECKeyPairGenerator.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECKeyPairGenerator",
+        "super": "java/security/KeyPairGeneratorSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(ILjava/security/SecureRandom;)V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "ensureCurveIsSupported",
+            "acc": 10,
+            "dsc": "(Ljava/security/spec/ECParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "generateKeyPair",
+            "acc": 1,
+            "dsc": "()Ljava/security/KeyPair;"
+          },
+          {
+            "nme": "generatePrivateScalar",
+            "acc": 2,
+            "dsc": "(Ljava/security/SecureRandom;Lsun/security/ec/ECOperations;I)[B"
+          },
+          {
+            "nme": "generateKeyPairImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/SecureRandom;)Ljava/util/Optional;",
+            "sig": "(Ljava/security/SecureRandom;)Ljava/util/Optional<Ljava/security/KeyPair;>;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkKeySize",
+            "acc": 2,
+            "dsc": "(I)V",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "KEY_SIZE_MIN",
+            "dsc": "I",
+            "val": 112
+          },
+          {
+            "acc": 26,
+            "nme": "KEY_SIZE_MAX",
+            "dsc": "I",
+            "val": 571
+          },
+          {
+            "acc": 2,
+            "nme": "random",
+            "dsc": "Ljava/security/SecureRandom;"
+          },
+          {
+            "acc": 2,
+            "nme": "keySize",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "params",
+            "dsc": "Ljava/security/spec/AlgorithmParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/point/Point.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/security/ec/point/Point",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getField",
+            "acc": 1025,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "asAffine",
+            "acc": 1025,
+            "dsc": "()Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "nme": "affineEquals",
+            "acc": 1025,
+            "dsc": "(Lsun/security/ec/point/Point;)Z"
+          },
+          {
+            "nme": "fixed",
+            "acc": 1025,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "mutable",
+            "acc": 1025,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSASignature.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSASignature",
+        "super": "java/security/SignatureSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V"
+          },
+          {
+            "nme": "engineInitVerify",
+            "acc": 4,
+            "dsc": "(Ljava/security/PublicKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLockedParams",
+            "acc": 2,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/ec/ed/EdDSAParameters;)V",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Lsun/security/ec/ed/EdDSAParameters;)V^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "ensureMessageInit",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "initMessage",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(B)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineSign",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineVerify",
+            "acc": 4,
+            "dsc": "([B)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "initImpl",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "initImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineGetParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "checkContextLength",
+            "acc": 10,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineGetParameters",
+            "acc": 4,
+            "dsc": "()Ljava/security/AlgorithmParameters;"
+          },
+          {
+            "nme": "lambda$engineInitSign$0",
+            "acc": 4106,
+            "dsc": "()Ljava/security/InvalidKeyException;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "privateKey",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "publicKeyPoint",
+            "dsc": "Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "acc": 2,
+            "nme": "publicKeyBytes",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "ops",
+            "dsc": "Lsun/security/ec/ed/EdDSAOperations;"
+          },
+          {
+            "acc": 2,
+            "nme": "lockedParams",
+            "dsc": "Lsun/security/ec/ed/EdDSAParameters;"
+          },
+          {
+            "acc": 2,
+            "nme": "message",
+            "dsc": "Lsun/security/ec/ed/EdDSASignature$MessageAccumulator;"
+          },
+          {
+            "acc": 2,
+            "nme": "sigParams",
+            "dsc": "Ljava/security/spec/EdDSAParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAKeyPairGenerator.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAKeyPairGenerator",
+        "super": "java/security/KeyPairGeneratorSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V"
+          },
+          {
+            "nme": "tryInitialize",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(ILjava/security/SecureRandom;)V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "initializeImpl",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;Ljava/security/SecureRandom;)V"
+          },
+          {
+            "nme": "generateKeyPair",
+            "acc": 1,
+            "dsc": "()Ljava/security/KeyPair;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "random",
+            "dsc": "Ljava/security/SecureRandom;"
+          },
+          {
+            "acc": 2,
+            "nme": "ops",
+            "dsc": "Lsun/security/ec/ed/EdDSAOperations;"
+          },
+          {
+            "acc": 2,
+            "nme": "lockedParams",
+            "dsc": "Lsun/security/ec/ed/EdDSAParameters;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters$MessageDigester.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ed/EdDSAParameters$MessageDigester",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/security/MessageDigest;)V"
+          },
+          {
+            "nme": "update",
+            "acc": 1,
+            "dsc": "(B)V"
+          },
+          {
+            "nme": "update",
+            "acc": 1,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "digest",
+            "acc": 1,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "md",
+            "dsc": "Ljava/security/MessageDigest;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHKeyPairGenerator.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/XDHKeyPairGenerator",
+        "super": "java/security/KeyPairGeneratorSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V"
+          },
+          {
+            "nme": "tryInitialize",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(ILjava/security/SecureRandom;)V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "initializeImpl",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/XECParameters;Ljava/security/SecureRandom;)V"
+          },
+          {
+            "nme": "generateKeyPair",
+            "acc": 1,
+            "dsc": "()Ljava/security/KeyPair;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "DEFAULT_PARAM_SPEC",
+            "dsc": "Ljava/security/spec/NamedParameterSpec;"
+          },
+          {
+            "acc": 2,
+            "nme": "random",
+            "dsc": "Ljava/security/SecureRandom;"
+          },
+          {
+            "acc": 2,
+            "nme": "ops",
+            "dsc": "Lsun/security/ec/XECOperations;"
+          },
+          {
+            "acc": 2,
+            "nme": "lockedParams",
+            "dsc": "Lsun/security/ec/XECParameters;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAPublicKeyImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ed/EdDSAPublicKeyImpl",
+        "super": "sun/security/x509/X509Key",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;Ljava/security/spec/EdECPoint;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLength",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "getEncodedPoint",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getPoint",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/EdECPoint;"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/NamedParameterSpec;"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "writeReplace",
+            "acc": 2,
+            "dsc": "()Ljava/lang/Object;",
+            "exs": [
+              "java/io/ObjectStreamException"
+            ]
+          },
+          {
+            "nme": "swap",
+            "acc": 10,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "reverse",
+            "acc": 10,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 1
+          },
+          {
+            "acc": 18,
+            "nme": "point",
+            "dsc": "Ljava/security/spec/EdECPoint;"
+          },
+          {
+            "acc": 18,
+            "nme": "paramSpec",
+            "dsc": "Ljava/security/spec/NamedParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSASignature$MemoryAccumulator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ed/EdDSASignature$MemoryAccumulator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "(B)V"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 1,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "message",
+            "dsc": "Ljava/io/ByteArrayOutputStream;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA512.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA512",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/XDHKeyAgreement.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/XDHKeyAgreement",
+        "super": "javax/crypto/KeyAgreementSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V"
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "checkLockedParams",
+            "acc": 2,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/ec/XECParameters;)V",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Lsun/security/ec/XECParameters;)V^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "initImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/Key;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineDoPhase",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Z)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/lang/IllegalStateException"
+            ]
+          },
+          {
+            "nme": "allZero",
+            "acc": 2,
+            "dsc": "([B)Z"
+          },
+          {
+            "nme": "engineGenerateSecret",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/lang/IllegalStateException"
+            ]
+          },
+          {
+            "nme": "engineGenerateSecret",
+            "acc": 4,
+            "dsc": "([BI)I",
+            "exs": [
+              "java/lang/IllegalStateException",
+              "javax/crypto/ShortBufferException"
+            ]
+          },
+          {
+            "nme": "engineGenerateSecret",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)Ljavax/crypto/SecretKey;",
+            "exs": [
+              "java/lang/IllegalStateException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "lambda$initImpl$0",
+            "acc": 4106,
+            "dsc": "()Ljava/security/InvalidKeyException;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "privateKey",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "secret",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "ops",
+            "dsc": "Lsun/security/ec/XECOperations;"
+          },
+          {
+            "acc": 2,
+            "nme": "lockedParams",
+            "dsc": "Lsun/security/ec/XECParameters;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_384inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_384inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_512inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_512inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ParametersMap.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ParametersMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "fix",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "put",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/security/util/ObjectIdentifier;ILjava/lang/Object;)V",
+            "sig": "(Ljava/lang/String;Lsun/security/util/ObjectIdentifier;ITT;)V"
+          },
+          {
+            "nme": "getByOid",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/ObjectIdentifier;)Ljava/util/Optional;",
+            "sig": "(Lsun/security/util/ObjectIdentifier;)Ljava/util/Optional<TT;>;"
+          },
+          {
+            "nme": "getBySize",
+            "acc": 1,
+            "dsc": "(I)Ljava/util/Optional;",
+            "sig": "(I)Ljava/util/Optional<TT;>;"
+          },
+          {
+            "nme": "getByName",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Optional;",
+            "sig": "(Ljava/lang/String;)Ljava/util/Optional<TT;>;"
+          },
+          {
+            "nme": "apply",
+            "acc": 10,
+            "dsc": "(Ljava/util/function/Function;Ljava/lang/Object;)Ljava/util/function/Supplier;",
+            "sig": "<A:Ljava/lang/Object;B:Ljava/lang/Object;>(Ljava/util/function/Function<TA;TB;>;TA;)Ljava/util/function/Supplier<TB;>;"
+          },
+          {
+            "nme": "getBySize",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;I)Ljava/lang/Object;",
+            "sig": "<E:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TE;>;I)TT;^TE;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/x509/AlgorithmId;)Ljava/lang/Object;",
+            "sig": "<E:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TE;>;Lsun/security/x509/AlgorithmId;)TT;^TE;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;Ljava/security/spec/AlgorithmParameterSpec;)Ljava/lang/Object;",
+            "sig": "<E:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TE;>;Ljava/security/spec/AlgorithmParameterSpec;)TT;^TE;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "sizeMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Integer;TT;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "oidMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Lsun/security/util/ObjectIdentifier;TT;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "nameMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;TT;>;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$RawECDSA.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ECDSASignature$RawECDSA",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(B)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "resetDigest",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getDigestValue",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "RAW_ECDSA_MAX",
+            "dsc": "I",
+            "val": 64
+          },
+          {
+            "acc": 18,
+            "nme": "precomputedDigest",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "offset",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHKeyAgreement$X25519.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/XDHKeyAgreement$X25519",
+        "super": "sun/security/ec/XDHKeyAgreement",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAPrivateKeyImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ed/EdDSAPrivateKeyImpl",
+        "super": "sun/security/pkcs/PKCS8Key",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;[B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLength",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "getKey",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/NamedParameterSpec;"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 1,
+            "dsc": "()Ljava/util/Optional;",
+            "sig": "()Ljava/util/Optional<[B>;"
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 1
+          },
+          {
+            "acc": 18,
+            "nme": "paramSpec",
+            "dsc": "Ljava/security/spec/NamedParameterSpec;"
+          },
+          {
+            "acc": 2,
+            "nme": "h",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECPrivateKeyImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECPrivateKeyImpl",
+        "super": "sun/security/pkcs/PKCS8Key",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/math/BigInteger;Ljava/security/spec/ECParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([BLjava/security/spec/ECParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "makeEncoding",
+            "acc": 2,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "makeEncoding",
+            "acc": 2,
+            "dsc": "(Ljava/math/BigInteger;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getS",
+            "acc": 1,
+            "dsc": "()Ljava/math/BigInteger;"
+          },
+          {
+            "nme": "getArrayS0",
+            "acc": 2,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getArrayS",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/ECParameterSpec;"
+          },
+          {
+            "nme": "parseKeyBits",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "calculatePublicKey",
+            "acc": 1,
+            "dsc": "()Ljava/security/PublicKey;"
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 88695385615075129
+          },
+          {
+            "acc": 2,
+            "nme": "s",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 2,
+            "nme": "arrayS",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "params",
+            "dsc": "Ljava/security/spec/ECParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA512inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA512inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_384.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_384",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/Ed448Operations.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/Ed448Operations",
+        "super": "sun/security/ec/ed/EdECOperations",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/ImmutableIntegerModuloP;Ljava/math/BigInteger;Ljava/math/BigInteger;)V"
+          },
+          {
+            "nme": "basePointMultiply",
+            "acc": 1,
+            "dsc": "([B)Lsun/security/ec/point/Point;"
+          },
+          {
+            "nme": "getNeutral",
+            "acc": 4,
+            "dsc": "()Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          },
+          {
+            "nme": "setSum",
+            "acc": 4,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/ec/point/MutablePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setDouble",
+            "acc": 4,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "of",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          },
+          {
+            "nme": "decodeAffinePoint",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;ILsun/security/util/math/IntegerModuloP;)Lsun/security/ec/point/AffinePoint;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;ILsun/security/util/math/IntegerModuloP;)Lsun/security/ec/point/AffinePoint;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "setSum",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "setDouble",
+            "acc": 4,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "getNeutral",
+            "acc": 4164,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "of",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "two",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 18,
+            "nme": "d",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 18,
+            "nme": "basePoint",
+            "dsc": "Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          },
+          {
+            "acc": 26,
+            "nme": "TWO",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 26,
+            "nme": "THREE",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 26,
+            "nme": "FIVE",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 18,
+            "nme": "sizeMinus3",
+            "dsc": "Ljava/math/BigInteger;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSASignature$Ed448.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSASignature$Ed448",
+        "super": "sun/security/ec/ed/EdDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/ProjectivePoint$Mutable.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/point/ProjectivePoint$Mutable",
+        "super": "sun/security/ec/point/ProjectivePoint",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/IntegerFieldModuloP;)V"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;I)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint;I)Lsun/security/ec/point/ProjectivePoint$Mutable;",
+            "sig": "<T::Lsun/security/util/math/IntegerModuloP;>(Lsun/security/ec/point/ProjectivePoint<TT;>;I)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint;)Lsun/security/ec/point/ProjectivePoint$Mutable;",
+            "sig": "<T::Lsun/security/util/math/IntegerModuloP;>(Lsun/security/ec/point/ProjectivePoint<TT;>;)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "mutable",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/Point;I)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/Point;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/MutablePoint;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/SunEC$ProviderServiceA.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/SunEC$ProviderServiceA",
+        "super": "sun/security/ec/SunEC$ProviderService",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/HashMap;)V",
+            "sig": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/HashMap<Ljava/lang/String;Ljava/lang/String;>;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAKeyFactory$Ed448.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAKeyFactory$Ed448",
+        "super": "sun/security/ec/ed/EdDSAKeyFactory",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_256inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_256inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSASignature$MessageAccumulator.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "sun/security/ec/ed/EdDSASignature$MessageAccumulator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "add",
+            "acc": 1025,
+            "dsc": "(B)V"
+          },
+          {
+            "nme": "add",
+            "acc": 1025,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 1025,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/XDHKeyPairGenerator$X448.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/XDHKeyPairGenerator$X448",
+        "super": "sun/security/ec/XDHKeyPairGenerator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA1inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA1inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/MutablePoint.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/security/ec/point/MutablePoint",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "setValue",
+            "acc": 1025,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1025,
+            "dsc": "(Lsun/security/ec/point/Point;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 1025,
+            "dsc": "(Lsun/security/ec/point/Point;I)Lsun/security/ec/point/MutablePoint;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA384.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA384",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECOperations$PointMultiplier$Default.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECOperations$PointMultiplier$Default",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/ECOperations;Lsun/security/ec/point/AffinePoint;)V"
+          },
+          {
+            "nme": "pointMultiply",
+            "acc": 1,
+            "dsc": "([B)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "double4",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "affineP",
+            "dsc": "Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "acc": 18,
+            "nme": "ecOps",
+            "dsc": "Lsun/security/ec/ECOperations;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA384inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA384inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_224inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_224inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/ExtendedHomogeneousPoint.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/security/ec/point/ExtendedHomogeneousPoint",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerModuloP;)V",
+            "sig": "(TT;TT;TT;TT;)V"
+          },
+          {
+            "nme": "getField",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/point/ExtendedHomogeneousPoint$Immutable;"
+          },
+          {
+            "nme": "mutable",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "getX",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "getY",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "getT",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "getZ",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "asAffine",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "nme": "affineEquals",
+            "acc": 10,
+            "dsc": "(Lsun/security/ec/point/ExtendedHomogeneousPoint;Lsun/security/ec/point/ExtendedHomogeneousPoint;)Z",
+            "sig": "<T1::Lsun/security/util/math/IntegerModuloP;T2::Lsun/security/util/math/IntegerModuloP;>(Lsun/security/ec/point/ExtendedHomogeneousPoint<TT1;>;Lsun/security/ec/point/ExtendedHomogeneousPoint<TT2;>;)Z"
+          },
+          {
+            "nme": "affineEquals",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;)Z"
+          },
+          {
+            "nme": "mutable",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 20,
+            "nme": "x",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          },
+          {
+            "acc": 20,
+            "nme": "y",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          },
+          {
+            "acc": 20,
+            "nme": "t",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          },
+          {
+            "acc": 20,
+            "nme": "z",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHKeyFactory.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/XDHKeyFactory",
+        "super": "java/security/KeyFactorySpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V"
+          },
+          {
+            "nme": "engineTranslateKey",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLockedParams",
+            "acc": 2,
+            "dsc": "(Ljava/util/function/Function;Ljava/security/spec/AlgorithmParameterSpec;)V",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Ljava/security/spec/AlgorithmParameterSpec;)V^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "checkLockedParams",
+            "acc": 2,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/ec/XECParameters;)V",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Lsun/security/ec/XECParameters;)V^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "engineGeneratePublic",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "engineGeneratePrivate",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "generatePublicImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "generatePrivateImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "engineGetKeySpec",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/lang/Class;)Ljava/security/spec/KeySpec;",
+            "sig": "<T::Ljava/security/spec/KeySpec;>(Ljava/security/Key;Ljava/lang/Class<TT;>;)TT;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "lambda$engineGetKeySpec$1",
+            "acc": 4106,
+            "dsc": "()Ljava/security/spec/InvalidKeySpecException;"
+          },
+          {
+            "nme": "lambda$engineTranslateKey$0",
+            "acc": 4106,
+            "dsc": "()Ljava/security/InvalidKeyException;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "lockedParams",
+            "dsc": "Lsun/security/ec/XECParameters;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$Raw.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$Raw",
+        "super": "sun/security/ec/ECDSASignature$RawECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/XECParameters.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/XECParameters",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILjava/math/BigInteger;IBILsun/security/util/ObjectIdentifier;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getBits",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getLogCofactor",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getP",
+            "acc": 1,
+            "dsc": "()Ljava/math/BigInteger;"
+          },
+          {
+            "nme": "getA24",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBasePoint",
+            "acc": 1,
+            "dsc": "()B"
+          },
+          {
+            "nme": "getOid",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/ObjectIdentifier;"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "addParameters",
+            "acc": 10,
+            "dsc": "(ILjava/math/BigInteger;IBILsun/security/util/KnownOIDs;Ljava/lang/String;)Lsun/security/ec/XECParameters;"
+          },
+          {
+            "nme": "oidEquals",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/XECParameters;)Z"
+          },
+          {
+            "nme": "getBySize",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Function;I)Lsun/security/ec/XECParameters;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;I)Lsun/security/ec/XECParameters;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "get",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/x509/AlgorithmId;)Lsun/security/ec/XECParameters;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Lsun/security/x509/AlgorithmId;)Lsun/security/ec/XECParameters;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "get",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Function;Ljava/security/spec/AlgorithmParameterSpec;)Lsun/security/ec/XECParameters;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Ljava/security/spec/AlgorithmParameterSpec;)Lsun/security/ec/XECParameters;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "X25519",
+            "dsc": "Lsun/security/ec/XECParameters;"
+          },
+          {
+            "acc": 24,
+            "nme": "X448",
+            "dsc": "Lsun/security/ec/XECParameters;"
+          },
+          {
+            "acc": 8,
+            "nme": "namedParams",
+            "dsc": "Lsun/security/ec/ParametersMap;",
+            "sig": "Lsun/security/ec/ParametersMap<Lsun/security/ec/XECParameters;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "oid",
+            "dsc": "Lsun/security/util/ObjectIdentifier;"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "bits",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "p",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 18,
+            "nme": "logCofactor",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "a24",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "basePoint",
+            "dsc": "B"
+          }
+        ]
+      },
+      "classes/sun/security/ec/point/ProjectivePoint.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/security/ec/point/ProjectivePoint",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerModuloP;)V",
+            "sig": "(TT;TT;TT;)V"
+          },
+          {
+            "nme": "getField",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          },
+          {
+            "nme": "mutable",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "getX",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "getY",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "getZ",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerModuloP;",
+            "sig": "()TT;"
+          },
+          {
+            "nme": "asAffine",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/point/AffinePoint;"
+          },
+          {
+            "nme": "affineEquals",
+            "acc": 10,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint;Lsun/security/ec/point/ProjectivePoint;)Z",
+            "sig": "<T1::Lsun/security/util/math/IntegerModuloP;T2::Lsun/security/util/math/IntegerModuloP;>(Lsun/security/ec/point/ProjectivePoint<TT1;>;Lsun/security/ec/point/ProjectivePoint<TT2;>;)Z"
+          },
+          {
+            "nme": "affineEquals",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;)Z"
+          },
+          {
+            "nme": "mutable",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 20,
+            "nme": "x",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          },
+          {
+            "acc": 20,
+            "nme": "y",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          },
+          {
+            "acc": 20,
+            "nme": "z",
+            "dsc": "Lsun/security/util/math/IntegerModuloP;",
+            "sig": "TT;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters$SHA512DigesterFactory.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ed/EdDSAParameters$SHA512DigesterFactory",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createDigester",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSASignature$DigestAccumulator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ed/EdDSASignature$DigestAccumulator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters$Digester;)V"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "(B)V"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 1,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "digester",
+            "dsc": "Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAOperations.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAOperations",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/ed/EdDSAParameters;)V",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "getParameters",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/ed/EdDSAParameters;"
+          },
+          {
+            "nme": "generatePrivate",
+            "acc": 1,
+            "dsc": "(Ljava/security/SecureRandom;)[B"
+          },
+          {
+            "nme": "computePublic",
+            "acc": 1,
+            "dsc": "([B)Ljava/security/spec/EdECPoint;"
+          },
+          {
+            "nme": "asEdECPoint",
+            "acc": 10,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Ljava/security/spec/EdECPoint;"
+          },
+          {
+            "nme": "sign",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;[B[B)[B"
+          },
+          {
+            "nme": "verify",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;Lsun/security/ec/point/AffinePoint;[B[B[B)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "verify",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/EdDSAParameterSpec;[B[B[B)Z",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "decodeAffinePoint",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;[B)Lsun/security/ec/point/AffinePoint;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;[B)Lsun/security/ec/point/AffinePoint;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "decodeAffinePoint",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Function;Ljava/security/spec/EdECPoint;)Lsun/security/ec/point/AffinePoint;",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Ljava/security/spec/EdECPoint;)Lsun/security/ec/point/AffinePoint;^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "maskHighOrder",
+            "acc": 10,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "prune",
+            "acc": 10,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "prune",
+            "acc": 0,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "encode",
+            "acc": 10,
+            "dsc": "(ILsun/security/ec/point/Point;)[B"
+          },
+          {
+            "nme": "encode",
+            "acc": 10,
+            "dsc": "(ILsun/security/ec/point/AffinePoint;)[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "params",
+            "dsc": "Lsun/security/ec/ed/EdDSAParameters;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters$SHAKE256Digester.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ed/EdDSAParameters$SHAKE256Digester",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "update",
+            "acc": 1,
+            "dsc": "(B)V"
+          },
+          {
+            "nme": "update",
+            "acc": 1,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "digest",
+            "acc": 1,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "md",
+            "dsc": "Lsun/security/provider/SHAKE256;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECOperations$PointMultiplier$Secp256R1GeneratorMultiplier.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECOperations$PointMultiplier$Secp256R1GeneratorMultiplier",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "pointMultiply",
+            "acc": 1,
+            "dsc": "([B)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "bit",
+            "acc": 10,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "generator",
+            "dsc": "Ljava/security/spec/ECPoint;"
+          },
+          {
+            "acc": 26,
+            "nme": "multiplier",
+            "dsc": "Lsun/security/ec/ECOperations$PointMultiplier;"
+          },
+          {
+            "acc": 26,
+            "nme": "zero",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 26,
+            "nme": "one",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAAlgorithmParameters.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAAlgorithmParameters",
+        "super": "java/security/AlgorithmParametersSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V",
+            "exs": [
+              "java/security/spec/InvalidParameterSpecException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "([BLjava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "engineGetParameterSpec",
+            "acc": 4,
+            "dsc": "(Ljava/lang/Class;)Ljava/security/spec/AlgorithmParameterSpec;",
+            "sig": "<T::Ljava/security/spec/AlgorithmParameterSpec;>(Ljava/lang/Class<TT;>;)TT;",
+            "exs": [
+              "java/security/spec/InvalidParameterSpecException"
+            ]
+          },
+          {
+            "nme": "engineGetEncoded",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "engineGetEncoded",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "engineToString",
+            "acc": 4,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "edspec",
+            "dsc": "Ljava/security/spec/EdDSAParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/XDHKeyAgreement$X448.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/XDHKeyAgreement$X448",
+        "super": "sun/security/ec/XDHKeyAgreement",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/ProjectivePoint$Immutable.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/point/ProjectivePoint$Immutable",
+        "super": "sun/security/ec/point/ProjectivePoint",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "mutable",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/SunEC$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/SunEC$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/ec/SunEC;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/security/ec/SunEC;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAKeyFactory.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAKeyFactory",
+        "super": "java/security/KeyFactorySpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/NamedParameterSpec;)V"
+          },
+          {
+            "nme": "engineTranslateKey",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "checkLockedParams",
+            "acc": 2,
+            "dsc": "(Ljava/util/function/Function;Ljava/security/spec/NamedParameterSpec;)V",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Ljava/security/spec/NamedParameterSpec;)V^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "checkLockedParams",
+            "acc": 2,
+            "dsc": "(Ljava/util/function/Function;Lsun/security/ec/ed/EdDSAParameters;)V",
+            "sig": "<T:Ljava/lang/Throwable;>(Ljava/util/function/Function<Ljava/lang/String;TT;>;Lsun/security/ec/ed/EdDSAParameters;)V^TT;",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "engineGeneratePublic",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "engineGeneratePrivate",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "generatePublicImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "generatePrivateImpl",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/KeySpec;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "engineGetKeySpec",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;Ljava/lang/Class;)Ljava/security/spec/KeySpec;",
+            "sig": "<T::Ljava/security/spec/KeySpec;>(Ljava/security/Key;Ljava/lang/Class<TT;>;)TT;",
+            "exs": [
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "lambda$engineGetKeySpec$1",
+            "acc": 4106,
+            "dsc": "()Ljava/security/spec/InvalidKeySpecException;"
+          },
+          {
+            "nme": "lambda$engineTranslateKey$0",
+            "acc": 4106,
+            "dsc": "()Ljava/security/InvalidKeyException;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "lockedParams",
+            "dsc": "Lsun/security/ec/ed/EdDSAParameters;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECOperations.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ECOperations",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "forParameters",
+            "acc": 9,
+            "dsc": "(Ljava/security/spec/ECParameterSpec;)Ljava/util/Optional;",
+            "sig": "(Ljava/security/spec/ECParameterSpec;)Ljava/util/Optional<Lsun/security/ec/ECOperations;>;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/IntegerModuloP;Lsun/security/util/math/IntegerFieldModuloP;)V"
+          },
+          {
+            "nme": "getField",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "getOrderField",
+            "acc": 1,
+            "dsc": "()Lsun/security/util/math/IntegerFieldModuloP;"
+          },
+          {
+            "nme": "getNeutral",
+            "acc": 4,
+            "dsc": "()Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          },
+          {
+            "nme": "isNeutral",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;)Z"
+          },
+          {
+            "nme": "seedToScalar",
+            "acc": 0,
+            "dsc": "([B)[B",
+            "exs": [
+              "sun/security/ec/ECOperations$IntermediateValueException"
+            ]
+          },
+          {
+            "nme": "allZero",
+            "acc": 9,
+            "dsc": "([B)Z"
+          },
+          {
+            "nme": "multiply",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;[B)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "multiply",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/ECPoint;[B)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setDouble",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "setSum",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/MutablePoint;Lsun/security/ec/point/AffinePoint;)V"
+          },
+          {
+            "nme": "setSum",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/ec/point/AffinePoint;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "setSum",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/ec/point/ProjectivePoint$Mutable;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "checkOrder",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/ECPoint;)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "secp256r1Ops",
+            "dsc": "Lsun/security/ec/ECOperations;"
+          },
+          {
+            "acc": 24,
+            "nme": "fields",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/math/BigInteger;Lsun/security/util/math/IntegerFieldModuloP;>;"
+          },
+          {
+            "acc": 24,
+            "nme": "orderFields",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/math/BigInteger;Lsun/security/util/math/IntegerFieldModuloP;>;"
+          },
+          {
+            "acc": 16,
+            "nme": "b",
+            "dsc": "Lsun/security/util/math/ImmutableIntegerModuloP;"
+          },
+          {
+            "acc": 16,
+            "nme": "one",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 16,
+            "nme": "two",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 16,
+            "nme": "three",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 16,
+            "nme": "four",
+            "dsc": "Lsun/security/util/math/SmallValue;"
+          },
+          {
+            "acc": 16,
+            "nme": "neutral",
+            "dsc": "Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          },
+          {
+            "acc": 18,
+            "nme": "orderField",
+            "dsc": "Lsun/security/util/math/IntegerFieldModuloP;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSAOperations$Nonce.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ECDSAOperations$Nonce",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "getNonceValue",
+            "acc": 1,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "nonceValue",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters$DigesterFactory.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/security/ec/ed/EdDSAParameters$DigesterFactory",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "createDigester",
+            "acc": 1025,
+            "dsc": "()Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          },
+          {
+            "nme": "createDigester",
+            "acc": 1,
+            "dsc": "(I)Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          },
+          {
+            "nme": "digest",
+            "acc": 129,
+            "dsc": "([[B)[B"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA224.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA224",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAKeyPairGenerator$Ed25519.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAKeyPairGenerator$Ed25519",
+        "super": "sun/security/ec/ed/EdDSAKeyPairGenerator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters$Digester.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/security/ec/ed/EdDSAParameters$Digester",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "update",
+            "acc": 1025,
+            "dsc": "(B)V"
+          },
+          {
+            "nme": "update",
+            "acc": 1025,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "digest",
+            "acc": 1025,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSAOperations$Seed.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ECDSAOperations$Seed",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "getSeedValue",
+            "acc": 1,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "seedValue",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECPublicKeyImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECPublicKeyImpl",
+        "super": "sun/security/x509/X509Key",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/spec/ECPoint;Ljava/security/spec/ECParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "([B)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getW",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/ECPoint;"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/ECParameterSpec;"
+          },
+          {
+            "nme": "getEncodedPublicValue",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "parseKeyBits",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "writeReplace",
+            "acc": 2,
+            "dsc": "()Ljava/lang/Object;",
+            "exs": [
+              "java/io/ObjectStreamException"
+            ]
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -2462037275160462289
+          },
+          {
+            "acc": 2,
+            "nme": "w",
+            "dsc": "Ljava/security/spec/ECPoint;"
+          },
+          {
+            "acc": 2,
+            "nme": "params",
+            "dsc": "Ljava/security/spec/ECParameterSpec;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ed/EdDSAParameters$SHAKE256DigesterFactory.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/ec/ed/EdDSAParameters$SHAKE256DigesterFactory",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createDigester",
+            "acc": 1,
+            "dsc": "()Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          },
+          {
+            "nme": "createDigester",
+            "acc": 1,
+            "dsc": "(I)Lsun/security/ec/ed/EdDSAParameters$Digester;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECOperations$PointMultiplier$Secp256R1GeneratorMultiplier$P256.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/security/ec/ECOperations$PointMultiplier$Secp256R1GeneratorMultiplier$P256",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "verifyTables",
+            "acc": 10,
+            "dsc": "([Ljava/math/BigInteger;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "points",
+            "dsc": "[[Lsun/security/ec/point/ProjectivePoint$Immutable;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA224inP1363Format.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA224inP1363Format",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ed/EdDSAKeyPairGenerator$Ed448.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/ed/EdDSAKeyPairGenerator$Ed448",
+        "super": "sun/security/ec/ed/EdDSAKeyPairGenerator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECOperations$PointMultiplier.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "sun/security/ec/ECOperations$PointMultiplier",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "pointMultiply",
+            "acc": 1025,
+            "dsc": "([B)Lsun/security/ec/point/ProjectivePoint$Mutable;"
+          },
+          {
+            "nme": "of",
+            "acc": 9,
+            "dsc": "(Lsun/security/ec/ECOperations;Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/ECOperations$PointMultiplier;"
+          },
+          {
+            "nme": "of",
+            "acc": 9,
+            "dsc": "(Lsun/security/ec/ECOperations;Ljava/security/spec/ECPoint;)Lsun/security/ec/ECOperations$PointMultiplier;"
+          },
+          {
+            "nme": "lookup",
+            "acc": 10,
+            "dsc": "([Lsun/security/ec/point/ProjectivePoint$Immutable;ILsun/security/ec/point/ProjectivePoint$Mutable;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "multipliers",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/security/spec/ECPoint;Lsun/security/ec/ECOperations$PointMultiplier;>;"
+          }
+        ]
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA256.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA256",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/ECDSASignature$SHA3_256.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/ec/ECDSASignature$SHA3_256",
+        "super": "sun/security/ec/ECDSASignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/ExtendedHomogeneousPoint$Immutable.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/point/ExtendedHomogeneousPoint$Immutable",
+        "super": "sun/security/ec/point/ExtendedHomogeneousPoint",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;Lsun/security/util/math/ImmutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "mutable",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/ImmutablePoint.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/security/ec/point/ImmutablePoint",
+        "super": "java/lang/Object",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/security/ec/point/ExtendedHomogeneousPoint$Mutable.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/ec/point/ExtendedHomogeneousPoint$Mutable",
+        "super": "sun/security/ec/point/ExtendedHomogeneousPoint",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;Lsun/security/util/math/MutableIntegerModuloP;)V"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;I)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ExtendedHomogeneousPoint;I)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;",
+            "sig": "<T::Lsun/security/util/math/IntegerModuloP;>(Lsun/security/ec/point/ExtendedHomogeneousPoint<TT;>;I)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1,
+            "dsc": "(Lsun/security/ec/point/Point;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 2,
+            "dsc": "(Lsun/security/ec/point/ExtendedHomogeneousPoint;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;",
+            "sig": "<T::Lsun/security/util/math/IntegerModuloP;>(Lsun/security/ec/point/ExtendedHomogeneousPoint<TT;>;)Lsun/security/ec/point/ExtendedHomogeneousPoint$Mutable;"
+          },
+          {
+            "nme": "mutable",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "fixed",
+            "acc": 4161,
+            "dsc": "()Lsun/security/ec/point/ImmutablePoint;"
+          },
+          {
+            "nme": "conditionalSet",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/Point;I)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/Point;)Lsun/security/ec/point/MutablePoint;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 4161,
+            "dsc": "(Lsun/security/ec/point/AffinePoint;)Lsun/security/ec/point/MutablePoint;"
+          }
+        ],
+        "flds": []
+      }
+    }
+  }
+}

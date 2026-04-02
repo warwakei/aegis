@@ -1,0 +1,3064 @@
+{
+  "md5": "bc1930caa1d5c32f4fb73ab79e8f53f6",
+  "sha2": "29bf4dcc6c57a506ccfd23d07550e857ef804fce",
+  "sha256": "e57cd3071efdeb3675e9e877b25e39be5af87ae9902ef6285504e508937410a2",
+  "contents": {
+    "classes": {
+      "classes/sun/tools/jstat/Jstat.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Jstat",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "logNames",
+            "acc": 8,
+            "dsc": "()V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "logSnapShot",
+            "acc": 8,
+            "dsc": "()V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "logSamples",
+            "acc": 8,
+            "dsc": "()V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "arguments",
+            "dsc": "Lsun/tools/jstat/Arguments;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/OptionFinder.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/OptionFinder",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/net/URL;>;)V"
+          },
+          {
+            "nme": "getOptionFormat",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Z)Lsun/tools/jstat/OptionFormat;"
+          },
+          {
+            "nme": "getOptionFormat",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)Lsun/tools/jstat/OptionFormat;",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/net/URL;>;)Lsun/tools/jstat/OptionFormat;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Z",
+            "val": 0
+          },
+          {
+            "acc": 0,
+            "nme": "optionsSources",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/net/URL;>;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Token.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Token",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILjava/lang/String;D)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILjava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "toMessage",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 1,
+            "nme": "sval",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 1,
+            "nme": "nval",
+            "dsc": "D"
+          },
+          {
+            "acc": 1,
+            "nme": "ttype",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Parser.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Parser",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/io/FileNotFoundException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/io/Reader;)V"
+          },
+          {
+            "nme": "pushBack",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "nextToken",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "matchOne",
+            "acc": 2,
+            "dsc": "(Ljava/util/Set;)Lsun/tools/jstat/Token;",
+            "sig": "(Ljava/util/Set<Ljava/lang/String;>;)Lsun/tools/jstat/Token;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(ILjava/lang/String;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(I)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(C)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "matchQuotedString",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "matchNumber",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "matchID",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isReservedWord",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isInfixOperator",
+            "acc": 2,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "scaleStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "alignStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "headerStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "widthStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "formatStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "primary",
+            "acc": 2,
+            "dsc": "()Lsun/tools/jstat/Expression;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "unary",
+            "acc": 2,
+            "dsc": "()Lsun/tools/jstat/Expression;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "multExpression",
+            "acc": 2,
+            "dsc": "()Lsun/tools/jstat/Expression;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "addExpression",
+            "acc": 2,
+            "dsc": "()Lsun/tools/jstat/Expression;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "expression",
+            "acc": 2,
+            "dsc": "()Lsun/tools/jstat/Expression;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "dataStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "requiredStmt",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "statementList",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/ColumnFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "optionList",
+            "acc": 2,
+            "dsc": "(Lsun/tools/jstat/OptionFormat;)V",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "optionStmt",
+            "acc": 2,
+            "dsc": "()Lsun/tools/jstat/OptionFormat;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "parse",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lsun/tools/jstat/OptionFormat;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "parseOptions",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Lsun/tools/jstat/OptionFormat;>;",
+            "exs": [
+              "sun/tools/jstat/ParserException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOptionFormat",
+            "acc": 0,
+            "dsc": "()Lsun/tools/jstat/OptionFormat;"
+          },
+          {
+            "nme": "log",
+            "acc": 2,
+            "dsc": "(ZLjava/lang/String;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "pdebug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 10,
+            "nme": "ldebug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "OPENBLOCK",
+            "dsc": "C",
+            "val": 123
+          },
+          {
+            "acc": 26,
+            "nme": "CLOSEBLOCK",
+            "dsc": "C",
+            "val": 125
+          },
+          {
+            "acc": 26,
+            "nme": "DOUBLEQUOTE",
+            "dsc": "C",
+            "val": 34
+          },
+          {
+            "acc": 26,
+            "nme": "PERCENT_CHAR",
+            "dsc": "C",
+            "val": 37
+          },
+          {
+            "acc": 26,
+            "nme": "OPENPAREN",
+            "dsc": "C",
+            "val": 40
+          },
+          {
+            "acc": 26,
+            "nme": "CLOSEPAREN",
+            "dsc": "C",
+            "val": 41
+          },
+          {
+            "acc": 26,
+            "nme": "OPERATOR_PLUS",
+            "dsc": "C",
+            "val": 43
+          },
+          {
+            "acc": 26,
+            "nme": "OPERATOR_MINUS",
+            "dsc": "C",
+            "val": 45
+          },
+          {
+            "acc": 26,
+            "nme": "OPERATOR_MULTIPLY",
+            "dsc": "C",
+            "val": 42
+          },
+          {
+            "acc": 26,
+            "nme": "OPERATOR_DIVIDE",
+            "dsc": "C",
+            "val": 47
+          },
+          {
+            "acc": 26,
+            "nme": "OPTION",
+            "dsc": "Ljava/lang/String;",
+            "val": "option"
+          },
+          {
+            "acc": 26,
+            "nme": "COLUMN",
+            "dsc": "Ljava/lang/String;",
+            "val": "column"
+          },
+          {
+            "acc": 26,
+            "nme": "DATA",
+            "dsc": "Ljava/lang/String;",
+            "val": "data"
+          },
+          {
+            "acc": 26,
+            "nme": "HEADER",
+            "dsc": "Ljava/lang/String;",
+            "val": "header"
+          },
+          {
+            "acc": 26,
+            "nme": "WIDTH",
+            "dsc": "Ljava/lang/String;",
+            "val": "width"
+          },
+          {
+            "acc": 26,
+            "nme": "FORMAT",
+            "dsc": "Ljava/lang/String;",
+            "val": "format"
+          },
+          {
+            "acc": 26,
+            "nme": "ALIGN",
+            "dsc": "Ljava/lang/String;",
+            "val": "align"
+          },
+          {
+            "acc": 26,
+            "nme": "SCALE",
+            "dsc": "Ljava/lang/String;",
+            "val": "scale"
+          },
+          {
+            "acc": 26,
+            "nme": "REQUIRED",
+            "dsc": "Ljava/lang/String;",
+            "val": "required"
+          },
+          {
+            "acc": 26,
+            "nme": "START",
+            "dsc": "Ljava/lang/String;",
+            "val": "option"
+          },
+          {
+            "acc": 26,
+            "nme": "scaleKeyWords",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "alignKeyWords",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "boolKeyWords",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 10,
+            "nme": "otherKeyWords",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 10,
+            "nme": "infixOps",
+            "dsc": "[C"
+          },
+          {
+            "acc": 10,
+            "nme": "delimiters",
+            "dsc": "[C"
+          },
+          {
+            "acc": 26,
+            "nme": "reservedWords",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "st",
+            "dsc": "Ljava/io/StreamTokenizer;"
+          },
+          {
+            "acc": 2,
+            "nme": "filename",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "lookahead",
+            "dsc": "Lsun/tools/jstat/Token;"
+          },
+          {
+            "acc": 2,
+            "nme": "previous",
+            "dsc": "Lsun/tools/jstat/Token;"
+          },
+          {
+            "acc": 2,
+            "nme": "columnCount",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "optionFormat",
+            "dsc": "Lsun/tools/jstat/OptionFormat;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Scale.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Scale",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;D)V"
+          },
+          {
+            "nme": "getFactor",
+            "acc": 1,
+            "dsc": "()D"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "toScale",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/tools/jstat/Scale;"
+          },
+          {
+            "nme": "keySet",
+            "acc": 12,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "scale",
+            "acc": 4,
+            "dsc": "(D)D"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "nextOrdinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "map",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Lsun/tools/jstat/Scale;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "ordinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "factor",
+            "dsc": "D"
+          },
+          {
+            "acc": 25,
+            "nme": "RAW",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "PERCENT",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "KILO",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "MEGA",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "GIGA",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "TERA",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "PETA",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "PICO",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "NANO",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "MICRO",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "MILLI",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "PSEC",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "NSEC",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "USEC",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "MSEC",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "SEC",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "SEC2",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "MINUTES",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "HOUR",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 25,
+            "nme": "HOUR2",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/RawOutputFormatter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/RawOutputFormatter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;Z)V",
+            "sig": "(Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;Z)V"
+          },
+          {
+            "nme": "getHeader",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getRow",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "logged",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "header",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "printStrings",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Identifier.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Identifier",
+        "super": "sun/tools/jstat/Expression",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "isResolved",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "value",
+            "dsc": "Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Alignment$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Alignment$1",
+        "super": "sun/tools/jstat/Alignment",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "align",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;I)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/OptionLister.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/OptionLister",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Ljava/net/URL;>;)V"
+          },
+          {
+            "nme": "print",
+            "acc": 1,
+            "dsc": "(Ljava/io/PrintStream;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Z",
+            "val": 0
+          },
+          {
+            "acc": 2,
+            "nme": "sources",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/net/URL;>;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Operator.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/tools/jstat/Operator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "eval",
+            "acc": 1028,
+            "dsc": "(DD)D"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "toOperator",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/tools/jstat/Operator;"
+          },
+          {
+            "nme": "keySet",
+            "acc": 12,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<*>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "nextOrdinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "map",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Lsun/tools/jstat/Operator;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "ordinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "PLUS",
+            "dsc": "Lsun/tools/jstat/Operator;"
+          },
+          {
+            "acc": 25,
+            "nme": "MINUS",
+            "dsc": "Lsun/tools/jstat/Operator;"
+          },
+          {
+            "acc": 25,
+            "nme": "DIVIDE",
+            "dsc": "Lsun/tools/jstat/Operator;"
+          },
+          {
+            "acc": 25,
+            "nme": "MULTIPLY",
+            "dsc": "Lsun/tools/jstat/Operator;"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/tools/jcmd/Arguments.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jcmd/Arguments",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "isListProcesses",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isListCounters",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isShowUsage",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getCommand",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getProcessString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "readCommandFile",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "usage",
+            "acc": 9,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "listProcesses",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "listCounters",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "showUsage",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "command",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "processString",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Operator$3.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Operator$3",
+        "super": "sun/tools/jstat/Operator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "eval",
+            "acc": 4,
+            "dsc": "(DD)D"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jps/Jps.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jps/Jps",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "arguments",
+            "dsc": "Lsun/tools/jps/Arguments;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/HeaderClosure.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/HeaderClosure",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "visit",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;Z)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getHeader",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "ALIGN_CHAR",
+            "dsc": "C",
+            "val": 94
+          },
+          {
+            "acc": 2,
+            "nme": "header",
+            "dsc": "Ljava/lang/StringBuilder;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/OptionFormat.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/OptionFormat",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "addSubFormat",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/OptionFormat;)V"
+          },
+          {
+            "nme": "getSubFormat",
+            "acc": 1,
+            "dsc": "(I)Lsun/tools/jstat/OptionFormat;"
+          },
+          {
+            "nme": "insertSubFormat",
+            "acc": 1,
+            "dsc": "(ILsun/tools/jstat/OptionFormat;)V"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "apply",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/Closure;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "printFormat",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "printFormat",
+            "acc": 1,
+            "dsc": "(I)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "children",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/tools/jstat/OptionFormat;>;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Alignment.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/tools/jstat/Alignment",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "align",
+            "acc": 1028,
+            "dsc": "(Ljava/lang/String;I)Ljava/lang/String;"
+          },
+          {
+            "nme": "toAlignment",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/tools/jstat/Alignment;"
+          },
+          {
+            "nme": "keySet",
+            "acc": 9,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "nextOrdinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "map",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Lsun/tools/jstat/Alignment;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "blanks",
+            "dsc": "Ljava/lang/String;",
+            "val": "                                                                                                                                                               "
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "value",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "CENTER",
+            "dsc": "Lsun/tools/jstat/Alignment;"
+          },
+          {
+            "acc": 25,
+            "nme": "LEFT",
+            "dsc": "Lsun/tools/jstat/Alignment;"
+          },
+          {
+            "acc": 25,
+            "nme": "RIGHT",
+            "dsc": "Lsun/tools/jstat/Alignment;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/SymbolResolutionClosure.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/SymbolResolutionClosure",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/ExpressionEvaluator;)V"
+          },
+          {
+            "nme": "visit",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;Z)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "ee",
+            "dsc": "Lsun/tools/jstat/ExpressionEvaluator;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/RowClosure.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/RowClosure",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "visit",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;Z)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getRow",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "vm",
+            "dsc": "Lsun/jvmstat/monitor/MonitoredVm;"
+          },
+          {
+            "acc": 2,
+            "nme": "row",
+            "dsc": "Ljava/lang/StringBuilder;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/OutputFormatter.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/tools/jstat/OutputFormatter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getHeader",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getRow",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/common/PrintStreamPrinter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/common/PrintStreamPrinter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "drainUTF8",
+            "acc": 9,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/PrintStream;)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Jstat$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Jstat$1",
+        "super": "java/lang/Thread",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jstat/JStatLogger;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$logger",
+            "dsc": "Lsun/tools/jstat/JStatLogger;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Operator$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Operator$2",
+        "super": "sun/tools/jstat/Operator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "eval",
+            "acc": 4,
+            "dsc": "(DD)D"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Expression.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Expression",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setLeft",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jstat/Expression;)V"
+          },
+          {
+            "nme": "getLeft",
+            "acc": 0,
+            "dsc": "()Lsun/tools/jstat/Expression;"
+          },
+          {
+            "nme": "setRight",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jstat/Expression;)V"
+          },
+          {
+            "nme": "getRight",
+            "acc": 0,
+            "dsc": "()Lsun/tools/jstat/Expression;"
+          },
+          {
+            "nme": "setOperator",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jstat/Operator;)V"
+          },
+          {
+            "nme": "getOperator",
+            "acc": 0,
+            "dsc": "()Lsun/tools/jstat/Operator;"
+          },
+          {
+            "nme": "setRequired",
+            "acc": 0,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "nextOrdinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "left",
+            "dsc": "Lsun/tools/jstat/Expression;"
+          },
+          {
+            "acc": 2,
+            "nme": "right",
+            "dsc": "Lsun/tools/jstat/Expression;"
+          },
+          {
+            "acc": 2,
+            "nme": "operator",
+            "dsc": "Lsun/tools/jstat/Operator;"
+          },
+          {
+            "acc": 2,
+            "nme": "ordinal",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "required",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/ParserException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/ParserException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Operator$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Operator$1",
+        "super": "sun/tools/jstat/Operator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "eval",
+            "acc": 4,
+            "dsc": "(DD)D"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jcmd/JCmd.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jcmd/JCmd",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "executeCommandForPid",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException",
+              "java/io/UnsupportedEncodingException"
+            ]
+          },
+          {
+            "nme": "listCounters",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/ColumnFormat.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/ColumnFormat",
+        "super": "sun/tools/jstat/OptionFormat",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "validate",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "sun/tools/jstat/ParserException"
+            ]
+          },
+          {
+            "nme": "setWidth",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "setAlignment",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/Alignment;)V"
+          },
+          {
+            "nme": "setScale",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/Scale;)V"
+          },
+          {
+            "nme": "setFormat",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "setHeader",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getHeader",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getFormat",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getWidth",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getAlignment",
+            "acc": 1,
+            "dsc": "()Lsun/tools/jstat/Alignment;"
+          },
+          {
+            "nme": "getScale",
+            "acc": 1,
+            "dsc": "()Lsun/tools/jstat/Scale;"
+          },
+          {
+            "nme": "getExpression",
+            "acc": 1,
+            "dsc": "()Lsun/tools/jstat/Expression;"
+          },
+          {
+            "nme": "setExpression",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/Expression;)V"
+          },
+          {
+            "nme": "setRequired",
+            "acc": 1,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "isRequired",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setPreviousValue",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "getPreviousValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "printFormat",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "number",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "width",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "align",
+            "dsc": "Lsun/tools/jstat/Alignment;"
+          },
+          {
+            "acc": 2,
+            "nme": "scale",
+            "dsc": "Lsun/tools/jstat/Scale;"
+          },
+          {
+            "acc": 2,
+            "nme": "format",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "header",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "expression",
+            "dsc": "Lsun/tools/jstat/Expression;"
+          },
+          {
+            "acc": 2,
+            "nme": "required",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "previousValue",
+            "dsc": "Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/sun/tools/jps/Arguments.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jps/Arguments",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "printUsage",
+            "acc": 9,
+            "dsc": "(Ljava/io/PrintStream;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "isDebug",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "printStackTrace",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isHelp",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isQuiet",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "showLongPaths",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "showVmArgs",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "showVmFlags",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "showMainArgs",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "hostname",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hostId",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/HostIdentifier;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "printStackTrace",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "help",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "quiet",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "longPaths",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "vmArgs",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "vmFlags",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "mainArgs",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "hostname",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "hostId",
+            "dsc": "Lsun/jvmstat/monitor/HostIdentifier;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Literal.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Literal",
+        "super": "sun/tools/jstat/Expression",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "setValue",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "value",
+            "dsc": "Ljava/lang/Object;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstack/JStack.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstack/JStack",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "runThreadDump",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "checkForUnsupportedOptions",
+            "acc": 10,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "SAOptionError",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "usage",
+            "acc": 10,
+            "dsc": "(I)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Operator$4.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Operator$4",
+        "super": "sun/tools/jstat/Operator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "eval",
+            "acc": 4,
+            "dsc": "(DD)D"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Closure.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "sun/tools/jstat/Closure",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "visit",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/Object;Z)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/DescendingMonitorComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/DescendingMonitorComparator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/Monitor;Lsun/jvmstat/monitor/Monitor;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/OptionLister$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/OptionLister$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/tools/jstat/OptionLister;)V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/OptionFormat;Lsun/tools/jstat/OptionFormat;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/ExpressionResolver.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/ExpressionResolver",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "evaluate",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/Expression;)Ljava/lang/Object;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "vm",
+            "dsc": "Lsun/jvmstat/monitor/MonitoredVm;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/JStatLogger.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/JStatLogger",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "printNames",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/Comparator;ZLjava/io/PrintStream;)V",
+            "sig": "(Ljava/lang/String;Ljava/util/Comparator<Lsun/jvmstat/monitor/Monitor;>;ZLjava/io/PrintStream;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException",
+              "java/util/regex/PatternSyntaxException"
+            ]
+          },
+          {
+            "nme": "printSnapShot",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/Comparator;ZZLjava/io/PrintStream;)V",
+            "sig": "(Ljava/lang/String;Ljava/util/Comparator<Lsun/jvmstat/monitor/Monitor;>;ZZLjava/io/PrintStream;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException",
+              "java/util/regex/PatternSyntaxException"
+            ]
+          },
+          {
+            "nme": "printList",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;ZZLjava/io/PrintStream;)V",
+            "sig": "(Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;ZZLjava/io/PrintStream;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "stopLogging",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "logSamples",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/OutputFormatter;IIILjava/io/PrintStream;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "monitoredVm",
+            "dsc": "Lsun/jvmstat/monitor/MonitoredVm;"
+          },
+          {
+            "acc": 66,
+            "nme": "active",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/AscendingMonitorComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/AscendingMonitorComparator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/Monitor;Lsun/jvmstat/monitor/Monitor;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Alignment$3.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Alignment$3",
+        "super": "sun/tools/jstat/Alignment",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "align",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;I)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/ExpressionExecuter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/ExpressionExecuter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "evaluate",
+            "acc": 1,
+            "dsc": "(Lsun/tools/jstat/Expression;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "vm",
+            "dsc": "Lsun/jvmstat/monitor/MonitoredVm;"
+          },
+          {
+            "acc": 2,
+            "nme": "map",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Ljava/lang/Object;>;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/Alignment$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Alignment$2",
+        "super": "sun/tools/jstat/Alignment",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "align",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;I)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/ExpressionEvaluator.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "sun/tools/jstat/ExpressionEvaluator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "evaluate",
+            "acc": 1025,
+            "dsc": "(Lsun/tools/jstat/Expression;)Ljava/lang/Object;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jcmd/JCmd$AscendingMonitorComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jcmd/JCmd$AscendingMonitorComparator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/Monitor;Lsun/jvmstat/monitor/Monitor;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Jstat$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/jstat/Jstat$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;Lsun/tools/jstat/JStatLogger;Lsun/jvmstat/monitor/MonitoredHost;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "vmStatusChanged",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmStatusChangeEvent;)V"
+          },
+          {
+            "nme": "disconnected",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostEvent;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$vmId",
+            "dsc": "Lsun/jvmstat/monitor/VmIdentifier;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$logger",
+            "dsc": "Lsun/tools/jstat/JStatLogger;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$monitoredHost",
+            "dsc": "Lsun/jvmstat/monitor/MonitoredHost;"
+          }
+        ]
+      },
+      "classes/sun/tools/jinfo/JInfo.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/tools/jinfo/JInfo",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "flag",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "flags",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "commandLine",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "sysprops",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "attach",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/tools/attach/VirtualMachine;"
+          },
+          {
+            "nme": "drain",
+            "acc": 10,
+            "dsc": "(Lcom/sun/tools/attach/VirtualMachine;Ljava/io/InputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkForUnsupportedOptions",
+            "acc": 10,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "SAOptionError",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "usage",
+            "acc": 10,
+            "dsc": "(I)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/OptionOutputFormatter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/OptionOutputFormatter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;Lsun/tools/jstat/OptionFormat;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "resolve",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getHeader",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getRow",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "format",
+            "dsc": "Lsun/tools/jstat/OptionFormat;"
+          },
+          {
+            "acc": 2,
+            "nme": "header",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "vm",
+            "dsc": "Lsun/jvmstat/monitor/MonitoredVm;"
+          }
+        ]
+      },
+      "classes/sun/tools/jstat/SyntaxException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/SyntaxException",
+        "super": "sun/tools/jstat/ParserException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILjava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILjava/lang/String;Lsun/tools/jstat/Token;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILsun/tools/jstat/Token;Lsun/tools/jstat/Token;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(ILjava/util/Set;Lsun/tools/jstat/Token;)V",
+            "sig": "(ILjava/util/Set<Ljava/lang/String;>;Lsun/tools/jstat/Token;)V"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "message",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/tools/common/ProcessHelper.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/tools/common/ProcessHelper",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getMainClass",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/jstat/Arguments.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jstat/Arguments",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "printUsage",
+            "acc": 9,
+            "dsc": "(Ljava/io/PrintStream;)V"
+          },
+          {
+            "nme": "toMillis",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)I",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "comparator",
+            "acc": 1,
+            "dsc": "()Ljava/util/Comparator;",
+            "sig": "()Ljava/util/Comparator<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "nme": "isHelp",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isList",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isSnap",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isOptions",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isVerbose",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "printConstants",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isConstantsOnly",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "printStrings",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "showUnsupported",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "headerRate",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "counterNames",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "vmId",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/VmIdentifier;"
+          },
+          {
+            "nme": "vmIdString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "sampleInterval",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "sampleCount",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isTimestamp",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isSpecialOption",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "specialOption",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "optionFormat",
+            "acc": 1,
+            "dsc": "()Lsun/tools/jstat/OptionFormat;"
+          },
+          {
+            "nme": "optionsSources",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Ljava/net/URL;>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "showUnsupported",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "JVMSTAT_USERDIR",
+            "dsc": "Ljava/lang/String;",
+            "val": ".jvmstat"
+          },
+          {
+            "acc": 26,
+            "nme": "OPTIONS_FILENAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "jstat_options"
+          },
+          {
+            "acc": 26,
+            "nme": "UNSUPPORTED_OPTIONS_FILENAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "jstat_unsupported_options"
+          },
+          {
+            "acc": 26,
+            "nme": "ALL_NAMES",
+            "dsc": "Ljava/lang/String;",
+            "val": "\\w*"
+          },
+          {
+            "acc": 2,
+            "nme": "comparator",
+            "dsc": "Ljava/util/Comparator;",
+            "sig": "Ljava/util/Comparator<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "headerRate",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "help",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "list",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "options",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "constants",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "constantsOnly",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "strings",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "timestamp",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "snap",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "verbose",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "specialOption",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "names",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "optionFormat",
+            "dsc": "Lsun/tools/jstat/OptionFormat;"
+          },
+          {
+            "acc": 2,
+            "nme": "count",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "interval",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "vmIdString",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "vmId",
+            "dsc": "Lsun/jvmstat/monitor/VmIdentifier;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/jmap/JMap.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/jmap/JMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/Exception"
+            ]
+          },
+          {
+            "nme": "executeCommandForPid",
+            "acc": 138,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "parseFileName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "histo",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "dump",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkForUnsupportedOptions",
+            "acc": 10,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "SAOptionError",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "usage",
+            "acc": 10,
+            "dsc": "(I)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/common/ProcessArgumentMatcher.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/common/ProcessArgumentMatcher",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getExcludeStringFrom",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/String;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/String;"
+          },
+          {
+            "nme": "check",
+            "acc": 10,
+            "dsc": "(Lcom/sun/tools/attach/VirtualMachineDescriptor;Ljava/lang/String;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "getSingleVMD",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Collection;",
+            "sig": "(Ljava/lang/String;)Ljava/util/Collection<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "getVMDs",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Class;Ljava/lang/String;)Ljava/util/Collection;",
+            "sig": "(Ljava/lang/Class<*>;Ljava/lang/String;)Ljava/util/Collection<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "getVirtualMachineDescriptors",
+            "acc": 1,
+            "dsc": "()Ljava/util/Collection;",
+            "sig": "()Ljava/util/Collection<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "getVirtualMachinePids",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)Ljava/util/Collection;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/util/Collection<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "lambda$getVirtualMachinePids$0",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/tools/attach/VirtualMachineDescriptor;)Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "matchClass",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "singlePid",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+### IntelliJ IDEA ###
+out/
+!run/main/
+!/src/main//out/
+!/src/test//out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!/src/main//bin/
+!/src/test//bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+/workspace/assets
+/workspace/imgui.ini
+/workspace/logs
+/workspace/ide
+/.gradle/
+/artifacts/
+/.idea/
+/build/
+/run/
+/run/main/
+/run/logs/
+/run/.fabric/
+/.idea/
+.idea/
+run/main/files/autoCfg.json
+.idea/workspace.xml
+*.txt
+*.gz
+*.log
+*.mca
+*.mca
+.skidfuscator

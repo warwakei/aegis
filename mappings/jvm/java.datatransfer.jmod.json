@@ -1,0 +1,1892 @@
+{
+  "md5": "8e8d82fc6dc3a40c20fcbb95635a4610",
+  "sha2": "f757e500febc9b6807a0c002c821eb279523d219",
+  "sha256": "405b44160a2d804a2e494dfdbf928a90183f187ae55018a6052af1560eff842b",
+  "contents": {
+    "classes": {
+      "classes/sun/datatransfer/DataFlavorUtil$RMI.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/datatransfer/DataFlavorUtil$RMI",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getClass",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Class;",
+            "sig": "(Ljava/lang/String;)Ljava/lang/Class<*>;"
+          },
+          {
+            "nme": "getConstructor",
+            "acc": 138,
+            "dsc": "(Ljava/lang/Class;[Ljava/lang/Class;)Ljava/lang/reflect/Constructor;",
+            "sig": "(Ljava/lang/Class<*>;[Ljava/lang/Class<*>;)Ljava/lang/reflect/Constructor<*>;"
+          },
+          {
+            "nme": "getMethod",
+            "acc": 138,
+            "dsc": "(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;",
+            "sig": "(Ljava/lang/Class<*>;Ljava/lang/String;[Ljava/lang/Class<*>;)Ljava/lang/reflect/Method;"
+          },
+          {
+            "nme": "remoteClass",
+            "acc": 8,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<*>;"
+          },
+          {
+            "nme": "isRemote",
+            "acc": 9,
+            "dsc": "(Ljava/lang/Class;)Z",
+            "sig": "(Ljava/lang/Class<*>;)Z"
+          },
+          {
+            "nme": "newMarshalledObject",
+            "acc": 9,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getMarshalledObject",
+            "acc": 9,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "remoteClass",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<*>;"
+          },
+          {
+            "acc": 26,
+            "nme": "marshallObjectClass",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<*>;"
+          },
+          {
+            "acc": 26,
+            "nme": "marshallCtor",
+            "dsc": "Ljava/lang/reflect/Constructor;",
+            "sig": "Ljava/lang/reflect/Constructor<*>;"
+          },
+          {
+            "acc": 26,
+            "nme": "marshallGet",
+            "dsc": "Ljava/lang/reflect/Method;"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/java/awt/datatransfer/MimeTypeParameterList.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "java/awt/datatransfer/MimeTypeParameterList",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "parse",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "size",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isEmpty",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "set",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getNames",
+            "acc": 1,
+            "dsc": "()Ljava/util/Enumeration;",
+            "sig": "()Ljava/util/Enumeration<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "clone",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "isTokenChar",
+            "acc": 10,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "skipWhiteSpace",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;I)I"
+          },
+          {
+            "nme": "quote",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "unquote",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "parameters",
+            "dsc": "Ljava/util/Hashtable;",
+            "sig": "Ljava/util/Hashtable<Ljava/lang/String;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "TSPECIALS",
+            "dsc": "Ljava/lang/String;",
+            "val": "()<>@,;:\\\"/[]?="
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/ClipboardOwner.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "java/awt/datatransfer/ClipboardOwner",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "lostOwnership",
+            "acc": 1025,
+            "dsc": "(Ljava/awt/datatransfer/Clipboard;Ljava/awt/datatransfer/Transferable;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/java/awt/datatransfer/Transferable.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "java/awt/datatransfer/Transferable",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getTransferDataFlavors",
+            "acc": 1025,
+            "dsc": "()[Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "isDataFlavorSupported",
+            "acc": 1025,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "getTransferData",
+            "acc": 1025,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/lang/Object;",
+            "exs": [
+              "java/awt/datatransfer/UnsupportedFlavorException",
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/java/awt/datatransfer/DataFlavor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "java/awt/datatransfer/DataFlavor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "tryToLoadClass",
+            "acc": 28,
+            "dsc": "(Ljava/lang/String;Ljava/lang/ClassLoader;)Ljava/lang/Class;",
+            "sig": "(Ljava/lang/String;Ljava/lang/ClassLoader;)Ljava/lang/Class<*>;",
+            "exs": [
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "createConstant",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Class;Ljava/lang/String;)Ljava/awt/datatransfer/DataFlavor;",
+            "sig": "(Ljava/lang/Class<*>;Ljava/lang/String;)Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "createConstant",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "initHtml",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/awt/datatransfer/MimeTypeParameterList;Ljava/lang/Class;Ljava/lang/String;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/awt/datatransfer/MimeTypeParameterList;Ljava/lang/Class<*>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;Ljava/lang/String;)V",
+            "sig": "(Ljava/lang/Class<*>;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V",
+            "exs": [
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "initialize",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException",
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "paramString",
+            "acc": 2,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getTextPlainUnicodeFlavor",
+            "acc": 25,
+            "dsc": "()Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "selectBestTextFlavor",
+            "acc": 25,
+            "dsc": "([Ljava/awt/datatransfer/DataFlavor;)Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "getReaderForText",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/Transferable;)Ljava/io/Reader;",
+            "exs": [
+              "java/awt/datatransfer/UnsupportedFlavorException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getMimeType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getRepresentationClass",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<*>;"
+          },
+          {
+            "nme": "getHumanPresentableName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getPrimaryType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSubType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getParameter",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "setHumanPresentableName",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "equals",
+            "acc": 131073,
+            "dsc": "(Ljava/lang/String;)Z",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "match",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "isMimeTypeEqual",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isMimeTypeEqual",
+            "acc": 17,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "isMimeTypeEqual",
+            "acc": 2,
+            "dsc": "(Ljava/awt/datatransfer/MimeType;)Z"
+          },
+          {
+            "nme": "isStandardTextRepresentationClass",
+            "acc": 2,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isMimeTypeSerializedObject",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getDefaultRepresentationClass",
+            "acc": 17,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<*>;"
+          },
+          {
+            "nme": "getDefaultRepresentationClassAsString",
+            "acc": 17,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isRepresentationClassInputStream",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRepresentationClassReader",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRepresentationClassCharBuffer",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRepresentationClassByteBuffer",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRepresentationClassSerializable",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isRepresentationClassRemote",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isFlavorSerializedObjectType",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isFlavorRemoteObjectType",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isFlavorJavaFileListType",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isFlavorTextType",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "writeExternal",
+            "acc": 33,
+            "dsc": "(Ljava/io/ObjectOutput;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readExternal",
+            "acc": 33,
+            "dsc": "(Ljava/io/ObjectInput;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "clone",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;",
+            "exs": [
+              "java/lang/CloneNotSupportedException"
+            ]
+          },
+          {
+            "nme": "normalizeMimeTypeParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "normalizeMimeType",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 8367026044764648243
+          },
+          {
+            "acc": 25,
+            "nme": "stringFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 25,
+            "nme": "imageFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 131097,
+            "nme": "plainTextFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 25,
+            "nme": "javaSerializedObjectMimeType",
+            "dsc": "Ljava/lang/String;",
+            "val": "application/x-java-serialized-object"
+          },
+          {
+            "acc": 25,
+            "nme": "javaFileListFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 25,
+            "nme": "javaJVMLocalObjectMimeType",
+            "dsc": "Ljava/lang/String;",
+            "val": "application/x-java-jvm-local-objectref"
+          },
+          {
+            "acc": 25,
+            "nme": "javaRemoteObjectMimeType",
+            "dsc": "Ljava/lang/String;",
+            "val": "application/x-java-remote-object"
+          },
+          {
+            "acc": 25,
+            "nme": "selectionHtmlFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 25,
+            "nme": "fragmentHtmlFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 25,
+            "nme": "allHtmlFlavor",
+            "dsc": "Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 128,
+            "nme": "atom",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "mimeType",
+            "dsc": "Ljava/awt/datatransfer/MimeType;"
+          },
+          {
+            "acc": 2,
+            "nme": "humanPresentableName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "representationClass",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<*>;"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/MimeTypeParseException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "java/awt/datatransfer/MimeTypeParseException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -5604407764691570741
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/FlavorListener.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "java/awt/datatransfer/FlavorListener",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "flavorsChanged",
+            "acc": 1025,
+            "dsc": "(Ljava/awt/datatransfer/FlavorEvent;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/java/awt/datatransfer/MimeType.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "java/awt/datatransfer/MimeType",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/awt/datatransfer/MimeTypeParameterList;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "parse",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "getPrimaryType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSubType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getParameters",
+            "acc": 1,
+            "dsc": "()Ljava/awt/datatransfer/MimeTypeParameterList;"
+          },
+          {
+            "nme": "getParameter",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "setParameter",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "removeParameter",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getBaseType",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "match",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/MimeType;)Z"
+          },
+          {
+            "nme": "match",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z",
+            "exs": [
+              "java/awt/datatransfer/MimeTypeParseException"
+            ]
+          },
+          {
+            "nme": "writeExternal",
+            "acc": 1,
+            "dsc": "(Ljava/io/ObjectOutput;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readExternal",
+            "acc": 1,
+            "dsc": "(Ljava/io/ObjectInput;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "clone",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "isTokenChar",
+            "acc": 10,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "isValidToken",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -6568722458793895906
+          },
+          {
+            "acc": 130,
+            "nme": "primaryType",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 130,
+            "nme": "subType",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 130,
+            "nme": "parameters",
+            "dsc": "Ljava/awt/datatransfer/MimeTypeParameterList;"
+          },
+          {
+            "acc": 26,
+            "nme": "TSPECIALS",
+            "dsc": "Ljava/lang/String;",
+            "val": "()<>@,;:\\\"/[]?="
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DataFlavorUtil$TextFlavorComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/datatransfer/DataFlavorUtil$TextFlavorComparator",
+        "super": "sun/datatransfer/DataFlavorUtil$DataFlavorComparator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;Ljava/awt/datatransfer/DataFlavor;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "INSTANCE",
+            "dsc": "Lsun/datatransfer/DataFlavorUtil$TextFlavorComparator;"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/SystemFlavorMap$SoftCache.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "java/awt/datatransfer/SystemFlavorMap$SoftCache",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "put",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;Ljava/util/LinkedHashSet;)V",
+            "sig": "(TK;Ljava/util/LinkedHashSet<TV;>;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)V",
+            "sig": "(TK;)V"
+          },
+          {
+            "nme": "check",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/util/LinkedHashSet;",
+            "sig": "(TK;)Ljava/util/LinkedHashSet<TV;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "cache",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<TK;Ljava/lang/ref/SoftReference<Ljava/util/LinkedHashSet<TV;>;>;>;"
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DataFlavorUtil$CharsetComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/datatransfer/DataFlavorUtil$CharsetComparator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)I"
+          },
+          {
+            "nme": "getEncoding",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "INSTANCE",
+            "dsc": "Lsun/datatransfer/DataFlavorUtil$CharsetComparator;"
+          },
+          {
+            "acc": 26,
+            "nme": "charsets",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_CHARSET_INDEX",
+            "dsc": "Ljava/lang/Integer;"
+          },
+          {
+            "acc": 26,
+            "nme": "OTHER_CHARSET_INDEX",
+            "dsc": "Ljava/lang/Integer;"
+          },
+          {
+            "acc": 26,
+            "nme": "WORST_CHARSET_INDEX",
+            "dsc": "Ljava/lang/Integer;"
+          },
+          {
+            "acc": 26,
+            "nme": "UNSUPPORTED_CHARSET_INDEX",
+            "dsc": "Ljava/lang/Integer;"
+          },
+          {
+            "acc": 26,
+            "nme": "UNSUPPORTED_CHARSET",
+            "dsc": "Ljava/lang/String;",
+            "val": "UNSUPPORTED"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/Clipboard.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "java/awt/datatransfer/Clipboard",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "setContents",
+            "acc": 33,
+            "dsc": "(Ljava/awt/datatransfer/Transferable;Ljava/awt/datatransfer/ClipboardOwner;)V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 33,
+            "dsc": "(Ljava/lang/Object;)Ljava/awt/datatransfer/Transferable;"
+          },
+          {
+            "nme": "getAvailableDataFlavors",
+            "acc": 1,
+            "dsc": "()[Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "isDataFlavorAvailable",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "getData",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/lang/Object;",
+            "exs": [
+              "java/awt/datatransfer/UnsupportedFlavorException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "addFlavorListener",
+            "acc": 33,
+            "dsc": "(Ljava/awt/datatransfer/FlavorListener;)V"
+          },
+          {
+            "nme": "removeFlavorListener",
+            "acc": 33,
+            "dsc": "(Ljava/awt/datatransfer/FlavorListener;)V"
+          },
+          {
+            "nme": "getFlavorListeners",
+            "acc": 33,
+            "dsc": "()[Ljava/awt/datatransfer/FlavorListener;"
+          },
+          {
+            "nme": "fireFlavorsChanged",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getAvailableDataFlavorSet",
+            "acc": 2,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "lambda$fireFlavorsChanged$2",
+            "acc": 4098,
+            "dsc": "(Ljava/awt/datatransfer/FlavorListener;)V"
+          },
+          {
+            "nme": "lambda$fireFlavorsChanged$1",
+            "acc": 4098,
+            "dsc": "(Ljava/awt/datatransfer/FlavorListener;)V"
+          },
+          {
+            "nme": "lambda$setContents$0",
+            "acc": 4098,
+            "dsc": "(Ljava/awt/datatransfer/ClipboardOwner;Ljava/awt/datatransfer/Transferable;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "owner",
+            "dsc": "Ljava/awt/datatransfer/ClipboardOwner;"
+          },
+          {
+            "acc": 4,
+            "nme": "contents",
+            "dsc": "Ljava/awt/datatransfer/Transferable;"
+          },
+          {
+            "acc": 2,
+            "nme": "flavorListeners",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/awt/datatransfer/FlavorListener;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "currentDataFlavors",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/awt/datatransfer/DataFlavor;>;"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/UnsupportedFlavorException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "java/awt/datatransfer/UnsupportedFlavorException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 5383814944251665601
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DataFlavorUtil$IndexOrderComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/datatransfer/DataFlavorUtil$IndexOrderComparator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/Long;Ljava/lang/Integer;>;)V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Long;Ljava/lang/Long;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "indexMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Long;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "FALLBACK_INDEX",
+            "dsc": "Ljava/lang/Integer;"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/FlavorMap.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "java/awt/datatransfer/FlavorMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getNativesForFlavors",
+            "acc": 1025,
+            "dsc": "([Ljava/awt/datatransfer/DataFlavor;)Ljava/util/Map;",
+            "sig": "([Ljava/awt/datatransfer/DataFlavor;)Ljava/util/Map<Ljava/awt/datatransfer/DataFlavor;Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getFlavorsForNatives",
+            "acc": 1025,
+            "dsc": "([Ljava/lang/String;)Ljava/util/Map;",
+            "sig": "([Ljava/lang/String;)Ljava/util/Map<Ljava/lang/String;Ljava/awt/datatransfer/DataFlavor;>;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/datatransfer/DataFlavorUtil.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/datatransfer/DataFlavorUtil",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getCharsetComparator",
+            "acc": 10,
+            "dsc": "()Ljava/util/Comparator;",
+            "sig": "()Ljava/util/Comparator<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getDataFlavorComparator",
+            "acc": 9,
+            "dsc": "()Ljava/util/Comparator;",
+            "sig": "()Ljava/util/Comparator<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "getIndexOrderComparator",
+            "acc": 9,
+            "dsc": "(Ljava/util/Map;)Ljava/util/Comparator;",
+            "sig": "(Ljava/util/Map<Ljava/lang/Long;Ljava/lang/Integer;>;)Ljava/util/Comparator<Ljava/lang/Long;>;"
+          },
+          {
+            "nme": "getTextFlavorComparator",
+            "acc": 9,
+            "dsc": "()Ljava/util/Comparator;",
+            "sig": "()Ljava/util/Comparator<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "standardEncodings",
+            "acc": 9,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "canonicalName",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "doesSubtypeSupportCharset",
+            "acc": 9,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "doesSubtypeSupportCharset",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isFlavorCharsetTextType",
+            "acc": 9,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "isFlavorNoncharsetTextType",
+            "acc": 9,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "getTextCharset",
+            "acc": 9,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/lang/String;"
+          },
+          {
+            "nme": "isEncodingSupported",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "compareIndices",
+            "acc": 8,
+            "dsc": "(Ljava/util/Map;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Integer;)I",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/util/Map<TT;Ljava/lang/Integer;>;TT;TT;Ljava/lang/Integer;)I"
+          },
+          {
+            "nme": "getDesktopService",
+            "acc": 9,
+            "dsc": "()Lsun/datatransfer/DesktopDatatransferService;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "textMIMESubtypeCharsetSupport",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Boolean;>;"
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DesktopDatatransferService.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/datatransfer/DesktopDatatransferService",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "invokeOnEventThread",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/Runnable;)V"
+          },
+          {
+            "nme": "getDefaultUnicodeEncoding",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getFlavorMap",
+            "acc": 1025,
+            "dsc": "(Ljava/util/function/Supplier;)Ljava/awt/datatransfer/FlavorMap;",
+            "sig": "(Ljava/util/function/Supplier<Ljava/awt/datatransfer/FlavorMap;>;)Ljava/awt/datatransfer/FlavorMap;"
+          },
+          {
+            "nme": "isDesktopPresent",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getPlatformMappingsForNative",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/lang/String;)Ljava/util/LinkedHashSet<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "getPlatformMappingsForFlavor",
+            "acc": 1025,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/LinkedHashSet<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "registerTextFlavorProperties",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/java/awt/datatransfer/SystemFlavorMap.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "java/awt/datatransfer/SystemFlavorMap",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getNativeToFlavor",
+            "acc": 2,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;Ljava/util/LinkedHashSet<Ljava/awt/datatransfer/DataFlavor;>;>;"
+          },
+          {
+            "nme": "getFlavorToNative",
+            "acc": 34,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/awt/datatransfer/DataFlavor;Ljava/util/LinkedHashSet<Ljava/lang/String;>;>;"
+          },
+          {
+            "nme": "getTextTypeToNative",
+            "acc": 34,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;Ljava/util/LinkedHashSet<Ljava/lang/String;>;>;"
+          },
+          {
+            "nme": "getDefaultFlavorMap",
+            "acc": 9,
+            "dsc": "()Ljava/awt/datatransfer/FlavorMap;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "initSystemFlavorMap",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "loadConvert",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "store",
+            "acc": 2,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/Map;)V",
+            "sig": "<H:Ljava/lang/Object;L:Ljava/lang/Object;>(TH;TL;Ljava/util/Map<TH;Ljava/util/LinkedHashSet<TL;>;>;)V"
+          },
+          {
+            "nme": "nativeToFlavorLookup",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/lang/String;)Ljava/util/LinkedHashSet<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "flavorToNativeLookup",
+            "acc": 2,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;Z)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/awt/datatransfer/DataFlavor;Z)Ljava/util/LinkedHashSet<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getNativesForFlavor",
+            "acc": 33,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/List;",
+            "sig": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getFlavorsForNative",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "convertMimeTypeToDataFlavors",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Set;",
+            "sig": "(Ljava/lang/String;)Ljava/util/Set<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "handleHtmlMimeTypes",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;)Ljava/util/LinkedHashSet<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getNativesForFlavors",
+            "acc": 33,
+            "dsc": "([Ljava/awt/datatransfer/DataFlavor;)Ljava/util/Map;",
+            "sig": "([Ljava/awt/datatransfer/DataFlavor;)Ljava/util/Map<Ljava/awt/datatransfer/DataFlavor;Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getFlavorsForNatives",
+            "acc": 33,
+            "dsc": "([Ljava/lang/String;)Ljava/util/Map;",
+            "sig": "([Ljava/lang/String;)Ljava/util/Map<Ljava/lang/String;Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "addUnencodedNativeForFlavor",
+            "acc": 33,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "setNativesForFlavor",
+            "acc": 33,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;[Ljava/lang/String;)V"
+          },
+          {
+            "nme": "addFlavorForUnencodedNative",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;Ljava/awt/datatransfer/DataFlavor;)V"
+          },
+          {
+            "nme": "setFlavorsForNative",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;[Ljava/awt/datatransfer/DataFlavor;)V"
+          },
+          {
+            "nme": "encodeJavaMIMEType",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "encodeDataFlavor",
+            "acc": 9,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/lang/String;"
+          },
+          {
+            "nme": "isJavaMIMEType",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "decodeJavaMIMEType",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "decodeDataFlavor",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Ljava/awt/datatransfer/DataFlavor;",
+            "exs": [
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "lambda$initSystemFlavorMap$0",
+            "acc": 4106,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "JavaMIME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "FLAVOR_MAP_KEY",
+            "dsc": "Ljava/lang/Object;"
+          },
+          {
+            "acc": 26,
+            "nme": "UNICODE_TEXT_CLASSES",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "ENCODED_TEXT_CLASSES",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "TEXT_PLAIN_BASE_TYPE",
+            "dsc": "Ljava/lang/String;",
+            "val": "text/plain"
+          },
+          {
+            "acc": 26,
+            "nme": "HTML_TEXT_BASE_TYPE",
+            "dsc": "Ljava/lang/String;",
+            "val": "text/html"
+          },
+          {
+            "acc": 18,
+            "nme": "nativeToFlavor",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/util/LinkedHashSet<Ljava/awt/datatransfer/DataFlavor;>;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "flavorToNative",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/awt/datatransfer/DataFlavor;Ljava/util/LinkedHashSet<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "textTypeToNative",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/util/LinkedHashSet<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "isMapInitialized",
+            "dsc": "Z"
+          },
+          {
+            "acc": 18,
+            "nme": "nativesForFlavorCache",
+            "dsc": "Ljava/awt/datatransfer/SystemFlavorMap$SoftCache;",
+            "sig": "Ljava/awt/datatransfer/SystemFlavorMap$SoftCache<Ljava/awt/datatransfer/DataFlavor;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "flavorsForNativeCache",
+            "dsc": "Ljava/awt/datatransfer/SystemFlavorMap$SoftCache;",
+            "sig": "Ljava/awt/datatransfer/SystemFlavorMap$SoftCache<Ljava/lang/String;Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "disabledMappingGenerationKeys",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/Object;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "htmlDocumentTypes",
+            "dsc": "[Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DataFlavorUtil$DataFlavorComparator.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/datatransfer/DataFlavorUtil$DataFlavorComparator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "compare",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;Ljava/awt/datatransfer/DataFlavor;)I"
+          },
+          {
+            "nme": "compare",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "INSTANCE",
+            "dsc": "Lsun/datatransfer/DataFlavorUtil$DataFlavorComparator;"
+          },
+          {
+            "acc": 26,
+            "nme": "exactTypes",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "primaryTypes",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "nonTextRepresentations",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Class<*>;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "textTypes",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "decodedTextRepresentations",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Class<*>;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "encodedTextRepresentations",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Class<*>;Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "UNKNOWN_OBJECT_LOSES",
+            "dsc": "Ljava/lang/Integer;"
+          },
+          {
+            "acc": 26,
+            "nme": "UNKNOWN_OBJECT_WINS",
+            "dsc": "Ljava/lang/Integer;"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/FlavorEvent.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "java/awt/datatransfer/FlavorEvent",
+        "super": "java/util/EventObject",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/Clipboard;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -5842664112252414548
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DataFlavorUtil$DefaultDesktopDatatransferService.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/datatransfer/DataFlavorUtil$DefaultDesktopDatatransferService",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getDesktopService",
+            "acc": 10,
+            "dsc": "()Lsun/datatransfer/DesktopDatatransferService;"
+          },
+          {
+            "nme": "invokeOnEventThread",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Runnable;)V"
+          },
+          {
+            "nme": "getDefaultUnicodeEncoding",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getFlavorMap",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/Supplier;)Ljava/awt/datatransfer/FlavorMap;",
+            "sig": "(Ljava/util/function/Supplier<Ljava/awt/datatransfer/FlavorMap;>;)Ljava/awt/datatransfer/FlavorMap;"
+          },
+          {
+            "nme": "isDesktopPresent",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getPlatformMappingsForNative",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/lang/String;)Ljava/util/LinkedHashSet<Ljava/awt/datatransfer/DataFlavor;>;"
+          },
+          {
+            "nme": "getPlatformMappingsForFlavor",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/LinkedHashSet;",
+            "sig": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/LinkedHashSet<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "registerTextFlavorProperties",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "INSTANCE",
+            "dsc": "Lsun/datatransfer/DesktopDatatransferService;"
+          },
+          {
+            "acc": 66,
+            "nme": "flavorMap",
+            "dsc": "Ljava/awt/datatransfer/FlavorMap;"
+          }
+        ]
+      },
+      "classes/sun/datatransfer/DataFlavorUtil$StandardEncodingsHolder.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/datatransfer/DataFlavorUtil$StandardEncodingsHolder",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "load",
+            "acc": 10,
+            "dsc": "()Ljava/util/SortedSet;",
+            "sig": "()Ljava/util/SortedSet<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "standardEncodings",
+            "dsc": "Ljava/util/SortedSet;",
+            "sig": "Ljava/util/SortedSet<Ljava/lang/String;>;"
+          }
+        ]
+      },
+      "classes/java/awt/datatransfer/FlavorTable.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "java/awt/datatransfer/FlavorTable",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getNativesForFlavor",
+            "acc": 1025,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/List;",
+            "sig": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getFlavorsForNative",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Ljava/awt/datatransfer/DataFlavor;>;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/java/awt/datatransfer/StringSelection.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "java/awt/datatransfer/StringSelection",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getTransferDataFlavors",
+            "acc": 1,
+            "dsc": "()[Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "nme": "isDataFlavorSupported",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Z"
+          },
+          {
+            "nme": "getTransferData",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/DataFlavor;)Ljava/lang/Object;",
+            "exs": [
+              "java/awt/datatransfer/UnsupportedFlavorException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "lostOwnership",
+            "acc": 1,
+            "dsc": "(Ljava/awt/datatransfer/Clipboard;Ljava/awt/datatransfer/Transferable;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "STRING",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "PLAIN_TEXT",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "flavors",
+            "dsc": "[Ljava/awt/datatransfer/DataFlavor;"
+          },
+          {
+            "acc": 2,
+            "nme": "data",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      }
+    }
+  }
+}

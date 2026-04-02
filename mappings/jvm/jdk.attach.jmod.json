@@ -1,0 +1,1127 @@
+{
+  "md5": "145e0dcca56f94c877ce3a9c1b5c4176",
+  "sha2": "3bc4a46971b59af3c2ef0ae5bd57bf123f9146c1",
+  "sha256": "25ed0ced18d1c41da235b6cb6b983d9643875077bda9e2b63ccae54bdcc685e1",
+  "contents": {
+    "classes": {
+      "classes/com/sun/tools/attach/AttachOperationFailedException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/tools/attach/AttachOperationFailedException",
+        "super": "java/io/IOException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 2140308168167478043
+          }
+        ]
+      },
+      "classes/com/sun/tools/attach/AttachNotSupportedException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/tools/attach/AttachNotSupportedException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 3391824968260177264
+          }
+        ]
+      },
+      "classes/com/sun/tools/attach/VirtualMachineDescriptor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/tools/attach/VirtualMachineDescriptor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/tools/attach/spi/AttachProvider;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/tools/attach/spi/AttachProvider;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "provider",
+            "acc": 1,
+            "dsc": "()Lcom/sun/tools/attach/spi/AttachProvider;"
+          },
+          {
+            "nme": "id",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "displayName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "provider",
+            "dsc": "Lcom/sun/tools/attach/spi/AttachProvider;"
+          },
+          {
+            "acc": 2,
+            "nme": "id",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "displayName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 66,
+            "nme": "hash",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/tools/attach/spi/AttachProvider.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/tools/attach/spi/AttachProvider",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "name",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "type",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "attachVirtualMachine",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/tools/attach/VirtualMachine;",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "attachVirtualMachine",
+            "acc": 1,
+            "dsc": "(Lcom/sun/tools/attach/VirtualMachineDescriptor;)Lcom/sun/tools/attach/VirtualMachine;",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "listVirtualMachines",
+            "acc": 1025,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "providers",
+            "acc": 9,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/tools/attach/spi/AttachProvider;>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "lock",
+            "dsc": "Ljava/lang/Object;"
+          },
+          {
+            "acc": 10,
+            "nme": "providers",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lcom/sun/tools/attach/spi/AttachProvider;>;"
+          }
+        ]
+      },
+      "classes/sun/tools/attach/VirtualMachineImpl$SocketInputStreamImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/attach/VirtualMachineImpl$SocketInputStreamImpl",
+        "super": "sun/tools/attach/HotSpotVirtualMachine$SocketInputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(J)V"
+          },
+          {
+            "nme": "read",
+            "acc": 4,
+            "dsc": "(J[BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 4,
+            "dsc": "(J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/attach/HotSpotAttachProvider.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/tools/attach/HotSpotAttachProvider",
+        "super": "com/sun/tools/attach/spi/AttachProvider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "checkAttachPermission",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "listVirtualMachines",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "testAttachable",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/tools/attach/VirtualMachineImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/attach/VirtualMachineImpl",
+        "super": "sun/tools/attach/HotSpotVirtualMachine",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/tools/attach/spi/AttachProvider;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "execute",
+            "acc": 128,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/InputStream;",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "init",
+            "acc": 264,
+            "dsc": "()V"
+          },
+          {
+            "nme": "generateStub",
+            "acc": 264,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "openProcess",
+            "acc": 264,
+            "dsc": "(I)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "closeProcess",
+            "acc": 264,
+            "dsc": "(J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "createPipe",
+            "acc": 264,
+            "dsc": "(Ljava/lang/String;)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "closePipe",
+            "acc": 264,
+            "dsc": "(J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "connectPipe",
+            "acc": 264,
+            "dsc": "(J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readPipe",
+            "acc": 264,
+            "dsc": "(J[BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "enqueue",
+            "acc": 392,
+            "dsc": "(J[BLjava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "stub",
+            "dsc": "[B"
+          },
+          {
+            "acc": 66,
+            "nme": "hProcess",
+            "dsc": "J"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/attach/HotSpotVirtualMachine$SocketInputStream.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/tools/attach/HotSpotVirtualMachine$SocketInputStream",
+        "super": "java/io/InputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(J)V"
+          },
+          {
+            "nme": "read",
+            "acc": 1028,
+            "dsc": "(J[BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1028,
+            "dsc": "(J)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 33,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "fd",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/sun/tools/attach/HotSpotVirtualMachine.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/tools/attach/HotSpotVirtualMachine",
+        "super": "com/sun/tools/attach/VirtualMachine",
+        "mthds": [
+          {
+            "nme": "pid",
+            "acc": 10,
+            "dsc": "()J"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/tools/attach/spi/AttachProvider;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgentLibrary",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ZLjava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgentLibrary",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgentPath",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgent",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getSystemProperties",
+            "acc": 1,
+            "dsc": "()Ljava/util/Properties;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAgentProperties",
+            "acc": 1,
+            "dsc": "()Ljava/util/Properties;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkedKeyName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "stripKeyName",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "startManagementAgent",
+            "acc": 1,
+            "dsc": "(Ljava/util/Properties;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "escape",
+            "acc": 2,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "startLocalManagementAgent",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "localDataDump",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "remoteDataDump",
+            "acc": 129,
+            "dsc": "([Ljava/lang/Object;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "dumpHeap",
+            "acc": 129,
+            "dsc": "([Ljava/lang/Object;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "heapHisto",
+            "acc": 129,
+            "dsc": "([Ljava/lang/Object;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setFlag",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "printFlag",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "executeJCmd",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "execute",
+            "acc": 1152,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/InputStream;",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "executeCommand",
+            "acc": 129,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readInt",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readErrorMessage",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;)Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "processCompletionStatus",
+            "acc": 0,
+            "dsc": "(Ljava/io/IOException;Ljava/lang/String;Ljava/io/InputStream;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "attachTimeout",
+            "acc": 0,
+            "dsc": "()J"
+          },
+          {
+            "nme": "checkNulls",
+            "acc": 140,
+            "dsc": "([Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "lambda$startManagementAgent$2",
+            "acc": 4098,
+            "dsc": "(Ljava/util/Map$Entry;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$startManagementAgent$1",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Map$Entry;)Z"
+          },
+          {
+            "nme": "lambda$pid$0",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/ProcessHandle;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "CURRENT_PID",
+            "dsc": "J"
+          },
+          {
+            "acc": 26,
+            "nme": "ALLOW_ATTACH_SELF",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "JNI_ENOMEM",
+            "dsc": "I",
+            "val": -4
+          },
+          {
+            "acc": 26,
+            "nme": "ATTACH_ERROR_BADJAR",
+            "dsc": "I",
+            "val": 100
+          },
+          {
+            "acc": 26,
+            "nme": "ATTACH_ERROR_NOTONCP",
+            "dsc": "I",
+            "val": 101
+          },
+          {
+            "acc": 26,
+            "nme": "ATTACH_ERROR_STARTFAIL",
+            "dsc": "I",
+            "val": 102
+          },
+          {
+            "acc": 26,
+            "nme": "ATTACH_ERROR_BADVERSION",
+            "dsc": "I",
+            "val": 101
+          },
+          {
+            "acc": 26,
+            "nme": "MANAGEMENT_PREFIX",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.management."
+          },
+          {
+            "acc": 10,
+            "nme": "defaultAttachTimeout",
+            "dsc": "J"
+          },
+          {
+            "acc": 66,
+            "nme": "attachTimeout",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/com/sun/tools/attach/AgentInitializationException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/tools/attach/AgentInitializationException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "returnValue",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1508756333332806353
+          },
+          {
+            "acc": 2,
+            "nme": "returnValue",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/tools/attach/AttachProviderImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/tools/attach/AttachProviderImpl",
+        "super": "sun/tools/attach/HotSpotAttachProvider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "type",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "attachVirtualMachine",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/tools/attach/VirtualMachine;",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "listVirtualMachines",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "isTempPathSecure",
+            "acc": 10,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "tempPath",
+            "acc": 266,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "volumeFlags",
+            "acc": 266,
+            "dsc": "(Ljava/lang/String;)J"
+          },
+          {
+            "nme": "listJavaProcesses",
+            "acc": 2,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "enumProcesses",
+            "acc": 266,
+            "dsc": "([II)I"
+          },
+          {
+            "nme": "isLibraryLoadedByProcess",
+            "acc": 266,
+            "dsc": "(Ljava/lang/String;I)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "FS_PERSISTENT_ACLS",
+            "dsc": "J",
+            "val": 8
+          },
+          {
+            "acc": 74,
+            "nme": "wasTempPathChecked",
+            "dsc": "Z"
+          },
+          {
+            "acc": 10,
+            "nme": "isTempPathSecure",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/tools/attach/HotSpotAttachProvider$HotSpotVirtualMachineDescriptor.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/tools/attach/HotSpotAttachProvider$HotSpotVirtualMachineDescriptor",
+        "super": "com/sun/tools/attach/VirtualMachineDescriptor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/tools/attach/spi/AttachProvider;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "isAttachable",
+            "acc": 1,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/tools/attach/VirtualMachine.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/tools/attach/VirtualMachine",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Lcom/sun/tools/attach/spi/AttachProvider;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "list",
+            "acc": 9,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/tools/attach/VirtualMachineDescriptor;>;"
+          },
+          {
+            "nme": "attach",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/tools/attach/VirtualMachine;",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "attach",
+            "acc": 9,
+            "dsc": "(Lcom/sun/tools/attach/VirtualMachineDescriptor;)Lcom/sun/tools/attach/VirtualMachine;",
+            "exs": [
+              "com/sun/tools/attach/AttachNotSupportedException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1025,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "provider",
+            "acc": 17,
+            "dsc": "()Lcom/sun/tools/attach/spi/AttachProvider;"
+          },
+          {
+            "nme": "id",
+            "acc": 17,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "loadAgentLibrary",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgentLibrary",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgentPath",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgentPath",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgent",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "loadAgent",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "com/sun/tools/attach/AgentLoadException",
+              "com/sun/tools/attach/AgentInitializationException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getSystemProperties",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Properties;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getAgentProperties",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Properties;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "startManagementAgent",
+            "acc": 1025,
+            "dsc": "(Ljava/util/Properties;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "startLocalManagementAgent",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "provider",
+            "dsc": "Lcom/sun/tools/attach/spi/AttachProvider;"
+          },
+          {
+            "acc": 2,
+            "nme": "id",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 66,
+            "nme": "hash",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/tools/attach/AgentLoadException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/tools/attach/AgentLoadException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 688047862952114238
+          }
+        ]
+      },
+      "classes/com/sun/tools/attach/AttachPermission.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/tools/attach/AttachPermission",
+        "super": "java/security/BasicPermission",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -4619447669752976181
+          }
+        ]
+      }
+    }
+  }
+}

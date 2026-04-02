@@ -1,0 +1,16 @@
+{
+  "md5": "c0d7492090d830095bd8507c289e07c6",
+  "sha2": "ef3c5c07d929b8ed247777b1e81da1968fa83c46",
+  "sha256": "933cc513a4d19d9e00e37419581af0128ae0ce515986ee0d11a30d42df7b7e44",
+  "contents": {
+    "classes": {
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      }
+    }
+  }
+}

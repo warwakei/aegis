@@ -1,0 +1,1598 @@
+{
+  "md5": "738a6fe6e166dd3016f77f60c601ff21",
+  "sha2": "c9f62930865ae872b619ea27d510eb14065972f6",
+  "sha256": "497ca942b94465a147932ac5739ed9a729dac5ee3758156aa4b94ed739534274",
+  "contents": {
+    "classes": {
+      "classes/com/sun/nio/file/ExtendedOpenOption.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/nio/file/ExtendedOpenOption",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjdk/internal/misc/FileSystemOption;)V",
+            "sig": "(Ljdk/internal/misc/FileSystemOption<Ljava/lang/Void;>;)V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "NOSHARE_READ",
+            "dsc": "Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "acc": 16409,
+            "nme": "NOSHARE_WRITE",
+            "dsc": "Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "acc": 16409,
+            "nme": "NOSHARE_DELETE",
+            "dsc": "Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "acc": 16409,
+            "nme": "DIRECT",
+            "dsc": "Lcom/sun/nio/file/ExtendedOpenOption;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/file/ExtendedOpenOption;"
+          }
+        ]
+      },
+      "classes/com/sun/nio/file/SensitivityWatchEventModifier.class": {
+        "ver": 65,
+        "acc": 147505,
+        "nme": "com/sun/nio/file/SensitivityWatchEventModifier",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          },
+          {
+            "nme": "sensitivityValueInSeconds",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjdk/internal/misc/FileSystemOption;I)V",
+            "sig": "(Ljdk/internal/misc/FileSystemOption<Ljava/lang/Integer;>;I)V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "HIGH",
+            "dsc": "Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          },
+          {
+            "acc": 16409,
+            "nme": "MEDIUM",
+            "dsc": "Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          },
+          {
+            "acc": 16409,
+            "nme": "LOW",
+            "dsc": "Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          },
+          {
+            "acc": 18,
+            "nme": "sensitivity",
+            "dsc": "I"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/file/SensitivityWatchEventModifier;"
+          }
+        ],
+        "vanns": [
+          {
+            "dsc": "Ljava/lang/Deprecated;",
+            "vals": [
+              "since",
+              "21",
+              "forRemoval",
+              true
+            ]
+          }
+        ]
+      },
+      "classes/sun/misc/Unsafe.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/misc/Unsafe",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getUnsafe",
+            "acc": 9,
+            "dsc": "()Lsun/misc/Unsafe;",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/reflect/CallerSensitive;"
+              }
+            ]
+          },
+          {
+            "nme": "getInt",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putInt",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JI)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getObject",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)Ljava/lang/Object;",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putObject",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JLjava/lang/Object;)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getBoolean",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)Z",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putBoolean",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JZ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getByte",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)B",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putByte",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JB)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getShort",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)S",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putShort",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JS)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getChar",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)C",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putChar",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JC)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getLong",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putLong",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getFloat",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)F",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putFloat",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JF)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getDouble",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)D",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putDouble",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JD)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getByte",
+            "acc": 1,
+            "dsc": "(J)B",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putByte",
+            "acc": 1,
+            "dsc": "(JB)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getShort",
+            "acc": 1,
+            "dsc": "(J)S",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putShort",
+            "acc": 1,
+            "dsc": "(JS)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getChar",
+            "acc": 1,
+            "dsc": "(J)C",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putChar",
+            "acc": 1,
+            "dsc": "(JC)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getInt",
+            "acc": 1,
+            "dsc": "(J)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putInt",
+            "acc": 1,
+            "dsc": "(JI)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getLong",
+            "acc": 1,
+            "dsc": "(J)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putLong",
+            "acc": 1,
+            "dsc": "(JJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getFloat",
+            "acc": 1,
+            "dsc": "(J)F",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putFloat",
+            "acc": 1,
+            "dsc": "(JF)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getDouble",
+            "acc": 1,
+            "dsc": "(J)D",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putDouble",
+            "acc": 1,
+            "dsc": "(JD)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getAddress",
+            "acc": 1,
+            "dsc": "(J)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putAddress",
+            "acc": 1,
+            "dsc": "(JJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "allocateMemory",
+            "acc": 1,
+            "dsc": "(J)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "reallocateMemory",
+            "acc": 1,
+            "dsc": "(JJ)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "setMemory",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JJB)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "setMemory",
+            "acc": 1,
+            "dsc": "(JJB)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "copyMemory",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JLjava/lang/Object;JJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "copyMemory",
+            "acc": 1,
+            "dsc": "(JJJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "freeMemory",
+            "acc": 1,
+            "dsc": "(J)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "objectFieldOffset",
+            "acc": 131073,
+            "dsc": "(Ljava/lang/reflect/Field;)J",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "18"
+                ]
+              },
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "staticFieldOffset",
+            "acc": 131073,
+            "dsc": "(Ljava/lang/reflect/Field;)J",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "18"
+                ]
+              },
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "staticFieldBase",
+            "acc": 131073,
+            "dsc": "(Ljava/lang/reflect/Field;)Ljava/lang/Object;",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "18"
+                ]
+              },
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "shouldBeInitialized",
+            "acc": 131073,
+            "dsc": "(Ljava/lang/Class;)Z",
+            "sig": "(Ljava/lang/Class<*>;)Z",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "15",
+                  "forRemoval",
+                  true
+                ]
+              },
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "ensureClassInitialized",
+            "acc": 131073,
+            "dsc": "(Ljava/lang/Class;)V",
+            "sig": "(Ljava/lang/Class<*>;)V",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "15",
+                  "forRemoval",
+                  true
+                ]
+              },
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "arrayBaseOffset",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)I",
+            "sig": "(Ljava/lang/Class<*>;)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "arrayIndexScale",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)I",
+            "sig": "(Ljava/lang/Class<*>;)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "addressSize",
+            "acc": 1,
+            "dsc": "()I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "pageSize",
+            "acc": 1,
+            "dsc": "()I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "allocateInstance",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/Object;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/Object;",
+            "exs": [
+              "java/lang/InstantiationException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "throwException",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Throwable;)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "compareAndSwapObject",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "compareAndSwapInt",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JII)Z",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "compareAndSwapLong",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JJJ)Z",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getObjectVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)Ljava/lang/Object;",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putObjectVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JLjava/lang/Object;)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getIntVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putIntVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JI)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getBooleanVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)Z",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putBooleanVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JZ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getByteVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)B",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putByteVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JB)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getShortVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)S",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putShortVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JS)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getCharVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)C",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putCharVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JC)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getLongVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putLongVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getFloatVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)F",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putFloatVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JF)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getDoubleVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;J)D",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putDoubleVolatile",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JD)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putOrderedObject",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JLjava/lang/Object;)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putOrderedInt",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JI)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "putOrderedLong",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;JJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "unpark",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "park",
+            "acc": 1,
+            "dsc": "(ZJ)V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getLoadAverage",
+            "acc": 1,
+            "dsc": "([DI)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getAndAddInt",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JI)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getAndAddLong",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JJ)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getAndSetInt",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JI)I",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getAndSetLong",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JJ)J",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "getAndSetObject",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;JLjava/lang/Object;)Ljava/lang/Object;",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "loadFence",
+            "acc": 1,
+            "dsc": "()V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "storeFence",
+            "acc": 1,
+            "dsc": "()V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "fullFence",
+            "acc": 1,
+            "dsc": "()V",
+            "vanns": [
+              {
+                "dsc": "Ljdk/internal/vm/annotation/ForceInline;"
+              }
+            ]
+          },
+          {
+            "nme": "invokeCleaner",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "theUnsafe",
+            "dsc": "Lsun/misc/Unsafe;"
+          },
+          {
+            "acc": 26,
+            "nme": "theInternalUnsafe",
+            "dsc": "Ljdk/internal/misc/Unsafe;"
+          },
+          {
+            "acc": 25,
+            "nme": "INVALID_FIELD_OFFSET",
+            "dsc": "I",
+            "val": -1
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_BOOLEAN_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_BYTE_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_SHORT_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_CHAR_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_INT_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_LONG_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_FLOAT_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_DOUBLE_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_OBJECT_BASE_OFFSET",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_BOOLEAN_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_BYTE_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_SHORT_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_CHAR_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_INT_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_LONG_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_FLOAT_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_DOUBLE_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY_OBJECT_INDEX_SCALE",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "ADDRESS_SIZE",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/misc/SignalHandler.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/misc/SignalHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "handle",
+            "acc": 1025,
+            "dsc": "(Lsun/misc/Signal;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "SIG_DFL",
+            "dsc": "Lsun/misc/SignalHandler;"
+          },
+          {
+            "acc": 25,
+            "nme": "SIG_IGN",
+            "dsc": "Lsun/misc/SignalHandler;"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/com/sun/nio/file/ExtendedCopyOption.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/nio/file/ExtendedCopyOption",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/file/ExtendedCopyOption;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/file/ExtendedCopyOption;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjdk/internal/misc/FileSystemOption;)V",
+            "sig": "(Ljdk/internal/misc/FileSystemOption<Ljava/lang/Void;>;)V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/file/ExtendedCopyOption;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "INTERRUPTIBLE",
+            "dsc": "Lcom/sun/nio/file/ExtendedCopyOption;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/file/ExtendedCopyOption;"
+          }
+        ]
+      },
+      "classes/sun/misc/Signal$InternalMiscHandler.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/misc/Signal$InternalMiscHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "of",
+            "acc": 8,
+            "dsc": "(Lsun/misc/Signal;Lsun/misc/SignalHandler;)Ljdk/internal/misc/Signal$Handler;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Lsun/misc/Signal;Lsun/misc/SignalHandler;)V"
+          },
+          {
+            "nme": "handle",
+            "acc": 1,
+            "dsc": "(Ljdk/internal/misc/Signal;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "handler",
+            "dsc": "Lsun/misc/SignalHandler;"
+          },
+          {
+            "acc": 18,
+            "nme": "signal",
+            "dsc": "Lsun/misc/Signal;"
+          }
+        ]
+      },
+      "classes/sun/misc/Signal.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/misc/Signal",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getNumber",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "handle",
+            "acc": 41,
+            "dsc": "(Lsun/misc/Signal;Lsun/misc/SignalHandler;)Lsun/misc/SignalHandler;",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "raise",
+            "acc": 9,
+            "dsc": "(Lsun/misc/Signal;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "iSignal",
+            "dsc": "Ljdk/internal/misc/Signal;"
+          }
+        ]
+      },
+      "classes/sun/reflect/ReflectionFactory.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/reflect/ReflectionFactory",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getReflectionFactory",
+            "acc": 9,
+            "dsc": "()Lsun/reflect/ReflectionFactory;"
+          },
+          {
+            "nme": "newConstructorForSerialization",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Class;Ljava/lang/reflect/Constructor;)Ljava/lang/reflect/Constructor;",
+            "sig": "(Ljava/lang/Class<*>;Ljava/lang/reflect/Constructor<*>;)Ljava/lang/reflect/Constructor<*>;"
+          },
+          {
+            "nme": "newConstructorForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/reflect/Constructor;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/reflect/Constructor<*>;"
+          },
+          {
+            "nme": "newConstructorForExternalization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/reflect/Constructor;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/reflect/Constructor<*>;"
+          },
+          {
+            "nme": "readObjectForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/invoke/MethodHandle;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/invoke/MethodHandle;"
+          },
+          {
+            "nme": "readObjectNoDataForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/invoke/MethodHandle;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/invoke/MethodHandle;"
+          },
+          {
+            "nme": "writeObjectForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/invoke/MethodHandle;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/invoke/MethodHandle;"
+          },
+          {
+            "nme": "readResolveForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/invoke/MethodHandle;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/invoke/MethodHandle;"
+          },
+          {
+            "nme": "writeReplaceForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Ljava/lang/invoke/MethodHandle;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/lang/invoke/MethodHandle;"
+          },
+          {
+            "nme": "hasStaticInitializerForSerialization",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Class;)Z",
+            "sig": "(Ljava/lang/Class<*>;)Z"
+          },
+          {
+            "nme": "newOptionalDataExceptionForSerialization",
+            "acc": 17,
+            "dsc": "(Z)Ljava/io/OptionalDataException;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "soleInstance",
+            "dsc": "Lsun/reflect/ReflectionFactory;"
+          },
+          {
+            "acc": 26,
+            "nme": "delegate",
+            "dsc": "Ljdk/internal/reflect/ReflectionFactory;"
+          },
+          {
+            "acc": 26,
+            "nme": "REFLECTION_FACTORY_ACCESS_PERM",
+            "dsc": "Ljava/security/Permission;"
+          }
+        ]
+      },
+      "classes/sun/reflect/ReflectionFactory$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/reflect/ReflectionFactory$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljdk/internal/reflect/ReflectionFactory;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/nio/file/ExtendedWatchEventModifier.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/nio/file/ExtendedWatchEventModifier",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/nio/file/ExtendedWatchEventModifier;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/nio/file/ExtendedWatchEventModifier;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;ILjdk/internal/misc/FileSystemOption;)V",
+            "sig": "(Ljdk/internal/misc/FileSystemOption<Ljava/lang/Void;>;)V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/nio/file/ExtendedWatchEventModifier;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "FILE_TREE",
+            "dsc": "Lcom/sun/nio/file/ExtendedWatchEventModifier;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/nio/file/ExtendedWatchEventModifier;"
+          }
+        ]
+      },
+      "classes/sun/misc/Signal$SunMiscHandler.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/misc/Signal$SunMiscHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "of",
+            "acc": 8,
+            "dsc": "(Ljdk/internal/misc/Signal;Ljdk/internal/misc/Signal$Handler;)Lsun/misc/SignalHandler;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljdk/internal/misc/Signal;Ljdk/internal/misc/Signal$Handler;)V"
+          },
+          {
+            "nme": "handle",
+            "acc": 1,
+            "dsc": "(Lsun/misc/Signal;)V"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "iSignal",
+            "dsc": "Ljdk/internal/misc/Signal;"
+          },
+          {
+            "acc": 18,
+            "nme": "iHandler",
+            "dsc": "Ljdk/internal/misc/Signal$Handler;"
+          }
+        ]
+      }
+    }
+  }
+}

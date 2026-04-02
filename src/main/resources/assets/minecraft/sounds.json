@@ -1,0 +1,77 @@
+{
+  "gui_open": {
+    "sounds": [
+      "minecraft:gui_open"
+    ]
+  },
+  "gui_close": {
+    "sounds": [
+      "minecraft:gui_close"
+    ]
+  },
+  "module_enable": {
+    "sounds": [
+      "minecraft:module_enable"
+    ]
+  },
+  "module_disable": {
+    "sounds": [
+      "minecraft:module_disable"
+    ]
+  },
+  "category_click": {
+    "sounds": [
+      "minecraft:guicategory_select"
+    ]
+  },
+  "kolokolnia_kill": {
+    "sounds": [
+      "minecraft:kolokolnia_kill"
+    ]
+  },
+  "kill1": {
+    "sounds": [
+      "minecraft:kill1"
+    ]
+  },
+  "kill2": {
+    "sounds": [
+      "minecraft:kill2"
+    ]
+  },
+  "kill3": {
+    "sounds": [
+      "minecraft:kill3"
+    ]
+  },
+  "kill4": {
+    "sounds": [
+      "minecraft:kill4"
+    ]
+  },
+  "kill5": {
+    "sounds": [
+      "minecraft:kill5"
+    ]
+  },
+  "kill6": {
+    "sounds": [
+      "minecraft:kill6"
+    ]
+  },
+  "loaded": {
+    "sounds": [
+      "minecraft:loaded"
+    ]
+  },
+  "saved": {
+    "sounds": [
+      "minecraft:saved"
+    ]
+  },
+  "shutdown": {
+    "sounds": [
+      "minecraft:shutdown"
+    ]
+  }
+}

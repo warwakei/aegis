@@ -1,0 +1,1090 @@
+{
+  "md5": "2aef7fa67a382176531b3a2862ea6365",
+  "sha2": "7e8a4de5dbc3ee9b3e0d61ed88da8edcb910b5f2",
+  "sha256": "4c3518bcdd7712923ed66a09b83570271ae56ad7b3073bbf558f935d2507d861",
+  "contents": {
+    "classes": {
+      "classes/jdk/nio/Channels.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/nio/Channels",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "readWriteSelectableChannel",
+            "acc": 9,
+            "dsc": "(Ljava/io/FileDescriptor;Ljdk/nio/Channels$SelectableChannelCloser;)Ljava/nio/channels/SelectableChannel;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/net/ExtendedSocketOptions$ExtSocketOption.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/net/ExtendedSocketOptions$ExtSocketOption",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Class;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/Class<TT;>;)V"
+          },
+          {
+            "nme": "name",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "type",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Class;",
+            "sig": "()Ljava/lang/Class<TT;>;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "type",
+            "dsc": "Ljava/lang/Class;",
+            "sig": "Ljava/lang/Class<TT;>;"
+          }
+        ]
+      },
+      "classes/jdk/net/NetworkPermission.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/net/NetworkPermission",
+        "super": "java/security/BasicPermission",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -2012939586906722291
+          }
+        ]
+      },
+      "classes/jdk/net/ExtendedSocketOptions.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "jdk/net/ExtendedSocketOptions",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "options",
+            "acc": 8,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/net/SocketOption<*>;>;"
+          },
+          {
+            "nme": "setQuickAckOption",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;Z)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getSoPeerCred",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;)Ljava/lang/Object;",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getQuickAckOption",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;)Ljava/lang/Object;",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveProbes",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;I)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveTime",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;I)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setIpDontFragment",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;ZZ)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveIntvl",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;I)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveProbes",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getIpDontFragment",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;Z)Z",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveTime",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveIntvl",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getIncomingNapiId",
+            "acc": 10,
+            "dsc": "(Ljava/io/FileDescriptor;)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "TCP_QUICKACK",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljava/lang/Boolean;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "TCP_KEEPIDLE",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "TCP_KEEPINTERVAL",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "TCP_KEEPCOUNT",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SO_INCOMING_NAPI_ID",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "SO_PEERCRED",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljdk/net/UnixDomainPrincipal;>;"
+          },
+          {
+            "acc": 25,
+            "nme": "IP_DONTFRAGMENT",
+            "dsc": "Ljava/net/SocketOption;",
+            "sig": "Ljava/net/SocketOption<Ljava/lang/Boolean;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "platformSocketOptions",
+            "dsc": "Ljdk/net/ExtendedSocketOptions$PlatformSocketOptions;"
+          },
+          {
+            "acc": 26,
+            "nme": "quickAckSupported",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "keepAliveOptSupported",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "peerCredentialsSupported",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "incomingNapiIdOptSupported",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "ipDontFragmentSupported",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "extendedOptions",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/net/SocketOption<*>;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "fdAccess",
+            "dsc": "Ljdk/internal/access/JavaIOFileDescriptorAccess;"
+          }
+        ]
+      },
+      "classes/jdk/net/WindowsSocketOptions.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/net/WindowsSocketOptions",
+        "super": "jdk/net/ExtendedSocketOptions$PlatformSocketOptions",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "ipDontFragmentSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "keepAliveOptionsSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setIpDontFragment",
+            "acc": 0,
+            "dsc": "(IZZ)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getIpDontFragment",
+            "acc": 0,
+            "dsc": "(IZ)Z",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveProbes",
+            "acc": 0,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveProbes",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveTime",
+            "acc": 0,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveTime",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveIntvl",
+            "acc": 0,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveIntvl",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "keepAliveOptionsSupported0",
+            "acc": 266,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setIpDontFragment0",
+            "acc": 266,
+            "dsc": "(IZZ)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getIpDontFragment0",
+            "acc": 266,
+            "dsc": "(IZ)Z",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveProbes0",
+            "acc": 266,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveProbes0",
+            "acc": 266,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveTime0",
+            "acc": 266,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveTime0",
+            "acc": 266,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveIntvl0",
+            "acc": 266,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveIntvl0",
+            "acc": 266,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "lambda$static$0",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/nio/Channels$SelectableChannelCloser.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "jdk/nio/Channels$SelectableChannelCloser",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "implCloseChannel",
+            "acc": 1025,
+            "dsc": "(Ljava/nio/channels/SelectableChannel;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implReleaseChannel",
+            "acc": 1025,
+            "dsc": "(Ljava/nio/channels/SelectableChannel;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/jdk/net/ExtendedSocketOptions$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/net/ExtendedSocketOptions$1",
+        "super": "sun/net/ext/ExtendedSocketOptions",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/Set;)V"
+          },
+          {
+            "nme": "setOption",
+            "acc": 1,
+            "dsc": "(Ljava/io/FileDescriptor;Ljava/net/SocketOption;Ljava/lang/Object;Z)V",
+            "sig": "(Ljava/io/FileDescriptor;Ljava/net/SocketOption<*>;Ljava/lang/Object;Z)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 1,
+            "dsc": "(Ljava/io/FileDescriptor;Ljava/net/SocketOption;Z)Ljava/lang/Object;",
+            "sig": "(Ljava/io/FileDescriptor;Ljava/net/SocketOption<*>;Z)Ljava/lang/Object;",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/jdk/net/Sockets$KeepAliveOptions.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/net/Sockets$KeepAliveOptions",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "AVAILABLE",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/net/UnixDomainPrincipal.class": {
+        "ver": 65,
+        "acc": 65585,
+        "nme": "jdk/net/UnixDomainPrincipal",
+        "super": "java/lang/Record",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/file/attribute/UserPrincipal;Ljava/nio/file/attribute/GroupPrincipal;)V"
+          },
+          {
+            "nme": "toString",
+            "acc": 17,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 17,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 17,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "user",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/UserPrincipal;"
+          },
+          {
+            "nme": "group",
+            "acc": 1,
+            "dsc": "()Ljava/nio/file/attribute/GroupPrincipal;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "user",
+            "dsc": "Ljava/nio/file/attribute/UserPrincipal;"
+          },
+          {
+            "acc": 18,
+            "nme": "group",
+            "dsc": "Ljava/nio/file/attribute/GroupPrincipal;"
+          }
+        ]
+      },
+      "classes/jdk/net/ExtendedSocketOptions$2.class": {
+        "ver": 65,
+        "acc": 4128,
+        "nme": "jdk/net/ExtendedSocketOptions$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$SwitchMap$jdk$internal$util$OperatingSystem",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/jdk/net/Sockets$QuickAck.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/net/Sockets$QuickAck",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "available",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/jdk/net/Sockets.class": {
+        "ver": 65,
+        "acc": 131105,
+        "nme": "jdk/net/Sockets",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setOption",
+            "acc": 131081,
+            "dsc": "(Ljava/net/Socket;Ljava/net/SocketOption;Ljava/lang/Object;)V",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/net/Socket;Ljava/net/SocketOption<TT;>;TT;)V",
+            "exs": [
+              "java/io/IOException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16"
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 131081,
+            "dsc": "(Ljava/net/Socket;Ljava/net/SocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/net/Socket;Ljava/net/SocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16"
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 131081,
+            "dsc": "(Ljava/net/ServerSocket;Ljava/net/SocketOption;Ljava/lang/Object;)V",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/net/ServerSocket;Ljava/net/SocketOption<TT;>;TT;)V",
+            "exs": [
+              "java/io/IOException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16"
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 131081,
+            "dsc": "(Ljava/net/ServerSocket;Ljava/net/SocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/net/ServerSocket;Ljava/net/SocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16"
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "setOption",
+            "acc": 131081,
+            "dsc": "(Ljava/net/DatagramSocket;Ljava/net/SocketOption;Ljava/lang/Object;)V",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/net/DatagramSocket;Ljava/net/SocketOption<TT;>;TT;)V",
+            "exs": [
+              "java/io/IOException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16"
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "getOption",
+            "acc": 131081,
+            "dsc": "(Ljava/net/DatagramSocket;Ljava/net/SocketOption;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/net/DatagramSocket;Ljava/net/SocketOption<TT;>;)TT;",
+            "exs": [
+              "java/io/IOException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16"
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "supportedOptions",
+            "acc": 131081,
+            "dsc": "(Ljava/lang/Class;)Ljava/util/Set;",
+            "sig": "(Ljava/lang/Class<*>;)Ljava/util/Set<Ljava/net/SocketOption<*>;>;",
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;",
+                "vals": [
+                  "since",
+                  "16",
+                  "forRemoval",
+                  true
+                ]
+              }
+            ]
+          },
+          {
+            "nme": "checkValueType",
+            "acc": 10,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Class;)V",
+            "sig": "(Ljava/lang/Object;Ljava/lang/Class<*>;)V"
+          },
+          {
+            "nme": "isReusePortAvailable",
+            "acc": 8,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "optionSets",
+            "acc": 10,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/Class<*>;Ljava/util/Set<Ljava/net/SocketOption<*>;>;>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "options",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Class<*>;Ljava/util/Set<Ljava/net/SocketOption<*>;>;>;"
+          },
+          {
+            "acc": 74,
+            "nme": "checkedReusePort",
+            "dsc": "Z"
+          },
+          {
+            "acc": 74,
+            "nme": "isReusePortAvailable",
+            "dsc": "Z"
+          }
+        ],
+        "vanns": [
+          {
+            "dsc": "Ljava/lang/Deprecated;",
+            "vals": [
+              "since",
+              "16"
+            ]
+          }
+        ]
+      },
+      "classes/jdk/nio/Channels$ReadWriteChannelImpl.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "jdk/nio/Channels$ReadWriteChannelImpl",
+        "super": "java/nio/channels/spi/AbstractSelectableChannel",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/nio/ch/SelectorProviderImpl;Ljava/io/FileDescriptor;Ljdk/nio/Channels$SelectableChannelCloser;)V"
+          },
+          {
+            "nme": "getFD",
+            "acc": 1,
+            "dsc": "()Ljava/io/FileDescriptor;"
+          },
+          {
+            "nme": "getFDVal",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "validOps",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "translateReadyOps",
+            "acc": 2,
+            "dsc": "(IILsun/nio/ch/SelectionKeyImpl;)Z"
+          },
+          {
+            "nme": "translateAndUpdateReadyOps",
+            "acc": 1,
+            "dsc": "(ILsun/nio/ch/SelectionKeyImpl;)Z"
+          },
+          {
+            "nme": "translateAndSetReadyOps",
+            "acc": 1,
+            "dsc": "(ILsun/nio/ch/SelectionKeyImpl;)Z"
+          },
+          {
+            "nme": "translateInterestOps",
+            "acc": 1,
+            "dsc": "(I)I"
+          },
+          {
+            "nme": "implConfigureBlocking",
+            "acc": 4,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "implCloseSelectableChannel",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "kill",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "fd",
+            "dsc": "Ljava/io/FileDescriptor;"
+          },
+          {
+            "acc": 18,
+            "nme": "fdVal",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "closer",
+            "dsc": "Ljdk/nio/Channels$SelectableChannelCloser;"
+          }
+        ]
+      },
+      "classes/jdk/net/ExtendedSocketOptions$PlatformSocketOptions.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "jdk/net/ExtendedSocketOptions$PlatformSocketOptions",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "newInstance",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljdk/net/ExtendedSocketOptions$PlatformSocketOptions;"
+          },
+          {
+            "nme": "create",
+            "acc": 10,
+            "dsc": "()Ljdk/net/ExtendedSocketOptions$PlatformSocketOptions;"
+          },
+          {
+            "nme": "get",
+            "acc": 8,
+            "dsc": "()Ljdk/net/ExtendedSocketOptions$PlatformSocketOptions;"
+          },
+          {
+            "nme": "peerCredentialsSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setQuickAck",
+            "acc": 0,
+            "dsc": "(IZ)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getQuickAck",
+            "acc": 0,
+            "dsc": "(I)Z",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "quickAckSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "keepAliveOptionsSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "ipDontFragmentSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setTcpKeepAliveProbes",
+            "acc": 0,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveTime",
+            "acc": 0,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getSoPeerCred",
+            "acc": 0,
+            "dsc": "(I)Ljdk/net/UnixDomainPrincipal;",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setTcpKeepAliveIntvl",
+            "acc": 0,
+            "dsc": "(II)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "setIpDontFragment",
+            "acc": 0,
+            "dsc": "(IZZ)V",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getIpDontFragment",
+            "acc": 0,
+            "dsc": "(IZ)Z",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveProbes",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveTime",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "getTcpKeepAliveIntvl",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "incomingNapiIdSupported",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getIncomingNapiId",
+            "acc": 0,
+            "dsc": "(I)I",
+            "exs": [
+              "java/net/SocketException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "instance",
+            "dsc": "Ljdk/net/ExtendedSocketOptions$PlatformSocketOptions;"
+          }
+        ]
+      }
+    }
+  }
+}

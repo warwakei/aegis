@@ -1,0 +1,6578 @@
+{
+  "md5": "e85fc641d20630c5aef58f03810d15fe",
+  "sha2": "86692e6fb651bb5c01920ff8c75b6cb4cbbb0feb",
+  "sha256": "08ba6de6e75995e95ad3d13f5e28da85580a9911769c2e982449abee6230191e",
+  "contents": {
+    "classes": {
+      "classes/sun/net/httpserver/simpleserver/resources/simpleserver_ja.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/net/httpserver/simpleserver/resources/simpleserver_ja",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/ServerImpl$Exchange.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$Exchange",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;Ljava/nio/channels/SocketChannel;Ljava/lang/String;Lsun/net/httpserver/HttpConnection;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "reject",
+            "acc": 0,
+            "dsc": "(ILjava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "sendReply",
+            "acc": 0,
+            "dsc": "(IZLjava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "chan",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 0,
+            "nme": "connection",
+            "dsc": "Lsun/net/httpserver/HttpConnection;"
+          },
+          {
+            "acc": 0,
+            "nme": "context",
+            "dsc": "Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "acc": 0,
+            "nme": "rawin",
+            "dsc": "Ljava/io/InputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "rawout",
+            "dsc": "Ljava/io/OutputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "protocol",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "tx",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          },
+          {
+            "acc": 0,
+            "nme": "ctx",
+            "dsc": "Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "acc": 0,
+            "nme": "rejected",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpServer.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/HttpServer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "()Lcom/sun/net/httpserver/HttpServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "(Ljava/net/InetSocketAddress;I)Lcom/sun/net/httpserver/HttpServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "create",
+            "acc": 137,
+            "dsc": "(Ljava/net/InetSocketAddress;ILjava/lang/String;Lcom/sun/net/httpserver/HttpHandler;[Lcom/sun/net/httpserver/Filter;)Lcom/sun/net/httpserver/HttpServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "start",
+            "acc": 1025,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setExecutor",
+            "acc": 1025,
+            "dsc": "(Ljava/util/concurrent/Executor;)V"
+          },
+          {
+            "nme": "getExecutor",
+            "acc": 1025,
+            "dsc": "()Ljava/util/concurrent/Executor;"
+          },
+          {
+            "nme": "stop",
+            "acc": 1025,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "createContext",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;)Lcom/sun/net/httpserver/HttpContext;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/net/httpserver/HttpContext;"
+          },
+          {
+            "nme": "removeContext",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "removeContext",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/HttpContext;)V"
+          },
+          {
+            "nme": "getAddress",
+            "acc": 1025,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "lambda$create$0",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/net/httpserver/HttpContext;Lcom/sun/net/httpserver/Filter;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/HttpServerImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/HttpServerImpl",
+        "super": "com/sun/net/httpserver/HttpServer",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "start",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setExecutor",
+            "acc": 1,
+            "dsc": "(Ljava/util/concurrent/Executor;)V"
+          },
+          {
+            "nme": "getExecutor",
+            "acc": 1,
+            "dsc": "()Ljava/util/concurrent/Executor;"
+          },
+          {
+            "nme": "stop",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "createContext",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "removeContext",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "removeContext",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpContext;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "getAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/net/httpserver/HttpContext;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;)Lcom/sun/net/httpserver/HttpContext;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerImpl$IdleTimeoutTask.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$IdleTimeoutTask",
+        "super": "java/util/TimerTask",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "closeConnections",
+            "acc": 2,
+            "dsc": "(Ljava/util/Set;J)V",
+            "sig": "(Ljava/util/Set<Lsun/net/httpserver/HttpConnection;>;J)V"
+          },
+          {
+            "nme": "lambda$closeConnections$0",
+            "acc": 4106,
+            "dsc": "(JJLjava/util/ArrayList;Lsun/net/httpserver/HttpConnection;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Filter$Chain.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/Filter$Chain",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;Lcom/sun/net/httpserver/HttpHandler;)V",
+            "sig": "(Ljava/util/List<Lcom/sun/net/httpserver/Filter;>;Lcom/sun/net/httpserver/HttpHandler;)V"
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "iter",
+            "dsc": "Ljava/util/ListIterator;",
+            "sig": "Ljava/util/ListIterator<Lcom/sun/net/httpserver/Filter;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "handler",
+            "dsc": "Lcom/sun/net/httpserver/HttpHandler;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams$Parameters.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/SSLStreams$Parameters",
+        "super": "com/sun/net/httpserver/HttpsParameters",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/SSLStreams;Lcom/sun/net/httpserver/HttpsConfigurator;Ljava/net/InetSocketAddress;)V"
+          },
+          {
+            "nme": "getClientAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getHttpsConfigurator",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "nme": "setSSLParameters",
+            "acc": 1,
+            "dsc": "(Ljavax/net/ssl/SSLParameters;)V"
+          },
+          {
+            "nme": "getSSLParameters",
+            "acc": 0,
+            "dsc": "()Ljavax/net/ssl/SSLParameters;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "addr",
+            "dsc": "Ljava/net/InetSocketAddress;"
+          },
+          {
+            "acc": 0,
+            "nme": "cfg",
+            "dsc": "Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "acc": 0,
+            "nme": "params",
+            "dsc": "Ljavax/net/ssl/SSLParameters;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/SSLStreams",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;Ljavax/net/ssl/SSLContext;Ljava/nio/channels/SocketChannel;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "configureEngine",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpsConfigurator;Ljava/net/InetSocketAddress;)V"
+          },
+          {
+            "nme": "close",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getInputStream",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/SSLStreams$InputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getOutputStream",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/SSLStreams$OutputStream;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getSSLEngine",
+            "acc": 0,
+            "dsc": "()Ljavax/net/ssl/SSLEngine;"
+          },
+          {
+            "nme": "beginHandshake",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "javax/net/ssl/SSLException"
+            ]
+          },
+          {
+            "nme": "allocate",
+            "acc": 2,
+            "dsc": "(Lsun/net/httpserver/SSLStreams$BufType;)Ljava/nio/ByteBuffer;"
+          },
+          {
+            "nme": "allocate",
+            "acc": 2,
+            "dsc": "(Lsun/net/httpserver/SSLStreams$BufType;I)Ljava/nio/ByteBuffer;"
+          },
+          {
+            "nme": "realloc",
+            "acc": 2,
+            "dsc": "(Ljava/nio/ByteBuffer;ZLsun/net/httpserver/SSLStreams$BufType;)Ljava/nio/ByteBuffer;"
+          },
+          {
+            "nme": "sendData",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)Lsun/net/httpserver/SSLStreams$WrapperResult;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "recvData",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)Lsun/net/httpserver/SSLStreams$WrapperResult;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "doClosure",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "doHandshake",
+            "acc": 0,
+            "dsc": "(Ljavax/net/ssl/SSLEngineResult$HandshakeStatus;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "sslctx",
+            "dsc": "Ljavax/net/ssl/SSLContext;"
+          },
+          {
+            "acc": 0,
+            "nme": "chan",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 0,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "acc": 0,
+            "nme": "engine",
+            "dsc": "Ljavax/net/ssl/SSLEngine;"
+          },
+          {
+            "acc": 0,
+            "nme": "wrapper",
+            "dsc": "Lsun/net/httpserver/SSLStreams$EngineWrapper;"
+          },
+          {
+            "acc": 0,
+            "nme": "os",
+            "dsc": "Lsun/net/httpserver/SSLStreams$OutputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "is",
+            "dsc": "Lsun/net/httpserver/SSLStreams$InputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "handshaking",
+            "dsc": "Ljava/util/concurrent/locks/Lock;"
+          },
+          {
+            "acc": 0,
+            "nme": "app_buf_size",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "packet_buf_size",
+            "dsc": "I"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/resources/simpleserver_de.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/net/httpserver/simpleserver/resources/simpleserver_de",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/simpleserver/resources/simpleserver.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/net/httpserver/simpleserver/resources/simpleserver",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/net/httpserver/spi/HttpServerProvider$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/net/httpserver/spi/HttpServerProvider$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/WriteFinishedEvent.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/WriteFinishedEvent",
+        "super": "sun/net/httpserver/Event",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Request.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/net/httpserver/Request",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getRequestURI",
+            "acc": 1025,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "with",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)Lcom/sun/net/httpserver/Request;",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)Lcom/sun/net/httpserver/Request;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/Request$WriteStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/Request$WriteStream",
+        "super": "java/io/OutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;Ljava/nio/channels/SocketChannel;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 33,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 33,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 33,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "channel",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 0,
+            "nme": "buf",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "key",
+            "dsc": "Ljava/nio/channels/SelectionKey;"
+          },
+          {
+            "acc": 0,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "one",
+            "dsc": "[B"
+          },
+          {
+            "acc": 0,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/FixedLengthInputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/FixedLengthInputStream",
+        "super": "sun/net/httpserver/LeftOverInputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;Ljava/io/InputStream;J)V"
+          },
+          {
+            "nme": "readImpl",
+            "acc": 4,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "available",
+            "acc": 1,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "markSupported",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "mark",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "reset",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "remaining",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/SimpleFileServer$OutputLevel.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/net/httpserver/SimpleFileServer$OutputLevel",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "NONE",
+            "dsc": "Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "acc": 16409,
+            "nme": "INFO",
+            "dsc": "Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "acc": 16409,
+            "nme": "VERBOSE",
+            "dsc": "Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/SSLStreams$InputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/SSLStreams$InputStream",
+        "super": "java/io/InputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/SSLStreams;)V"
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "available",
+            "acc": 1,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "markSupported",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "reset",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "skip",
+            "acc": 1,
+            "dsc": "(J)J",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "([B)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 1,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "bbuf",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "eof",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "needData",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "single",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/SSLStreams;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpHandler.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/net/httpserver/HttpHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "handle",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/net/httpserver/Authenticator$Retry.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/Authenticator$Retry",
+        "super": "com/sun/net/httpserver/Authenticator$Result",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "responseCode",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Authenticator$Success.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/Authenticator$Success",
+        "super": "com/sun/net/httpserver/Authenticator$Result",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpPrincipal;)V"
+          },
+          {
+            "nme": "getPrincipal",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpPrincipal;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "principal",
+            "dsc": "Lcom/sun/net/httpserver/HttpPrincipal;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerImpl$2.class": {
+        "ver": 65,
+        "acc": 4128,
+        "nme": "sun/net/httpserver/ServerImpl$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$SwitchMap$sun$net$httpserver$HttpConnection$State",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Filter$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/net/httpserver/Filter$1",
+        "super": "com/sun/net/httpserver/Filter",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/function/Consumer;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Filter$Chain;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$operation",
+            "dsc": "Ljava/util/function/Consumer;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$description",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Authenticator$Failure.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/Authenticator$Failure",
+        "super": "com/sun/net/httpserver/Authenticator$Result",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "responseCode",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpsExchange.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/HttpsExchange",
+        "super": "com/sun/net/httpserver/HttpExchange",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getSSLSession",
+            "acc": 1025,
+            "dsc": "()Ljavax/net/ssl/SSLSession;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/simpleserver/SimpleFileServerImpl.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/net/httpserver/simpleserver/SimpleFileServerImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "start",
+            "acc": 8,
+            "dsc": "(Ljava/io/PrintWriter;Ljava/lang/String;[Ljava/lang/String;)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "LOOPBACK_ADDR",
+            "dsc": "Ljava/net/InetAddress;"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_PORT",
+            "dsc": "I",
+            "val": 8000
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_ROOT",
+            "dsc": "Ljava/nio/file/Path;"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_OUTPUT_LEVEL",
+            "dsc": "Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "acc": 10,
+            "nme": "addrSpecified",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/Event.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/Event",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "exchange",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/resources/simpleserver_zh_CN.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/net/httpserver/simpleserver/resources/simpleserver_zh_CN",
+        "super": "java/util/ListResourceBundle",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getContents",
+            "acc": 20,
+            "dsc": "()[[Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/ServerImpl$Dispatcher.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$Dispatcher",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;)V"
+          },
+          {
+            "nme": "handleEvent",
+            "acc": 2,
+            "dsc": "(Lsun/net/httpserver/Event;)V"
+          },
+          {
+            "nme": "reRegister",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "handleException",
+            "acc": 2,
+            "dsc": "(Ljava/nio/channels/SelectionKey;Ljava/lang/Exception;)V"
+          },
+          {
+            "nme": "handle",
+            "acc": 1,
+            "dsc": "(Ljava/nio/channels/SocketChannel;Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "lambda$run$0",
+            "acc": 4106,
+            "dsc": "(I)[Ljava/nio/channels/SelectionKey;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "connsToRegister",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/net/httpserver/HttpConnection;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/Utils.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/Utils",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "isValidName",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isQuotedStringContent",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "TCHAR",
+            "dsc": "[Z"
+          },
+          {
+            "acc": 26,
+            "nme": "QDTEXT",
+            "dsc": "[Z"
+          },
+          {
+            "acc": 26,
+            "nme": "QUOTED_PAIR",
+            "dsc": "[Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/Request$ReadStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/Request$ReadStream",
+        "super": "java/io/InputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;Ljava/nio/channels/SocketChannel;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "([B)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "markSupported",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "available",
+            "acc": 33,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "mark",
+            "acc": 33,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "reset",
+            "acc": 33,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "channel",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 0,
+            "nme": "chanbuf",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "one",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "eof",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "markBuf",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "marked",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "reset",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "readlimit",
+            "dsc": "I"
+          },
+          {
+            "acc": 8,
+            "nme": "readTimeout",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "acc": 24,
+            "nme": "BUFSIZE",
+            "dsc": "I",
+            "val": 8192
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ChunkedInputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ChunkedInputStream",
+        "super": "sun/net/httpserver/LeftOverInputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;Ljava/io/InputStream;)V"
+          },
+          {
+            "nme": "numeric",
+            "acc": 2,
+            "dsc": "([CI)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readChunkHeader",
+            "acc": 2,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readImpl",
+            "acc": 4,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "consumeCRLF",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "available",
+            "acc": 1,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isDataBuffered",
+            "acc": 1,
+            "dsc": "()Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "markSupported",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "mark",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "reset",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "remaining",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "needToReadHeader",
+            "dsc": "Z"
+          },
+          {
+            "acc": 24,
+            "nme": "CR",
+            "dsc": "C",
+            "val": 13
+          },
+          {
+            "acc": 24,
+            "nme": "LF",
+            "dsc": "C",
+            "val": 10
+          },
+          {
+            "acc": 26,
+            "nme": "MAX_CHUNK_HEADER_SIZE",
+            "dsc": "I",
+            "val": 2050
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpsParameters.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/HttpsParameters",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getHttpsConfigurator",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "nme": "getClientAddress",
+            "acc": 1025,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "setSSLParameters",
+            "acc": 1025,
+            "dsc": "(Ljavax/net/ssl/SSLParameters;)V"
+          },
+          {
+            "nme": "getCipherSuites",
+            "acc": 1,
+            "dsc": "()[Ljava/lang/String;"
+          },
+          {
+            "nme": "setCipherSuites",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getProtocols",
+            "acc": 1,
+            "dsc": "()[Ljava/lang/String;"
+          },
+          {
+            "nme": "setProtocols",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getWantClientAuth",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setWantClientAuth",
+            "acc": 1,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "getNeedClientAuth",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setNeedClientAuth",
+            "acc": 1,
+            "dsc": "(Z)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "cipherSuites",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "protocols",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "wantClientAuth",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "needClientAuth",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/net/httpserver/HttpServer;Ljava/lang/String;Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bind",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "start",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setExecutor",
+            "acc": 1,
+            "dsc": "(Ljava/util/concurrent/Executor;)V"
+          },
+          {
+            "nme": "getExecutor",
+            "acc": 1,
+            "dsc": "()Ljava/util/concurrent/Executor;"
+          },
+          {
+            "nme": "setHttpsConfigurator",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpsConfigurator;)V"
+          },
+          {
+            "nme": "getHttpsConfigurator",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "nme": "isFinishing",
+            "acc": 17,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "stop",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "createContext",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "removeContext",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "removeContext",
+            "acc": 33,
+            "dsc": "(Lcom/sun/net/httpserver/HttpContext;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "getAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "addEvent",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/Event;)V"
+          },
+          {
+            "nme": "dprint",
+            "acc": 40,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "dprint",
+            "acc": 40,
+            "dsc": "(Ljava/lang/Exception;)V"
+          },
+          {
+            "nme": "getLogger",
+            "acc": 0,
+            "dsc": "()Ljava/lang/System$Logger;"
+          },
+          {
+            "nme": "closeConnection",
+            "acc": 2,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "logReply",
+            "acc": 0,
+            "dsc": "(ILjava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "delay",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "startExchange",
+            "acc": 32,
+            "dsc": "()V"
+          },
+          {
+            "nme": "endExchange",
+            "acc": 32,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getWrapper",
+            "acc": 0,
+            "dsc": "()Lcom/sun/net/httpserver/HttpServer;"
+          },
+          {
+            "nme": "requestStarted",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "markIdle",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "markNewlyAccepted",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "requestCompleted",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "responseCompleted",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection;)V"
+          },
+          {
+            "nme": "getTimeMillis",
+            "acc": 10,
+            "dsc": "(J)J"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "protocol",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "https",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "executor",
+            "dsc": "Ljava/util/concurrent/Executor;"
+          },
+          {
+            "acc": 2,
+            "nme": "httpsConfig",
+            "dsc": "Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "acc": 2,
+            "nme": "sslContext",
+            "dsc": "Ljavax/net/ssl/SSLContext;"
+          },
+          {
+            "acc": 2,
+            "nme": "contexts",
+            "dsc": "Lsun/net/httpserver/ContextList;"
+          },
+          {
+            "acc": 2,
+            "nme": "address",
+            "dsc": "Ljava/net/InetSocketAddress;"
+          },
+          {
+            "acc": 2,
+            "nme": "schan",
+            "dsc": "Ljava/nio/channels/ServerSocketChannel;"
+          },
+          {
+            "acc": 2,
+            "nme": "selector",
+            "dsc": "Ljava/nio/channels/Selector;"
+          },
+          {
+            "acc": 2,
+            "nme": "listenerKey",
+            "dsc": "Ljava/nio/channels/SelectionKey;"
+          },
+          {
+            "acc": 18,
+            "nme": "idleConnections",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/net/httpserver/HttpConnection;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "newlyAcceptedConnections",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/net/httpserver/HttpConnection;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "allConnections",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/net/httpserver/HttpConnection;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "reqConnections",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/net/httpserver/HttpConnection;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "rspConnections",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Lsun/net/httpserver/HttpConnection;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "events",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/net/httpserver/Event;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "lolock",
+            "dsc": "Ljava/lang/Object;"
+          },
+          {
+            "acc": 66,
+            "nme": "finished",
+            "dsc": "Z"
+          },
+          {
+            "acc": 66,
+            "nme": "terminating",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "bound",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "started",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "wrapper",
+            "dsc": "Lcom/sun/net/httpserver/HttpServer;"
+          },
+          {
+            "acc": 24,
+            "nme": "IDLE_TIMER_TASK_SCHEDULE",
+            "dsc": "J"
+          },
+          {
+            "acc": 24,
+            "nme": "MAX_CONNECTIONS",
+            "dsc": "I"
+          },
+          {
+            "acc": 24,
+            "nme": "MAX_IDLE_CONNECTIONS",
+            "dsc": "I"
+          },
+          {
+            "acc": 24,
+            "nme": "REQ_RSP_TIMER_SCHEDULE",
+            "dsc": "J"
+          },
+          {
+            "acc": 24,
+            "nme": "MAX_REQ_TIME",
+            "dsc": "J"
+          },
+          {
+            "acc": 24,
+            "nme": "MAX_RSP_TIME",
+            "dsc": "J"
+          },
+          {
+            "acc": 24,
+            "nme": "reqRspTimeoutEnabled",
+            "dsc": "Z"
+          },
+          {
+            "acc": 24,
+            "nme": "IDLE_INTERVAL",
+            "dsc": "J"
+          },
+          {
+            "acc": 24,
+            "nme": "NEWLY_ACCEPTED_CONN_IDLE_INTERVAL",
+            "dsc": "J"
+          },
+          {
+            "acc": 2,
+            "nme": "timer",
+            "dsc": "Ljava/util/Timer;"
+          },
+          {
+            "acc": 2,
+            "nme": "timer1",
+            "dsc": "Ljava/util/Timer;"
+          },
+          {
+            "acc": 18,
+            "nme": "logger",
+            "dsc": "Ljava/lang/System$Logger;"
+          },
+          {
+            "acc": 2,
+            "nme": "dispatcherThread",
+            "dsc": "Ljava/lang/Thread;"
+          },
+          {
+            "acc": 0,
+            "nme": "dispatcher",
+            "dsc": "Lsun/net/httpserver/ServerImpl$Dispatcher;"
+          },
+          {
+            "acc": 8,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "exchangeCount",
+            "dsc": "I"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpPrincipal.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/HttpPrincipal",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getUsername",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getRealm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "username",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "realm",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpsServer.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/HttpsServer",
+        "super": "com/sun/net/httpserver/HttpServer",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "()Lcom/sun/net/httpserver/HttpsServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "(Ljava/net/InetSocketAddress;I)Lcom/sun/net/httpserver/HttpsServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "create",
+            "acc": 137,
+            "dsc": "(Ljava/net/InetSocketAddress;ILjava/lang/String;Lcom/sun/net/httpserver/HttpHandler;[Lcom/sun/net/httpserver/Filter;)Lcom/sun/net/httpserver/HttpsServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setHttpsConfigurator",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/HttpsConfigurator;)V"
+          },
+          {
+            "nme": "getHttpsConfigurator",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "nme": "lambda$create$0",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/net/httpserver/HttpContext;Lcom/sun/net/httpserver/Filter;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/ServerImpl$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/HttpExchangeImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/HttpExchangeImpl",
+        "super": "com/sun/net/httpserver/HttpExchange",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;)V"
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getResponseHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 1,
+            "dsc": "()Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRequestBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getResponseBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "sendResponseHeaders",
+            "acc": 1,
+            "dsc": "(IJ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getLocalAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "setStreams",
+            "acc": 1,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "getPrincipal",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpPrincipal;"
+          },
+          {
+            "nme": "getExchangeImpl",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/ExchangeImpl;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 4161,
+            "dsc": "()Lcom/sun/net/httpserver/HttpContext;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "impl",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpHandlers.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/net/httpserver/HttpHandlers",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "handleOrElse",
+            "acc": 9,
+            "dsc": "(Ljava/util/function/Predicate;Lcom/sun/net/httpserver/HttpHandler;Lcom/sun/net/httpserver/HttpHandler;)Lcom/sun/net/httpserver/HttpHandler;",
+            "sig": "(Ljava/util/function/Predicate<Lcom/sun/net/httpserver/Request;>;Lcom/sun/net/httpserver/HttpHandler;Lcom/sun/net/httpserver/HttpHandler;)Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "nme": "of",
+            "acc": 9,
+            "dsc": "(ILcom/sun/net/httpserver/Headers;Ljava/lang/String;)Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "nme": "lambda$of$1",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/net/httpserver/Headers;[BILcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "lambda$handleOrElse$0",
+            "acc": 4106,
+            "dsc": "(Ljava/util/function/Predicate;Lcom/sun/net/httpserver/HttpHandler;Lcom/sun/net/httpserver/HttpHandler;Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/ServerImpl$Exchange$LinkHandler.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$Exchange$LinkHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl$Exchange;Lcom/sun/net/httpserver/Filter$Chain;)V"
+          },
+          {
+            "nme": "handle",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "nextChain",
+            "dsc": "Lcom/sun/net/httpserver/Filter$Chain;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Filter.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/Filter",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Filter$Chain;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "description",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "beforeHandler",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Ljava/util/function/Consumer;)Lcom/sun/net/httpserver/Filter;",
+            "sig": "(Ljava/lang/String;Ljava/util/function/Consumer<Lcom/sun/net/httpserver/HttpExchange;>;)Lcom/sun/net/httpserver/Filter;"
+          },
+          {
+            "nme": "afterHandler",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Ljava/util/function/Consumer;)Lcom/sun/net/httpserver/Filter;",
+            "sig": "(Ljava/lang/String;Ljava/util/function/Consumer<Lcom/sun/net/httpserver/HttpExchange;>;)Lcom/sun/net/httpserver/Filter;"
+          },
+          {
+            "nme": "adaptRequest",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Ljava/util/function/UnaryOperator;)Lcom/sun/net/httpserver/Filter;",
+            "sig": "(Ljava/lang/String;Ljava/util/function/UnaryOperator<Lcom/sun/net/httpserver/Request;>;)Lcom/sun/net/httpserver/Filter;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/HttpConnection.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/HttpConnection",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setChannel",
+            "acc": 0,
+            "dsc": "(Ljava/nio/channels/SocketChannel;)V"
+          },
+          {
+            "nme": "setContext",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpContextImpl;)V"
+          },
+          {
+            "nme": "getState",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "nme": "setState",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpConnection$State;)V"
+          },
+          {
+            "nme": "setParameters",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/nio/channels/SocketChannel;Ljavax/net/ssl/SSLEngine;Lsun/net/httpserver/SSLStreams;Ljavax/net/ssl/SSLContext;Ljava/lang/String;Lsun/net/httpserver/HttpContextImpl;Ljava/io/InputStream;)V"
+          },
+          {
+            "nme": "getChannel",
+            "acc": 0,
+            "dsc": "()Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "nme": "close",
+            "acc": 32,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setRemaining",
+            "acc": 0,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getRemaining",
+            "acc": 0,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getSelectionKey",
+            "acc": 0,
+            "dsc": "()Ljava/nio/channels/SelectionKey;"
+          },
+          {
+            "nme": "getInputStream",
+            "acc": 0,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "getRawOutputStream",
+            "acc": 0,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 0,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSSLEngine",
+            "acc": 0,
+            "dsc": "()Ljavax/net/ssl/SSLEngine;"
+          },
+          {
+            "nme": "getSSLContext",
+            "acc": 0,
+            "dsc": "()Ljavax/net/ssl/SSLContext;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/HttpContextImpl;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "context",
+            "dsc": "Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "acc": 0,
+            "nme": "engine",
+            "dsc": "Ljavax/net/ssl/SSLEngine;"
+          },
+          {
+            "acc": 0,
+            "nme": "sslContext",
+            "dsc": "Ljavax/net/ssl/SSLContext;"
+          },
+          {
+            "acc": 0,
+            "nme": "sslStreams",
+            "dsc": "Lsun/net/httpserver/SSLStreams;"
+          },
+          {
+            "acc": 0,
+            "nme": "i",
+            "dsc": "Ljava/io/InputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "raw",
+            "dsc": "Ljava/io/InputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "rawout",
+            "dsc": "Ljava/io/OutputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "chan",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 0,
+            "nme": "selectionKey",
+            "dsc": "Ljava/nio/channels/SelectionKey;"
+          },
+          {
+            "acc": 0,
+            "nme": "protocol",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "idleStartTime",
+            "dsc": "J"
+          },
+          {
+            "acc": 64,
+            "nme": "reqStartedTime",
+            "dsc": "J"
+          },
+          {
+            "acc": 64,
+            "nme": "rspStartedTime",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "remaining",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "logger",
+            "dsc": "Ljava/lang/System$Logger;"
+          },
+          {
+            "acc": 64,
+            "nme": "state",
+            "dsc": "Lsun/net/httpserver/HttpConnection$State;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Filter$3$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/net/httpserver/Filter$3$1",
+        "super": "sun/net/httpserver/DelegatingHttpExchange",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/net/httpserver/Filter$3;Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Request;)V"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$request",
+            "dsc": "Lcom/sun/net/httpserver/Request;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ExchangeImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ExchangeImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/net/URI;Lsun/net/httpserver/Request;JLsun/net/httpserver/HttpConnection;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getResponseHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 1,
+            "dsc": "()Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "isHeadRequest",
+            "acc": 2,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRequestBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "getOriginalInputStream",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/LeftOverInputStream;"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getResponseBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "getPlaceholderResponseBody",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/PlaceholderOutputStream;"
+          },
+          {
+            "nme": "sendResponseHeaders",
+            "acc": 1,
+            "dsc": "(IJ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 0,
+            "dsc": "(Lcom/sun/net/httpserver/Headers;Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "bytes",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)[B"
+          },
+          {
+            "nme": "getRemoteAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getLocalAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSSLSession",
+            "acc": 1,
+            "dsc": "()Ljavax/net/ssl/SSLSession;"
+          },
+          {
+            "nme": "getAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "setStreams",
+            "acc": 1,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "getConnection",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/HttpConnection;"
+          },
+          {
+            "nme": "getServerImpl",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "nme": "getPrincipal",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpPrincipal;"
+          },
+          {
+            "nme": "setPrincipal",
+            "acc": 0,
+            "dsc": "(Lcom/sun/net/httpserver/HttpPrincipal;)V"
+          },
+          {
+            "nme": "get",
+            "acc": 8,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Lsun/net/httpserver/ExchangeImpl;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "reqHdrs",
+            "dsc": "Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "acc": 0,
+            "nme": "rspHdrs",
+            "dsc": "Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "acc": 0,
+            "nme": "req",
+            "dsc": "Lsun/net/httpserver/Request;"
+          },
+          {
+            "acc": 0,
+            "nme": "method",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 0,
+            "nme": "writefinished",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "uri",
+            "dsc": "Ljava/net/URI;"
+          },
+          {
+            "acc": 0,
+            "nme": "connection",
+            "dsc": "Lsun/net/httpserver/HttpConnection;"
+          },
+          {
+            "acc": 0,
+            "nme": "reqContentLen",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "rspContentLen",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "ris",
+            "dsc": "Ljava/io/InputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "ros",
+            "dsc": "Ljava/io/OutputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "thread",
+            "dsc": "Ljava/lang/Thread;"
+          },
+          {
+            "acc": 0,
+            "nme": "close",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "http10",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "FORMATTER",
+            "dsc": "Ljava/time/format/DateTimeFormatter;"
+          },
+          {
+            "acc": 26,
+            "nme": "HEAD",
+            "dsc": "Ljava/lang/String;",
+            "val": "HEAD"
+          },
+          {
+            "acc": 0,
+            "nme": "uis",
+            "dsc": "Ljava/io/InputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "uos",
+            "dsc": "Ljava/io/OutputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "uis_orig",
+            "dsc": "Lsun/net/httpserver/LeftOverInputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "uos_orig",
+            "dsc": "Lsun/net/httpserver/PlaceholderOutputStream;"
+          },
+          {
+            "acc": 0,
+            "nme": "sentHeaders",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "attributes",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;"
+          },
+          {
+            "acc": 0,
+            "nme": "rcode",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "principal",
+            "dsc": "Lcom/sun/net/httpserver/HttpPrincipal;"
+          },
+          {
+            "acc": 0,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "acc": 2,
+            "nme": "rspbuf",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams$OutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/SSLStreams$OutputStream",
+        "super": "java/io/OutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/SSLStreams;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "flush",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "buf",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "single",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/SSLStreams;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerConfig.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerConfig",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "checkLegacyProperties",
+            "acc": 8,
+            "dsc": "(Ljava/lang/System$Logger;)V"
+          },
+          {
+            "nme": "debugEnabled",
+            "acc": 8,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getIdleIntervalMillis",
+            "acc": 8,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getIdleTimerScheduleMillis",
+            "acc": 8,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getMaxConnections",
+            "acc": 8,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getMaxIdleConnections",
+            "acc": 8,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getDrainAmount",
+            "acc": 8,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getMaxReqHeaders",
+            "acc": 8,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getMaxReqHeaderSize",
+            "acc": 8,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getMaxReqTime",
+            "acc": 8,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getMaxRspTime",
+            "acc": 8,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getReqRspTimerScheduleMillis",
+            "acc": 8,
+            "dsc": "()J"
+          },
+          {
+            "nme": "noDelay",
+            "acc": 8,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "DEFAULT_IDLE_TIMER_SCHEDULE_MILLIS",
+            "dsc": "I",
+            "val": 10000
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_IDLE_INTERVAL_IN_SECS",
+            "dsc": "J",
+            "val": 30
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_MAX_CONNECTIONS",
+            "dsc": "I",
+            "val": -1
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_MAX_IDLE_CONNECTIONS",
+            "dsc": "I",
+            "val": 200
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_MAX_REQ_TIME",
+            "dsc": "J",
+            "val": -1
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_MAX_RSP_TIME",
+            "dsc": "J",
+            "val": -1
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_REQ_RSP_TIMER_TASK_SCHEDULE_MILLIS",
+            "dsc": "J",
+            "val": 1000
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_MAX_REQ_HEADERS",
+            "dsc": "I",
+            "val": 200
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_MAX_REQ_HEADER_SIZE",
+            "dsc": "I",
+            "val": 393216
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_DRAIN_AMOUNT",
+            "dsc": "J",
+            "val": 65536
+          },
+          {
+            "acc": 10,
+            "nme": "idleTimerScheduleMillis",
+            "dsc": "J"
+          },
+          {
+            "acc": 10,
+            "nme": "idleIntervalMillis",
+            "dsc": "J"
+          },
+          {
+            "acc": 10,
+            "nme": "drainAmount",
+            "dsc": "J"
+          },
+          {
+            "acc": 10,
+            "nme": "maxConnections",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "maxIdleConnections",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "maxReqHeaders",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "maxReqHeadersSize",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "maxReqTime",
+            "dsc": "J"
+          },
+          {
+            "acc": 10,
+            "nme": "maxRspTime",
+            "dsc": "J"
+          },
+          {
+            "acc": 10,
+            "nme": "reqRspTimerScheduleMillis",
+            "dsc": "J"
+          },
+          {
+            "acc": 10,
+            "nme": "debug",
+            "dsc": "Z"
+          },
+          {
+            "acc": 10,
+            "nme": "noDelay",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/DelegatingHttpExchange.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/net/httpserver/DelegatingHttpExchange",
+        "super": "com/sun/net/httpserver/HttpExchange",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V"
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1025,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getResponseHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpContext;"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRequestBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getResponseBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "sendResponseHeaders",
+            "acc": 1,
+            "dsc": "(IJ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getLocalAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "setStreams",
+            "acc": 1,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "getPrincipal",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpPrincipal;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "exchange",
+            "dsc": "Lcom/sun/net/httpserver/HttpExchange;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerImpl$ReqRspTimeoutTask.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$ReqRspTimeoutTask",
+        "super": "java/util/TimerTask",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ServerImpl;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Headers.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/Headers",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;)V"
+          },
+          {
+            "nme": "normalize",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "size",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isEmpty",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "containsKey",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "containsValue",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/util/List;",
+            "sig": "(Ljava/lang/Object;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getFirst",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "put",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "checkValue",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "set",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/util/List;",
+            "sig": "(Ljava/lang/Object;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "putAll",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<+Ljava/lang/String;+Ljava/util/List<Ljava/lang/String;>;>;)V"
+          },
+          {
+            "nme": "clear",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "keySet",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "values",
+            "acc": 1,
+            "dsc": "()Ljava/util/Collection;",
+            "sig": "()Ljava/util/Collection<Ljava/util/List<Ljava/lang/String;>;>;"
+          },
+          {
+            "nme": "entrySet",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/util/Map$Entry<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;>;"
+          },
+          {
+            "nme": "replaceAll",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/BiFunction;)V",
+            "sig": "(Ljava/util/function/BiFunction<-Ljava/lang/String;-Ljava/util/List<Ljava/lang/String;>;+Ljava/util/List<Ljava/lang/String;>;>;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "of",
+            "acc": 137,
+            "dsc": "([Ljava/lang/String;)Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "of",
+            "acc": 9,
+            "dsc": "(Ljava/util/Map;)Lcom/sun/net/httpserver/Headers;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;)Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "remove",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "put",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "get",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "lambda$replaceAll$1",
+            "acc": 4106,
+            "dsc": "(Ljava/util/List;)Ljava/util/List;"
+          },
+          {
+            "nme": "lambda$new$0",
+            "acc": 4106,
+            "dsc": "(Ljava/util/Map$Entry;)Ljava/util/LinkedList;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "map",
+            "dsc": "Ljava/util/HashMap;",
+            "sig": "Ljava/util/HashMap<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Filter$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/net/httpserver/Filter$2",
+        "super": "com/sun/net/httpserver/Filter",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/function/Consumer;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Filter$Chain;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$operation",
+            "dsc": "Ljava/util/function/Consumer;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$description",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/AuthFilter.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/AuthFilter",
+        "super": "com/sun/net/httpserver/Filter",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/Authenticator;)V"
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "setAuthenticator",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/Authenticator;)V"
+          },
+          {
+            "nme": "consumeInput",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Filter$Chain;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "authenticator",
+            "dsc": "Lcom/sun/net/httpserver/Authenticator;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/FixedLengthOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/FixedLengthOutputStream",
+        "super": "java/io/FilterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;Ljava/io/OutputStream;J)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "remaining",
+            "dsc": "J"
+          },
+          {
+            "acc": 2,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "t",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerImpl$DefaultExecutor.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerImpl$DefaultExecutor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "execute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Runnable;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/UnmodifiableHeaders.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/UnmodifiableHeaders",
+        "super": "com/sun/net/httpserver/Headers",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/Headers;)V"
+          },
+          {
+            "nme": "size",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isEmpty",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "containsKey",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "containsValue",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "get",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/util/List;",
+            "sig": "(Ljava/lang/Object;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getFirst",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "put",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "add",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "set",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "remove",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/util/List;",
+            "sig": "(Ljava/lang/Object;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "putAll",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<+Ljava/lang/String;+Ljava/util/List<Ljava/lang/String;>;>;)V"
+          },
+          {
+            "nme": "clear",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "keySet",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "values",
+            "acc": 1,
+            "dsc": "()Ljava/util/Collection;",
+            "sig": "()Ljava/util/Collection<Ljava/util/List<Ljava/lang/String;>;>;"
+          },
+          {
+            "nme": "entrySet",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/util/Map$Entry<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;>;"
+          },
+          {
+            "nme": "replace",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "replace",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Z",
+            "sig": "(Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;Ljava/util/List<Ljava/lang/String;>;)Z"
+          },
+          {
+            "nme": "replaceAll",
+            "acc": 1,
+            "dsc": "(Ljava/util/function/BiFunction;)V",
+            "sig": "(Ljava/util/function/BiFunction<-Ljava/lang/String;-Ljava/util/List<Ljava/lang/String;>;+Ljava/util/List<Ljava/lang/String;>;>;)V"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "replace",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "replace",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "remove",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "put",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "get",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "lambda$new$0",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/net/httpserver/Headers;Ljava/lang/String;Ljava/util/List;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "headers",
+            "dsc": "Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "acc": 18,
+            "nme": "map",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/URIPathSegment.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/net/httpserver/simpleserver/URIPathSegment",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "isSupported",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "isLetter",
+            "acc": 10,
+            "dsc": "(C)Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/net/httpserver/Request$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/net/httpserver/Request$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/net/httpserver/Request;Lcom/sun/net/httpserver/Request;Lcom/sun/net/httpserver/Headers;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$r",
+            "dsc": "Lcom/sun/net/httpserver/Request;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$unmodifiableHeaders",
+            "dsc": "Lcom/sun/net/httpserver/Headers;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/spi/HttpServerProvider.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/spi/HttpServerProvider",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "createHttpServer",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetSocketAddress;I)Lcom/sun/net/httpserver/HttpServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "createHttpsServer",
+            "acc": 1025,
+            "dsc": "(Ljava/net/InetSocketAddress;I)Lcom/sun/net/httpserver/HttpsServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "loadProviderFromProperty",
+            "acc": 10,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "loadProviderAsService",
+            "acc": 10,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "provider",
+            "acc": 9,
+            "dsc": "()Lcom/sun/net/httpserver/spi/HttpServerProvider;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "lock",
+            "dsc": "Ljava/lang/Object;"
+          },
+          {
+            "acc": 10,
+            "nme": "provider",
+            "dsc": "Lcom/sun/net/httpserver/spi/HttpServerProvider;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/HttpError.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/HttpError",
+        "super": "java/lang/RuntimeException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 8769596371344178179
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/Request.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/Request",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "inputStream",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "outputStream",
+            "acc": 1,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "readLine",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "consume",
+            "acc": 2,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "requestLine",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "headers",
+            "acc": 0,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "BUF_LEN",
+            "dsc": "I",
+            "val": 2048
+          },
+          {
+            "acc": 24,
+            "nme": "CR",
+            "dsc": "B",
+            "val": 13
+          },
+          {
+            "acc": 24,
+            "nme": "LF",
+            "dsc": "B",
+            "val": 10
+          },
+          {
+            "acc": 2,
+            "nme": "startLine",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "chan",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 2,
+            "nme": "is",
+            "dsc": "Ljava/io/InputStream;"
+          },
+          {
+            "acc": 2,
+            "nme": "os",
+            "dsc": "Ljava/io/OutputStream;"
+          },
+          {
+            "acc": 18,
+            "nme": "maxReqHeaderSize",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "buf",
+            "dsc": "[C"
+          },
+          {
+            "acc": 0,
+            "nme": "pos",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "lineBuf",
+            "dsc": "Ljava/lang/StringBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "hdrs",
+            "dsc": "Lcom/sun/net/httpserver/Headers;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams$WrapperResult.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/SSLStreams$WrapperResult",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/SSLStreams;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "result",
+            "dsc": "Ljavax/net/ssl/SSLEngineResult;"
+          },
+          {
+            "acc": 0,
+            "nme": "buf",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/OutputFilter.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/net/httpserver/simpleserver/OutputFilter",
+        "super": "com/sun/net/httpserver/Filter",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/io/OutputStream;Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;)V"
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;)Lsun/net/httpserver/simpleserver/OutputFilter;"
+          },
+          {
+            "nme": "operation",
+            "acc": 2,
+            "dsc": "()Ljava/util/function/Consumer;",
+            "sig": "()Ljava/util/function/Consumer<Lcom/sun/net/httpserver/HttpExchange;>;"
+          },
+          {
+            "nme": "logHeaders",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/Headers;)V"
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Filter$Chain;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "reportError",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "lambda$logHeaders$1",
+            "acc": 4098,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V"
+          },
+          {
+            "nme": "lambda$operation$0",
+            "acc": 4098,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "FORMATTER",
+            "dsc": "Ljava/time/format/DateTimeFormatter;"
+          },
+          {
+            "acc": 18,
+            "nme": "printStream",
+            "dsc": "Ljava/io/PrintStream;"
+          },
+          {
+            "acc": 18,
+            "nme": "outputLevel",
+            "dsc": "Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;"
+          },
+          {
+            "acc": 18,
+            "nme": "filter",
+            "dsc": "Lcom/sun/net/httpserver/Filter;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/UndefLengthOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/UndefLengthOutputStream",
+        "super": "java/io/FilterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "t",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/SimpleFileServerImpl$Out.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "sun/net/httpserver/simpleserver/SimpleFileServerImpl$Out",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/io/PrintWriter;)V"
+          },
+          {
+            "nme": "printStartMessage",
+            "acc": 0,
+            "dsc": "(Ljava/nio/file/Path;Lcom/sun/net/httpserver/HttpServer;)V",
+            "exs": [
+              "java/net/UnknownHostException"
+            ]
+          },
+          {
+            "nme": "showUsage",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "showVersion",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "showHelp",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "showOption",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "reportError",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "flush",
+            "acc": 0,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "writer",
+            "dsc": "Ljava/io/PrintWriter;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/DefaultHttpServerProvider.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/DefaultHttpServerProvider",
+        "super": "com/sun/net/httpserver/spi/HttpServerProvider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createHttpServer",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetSocketAddress;I)Lcom/sun/net/httpserver/HttpServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "createHttpsServer",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetSocketAddress;I)Lcom/sun/net/httpserver/HttpsServer;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/PlaceholderOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/PlaceholderOutputStream",
+        "super": "java/io/OutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "setWrappedStream",
+            "acc": 0,
+            "dsc": "(Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "isWrapped",
+            "acc": 0,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "checkWrap",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "flush",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "wrapped",
+            "dsc": "Ljava/io/OutputStream;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams$1.class": {
+        "ver": 65,
+        "acc": 4128,
+        "nme": "sun/net/httpserver/SSLStreams$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4120,
+            "nme": "$SwitchMap$javax$net$ssl$SSLEngineResult$HandshakeStatus",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/BasicAuthenticator.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/BasicAuthenticator",
+        "super": "com/sun/net/httpserver/Authenticator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/nio/charset/Charset;)V"
+          },
+          {
+            "nme": "getRealm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "authenticate",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Lcom/sun/net/httpserver/Authenticator$Result;"
+          },
+          {
+            "nme": "setAuthHeader",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V"
+          },
+          {
+            "nme": "checkCredentials",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 20,
+            "nme": "realm",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "charset",
+            "dsc": "Ljava/nio/charset/Charset;"
+          },
+          {
+            "acc": 18,
+            "nme": "isUTF8",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/LeftOverInputStream.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/net/httpserver/LeftOverInputStream",
+        "super": "java/io/FilterInputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;Ljava/io/InputStream;)V"
+          },
+          {
+            "nme": "isDataBuffered",
+            "acc": 1,
+            "dsc": "()Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isClosed",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isEOF",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "readImpl",
+            "acc": 1028,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "()I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "read",
+            "acc": 33,
+            "dsc": "([BII)I",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "drain",
+            "acc": 1,
+            "dsc": "(J)Z",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16,
+            "nme": "t",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          },
+          {
+            "acc": 16,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "acc": 4,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "eof",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "one",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/Code.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/Code",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "msg",
+            "acc": 8,
+            "dsc": "(I)Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "HTTP_CONTINUE",
+            "dsc": "I",
+            "val": 100
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_OK",
+            "dsc": "I",
+            "val": 200
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_CREATED",
+            "dsc": "I",
+            "val": 201
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_ACCEPTED",
+            "dsc": "I",
+            "val": 202
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_NOT_AUTHORITATIVE",
+            "dsc": "I",
+            "val": 203
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_NO_CONTENT",
+            "dsc": "I",
+            "val": 204
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_RESET",
+            "dsc": "I",
+            "val": 205
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_PARTIAL",
+            "dsc": "I",
+            "val": 206
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_MULT_CHOICE",
+            "dsc": "I",
+            "val": 300
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_MOVED_PERM",
+            "dsc": "I",
+            "val": 301
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_MOVED_TEMP",
+            "dsc": "I",
+            "val": 302
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_SEE_OTHER",
+            "dsc": "I",
+            "val": 303
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_NOT_MODIFIED",
+            "dsc": "I",
+            "val": 304
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_USE_PROXY",
+            "dsc": "I",
+            "val": 305
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_BAD_REQUEST",
+            "dsc": "I",
+            "val": 400
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_UNAUTHORIZED",
+            "dsc": "I",
+            "val": 401
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_PAYMENT_REQUIRED",
+            "dsc": "I",
+            "val": 402
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_FORBIDDEN",
+            "dsc": "I",
+            "val": 403
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_NOT_FOUND",
+            "dsc": "I",
+            "val": 404
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_BAD_METHOD",
+            "dsc": "I",
+            "val": 405
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_NOT_ACCEPTABLE",
+            "dsc": "I",
+            "val": 406
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_PROXY_AUTH",
+            "dsc": "I",
+            "val": 407
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_CLIENT_TIMEOUT",
+            "dsc": "I",
+            "val": 408
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_CONFLICT",
+            "dsc": "I",
+            "val": 409
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_GONE",
+            "dsc": "I",
+            "val": 410
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_LENGTH_REQUIRED",
+            "dsc": "I",
+            "val": 411
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_PRECON_FAILED",
+            "dsc": "I",
+            "val": 412
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_ENTITY_TOO_LARGE",
+            "dsc": "I",
+            "val": 413
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_REQ_TOO_LONG",
+            "dsc": "I",
+            "val": 414
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_UNSUPPORTED_TYPE",
+            "dsc": "I",
+            "val": 415
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_INTERNAL_ERROR",
+            "dsc": "I",
+            "val": 500
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_NOT_IMPLEMENTED",
+            "dsc": "I",
+            "val": 501
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_BAD_GATEWAY",
+            "dsc": "I",
+            "val": 502
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_UNAVAILABLE",
+            "dsc": "I",
+            "val": 503
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_GATEWAY_TIMEOUT",
+            "dsc": "I",
+            "val": 504
+          },
+          {
+            "acc": 25,
+            "nme": "HTTP_VERSION",
+            "dsc": "I",
+            "val": 505
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ServerConfig$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerConfig$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/net/httpserver/HttpContext.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/HttpContext",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getHandler",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "nme": "setHandler",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/HttpHandler;)V"
+          },
+          {
+            "nme": "getPath",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getServer",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/HttpServer;"
+          },
+          {
+            "nme": "getAttributes",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;"
+          },
+          {
+            "nme": "getFilters",
+            "acc": 1025,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/net/httpserver/Filter;>;"
+          },
+          {
+            "nme": "setAuthenticator",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/Authenticator;)Lcom/sun/net/httpserver/Authenticator;"
+          },
+          {
+            "nme": "getAuthenticator",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/Authenticator;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/simpleserver/JWebServer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/simpleserver/JWebServer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 137,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "setMaxReqTime",
+            "acc": 10,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setMaxConnectionsIfNotSet",
+            "acc": 8,
+            "dsc": "()V"
+          },
+          {
+            "nme": "lambda$setMaxConnectionsIfNotSet$0",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/Void;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "SYS_PROP_MAX_CONNECTIONS",
+            "dsc": "Ljava/lang/String;",
+            "val": "jdk.httpserver.maxConnections"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_JWEBSERVER_MAX_CONNECTIONS",
+            "dsc": "Ljava/lang/String;",
+            "val": "200"
+          },
+          {
+            "acc": 25,
+            "nme": "MAXREQTIME_KEY",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.net.httpserver.maxReqTime"
+          },
+          {
+            "acc": 25,
+            "nme": "MAXREQTIME_VAL",
+            "dsc": "Ljava/lang/String;",
+            "val": "5"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/StreamClosedException.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/StreamClosedException",
+        "super": "java/io/IOException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -4485921499356327937
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ContextList.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ContextList",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "add",
+            "acc": 33,
+            "dsc": "(Lsun/net/httpserver/HttpContextImpl;)V"
+          },
+          {
+            "nme": "contains",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/HttpContextImpl;)Z"
+          },
+          {
+            "nme": "size",
+            "acc": 33,
+            "dsc": "()I"
+          },
+          {
+            "nme": "findContext",
+            "acc": 32,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "findContext",
+            "acc": 32,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Z)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "remove",
+            "acc": 33,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "remove",
+            "acc": 33,
+            "dsc": "(Lsun/net/httpserver/HttpContextImpl;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "list",
+            "dsc": "Ljava/util/LinkedList;",
+            "sig": "Ljava/util/LinkedList<Lsun/net/httpserver/HttpContextImpl;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "sun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;II)V",
+            "sig": "(I)V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "OK",
+            "dsc": "Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          },
+          {
+            "acc": 16409,
+            "nme": "CMDERR",
+            "dsc": "Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          },
+          {
+            "acc": 16409,
+            "nme": "SYSERR",
+            "dsc": "Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          },
+          {
+            "acc": 17,
+            "nme": "statusCode",
+            "dsc": "I"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lsun/net/httpserver/simpleserver/SimpleFileServerImpl$Startup;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpsConfigurator.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/net/httpserver/HttpsConfigurator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljavax/net/ssl/SSLContext;)V"
+          },
+          {
+            "nme": "getSSLContext",
+            "acc": 1,
+            "dsc": "()Ljavax/net/ssl/SSLContext;"
+          },
+          {
+            "nme": "configure",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpsParameters;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "context",
+            "dsc": "Ljavax/net/ssl/SSLContext;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/FileServerHandler.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/net/httpserver/simpleserver/FileServerHandler",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/function/UnaryOperator;)V",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/function/UnaryOperator<Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "pathForSecurityCheck",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "create",
+            "acc": 9,
+            "dsc": "(Ljava/nio/file/Path;Ljava/util/function/UnaryOperator;)Lcom/sun/net/httpserver/HttpHandler;",
+            "sig": "(Ljava/nio/file/Path;Ljava/util/function/UnaryOperator<Ljava/lang/String;>;)Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "nme": "handleHEAD",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "handleGET",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "handleSupportedMethod",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "handleMovedPermanently",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "handleForbidden",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "handleNotFound",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "discardRequestBody",
+            "acc": 10,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRedirectURI",
+            "acc": 2,
+            "dsc": "(Ljava/net/URI;)Ljava/lang/String;"
+          },
+          {
+            "nme": "missingSlash",
+            "acc": 10,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Z"
+          },
+          {
+            "nme": "contextPath",
+            "acc": 10,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Ljava/lang/String;"
+          },
+          {
+            "nme": "requestPath",
+            "acc": 10,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Ljava/lang/String;"
+          },
+          {
+            "nme": "checkRequestWithinContext",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "checkPathWithinRoot",
+            "acc": 10,
+            "dsc": "(Ljava/nio/file/Path;Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "relativeRequestPath",
+            "acc": 10,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Ljava/lang/String;"
+          },
+          {
+            "nme": "mapToPath",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "indexFile",
+            "acc": 10,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/nio/file/Path;"
+          },
+          {
+            "nme": "serveFile",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "listFiles",
+            "acc": 2,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;Z)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "hrefListItemFor",
+            "acc": 10,
+            "dsc": "(Ljava/net/URI;)Ljava/lang/String;"
+          },
+          {
+            "nme": "dirListing",
+            "acc": 10,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Ljava/nio/file/Path;)Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getLastModified",
+            "acc": 10,
+            "dsc": "(Ljava/nio/file/Path;)Ljava/lang/String;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "isHiddenOrSymLink",
+            "acc": 10,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "mediaType",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "handle",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "lambda$static$6",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "lambda$static$5",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;I)V"
+          },
+          {
+            "nme": "lambda$dirListing$4",
+            "acc": 4106,
+            "dsc": "(Ljava/lang/StringBuilder;Ljava/net/URI;)V"
+          },
+          {
+            "nme": "lambda$dirListing$3",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/Path;Ljava/nio/file/Path;)Ljava/net/URI;"
+          },
+          {
+            "nme": "lambda$dirListing$2",
+            "acc": 4106,
+            "dsc": "(Ljava/nio/file/Path;)Z"
+          },
+          {
+            "nme": "lambda$create$1",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/net/httpserver/Request;)Z"
+          },
+          {
+            "nme": "lambda$create$0",
+            "acc": 4106,
+            "dsc": "(Lcom/sun/net/httpserver/Request;)Z"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "SUPPORTED_METHODS",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "UNSUPPORTED_METHODS",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "root",
+            "dsc": "Ljava/nio/file/Path;"
+          },
+          {
+            "acc": 18,
+            "nme": "mimeTable",
+            "dsc": "Ljava/util/function/UnaryOperator;",
+            "sig": "Ljava/util/function/UnaryOperator<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "logger",
+            "dsc": "Ljava/lang/System$Logger;"
+          },
+          {
+            "acc": 26,
+            "nme": "NOT_IMPLEMENTED_HANDLER",
+            "dsc": "Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "acc": 26,
+            "nme": "METHOD_NOT_ALLOWED_HANDLER",
+            "dsc": "Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "acc": 26,
+            "nme": "openHTML",
+            "dsc": "Ljava/lang/String;",
+            "val": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\"/>\n</head>\n<body>\n"
+          },
+          {
+            "acc": 26,
+            "nme": "closeHTML",
+            "dsc": "Ljava/lang/String;",
+            "val": "</body>\n</html>\n"
+          },
+          {
+            "acc": 26,
+            "nme": "hrefListItemTemplate",
+            "dsc": "Ljava/lang/String;",
+            "val": "<li><a href=\"%s\">%s</a></li>\n"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_CONTENT_TYPE",
+            "dsc": "Ljava/lang/String;",
+            "val": "application/octet-stream"
+          },
+          {
+            "acc": 26,
+            "nme": "RESERVED_CHARS",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "sanitize",
+            "dsc": "Ljava/util/function/UnaryOperator;",
+            "sig": "Ljava/util/function/UnaryOperator<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams$EngineWrapper.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/SSLStreams$EngineWrapper",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/SSLStreams;Ljava/nio/channels/SocketChannel;Ljavax/net/ssl/SSLEngine;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "wrapAndSend",
+            "acc": 0,
+            "dsc": "(Ljava/nio/ByteBuffer;)Lsun/net/httpserver/SSLStreams$WrapperResult;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "wrapAndSendX",
+            "acc": 0,
+            "dsc": "(Ljava/nio/ByteBuffer;Z)Lsun/net/httpserver/SSLStreams$WrapperResult;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "recvAndUnwrap",
+            "acc": 0,
+            "dsc": "(Ljava/nio/ByteBuffer;)Lsun/net/httpserver/SSLStreams$WrapperResult;",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "chan",
+            "dsc": "Ljava/nio/channels/SocketChannel;"
+          },
+          {
+            "acc": 0,
+            "nme": "engine",
+            "dsc": "Ljavax/net/ssl/SSLEngine;"
+          },
+          {
+            "acc": 0,
+            "nme": "wrapLock",
+            "dsc": "Ljava/lang/Object;"
+          },
+          {
+            "acc": 0,
+            "nme": "unwrapLock",
+            "dsc": "Ljava/lang/Object;"
+          },
+          {
+            "acc": 0,
+            "nme": "unwrap_src",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "wrap_dst",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 0,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 0,
+            "nme": "u_remaining",
+            "dsc": "I"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/net/httpserver/SSLStreams;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/SSLStreams$BufType.class": {
+        "ver": 65,
+        "acc": 16432,
+        "nme": "sun/net/httpserver/SSLStreams$BufType",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lsun/net/httpserver/SSLStreams$BufType;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/net/httpserver/SSLStreams$BufType;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lsun/net/httpserver/SSLStreams$BufType;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "PACKET",
+            "dsc": "Lsun/net/httpserver/SSLStreams$BufType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "APPLICATION",
+            "dsc": "Lsun/net/httpserver/SSLStreams$BufType;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lsun/net/httpserver/SSLStreams$BufType;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/SimpleFileServer.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/net/httpserver/SimpleFileServer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createFileServer",
+            "acc": 9,
+            "dsc": "(Ljava/net/InetSocketAddress;Ljava/nio/file/Path;Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;)Lcom/sun/net/httpserver/HttpServer;"
+          },
+          {
+            "nme": "createFileHandler",
+            "acc": 9,
+            "dsc": "(Ljava/nio/file/Path;)Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "nme": "createOutputFilter",
+            "acc": 9,
+            "dsc": "(Ljava/io/OutputStream;Lcom/sun/net/httpserver/SimpleFileServer$OutputLevel;)Lcom/sun/net/httpserver/Filter;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MIME_TABLE",
+            "dsc": "Ljava/util/function/UnaryOperator;",
+            "sig": "Ljava/util/function/UnaryOperator<Ljava/lang/String;>;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/HttpConnection$State.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "sun/net/httpserver/HttpConnection$State",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 16409,
+            "nme": "IDLE",
+            "dsc": "Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "acc": 16409,
+            "nme": "REQUEST",
+            "dsc": "Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "acc": 16409,
+            "nme": "RESPONSE",
+            "dsc": "Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "acc": 16409,
+            "nme": "NEWLY_ACCEPTED",
+            "dsc": "Lsun/net/httpserver/HttpConnection$State;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lsun/net/httpserver/HttpConnection$State;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/ChunkedOutputStream.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ChunkedOutputStream",
+        "super": "java/io/FilterOutputStream",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "write",
+            "acc": 1,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "writeChunk",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "flush",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "closed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 24,
+            "nme": "CHUNK_SIZE",
+            "dsc": "I",
+            "val": 4096
+          },
+          {
+            "acc": 24,
+            "nme": "OFFSET",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 2,
+            "nme": "pos",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "count",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "buf",
+            "dsc": "[B"
+          },
+          {
+            "acc": 0,
+            "nme": "t",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Filter$3.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/net/httpserver/Filter$3",
+        "super": "com/sun/net/httpserver/Filter",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/function/UnaryOperator;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "doFilter",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;Lcom/sun/net/httpserver/Filter$Chain;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "description",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$requestOperator",
+            "dsc": "Ljava/util/function/UnaryOperator;"
+          },
+          {
+            "acc": 4112,
+            "nme": "val$description",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/Main.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/simpleserver/Main",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "main",
+            "acc": 137,
+            "dsc": "([Ljava/lang/String;)V"
+          },
+          {
+            "nme": "setMaxReqTime",
+            "acc": 10,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "MAXREQTIME_KEY",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.net.httpserver.maxReqTime"
+          },
+          {
+            "acc": 25,
+            "nme": "MAXREQTIME_VAL",
+            "dsc": "Ljava/lang/String;",
+            "val": "5"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/HttpExchange.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/HttpExchange",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getResponseHeaders",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1025,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/HttpContext;"
+          },
+          {
+            "nme": "close",
+            "acc": 1025,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRequestBody",
+            "acc": 1025,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "getResponseBody",
+            "acc": 1025,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "sendResponseHeaders",
+            "acc": 1025,
+            "dsc": "(IJ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddress",
+            "acc": 1025,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getLocalAddress",
+            "acc": 1025,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAttribute",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "setStreams",
+            "acc": 1025,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "getPrincipal",
+            "acc": 1025,
+            "dsc": "()Lcom/sun/net/httpserver/HttpPrincipal;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/HttpsServerImpl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/net/httpserver/HttpsServerImpl",
+        "super": "com/sun/net/httpserver/HttpsServer",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "setHttpsConfigurator",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpsConfigurator;)V"
+          },
+          {
+            "nme": "getHttpsConfigurator",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpsConfigurator;"
+          },
+          {
+            "nme": "bind",
+            "acc": 1,
+            "dsc": "(Ljava/net/InetSocketAddress;I)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "start",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setExecutor",
+            "acc": 1,
+            "dsc": "(Ljava/util/concurrent/Executor;)V"
+          },
+          {
+            "nme": "getExecutor",
+            "acc": 1,
+            "dsc": "()Ljava/util/concurrent/Executor;"
+          },
+          {
+            "nme": "stop",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "createContext",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "removeContext",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "removeContext",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpContext;)V",
+            "exs": [
+              "java/lang/IllegalArgumentException"
+            ]
+          },
+          {
+            "nme": "getAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/net/httpserver/HttpContext;"
+          },
+          {
+            "nme": "createContext",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;)Lcom/sun/net/httpserver/HttpContext;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/simpleserver/ResourceBundleHelper.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/simpleserver/ResourceBundleHelper",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 136,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "bundle",
+            "dsc": "Ljava/util/ResourceBundle;"
+          }
+        ]
+      },
+      "classes/sun/net/httpserver/HttpContextImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/HttpContextImpl",
+        "super": "com/sun/net/httpserver/HttpContext",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Lcom/sun/net/httpserver/HttpHandler;Lsun/net/httpserver/ServerImpl;)V"
+          },
+          {
+            "nme": "getHandler",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpHandler;"
+          },
+          {
+            "nme": "setHandler",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/HttpHandler;)V"
+          },
+          {
+            "nme": "getPath",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getServer",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpServer;"
+          },
+          {
+            "nme": "getServerImpl",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAttributes",
+            "acc": 1,
+            "dsc": "()Ljava/util/Map;",
+            "sig": "()Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;"
+          },
+          {
+            "nme": "getFilters",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/net/httpserver/Filter;>;"
+          },
+          {
+            "nme": "getSystemFilters",
+            "acc": 0,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lcom/sun/net/httpserver/Filter;>;"
+          },
+          {
+            "nme": "setAuthenticator",
+            "acc": 1,
+            "dsc": "(Lcom/sun/net/httpserver/Authenticator;)Lcom/sun/net/httpserver/Authenticator;"
+          },
+          {
+            "nme": "getAuthenticator",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Authenticator;"
+          },
+          {
+            "nme": "getLogger",
+            "acc": 0,
+            "dsc": "()Ljava/lang/System$Logger;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "path",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "protocol",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "server",
+            "dsc": "Lsun/net/httpserver/ServerImpl;"
+          },
+          {
+            "acc": 18,
+            "nme": "authfilter",
+            "dsc": "Lsun/net/httpserver/AuthFilter;"
+          },
+          {
+            "acc": 18,
+            "nme": "attributes",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "sfilters",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lcom/sun/net/httpserver/Filter;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "ufilters",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lcom/sun/net/httpserver/Filter;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "authenticator",
+            "dsc": "Lcom/sun/net/httpserver/Authenticator;"
+          },
+          {
+            "acc": 2,
+            "nme": "handler",
+            "dsc": "Lcom/sun/net/httpserver/HttpHandler;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Authenticator$Result.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/Authenticator$Result",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/HttpsExchangeImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/HttpsExchangeImpl",
+        "super": "com/sun/net/httpserver/HttpsExchange",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/net/httpserver/ExchangeImpl;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRequestHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getResponseHeaders",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/Headers;"
+          },
+          {
+            "nme": "getRequestURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "getRequestMethod",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 1,
+            "dsc": "()Lsun/net/httpserver/HttpContextImpl;"
+          },
+          {
+            "nme": "close",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getRequestBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/InputStream;"
+          },
+          {
+            "nme": "getResponseCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getResponseBody",
+            "acc": 1,
+            "dsc": "()Ljava/io/OutputStream;"
+          },
+          {
+            "nme": "sendResponseHeaders",
+            "acc": 1,
+            "dsc": "(IJ)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "getRemoteAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getLocalAddress",
+            "acc": 1,
+            "dsc": "()Ljava/net/InetSocketAddress;"
+          },
+          {
+            "nme": "getProtocol",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSSLSession",
+            "acc": 1,
+            "dsc": "()Ljavax/net/ssl/SSLSession;"
+          },
+          {
+            "nme": "getAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "setAttribute",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V"
+          },
+          {
+            "nme": "setStreams",
+            "acc": 1,
+            "dsc": "(Ljava/io/InputStream;Ljava/io/OutputStream;)V"
+          },
+          {
+            "nme": "getPrincipal",
+            "acc": 1,
+            "dsc": "()Lcom/sun/net/httpserver/HttpPrincipal;"
+          },
+          {
+            "nme": "getExchangeImpl",
+            "acc": 0,
+            "dsc": "()Lsun/net/httpserver/ExchangeImpl;"
+          },
+          {
+            "nme": "getHttpContext",
+            "acc": 4161,
+            "dsc": "()Lcom/sun/net/httpserver/HttpContext;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "impl",
+            "dsc": "Lsun/net/httpserver/ExchangeImpl;"
+          }
+        ]
+      },
+      "classes/com/sun/net/httpserver/Authenticator.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/net/httpserver/Authenticator",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "authenticate",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/net/httpserver/HttpExchange;)Lcom/sun/net/httpserver/Authenticator$Result;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/net/httpserver/ServerConfig$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/net/httpserver/ServerConfig$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/System$Logger;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$logger",
+            "dsc": "Ljava/lang/System$Logger;"
+          }
+        ]
+      }
+    }
+  }
+}

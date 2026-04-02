@@ -1,0 +1,688 @@
+{
+  "md5": "bcc16bd214edba6b39cd6908ee4f132a",
+  "sha2": "cebc30d24ab8623e375f21a845504157af963a82",
+  "sha256": "8c781a406bc97e81ba5a8ff9ffa3e71a3beb81743645fa307ef1239e6e209ebd",
+  "contents": {
+    "classes": {
+      "classes/com/sun/security/jgss/AuthorizationDataEntry.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/jgss/AuthorizationDataEntry",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I[B)V"
+          },
+          {
+            "nme": "getType",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getData",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "type",
+            "dsc": "I"
+          },
+          {
+            "acc": 18,
+            "nme": "data",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/gsskerb/JdkSASL.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/gsskerb/JdkSASL",
+        "super": "java/security/Provider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "access$000",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/gsskerb/JdkSASL;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$100",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/gsskerb/JdkSASL;Ljava/security/Provider$Service;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 8622590901641830849
+          },
+          {
+            "acc": 26,
+            "nme": "info",
+            "dsc": "Ljava/lang/String;",
+            "val": "JDK SASL provider(implements client and server mechanisms for GSSAPI)"
+          }
+        ]
+      },
+      "classes/com/sun/security/jgss/Extender.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/jgss/Extender",
+        "super": "sun/security/jgss/JgssExtender",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "(Lorg/ietf/jgss/GSSCredential;)Lorg/ietf/jgss/GSSCredential;"
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "(Lorg/ietf/jgss/GSSContext;)Lorg/ietf/jgss/GSSContext;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/sasl/gsskerb/JdkSASL$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/sasl/gsskerb/JdkSASL$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/security/sasl/gsskerb/JdkSASL;Ljava/security/Provider;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$p",
+            "dsc": "Ljava/security/Provider;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lcom/sun/security/sasl/gsskerb/JdkSASL;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/gsskerb/FactoryImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/gsskerb/FactoryImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSaslClient",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "sig": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "createSaslServer",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "myMechs",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "mechPolicies",
+            "dsc": "[I"
+          },
+          {
+            "acc": 26,
+            "nme": "GSS_KERB_V5",
+            "dsc": "I",
+            "val": 0
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/gsskerb/GssKrb5Server.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/gsskerb/GssKrb5Server",
+        "super": "com/sun/security/sasl/gsskerb/GssKrb5Base",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "evaluateResponse",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "doHandshake1",
+            "acc": 2,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "doHandshake2",
+            "acc": 2,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getAuthorizationID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MY_CLASS_NAME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "handshakeStage",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "peer",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "me",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "authzid",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "cbh",
+            "dsc": "Ljavax/security/auth/callback/CallbackHandler;"
+          },
+          {
+            "acc": 18,
+            "nme": "protocolSaved",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/com/sun/security/jgss/ExtendedGSSContext.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/security/jgss/ExtendedGSSContext",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "inquireSecContext",
+            "acc": 1025,
+            "dsc": "(Lcom/sun/security/jgss/InquireType;)Ljava/lang/Object;",
+            "exs": [
+              "org/ietf/jgss/GSSException"
+            ]
+          },
+          {
+            "nme": "requestDelegPolicy",
+            "acc": 1025,
+            "dsc": "(Z)V",
+            "exs": [
+              "org/ietf/jgss/GSSException"
+            ]
+          },
+          {
+            "nme": "getDelegPolicyState",
+            "acc": 1025,
+            "dsc": "()Z"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/jgss/ExtendedGSSContextImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/jgss/ExtendedGSSContextImpl",
+        "super": "sun/security/jgss/GSSContextImpl",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/jgss/GSSContextImpl;)V"
+          },
+          {
+            "nme": "inquireSecContext",
+            "acc": 1,
+            "dsc": "(Lcom/sun/security/jgss/InquireType;)Ljava/lang/Object;",
+            "exs": [
+              "org/ietf/jgss/GSSException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/sasl/gsskerb/JdkSASL$ProviderService.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/gsskerb/JdkSASL$ProviderService",
+        "super": "java/security/Provider$Service",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "newInstance",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/jgss/ExtendedGSSCredential.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "com/sun/security/jgss/ExtendedGSSCredential",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "impersonate",
+            "acc": 1025,
+            "dsc": "(Lorg/ietf/jgss/GSSName;)Lorg/ietf/jgss/GSSCredential;",
+            "exs": [
+              "org/ietf/jgss/GSSException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/jgss/ExtendedGSSCredentialImpl.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/jgss/ExtendedGSSCredentialImpl",
+        "super": "sun/security/jgss/GSSCredentialImpl",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/security/jgss/GSSCredentialImpl;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/jgss/GSSUtil.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "com/sun/security/jgss/GSSUtil",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSubject",
+            "acc": 9,
+            "dsc": "(Lorg/ietf/jgss/GSSName;Lorg/ietf/jgss/GSSCredential;)Ljavax/security/auth/Subject;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/sasl/gsskerb/GssKrb5Client.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/gsskerb/GssKrb5Client",
+        "super": "com/sun/security/sasl/gsskerb/GssKrb5Base",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "doFinalHandshake",
+            "acc": 2,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MY_CLASS_NAME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "finalHandshake",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "authzID",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/com/sun/security/jgss/InquireSecContextPermission.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/jgss/InquireSecContextPermission",
+        "super": "java/security/BasicPermission",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -7131173349668647297
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/gsskerb/GssKrb5Base.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "com/sun/security/sasl/gsskerb/GssKrb5Base",
+        "super": "com/sun/security/sasl/util/AbstractSaslImpl",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;Ljava/lang/String;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "finalize",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          },
+          {
+            "nme": "checkMessageProp",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Lorg/ietf/jgss/MessageProp;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "KRB5_OID_STR",
+            "dsc": "Ljava/lang/String;",
+            "val": "1.2.840.113554.1.2.2"
+          },
+          {
+            "acc": 12,
+            "nme": "KRB5_OID",
+            "dsc": "Lorg/ietf/jgss/Oid;"
+          },
+          {
+            "acc": 28,
+            "nme": "EMPTY",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "secCtx",
+            "dsc": "Lorg/ietf/jgss/GSSContext;"
+          },
+          {
+            "acc": 28,
+            "nme": "JGSS_QOP",
+            "dsc": "I",
+            "val": 0
+          }
+        ]
+      },
+      "classes/com/sun/security/jgss/InquireType.class": {
+        "ver": 65,
+        "acc": 16433,
+        "nme": "com/sun/security/jgss/InquireType",
+        "super": "java/lang/Enum",
+        "mthds": [
+          {
+            "nme": "values",
+            "acc": 9,
+            "dsc": "()[Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "nme": "valueOf",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "$values",
+            "acc": 4106,
+            "dsc": "()[Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 147481,
+            "nme": "KRB5_GET_SESSION_KEY",
+            "dsc": "Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "KRB5_GET_SESSION_KEY_EX",
+            "dsc": "Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "KRB5_GET_TKT_FLAGS",
+            "dsc": "Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "KRB5_GET_AUTHZ_DATA",
+            "dsc": "Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "KRB5_GET_AUTHTIME",
+            "dsc": "Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "acc": 16409,
+            "nme": "KRB5_GET_KRB_CRED",
+            "dsc": "Lcom/sun/security/jgss/InquireType;"
+          },
+          {
+            "acc": 4122,
+            "nme": "$VALUES",
+            "dsc": "[Lcom/sun/security/jgss/InquireType;"
+          }
+        ]
+      }
+    }
+  }
+}

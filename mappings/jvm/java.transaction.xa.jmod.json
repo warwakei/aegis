@@ -1,0 +1,395 @@
+{
+  "md5": "030a0568c32ac12d0e2952875cd74299",
+  "sha2": "d5baaae2ab20a4fe28a059ac5f271470bc2cd31a",
+  "sha256": "56dadc935088a99235a05ade9a8d6630ff5ea386e4e3fe1645148ae0518fccb0",
+  "contents": {
+    "classes": {
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/javax/transaction/xa/XAException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/transaction/xa/XAException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -8249683284832867751
+          },
+          {
+            "acc": 1,
+            "nme": "errorCode",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBBASE",
+            "dsc": "I",
+            "val": 100
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBROLLBACK",
+            "dsc": "I",
+            "val": 100
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBCOMMFAIL",
+            "dsc": "I",
+            "val": 101
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBDEADLOCK",
+            "dsc": "I",
+            "val": 102
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBINTEGRITY",
+            "dsc": "I",
+            "val": 103
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBOTHER",
+            "dsc": "I",
+            "val": 104
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBPROTO",
+            "dsc": "I",
+            "val": 105
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBTIMEOUT",
+            "dsc": "I",
+            "val": 106
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBTRANSIENT",
+            "dsc": "I",
+            "val": 107
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RBEND",
+            "dsc": "I",
+            "val": 107
+          },
+          {
+            "acc": 25,
+            "nme": "XA_NOMIGRATE",
+            "dsc": "I",
+            "val": 9
+          },
+          {
+            "acc": 25,
+            "nme": "XA_HEURHAZ",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 25,
+            "nme": "XA_HEURCOM",
+            "dsc": "I",
+            "val": 7
+          },
+          {
+            "acc": 25,
+            "nme": "XA_HEURRB",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 25,
+            "nme": "XA_HEURMIX",
+            "dsc": "I",
+            "val": 5
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RETRY",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RDONLY",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_ASYNC",
+            "dsc": "I",
+            "val": -2
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_RMERR",
+            "dsc": "I",
+            "val": -3
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_NOTA",
+            "dsc": "I",
+            "val": -4
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_INVAL",
+            "dsc": "I",
+            "val": -5
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_PROTO",
+            "dsc": "I",
+            "val": -6
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_RMFAIL",
+            "dsc": "I",
+            "val": -7
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_DUPID",
+            "dsc": "I",
+            "val": -8
+          },
+          {
+            "acc": 25,
+            "nme": "XAER_OUTSIDE",
+            "dsc": "I",
+            "val": -9
+          }
+        ]
+      },
+      "classes/javax/transaction/xa/XAResource.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "javax/transaction/xa/XAResource",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "commit",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/Xid;Z)V",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "end",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/Xid;I)V",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "forget",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/Xid;)V",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "getTransactionTimeout",
+            "acc": 1025,
+            "dsc": "()I",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "isSameRM",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/XAResource;)Z",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "prepare",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/Xid;)I",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "recover",
+            "acc": 1025,
+            "dsc": "(I)[Ljavax/transaction/xa/Xid;",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "rollback",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/Xid;)V",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "setTransactionTimeout",
+            "acc": 1025,
+            "dsc": "(I)Z",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          },
+          {
+            "nme": "start",
+            "acc": 1025,
+            "dsc": "(Ljavax/transaction/xa/Xid;I)V",
+            "exs": [
+              "javax/transaction/xa/XAException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "TMENDRSCAN",
+            "dsc": "I",
+            "val": 8388608
+          },
+          {
+            "acc": 25,
+            "nme": "TMFAIL",
+            "dsc": "I",
+            "val": 536870912
+          },
+          {
+            "acc": 25,
+            "nme": "TMJOIN",
+            "dsc": "I",
+            "val": 2097152
+          },
+          {
+            "acc": 25,
+            "nme": "TMNOFLAGS",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 25,
+            "nme": "TMONEPHASE",
+            "dsc": "I",
+            "val": 1073741824
+          },
+          {
+            "acc": 25,
+            "nme": "TMRESUME",
+            "dsc": "I",
+            "val": 134217728
+          },
+          {
+            "acc": 25,
+            "nme": "TMSTARTRSCAN",
+            "dsc": "I",
+            "val": 16777216
+          },
+          {
+            "acc": 25,
+            "nme": "TMSUCCESS",
+            "dsc": "I",
+            "val": 67108864
+          },
+          {
+            "acc": 25,
+            "nme": "TMSUSPEND",
+            "dsc": "I",
+            "val": 33554432
+          },
+          {
+            "acc": 25,
+            "nme": "XA_RDONLY",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 25,
+            "nme": "XA_OK",
+            "dsc": "I",
+            "val": 0
+          }
+        ]
+      },
+      "classes/javax/transaction/xa/Xid.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "javax/transaction/xa/Xid",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getFormatId",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getGlobalTransactionId",
+            "acc": 1025,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getBranchQualifier",
+            "acc": 1025,
+            "dsc": "()[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "MAXGTRIDSIZE",
+            "dsc": "I",
+            "val": 64
+          },
+          {
+            "acc": 25,
+            "nme": "MAXBQUALSIZE",
+            "dsc": "I",
+            "val": 64
+          }
+        ]
+      }
+    }
+  }
+}

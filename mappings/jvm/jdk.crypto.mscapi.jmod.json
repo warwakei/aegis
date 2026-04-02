@@ -1,0 +1,2697 @@
+{
+  "md5": "32ef0b9b162b9902ea18c569cae9cc05",
+  "sha2": "dfa6965d2495a0a214e74fd1824ec2689a6e3997",
+  "sha256": "9a5bd23e8131c4ca96e02bd0407a0315f9a04eb285825be55d84ed6f4980b54a",
+  "contents": {
+    "classes": {
+      "classes/sun/security/mscapi/CKeyStore$KeyEntry.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CKeyStore$KeyEntry",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/mscapi/CKeyStore;Lsun/security/mscapi/CKey;[Ljava/security/cert/X509Certificate;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/mscapi/CKeyStore;Ljava/lang/String;Lsun/security/mscapi/CKey;[Ljava/security/cert/X509Certificate;)V"
+          },
+          {
+            "nme": "getAlias",
+            "acc": 0,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "setAlias",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getPrivateKey",
+            "acc": 0,
+            "dsc": "()Lsun/security/mscapi/CKey;"
+          },
+          {
+            "nme": "setRSAPrivateKey",
+            "acc": 0,
+            "dsc": "(Ljava/security/Key;)V",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "getCertificateChain",
+            "acc": 0,
+            "dsc": "()[Ljava/security/cert/X509Certificate;"
+          },
+          {
+            "nme": "setCertificateChain",
+            "acc": 0,
+            "dsc": "([Ljava/security/cert/X509Certificate;)V",
+            "exs": [
+              "java/security/cert/CertificateException",
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "delete",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "privateKey",
+            "dsc": "Lsun/security/mscapi/CKey;"
+          },
+          {
+            "acc": 2,
+            "nme": "certChain",
+            "dsc": "[Ljava/security/cert/X509Certificate;"
+          },
+          {
+            "acc": 2,
+            "nme": "alias",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/security/mscapi/CKeyStore;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CKey$NativeHandles.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CKey$NativeHandles",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(JJ)V"
+          },
+          {
+            "nme": "finalize",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "java/lang/Throwable"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "hCryptProv",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "hCryptKey",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$SHA224withECDSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA224withECDSA",
+        "super": "sun/security/mscapi/CSignature$ECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CKeyStore$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CKeyStore$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/mscapi/CKeyStore;Ljava/util/Iterator;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "hasMoreElements",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "nextElement",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "nextElement",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$iter",
+            "dsc": "Ljava/util/Iterator;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CKeyPair.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CKeyPair",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;JJI)V"
+          },
+          {
+            "nme": "getPrivate",
+            "acc": 1,
+            "dsc": "()Lsun/security/mscapi/CPrivateKey;"
+          },
+          {
+            "nme": "getPublic",
+            "acc": 1,
+            "dsc": "()Lsun/security/mscapi/CPublicKey;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "privateKey",
+            "dsc": "Lsun/security/mscapi/CPrivateKey;"
+          },
+          {
+            "acc": 18,
+            "nme": "publicKey",
+            "dsc": "Lsun/security/mscapi/CPublicKey;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$PSS.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$PSS",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitVerify",
+            "acc": 4,
+            "dsc": "(Ljava/security/PublicKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(B)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "engineSign",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineVerify",
+            "acc": 4,
+            "dsc": "([B)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineGetParameters",
+            "acc": 4,
+            "dsc": "()Ljava/security/AlgorithmParameters;"
+          },
+          {
+            "nme": "ensureInit",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "validateSigParams",
+            "acc": 2,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)Ljava/security/spec/PSSParameterSpec;",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "pssParams",
+            "dsc": "Ljava/security/spec/PSSParameterSpec;"
+          },
+          {
+            "acc": 2,
+            "nme": "fallbackSignature",
+            "dsc": "Ljava/security/Signature;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$SHA1withECDSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA1withECDSA",
+        "super": "sun/security/mscapi/CSignature$ECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CPublicKey$CRSAPublicKey.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/mscapi/CPublicKey$CRSAPublicKey",
+        "super": "sun/security/mscapi/CPublicKey",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/mscapi/CKey$NativeHandles;I)V"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getPublicExponent",
+            "acc": 1,
+            "dsc": "()Ljava/math/BigInteger;"
+          },
+          {
+            "nme": "getModulus",
+            "acc": 1,
+            "dsc": "()Ljava/math/BigInteger;"
+          },
+          {
+            "nme": "getEncoded",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getExponent",
+            "acc": 258,
+            "dsc": "([B)[B",
+            "exs": [
+              "java/security/KeyException"
+            ]
+          },
+          {
+            "nme": "getModulus",
+            "acc": 258,
+            "dsc": "([B)[B",
+            "exs": [
+              "java/security/KeyException"
+            ]
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHCryptProvider",
+            "acc": 4161,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getHCryptKey",
+            "acc": 4161,
+            "dsc": "()J"
+          },
+          {
+            "nme": "length",
+            "acc": 4161,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "modulus",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 2,
+            "nme": "exponent",
+            "dsc": "Ljava/math/BigInteger;"
+          },
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 12
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$MD5withRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$MD5withRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/SunMSCAPI.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/SunMSCAPI",
+        "super": "java/security/Provider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "access$000",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$100",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$200",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$300",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$400",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$500",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$600",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$700",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$800",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$900",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1000",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1100",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1200",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1300",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1400",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1500",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1600",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1700",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1800",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$1900",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$2000",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$2100",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$2200",
+            "acc": 4104,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 8622598936488630849
+          },
+          {
+            "acc": 26,
+            "nme": "INFO",
+            "dsc": "Ljava/lang/String;",
+            "val": "Sun's Microsoft Crypto API provider"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CKeyStore.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/security/mscapi/CKeyStore",
+        "super": "java/security/KeyStoreSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "engineGetKey",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;[C)Ljava/security/Key;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/security/UnrecoverableKeyException"
+            ]
+          },
+          {
+            "nme": "engineGetCertificateChain",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)[Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetCertificate",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetCreationDate",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Date;"
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/security/Key;[C[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;[B[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetCertificateEntry",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineDeleteEntry",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineAliases",
+            "acc": 1,
+            "dsc": "()Ljava/util/Enumeration;",
+            "sig": "()Ljava/util/Enumeration<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "engineContainsAlias",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineSize",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "engineIsKeyEntry",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineIsCertificateEntry",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineGetCertificateAlias",
+            "acc": 1,
+            "dsc": "(Ljava/security/cert/Certificate;)Ljava/lang/String;"
+          },
+          {
+            "nme": "engineStore",
+            "acc": 1,
+            "dsc": "(Ljava/io/OutputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineLoad",
+            "acc": 1,
+            "dsc": "(Ljava/io/InputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "storeWithUniqueAlias",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Lsun/security/mscapi/CKeyStore$KeyEntry;)V"
+          },
+          {
+            "nme": "generateCertificateChain",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/util/Collection;)V",
+            "sig": "(Ljava/lang/String;Ljava/util/Collection<+Ljava/security/cert/Certificate;>;)V"
+          },
+          {
+            "nme": "generateKeyAndCertificateChain",
+            "acc": 2,
+            "dsc": "(ZLjava/lang/String;JJILjava/util/Collection;)V",
+            "sig": "(ZLjava/lang/String;JJILjava/util/Collection<+Ljava/security/cert/Certificate;>;)V"
+          },
+          {
+            "nme": "generateCertificate",
+            "acc": 2,
+            "dsc": "([BLjava/util/Collection;)V",
+            "sig": "([BLjava/util/Collection<Ljava/security/cert/Certificate;>;)V"
+          },
+          {
+            "nme": "getName",
+            "acc": 2,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getLocation",
+            "acc": 2,
+            "dsc": "()I"
+          },
+          {
+            "nme": "loadKeysOrCertificateChains",
+            "acc": 258,
+            "dsc": "(Ljava/lang/String;I)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "storeCertificate",
+            "acc": 258,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;[BIJJ)V",
+            "exs": [
+              "java/security/cert/CertificateException",
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "removeCertificate",
+            "acc": 258,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;[BI)V",
+            "exs": [
+              "java/security/cert/CertificateException",
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "destroyKeyContainer",
+            "acc": 258,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "removeCngKey",
+            "acc": 258,
+            "dsc": "(J)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "generateRSAPrivateKeyBlob",
+            "acc": 258,
+            "dsc": "(I[B[B[B[B[B[B[B[B)[B",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "storePrivateKey",
+            "acc": 258,
+            "dsc": "(Ljava/lang/String;[BLjava/lang/String;I)Lsun/security/mscapi/CPrivateKey;",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "lambda$new$0",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "LOCATION_CURRENTUSER",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "LOCATION_LOCALMACHINE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 2,
+            "nme": "certificateFactory",
+            "dsc": "Ljava/security/cert/CertificateFactory;"
+          },
+          {
+            "acc": 26,
+            "nme": "KEYSTORE_COMPATIBILITY_MODE_PROP",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.security.mscapi.keyStoreCompatibilityMode"
+          },
+          {
+            "acc": 18,
+            "nme": "keyStoreCompatibilityMode",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "debug",
+            "dsc": "Lsun/security/util/Debug;"
+          },
+          {
+            "acc": 2,
+            "nme": "entries",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Lsun/security/mscapi/CKeyStore$KeyEntry;>;"
+          },
+          {
+            "acc": 18,
+            "nme": "storeName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "storeLocation",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CKeyPairGenerator.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/security/mscapi/CKeyPairGenerator",
+        "super": "java/security/KeyPairGeneratorSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "keyAlg",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/SunMSCAPI$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/SunMSCAPI$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CSignature$ECDSA.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CSignature$ECDSA",
+        "super": "sun/security/mscapi/CSignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitVerify",
+            "acc": 4,
+            "dsc": "(Ljava/security/PublicKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineSign",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineVerify",
+            "acc": 4,
+            "dsc": "([B)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CKey.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/security/mscapi/CKey",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Lsun/security/mscapi/CKey$NativeHandles;IZ)V"
+          },
+          {
+            "nme": "cleanUp",
+            "acc": 266,
+            "dsc": "(JJ)V"
+          },
+          {
+            "nme": "length",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getHCryptKey",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getHCryptProvider",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getContainerName",
+            "acc": 268,
+            "dsc": "(J)Ljava/lang/String;"
+          },
+          {
+            "nme": "getKeyType",
+            "acc": 268,
+            "dsc": "(J)Ljava/lang/String;"
+          },
+          {
+            "nme": "generateECBlob",
+            "acc": 8,
+            "dsc": "(Ljava/security/Key;)[B"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -1088859394025049194
+          },
+          {
+            "acc": 20,
+            "nme": "handles",
+            "dsc": "Lsun/security/mscapi/CKey$NativeHandles;"
+          },
+          {
+            "acc": 20,
+            "nme": "keyLength",
+            "dsc": "I"
+          },
+          {
+            "acc": 20,
+            "nme": "algorithm",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "isPublic",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/SunMSCAPI$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/SunMSCAPI$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/mscapi/SunMSCAPI;Ljava/security/Provider;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$p",
+            "dsc": "Ljava/security/Provider;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/security/mscapi/SunMSCAPI;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$SHA512withECDSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA512withECDSA",
+        "super": "sun/security/mscapi/CSignature$ECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CPublicKey$CECPublicKey.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/mscapi/CPublicKey$CECPublicKey",
+        "super": "sun/security/mscapi/CPublicKey",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/security/mscapi/CKey$NativeHandles;I)V"
+          },
+          {
+            "nme": "getW",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/ECPoint;"
+          },
+          {
+            "nme": "getEncoded",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getParams",
+            "acc": 1,
+            "dsc": "()Ljava/security/spec/ECParameterSpec;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHCryptProvider",
+            "acc": 4161,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getHCryptKey",
+            "acc": 4161,
+            "dsc": "()J"
+          },
+          {
+            "nme": "length",
+            "acc": 4161,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "w",
+            "dsc": "Ljava/security/spec/ECPoint;"
+          },
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 12
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/PRNG.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/PRNG",
+        "super": "java/security/SecureRandomSpi",
+        "mthds": [
+          {
+            "nme": "generateSeed",
+            "acc": 266,
+            "dsc": "(JI[B)[B"
+          },
+          {
+            "nme": "getContext",
+            "acc": 266,
+            "dsc": "()J"
+          },
+          {
+            "nme": "releaseContext",
+            "acc": 266,
+            "dsc": "(J)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineSetSeed",
+            "acc": 36,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "engineNextBytes",
+            "acc": 36,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "engineGenerateSeed",
+            "acc": 36,
+            "dsc": "(I)[B"
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 4129268715132691532
+          },
+          {
+            "acc": 26,
+            "nme": "CLEANER",
+            "dsc": "Ljava/lang/ref/Cleaner;"
+          },
+          {
+            "acc": 130,
+            "nme": "ctxt",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$MD2withRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$MD2withRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/SunMSCAPI$ProviderServiceA.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/SunMSCAPI$ProviderServiceA",
+        "super": "sun/security/mscapi/SunMSCAPI$ProviderService",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/HashMap;)V",
+            "sig": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/HashMap<Ljava/lang/String;Ljava/lang/String;>;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CKeyStore$ROOTLocalMachine.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CKeyStore$ROOTLocalMachine",
+        "super": "sun/security/mscapi/CKeyStore",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineLoad",
+            "acc": 4161,
+            "dsc": "(Ljava/io/InputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineStore",
+            "acc": 4161,
+            "dsc": "(Ljava/io/OutputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineGetCertificateAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/security/cert/Certificate;)Ljava/lang/String;"
+          },
+          {
+            "nme": "engineIsCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineIsKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineSize",
+            "acc": 4161,
+            "dsc": "()I"
+          },
+          {
+            "nme": "engineContainsAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineAliases",
+            "acc": 4161,
+            "dsc": "()Ljava/util/Enumeration;"
+          },
+          {
+            "nme": "engineDeleteEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[B[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/Key;[C[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineGetCreationDate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Date;"
+          },
+          {
+            "nme": "engineGetCertificate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetCertificateChain",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)[Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetKey",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[C)Ljava/security/Key;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/security/UnrecoverableKeyException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/PRNG$State.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/PRNG$State",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(J)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "ctxt",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CKeyStore$MYLocalMachine.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CKeyStore$MYLocalMachine",
+        "super": "sun/security/mscapi/CKeyStore",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineLoad",
+            "acc": 4161,
+            "dsc": "(Ljava/io/InputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineStore",
+            "acc": 4161,
+            "dsc": "(Ljava/io/OutputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineGetCertificateAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/security/cert/Certificate;)Ljava/lang/String;"
+          },
+          {
+            "nme": "engineIsCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineIsKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineSize",
+            "acc": 4161,
+            "dsc": "()I"
+          },
+          {
+            "nme": "engineContainsAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineAliases",
+            "acc": 4161,
+            "dsc": "()Ljava/util/Enumeration;"
+          },
+          {
+            "nme": "engineDeleteEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[B[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/Key;[C[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineGetCreationDate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Date;"
+          },
+          {
+            "nme": "engineGetCertificate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetCertificateChain",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)[Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetKey",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[C)Ljava/security/Key;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/security/UnrecoverableKeyException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CSignature$SHA384withRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA384withRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CSignature$NONEwithRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$NONEwithRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(B)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "resetDigest",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getDigestValue",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "RAW_RSA_MAX",
+            "dsc": "I",
+            "val": 64
+          },
+          {
+            "acc": 18,
+            "nme": "precomputedDigest",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "offset",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$SHA256withECDSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA256withECDSA",
+        "super": "sun/security/mscapi/CSignature$ECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CSignature.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "sun/security/mscapi/CSignature",
+        "super": "java/security/SignatureSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "signCngHash",
+            "acc": 264,
+            "dsc": "(I[BIILjava/lang/String;JJ)[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "verifyCngSignedHash",
+            "acc": 266,
+            "dsc": "(I[BI[BIILjava/lang/String;JJ)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "resetDigest",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getDigestValue",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "setDigestName",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(B)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)V",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "convertEndianArray",
+            "acc": 10,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "signHash",
+            "acc": 266,
+            "dsc": "(Z[BILjava/lang/String;JJ)[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "verifySignedHash",
+            "acc": 266,
+            "dsc": "([BILjava/lang/String;[BIJJ)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Object;)V",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "engineSetParameter",
+            "acc": 4,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineGetParameter",
+            "acc": 131076,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/InvalidParameterException"
+            ],
+            "vanns": [
+              {
+                "dsc": "Ljava/lang/Deprecated;"
+              }
+            ]
+          },
+          {
+            "nme": "engineGetParameters",
+            "acc": 4,
+            "dsc": "()Ljava/security/AlgorithmParameters;"
+          },
+          {
+            "nme": "importPublicKey",
+            "acc": 264,
+            "dsc": "(Ljava/lang/String;[BI)Lsun/security/mscapi/CPublicKey;",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "importECPublicKey",
+            "acc": 264,
+            "dsc": "(Ljava/lang/String;[BI)Lsun/security/mscapi/CPublicKey;",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "keyAlgorithm",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "messageDigest",
+            "dsc": "Ljava/security/MessageDigest;"
+          },
+          {
+            "acc": 4,
+            "nme": "messageDigestAlgorithm",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "needsReset",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "privateKey",
+            "dsc": "Lsun/security/mscapi/CPrivateKey;"
+          },
+          {
+            "acc": 4,
+            "nme": "publicKey",
+            "dsc": "Lsun/security/mscapi/CPublicKey;"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$SHA256withRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA256withRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CPublicKey.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/security/mscapi/CPublicKey",
+        "super": "sun/security/mscapi/CKey",
+        "mthds": [
+          {
+            "nme": "of",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;JJI)Lsun/security/mscapi/CPublicKey;"
+          },
+          {
+            "nme": "of",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Lsun/security/mscapi/CKey$NativeHandles;I)Lsun/security/mscapi/CPublicKey;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Lsun/security/mscapi/CKey$NativeHandles;I)V"
+          },
+          {
+            "nme": "getFormat",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "writeReplace",
+            "acc": 4,
+            "dsc": "()Ljava/lang/Object;",
+            "exs": [
+              "java/io/ObjectStreamException"
+            ]
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          },
+          {
+            "nme": "getPublicKeyBlob",
+            "acc": 256,
+            "dsc": "(JJ)[B",
+            "exs": [
+              "java/security/KeyException"
+            ]
+          },
+          {
+            "nme": "toString",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAlgorithm",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHCryptProvider",
+            "acc": 4161,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getHCryptKey",
+            "acc": 4161,
+            "dsc": "()J"
+          },
+          {
+            "nme": "length",
+            "acc": 4161,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -2289561342425825391
+          },
+          {
+            "acc": 4,
+            "nme": "encoding",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CKeyPairGenerator$RSA.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/security/mscapi/CKeyPairGenerator$RSA",
+        "super": "sun/security/mscapi/CKeyPairGenerator",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(ILjava/security/SecureRandom;)V"
+          },
+          {
+            "nme": "initialize",
+            "acc": 1,
+            "dsc": "(Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "generateKeyPair",
+            "acc": 1,
+            "dsc": "()Ljava/security/KeyPair;"
+          },
+          {
+            "nme": "generateCKeyPair",
+            "acc": 266,
+            "dsc": "(Ljava/lang/String;ILjava/lang/String;)Lsun/security/mscapi/CKeyPair;",
+            "exs": [
+              "java/security/KeyException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 24,
+            "nme": "KEY_SIZE_MIN",
+            "dsc": "I",
+            "val": 512
+          },
+          {
+            "acc": 24,
+            "nme": "KEY_SIZE_MAX",
+            "dsc": "I",
+            "val": 16384
+          },
+          {
+            "acc": 2,
+            "nme": "keySize",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$SHA384withECDSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA384withECDSA",
+        "super": "sun/security/mscapi/CSignature$ECDSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CKeyStore$ROOT.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CKeyStore$ROOT",
+        "super": "sun/security/mscapi/CKeyStore",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineLoad",
+            "acc": 4161,
+            "dsc": "(Ljava/io/InputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineStore",
+            "acc": 4161,
+            "dsc": "(Ljava/io/OutputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineGetCertificateAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/security/cert/Certificate;)Ljava/lang/String;"
+          },
+          {
+            "nme": "engineIsCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineIsKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineSize",
+            "acc": 4161,
+            "dsc": "()I"
+          },
+          {
+            "nme": "engineContainsAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineAliases",
+            "acc": 4161,
+            "dsc": "()Ljava/util/Enumeration;"
+          },
+          {
+            "nme": "engineDeleteEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[B[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/Key;[C[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineGetCreationDate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Date;"
+          },
+          {
+            "nme": "engineGetCertificate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetCertificateChain",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)[Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetKey",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[C)Ljava/security/Key;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/security/UnrecoverableKeyException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CKeyStore$MY.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CKeyStore$MY",
+        "super": "sun/security/mscapi/CKeyStore",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineLoad",
+            "acc": 4161,
+            "dsc": "(Ljava/io/InputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineStore",
+            "acc": 4161,
+            "dsc": "(Ljava/io/OutputStream;[C)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "java/security/cert/CertificateException"
+            ]
+          },
+          {
+            "nme": "engineGetCertificateAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/security/cert/Certificate;)Ljava/lang/String;"
+          },
+          {
+            "nme": "engineIsCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineIsKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineSize",
+            "acc": 4161,
+            "dsc": "()I"
+          },
+          {
+            "nme": "engineContainsAlias",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "engineAliases",
+            "acc": 4161,
+            "dsc": "()Ljava/util/Enumeration;"
+          },
+          {
+            "nme": "engineDeleteEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetCertificateEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[B[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineSetKeyEntry",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;Ljava/security/Key;[C[Ljava/security/cert/Certificate;)V",
+            "exs": [
+              "java/security/KeyStoreException"
+            ]
+          },
+          {
+            "nme": "engineGetCreationDate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Date;"
+          },
+          {
+            "nme": "engineGetCertificate",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetCertificateChain",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;)[Ljava/security/cert/Certificate;"
+          },
+          {
+            "nme": "engineGetKey",
+            "acc": 4161,
+            "dsc": "(Ljava/lang/String;[C)Ljava/security/Key;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/security/UnrecoverableKeyException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/SunMSCAPI$ProviderService.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/SunMSCAPI$ProviderService",
+        "super": "java/security/Provider$Service",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/HashMap;)V",
+            "sig": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;Ljava/util/HashMap<Ljava/lang/String;Ljava/lang/String;>;)V"
+          },
+          {
+            "nme": "newInstance",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CSignature$SHA512withRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA512withRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CSignature$SHA1withRSA.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CSignature$SHA1withRSA",
+        "super": "sun/security/mscapi/CSignature$RSA",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CPrivateKey.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CPrivateKey",
+        "super": "sun/security/mscapi/CKey",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Lsun/security/mscapi/CKey$NativeHandles;I)V"
+          },
+          {
+            "nme": "of",
+            "acc": 8,
+            "dsc": "(Ljava/lang/String;JJI)Lsun/security/mscapi/CPrivateKey;"
+          },
+          {
+            "nme": "of",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Lsun/security/mscapi/CKey$NativeHandles;I)Lsun/security/mscapi/CPrivateKey;"
+          },
+          {
+            "nme": "getFormat",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getEncoded",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "writeObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectOutputStream;)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "readObject",
+            "acc": 2,
+            "dsc": "(Ljava/io/ObjectInputStream;)V",
+            "exs": [
+              "java/io/IOException",
+              "java/lang/ClassNotFoundException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 8113152807912338063
+          }
+        ]
+      },
+      "classes/sun/security/mscapi/CSignature$RSA.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/security/mscapi/CSignature$RSA",
+        "super": "sun/security/mscapi/CSignature",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "engineInitSign",
+            "acc": 4,
+            "dsc": "(Ljava/security/PrivateKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInitVerify",
+            "acc": 4,
+            "dsc": "(Ljava/security/PublicKey;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineSign",
+            "acc": 4,
+            "dsc": "()[B",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "engineVerify",
+            "acc": 4,
+            "dsc": "([B)Z",
+            "exs": [
+              "java/security/SignatureException"
+            ]
+          },
+          {
+            "nme": "generatePublicKeyBlob",
+            "acc": 264,
+            "dsc": "(I[B[B)[B",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/security/mscapi/CRSACipher.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/security/mscapi/CRSACipher",
+        "super": "javax/crypto/CipherSpi",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "engineSetMode",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "engineSetPadding",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "javax/crypto/NoSuchPaddingException"
+            ]
+          },
+          {
+            "nme": "engineGetBlockSize",
+            "acc": 4,
+            "dsc": "()I"
+          },
+          {
+            "nme": "engineGetOutputSize",
+            "acc": 4,
+            "dsc": "(I)I"
+          },
+          {
+            "nme": "engineGetIV",
+            "acc": 4,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "engineGetParameters",
+            "acc": 4,
+            "dsc": "()Ljava/security/AlgorithmParameters;"
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(ILjava/security/Key;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(ILjava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "engineInit",
+            "acc": 4,
+            "dsc": "(ILjava/security/Key;Ljava/security/AlgorithmParameters;Ljava/security/SecureRandom;)V",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/InvalidAlgorithmParameterException"
+            ]
+          },
+          {
+            "nme": "init",
+            "acc": 2,
+            "dsc": "(ILjava/security/Key;)V",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "update",
+            "acc": 2,
+            "dsc": "([BII)V"
+          },
+          {
+            "nme": "doFinal",
+            "acc": 2,
+            "dsc": "()[B",
+            "exs": [
+              "javax/crypto/IllegalBlockSizeException"
+            ]
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII)[B"
+          },
+          {
+            "nme": "engineUpdate",
+            "acc": 4,
+            "dsc": "([BII[BI)I"
+          },
+          {
+            "nme": "engineDoFinal",
+            "acc": 4,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/crypto/IllegalBlockSizeException"
+            ]
+          },
+          {
+            "nme": "engineDoFinal",
+            "acc": 4,
+            "dsc": "([BII[BI)I",
+            "exs": [
+              "javax/crypto/ShortBufferException",
+              "javax/crypto/IllegalBlockSizeException"
+            ]
+          },
+          {
+            "nme": "engineWrap",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;)[B",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "javax/crypto/IllegalBlockSizeException"
+            ]
+          },
+          {
+            "nme": "engineUnwrap",
+            "acc": 4,
+            "dsc": "([BLjava/lang/String;I)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "engineGetKeySize",
+            "acc": 4,
+            "dsc": "(Ljava/security/Key;)I",
+            "exs": [
+              "java/security/InvalidKeyException"
+            ]
+          },
+          {
+            "nme": "constructPublicKey",
+            "acc": 10,
+            "dsc": "([BLjava/lang/String;)Ljava/security/PublicKey;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "constructPrivateKey",
+            "acc": 10,
+            "dsc": "([BLjava/lang/String;)Ljava/security/PrivateKey;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "constructSecretKey",
+            "acc": 10,
+            "dsc": "([BLjava/lang/String;)Ljavax/crypto/SecretKey;"
+          },
+          {
+            "nme": "constructKey",
+            "acc": 10,
+            "dsc": "([BLjava/lang/String;I)Ljava/security/Key;",
+            "exs": [
+              "java/security/InvalidKeyException",
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "encryptDecrypt",
+            "acc": 2,
+            "dsc": "([BILsun/security/mscapi/CKey;Z)[B",
+            "exs": [
+              "java/security/KeyException",
+              "javax/crypto/BadPaddingException"
+            ]
+          },
+          {
+            "nme": "encryptDecrypt",
+            "acc": 266,
+            "dsc": "([I[BIJZ)[B",
+            "exs": [
+              "java/security/KeyException"
+            ]
+          },
+          {
+            "nme": "cngEncryptDecrypt",
+            "acc": 266,
+            "dsc": "([I[BIJZ)[B",
+            "exs": [
+              "java/security/KeyException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "ERROR_INVALID_PARAMETER",
+            "dsc": "I",
+            "val": 87
+          },
+          {
+            "acc": 26,
+            "nme": "NTE_INVALID_PARAMETER",
+            "dsc": "I",
+            "val": -2146893785
+          },
+          {
+            "acc": 26,
+            "nme": "B0",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "MODE_ENCRYPT",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "MODE_DECRYPT",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 26,
+            "nme": "MODE_SIGN",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 26,
+            "nme": "MODE_VERIFY",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PAD_PKCS1",
+            "dsc": "Ljava/lang/String;",
+            "val": "PKCS1Padding"
+          },
+          {
+            "acc": 26,
+            "nme": "PAD_PKCS1_LENGTH",
+            "dsc": "I",
+            "val": 11
+          },
+          {
+            "acc": 2,
+            "nme": "mode",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "paddingType",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "paddingLength",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "buffer",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "bufOfs",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "outputSize",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "publicKey",
+            "dsc": "Lsun/security/mscapi/CKey;"
+          },
+          {
+            "acc": 2,
+            "nme": "privateKey",
+            "dsc": "Lsun/security/mscapi/CKey;"
+          },
+          {
+            "acc": 2,
+            "nme": "spec",
+            "dsc": "Ljava/security/spec/AlgorithmParameterSpec;"
+          },
+          {
+            "acc": 2,
+            "nme": "forTlsPremasterSecret",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "random",
+            "dsc": "Ljava/security/SecureRandom;"
+          }
+        ]
+      }
+    }
+  }
+}

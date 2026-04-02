@@ -1,0 +1,32 @@
+{
+  "accessWidener": "accesswidener",
+  "schemaVersion": 1,
+  "id": "aegis",
+  "version": "0.5.0",
+  "icon": "assets/minecraft/icon.png",
+  "name": "Aegis",
+  "description": "Aegis Client",
+  "authors": [
+    "warwakei",
+    "R1dap (Co-author)"
+  ],
+  "contact": {
+    "website": "https://aegisclient.neocities.org",
+    "repo": "none"
+  },
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fun.aegis.Aegis"
+    ]
+  },
+  "mixins": [
+    "mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.8",
+    "fabric": "*",
+    "minecraft": "~1.21.4"
+  }
+}

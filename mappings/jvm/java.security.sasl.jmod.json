@@ -1,0 +1,3167 @@
+{
+  "md5": "2e5e72ae936b2d50cab55453f10bb30a",
+  "sha2": "5fbb09bfbb53217c1c341212846d16aa2d26868b",
+  "sha256": "78d787f906219bdb3bcb5185d29a0898652ec690e213bc2a3ba4259efd52f53e",
+  "contents": {
+    "classes": {
+      "classes/com/sun/security/sasl/CramMD5Base.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "com/sun/security/sasl/CramMD5Base",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "clearPassword",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "finalize",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "HMAC_MD5",
+            "acc": 24,
+            "dsc": "([B[B)Ljava/lang/String;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "initLogger",
+            "acc": 42,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "completed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "aborted",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "pw",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "MD5_BLOCKSIZE",
+            "dsc": "I",
+            "val": 64
+          },
+          {
+            "acc": 26,
+            "nme": "SASL_LOGGER_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl"
+          },
+          {
+            "acc": 12,
+            "nme": "logger",
+            "dsc": "Ljava/util/logging/Logger;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/CramMD5Server.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/CramMD5Server",
+        "super": "com/sun/security/sasl/CramMD5Base",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "evaluateResponse",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getAuthorizationID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "fqdn",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "challengeData",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "authzid",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "cbh",
+            "dsc": "Ljavax/security/auth/callback/CallbackHandler;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/ntlm/NTLMClient.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/ntlm/NTLMClient",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "NTLM_VERSION",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.version"
+          },
+          {
+            "acc": 26,
+            "nme": "NTLM_RANDOM",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.random"
+          },
+          {
+            "acc": 26,
+            "nme": "NTLM_DOMAIN",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.domain"
+          },
+          {
+            "acc": 26,
+            "nme": "NTLM_HOSTNAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.hostname"
+          },
+          {
+            "acc": 18,
+            "nme": "client",
+            "dsc": "Lcom/sun/security/ntlm/Client;"
+          },
+          {
+            "acc": 18,
+            "nme": "mech",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "random",
+            "dsc": "Ljava/util/Random;"
+          },
+          {
+            "acc": 2,
+            "nme": "step",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/javax/security/sasl/AuthorizeCallback.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/security/sasl/AuthorizeCallback",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getAuthenticationID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getAuthorizationID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "isAuthorized",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "setAuthorized",
+            "acc": 1,
+            "dsc": "(Z)V"
+          },
+          {
+            "nme": "getAuthorizedID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "setAuthorizedID",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "authenticationID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "authorizationID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "authorizedID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "authorized",
+            "dsc": "Z"
+          },
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -2353344186490470805
+          }
+        ]
+      },
+      "classes/javax/security/sasl/SaslServerFactory.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "javax/security/sasl/SaslServerFactory",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "createSaslServer",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1025,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/sasl/Provider$ProviderService.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/Provider$ProviderService",
+        "super": "java/security/Provider$Service",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/security/Provider;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"
+          },
+          {
+            "nme": "newInstance",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/javax/security/sasl/Sasl.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/security/sasl/Sasl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSaslClient",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "sig": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "loadFactory",
+            "acc": 10,
+            "dsc": "(Ljava/security/Provider$Service;)Ljava/lang/Object;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "createSaslServer",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getSaslClientFactories",
+            "acc": 9,
+            "dsc": "()Ljava/util/Enumeration;",
+            "sig": "()Ljava/util/Enumeration<Ljavax/security/sasl/SaslClientFactory;>;"
+          },
+          {
+            "nme": "getSaslServerFactories",
+            "acc": 9,
+            "dsc": "()Ljava/util/Enumeration;",
+            "sig": "()Ljava/util/Enumeration<Ljavax/security/sasl/SaslServerFactory;>;"
+          },
+          {
+            "nme": "getFactories",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Ljava/util/Set;",
+            "sig": "(Ljava/lang/String;)Ljava/util/Set<Ljava/lang/Object;>;"
+          },
+          {
+            "nme": "isDisabled",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "lambda$static$0",
+            "acc": 4106,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "disabledMechanisms",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "SASL_LOGGER_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl"
+          },
+          {
+            "acc": 26,
+            "nme": "logger",
+            "dsc": "Ljava/util/logging/Logger;"
+          },
+          {
+            "acc": 25,
+            "nme": "QOP",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.qop"
+          },
+          {
+            "acc": 25,
+            "nme": "STRENGTH",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.strength"
+          },
+          {
+            "acc": 25,
+            "nme": "SERVER_AUTH",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.server.authentication"
+          },
+          {
+            "acc": 25,
+            "nme": "BOUND_SERVER_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.bound.server.name"
+          },
+          {
+            "acc": 25,
+            "nme": "MAX_BUFFER",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.maxbuffer"
+          },
+          {
+            "acc": 25,
+            "nme": "RAW_SEND_SIZE",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.rawsendsize"
+          },
+          {
+            "acc": 25,
+            "nme": "REUSE",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.reuse"
+          },
+          {
+            "acc": 25,
+            "nme": "POLICY_NOPLAINTEXT",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.policy.noplaintext"
+          },
+          {
+            "acc": 25,
+            "nme": "POLICY_NOACTIVE",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.policy.noactive"
+          },
+          {
+            "acc": 25,
+            "nme": "POLICY_NODICTIONARY",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.policy.nodictionary"
+          },
+          {
+            "acc": 25,
+            "nme": "POLICY_NOANONYMOUS",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.policy.noanonymous"
+          },
+          {
+            "acc": 25,
+            "nme": "POLICY_FORWARD_SECRECY",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.policy.forward"
+          },
+          {
+            "acc": 25,
+            "nme": "POLICY_PASS_CREDENTIALS",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.policy.credentials"
+          },
+          {
+            "acc": 25,
+            "nme": "CREDENTIALS",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.credentials"
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/com/sun/security/sasl/ntlm/FactoryImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/ntlm/FactoryImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSaslClient",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "sig": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "createSaslServer",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "myMechs",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "mechPolicies",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/javax/security/sasl/AuthenticationException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/security/sasl/AuthenticationException",
+        "super": "javax/security/sasl/SaslException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Throwable;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -3579708765071815007
+          }
+        ]
+      },
+      "classes/javax/security/sasl/RealmChoiceCallback.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/security/sasl/RealmChoiceCallback",
+        "super": "javax/security/auth/callback/ChoiceCallback",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;IZ)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -8588141348846281332
+          }
+        ]
+      },
+      "classes/javax/security/sasl/Sasl$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "javax/security/sasl/Sasl$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/Iterator;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "hasMoreElements",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "nextElement",
+            "acc": 1,
+            "dsc": "()Ljavax/security/sasl/SaslClientFactory;"
+          },
+          {
+            "nme": "nextElement",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$iter",
+            "dsc": "Ljava/util/Iterator;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/ntlm/NTLMServer.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/ntlm/NTLMServer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "evaluateResponse",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getAuthorizationID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "NTLM_VERSION",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.version"
+          },
+          {
+            "acc": 26,
+            "nme": "NTLM_DOMAIN",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.domain"
+          },
+          {
+            "acc": 26,
+            "nme": "NTLM_HOSTNAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.hostname"
+          },
+          {
+            "acc": 26,
+            "nme": "NTLM_RANDOM",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.ntlm.random"
+          },
+          {
+            "acc": 18,
+            "nme": "random",
+            "dsc": "Ljava/util/Random;"
+          },
+          {
+            "acc": 18,
+            "nme": "server",
+            "dsc": "Lcom/sun/security/ntlm/Server;"
+          },
+          {
+            "acc": 2,
+            "nme": "nonce",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "step",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "authzId",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "mech",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "hostname",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "target",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/javax/security/sasl/SaslException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/security/sasl/SaslException",
+        "super": "java/io/IOException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Throwable;)V"
+          },
+          {
+            "nme": "getCause",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Throwable;"
+          },
+          {
+            "nme": "initCause",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Throwable;)Ljava/lang/Throwable;"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "_exception",
+            "dsc": "Ljava/lang/Throwable;"
+          },
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 4579784287983423626
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/DigestMD5Client.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/digest/DigestMD5Client",
+        "super": "com/sun/security/sasl/digest/DigestMD5Base",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "processChallenge",
+            "acc": 2,
+            "dsc": "([[BLjava/util/List;)V",
+            "sig": "([[BLjava/util/List<[B>;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "checkQopSupport",
+            "acc": 2,
+            "dsc": "([B[B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "checkStrengthSupport",
+            "acc": 2,
+            "dsc": "([B)V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "findCipherAndStrength",
+            "acc": 2,
+            "dsc": "([B[Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "generateClientResponse",
+            "acc": 2,
+            "dsc": "([B)[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "validateResponseValue",
+            "acc": 2,
+            "dsc": "([B)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNonceCount",
+            "acc": 10,
+            "dsc": "([B)I"
+          },
+          {
+            "nme": "clearPassword",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MY_CLASS_NAME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "CIPHER_PROPERTY",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.digest.cipher"
+          },
+          {
+            "acc": 26,
+            "nme": "DIRECTIVE_KEY",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "REALM",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "QOP",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "ALGORITHM",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 26,
+            "nme": "NONCE",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 26,
+            "nme": "MAXBUF",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "CHARSET",
+            "dsc": "I",
+            "val": 5
+          },
+          {
+            "acc": 26,
+            "nme": "CIPHER",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 26,
+            "nme": "RESPONSE_AUTH",
+            "dsc": "I",
+            "val": 7
+          },
+          {
+            "acc": 26,
+            "nme": "STALE",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 2,
+            "nme": "nonceCount",
+            "dsc": "I"
+          },
+          {
+            "acc": 2,
+            "nme": "specifiedCipher",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "cnonce",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "username",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "passwd",
+            "dsc": "[C"
+          },
+          {
+            "acc": 2,
+            "nme": "authzidBytes",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/javax/security/sasl/SaslClientFactory.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "javax/security/sasl/SaslClientFactory",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "createSaslClient",
+            "acc": 1025,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "sig": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1025,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/javax/security/sasl/RealmCallback.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "javax/security/sasl/RealmCallback",
+        "super": "javax/security/auth/callback/TextInputCallback",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": -4342673378785456908
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/DigestMD5Base.class": {
+        "ver": 65,
+        "acc": 1056,
+        "nme": "com/sun/security/sasl/digest/DigestMD5Base",
+        "super": "com/sun/security/sasl/util/AbstractSaslImpl",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;Ljava/lang/String;ILjava/lang/String;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;Ljava/lang/String;ILjava/lang/String;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "generateNonce",
+            "acc": 28,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "writeQuotedStringValue",
+            "acc": 12,
+            "dsc": "(Ljava/io/ByteArrayOutputStream;[B)V"
+          },
+          {
+            "nme": "needEscape",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "needEscape",
+            "acc": 10,
+            "dsc": "(C)Z"
+          },
+          {
+            "nme": "quotedStringValue",
+            "acc": 12,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/String;"
+          },
+          {
+            "nme": "binaryToHex",
+            "acc": 4,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "stringToByte_8859_1",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)[B"
+          },
+          {
+            "nme": "getPlatformCiphers",
+            "acc": 12,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "generateResponseValue",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[C[B[BI[B)[B",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "nonceCountToHex",
+            "acc": 12,
+            "dsc": "(I)Ljava/lang/String;"
+          },
+          {
+            "nme": "parseDirectives",
+            "acc": 12,
+            "dsc": "([B[Ljava/lang/String;Ljava/util/List;I)[[B",
+            "sig": "([B[Ljava/lang/String;Ljava/util/List<[B>;I)[[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "isLws",
+            "acc": 10,
+            "dsc": "(B)Z"
+          },
+          {
+            "nme": "skipLws",
+            "acc": 10,
+            "dsc": "([BI)I"
+          },
+          {
+            "nme": "extractDirective",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;[B[Ljava/lang/String;[[BLjava/util/List;I)V",
+            "sig": "(Ljava/lang/String;[B[Ljava/lang/String;[[BLjava/util/List<[B>;I)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "setParityBit",
+            "acc": 10,
+            "dsc": "([B)V"
+          },
+          {
+            "nme": "addDesParity",
+            "acc": 10,
+            "dsc": "([BII)[B"
+          },
+          {
+            "nme": "makeDesKeys",
+            "acc": 10,
+            "dsc": "([BLjava/lang/String;)Ljavax/crypto/SecretKey;",
+            "exs": [
+              "java/security/NoSuchAlgorithmException",
+              "java/security/InvalidKeyException",
+              "java/security/spec/InvalidKeySpecException"
+            ]
+          },
+          {
+            "nme": "access$000",
+            "acc": 4104,
+            "dsc": "(I[BII)V"
+          },
+          {
+            "nme": "access$100",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$200",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$300",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$400",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$500",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[BII)V"
+          },
+          {
+            "nme": "access$600",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$700",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$800",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$900",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$1000",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$1100",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$1200",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$1300",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$1400",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$1500",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$1600",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$1700",
+            "acc": 4104,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "access$1800",
+            "acc": 4104,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "access$1900",
+            "acc": 4104,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "access$2000",
+            "acc": 4104,
+            "dsc": "(I[BII)V"
+          },
+          {
+            "nme": "access$2100",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$2200",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$2300",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$2400",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$2500",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$2600",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$2700",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$2800",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$2900",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$3000",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[BII)V"
+          },
+          {
+            "nme": "access$3100",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$3200",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$3300",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$3400",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$3500",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$3600",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$3700",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$3800",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$3900",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$4000",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$4100",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$4200",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$4300",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$4400",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$4500",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$4600",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$4700",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$4800",
+            "acc": 4104,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "access$4900",
+            "acc": 4104,
+            "dsc": "()Ljava/util/logging/Logger;"
+          },
+          {
+            "nme": "access$5000",
+            "acc": 4104,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "access$5100",
+            "acc": 4104,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "access$5200",
+            "acc": 4104,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "DI_CLASS_NAME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "DP_CLASS_NAME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 28,
+            "nme": "MAX_CHALLENGE_LENGTH",
+            "dsc": "I",
+            "val": 2048
+          },
+          {
+            "acc": 28,
+            "nme": "MAX_RESPONSE_LENGTH",
+            "dsc": "I",
+            "val": 4096
+          },
+          {
+            "acc": 28,
+            "nme": "DEFAULT_MAXBUF",
+            "dsc": "I",
+            "val": 65536
+          },
+          {
+            "acc": 28,
+            "nme": "DES3",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 28,
+            "nme": "RC4",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 28,
+            "nme": "DES",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 28,
+            "nme": "RC4_56",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 28,
+            "nme": "RC4_40",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 28,
+            "nme": "CIPHER_TOKENS",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "JCE_CIPHER_NAME",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 28,
+            "nme": "DES_3_STRENGTH",
+            "dsc": "B",
+            "val": 4
+          },
+          {
+            "acc": 28,
+            "nme": "RC4_STRENGTH",
+            "dsc": "B",
+            "val": 4
+          },
+          {
+            "acc": 28,
+            "nme": "DES_STRENGTH",
+            "dsc": "B",
+            "val": 2
+          },
+          {
+            "acc": 28,
+            "nme": "RC4_56_STRENGTH",
+            "dsc": "B",
+            "val": 2
+          },
+          {
+            "acc": 28,
+            "nme": "RC4_40_STRENGTH",
+            "dsc": "B",
+            "val": 1
+          },
+          {
+            "acc": 28,
+            "nme": "UNSET",
+            "dsc": "B",
+            "val": 0
+          },
+          {
+            "acc": 28,
+            "nme": "CIPHER_MASKS",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "SECURITY_LAYER_MARKER",
+            "dsc": "Ljava/lang/String;",
+            "val": ":00000000000000000000000000000000"
+          },
+          {
+            "acc": 28,
+            "nme": "EMPTY_BYTE_ARRAY",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "step",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "cbh",
+            "dsc": "Ljavax/security/auth/callback/CallbackHandler;"
+          },
+          {
+            "acc": 4,
+            "nme": "secCtx",
+            "dsc": "Lcom/sun/security/sasl/digest/SecurityCtx;"
+          },
+          {
+            "acc": 4,
+            "nme": "H_A1",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "nonce",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "negotiatedStrength",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "negotiatedCipher",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "negotiatedQop",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "negotiatedRealm",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "useUTF8",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "encoding",
+            "dsc": "Ljava/nio/charset/Charset;"
+          },
+          {
+            "acc": 4,
+            "nme": "digestUri",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "authzid",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "pem_array",
+            "dsc": "[C"
+          },
+          {
+            "acc": 26,
+            "nme": "RAW_NONCE_SIZE",
+            "dsc": "I",
+            "val": 30
+          },
+          {
+            "acc": 26,
+            "nme": "ENCODED_NONCE_SIZE",
+            "dsc": "I",
+            "val": 40
+          },
+          {
+            "acc": 26,
+            "nme": "MASK",
+            "dsc": "Ljava/math/BigInteger;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/util/PolicyUtils.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/util/PolicyUtils",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "checkPolicy",
+            "acc": 9,
+            "dsc": "(ILjava/util/Map;)Z",
+            "sig": "(ILjava/util/Map<Ljava/lang/String;*>;)Z"
+          },
+          {
+            "nme": "filterMechs",
+            "acc": 9,
+            "dsc": "([Ljava/lang/String;[ILjava/util/Map;)[Ljava/lang/String;",
+            "sig": "([Ljava/lang/String;[ILjava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "NOPLAINTEXT",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 25,
+            "nme": "NOACTIVE",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 25,
+            "nme": "NODICTIONARY",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 25,
+            "nme": "FORWARD_SECRECY",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 25,
+            "nme": "NOANONYMOUS",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 25,
+            "nme": "PASS_CREDENTIALS",
+            "dsc": "I",
+            "val": 512
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/FactoryImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/digest/FactoryImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSaslClient",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "sig": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "createSaslServer",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "myMechs",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "DIGEST_MD5",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "mechPolicies",
+            "dsc": "[I"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/ClientFactoryImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/ClientFactoryImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSaslClient",
+            "acc": 1,
+            "dsc": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "sig": "([Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslClient;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          },
+          {
+            "nme": "getUserInfo",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljavax/security/auth/callback/CallbackHandler;)[Ljava/lang/Object;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "myMechs",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "mechPolicies",
+            "dsc": "[I"
+          },
+          {
+            "acc": 26,
+            "nme": "EXTERNAL",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "CRAMMD5",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PLAIN",
+            "dsc": "I",
+            "val": 2
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/DigestMD5Base$DigestIntegrity.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/sasl/digest/DigestMD5Base$DigestIntegrity",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/security/sasl/digest/DigestMD5Base;Z)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "generateIntegrityKeyPair",
+            "acc": 2,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getHMAC",
+            "acc": 4,
+            "dsc": "([B[B[BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "incrementSeqNum",
+            "acc": 4,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "CLIENT_INT_MAGIC",
+            "dsc": "Ljava/lang/String;",
+            "val": "Digest session key to client-to-server signing key magic constant"
+          },
+          {
+            "acc": 26,
+            "nme": "SVR_INT_MAGIC",
+            "dsc": "Ljava/lang/String;",
+            "val": "Digest session key to server-to-client signing key magic constant"
+          },
+          {
+            "acc": 4,
+            "nme": "myKi",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "peerKi",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "mySeqNum",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "peerSeqNum",
+            "dsc": "I"
+          },
+          {
+            "acc": 20,
+            "nme": "messageType",
+            "dsc": "[B"
+          },
+          {
+            "acc": 20,
+            "nme": "sequenceNum",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lcom/sun/security/sasl/digest/DigestMD5Base;"
+          }
+        ]
+      },
+      "classes/javax/security/sasl/SaslClient.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "javax/security/sasl/SaslClient",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getMechanismName",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1025,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1025,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1025,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1025,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/javax/security/sasl/Sasl$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "javax/security/sasl/Sasl$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/util/Iterator;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "hasMoreElements",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "nextElement",
+            "acc": 1,
+            "dsc": "()Ljavax/security/sasl/SaslServerFactory;"
+          },
+          {
+            "nme": "nextElement",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$iter",
+            "dsc": "Ljava/util/Iterator;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/ExternalClient.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/ExternalClient",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "username",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "completed",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/Provider.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/Provider",
+        "super": "java/security/Provider",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "access$000",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$100",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$200",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$300",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$400",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$500",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$600",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          },
+          {
+            "nme": "access$700",
+            "acc": 4104,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Ljava/security/Provider$Service;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 8622598936488630849
+          },
+          {
+            "acc": 26,
+            "nme": "info",
+            "dsc": "Ljava/lang/String;",
+            "val": "Sun SASL provider(implements client mechanisms for: DIGEST-MD5, EXTERNAL, PLAIN, CRAM-MD5, NTLM; server mechanisms for: DIGEST-MD5, CRAM-MD5, NTLM)"
+          }
+        ]
+      },
+      "classes/javax/security/sasl/SaslServer.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "javax/security/sasl/SaslServer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getMechanismName",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "evaluateResponse",
+            "acc": 1025,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getAuthorizationID",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1025,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1025,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1025,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/com/sun/security/sasl/ServerFactoryImpl.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "com/sun/security/sasl/ServerFactoryImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "createSaslServer",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)Ljavax/security/sasl/SaslServer;",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismNames",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)[Ljava/lang/String;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;)[Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "myMechs",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "mechPolicies",
+            "dsc": "[I"
+          },
+          {
+            "acc": 26,
+            "nme": "CRAMMD5",
+            "dsc": "I",
+            "val": 0
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/DigestMD5Base$DigestPrivacy.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/digest/DigestMD5Base$DigestPrivacy",
+        "super": "com/sun/security/sasl/digest/DigestMD5Base$DigestIntegrity",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/security/sasl/digest/DigestMD5Base;Z)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "generatePrivacyKeyPair",
+            "acc": 2,
+            "dsc": "(Z)V",
+            "exs": [
+              "java/io/IOException",
+              "java/security/NoSuchAlgorithmException",
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "CLIENT_CONF_MAGIC",
+            "dsc": "Ljava/lang/String;",
+            "val": "Digest H(A1) to client-to-server sealing key magic constant"
+          },
+          {
+            "acc": 26,
+            "nme": "SVR_CONF_MAGIC",
+            "dsc": "Ljava/lang/String;",
+            "val": "Digest H(A1) to server-to-client sealing key magic constant"
+          },
+          {
+            "acc": 2,
+            "nme": "encCipher",
+            "dsc": "Ljavax/crypto/Cipher;"
+          },
+          {
+            "acc": 2,
+            "nme": "decCipher",
+            "dsc": "Ljavax/crypto/Cipher;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lcom/sun/security/sasl/digest/DigestMD5Base;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/util/AbstractSaslImpl.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "com/sun/security/sasl/util/AbstractSaslImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;Ljava/lang/String;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;*>;Ljava/lang/String;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "combineMasks",
+            "acc": 28,
+            "dsc": "([B)B"
+          },
+          {
+            "nme": "findPreferredMask",
+            "acc": 28,
+            "dsc": "(B[B)B"
+          },
+          {
+            "nme": "parseQop",
+            "acc": 26,
+            "dsc": "(Ljava/lang/String;)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "parseQop",
+            "acc": 28,
+            "dsc": "(Ljava/lang/String;[Ljava/lang/String;Z)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "parseStrength",
+            "acc": 26,
+            "dsc": "(Ljava/lang/String;)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "parseProp",
+            "acc": 26,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;[B[Ljava/lang/String;Z)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "traceOutput",
+            "acc": 28,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[B)V"
+          },
+          {
+            "nme": "traceOutput",
+            "acc": 28,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[BII)V"
+          },
+          {
+            "nme": "networkByteOrderToInt",
+            "acc": 28,
+            "dsc": "([BII)I"
+          },
+          {
+            "nme": "intToNetworkByteOrder",
+            "acc": 28,
+            "dsc": "(I[BII)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "completed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "privacy",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "integrity",
+            "dsc": "Z"
+          },
+          {
+            "acc": 4,
+            "nme": "qop",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "allQop",
+            "dsc": "B"
+          },
+          {
+            "acc": 4,
+            "nme": "strength",
+            "dsc": "[B"
+          },
+          {
+            "acc": 4,
+            "nme": "sendMaxBufSize",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "recvMaxBufSize",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "rawSendSize",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "myClassName",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "SASL_LOGGER_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl"
+          },
+          {
+            "acc": 28,
+            "nme": "MAX_SEND_BUF",
+            "dsc": "Ljava/lang/String;",
+            "val": "javax.security.sasl.sendmaxbuffer"
+          },
+          {
+            "acc": 28,
+            "nme": "logger",
+            "dsc": "Ljava/util/logging/Logger;"
+          },
+          {
+            "acc": 28,
+            "nme": "NO_PROTECTION",
+            "dsc": "B",
+            "val": 1
+          },
+          {
+            "acc": 28,
+            "nme": "INTEGRITY_ONLY_PROTECTION",
+            "dsc": "B",
+            "val": 2
+          },
+          {
+            "acc": 28,
+            "nme": "PRIVACY_PROTECTION",
+            "dsc": "B",
+            "val": 4
+          },
+          {
+            "acc": 28,
+            "nme": "LOW_STRENGTH",
+            "dsc": "B",
+            "val": 1
+          },
+          {
+            "acc": 28,
+            "nme": "MEDIUM_STRENGTH",
+            "dsc": "B",
+            "val": 2
+          },
+          {
+            "acc": 28,
+            "nme": "HIGH_STRENGTH",
+            "dsc": "B",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_QOP",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "QOP_TOKENS",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "QOP_MASKS",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "DEFAULT_STRENGTH",
+            "dsc": "[B"
+          },
+          {
+            "acc": 26,
+            "nme": "STRENGTH_TOKENS",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "STRENGTH_MASKS",
+            "dsc": "[B"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/Provider$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/sasl/Provider$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/security/sasl/Provider;Lcom/sun/security/sasl/Provider;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Void;"
+          },
+          {
+            "nme": "run",
+            "acc": 4161,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$p",
+            "dsc": "Lcom/sun/security/sasl/Provider;"
+          },
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lcom/sun/security/sasl/Provider;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/PlainClient.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/PlainClient",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;[B)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getMechanismName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "dispose",
+            "acc": 1,
+            "dsc": "()V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1,
+            "dsc": "([B)[B"
+          },
+          {
+            "nme": "isComplete",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "wrap",
+            "acc": 1,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getNegotiatedProperty",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/lang/Object;"
+          },
+          {
+            "nme": "clearPassword",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "finalize",
+            "acc": 4,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "completed",
+            "dsc": "Z"
+          },
+          {
+            "acc": 2,
+            "nme": "pw",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "authorizationID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "authenticationID",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 10,
+            "nme": "SEP",
+            "dsc": "B"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/DigestMD5Server.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/digest/DigestMD5Server",
+        "super": "com/sun/security/sasl/digest/DigestMD5Base",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "sig": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Map<Ljava/lang/String;*>;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "evaluateResponse",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "generateChallenge",
+            "acc": 2,
+            "dsc": "(Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)[B",
+            "sig": "(Ljava/util/List<Ljava/lang/String;>;Ljava/lang/String;Ljava/lang/String;)[B",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "validateClientResponse",
+            "acc": 2,
+            "dsc": "([[B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "uriMatches",
+            "acc": 10,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)Z"
+          },
+          {
+            "nme": "generateResponseAuth",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;[C[BI[B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "getAuthorizationID",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "MY_CLASS_NAME",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "UTF8_DIRECTIVE",
+            "dsc": "Ljava/lang/String;",
+            "val": "charset=utf-8,"
+          },
+          {
+            "acc": 26,
+            "nme": "ALGORITHM_DIRECTIVE",
+            "dsc": "Ljava/lang/String;",
+            "val": "algorithm=md5-sess"
+          },
+          {
+            "acc": 26,
+            "nme": "NONCE_COUNT_VALUE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "UTF8_PROPERTY",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.digest.utf8"
+          },
+          {
+            "acc": 26,
+            "nme": "REALM_PROPERTY",
+            "dsc": "Ljava/lang/String;",
+            "val": "com.sun.security.sasl.digest.realm"
+          },
+          {
+            "acc": 26,
+            "nme": "DIRECTIVE_KEY",
+            "dsc": "[Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "USERNAME",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "REALM",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "NONCE",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 26,
+            "nme": "CNONCE",
+            "dsc": "I",
+            "val": 3
+          },
+          {
+            "acc": 26,
+            "nme": "NONCE_COUNT",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "QOP",
+            "dsc": "I",
+            "val": 5
+          },
+          {
+            "acc": 26,
+            "nme": "DIGEST_URI",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 26,
+            "nme": "RESPONSE",
+            "dsc": "I",
+            "val": 7
+          },
+          {
+            "acc": 26,
+            "nme": "MAXBUF",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 26,
+            "nme": "CHARSET",
+            "dsc": "I",
+            "val": 9
+          },
+          {
+            "acc": 26,
+            "nme": "CIPHER",
+            "dsc": "I",
+            "val": 10
+          },
+          {
+            "acc": 26,
+            "nme": "AUTHZID",
+            "dsc": "I",
+            "val": 11
+          },
+          {
+            "acc": 26,
+            "nme": "AUTH_PARAM",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 2,
+            "nme": "specifiedQops",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "myCiphers",
+            "dsc": "[B"
+          },
+          {
+            "acc": 2,
+            "nme": "serverRealms",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Ljava/lang/String;>;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/ntlm/NTLMServer$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "com/sun/security/sasl/ntlm/NTLMServer$1",
+        "super": "com/sun/security/ntlm/Server",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lcom/sun/security/sasl/ntlm/NTLMServer;Ljava/lang/String;Ljava/lang/String;Ljavax/security/auth/callback/CallbackHandler;)V",
+            "exs": [
+              "com/sun/security/ntlm/NTLMException"
+            ]
+          },
+          {
+            "nme": "getPassword",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;)[C"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$cbh",
+            "dsc": "Ljavax/security/auth/callback/CallbackHandler;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/CramMD5Client.class": {
+        "ver": 65,
+        "acc": 48,
+        "nme": "com/sun/security/sasl/CramMD5Client",
+        "super": "com/sun/security/sasl/CramMD5Base",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/lang/String;[B)V",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "hasInitialResponse",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "evaluateChallenge",
+            "acc": 1,
+            "dsc": "([B)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "username",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/com/sun/security/sasl/digest/SecurityCtx.class": {
+        "ver": 65,
+        "acc": 1536,
+        "nme": "com/sun/security/sasl/digest/SecurityCtx",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "wrap",
+            "acc": 1025,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          },
+          {
+            "nme": "unwrap",
+            "acc": 1025,
+            "dsc": "([BII)[B",
+            "exs": [
+              "javax/security/sasl/SaslException"
+            ]
+          }
+        ],
+        "flds": []
+      }
+    }
+  }
+}

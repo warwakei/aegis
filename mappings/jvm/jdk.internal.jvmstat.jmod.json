@@ -1,0 +1,3881 @@
+{
+  "md5": "6e795eb336b18aba868b2c833aedecbb",
+  "sha2": "5c6a091f3d3da54769495522259069b247417879",
+  "sha256": "7f914eb4bca6ea3b5ae33332a10b7a677531cdf1316be0616bbd71194697510b",
+  "contents": {
+    "classes": {
+      "classes/sun/jvmstat/perfdata/monitor/MonitorDataException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/MonitorDataException",
+        "super": "sun/jvmstat/monitor/MonitorException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/LongMonitor.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/LongMonitor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "longValue",
+            "acc": 1025,
+            "dsc": "()J"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/MonitorTypeException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/MonitorTypeException",
+        "super": "sun/jvmstat/monitor/MonitorException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/MonitorVersionException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/MonitorVersionException",
+        "super": "sun/jvmstat/monitor/MonitorException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager$1.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager$1",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager;Ljava/util/regex/Pattern;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "accept",
+            "acc": 1,
+            "dsc": "(Ljava/io/File;Ljava/lang/String;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$userDirPattern",
+            "dsc": "Ljava/util/regex/Pattern;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/AbstractPerfDataBufferPrologue.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/jvmstat/perfdata/monitor/AbstractPerfDataBufferPrologue",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMagic",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getByteOrder",
+            "acc": 1,
+            "dsc": "()Ljava/nio/ByteOrder;"
+          },
+          {
+            "nme": "getMajorVersion",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getMinorVersion",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isAccessible",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "supportsAccessible",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getSize",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "majorVersionBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "minorVersionBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "getMagic",
+            "acc": 9,
+            "dsc": "(Ljava/nio/ByteBuffer;)I"
+          },
+          {
+            "nme": "getMajorVersion",
+            "acc": 9,
+            "dsc": "(Ljava/nio/ByteBuffer;)I"
+          },
+          {
+            "nme": "getMinorVersion",
+            "acc": 9,
+            "dsc": "(Ljava/nio/ByteBuffer;)I"
+          },
+          {
+            "nme": "getByteOrder",
+            "acc": 9,
+            "dsc": "(Ljava/nio/ByteBuffer;)Ljava/nio/ByteOrder;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "byteBuffer",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_OFFSET",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MAGIC_OFFSET",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_BYTEORDER_OFFSET",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_BYTEORDER_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MAJOR_OFFSET",
+            "dsc": "I",
+            "val": 5
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MAJOR_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MINOR_OFFSET",
+            "dsc": "I",
+            "val": 6
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MINOR_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_RESERVEDB1_OFFSET",
+            "dsc": "I",
+            "val": 7
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_RESERVEDB1_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_SIZE",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_BIG_ENDIAN",
+            "dsc": "B",
+            "val": 0
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_LITTLE_ENDIAN",
+            "dsc": "B",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_MAGIC",
+            "dsc": "I",
+            "val": -889274176
+          },
+          {
+            "acc": 25,
+            "nme": "PERFDATA_MAJOR_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.majorVersion"
+          },
+          {
+            "acc": 25,
+            "nme": "PERFDATA_MINOR_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.minorVersion"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/event/VmStatusChangeEvent.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/event/VmStatusChangeEvent",
+        "super": "sun/jvmstat/monitor/event/HostEvent",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredHost;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;)V",
+            "sig": "(Lsun/jvmstat/monitor/MonitoredHost;Ljava/util/Set<Ljava/lang/Integer;>;Ljava/util/Set<Ljava/lang/Integer;>;Ljava/util/Set<Ljava/lang/Integer;>;)V"
+          },
+          {
+            "nme": "getActive",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;"
+          },
+          {
+            "nme": "getStarted",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;"
+          },
+          {
+            "nme": "getTerminated",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "active",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 4,
+            "nme": "started",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 4,
+            "nme": "terminated",
+            "dsc": "Ljava/util/Set;",
+            "sig": "Ljava/util/Set<Ljava/lang/Integer;>;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/Units.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/Units",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "intValue",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toUnits",
+            "acc": 9,
+            "dsc": "(I)Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "NUNITS",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 10,
+            "nme": "map",
+            "dsc": "[Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "value",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "INVALID",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 25,
+            "nme": "NONE",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 25,
+            "nme": "BYTES",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 25,
+            "nme": "TICKS",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 25,
+            "nme": "EVENTS",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 25,
+            "nme": "STRING",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 25,
+            "nme": "HERTZ",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 6992337162326171013
+          }
+        ]
+      },
+      "classes/module-info.class": {
+        "ver": 65,
+        "acc": 32768,
+        "nme": "module-info",
+        "mthds": [],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/MonitoredHostService.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/MonitoredHostService",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getMonitoredHost",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)Lsun/jvmstat/monitor/MonitoredHost;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getScheme",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm",
+        "super": "sun/jvmstat/perfdata/monitor/AbstractMonitoredVm",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;I)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "addVmListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V"
+          },
+          {
+            "nme": "removeVmListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V"
+          },
+          {
+            "nme": "setInterval",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "fireMonitorStatusChangedEvents",
+            "acc": 0,
+            "dsc": "(Ljava/util/List;Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;)V"
+          },
+          {
+            "nme": "fireMonitorsUpdatedEvents",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "cast",
+            "acc": 8,
+            "dsc": "(Ljava/lang/Object;)Ljava/lang/Object;",
+            "sig": "<T:Ljava/lang/Object;>(Ljava/lang/Object;)TT;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "listeners",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/jvmstat/monitor/event/VmListener;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "task",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm$NotifierTask;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/AliasFileParser.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/AliasFileParser",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Ljava/net/URL;)V"
+          },
+          {
+            "nme": "nextToken",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/io/IOException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(ILjava/lang/String;)V",
+            "exs": [
+              "java/io/IOException",
+              "sun/jvmstat/perfdata/monitor/SyntaxException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(I)V",
+            "exs": [
+              "java/io/IOException",
+              "sun/jvmstat/perfdata/monitor/SyntaxException"
+            ]
+          },
+          {
+            "nme": "match",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/io/IOException",
+              "sun/jvmstat/perfdata/monitor/SyntaxException"
+            ]
+          },
+          {
+            "nme": "parse",
+            "acc": 1,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Ljava/util/ArrayList<Ljava/lang/String;>;>;)V",
+            "exs": [
+              "sun/jvmstat/perfdata/monitor/SyntaxException",
+              "java/io/IOException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "ALIAS",
+            "dsc": "Ljava/lang/String;",
+            "val": "alias"
+          },
+          {
+            "acc": 2,
+            "nme": "inputfile",
+            "dsc": "Ljava/net/URL;"
+          },
+          {
+            "acc": 2,
+            "nme": "st",
+            "dsc": "Ljava/io/StreamTokenizer;"
+          },
+          {
+            "acc": 2,
+            "nme": "currentToken",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/AliasFileParser$Token;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/MonitorStructureException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/MonitorStructureException",
+        "super": "sun/jvmstat/monitor/MonitorException",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/v1_0/PerfDataBuffer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/v1_0/PerfDataBuffer",
+        "super": "sun/jvmstat/perfdata/monitor/PerfDataBufferImpl",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;I)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "buildMonitorMap",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getNewMonitors",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitorStatus",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "buildPseudoMonitors",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V"
+          },
+          {
+            "nme": "synchWithTarget",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "pollFor",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;Ljava/lang/String;J)Lsun/jvmstat/monitor/Monitor;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;Ljava/lang/String;J)Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getNextMonitorEntry",
+            "acc": 4,
+            "dsc": "()Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "syncWaitMs",
+            "dsc": "I"
+          },
+          {
+            "acc": 26,
+            "nme": "EMPTY_LIST",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_ENTRYLENGTH_OFFSET",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_ENTRYLENGTH_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_NAMELENGTH_OFFSET",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_NAMELENGTH_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_VECTORLENGTH_OFFSET",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_VECTORLENGTH_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATATYPE_OFFSET",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATATYPE_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_FLAGS_OFFSET",
+            "dsc": "I",
+            "val": 13
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_FLAGS_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAUNITS_OFFSET",
+            "dsc": "I",
+            "val": 14
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAUNITS_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAATTR_OFFSET",
+            "dsc": "I",
+            "val": 15
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAATTR_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_NAME_OFFSET",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 0,
+            "nme": "prologue",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/PerfDataBufferPrologue;"
+          },
+          {
+            "acc": 0,
+            "nme": "nextEntry",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "pollForEntry",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "perfDataItem",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "lastModificationTime",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "lastUsed",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "overflow",
+            "dsc": "Lsun/jvmstat/monitor/IntegerMonitor;"
+          },
+          {
+            "acc": 0,
+            "nme": "insertedMonitors",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/MonitoredHost.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/jvmstat/monitor/MonitoredHost",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getMonitoredHost",
+            "acc": 9,
+            "dsc": "(Ljava/lang/String;)Lsun/jvmstat/monitor/MonitoredHost;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException",
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "getMonitoredHost",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)Lsun/jvmstat/monitor/MonitoredHost;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitoredHost",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)Lsun/jvmstat/monitor/MonitoredHost;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "resolveHostId",
+            "acc": 12,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)Lsun/jvmstat/monitor/HostIdentifier;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getHostIdentifier",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/HostIdentifier;"
+          },
+          {
+            "nme": "setInterval",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getInterval",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "setLastException",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Exception;)V"
+          },
+          {
+            "nme": "getLastException",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Exception;"
+          },
+          {
+            "nme": "clearLastException",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "isErrored",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)Lsun/jvmstat/monitor/MonitoredVm;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;I)Lsun/jvmstat/monitor/MonitoredVm;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "addHostListener",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostListener;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "removeHostListener",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostListener;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "activeVms",
+            "acc": 1025,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "monitoredHosts",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Lsun/jvmstat/monitor/HostIdentifier;Lsun/jvmstat/monitor/MonitoredHost;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "LOCAL_PROTOCOL_PROP_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.jvmstat.monitor.local"
+          },
+          {
+            "acc": 26,
+            "nme": "LOCAL_PROTOCOL",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 26,
+            "nme": "REMOTE_PROTOCOL_PROP_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.jvmstat.monitor.remote"
+          },
+          {
+            "acc": 26,
+            "nme": "REMOTE_PROTOCOL",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "hostId",
+            "dsc": "Lsun/jvmstat/monitor/HostIdentifier;"
+          },
+          {
+            "acc": 4,
+            "nme": "interval",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "lastException",
+            "dsc": "Ljava/lang/Exception;"
+          },
+          {
+            "acc": 10,
+            "nme": "monitoredHostServiceLoader",
+            "dsc": "Ljava/util/ServiceLoader;",
+            "sig": "Ljava/util/ServiceLoader<Lsun/jvmstat/monitor/MonitoredHostService;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/SyntaxException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/SyntaxException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getMessage",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "lineno",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/AbstractPerfDataBuffer.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/jvmstat/perfdata/monitor/AbstractPerfDataBuffer",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getLocalVmId",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getCapacity",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "findByName",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "findByPattern",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitorStatus",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getByteBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/ByteBuffer;"
+          },
+          {
+            "nme": "createPerfDataBuffer",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;I)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "impl",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/PerfDataBufferImpl;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/AliasFileParser$Token.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/jvmstat/perfdata/monitor/AliasFileParser$Token",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/perfdata/monitor/AliasFileParser;ILjava/lang/String;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 1,
+            "nme": "sval",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 1,
+            "nme": "ttype",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfStringVariableMonitor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfStringVariableMonitor",
+        "super": "sun/jvmstat/perfdata/monitor/PerfStringMonitor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;ZLjava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;ZLjava/nio/ByteBuffer;I)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/HostIdentifier.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/HostIdentifier",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "canonicalize",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/net/URI;",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)V"
+          },
+          {
+            "nme": "resolve",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)Lsun/jvmstat/monitor/VmIdentifier;",
+            "exs": [
+              "java/net/URISyntaxException",
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getScheme",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSchemeSpecificPart",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getUserInfo",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHost",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getPort",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getPath",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getQuery",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getFragment",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "uri",
+            "dsc": "Ljava/net/URI;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfIntegerMonitor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfIntegerMonitor",
+        "super": "sun/jvmstat/monitor/AbstractMonitor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Units;Lsun/jvmstat/monitor/Variability;ZLjava/nio/IntBuffer;)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "intValue",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "ib",
+            "dsc": "Ljava/nio/IntBuffer;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/v1_0/BasicType.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/v1_0/BasicType",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "intValue",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toBasicType",
+            "acc": 9,
+            "dsc": "(I)Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "value",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "BOOLEAN",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "CHAR",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "FLOAT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "DOUBLE",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "BYTE",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "SHORT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "INT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "LONG",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "OBJECT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "VOID",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "ADDRESS",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 25,
+            "nme": "ILLEGAL",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          },
+          {
+            "acc": 10,
+            "nme": "basicTypes",
+            "dsc": "[Lsun/jvmstat/perfdata/monitor/v1_0/BasicType;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/AbstractMonitoredVm.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/jvmstat/perfdata/monitor/AbstractMonitoredVm",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;I)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getVmIdentifier",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/VmIdentifier;"
+          },
+          {
+            "nme": "findByName",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "findByPattern",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setInterval",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getInterval",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "setLastException",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Exception;)V"
+          },
+          {
+            "nme": "getLastException",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Exception;"
+          },
+          {
+            "nme": "clearLastException",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "isErrored",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getMonitorStatus",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "addVmListener",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V"
+          },
+          {
+            "nme": "removeVmListener",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getCapacity",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "vmid",
+            "dsc": "Lsun/jvmstat/monitor/VmIdentifier;"
+          },
+          {
+            "acc": 4,
+            "nme": "pdb",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/AbstractPerfDataBuffer;"
+          },
+          {
+            "acc": 4,
+            "nme": "interval",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager$2.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager$2",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "(Lsun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager;Ljava/util/regex/Pattern;)V",
+            "sig": "()V"
+          },
+          {
+            "nme": "accept",
+            "acc": 1,
+            "dsc": "(Ljava/io/File;Ljava/lang/String;)Z"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "val$userDirFilePattern",
+            "dsc": "Ljava/util/regex/Pattern;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/event/HostEvent.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/event/HostEvent",
+        "super": "java/util/EventObject",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredHost;)V"
+          },
+          {
+            "nme": "getMonitoredHost",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/MonitoredHost;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/CountedTimerTaskUtils.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/CountedTimerTaskUtils",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "reschedule",
+            "acc": 9,
+            "dsc": "(Ljava/util/Timer;Lsun/jvmstat/perfdata/monitor/CountedTimerTask;Lsun/jvmstat/perfdata/monitor/CountedTimerTask;II)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfStringMonitor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfStringMonitor",
+        "super": "sun/jvmstat/perfdata/monitor/PerfByteArrayMonitor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Variability;ZLjava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Variability;ZLjava/nio/ByteBuffer;I)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "stringValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "defaultCharset",
+            "dsc": "Ljava/nio/charset/Charset;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfStringConstantMonitor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfStringConstantMonitor",
+        "super": "sun/jvmstat/perfdata/monitor/PerfStringMonitor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;ZLjava/nio/ByteBuffer;)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "stringValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "data",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/event/MonitorStatusChangeEvent.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/event/MonitorStatusChangeEvent",
+        "super": "sun/jvmstat/monitor/event/VmEvent",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;Ljava/util/List;Ljava/util/List;)V",
+            "sig": "(Lsun/jvmstat/monitor/MonitoredVm;Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;)V"
+          },
+          {
+            "nme": "getInserted",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "nme": "getRemoved",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "inserted",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 4,
+            "nme": "removed",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfLongMonitor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfLongMonitor",
+        "super": "sun/jvmstat/monitor/AbstractMonitor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Units;Lsun/jvmstat/monitor/Variability;ZLjava/nio/LongBuffer;)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "longValue",
+            "acc": 1,
+            "dsc": "()J"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "lb",
+            "dsc": "Ljava/nio/LongBuffer;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm$NotifierTask.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm$NotifierTask",
+        "super": "sun/jvmstat/perfdata/monitor/CountedTimerTask",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Lsun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/protocol/local/LocalMonitoredVm;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/MonitoredVm.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/MonitoredVm",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getVmIdentifier",
+            "acc": 1025,
+            "dsc": "()Lsun/jvmstat/monitor/VmIdentifier;"
+          },
+          {
+            "nme": "findByName",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "findByPattern",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1025,
+            "dsc": "()V"
+          },
+          {
+            "nme": "setInterval",
+            "acc": 1025,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "getInterval",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "setLastException",
+            "acc": 1025,
+            "dsc": "(Ljava/lang/Exception;)V"
+          },
+          {
+            "nme": "getLastException",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/Exception;"
+          },
+          {
+            "nme": "clearLastException",
+            "acc": 1025,
+            "dsc": "()V"
+          },
+          {
+            "nme": "isErrored",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "addVmListener",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "removeVmListener",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/file/MonitoredHostFileService.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/file/MonitoredHostFileService",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getMonitoredHost",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)Lsun/jvmstat/monitor/MonitoredHost;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getScheme",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/IntegerMonitor.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/IntegerMonitor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "intValue",
+            "acc": 1025,
+            "dsc": "()I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/MonitorException.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/MonitorException",
+        "super": "java/lang/Exception",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Ljava/lang/Throwable;)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Throwable;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/MonitorStatus.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/MonitorStatus",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/util/List;Ljava/util/List;)V",
+            "sig": "(Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;)V"
+          },
+          {
+            "nme": "getInserted",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "nme": "getRemoved",
+            "acc": 1,
+            "dsc": "()Ljava/util/List;",
+            "sig": "()Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "inserted",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 4,
+            "nme": "removed",
+            "dsc": "Ljava/util/List;",
+            "sig": "Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfByteArrayMonitor.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfByteArrayMonitor",
+        "super": "sun/jvmstat/monitor/AbstractMonitor",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Units;Lsun/jvmstat/monitor/Variability;ZLjava/nio/ByteBuffer;I)V"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1,
+            "dsc": "()Ljava/lang/Object;"
+          },
+          {
+            "nme": "byteArrayValue",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "byteAt",
+            "acc": 1,
+            "dsc": "(I)B"
+          },
+          {
+            "nme": "getMaximumLength",
+            "acc": 1,
+            "dsc": "()I"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 0,
+            "nme": "bb",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/ByteArrayMonitor.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/ByteArrayMonitor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "byteArrayValue",
+            "acc": 1025,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "byteAt",
+            "acc": 1025,
+            "dsc": "(I)B"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/MonitoredVmUtil.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/MonitoredVmUtil",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "vmVersion",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "commandLine",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "mainArgs",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "mainClass",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;Z)Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "jvmArgs",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "jvmFlags",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)Ljava/lang/String;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "isAttachable",
+            "acc": 9,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)Z",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "IS_ATTACHABLE",
+            "dsc": "I"
+          },
+          {
+            "acc": 10,
+            "nme": "IS_KERNEL_VM",
+            "dsc": "I"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/file/PerfDataBuffer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/file/PerfDataBuffer",
+        "super": "sun/jvmstat/perfdata/monitor/AbstractPerfDataBuffer",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "activeVms",
+            "acc": 33,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "userDirFilter",
+            "dsc": "Ljava/io/FilenameFilter;"
+          },
+          {
+            "acc": 2,
+            "nme": "userDirFileFilter",
+            "dsc": "Ljava/io/FilenameFilter;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/LocalEventTimer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/LocalEventTimer",
+        "super": "java/util/Timer",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getInstance",
+            "acc": 41,
+            "dsc": "()Lsun/jvmstat/perfdata/monitor/protocol/local/LocalEventTimer;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 10,
+            "nme": "instance",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/protocol/local/LocalEventTimer;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider$NotifierTask.class": {
+        "ver": 65,
+        "acc": 32,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider$NotifierTask",
+        "super": "sun/jvmstat/perfdata/monitor/CountedTimerTask",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Lsun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider;)V"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4112,
+            "nme": "this$0",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider",
+        "super": "sun/jvmstat/monitor/MonitoredHost",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)V"
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)Lsun/jvmstat/monitor/MonitoredVm;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;I)Lsun/jvmstat/monitor/MonitoredVm;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "addHostListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostListener;)V"
+          },
+          {
+            "nme": "removeHostListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostListener;)V"
+          },
+          {
+            "nme": "setInterval",
+            "acc": 1,
+            "dsc": "(I)V"
+          },
+          {
+            "nme": "activeVms",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;"
+          },
+          {
+            "nme": "fireVmStatusChangedEvents",
+            "acc": 2,
+            "dsc": "(Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;)V",
+            "sig": "(Ljava/util/Set<Ljava/lang/Integer;>;Ljava/util/Set<Ljava/lang/Integer;>;Ljava/util/Set<Ljava/lang/Integer;>;)V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "DEFAULT_POLLING_INTERVAL",
+            "dsc": "I",
+            "val": 1000
+          },
+          {
+            "acc": 2,
+            "nme": "listeners",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/jvmstat/monitor/event/HostListener;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "task",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostProvider$NotifierTask;"
+          },
+          {
+            "acc": 2,
+            "nme": "activeVms",
+            "dsc": "Ljava/util/HashSet;",
+            "sig": "Ljava/util/HashSet<Ljava/lang/Integer;>;"
+          },
+          {
+            "acc": 2,
+            "nme": "vmManager",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/protocol/local/LocalVmManager;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/v2_0/PerfDataBuffer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/v2_0/PerfDataBuffer",
+        "super": "sun/jvmstat/perfdata/monitor/PerfDataBufferImpl",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;I)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "buildMonitorMap",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getNewMonitors",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitorStatus",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "buildPseudoMonitors",
+            "acc": 4,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V"
+          },
+          {
+            "nme": "synchWithTarget",
+            "acc": 4,
+            "dsc": "()V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getNextMonitorEntry",
+            "acc": 4,
+            "dsc": "()Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "syncWaitMs",
+            "dsc": "I"
+          },
+          {
+            "acc": 26,
+            "nme": "EMPTY_LIST",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_ENTRYLENGTH_OFFSET",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_ENTRYLENGTH_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_NAMEOFFSET_OFFSET",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_NAMEOFFSET_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_VECTORLENGTH_OFFSET",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_VECTORLENGTH_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATATYPE_OFFSET",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATATYPE_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_FLAGS_OFFSET",
+            "dsc": "I",
+            "val": 13
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_FLAGS_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAUNITS_OFFSET",
+            "dsc": "I",
+            "val": 14
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAUNITS_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAVAR_OFFSET",
+            "dsc": "I",
+            "val": 15
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAVAR_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAOFFSET_OFFSET",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 26,
+            "nme": "PERFDATA_DATAOFFSET_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 0,
+            "nme": "prologue",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/PerfDataBufferPrologue;"
+          },
+          {
+            "acc": 0,
+            "nme": "nextEntry",
+            "dsc": "I"
+          },
+          {
+            "acc": 0,
+            "nme": "lastNumEntries",
+            "dsc": "J"
+          },
+          {
+            "acc": 0,
+            "nme": "overflow",
+            "dsc": "Lsun/jvmstat/monitor/IntegerMonitor;"
+          },
+          {
+            "acc": 0,
+            "nme": "insertedMonitors",
+            "dsc": "Ljava/util/ArrayList;",
+            "sig": "Ljava/util/ArrayList<Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/v2_0/PerfDataBufferPrologue.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/v2_0/PerfDataBufferPrologue",
+        "super": "sun/jvmstat/perfdata/monitor/AbstractPerfDataBufferPrologue",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "supportsAccessible",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isAccessible",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getUsed",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBufferSize",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getOverflow",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getModificationTimeStamp",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getEntryOffset",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getNumEntries",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getSize",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "usedBuffer",
+            "acc": 0,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "sizeBuffer",
+            "acc": 0,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "overflowBuffer",
+            "acc": 0,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "modificationTimeStampBuffer",
+            "acc": 0,
+            "dsc": "()Ljava/nio/LongBuffer;"
+          },
+          {
+            "nme": "numEntriesBuffer",
+            "acc": 0,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "SUPPORTED_MAJOR_VERSION",
+            "dsc": "I",
+            "val": 2
+          },
+          {
+            "acc": 26,
+            "nme": "SUPPORTED_MINOR_VERSION",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_ACCESSIBLE_OFFSET",
+            "dsc": "I",
+            "val": 7
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_ACCESSIBLE_SIZE",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_USED_OFFSET",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_USED_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_OVERFLOW_OFFSET",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_OVERFLOW_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MODTIMESTAMP_OFFSET",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MODTIMESTAMP_SIZE",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_ENTRYOFFSET_OFFSET",
+            "dsc": "I",
+            "val": 24
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_ENTRYOFFSET_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_NUMENTRIES_OFFSET",
+            "dsc": "I",
+            "val": 28
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_NUMENTRIES_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_SIZE",
+            "dsc": "I",
+            "val": 32
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_BUFFER_SIZE_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.size"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_BUFFER_USED_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.used"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_OVERFLOW_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.overflow"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_MODTIMESTAMP_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.timestamp"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_NUMENTRIES_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.entries"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/AbstractMonitor.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/jvmstat/monitor/AbstractMonitor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Units;Lsun/jvmstat/monitor/Variability;ZI)V"
+          },
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;Lsun/jvmstat/monitor/Units;Lsun/jvmstat/monitor/Variability;Z)V"
+          },
+          {
+            "nme": "getName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getBaseName",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getUnits",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "nme": "getVariability",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "nme": "isVector",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getVectorLength",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isSupported",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 4,
+            "nme": "units",
+            "dsc": "Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "acc": 4,
+            "nme": "variability",
+            "dsc": "Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "acc": 4,
+            "nme": "vectorLength",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "supported",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/event/VmEvent.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/event/VmEvent",
+        "super": "java/util/EventObject",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/MonitoredVm;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/PlatformSupport.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/PlatformSupport",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getInstance",
+            "acc": 9,
+            "dsc": "()Lsun/jvmstat/PlatformSupport;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 0,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getTemporaryDirectory",
+            "acc": 9,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getTemporaryDirectories",
+            "acc": 1,
+            "dsc": "(I)Ljava/util/List;",
+            "sig": "(I)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "getLocalVmId",
+            "acc": 1,
+            "dsc": "(Ljava/io/File;)I",
+            "exs": [
+              "java/lang/NumberFormatException"
+            ]
+          },
+          {
+            "nme": "getNamespaceVmId",
+            "acc": 1,
+            "dsc": "(I)I"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "tmpDirName",
+            "dsc": "Ljava/lang/String;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/Variability.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/Variability",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "intValue",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toVariability",
+            "acc": 9,
+            "dsc": "(I)Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;I)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "NATTRIBUTES",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 10,
+            "nme": "map",
+            "dsc": "[Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "acc": 2,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 2,
+            "nme": "value",
+            "dsc": "I"
+          },
+          {
+            "acc": 25,
+            "nme": "INVALID",
+            "dsc": "Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "acc": 25,
+            "nme": "CONSTANT",
+            "dsc": "Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "acc": 25,
+            "nme": "MONOTONIC",
+            "dsc": "Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "acc": 25,
+            "nme": "VARIABLE",
+            "dsc": "Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "acc": 26,
+            "nme": "serialVersionUID",
+            "dsc": "J",
+            "val": 6992337162326171013
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/event/HostListener.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/event/HostListener",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "vmStatusChanged",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmStatusChangeEvent;)V"
+          },
+          {
+            "nme": "disconnected",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostEvent;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/Monitor.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/Monitor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getName",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getBaseName",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getUnits",
+            "acc": 1025,
+            "dsc": "()Lsun/jvmstat/monitor/Units;"
+          },
+          {
+            "nme": "getVariability",
+            "acc": 1025,
+            "dsc": "()Lsun/jvmstat/monitor/Variability;"
+          },
+          {
+            "nme": "isVector",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getVectorLength",
+            "acc": 1025,
+            "dsc": "()I"
+          },
+          {
+            "nme": "isSupported",
+            "acc": 1025,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getValue",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/Object;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/event/VmListener.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/event/VmListener",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "monitorStatusChanged",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/MonitorStatusChangeEvent;)V"
+          },
+          {
+            "nme": "monitorsUpdated",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmEvent;)V"
+          },
+          {
+            "nme": "disconnected",
+            "acc": 1025,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmEvent;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/v1_0/PerfDataBufferPrologue.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/v1_0/PerfDataBufferPrologue",
+        "super": "sun/jvmstat/perfdata/monitor/AbstractPerfDataBufferPrologue",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/nio/ByteBuffer;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "supportsAccessible",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "isAccessible",
+            "acc": 1,
+            "dsc": "()Z"
+          },
+          {
+            "nme": "getUsed",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBufferSize",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getOverflow",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getModificationTimeStamp",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "getSize",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "usedBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "sizeBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "overflowBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/IntBuffer;"
+          },
+          {
+            "nme": "modificationTimeStampBuffer",
+            "acc": 1,
+            "dsc": "()Ljava/nio/LongBuffer;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "SUPPORTED_MAJOR_VERSION",
+            "dsc": "I",
+            "val": 1
+          },
+          {
+            "acc": 26,
+            "nme": "SUPPORTED_MINOR_VERSION",
+            "dsc": "I",
+            "val": 0
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_USED_OFFSET",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_USED_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_OVERFLOW_OFFSET",
+            "dsc": "I",
+            "val": 12
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_OVERFLOW_SIZE",
+            "dsc": "I",
+            "val": 4
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MODTIMESTAMP_OFFSET",
+            "dsc": "I",
+            "val": 16
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_MODTIMESTAMP_SIZE",
+            "dsc": "I",
+            "val": 8
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_PROLOG_SIZE",
+            "dsc": "I",
+            "val": 24
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_BUFFER_SIZE_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.size"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_BUFFER_USED_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.used"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_OVERFLOW_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.overflow"
+          },
+          {
+            "acc": 24,
+            "nme": "PERFDATA_MODTIMESTAMP_NAME",
+            "dsc": "Ljava/lang/String;",
+            "val": "sun.perfdata.timestamp"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/v2_0/TypeCode.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/v2_0/TypeCode",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "toChar",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "toTypeCode",
+            "acc": 9,
+            "dsc": "(C)Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "nme": "toTypeCode",
+            "acc": 9,
+            "dsc": "(B)Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;C)V"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 18,
+            "nme": "name",
+            "dsc": "Ljava/lang/String;"
+          },
+          {
+            "acc": 18,
+            "nme": "value",
+            "dsc": "C"
+          },
+          {
+            "acc": 25,
+            "nme": "BOOLEAN",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "CHAR",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "FLOAT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "DOUBLE",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "BYTE",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "SHORT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "INT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "LONG",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "OBJECT",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "ARRAY",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 25,
+            "nme": "VOID",
+            "dsc": "Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          },
+          {
+            "acc": 10,
+            "nme": "basicTypes",
+            "dsc": "[Lsun/jvmstat/perfdata/monitor/v2_0/TypeCode;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/file/MonitoredHostProvider.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/file/MonitoredHostProvider",
+        "super": "sun/jvmstat/monitor/MonitoredHost",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)V"
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)Lsun/jvmstat/monitor/MonitoredVm;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitoredVm",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;I)Lsun/jvmstat/monitor/MonitoredVm;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "detach",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/MonitoredVm;)V"
+          },
+          {
+            "nme": "addHostListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostListener;)V"
+          },
+          {
+            "nme": "removeHostListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/HostListener;)V"
+          },
+          {
+            "nme": "activeVms",
+            "acc": 1,
+            "dsc": "()Ljava/util/Set;",
+            "sig": "()Ljava/util/Set<Ljava/lang/Integer;>;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "DEFAULT_POLLING_INTERVAL",
+            "dsc": "I",
+            "val": 0
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/CountedTimerTask.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/CountedTimerTask",
+        "super": "java/util/TimerTask",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "executionCount",
+            "acc": 1,
+            "dsc": "()J"
+          },
+          {
+            "nme": "run",
+            "acc": 1,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 64,
+            "nme": "executionCount",
+            "dsc": "J"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostLocalService.class": {
+        "ver": 65,
+        "acc": 49,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/MonitoredHostLocalService",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getMonitoredHost",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/HostIdentifier;)Lsun/jvmstat/monitor/MonitoredHost;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getScheme",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/PerfDataBufferImpl.class": {
+        "ver": 65,
+        "acc": 1057,
+        "nme": "sun/jvmstat/perfdata/monitor/PerfDataBufferImpl",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 4,
+            "dsc": "(Ljava/nio/ByteBuffer;I)V"
+          },
+          {
+            "nme": "getLocalVmId",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getBytes",
+            "acc": 1,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getCapacity",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getByteBuffer",
+            "acc": 0,
+            "dsc": "()Ljava/nio/ByteBuffer;"
+          },
+          {
+            "nme": "buildAliasMap",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "findByAlias",
+            "acc": 4,
+            "dsc": "(Ljava/lang/String;)Lsun/jvmstat/monitor/Monitor;"
+          },
+          {
+            "nme": "findByName",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Lsun/jvmstat/monitor/Monitor;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "findByPattern",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)Ljava/util/List;",
+            "sig": "(Ljava/lang/String;)Ljava/util/List<Lsun/jvmstat/monitor/Monitor;>;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException",
+              "java/util/regex/PatternSyntaxException"
+            ]
+          },
+          {
+            "nme": "getMonitorStatus",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getMonitorStatus",
+            "acc": 1028,
+            "dsc": "(Ljava/util/Map;)Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)Lsun/jvmstat/perfdata/monitor/MonitorStatus;",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "buildMonitorMap",
+            "acc": 1028,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "getNewMonitors",
+            "acc": 1028,
+            "dsc": "(Ljava/util/Map;)V",
+            "sig": "(Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 4,
+            "nme": "buffer",
+            "dsc": "Ljava/nio/ByteBuffer;"
+          },
+          {
+            "acc": 4,
+            "nme": "monitors",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 4,
+            "nme": "lvmid",
+            "dsc": "I"
+          },
+          {
+            "acc": 4,
+            "nme": "aliasMap",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Ljava/util/ArrayList<Ljava/lang/String;>;>;"
+          },
+          {
+            "acc": 4,
+            "nme": "aliasCache",
+            "dsc": "Ljava/util/Map;",
+            "sig": "Ljava/util/Map<Ljava/lang/String;Lsun/jvmstat/monitor/Monitor;>;"
+          },
+          {
+            "acc": 4120,
+            "nme": "$assertionsDisabled",
+            "dsc": "Z"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/PerfDataBuffer.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/PerfDataBuffer",
+        "super": "sun/jvmstat/perfdata/monitor/AbstractPerfDataBuffer",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 26,
+            "nme": "perf",
+            "dsc": "Ljdk/internal/perf/Perf;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/file/FileMonitoredVm.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/file/FileMonitoredVm",
+        "super": "sun/jvmstat/perfdata/monitor/AbstractMonitoredVm",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/VmIdentifier;I)V",
+            "exs": [
+              "sun/jvmstat/monitor/MonitorException"
+            ]
+          },
+          {
+            "nme": "addVmListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V"
+          },
+          {
+            "nme": "removeVmListener",
+            "acc": 1,
+            "dsc": "(Lsun/jvmstat/monitor/event/VmListener;)V"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/StringMonitor.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/StringMonitor",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "stringValue",
+            "acc": 1025,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/perfdata/monitor/protocol/local/PerfDataFile.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/perfdata/monitor/protocol/local/PerfDataFile",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "<init>",
+            "acc": 2,
+            "dsc": "()V"
+          },
+          {
+            "nme": "getLocalVmId",
+            "acc": 9,
+            "dsc": "(Ljava/io/File;)I"
+          },
+          {
+            "nme": "getTempDirectory",
+            "acc": 9,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getTempDirectories",
+            "acc": 9,
+            "dsc": "(I)Ljava/util/List;",
+            "sig": "(I)Ljava/util/List<Ljava/lang/String;>;"
+          },
+          {
+            "nme": "<clinit>",
+            "acc": 8,
+            "dsc": "()V"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 25,
+            "nme": "dirNamePrefix",
+            "dsc": "Ljava/lang/String;",
+            "val": "hsperfdata_"
+          },
+          {
+            "acc": 25,
+            "nme": "userDirNamePattern",
+            "dsc": "Ljava/lang/String;",
+            "val": "hsperfdata_\\S*"
+          },
+          {
+            "acc": 25,
+            "nme": "fileNamePattern",
+            "dsc": "Ljava/lang/String;",
+            "val": "^[0-9]+$"
+          },
+          {
+            "acc": 26,
+            "nme": "platSupport",
+            "dsc": "Lsun/jvmstat/PlatformSupport;"
+          }
+        ]
+      },
+      "classes/sun/jvmstat/monitor/BufferedMonitoredVm.class": {
+        "ver": 65,
+        "acc": 1537,
+        "nme": "sun/jvmstat/monitor/BufferedMonitoredVm",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "getBytes",
+            "acc": 1025,
+            "dsc": "()[B"
+          },
+          {
+            "nme": "getCapacity",
+            "acc": 1025,
+            "dsc": "()I"
+          }
+        ],
+        "flds": []
+      },
+      "classes/sun/jvmstat/monitor/VmIdentifier.class": {
+        "ver": 65,
+        "acc": 33,
+        "nme": "sun/jvmstat/monitor/VmIdentifier",
+        "super": "java/lang/Object",
+        "mthds": [
+          {
+            "nme": "canonicalize",
+            "acc": 2,
+            "dsc": "(Ljava/lang/String;)Ljava/net/URI;",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "validate",
+            "acc": 2,
+            "dsc": "()V",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/lang/String;)V",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "<init>",
+            "acc": 1,
+            "dsc": "(Ljava/net/URI;)V",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "getHostIdentifier",
+            "acc": 1,
+            "dsc": "()Lsun/jvmstat/monitor/HostIdentifier;",
+            "exs": [
+              "java/net/URISyntaxException"
+            ]
+          },
+          {
+            "nme": "getScheme",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getSchemeSpecificPart",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getUserInfo",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getHost",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getPort",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getAuthority",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getPath",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getQuery",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getFragment",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          },
+          {
+            "nme": "getLocalVmId",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "getURI",
+            "acc": 1,
+            "dsc": "()Ljava/net/URI;"
+          },
+          {
+            "nme": "hashCode",
+            "acc": 1,
+            "dsc": "()I"
+          },
+          {
+            "nme": "equals",
+            "acc": 1,
+            "dsc": "(Ljava/lang/Object;)Z"
+          },
+          {
+            "nme": "toString",
+            "acc": 1,
+            "dsc": "()Ljava/lang/String;"
+          }
+        ],
+        "flds": [
+          {
+            "acc": 2,
+            "nme": "uri",
+            "dsc": "Ljava/net/URI;"
+          }
+        ]
+      }
+    }
+  }
+}
