@@ -103,6 +103,7 @@ public class ModuleRepository {
                 .add(new SwingAnimation())
                 .add(new AutoSprint())
                 .add(new NetPanel())
+                .add(new JenroCasino())
                 .add(new AutoBuy())
                 .hidden(new AutoParser());
     }
