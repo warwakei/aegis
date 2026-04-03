@@ -1,8 +1,7 @@
 package aegis.updater;
 
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +10,11 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.*;
-import java.util.Comparator;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UpdaterEntrypoint implements ClientModInitializer {
+public class UpdaterEntrypoint implements PreLaunchEntrypoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("AegisUpdater");
     private static final String GITHUB_REPO = "warwakei/aegis";
@@ -24,21 +22,125 @@ public class UpdaterEntrypoint implements ClientModInitializer {
     private static final String MOD_NAME_PREFIX = "AegisNeo-";
     private static final String MOD_NAME_SUFFIX = ".jar";
 
+    // Pattern to extract version from jar filename: AegisNeo-0.5.6.jar -> 0.5.6
+    private static final Pattern JAR_VERSION_PATTERN = Pattern.compile(
+            Pattern.quote(MOD_NAME_PREFIX) + "(\\d+\\.\\d+\\.\\d+)" + Pattern.quote(MOD_NAME_SUFFIX)
+    );
+
     @Override
-    public void onInitializeClient() {
+    public void onPreLaunch() {
         try {
-            // Check if we need to download AegisNeo for the first time
+            // Step 1: Clean up old AegisNeo jars (keep only the latest version)
+            cleanupOldAegisJars();
+
+            // Step 2: Check if AegisNeo is missing and download if needed
             checkAndDownloadIfMissing();
 
+            // Step 3: Check for updates against GitHub
             runUpdateCheck();
         } catch (Exception e) {
-            LOGGER.error("[AegisUpdater] Failed to check for updates", e);
+            LOGGER.error("[AegisUpdater] Failed during pre-launch", e);
         }
     }
 
     /**
+     * Scans the mods folder for AegisNeo jars and removes all but the latest version.
+     */
+    private void cleanupOldAegisJars() {
+        Path modsDir = FabricLoader.getInstance().getGameDir().resolve("mods");
+        if (!Files.exists(modsDir)) {
+            return;
+        }
+
+        // Find all AegisNeo jars and extract their versions
+        List<AegisJarInfo> jars = new ArrayList<>();
+        try (var stream = Files.list(modsDir)) {
+            stream.filter(p -> {
+                String name = p.getFileName().toString();
+                return name.startsWith(MOD_NAME_PREFIX) && name.endsWith(MOD_NAME_SUFFIX);
+            }).forEach(p -> {
+                String version = extractVersionFromJarName(p.getFileName().toString());
+                if (version != null) {
+                    jars.add(new AegisJarInfo(p, version));
+                }
+            });
+        } catch (IOException e) {
+            LOGGER.warn("[AegisUpdater] Failed to scan mods directory for cleanup", e);
+            return;
+        }
+
+        if (jars.isEmpty()) {
+            return;
+        }
+
+        if (jars.size() == 1) {
+            LOGGER.info("[AegisUpdater] Found single AegisNeo jar: {} — no cleanup needed", jars.get(0).path.getFileName());
+            return;
+        }
+
+        // Sort by version descending (newest first)
+        jars.sort((a, b) -> compareVersions(b.version, a.version));
+
+        // Keep the first (newest), delete the rest
+        AegisJarInfo latest = jars.get(0);
+        LOGGER.info("[AegisUpdater] Found {} AegisNeo jars. Keeping: {} (v{})", jars.size(), latest.path.getFileName(), latest.version);
+
+        for (int i = 1; i < jars.size(); i++) {
+            AegisJarInfo oldJar = jars.get(i);
+            try {
+                Files.delete(oldJar.path);
+                LOGGER.info("[AegisUpdater] Deleted old jar: {} (v{})", oldJar.path.getFileName(), oldJar.version);
+            } catch (IOException e) {
+                LOGGER.warn("[AegisUpdater] Could not delete {}: {}", oldJar.path.getFileName(), e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Extracts version number from jar filename.
+     * e.g., "AegisNeo-0.5.6.jar" -> "0.5.6"
+     */
+    private String extractVersionFromJarName(String fileName) {
+        Matcher matcher = JAR_VERSION_PATTERN.matcher(fileName);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
+
+    /**
+     * Compares two version strings.
+     * Returns positive if v1 > v2, negative if v1 < v2, 0 if equal.
+     */
+    private int compareVersions(String v1, String v2) {
+        try {
+            String[] parts1 = v1.split("[-.]");
+            String[] parts2 = v2.split("[-.]");
+
+            int len = Math.max(parts1.length, parts2.length);
+            for (int i = 0; i < len; i++) {
+                String p1 = (i < parts1.length) ? parts1[i] : "0";
+                String p2 = (i < parts2.length) ? parts2[i] : "0";
+
+                try {
+                    int n1 = Integer.parseInt(p1);
+                    int n2 = Integer.parseInt(p2);
+                    if (n1 != n2) return Integer.compare(n1, n2);
+                } catch (NumberFormatException e) {
+                    int cmp = p1.compareTo(p2);
+                    if (cmp != 0) return cmp;
+                }
+            }
+            return 0;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private record AegisJarInfo(Path path, String version) {}
+
+    /**
      * If AegisNeo is not installed but the updater is, download the latest AegisNeo.
-     * This handles the case where user only has AegisUpdater01.jar without AegisNeo.
      */
     private void checkAndDownloadIfMissing() {
         boolean hasAegisNeo = FabricLoader.getInstance().isModLoaded(MOD_ID);
@@ -100,9 +202,9 @@ public class UpdaterEntrypoint implements ClientModInitializer {
      * Gets the currently installed version of AegisNeo mod.
      */
     private String getCurrentAegisVersion() {
-        Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(MOD_ID);
-        return container.map(modContainer -> modContainer.getMetadata().getVersion().getFriendlyString())
-                        .orElse(null);
+        return FabricLoader.getInstance().getModContainer(MOD_ID)
+                .map(modContainer -> modContainer.getMetadata().getVersion().getFriendlyString())
+                .orElse(null);
     }
 
     /**
@@ -132,10 +234,9 @@ public class UpdaterEntrypoint implements ClientModInitializer {
                 }
                 String json = sb.toString();
 
-                // Simple JSON parsing for "tag_name"
                 String tagName = extractJsonValue(json, "tag_name");
                 if (tagName != null && tagName.startsWith("v")) {
-                    return tagName.substring(1); // Remove 'v' prefix
+                    return tagName.substring(1);
                 }
                 return tagName;
             }
@@ -160,11 +261,8 @@ public class UpdaterEntrypoint implements ClientModInitializer {
 
     /**
      * Downloads the latest release jar from GitHub.
-     * URL format: https://github.com/warwakei/aegis/releases/download/v0.5.6-beta/AegisNeo-0.5.6.jar
      */
     private Path downloadLatestRelease(String version) {
-        // Extract version number without stage suffix for jar name
-        // e.g., "0.5.6-beta" -> "0.5.6"
         String jarVersion = version.split("-")[0];
         String downloadUrl = "https://github.com/" + GITHUB_REPO + "/releases/download/v" + version + "/" + MOD_NAME_PREFIX + jarVersion + MOD_NAME_SUFFIX;
 
@@ -178,7 +276,7 @@ public class UpdaterEntrypoint implements ClientModInitializer {
             }
         }
 
-        // Delete old AegisNeo jars
+        // Delete old AegisNeo jars before downloading new one
         try {
             deleteOldAegisJars(modsDir);
         } catch (IOException e) {
@@ -223,7 +321,6 @@ public class UpdaterEntrypoint implements ClientModInitializer {
             return targetPath;
         } catch (Exception e) {
             LOGGER.error("[AegisUpdater] Failed to download update", e);
-            // Clean up partial download
             try {
                 Files.deleteIfExists(targetPath);
             } catch (IOException ignored) {}
@@ -237,7 +334,7 @@ public class UpdaterEntrypoint implements ClientModInitializer {
                 String name = p.getFileName().toString();
                 return name.startsWith(MOD_NAME_PREFIX) && name.endsWith(MOD_NAME_SUFFIX);
             })
-            .sorted(Comparator.reverseOrder()) // Delete older ones first
+            .sorted(Comparator.reverseOrder())
             .forEach(p -> {
                 try {
                     Files.delete(p);
@@ -261,42 +358,11 @@ public class UpdaterEntrypoint implements ClientModInitializer {
      * Returns true if latestVersion > currentVersion.
      */
     private boolean isVersionNewer(String latestVersion, String currentVersion) {
-        try {
-            String[] latestParts = latestVersion.split("[-.]");
-            String[] currentParts = currentVersion.split("[-.]");
-
-            // Compare numeric parts
-            int len = Math.max(latestParts.length, currentParts.length);
-            for (int i = 0; i < len; i++) {
-                String l = (i < latestParts.length) ? latestParts[i] : "0";
-                String c = (i < currentParts.length) ? currentParts[i] : "0";
-
-                // Try numeric comparison first
-                try {
-                    int lNum = Integer.parseInt(l);
-                    int cNum = Integer.parseInt(c);
-                    if (lNum > cNum) return true;
-                    if (lNum < cNum) return false;
-                } catch (NumberFormatException e) {
-                    // String comparison for non-numeric parts (e.g., beta, alpha)
-                    int cmp = l.compareTo(c);
-                    if (cmp > 0) return true;
-                    if (cmp < 0) return false;
-                }
-            }
-            return false; // Equal
-        } catch (Exception e) {
-            LOGGER.warn("[AegisUpdater] Failed to compare versions", e);
-            return false;
-        }
+        return compareVersions(latestVersion, currentVersion) > 0;
     }
 
     /**
-     * Schedules a restart by creating a marker file that the updater checks on next launch.
-     * Since Fabric mods can't directly restart the game, we use a file-based approach:
-     * The updater will detect this file on next launch and re-check for updates.
-     *
-     * For actual restart: we'll try to trigger it via Runtime shutdown hook.
+     * Schedules a restart by creating a marker file.
      */
     private void scheduleRestart() {
         Path gameDir = FabricLoader.getInstance().getGameDir();
@@ -306,7 +372,6 @@ public class UpdaterEntrypoint implements ClientModInitializer {
             LOGGER.info("[AegisUpdater] Update downloaded successfully. A restart is required.");
             LOGGER.info("[AegisUpdater] Please restart your Minecraft launcher to apply the update.");
 
-            // Add shutdown hook to attempt restart
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     attemptRestart(gameDir);
@@ -329,7 +394,6 @@ public class UpdaterEntrypoint implements ClientModInitializer {
             LOGGER.warn("[AegisUpdater] Could not delete restart flag", e);
         }
 
-        // Try to restart via system property if provided by external launcher
         String launcherPath = System.getProperty("aegis.launcher.path");
         if (launcherPath != null && !launcherPath.isEmpty()) {
             try {
@@ -341,7 +405,6 @@ public class UpdaterEntrypoint implements ClientModInitializer {
             }
         }
 
-        // Fallback: inform the user
         LOGGER.info("[AegisUpdater] ============================================");
         LOGGER.info("[AegisUpdater] AegisNeo has been updated!");
         LOGGER.info("[AegisUpdater] Please restart your Minecraft launcher.");

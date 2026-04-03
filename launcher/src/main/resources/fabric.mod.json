@@ -7,9 +7,9 @@
   "authors": ["warwakei"],
   "contact": {},
   "license": "MIT",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
-    "client": [
+    "preLaunch": [
       "aegis.updater.UpdaterEntrypoint"
     ]
   },
@@ -20,5 +20,10 @@
   },
   "suggests": {
     "copyright": "*"
+  },
+  "custom": {
+    "fabric-loader": {
+      "before": ["*"]
+    }
   }
 }
