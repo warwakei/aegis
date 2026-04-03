@@ -22,7 +22,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     private static final String MOD_NAME_PREFIX = "AegisNeo-";
     private static final String MOD_NAME_SUFFIX = ".jar";
 
-    // Pattern to extract version from jar filename: AegisNeo-0.5.6.jar -> 0.5.6
+    // Pattern to extract version from jar filename: AegisNeo-0.5.7.jar -> 0.5.7
     private static final Pattern JAR_VERSION_PATTERN = Pattern.compile(
             Pattern.quote(MOD_NAME_PREFIX) + "(\\d+\\.\\d+\\.\\d+)" + Pattern.quote(MOD_NAME_SUFFIX)
     );
@@ -98,7 +98,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
 
     /**
      * Extracts version number from jar filename.
-     * e.g., "AegisNeo-0.5.6.jar" -> "0.5.6"
+     * e.g., "AegisNeo-0.5.7.jar" -> "0.5.7"
      */
     private String extractVersionFromJarName(String fileName) {
         Matcher matcher = JAR_VERSION_PATTERN.matcher(fileName);
@@ -209,8 +209,8 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
 
     /**
      * Fetches the latest release version from GitHub.
-     * Expected tag format: vX.X.X-stage (e.g., v0.5.6-beta)
-     * Returns version without 'v' prefix (e.g., 0.5.6-beta)
+     * Expected tag format: vX.X.X-stage (e.g., v0.5.7-beta)
+     * Returns version without 'v' prefix (e.g., 0.5.7-beta)
      */
     private String fetchLatestReleaseVersion() {
         String url = "https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest";
