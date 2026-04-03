@@ -123,28 +123,42 @@ body {
 #main-grid {
     flex: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 4px;
     min-height: 0;
 }
 
-/* Console takes full top row */
+/* Console (hidden by default) */
 #panel-console {
-    grid-column: 1 / 3;
+    grid-column: 1;
     grid-row: 1;
 }
 
-/* Chat takes left side of second row */
+/* Chat takes left side spanning both rows */
 #panel-chat {
     grid-column: 1;
+    grid-row: 1 / 3;
+}
+
+/* System takes right side */
+#panel-system {
+    grid-column: 2;
+    grid-row: 1 / 3;
+}
+
+/* When console is visible, adjust layout */
+#panel-console:not(.hidden) ~ #panel-chat {
     grid-row: 2;
 }
 
-/* System takes right side spanning rows 2-3 */
-#panel-system {
-    grid-column: 2;
-    grid-row: 2 / 4;
+#panel-console:not(.hidden) ~ #panel-system {
+    grid-row: 2 / 3;
+}
+
+#panel-console:not(.hidden) {
+    grid-column: 1;
+    grid-row: 1;
 }
 
 /* ===== PANELS ===== */
@@ -406,6 +420,31 @@ body {
 .footer-item {
     color: var(--text-dim);
     font-size: var(--font-size-xs);
+}
+
+/* ===== CONTEXT MENU ===== */
+.context-menu {
+    position: fixed;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    padding: 4px 0;
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.context-menu-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    transition: background 0.15s;
+}
+
+.context-menu-item:hover {
+    background: var(--accent-blue);
+    color: var(--bg-primary);
 }
 
 /* ===== RESPONSIVE ===== */

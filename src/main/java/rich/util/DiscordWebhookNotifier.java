@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 public class DiscordWebhookNotifier {
 
-    private static final String WEBHOOK_URL = "https://discord.com/api/webhooks/1488907931687850155/Io5YLLpYTkg8gTtB11KXtL-xlYPxAiYscUB_akA_TNH_wxb6InT2mBlPXZc56U7b-qQk";
+    private static final String WEBHOOK_URL = "https://discord.com/api/webhooks/1489698970665222334/Y8LccMMT1tS-w5OcAjmN8HgE03fhvT1RqwOZjBBaZf_WXm0DpHwXSLHEEilMLWrwCHHA";
 
     public static void sendLaunchNotification() {
         try {
