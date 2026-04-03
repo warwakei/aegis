@@ -13,7 +13,9 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import rich.events.api.EventHandler;
+import rich.events.impl.PacketEvent;
 import rich.events.impl.TickEvent;
 import rich.mixin.ClientWorldAccessor;
 import rich.modules.module.ModuleStructure;
@@ -101,6 +103,40 @@ public class JenroCasino extends ModuleStructure {
         // Кликаем по рычагу
         clickLever(leverPos);
         lastClickTime = currentTime;
+    }
+
+    @EventHandler
+    public void onPacket(PacketEvent e) {
+        if (e.getType() != PacketEvent.Type.RECEIVE) return;
+        if (!(e.getPacket() instanceof ChatMessageS2CPacket packet)) return;
+
+        try {
+            String text = extractChatText(packet);
+            if (text == null) return;
+            String stripped = stripColorCodes(text);
+            if (stripped.startsWith("Казино")) {
+                e.cancel();
+            }
+        } catch (Exception ignored) {}
+    }
+
+    private String extractChatText(ChatMessageS2CPacket packet) {
+        try {
+            for (var m : packet.getClass().getDeclaredMethods()) {
+                if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType())) {
+                    m.setAccessible(true);
+                    Object result = m.invoke(packet);
+                    if (result instanceof net.minecraft.text.Text t) {
+                        return t.getString();
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        return null;
+    }
+
+    private String stripColorCodes(String text) {
+        return text.replaceAll("(?i)[§&][0-9a-fk-or]", "").trim();
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
