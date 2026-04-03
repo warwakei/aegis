@@ -20,7 +20,6 @@ public class StageHandler {
     private final FireworkHandler fireworkHandler;
     private final AttackHandler attackHandler;
     private final StopWatch fireworkTimer;
-    private final StopWatch swapTimer = new StopWatch();
 
     @Setter
     private Stage stage = Stage.PREPARE;
@@ -83,55 +82,46 @@ public class StageHandler {
             int slot = InventoryUtils.findChestArmorSlot();
             if (slot != -1) {
                 armorSwapHandler.startSwap(slot, silentMode);
-                swapTimer.reset();
             }
         }
 
-        // Быстрый переход к атаке - минимальная задержка 50мс
-        if (!armorSwapHandler.isActive() && swapTimer.finished(50)) {
-            // Переход к атаке сразу если мы близко к цели
-            if (distance < attackRange) {
-                stage = Stage.ATTACKING;
-                swapTimer.reset();
-            }
+        // Переход к атаке сразу как свап завершён и мы близко к цели
+        if (!armorSwapHandler.isActive() && distance < attackRange) {
+            stage = Stage.ATTACKING;
         }
     }
 
     public void handleAttacking(LivingEntity target, boolean hasElytra) {
         double distance = mc.player.distanceTo(target);
 
+        // Если элитра всё ещё на нас и свап не активен - начинаем свап
         if (hasElytra && !armorSwapHandler.isActive()) {
             int slot = InventoryUtils.findChestArmorSlot();
             if (slot != -1) {
                 armorSwapHandler.startSwap(slot, silentMode);
-                swapTimer.reset();
             }
             return;
         }
 
+        // Атакуем сразу как свап завершён и мы в радиусе атаки
         if (!hasElytra && !armorSwapHandler.isActive() && distance < attackRange) {
-            // Минимальная задержка перед атакой - 50мс для быстрой реакции
-            if (swapTimer.finished(50)) {
-                // Устанавливаем атаку сразу
-                if (!attackHandler.isPendingAttack()) {
-                    attackHandler.setPendingAttack(true);
+            if (!attackHandler.isPendingAttack()) {
+                attackHandler.setPendingAttack(true);
+            }
+            // После атаки переходим обратно наверх
+            if (attackHandler.getLastAttackTime() > 0) {
+                if (reallyWorldMode) {
+                    attackHandler.setShouldDisableAfterAttack(true);
+                } else {
+                    stage = Stage.FLYING_UP;
+                    fireworkTimer.reset();
                 }
-                // Стадию меняем сразу после атаки
-                if (attackHandler.getLastAttackTime() > 0) {
-                    if (reallyWorldMode) {
-                        attackHandler.setShouldDisableAfterAttack(true);
-                    } else {
-                        stage = Stage.FLYING_UP;
-                        fireworkTimer.reset();
-                    }
-                    attackHandler.setLastAttackTime(0);
-                }
+                attackHandler.setLastAttackTime(0);
             }
         }
     }
 
     public void reset() {
         stage = Stage.PREPARE;
-        swapTimer.reset();
     }
 }

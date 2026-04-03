@@ -22,7 +22,7 @@ public class AttackHandler {
     private boolean shouldDisableAfterAttack = false;
 
     private long lastAttackTime = 0;
-    private static final int MIN_ATTACK_DELAY_MS = 100;
+    private static final int MIN_ATTACK_DELAY_MS = 50;
 
     public void performAttack(LivingEntity target) {
         if (mc.player == null || target == null) return;
@@ -75,42 +75,27 @@ public class AttackHandler {
      * Возвращает true если можно атаковать
      * Атакуем ТОЛЬКО в полёте: на пике или при падении
      * На земле НЕ атакуем - взлетаем заново
+     * Не атакуем когда летим вверх
      */
     private boolean canCrit(LivingEntity target) {
         if (mc.player == null) return false;
 
-        // Не атакуем если в воде/лаве
-        if (mc.player.isTouchingWaterOrRain() || mc.player.isInLava()) {
-            return true;
-        }
-
-        double velocityY = mc.player.getVelocity().y;
-        boolean onGround = mc.player.isOnGround();
-
         // На земле НЕ атакуем! Пусть MaceTarget взлетает заново
-        if (onGround) {
+        if (mc.player.isOnGround()) {
             return false;
         }
 
-        // Атакуем на пике (velocityY ~= 0) или когда падаем
-        // velocityY <= 0.1 значит мы на пике или уже падаем
-        if (velocityY <= 0.1) {
-            return true;
+        double velocityY = mc.player.getVelocity().y;
+
+        // Летим вверх (velocityY > 0.15) - не атакуем, ждём пик
+        if (velocityY > 0.15) {
+            return false;
         }
 
-        // Летим вверх - не атакуем, ждём пик
-        return false;
+        // На пике (velocityY ~= 0) или падаем (velocityY < 0) - атакуем
+        return true;
     }
     
-    /**
-     * Проверка держит ли игрок булаву
-     */
-    private boolean isHoldingMace() {
-        if (mc.player == null) return false;
-        var mainHand = mc.player.getMainHandStack();
-        return mainHand.isOf(Items.MACE);
-    }
-
     public void reset() {
         pendingAttack = false;
         shouldDisableAfterAttack = false;
