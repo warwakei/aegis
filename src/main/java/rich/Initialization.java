@@ -2,6 +2,7 @@ package rich;
 
 import lombok.Getter;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import rich.manager.Manager;
 import rich.util.DiscordWebhookNotifier;
 import rich.util.mods.config.wave.HeartbeatManager;
@@ -19,7 +20,10 @@ public class Initialization implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-
+        if (!FabricLoader.getInstance().isModLoaded("aegis_updater")) {
+            throw new RuntimeException("[AegisNeo] AegisUpdater01 mod is required to run AegisNeo! " +
+                    "Please install AegisUpdater01.jar in your mods folder.");
+        }
     }
 
     public void init() {

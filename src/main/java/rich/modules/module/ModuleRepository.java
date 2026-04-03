@@ -102,6 +102,7 @@ public class ModuleRepository {
                 .add(new Velocity())
                 .add(new SwingAnimation())
                 .add(new AutoSprint())
+                .add(new NetPanel())
                 .add(new AutoBuy())
                 .hidden(new AutoParser());
     }

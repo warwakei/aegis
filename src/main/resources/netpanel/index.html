@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AegisNeo — NetPanel</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header id="header">
+            <div class="header-left">
+                <span class="logo">AEGIS</span><span class="logo-sub">NEO</span>
+                <span class="separator">│</span>
+                <span class="title">NetPanel</span>
+            </div>
+            <div class="header-center">
+                <span id="status-text" class="status">Connecting...</span>
+            </div>
+            <div class="header-right">
+                <span id="fps-display" class="fps">FPS: --</span>
+                <span class="separator">│</span>
+                <span id="clock" class="clock">00:00:00</span>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <main id="main-grid">
+            <!-- Console Panel -->
+            <div class="panel" id="panel-console">
+                <div class="panel-header">
+                    <span class="panel-title">⌘ Console</span>
+                    <span class="panel-count" id="console-count">0</span>
+                </div>
+                <div class="panel-body" id="console-log"></div>
+            </div>
+
+            <!-- Hitreg Panel -->
+            <div class="panel" id="panel-hitreg">
+                <div class="panel-header">
+                    <span class="panel-title">⚔ Hitreg</span>
+                    <span class="panel-count" id="hitreg-count">0</span>
+                </div>
+                <div class="panel-body" id="hitreg-log"></div>
+            </div>
+
+            <!-- Chat Panel -->
+            <div class="panel" id="panel-chat">
+                <div class="panel-header">
+                    <span class="panel-title">💬 Chat</span>
+                    <span class="panel-count" id="chat-count">0</span>
+                </div>
+                <div class="panel-body" id="chat-log"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Type message..." autocomplete="off">
+                    <button id="chat-send-btn">Send</button>
+                </div>
+            </div>
+
+            <!-- Packets Panel -->
+            <div class="panel" id="panel-packets">
+                <div class="panel-header">
+                    <span class="panel-title">📦 Packets</span>
+                    <span class="panel-count" id="packets-count">0</span>
+                </div>
+                <div class="panel-body" id="packets-log"></div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <span class="footer-item">F1 — Toggle Console</span>
+            <span class="footer-item">F2 — Toggle Hitreg</span>
+            <span class="footer-item">F3 — Toggle Chat</span>
+            <span class="footer-item">F4 — Toggle Packets</span>
+            <span class="footer-item">ESC — Clear focused panel</span>
+        </footer>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

@@ -31,6 +31,7 @@ import rich.modules.impl.movement.ElytraTarget;
 import rich.util.player.PlayerSimulation;
 import rich.util.string.PlayerInteractionHelper;
 import rich.util.timer.StopWatch;
+import rich.netpanel.loggers.HitregLogger;
 
 @Setter
 @Getter
@@ -419,6 +420,8 @@ public class StrikeManager implements IMinecraft {
         }
 
         if (shouldWaitForEating()) {
+            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Eating");
             return;
         }
 
@@ -429,23 +432,33 @@ public class StrikeManager implements IMinecraft {
 
         boolean elytraMode = checkElytraMode(config);
         if (elytraMode && !checkElytraRaycast(config)) {
+            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Elytra raycast miss");
             return;
         }
 
         if (!RaycastAngle.rayTrace(config)) {
+            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
             return;
         }
 
         if (!isLookingAtTarget(config)) {
+            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
             return;
         }
 
         // Для 1.8 режима не проверяем clickScheduler - там своя логика CPS
         if (!is1_8Mode && !clickScheduler.isCooldownComplete(0)) {
+            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "ClickScheduler cooldown");
             return;
         }
 
         if (!canCritNow()) {
+            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Can't crit now");
             return;
         }
 
@@ -464,6 +477,9 @@ public class StrikeManager implements IMinecraft {
         }
 
         executeAttack(config);
+        // Log successful attack
+        HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                mc.player.distanceTo(config.getTarget()), true, "Attack executed");
 
         if (shouldReset) {
             if (Aura.getInstance().getResetSprintMode().isSelected("Пакетный")) {
@@ -485,31 +501,55 @@ public class StrikeManager implements IMinecraft {
     }
 
     private void handleMaceAttack(StrikerConstructor.AttackPerpetratorConfigurable config) {
-        if (shouldWaitForEating())
+        if (shouldWaitForEating()) {
+            HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Eating");
             return;
-        if (mc.player.distanceTo(config.getTarget()) > Aura.getInstance().getAttackrange().getValue())
+        }
+        if (mc.player.distanceTo(config.getTarget()) > Aura.getInstance().getAttackrange().getValue()) {
+            HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Out of range");
             return;
-        if (!RaycastAngle.rayTrace(config))
+        }
+        if (!RaycastAngle.rayTrace(config)) {
+            HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
             return;
-        if (!isLookingAtTarget(config))
+        }
+        if (!isLookingAtTarget(config)) {
+            HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
             return;
+        }
 
         // Для 1.8 режима используем CPS логику, для обычного - clickScheduler
         if (is1_8Mode) {
             // 1.8 режим - проверяем CPS очередь
-            if (!canAttack1_8())
+            if (!canAttack1_8()) {
+                HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "CPS cooldown");
                 return;
+            }
         } else {
             // Обычный режим - проверяем clickScheduler
-            if (!clickScheduler.isMaceFastAttack())
+            if (!clickScheduler.isMaceFastAttack()) {
+                HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "ClickScheduler mace fast attack");
                 return;
-            if (!attackTimer.finished(25))
+            }
+            if (!attackTimer.finished(25)) {
+                HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "Attack timer not finished");
                 return;
+            }
         }
 
         // Упрощённая проверка критов для булавы (менее капризна)
-        if (!canCritForMace())
+        if (!canCritForMace()) {
+            HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                    mc.player.distanceTo(config.getTarget()), false, "Can't crit for mace");
             return;
+        }
 
         preAttackEntity(config);
 
@@ -526,6 +566,8 @@ public class StrikeManager implements IMinecraft {
         }
 
         executeAttack(config);
+        HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                mc.player.distanceTo(config.getTarget()), true, "Mace attack executed");
 
         if (shouldReset) {
             if (Aura.getInstance().getResetSprintMode().isSelected("Пакетный")) {

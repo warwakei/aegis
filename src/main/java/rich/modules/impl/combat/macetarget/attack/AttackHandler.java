@@ -10,6 +10,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.util.Hand;
 import rich.util.inventory.InventoryUtils;
+import rich.netpanel.loggers.HitregLogger;
 
 @Getter
 @Setter
@@ -28,11 +29,13 @@ public class AttackHandler {
 
         // Проверка кулдауна атаки через StrikeManager
         if (!isAttackReady()) {
+            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Attack cooldown");
             return;
         }
 
         // Проверка умных критов
         if (!canCrit(target)) {
+            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Can't crit (onGround or flying up)");
             return;
         }
 
@@ -47,6 +50,7 @@ public class AttackHandler {
         // Атака - отправляем пакет на сервер
         mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack((Entity) target, mc.player.isSneaking()));
         mc.player.swingHand(Hand.MAIN_HAND);
+        HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), true, "MaceTarget attack sent");
 
         // Обновляем время последней атаки
         lastAttackTime = System.currentTimeMillis();

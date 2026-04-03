@@ -42,7 +42,8 @@ public class Aura extends ModuleStructure {
         return Instance.get(Aura.class);
     }
 
-    private final SelectSetting mode = new SelectSetting("Режим наводки", "Select aim mode")
+    @Getter
+    public final SelectSetting mode = new SelectSetting("Режим наводки", "Select aim mode")
             .value("Matrix", "FunTime Snap", "Snap", "SpookyTime")
             .selected("Matrix");
 

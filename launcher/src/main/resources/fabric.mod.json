@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "aegis_updater",
+  "version": "${version}",
+  "name": "AegisNeo Updater",
+  "description": "Automatic updater for AegisNeo client. Ensures you always run the latest version.",
+  "authors": ["warwakei"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "aegis.updater.UpdaterEntrypoint"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  },
+  "suggests": {
+    "copyright": "*"
+  }
+}
