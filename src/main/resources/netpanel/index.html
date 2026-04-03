@@ -21,6 +21,10 @@
             <div class="header-right">
                 <span id="fps-display" class="fps">FPS: --</span>
                 <span class="separator">│</span>
+                <span id="mem-display" class="mem">MEM: --</span>
+                <span class="separator">│</span>
+                <span id="cpu-display" class="cpu">CPU: --</span>
+                <span class="separator">│</span>
                 <span id="clock" class="clock">00:00:00</span>
             </div>
         </header>
@@ -36,15 +40,6 @@
                 <div class="panel-body" id="console-log"></div>
             </div>
 
-            <!-- Hitreg Panel -->
-            <div class="panel" id="panel-hitreg">
-                <div class="panel-header">
-                    <span class="panel-title">⚔ Hitreg</span>
-                    <span class="panel-count" id="hitreg-count">0</span>
-                </div>
-                <div class="panel-body" id="hitreg-log"></div>
-            </div>
-
             <!-- Chat Panel -->
             <div class="panel" id="panel-chat">
                 <div class="panel-header">
@@ -58,23 +53,21 @@
                 </div>
             </div>
 
-            <!-- Packets Panel -->
-            <div class="panel" id="panel-packets">
+            <!-- System Panel -->
+            <div class="panel" id="panel-system">
                 <div class="panel-header">
-                    <span class="panel-title">📦 Packets</span>
-                    <span class="panel-count" id="packets-count">0</span>
+                    <span class="panel-title">⚙ System</span>
                 </div>
-                <div class="panel-body" id="packets-log"></div>
+                <div class="panel-body" id="system-info"></div>
             </div>
         </main>
 
         <!-- Footer -->
         <footer id="footer">
-            <span class="footer-item">F1 — Toggle Console</span>
-            <span class="footer-item">F2 — Toggle Hitreg</span>
-            <span class="footer-item">F3 — Toggle Chat</span>
-            <span class="footer-item">F4 — Toggle Packets</span>
-            <span class="footer-item">ESC — Clear focused panel</span>
+            <span class="footer-item">F1 — Console</span>
+            <span class="footer-item">F2 — Chat</span>
+            <span class="footer-item">F3 — System</span>
+            <span class="footer-item">ESC — Clear focused</span>
         </footer>
     </div>
 

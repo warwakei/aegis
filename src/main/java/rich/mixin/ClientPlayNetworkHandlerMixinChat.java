@@ -3,7 +3,6 @@ package rich.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,11 +38,11 @@ public abstract class ClientPlayNetworkHandlerMixinChat {
         try {
             // Try to find a method that returns Text for the message content
             for (Method m : packet.getClass().getDeclaredMethods()) {
-                if (Text.class.isAssignableFrom(m.getReturnType())) {
+                if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType())) {
                     m.setAccessible(true);
                     Object result = m.invoke(packet);
-                    if (result instanceof Text text) {
-                        ChatBridge.logReceivedText(senderName, text);
+                    if (result instanceof net.minecraft.text.Text text) {
+                        ChatBridge.logReceived(senderName, text.getString());
                         return;
                     }
                 }

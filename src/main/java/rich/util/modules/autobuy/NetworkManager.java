@@ -319,6 +319,12 @@ public class NetworkManager {
         return buyQueue.poll();
     }
 
+    public void requeueBuyRequest(BuyRequest request) {
+        if (request != null) {
+            buyQueue.add(request);
+        }
+    }
+
     public String pollServerSwitch() {
         return serverSwitchQueue.poll();
     }

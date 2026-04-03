@@ -29,7 +29,7 @@ public class UpdaterEntrypoint implements ClientModInitializer {
         try {
             // Check if we need to download AegisNeo for the first time
             checkAndDownloadIfMissing();
-            
+
             runUpdateCheck();
         } catch (Exception e) {
             LOGGER.error("[AegisUpdater] Failed to check for updates", e);
@@ -42,7 +42,7 @@ public class UpdaterEntrypoint implements ClientModInitializer {
      */
     private void checkAndDownloadIfMissing() {
         boolean hasAegisNeo = FabricLoader.getInstance().isModLoaded(MOD_ID);
-        
+
         if (!hasAegisNeo) {
             LOGGER.info("[AegisUpdater] AegisNeo is not installed. Downloading the latest version...");
             String latestVersion = fetchLatestReleaseVersion();
@@ -107,8 +107,8 @@ public class UpdaterEntrypoint implements ClientModInitializer {
 
     /**
      * Fetches the latest release version from GitHub.
-     * Expected tag format: vX.X.X-stage (e.g., v0.5.4-beta)
-     * Returns version without 'v' prefix (e.g., 0.5.4-beta)
+     * Expected tag format: vX.X.X-stage (e.g., v0.5.6-beta)
+     * Returns version without 'v' prefix (e.g., 0.5.6-beta)
      */
     private String fetchLatestReleaseVersion() {
         String url = "https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest";
@@ -160,11 +160,11 @@ public class UpdaterEntrypoint implements ClientModInitializer {
 
     /**
      * Downloads the latest release jar from GitHub.
-     * URL format: https://github.com/warwakei/aegis/releases/download/v0.5.4-beta/AegisNeo-0.5.4.jar
+     * URL format: https://github.com/warwakei/aegis/releases/download/v0.5.6-beta/AegisNeo-0.5.6.jar
      */
     private Path downloadLatestRelease(String version) {
         // Extract version number without stage suffix for jar name
-        // e.g., "0.5.4-beta" -> "0.5.4"
+        // e.g., "0.5.6-beta" -> "0.5.6"
         String jarVersion = version.split("-")[0];
         String downloadUrl = "https://github.com/" + GITHUB_REPO + "/releases/download/v" + version + "/" + MOD_NAME_PREFIX + jarVersion + MOD_NAME_SUFFIX;
 
@@ -203,7 +203,7 @@ public class UpdaterEntrypoint implements ClientModInitializer {
             long contentLength = conn.getContentLengthLong();
             try (InputStream in = conn.getInputStream();
                  OutputStream out = Files.newOutputStream(targetPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-                
+
                 byte[] buffer = new byte[8192];
                 long totalRead = 0;
                 int read;

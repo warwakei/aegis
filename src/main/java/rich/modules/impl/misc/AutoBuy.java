@@ -32,6 +32,7 @@ public class AutoBuy extends ModuleStructure {
     private final SelectSetting serverType = new SelectSetting("Сервера", "Выкл").value("Выкл", "1.16.5", "1.21.4");
     private final SliderSettings updateDelay = new SliderSettings("Задержка обновления", "").range(300, 1000).setValue(500);
     private final SliderSettings serverSwitchTime = new SliderSettings("Время смены сервера", "").range(30, 120).setValue(30);
+    private final SliderSettings buyDelay = new SliderSettings("Задержка покупки (мс)", "").range(0, 2000).setValue(0);
     private final BooleanSetting notifications = new BooleanSetting("Уведомления", "").setValue(true);
 
     private final AutoBuyManager autoBuyManager = AutoBuyManager.getInstance();
@@ -41,6 +42,7 @@ public class AutoBuy extends ModuleStructure {
     private final TimerUtil updateTimer = TimerUtil.create();
     private final TimerUtil ahOpenTimer = TimerUtil.create();
     private final TimerUtil serverSwitchTimer = TimerUtil.create();
+    private final TimerUtil buyDelayTimer = TimerUtil.create();
 
     private boolean inAuction = false;
     private boolean notifiedEnter = false;
@@ -55,8 +57,9 @@ public class AutoBuy extends ModuleStructure {
         serverType.setVisible(() -> mode.isSelected("Покупающий"));
         serverSwitchTime.setVisible(() -> mode.isSelected("Покупающий") && !serverType.isSelected("Выкл"));
         updateDelay.setVisible(() -> mode.isSelected("Покупающий"));
+        buyDelay.setVisible(() -> mode.isSelected("Покупающий"));
 
-        settings(mode, serverType, updateDelay, serverSwitchTime, notifications);
+        settings(mode, serverType, updateDelay, serverSwitchTime, buyDelay, notifications);
     }
 
     public static AutoBuy getInstance() {
@@ -105,6 +108,7 @@ public class AutoBuy extends ModuleStructure {
         updateTimer.resetCounter();
         ahOpenTimer.resetCounter();
         serverSwitchTimer.resetCounter();
+        buyDelayTimer.resetCounter();
         serverManager.resetTimers();
     }
 
@@ -375,6 +379,14 @@ public class AutoBuy extends ModuleStructure {
 
         BuyRequest request;
         while ((request = network.pollBuyRequest()) != null) {
+            // Check buy delay
+            long delayMs = (long) buyDelay.getValue();
+            if (delayMs > 0 && !buyDelayTimer.hasTimeElapsed(delayMs)) {
+                // Put request back by re-queueing it
+                network.requeueBuyRequest(request);
+                break;
+            }
+
             String buyKey = request.itemId + "|" + request.price + "|" + request.count + "|" + request.loreHash;
             if (boughtItems.contains(buyKey)) {
                 continue;
@@ -384,6 +396,11 @@ public class AutoBuy extends ModuleStructure {
 
             if (!found) {
                 tryFallbackMatch(screen, syncId, request, buyKey);
+            }
+
+            // Reset delay timer after each purchase attempt
+            if (delayMs > 0) {
+                buyDelayTimer.resetCounter();
             }
         }
     }

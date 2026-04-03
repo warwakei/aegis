@@ -7,14 +7,21 @@ import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.apache.logging.log4j.core.config.Property;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Log4j appender that captures Minecraft console output into a LogBuffer.
+ * Also parses [CHAT] lines and forwards them to ChatBridge.
  */
 public class ConsoleCapture {
 
     private static final LogBuffer BUFFER = new LogBuffer(1000);
     private static boolean attached = false;
     private static Appender appenderInstance;
+
+    // Pattern to match chat messages like: [CHAT] <player> message or [CHAT] message
+    private static final Pattern CHAT_PATTERN = Pattern.compile("\\[CHAT\\]\\s+(.*)");
 
     public static void attach() {
         if (attached) return;
@@ -63,6 +70,15 @@ public class ConsoleCapture {
         public void append(LogEvent event) {
             String level = event.getLevel().toString();
             String message = new String(getLayout().toByteArray(event));
+
+            // Check if this is a [CHAT] message
+            Matcher chatMatcher = CHAT_PATTERN.matcher(message);
+            if (chatMatcher.find()) {
+                String chatContent = chatMatcher.group(1);
+                // Forward to chat bridge as a received message
+                ChatBridge.logReceived("CHAT", chatContent);
+            }
+
             BUFFER.add(level, message);
         }
     }

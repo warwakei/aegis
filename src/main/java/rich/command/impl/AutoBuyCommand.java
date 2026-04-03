@@ -92,8 +92,36 @@ public class AutoBuyCommand extends Command {
                         logDirect("§7Режим: §bПроверяющий (Клиент)");
                         logDirect("§7Подключение к серверу: " + (connected ? "§aДа" : "§cНет"));
                     }
+
+                    logDirect("§7Задержка покупки: §b" + (int) autoBuyModule.getBuyDelay().getValue() + "мс");
                 }
                 logDirectRaw(Text.literal(getLine()));
+            }
+            case "delay" -> {
+                AutoBuy autoBuyModule = AutoBuy.getInstance();
+                if (autoBuyModule == null) {
+                    logDirect("Модуль AutoBuy не найден", Formatting.RED);
+                    return;
+                }
+
+                if (args.length < 2) {
+                    int currentDelay = (int) autoBuyModule.getBuyDelay().getValue();
+                    logDirect("Текущая задержка покупки: §b" + currentDelay + "мс");
+                    logDirect("Использование: §7.autobuy delay <мс> §8(0-2000)");
+                    return;
+                }
+
+                try {
+                    int delay = Integer.parseInt(args[1]);
+                    if (delay < 0 || delay > 2000) {
+                        logDirect("Задержка должна быть от 0 до 2000 мс", Formatting.RED);
+                        return;
+                    }
+                    autoBuyModule.getBuyDelay().setValue((float) delay);
+                    logDirect("Задержка покупки установлена на: §b" + delay + "мс", Formatting.GREEN);
+                } catch (NumberFormatException e) {
+                    logDirect("Неверный формат числа. Используйте: §7.autobuy delay <мс>", Formatting.RED);
+                }
             }
             default -> {
                 logDirectRaw(Text.literal(getLine()));
@@ -103,6 +131,7 @@ public class AutoBuyCommand extends Command {
                 logDirect("§7> autobuy save §8- §fСохраняет конфигурацию");
                 logDirect("§7> autobuy reset §8- §fСбрасывает конфигурацию");
                 logDirect("§7> autobuy status §8- §fПоказывает статус автобая");
+                logDirect("§7> autobuy delay <мс> §8- §fУстанавливает задержку покупки (0-2000мс)");
                 logDirectRaw(Text.literal(getLine()));
             }
         }
@@ -112,7 +141,7 @@ public class AutoBuyCommand extends Command {
     public Stream<String> tabComplete(String label, String[] args) {
         if (args.length == 1) {
             return new TabCompleteHelper()
-                    .append("load", "save", "reset", "status")
+                    .append("load", "save", "reset", "status", "delay")
                     .sortAlphabetically()
                     .filterPrefix(args[0])
                     .stream();
@@ -133,7 +162,8 @@ public class AutoBuyCommand extends Command {
                 "> autobuy load - Загружает конфигурацию из файла",
                 "> autobuy save - Сохраняет текущую конфигурацию",
                 "> autobuy reset - Сбрасывает конфигурацию к значениям по умолчанию",
-                "> autobuy status - Показывает текущий статус автобая"
+                "> autobuy status - Показывает текущий статус автобая",
+                "> autobuy delay <мс> - Устанавливает задержку между покупками (0-2000мс)"
         );
     }
 }

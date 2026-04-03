@@ -122,8 +122,19 @@ public class JenroCasino extends ModuleStructure {
 
     private String extractChatText(ChatMessageS2CPacket packet) {
         try {
-            for (var m : packet.getClass().getDeclaredMethods()) {
-                if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType())) {
+            // Search fields for Text type
+            for (var f : packet.getClass().getDeclaredFields()) {
+                if (net.minecraft.text.Text.class.isAssignableFrom(f.getType())) {
+                    f.setAccessible(true);
+                    Object val = f.get(packet);
+                    if (val instanceof net.minecraft.text.Text t) {
+                        return t.getString();
+                    }
+                }
+            }
+            // Also try methods
+            for (var m : packet.getClass().getMethods()) {
+                if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType()) && m.getParameterCount() == 0) {
                     m.setAccessible(true);
                     Object result = m.invoke(packet);
                     if (result instanceof net.minecraft.text.Text t) {

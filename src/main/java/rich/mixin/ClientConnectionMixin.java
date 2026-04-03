@@ -16,7 +16,7 @@ import rich.events.api.EventManager;
 import rich.events.impl.PacketEvent;
 import rich.util.config.impl.proxy.ProxyConfig;
 import rich.util.proxy.Proxy;
-import rich.netpanel.loggers.PacketLogger;
+import rich.netpanel.loggers.ConsoleCapture;
 
 import java.net.InetSocketAddress;
 
@@ -25,7 +25,6 @@ public class ClientConnectionMixin {
 
     @Inject(method = "handlePacket", at = @At("HEAD"), cancellable = true)
     private static <T extends PacketListener> void handlePacketPre(Packet<T> packet, PacketListener listener, CallbackInfo info) {
-        PacketLogger.logReceive(packet);
         PacketEvent packetEvent = new PacketEvent(packet, PacketEvent.Type.RECEIVE);
         EventManager.callEvent(packetEvent);
         if (packetEvent.isCancelled()) {
@@ -35,7 +34,6 @@ public class ClientConnectionMixin {
 
     @Inject(method = "send(Lnet/minecraft/network/packet/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void sendPre(Packet<?> packet, CallbackInfo info) {
-        PacketLogger.logSend(packet);
         PacketEvent packetEvent = new PacketEvent(packet, PacketEvent.Type.SEND);
         EventManager.callEvent(packetEvent);
         if (packetEvent.isCancelled()) {

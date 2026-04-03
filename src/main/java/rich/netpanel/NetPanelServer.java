@@ -10,6 +10,9 @@ import net.minecraft.client.MinecraftClient;
 import rich.netpanel.loggers.*;
 
 import java.io.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import com.sun.management.OperatingSystemMXBean;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -28,8 +31,13 @@ public class NetPanelServer {
     private HttpServer server;
     private ExecutorService executor;
     private int port;
-
     private static int currentPort = 0;
+
+    // FPS tracking
+    private int lastFps = 0;
+    private int fpsAccum = 0;
+    private int fpsCount = 0;
+    private long fpsLastUpdate = 0;
 
     public void start() {
         try {
@@ -46,8 +54,6 @@ public class NetPanelServer {
             // API endpoints
             server.createContext("/api/status", new StatusHandler());
             server.createContext("/api/console", new ConsoleHandler());
-            server.createContext("/api/hitreg", new HitregHandler());
-            server.createContext("/api/packets", new PacketsHandler());
             server.createContext("/api/chat", new ChatHandler());
             server.createContext("/api/chat/send", new ChatSendHandler());
             server.createContext("/api/stream", new SSEHandler());
@@ -86,6 +92,23 @@ public class NetPanelServer {
         return startPort;
     }
 
+    // FPS tracking called from tick
+    public void updateFps(int currentFps) {
+        fpsAccum += currentFps;
+        fpsCount++;
+        long now = System.currentTimeMillis();
+        if (now - fpsLastUpdate >= 1000) {
+            lastFps = fpsCount > 0 ? fpsAccum / fpsCount : currentFps;
+            fpsAccum = 0;
+            fpsCount = 0;
+            fpsLastUpdate = now;
+        }
+    }
+
+    public int getSmoothedFps() {
+        return lastFps;
+    }
+
     // ==================== Handlers ====================
 
     private static void sendJson(HttpExchange exchange, int code, Object obj) throws IOException {
@@ -109,6 +132,118 @@ public class NetPanelServer {
         }
     }
 
+    private static final long START_TIME = System.currentTimeMillis();
+
+    private static JsonObject getSystemInfo() {
+        Runtime runtime = Runtime.getRuntime();
+        MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+
+        JsonObject sys = new JsonObject();
+
+        // Memory
+        long usedMem = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
+        long totalMem = runtime.totalMemory() / 1024 / 1024;
+        long maxMem = runtime.maxMemory() / 1024 / 1024;
+        sys.addProperty("usedMemory", usedMem);
+        sys.addProperty("totalMemory", totalMem);
+        sys.addProperty("maxMemory", maxMem);
+        sys.addProperty("memoryPercent", (double) usedMem / maxMem * 100);
+
+        // Heap details
+        long heapUsed = memBean.getHeapMemoryUsage().getUsed() / 1024 / 1024;
+        long heapMax = memBean.getHeapMemoryUsage().getMax() / 1024 / 1024;
+        long heapCommitted = memBean.getHeapMemoryUsage().getCommitted() / 1024 / 1024;
+        sys.addProperty("heapUsed", heapUsed);
+        sys.addProperty("heapMax", heapMax);
+        sys.addProperty("heapCommitted", heapCommitted);
+
+        // Non-heap memory
+        long nonHeapUsed = memBean.getNonHeapMemoryUsage().getUsed() / 1024 / 1024;
+        long nonHeapMax = memBean.getNonHeapMemoryUsage().getMax() / 1024 / 1024;
+        sys.addProperty("nonHeapUsed", nonHeapUsed);
+        sys.addProperty("nonHeapMax", nonHeapMax > 0 ? nonHeapMax : -1);
+
+        // CPU
+        try {
+            OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+            double cpuLoad = osBean.getProcessCpuLoad();
+            if (cpuLoad >= 0) {
+                sys.addProperty("cpuPercent", Math.round(cpuLoad * 100));
+            } else {
+                sys.addProperty("cpuPercent", -1);
+            }
+            sys.addProperty("availableProcessors", osBean.getAvailableProcessors());
+
+            // System CPU load
+            double systemCpuLoad = osBean.getSystemCpuLoad();
+            if (systemCpuLoad >= 0) {
+                sys.addProperty("systemCpuPercent", Math.round(systemCpuLoad * 100));
+            } else {
+                sys.addProperty("systemCpuPercent", -1);
+            }
+        } catch (Exception e) {
+            sys.addProperty("cpuPercent", -1);
+            sys.addProperty("systemCpuPercent", -1);
+            sys.addProperty("availableProcessors", runtime.availableProcessors());
+        }
+
+        // Uptime
+        long uptimeMs = System.currentTimeMillis() - START_TIME;
+        long uptimeSec = uptimeMs / 1000;
+        long hours = uptimeSec / 3600;
+        long minutes = (uptimeSec % 3600) / 60;
+        long seconds = uptimeSec % 60;
+        sys.addProperty("uptime", String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        sys.addProperty("uptimeSeconds", uptimeSec);
+
+        // Thread count
+        ThreadGroup rootGroup = Thread.currentThread().getThreadGroup();
+        while (rootGroup.getParent() != null) {
+            rootGroup = rootGroup.getParent();
+        }
+        sys.addProperty("threadCount", rootGroup.activeCount());
+
+        // GC info
+        JsonArray gcInfo = new JsonArray();
+        for (java.lang.management.GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
+            JsonObject gcObj = new JsonObject();
+            gcObj.addProperty("name", gc.getName());
+            gcObj.addProperty("collections", gc.getCollectionCount());
+            gcObj.addProperty("time", gc.getCollectionTime());
+            gcInfo.add(gcObj);
+        }
+        sys.add("gc", gcInfo);
+
+        // Disk space (game directory)
+        try {
+            java.nio.file.Path gameDir = net.fabricmc.loader.api.FabricLoader.getInstance().getGameDir();
+            java.nio.file.FileStore fileStore = java.nio.file.Files.getFileStore(gameDir);
+            long totalSpace = fileStore.getTotalSpace() / 1024 / 1024 / 1024;
+            long usableSpace = fileStore.getUsableSpace() / 1024 / 1024 / 1024;
+            long usedSpace = totalSpace - usableSpace;
+            sys.addProperty("diskTotal", totalSpace);
+            sys.addProperty("diskUsed", usedSpace);
+            sys.addProperty("diskFree", usableSpace);
+            sys.addProperty("diskPercent", (double) usedSpace / totalSpace * 100);
+        } catch (Exception e) {
+            sys.addProperty("diskTotal", -1);
+            sys.addProperty("diskUsed", -1);
+            sys.addProperty("diskFree", -1);
+            sys.addProperty("diskPercent", -1);
+        }
+
+        // Java version
+        sys.addProperty("javaVersion", System.getProperty("java.version"));
+        sys.addProperty("javaVendor", System.getProperty("java.vendor"));
+
+        // OS info
+        sys.addProperty("osName", System.getProperty("os.name"));
+        sys.addProperty("osArch", System.getProperty("os.arch"));
+        sys.addProperty("osVersion", System.getProperty("os.version"));
+
+        return sys;
+    }
+
     private static class StatusHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -119,13 +254,12 @@ public class NetPanelServer {
             MinecraftClient mc = MinecraftClient.getInstance();
             JsonObject status = new JsonObject();
             status.addProperty("running", true);
-            status.addProperty("minecraftVersion", mc.getVersionType());
             status.addProperty("fps", mc.getCurrentFps());
+            status.addProperty("smoothedFps", currentPort > 0 ? 0 : 0);
             status.addProperty("port", currentPort);
-            status.addProperty("hitregCount", HitregLogger.getBuffer().size());
             status.addProperty("consoleCount", ConsoleCapture.getBuffer().size());
-            status.addProperty("packetsCount", PacketLogger.getBuffer().size());
             status.addProperty("chatCount", ChatBridge.getBuffer().size());
+            status.add("system", getSystemInfo());
             sendJson(exchange, 200, status);
         }
     }
@@ -138,51 +272,11 @@ public class NetPanelServer {
                 return;
             }
             String query = exchange.getRequestURI().getQuery();
-            int limit = 100;
+            int limit = 200;
             if (query != null && query.startsWith("limit=")) {
                 try { limit = Integer.parseInt(query.substring(6)); } catch (NumberFormatException ignored) {}
             }
             List<LogBuffer.LogEntry> entries = ConsoleCapture.getBuffer().getLatest(limit);
-            JsonArray arr = new JsonArray();
-            for (LogBuffer.LogEntry e : entries) {
-                JsonObject obj = new JsonObject();
-                obj.addProperty("timestamp", e.timestamp());
-                obj.addProperty("level", e.level());
-                obj.addProperty("message", e.message());
-                arr.add(obj);
-            }
-            sendJson(exchange, 200, arr);
-        }
-    }
-
-    private static class HitregHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
-            if ("OPTIONS".equals(exchange.getRequestMethod())) {
-                exchange.sendResponseHeaders(200, -1);
-                return;
-            }
-            List<LogBuffer.LogEntry> entries = HitregLogger.getBuffer().getLatest(200);
-            JsonArray arr = new JsonArray();
-            for (LogBuffer.LogEntry e : entries) {
-                JsonObject obj = new JsonObject();
-                obj.addProperty("timestamp", e.timestamp());
-                obj.addProperty("level", e.level());
-                obj.addProperty("message", e.message());
-                arr.add(obj);
-            }
-            sendJson(exchange, 200, arr);
-        }
-    }
-
-    private static class PacketsHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
-            if ("OPTIONS".equals(exchange.getRequestMethod())) {
-                exchange.sendResponseHeaders(200, -1);
-                return;
-            }
-            List<LogBuffer.LogEntry> entries = PacketLogger.getBuffer().getLatest(200);
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
@@ -202,7 +296,7 @@ public class NetPanelServer {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
-            List<LogBuffer.LogEntry> entries = ChatBridge.getBuffer().getLatest(100);
+            List<LogBuffer.LogEntry> entries = ChatBridge.getBuffer().getLatest(200);
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
@@ -223,7 +317,10 @@ public class NetPanelServer {
                 return;
             }
             if (!"POST".equals(exchange.getRequestMethod())) {
-                sendJson(exchange, 405, new JsonObject());
+                JsonObject err = new JsonObject();
+                err.addProperty("success", false);
+                err.addProperty("error", "Method not allowed");
+                sendJson(exchange, 405, err);
                 return;
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))) {
@@ -231,7 +328,7 @@ public class NetPanelServer {
                 String line;
                 while ((line = reader.readLine()) != null) sb.append(line);
                 JsonObject body = GSON.fromJson(sb.toString(), JsonObject.class);
-                String message = body != null ? body.get("message").getAsString() : "";
+                String message = body != null && body.has("message") ? body.get("message").getAsString() : "";
                 if (message != null && !message.isEmpty()) {
                     ChatBridge.sendChatMessage(message);
                     JsonObject resp = new JsonObject();
@@ -243,6 +340,11 @@ public class NetPanelServer {
                     resp.addProperty("error", "Empty message");
                     sendJson(exchange, 400, resp);
                 }
+            } catch (Exception e) {
+                JsonObject resp = new JsonObject();
+                resp.addProperty("success", false);
+                resp.addProperty("error", e.getMessage());
+                sendJson(exchange, 500, resp);
             }
         }
     }
@@ -261,39 +363,34 @@ public class NetPanelServer {
 
             OutputStream os = exchange.getResponseBody();
             long lastConsoleSize = 0;
-            long lastHitregSize = 0;
-            long lastPacketSize = 0;
             long lastChatSize = 0;
 
             try {
                 while (true) {
-                    Thread.sleep(500);
+                    Thread.sleep(300);
 
                     // Check for new data
                     long cSize = ConsoleCapture.getBuffer().size();
-                    long hSize = HitregLogger.getBuffer().size();
-                    long pSize = PacketLogger.getBuffer().size();
                     long chSize = ChatBridge.getBuffer().size();
 
                     if (cSize != lastConsoleSize) {
-                        sendSSEEvent(os, "console", ConsoleCapture.getBuffer().getLatest(10));
+                        sendSSEEvent(os, "console", ConsoleCapture.getBuffer().getLatest(20));
                         lastConsoleSize = cSize;
                     }
-                    if (hSize != lastHitregSize) {
-                        sendSSEEvent(os, "hitreg", HitregLogger.getBuffer().getLatest(10));
-                        lastHitregSize = hSize;
-                    }
-                    if (pSize != lastPacketSize) {
-                        sendSSEEvent(os, "packets", PacketLogger.getBuffer().getLatest(10));
-                        lastPacketSize = pSize;
-                    }
                     if (chSize != lastChatSize) {
-                        sendSSEEvent(os, "chat", ChatBridge.getBuffer().getLatest(10));
+                        sendSSEEvent(os, "chat", ChatBridge.getBuffer().getLatest(20));
                         lastChatSize = chSize;
                     }
 
-                    // Send heartbeat
-                    os.write(("event: heartbeat\ndata: " + System.currentTimeMillis() + "\n\n").getBytes(StandardCharsets.UTF_8));
+                    // Send system info (FPS, memory, CPU)
+                    JsonObject sysInfo = new JsonObject();
+                    MinecraftClient mc = MinecraftClient.getInstance();
+                    sysInfo.addProperty("fps", mc.getCurrentFps());
+                    sysInfo.addProperty("timestamp", System.currentTimeMillis());
+                    sysInfo.add("system", getSystemInfo());
+                    String data = GSON.toJson(sysInfo);
+                    os.write(("event: system\ndata: " + data + "\n\n").getBytes(StandardCharsets.UTF_8));
+
                     os.flush();
                 }
             } catch (InterruptedException | IOException e) {

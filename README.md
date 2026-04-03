@@ -2,9 +2,9 @@
 
 **Name:** Aegis                        
 **Codename:** Neo                            
-**Version:** 0.5.4 Beta                                    
-**Tag:** v0.5.4                                    
-**Full name:** Aegis Neo 054                                 
+**Version:** 0.5.6 Beta                                    
+**Tag:** v0.5.6                                    
+**Full name:** Aegis Neo 056                                 
 
 ## Minecraft Info
 

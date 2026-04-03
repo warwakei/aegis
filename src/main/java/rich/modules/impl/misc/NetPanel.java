@@ -1,10 +1,11 @@
 package rich.modules.impl.misc;
 
+import rich.events.api.EventHandler;
+import rich.events.impl.TickEvent;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
 import rich.netpanel.NetPanelServer;
 import rich.netpanel.loggers.ConsoleCapture;
-import rich.netpanel.loggers.PacketLogger;
 
 /**
  * NetPanel module — enables the embedded HTTP server with web dashboard.
@@ -15,7 +16,7 @@ public class NetPanel extends ModuleStructure {
     private NetPanelServer server;
 
     public NetPanel() {
-        super("NetPanel", "Web dashboard for real-time monitoring (chat, hitreg, packets, console)", ModuleCategory.MISC);
+        super("NetPanel", "Web dashboard for real-time monitoring (chat, packets, console)", ModuleCategory.MISC);
     }
 
     @Override
@@ -35,5 +36,12 @@ public class NetPanel extends ModuleStructure {
 
     public int getPort() {
         return server != null ? server.getPort() : 0;
+    }
+
+    @EventHandler
+    public void onTick(TickEvent e) {
+        if (server != null && mc.getCurrentFps() > 0) {
+            server.updateFps(mc.getCurrentFps());
+        }
     }
 }
