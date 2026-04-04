@@ -261,6 +261,8 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
 
     /**
      * Downloads the latest release jar from GitHub.
+     * ВАЖНО: Скачиваем во временный файл, затем атомарно перемещаем.
+     * Это предотвращает повреждение JAR если скачивание прервётся.
      */
     private Path downloadLatestRelease(String version) {
         String jarVersion = version.split("-")[0];
@@ -276,14 +278,9 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
             }
         }
 
-        // Delete old AegisNeo jars before downloading new one
-        try {
-            deleteOldAegisJars(modsDir);
-        } catch (IOException e) {
-            LOGGER.error("[AegisUpdater] Failed to delete old AegisNeo jars", e);
-        }
-
         Path targetPath = modsDir.resolve(MOD_NAME_PREFIX + jarVersion + MOD_NAME_SUFFIX);
+        // Скачиваем во временный файл чтобы не повредить основной JAR
+        Path tempPath = modsDir.resolve(MOD_NAME_PREFIX + jarVersion + ".jar.tmp");
 
         try {
             LOGGER.info("[AegisUpdater] Downloading from: {}", downloadUrl);
@@ -295,12 +292,13 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
 
             if (conn.getResponseCode() != 200) {
                 LOGGER.error("[AegisUpdater] Download failed: HTTP {}", conn.getResponseCode());
+                Files.deleteIfExists(tempPath);
                 return null;
             }
 
             long contentLength = conn.getContentLengthLong();
             try (InputStream in = conn.getInputStream();
-                 OutputStream out = Files.newOutputStream(targetPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                 OutputStream out = Files.newOutputStream(tempPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 
                 byte[] buffer = new byte[8192];
                 long totalRead = 0;
@@ -315,15 +313,31 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
                         }
                     }
                 }
+                out.flush();
             }
 
-            LOGGER.info("[AegisUpdater] Downloaded {} bytes to {}", contentLength, targetPath);
+            // Проверяем что файл скачался полностью (размер совпадает)
+            long actualSize = Files.size(tempPath);
+            if (contentLength > 0 && actualSize != contentLength) {
+                LOGGER.error("[AegisUpdater] Download incomplete! Expected {} bytes, got {} bytes", contentLength, actualSize);
+                Files.deleteIfExists(tempPath);
+                return null;
+            }
+
+            // Теперь атомарно перемещаем временный файл в целевой
+            // Сначала удаляем старые версии
+            deleteOldAegisJars(modsDir);
+            Files.move(tempPath, targetPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+
+            LOGGER.info("[AegisUpdater] Downloaded {} bytes to {}", actualSize, targetPath);
             return targetPath;
         } catch (Exception e) {
             LOGGER.error("[AegisUpdater] Failed to download update", e);
+            // Удаляем временный файл при ошибке
             try {
-                Files.deleteIfExists(targetPath);
+                Files.deleteIfExists(tempPath);
             } catch (IOException ignored) {}
+            // Не удаляем targetPath здесь — если он существовал, он должен остаться рабочим
             return null;
         }
     }
