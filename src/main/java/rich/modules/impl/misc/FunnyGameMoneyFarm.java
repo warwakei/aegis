@@ -12,10 +12,13 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import rich.events.api.EventHandler;
 import rich.events.impl.PacketEvent;
 import rich.events.impl.TickEvent;
 import rich.mixin.ClientWorldAccessor;
+import rich.modules.impl.combat.AntiBot;
 import rich.modules.impl.misc.JenroChatGame;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
@@ -40,7 +43,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private static final String TP_NPC2 = "tp -149 69 -1022";
 
     // Задержки
-    private static final int TP_DELAY_MS = 320;
+    private static final int TP_DELAY_MS = 690;
     private static final int PAY_CONFIRM_DELAY_MS = 200;
 
     // Паттерн для парсинга баланса: [$] Ваш баланс: 1,186,805,078$
@@ -68,6 +71,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         TELEPORT_TO_NPC2,
         WAIT_TP2,
         INTERACT_NPC2,
+        TELEPORT_HOME,
+        WAIT_HOME,
         WAITING_BALANCE_RESPONSE,
         SENDING_PAY_1,
         WAITING_PAY_CONFIRM,
@@ -129,6 +134,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             case TELEPORT_TO_NPC2 -> handleTeleportToNpc2();
             case WAIT_TP2 -> handleWaitTp2();
             case INTERACT_NPC2 -> handleInteractNpc2();
+            case TELEPORT_HOME -> handleTeleportHome();
+            case WAIT_HOME -> handleWaitHome();
             case WAITING_BALANCE_RESPONSE -> handleWaitingBalanceResponse();
             case SENDING_PAY_1 -> handleSendingPay1();
             case WAITING_PAY_CONFIRM -> handleWaitingPayConfirm();
@@ -254,10 +261,27 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc2() {
+        // Телепорт домой
         mc.player.networkHandler.sendChatCommand("home");
-        mc.player.networkHandler.sendChatCommand("balance");
-        phase = FarmPhase.WAITING_BALANCE_RESPONSE;
+        phase = FarmPhase.TELEPORT_HOME;
         phaseStartTime = System.currentTimeMillis();
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleTeleportHome() {
+        phase = FarmPhase.WAIT_HOME;
+        phaseStartTime = System.currentTimeMillis();
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleWaitHome() {
+        long elapsed = System.currentTimeMillis() - phaseStartTime;
+        if (elapsed >= TP_DELAY_MS) {
+            // Задержка прошла — проверяем баланс
+            mc.player.networkHandler.sendChatCommand("balance");
+            phase = FarmPhase.WAITING_BALANCE_RESPONSE;
+            phaseStartTime = System.currentTimeMillis();
+        }
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -337,32 +361,49 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void interactWithNpc() {
         if (mc.player == null || mc.world == null) return;
 
-        BlockPos interactPos = mc.player.getBlockPos();
+        // Ищем ближайшего NPC (AntiBot распознаёт NPC как бота)
+        PlayerEntity nearestNpc = null;
+        double nearestDistance = Double.MAX_VALUE;
 
-        for (Direction dir : Direction.values()) {
-            BlockPos pos = interactPos.offset(dir);
-            if (!mc.world.getBlockState(pos).isAir()) {
-                interactWithBlock(pos, dir.getOpposite());
-                return;
+        for (PlayerEntity entity : mc.world.getPlayers()) {
+            if (entity == mc.player) continue;
+
+            // Проверяем через AntiBot — NPC распознаются как боты
+            AntiBot antiBot = AntiBot.getInstance();
+            if (antiBot != null && antiBot.isBot(entity)) {
+                double distance = mc.player.distanceTo(entity);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestNpc = entity;
+                }
             }
         }
 
-        Vec3d lookVec = mc.player.getRotationVec(1.0f);
-        Vec3d hitVec = mc.player.getEyePos().add(lookVec.multiply(2.0));
+        if (nearestNpc != null) {
+            // Взаимодействуем с NPC через пакет
+            mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.interact(nearestNpc, mc.player.isSneaking(), Hand.MAIN_HAND));
+            mc.player.swingHand(Hand.MAIN_HAND);
+            ChatMessage.brandmessage("Взаимодействие с NPC: " + nearestNpc.getName().getString());
+        } else {
+            // Fallback — если NPC не найден, пробуем кликнуть вперёд
+            Vec3d lookVec = mc.player.getRotationVec(1.0f);
+            Vec3d hitVec = mc.player.getEyePos().add(lookVec.multiply(2.0));
+            BlockPos interactPos = mc.player.getBlockPos();
 
-        BlockHitResult hitResult = new BlockHitResult(
-                hitVec,
-                Direction.DOWN,
-                interactPos,
-                false
-        );
+            BlockHitResult hitResult = new BlockHitResult(
+                    hitVec,
+                    Direction.DOWN,
+                    interactPos,
+                    false
+            );
 
-        sendSequencedPacket(sequence -> new PlayerInteractBlockC2SPacket(
-                Hand.MAIN_HAND,
-                hitResult,
-                sequence
-        ));
-        mc.player.swingHand(Hand.MAIN_HAND);
+            sendSequencedPacket(sequence -> new PlayerInteractBlockC2SPacket(
+                    Hand.MAIN_HAND,
+                    hitResult,
+                    sequence
+            ));
+            mc.player.swingHand(Hand.MAIN_HAND);
+        }
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
