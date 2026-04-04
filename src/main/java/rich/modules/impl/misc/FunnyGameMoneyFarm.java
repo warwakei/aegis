@@ -43,7 +43,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private static final String TP_NPC2 = "tp -149 69 -1022";
 
     // Задержки
-    private static final int TP_DELAY_MS = 690;
+    private static final int TP_DELAY_MS = 450;
     private static final int PAY_CONFIRM_DELAY_MS = 200;
 
     // Паттерн для парсинга баланса: [$] Ваш баланс: 1,186,805,078$

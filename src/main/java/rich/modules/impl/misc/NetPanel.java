@@ -14,6 +14,7 @@ import rich.netpanel.loggers.ConsoleCapture;
 public class NetPanel extends ModuleStructure {
 
     private NetPanelServer server;
+    private boolean needsRestart = false;
 
     public NetPanel() {
         super("NetPanel", "Web dashboard for real-time monitoring (chat, packets, console)", ModuleCategory.MISC);
@@ -21,13 +22,17 @@ public class NetPanel extends ModuleStructure {
 
     @Override
     public void activate() {
-        server = new NetPanelServer();
-        server.start();
-        ConsoleCapture.attach();
+        needsRestart = false;
+        if (server == null) {
+            server = new NetPanelServer();
+            server.start();
+            ConsoleCapture.attach();
+        }
     }
 
     @Override
     public void deactivate() {
+        needsRestart = true;
         if (server != null) {
             server.stop();
             server = null;
@@ -40,6 +45,13 @@ public class NetPanel extends ModuleStructure {
 
     @EventHandler
     public void onTick(TickEvent e) {
+        // Если модуль "запомнился" включённым после рестарта — перезапускаем сервер
+        if (needsRestart && isState() && server == null) {
+            needsRestart = false;
+            server = new NetPanelServer();
+            server.start();
+            ConsoleCapture.attach();
+        }
         if (server != null && mc.getCurrentFps() > 0) {
             server.updateFps(mc.getCurrentFps());
         }

@@ -105,6 +105,7 @@ public class ModuleRepository {
                 .add(new NetPanel())
                 .add(new JenroCasino())
                 .add(new JenroChatGame())
+                .add(new JenroClanFarm())
                 .add(new FunnyGameMoneyFarm())
                 .add(new AutoBuy())
                 .hidden(new AutoParser());

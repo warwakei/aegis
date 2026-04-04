@@ -32,6 +32,7 @@ public class NetPanelServer {
     private ExecutorService executor;
     private int port;
     private static int currentPort = 0;
+    private NetPanelBackend backend;
 
     // FPS tracking
     private int lastFps = 0;
@@ -60,6 +61,10 @@ public class NetPanelServer {
 
             server.start();
 
+            // Start backend API for file manager and settings
+            backend = new NetPanelBackend();
+            backend.start(port);
+
             System.out.println("[NetPanel] Server started on http://127.0.0.1:" + port);
         } catch (IOException e) {
             System.err.println("[NetPanel] Failed to start server: " + e.getMessage());
@@ -69,9 +74,8 @@ public class NetPanelServer {
     public void stop() {
         if (server != null) {
             server.stop(0);
-            if (executor != null) {
-                executor.shutdownNow();
-            }
+            if (executor != null) executor.shutdownNow();
+            if (backend != null) backend.stop();
             ConsoleCapture.detach();
             System.out.println("[NetPanel] Server stopped");
         }
@@ -202,17 +206,6 @@ public class NetPanelServer {
             rootGroup = rootGroup.getParent();
         }
         sys.addProperty("threadCount", rootGroup.activeCount());
-
-        // GC info
-        JsonArray gcInfo = new JsonArray();
-        for (java.lang.management.GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
-            JsonObject gcObj = new JsonObject();
-            gcObj.addProperty("name", gc.getName());
-            gcObj.addProperty("collections", gc.getCollectionCount());
-            gcObj.addProperty("time", gc.getCollectionTime());
-            gcInfo.add(gcObj);
-        }
-        sys.add("gc", gcInfo);
 
         // Disk space (game directory)
         try {
