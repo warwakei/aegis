@@ -6,12 +6,14 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import rich.events.api.EventHandler;
+import rich.events.impl.PacketEvent;
 import rich.events.impl.TickEvent;
 import rich.mixin.ClientWorldAccessor;
 import rich.modules.impl.misc.JenroChatGame;
@@ -19,25 +21,33 @@ import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
 import rich.modules.module.setting.implement.BooleanSetting;
 import rich.modules.module.setting.implement.SliderSettings;
+import rich.modules.module.setting.implement.TextSetting;
 import rich.util.Instance;
 import rich.util.string.chat.ChatMessage;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
- * Автоматический фарм денег на FunnyGame через NPC каждые 30 минут
+ * Автоматический фарм денег на FunnyGame через NPC + авто-перевод на основной аккаунт
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FunnyGameMoneyFarm extends ModuleStructure {
 
     // Координаты NPC
-    private static final String TP_NPC1 = "/tp -271 52 -1030";
-    private static final String TP_NPC2 = "/tp -149 69 -1022";
-    private static final String TP_HOME = "/home";
-    private static final String CMD_BALANCE = "/balance";
+    private static final String TP_NPC1 = "tp -271 52 -1030";
+    private static final String TP_NPC2 = "tp -149 69 -1022";
 
     // Задержки
     private static final int TP_DELAY_MS = 320;
-    private static final int FARM_INTERVAL_MS = 30 * 60 * 1000; // 30 минут
+    private static final int PAY_CONFIRM_DELAY_MS = 200;
+
+    // Паттерн для парсинга баланса: [$] Ваш баланс: 1,186,805,078$
+    private static final Pattern BALANCE_PATTERN = Pattern.compile(
+            "Ваш баланс:\\s*([\\d,]+)\\s*\\$",
+            Pattern.CASE_INSENSITIVE
+    );
 
     final SliderSettings farmInterval = new SliderSettings("Интервал (мин)", "Интервал между фармами")
             .range(5, 60)
@@ -45,6 +55,9 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     final BooleanSetting autoEnableChatGame = new BooleanSetting("Авто-ChatGame", "Автоматически включать Jenro ChatGame")
             .setValue(true);
+
+    final TextSetting transferTo = new TextSetting("Переводить баланс:", "Никнейм основного аккаунта для перевода")
+            .setText("");
 
     enum FarmPhase {
         IDLE,
@@ -55,9 +68,10 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         TELEPORT_TO_NPC2,
         WAIT_TP2,
         INTERACT_NPC2,
-        TELEPORT_HOME,
-        WAIT_TP_HOME,
-        CHECK_BALANCE,
+        WAITING_BALANCE_RESPONSE,
+        SENDING_PAY_1,
+        WAITING_PAY_CONFIRM,
+        SENDING_PAY_2,
         WAITING
     }
 
@@ -65,10 +79,12 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     long phaseStartTime = 0;
     int countdownValue = 10;
     boolean chatGameWasEnabled = false;
+    long parsedBalance = 0;
+    String payTarget = "";
 
     public FunnyGameMoneyFarm() {
         super("FunnyGame MoneyFarm", "Автоматический фарм денег через NPC", ModuleCategory.MISC);
-        settings(farmInterval, autoEnableChatGame);
+        settings(farmInterval, autoEnableChatGame, transferTo);
     }
 
     @Override
@@ -83,6 +99,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         countdownValue = 10;
         phaseStartTime = System.currentTimeMillis();
         chatGameWasEnabled = false;
+        parsedBalance = 0;
 
         sendCountdownMessage();
     }
@@ -112,18 +129,44 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             case TELEPORT_TO_NPC2 -> handleTeleportToNpc2();
             case WAIT_TP2 -> handleWaitTp2();
             case INTERACT_NPC2 -> handleInteractNpc2();
-            case TELEPORT_HOME -> handleTeleportHome();
-            case WAIT_TP_HOME -> handleWaitTpHome();
-            case CHECK_BALANCE -> handleCheckBalance();
+            case WAITING_BALANCE_RESPONSE -> handleWaitingBalanceResponse();
+            case SENDING_PAY_1 -> handleSendingPay1();
+            case WAITING_PAY_CONFIRM -> handleWaitingPayConfirm();
+            case SENDING_PAY_2 -> handleSendingPay2();
             case WAITING -> handleWaiting();
         }
+    }
+
+    @EventHandler
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    public void onPacket(PacketEvent event) {
+        if (event.getType() != PacketEvent.Type.RECEIVE) return;
+        if (!(event.getPacket() instanceof GameMessageS2CPacket packet)) return;
+
+        String text = packet.content().getString();
+        if (text == null) return;
+
+        try {
+            // Парсим баланс
+            Matcher matcher = BALANCE_PATTERN.matcher(text);
+            if (matcher.find()) {
+                String balanceStr = matcher.group(1).replace(",", "");
+                try {
+                    parsedBalance = Long.parseLong(balanceStr);
+                    ChatMessage.brandmessage("Баланс: " + parsedBalance + "$");
+
+                    if (phase == FarmPhase.WAITING_BALANCE_RESPONSE) {
+                        processBalanceAndPay();
+                    }
+                } catch (NumberFormatException ignored) {}
+            }
+        } catch (Exception ignored) {}
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleCountdown() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
 
-        // Обновляем сообщение каждую секунду
         if (elapsed >= 1000) {
             countdownValue--;
             phaseStartTime = System.currentTimeMillis();
@@ -137,12 +180,11 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
                             chatGame.setState(true);
                             chatGameWasEnabled = true;
                         } else if (chatGame != null && chatGame.isState()) {
-                            chatGameWasEnabled = true; // уже был включён
+                            chatGameWasEnabled = true;
                         }
                     } catch (Exception ignored) {}
                 }
 
-                // Начинаем фарм
                 ChatMessage.brandmessage("FunnyGame MoneyFarm: запуск!");
                 startFarmCycle();
                 return;
@@ -168,9 +210,9 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void startFarmCycle() {
         phase = FarmPhase.TELEPORT_TO_NPC1;
         phaseStartTime = System.currentTimeMillis();
+        parsedBalance = 0;
 
-        // Телепорт к первому NPC
-        mc.player.networkHandler.sendChatCommand("tp -271 52 -1030");
+        mc.player.networkHandler.sendChatCommand(TP_NPC1);
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -183,7 +225,6 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void handleWaitTp1() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= TP_DELAY_MS) {
-            // ПКМ по NPC
             interactWithNpc();
             phase = FarmPhase.INTERACT_NPC1;
             phaseStartTime = System.currentTimeMillis();
@@ -192,10 +233,9 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc1() {
-        // Сразу переходим ко второму NPC
         phase = FarmPhase.TELEPORT_TO_NPC2;
         phaseStartTime = System.currentTimeMillis();
-        mc.player.networkHandler.sendChatCommand("tp -149 69 -1022");
+        mc.player.networkHandler.sendChatCommand(TP_NPC2);
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -208,7 +248,6 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void handleWaitTp2() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= TP_DELAY_MS) {
-            // ПКМ по NPC
             interactWithNpc();
             phase = FarmPhase.INTERACT_NPC2;
             phaseStartTime = System.currentTimeMillis();
@@ -217,32 +256,70 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc2() {
-        // Телепорт домой
-        phase = FarmPhase.TELEPORT_HOME;
-        phaseStartTime = System.currentTimeMillis();
         mc.player.networkHandler.sendChatCommand("home");
-    }
-
-    @Native(type = Native.Type.VMProtectBeginUltra)
-    private void handleTeleportHome() {
-        phase = FarmPhase.WAIT_TP_HOME;
+        mc.player.networkHandler.sendChatCommand("balance");
+        phase = FarmPhase.WAITING_BALANCE_RESPONSE;
         phaseStartTime = System.currentTimeMillis();
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
-    private void handleWaitTpHome() {
+    private void handleWaitingBalanceResponse() {
+        // Ждём пока PacketEvent не распарсит баланс
+        // Таймаут 5 секунд
         long elapsed = System.currentTimeMillis() - phaseStartTime;
-        if (elapsed >= TP_DELAY_MS) {
-            // Проверяем баланс
-            phase = FarmPhase.CHECK_BALANCE;
+        if (elapsed >= 5000) {
+            // Таймаут — идём дальше без перевода
+            ChatMessage.brandmessage("Таймаут получения баланса, пропускаем перевод");
+            startWaitingPhase();
+        }
+    }
+
+    @Native(type = Native.Type.VMProtectBeginMutation)
+    private void processBalanceAndPay() {
+        String target = transferTo.getText().trim();
+        if (target.isEmpty() || parsedBalance <= 0) {
+            ChatMessage.brandmessage("Никнейм не указан или баланс 0, пропускаем перевод");
+            startWaitingPhase();
+            return;
+        }
+
+        payTarget = target;
+        ChatMessage.brandmessage("Переводим " + parsedBalance + "$ на аккаунт " + payTarget);
+
+        // Отправляем первый /pay
+        phase = FarmPhase.SENDING_PAY_1;
+        phaseStartTime = System.currentTimeMillis();
+        mc.player.networkHandler.sendChatMessage("pay " + payTarget + " " + parsedBalance);
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleSendingPay1() {
+        // Ждём подтверждение от сервера
+        phase = FarmPhase.WAITING_PAY_CONFIRM;
+        phaseStartTime = System.currentTimeMillis();
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleWaitingPayConfirm() {
+        long elapsed = System.currentTimeMillis() - phaseStartTime;
+        if (elapsed >= PAY_CONFIRM_DELAY_MS) {
+            // Отправляем подтверждение — тот же pay повторно
+            phase = FarmPhase.SENDING_PAY_2;
             phaseStartTime = System.currentTimeMillis();
-            mc.player.networkHandler.sendChatCommand("balance");
+            mc.player.networkHandler.sendChatMessage("pay " + payTarget + " " + parsedBalance);
+            ChatMessage.brandmessage("Подтверждение перевода: pay " + payTarget + " " + parsedBalance);
         }
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
-    private void handleCheckBalance() {
-        // Ждём и начинаем цикл заново через 30 минут
+    private void handleSendingPay2() {
+        // Второй pay отправлен, ждём немного и идём в ожидание
+        ChatMessage.brandmessage("Перевод выполнен: " + parsedBalance + "$ → " + payTarget);
+        startWaitingPhase();
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void startWaitingPhase() {
         phase = FarmPhase.WAITING;
         phaseStartTime = System.currentTimeMillis();
         ChatMessage.brandmessage("FunnyGame MoneyFarm: ожидание " + (int) farmInterval.getValue() + " мин...");
@@ -254,7 +331,6 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         long intervalMs = (long) farmInterval.getValue() * 60 * 1000;
 
         if (elapsed >= intervalMs) {
-            // Начинаем цикл заново
             startFarmCycle();
         }
     }
@@ -263,10 +339,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void interactWithNpc() {
         if (mc.player == null || mc.world == null) return;
 
-        // Ищем ближайший интерактивный блок/сущность для ПКМ
         BlockPos interactPos = mc.player.getBlockPos();
 
-        // Пробуем взаимодействовать с блоком перед собой
         for (Direction dir : Direction.values()) {
             BlockPos pos = interactPos.offset(dir);
             if (!mc.world.getBlockState(pos).isAir()) {
@@ -275,7 +349,6 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             }
         }
 
-        // Если нет блоков — кликаем в воздух перед собой
         Vec3d lookVec = mc.player.getRotationVec(1.0f);
         Vec3d hitVec = mc.player.getEyePos().add(lookVec.multiply(2.0));
 
@@ -328,17 +401,6 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             pendingUpdateManager.close();
         } catch (Exception e) {
             mc.getNetworkHandler().sendPacket(packetCreator.apply(0));
-        }
-    }
-
-    @Native(type = Native.Type.VMProtectBeginMutation)
-    private void sendChatCommand(String command) {
-        if (mc.player != null && mc.player.networkHandler != null) {
-            if (command.startsWith("/")) {
-                mc.player.networkHandler.sendChatCommand(command.substring(1));
-            } else {
-                mc.player.networkHandler.sendChatCommand(command);
-            }
         }
     }
 }
