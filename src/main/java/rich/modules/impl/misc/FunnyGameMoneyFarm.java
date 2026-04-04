@@ -197,13 +197,11 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void sendCountdownMessage() {
         String msg = String.format(
-                "Чтобы использовать данный модуль вам нужно встать в АФК и не двигатся. " +
-                "При получении ПВП релога модуль не будет работать. " +
-                "Вам так же нужен донат на сервере, ибо нужны права на телепорт по координатам. " +
-                "Включение через %d...",
+                "Гайд: встаньте в АФК и не двигайтесь. При ПВП релоге модуль не работает. " +
+                "Нужен донат на права телепорта. Запуск через %d...",
                 countdownValue
         );
-        mc.player.networkHandler.sendChatMessage(msg);
+        ChatMessage.brandmessage(msg);
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
