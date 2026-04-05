@@ -114,7 +114,8 @@ public class JenroCasino extends ModuleStructure {
             String text = extractChatText(packet);
             if (text == null) return;
             String stripped = stripColorCodes(text);
-            if (stripped.startsWith("Казино")) {
+            // Скрываем сообщения "Машина занята, пожалуйста подождите."
+            if (stripped.contains("Машина занята")) {
                 e.cancel();
             }
         } catch (Exception ignored) {}

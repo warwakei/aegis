@@ -52,6 +52,11 @@ public class NetPanel extends ModuleStructure {
             server.start();
             ConsoleCapture.attach();
         }
+        // TPS tracking
+        if (server != null) {
+            server.onTick();
+        }
+        // FPS tracking
         if (server != null && mc.getCurrentFps() > 0) {
             server.updateFps(mc.getCurrentFps());
         }

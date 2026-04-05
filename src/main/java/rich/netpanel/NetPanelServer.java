@@ -7,7 +7,14 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import net.minecraft.client.MinecraftClient;
-import rich.netpanel.loggers.*;
+import net.minecraft.client.network.ServerInfo;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
+import rich.netpanel.loggers.ChatBridge;
+import rich.netpanel.loggers.ConsoleCapture;
+import rich.netpanel.loggers.LogBuffer;
 
 import java.io.*;
 import java.lang.management.ManagementFactory;
@@ -15,9 +22,10 @@ import java.lang.management.MemoryMXBean;
 import com.sun.management.OperatingSystemMXBean;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Embedded HTTP server for the NetPanel web interface.
@@ -32,13 +40,19 @@ public class NetPanelServer {
     private ExecutorService executor;
     private int port;
     private static int currentPort = 0;
-    private NetPanelBackend backend;
 
     // FPS tracking
     private int lastFps = 0;
     private int fpsAccum = 0;
     private int fpsCount = 0;
     private long fpsLastUpdate = 0;
+
+    // TPS tracking
+    private final AtomicLong tickCount = new AtomicLong(0);
+    private final AtomicLong lastTickTime = new AtomicLong(System.currentTimeMillis());
+    private double tps = 20.0;
+    private final long[] tickSamples = new long[600]; // 30 seconds at 20tps
+    private int tickSampleIndex = 0;
 
     public void start() {
         try {
@@ -57,13 +71,12 @@ public class NetPanelServer {
             server.createContext("/api/console", new ConsoleHandler());
             server.createContext("/api/chat", new ChatHandler());
             server.createContext("/api/chat/send", new ChatSendHandler());
+            server.createContext("/api/world", new WorldHandler());
+            server.createContext("/api/potions", new PotionsHandler());
+            server.createContext("/api/server", new ServerHandler());
             server.createContext("/api/stream", new SSEHandler());
 
             server.start();
-
-            // Start backend API for file manager and settings
-            backend = new NetPanelBackend();
-            backend.start(port);
 
             System.out.println("[NetPanel] Server started on http://127.0.0.1:" + port);
         } catch (IOException e) {
@@ -75,7 +88,6 @@ public class NetPanelServer {
         if (server != null) {
             server.stop(0);
             if (executor != null) executor.shutdownNow();
-            if (backend != null) backend.stop();
             ConsoleCapture.detach();
             System.out.println("[NetPanel] Server stopped");
         }
@@ -96,6 +108,28 @@ public class NetPanelServer {
         return startPort;
     }
 
+    // ===== TPS Tracking =====
+    public void onTick() {
+        tickCount.incrementAndGet();
+        long now = System.currentTimeMillis();
+        long lastTime = lastTickTime.getAndSet(now);
+        long delta = now - lastTime;
+
+        tickSamples[tickSampleIndex % tickSamples.length] = delta;
+        tickSampleIndex++;
+
+        // Calculate TPS from last 100 samples
+        int samples = Math.min(100, tickSampleIndex);
+        long totalDelta = 0;
+        for (int i = 0; i < samples; i++) {
+            int idx = (tickSampleIndex - 1 - i + tickSamples.length) % tickSamples.length;
+            totalDelta += tickSamples[idx];
+        }
+        if (totalDelta > 0) {
+            tps = Math.min(20.0, (samples * 1000.0) / totalDelta);
+        }
+    }
+
     // FPS tracking called from tick
     public void updateFps(int currentFps) {
         fpsAccum += currentFps;
@@ -111,6 +145,10 @@ public class NetPanelServer {
 
     public int getSmoothedFps() {
         return lastFps;
+    }
+
+    public double getTps() {
+        return tps;
     }
 
     // ==================== Handlers ====================
@@ -342,10 +380,173 @@ public class NetPanelServer {
         }
     }
 
+    // ===== World Info Handler =====
+    private static class WorldHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+            MinecraftClient mc = MinecraftClient.getInstance();
+            JsonObject world = new JsonObject();
+
+            if (mc.player != null && mc.world != null) {
+                // Coordinates
+                JsonObject pos = new JsonObject();
+                pos.addProperty("x", Math.round(mc.player.getX() * 100.0) / 100.0);
+                pos.addProperty("y", Math.round(mc.player.getY() * 100.0) / 100.0);
+                pos.addProperty("z", Math.round(mc.player.getZ() * 100.0) / 100.0);
+                pos.addProperty("yaw", Math.round(mc.player.getYaw() * 10.0) / 10.0);
+                pos.addProperty("pitch", Math.round(mc.player.getPitch() * 10.0) / 10.0);
+                world.add("position", pos);
+
+                // Dimension
+                world.addProperty("dimension", mc.world.getRegistryKey().getValue().toString());
+
+                // Biome
+                var biomePos = mc.player.getBlockPos();
+                var biomeEntry = mc.world.getBiome(biomePos);
+                String biomeName = biomeEntry.getKey()
+                        .map(RegistryKey::getValue)
+                        .map(id -> id.getPath().replace('_', ' '))
+                        .orElse("Unknown");
+                world.addProperty("biome", capitalize(biomeName));
+
+                // Time of day
+                long worldTime = mc.world.getTimeOfDay();
+                long dayTime = worldTime % 24000;
+                String timeOfDay;
+                if (dayTime < 1000) timeOfDay = "Sunrise";
+                else if (dayTime < 12000) timeOfDay = "Day";
+                else if (dayTime < 13000) timeOfDay = "Sunset";
+                else if (dayTime < 23000) timeOfDay = "Night";
+                else timeOfDay = "Midnight";
+                world.addProperty("timeOfDay", timeOfDay);
+                world.addProperty("dayTime", dayTime);
+
+                // Weather
+                boolean raining = mc.world.isRaining();
+                boolean thundering = mc.world.isThundering();
+                String weather;
+                if (thundering) weather = "Thunderstorm";
+                else if (raining) weather = "Rain";
+                else weather = "Clear";
+                world.addProperty("weather", weather);
+
+                // Seed (access via reflection since ClientWorld.Properties is private)
+                try {
+                    java.lang.reflect.Field propsField = mc.world.getClass().getDeclaredField("clientWorldProperties");
+                    propsField.setAccessible(true);
+                    Object props = propsField.get(mc.world);
+                    java.lang.reflect.Method getSeedMethod = props.getClass().getMethod("getSeed");
+                    world.addProperty("seed", (long) getSeedMethod.invoke(props));
+                } catch (Exception e) {
+                    world.addProperty("seed", "N/A");
+                }
+            } else {
+                world.addProperty("connected", false);
+            }
+
+            sendJson(exchange, 200, world);
+        }
+    }
+
+    // ===== Potions Handler =====
+    private static class PotionsHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+            MinecraftClient mc = MinecraftClient.getInstance();
+            JsonArray potions = new JsonArray();
+
+            if (mc.player != null) {
+                Collection<StatusEffectInstance> effects = mc.player.getStatusEffects();
+                for (StatusEffectInstance effect : effects) {
+                    if (!effect.shouldShowIcon()) continue;
+                    JsonObject potion = new JsonObject();
+                    potion.addProperty("name", effect.getEffectType().value().getName().getString());
+                    potion.addProperty("amplifier", effect.getAmplifier());
+                    potion.addProperty("level", effect.getAmplifier() + 1);
+                    potion.addProperty("durationTicks", effect.getDuration());
+                    potion.addProperty("durationFormatted", formatDuration(effect.getDuration()));
+                    potion.addProperty("ambient", effect.isAmbient());
+                    potion.addProperty("visible", effect.shouldShowIcon());
+                    potions.add(potion);
+                }
+            }
+
+            sendJson(exchange, 200, potions);
+        }
+    }
+
+    // ===== Server Info Handler =====
+    private class ServerHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+            MinecraftClient mc = MinecraftClient.getInstance();
+            JsonObject serverInfo = new JsonObject();
+
+            if (mc.getNetworkHandler() != null) {
+                // TPS
+                serverInfo.addProperty("tps", Math.round(tps * 100.0) / 100.0);
+
+                // Ping
+                if (mc.player != null) {
+                    var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
+                    if (entry != null) {
+                        serverInfo.addProperty("ping", entry.getLatency());
+                    }
+                }
+
+                // Server address
+                ServerInfo si = mc.getNetworkHandler().getServerInfo();
+                if (si != null) {
+                    String address = si.address;
+                    if (address.contains(":")) {
+                        String[] parts = address.split(":");
+                        serverInfo.addProperty("ip", parts[0]);
+                        try {
+                            serverInfo.addProperty("port", Integer.parseInt(parts[1]));
+                        } catch (NumberFormatException e) {
+                            serverInfo.addProperty("port", 25565);
+                        }
+                    } else {
+                        serverInfo.addProperty("ip", address);
+                        serverInfo.addProperty("port", 25565);
+                    }
+                }
+
+                // Player count
+                int playerCount = mc.getNetworkHandler().getPlayerList().size();
+                serverInfo.addProperty("players", playerCount);
+
+                // Server brand
+                String brand = mc.getNetworkHandler().getBrand();
+                if (brand != null) {
+                    serverInfo.addProperty("brand", brand);
+                }
+
+                serverInfo.addProperty("connected", true);
+            } else {
+                serverInfo.addProperty("connected", false);
+            }
+
+            sendJson(exchange, 200, serverInfo);
+        }
+    }
+
     /**
      * Server-Sent Events endpoint for real-time log streaming.
      */
-    private static class SSEHandler implements HttpHandler {
+    private class SSEHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             exchange.getResponseHeaders().set("Content-Type", "text/event-stream; charset=utf-8");
@@ -379,6 +580,7 @@ public class NetPanelServer {
                     JsonObject sysInfo = new JsonObject();
                     MinecraftClient mc = MinecraftClient.getInstance();
                     sysInfo.addProperty("fps", mc.getCurrentFps());
+                    sysInfo.addProperty("tps", Math.round(tps * 100.0) / 100.0);
                     sysInfo.addProperty("timestamp", System.currentTimeMillis());
                     sysInfo.add("system", getSystemInfo());
                     String data = GSON.toJson(sysInfo);
@@ -450,5 +652,20 @@ public class NetPanelServer {
             if (path.endsWith(".json")) return "application/json";
             return "text/plain";
         }
+    }
+
+    // ===== Utility methods =====
+
+    private static String capitalize(String str) {
+        if (str == null || str.isEmpty()) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    private static String formatDuration(int ticks) {
+        if (ticks == -1) return "∞";
+        int totalSeconds = ticks / 20;
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

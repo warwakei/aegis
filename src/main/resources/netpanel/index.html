@@ -8,66 +8,30 @@
 </head>
 <body>
     <div id="app">
-        <!-- Top Menu Bar (VSCode style) -->
-        <nav id="menu-bar">
-            <div class="menu-item" data-menu="file">
-                <span>File</span>
-                <div class="dropdown" id="menu-file">
-                    <div class="dropdown-item" data-action="new-file">📄 New File</div>
-                    <div class="dropdown-item" data-action="new-folder">📁 New Folder</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="open-folder">📂 Open Folder</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="save">💾 Save</div>
-                    <div class="dropdown-item" data-action="save-as">💾 Save As...</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="download-url">⬇️ Download from URL</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="refresh">🔄 Refresh</div>
-                </div>
-            </div>
-            <div class="menu-item" data-menu="edit">
-                <span>Edit</span>
-                <div class="dropdown" id="menu-edit">
-                    <div class="dropdown-item" data-action="undo">↩️ Undo</div>
-                    <div class="dropdown-item" data-action="redo">↪️ Redo</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="cut">✂️ Cut</div>
-                    <div class="dropdown-item" data-action="copy">📋 Copy</div>
-                    <div class="dropdown-item" data-action="paste">📌 Paste</div>
-                    <div class="dropdown-item" data-action="delete">🗑️ Delete</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="select-all">☑️ Select All</div>
-                    <div class="dropdown-item" data-action="find">🔍 Find</div>
-                </div>
-            </div>
-            <div class="menu-item" data-menu="view">
-                <span>View</span>
-                <div class="dropdown" id="menu-view">
-                    <div class="dropdown-item" data-action="toggle-console">📟 Console</div>
-                    <div class="dropdown-item" data-action="toggle-chat">💬 Chat</div>
-                    <div class="dropdown-item" data-action="toggle-status">⚙ Status</div>
-                    <div class="dropdown-item" data-action="toggle-filemanager">📁 File Manager</div>
-                    <div class="dropdown-item" data-action="toggle-settings">⚙ Settings</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="lock-panels">🔒 Lock Panels</div>
-                    <div class="dropdown-item" data-action="unlock-panels">🔓 Unlock Panels</div>
-                    <div class="dropdown-separator"></div>
-                    <div class="dropdown-item" data-action="clear-logs">🧹 Clear Logs</div>
-                </div>
-            </div>
-            <div class="menu-item" data-menu="help">
-                <span>Help</span>
-                <div class="dropdown" id="menu-help">
-                    <div class="dropdown-item" data-action="about">ℹ️ About NetPanel</div>
-                    <div class="dropdown-item" data-action="shortcuts">⌨️ Keyboard Shortcuts</div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Header -->
+        <!-- Unified Header -->
         <header id="header">
             <div class="header-left">
+                <div class="menu-item" id="menu-view-btn">
+                    <span>View</span>
+                    <div class="dropdown" id="menu-view">
+                        <div class="dropdown-item" data-action="toggle-console">📟 Console</div>
+                        <div class="dropdown-item" data-action="toggle-chat">💬 Chat</div>
+                        <div class="dropdown-item" data-action="toggle-status">⚙ Status</div>
+                        <div class="dropdown-item" data-action="toggle-world">🌍 World</div>
+                        <div class="dropdown-item" data-action="toggle-potions">🧪 Potions</div>
+                        <div class="dropdown-item" data-action="toggle-server">🖥 Server</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-item" data-action="lock-panels">🔒 Lock Panels</div>
+                        <div class="dropdown-item" data-action="unlock-panels">🔓 Unlock Panels</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-item" data-action="clear-logs">🧹 Clear Logs</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-item" data-action="strip-chat-tag" id="menu-strip-chat">✂️ Strip [CHAT]</div>
+                        <div class="dropdown-item" data-action="short-time" id="menu-short-time">🕐 Short Time (HH:MM)</div>
+                        <div class="dropdown-item" data-action="strip-recv" id="menu-strip-recv">🚫 Strip RECV</div>
+                    </div>
+                </div>
+                <span class="separator">│</span>
                 <span class="logo">AEGIS</span><span class="logo-sub">NEO</span>
                 <span class="separator">│</span>
                 <span class="title">NetPanel</span>
@@ -88,7 +52,7 @@
 
         <!-- Main Grid -->
         <main id="main-grid">
-            <!-- Console Panel -->
+            <!-- Console Panel (hidden by default) -->
             <div class="panel panel-draggable hidden" id="panel-console">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
@@ -96,7 +60,6 @@
                     <span class="panel-count" id="console-count">0</span>
                     <span class="panel-controls">
                         <span class="panel-ctrl-btn" data-action="lock">🔓</span>
-                        <span class="panel-ctrl-btn" data-action="resize">⤡</span>
                     </span>
                 </div>
                 <div class="panel-body" id="console-log"></div>
@@ -111,7 +74,6 @@
                     <span class="panel-count" id="chat-count">0</span>
                     <span class="panel-controls">
                         <span class="panel-ctrl-btn" data-action="lock">🔓</span>
-                        <span class="panel-ctrl-btn" data-action="resize">⤡</span>
                     </span>
                 </div>
                 <div class="panel-body" id="chat-log"></div>
@@ -129,114 +91,48 @@
                     <span class="panel-title">⚙ Status</span>
                     <span class="panel-controls">
                         <span class="panel-ctrl-btn" data-action="lock">🔓</span>
-                        <span class="panel-ctrl-btn" data-action="resize">⤡</span>
                     </span>
                 </div>
                 <div class="panel-body" id="system-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
 
-            <!-- File Manager Panel -->
-            <div class="panel panel-draggable hidden" id="panel-filemanager">
+            <!-- World Info Panel (hidden by default) -->
+            <div class="panel panel-draggable hidden" id="panel-world">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
-                    <span class="panel-title">📁 File Manager</span>
+                    <span class="panel-title">🌍 World</span>
                     <span class="panel-controls">
                         <span class="panel-ctrl-btn" data-action="lock">🔓</span>
-                        <span class="panel-ctrl-btn" data-action="resize">⤡</span>
                     </span>
                 </div>
-                <div class="filemanager-toolbar">
-                    <button class="fm-btn" data-action="up">⬆️</button>
-                    <button class="fm-btn" data-action="refresh">🔄</button>
-                    <button class="fm-btn" data-action="new-file">📄</button>
-                    <button class="fm-btn" data-action="new-folder">📁</button>
-                    <button class="fm-btn" data-action="upload-url">⬇️</button>
-                    <span class="fm-path" id="fm-current-path">/</span>
-                </div>
-                <div class="panel-body" id="fm-file-list"></div>
+                <div class="panel-body" id="world-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
 
-            <!-- Settings Panel -->
-            <div class="panel panel-draggable hidden" id="panel-settings">
+            <!-- Potions Panel (hidden by default) -->
+            <div class="panel panel-draggable hidden" id="panel-potions">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
-                    <span class="panel-title">⚙ Settings</span>
+                    <span class="panel-title">🧪 Potions</span>
                     <span class="panel-controls">
                         <span class="panel-ctrl-btn" data-action="lock">🔓</span>
-                        <span class="panel-ctrl-btn" data-action="resize">⤡</span>
                     </span>
                 </div>
-                <div class="panel-body settings-body" id="settings-content">
-                    <!-- About Section (Mac OS style) -->
-                    <div class="settings-section" id="settings-about">
-                        <div class="about-macos">
-                            <div class="about-logo">
-                                <span class="about-icon">🛡️</span>
-                                <h1>AegisNeo</h1>
-                                <p class="about-version">NetPanel v2.0</p>
-                            </div>
-                            <div class="about-info">
-                                <p>Advanced monitoring &amp; file management system</p>
-                                <p class="about-copyright">© 2025 AegisNeo. All rights reserved.</p>
-                            </div>
-                            <div class="about-specs">
-                                <div class="spec-row"><span class="spec-label">Java</span><span class="spec-value" id="about-java">--</span></div>
-                                <div class="spec-row"><span class="spec-label">OS</span><span class="spec-value" id="about-os">--</span></div>
-                                <div class="spec-row"><span class="spec-label">Uptime</span><span class="spec-value" id="about-uptime">--</span></div>
-                                <div class="spec-row"><span class="spec-label">Threads</span><span class="spec-value" id="about-threads">--</span></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-body" id="potions-info"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
 
-                    <!-- Appearance Section -->
-                    <div class="settings-section" id="settings-appearance">
-                        <h3 class="settings-section-title">🎨 Appearance</h3>
-                        <div class="setting-row">
-                            <label>Theme</label>
-                            <select id="setting-theme" class="setting-select">
-                                <option value="dark">Dark</option>
-                                <option value="light">Light</option>
-                                <option value="amoled">AMOLED</option>
-                                <option value="nord">Nord</option>
-                            </select>
-                        </div>
-                        <div class="setting-row">
-                            <label>Accent Color</label>
-                            <input type="color" id="setting-accent" class="setting-color" value="#58a6ff">
-                        </div>
-                        <div class="setting-row">
-                            <label>Scale</label>
-                            <input type="range" id="setting-scale" class="setting-range" min="0.5" max="2" step="0.1" value="1">
-                            <span id="scale-value" class="setting-value-display">1.0x</span>
-                        </div>
-                        <div class="setting-row">
-                            <label>Font Size</label>
-                            <input type="range" id="setting-fontsize" class="setting-range" min="10" max="20" step="1" value="12">
-                            <span id="fontsize-value" class="setting-value-display">12px</span>
-                        </div>
-                        <div class="setting-row">
-                            <label>Compact Mode</label>
-                            <input type="checkbox" id="setting-compact" class="setting-checkbox">
-                        </div>
-                    </div>
-
-                    <!-- Users Section -->
-                    <div class="settings-section" id="settings-users">
-                        <h3 class="settings-section-title">👥 Users</h3>
-                        <div class="users-list" id="users-list"></div>
-                        <div class="user-add-form">
-                            <input type="text" id="new-user-name" placeholder="Username" class="setting-input">
-                            <select id="new-user-role" class="setting-select">
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                            <input type="color" id="new-user-color" class="setting-color" value="#58a6ff">
-                            <button id="add-user-btn" class="fm-btn">+ Add</button>
-                        </div>
-                    </div>
+            <!-- Server Info Panel (hidden by default) -->
+            <div class="panel panel-draggable hidden" id="panel-server">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">🖥 Server</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                    </span>
                 </div>
+                <div class="panel-body" id="server-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
         </main>
@@ -246,8 +142,6 @@
             <span class="footer-item">F1 — Console</span>
             <span class="footer-item">F2 — Chat</span>
             <span class="footer-item">F3 — Status</span>
-            <span class="footer-item">F4 — File Manager</span>
-            <span class="footer-item">F5 — Settings</span>
             <span class="footer-item">ESC — Clear</span>
         </footer>
     </div>
