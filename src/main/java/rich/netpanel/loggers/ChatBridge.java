@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient;
  */
 public class ChatBridge {
 
-    private static final LogBuffer BUFFER = new LogBuffer(800);
+    private static final LogBuffer BUFFER = new LogBuffer(10000);
 
     /**
      * Send a chat message to the server.

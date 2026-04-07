@@ -14,21 +14,21 @@
                 <div class="menu-item" id="menu-view-btn">
                     <span>View</span>
                     <div class="dropdown" id="menu-view">
-                        <div class="dropdown-item" data-action="toggle-console">📟 Console</div>
-                        <div class="dropdown-item" data-action="toggle-chat">💬 Chat</div>
+                        <div class="dropdown-item" data-action="toggle-console">Console</div>
+                        <div class="dropdown-item" data-action="toggle-chat">Chat</div>
                         <div class="dropdown-item" data-action="toggle-status">⚙ Status</div>
-                        <div class="dropdown-item" data-action="toggle-world">🌍 World</div>
-                        <div class="dropdown-item" data-action="toggle-potions">🧪 Potions</div>
-                        <div class="dropdown-item" data-action="toggle-server">🖥 Server</div>
+                        <div class="dropdown-item" data-action="toggle-world">World</div>
+                        <div class="dropdown-item" data-action="toggle-potions">Potions</div>
+                        <div class="dropdown-item" data-action="toggle-server">Server</div>
                         <div class="dropdown-separator"></div>
-                        <div class="dropdown-item" data-action="lock-panels">🔒 Lock Panels</div>
-                        <div class="dropdown-item" data-action="unlock-panels">🔓 Unlock Panels</div>
+                        <div class="dropdown-item" data-action="lock-panels">🔒Lock Panels</div>
+                        <div class="dropdown-item" data-action="unlock-panels">🔓Unlock Panels</div>
                         <div class="dropdown-separator"></div>
-                        <div class="dropdown-item" data-action="clear-logs">🧹 Clear Logs</div>
+                        <div class="dropdown-item" data-action="clear-logs">Clear Logs</div>
                         <div class="dropdown-separator"></div>
-                        <div class="dropdown-item" data-action="strip-chat-tag" id="menu-strip-chat">✂️ Strip [CHAT]</div>
-                        <div class="dropdown-item" data-action="short-time" id="menu-short-time">🕐 Short Time (HH:MM)</div>
-                        <div class="dropdown-item" data-action="strip-recv" id="menu-strip-recv">🚫 Strip RECV</div>
+                        <div class="dropdown-item" data-action="strip-chat-tag" id="menu-strip-chat">Strip [CHAT]</div>
+                        <div class="dropdown-item" data-action="short-time" id="menu-short-time">Short Time (HH:MM)</div>
+                        <div class="dropdown-item" data-action="strip-recv" id="menu-strip-recv">Strip RECV</div>
                     </div>
                 </div>
                 <span class="separator">│</span>
@@ -78,6 +78,7 @@
                 </div>
                 <div class="panel-body" id="chat-log"></div>
                 <div class="chat-input-area">
+                    <button id="chat-global-btn" title="Toggle global chat (!)">Ⓖ</button>
                     <input type="text" id="chat-input" placeholder="Type message..." autocomplete="off">
                     <button id="chat-send-btn">Send</button>
                 </div>

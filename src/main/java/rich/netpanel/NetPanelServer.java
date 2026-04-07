@@ -327,7 +327,7 @@ public class NetPanelServer {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
-            List<LogBuffer.LogEntry> entries = ChatBridge.getBuffer().getLatest(700);
+            List<LogBuffer.LogEntry> entries = ChatBridge.getBuffer().getLatest(10000);
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
@@ -572,7 +572,7 @@ public class NetPanelServer {
                         lastConsoleSize = cSize;
                     }
                     if (chSize != lastChatSize) {
-                        sendSSEEvent(os, "chat", ChatBridge.getBuffer().getLatest(50));
+                        sendSSEEvent(os, "chat", ChatBridge.getBuffer().getLatest(200));
                         lastChatSize = chSize;
                     }
 

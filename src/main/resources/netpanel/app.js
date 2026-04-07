@@ -8,6 +8,14 @@
         logs: { console: [], chat: [] },
         panels: { console: false, chat: true, status: true, world: false, potions: false, server: false },
         panelsLocked: false,
+        globalChat: false,
+        // Chat history
+        chatHistory: [],
+        chatHistoryIndex: -1,
+        // Nickname autocomplete
+        knownNicks: [],
+        nickMatchIndex: -1,
+        nickMatchPrefix: '',
         // View settings
         stripChatTag: false,
         shortTime: false,
@@ -32,6 +40,7 @@
         dom.chatLog = document.getElementById('chat-log');
         dom.chatInput = document.getElementById('chat-input');
         dom.chatSendBtn = document.getElementById('chat-send-btn');
+        dom.chatGlobalBtn = document.getElementById('chat-global-btn');
         dom.statusText = document.getElementById('status-text');
         dom.fpsDisplay = document.getElementById('fps-display');
         dom.memDisplay = document.getElementById('mem-display');
@@ -58,7 +67,33 @@
 
     function bindEvents() {
         dom.chatSendBtn.addEventListener('click', sendChat);
-        dom.chatInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendChat(); });
+
+        // Chat input: history navigation, autocomplete, send
+        dom.chatInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendChat();
+                return;
+            }
+            // Arrow Up - previous message from history
+            if (e.key === 'ArrowUp' && !e.shiftKey) {
+                e.preventDefault();
+                navigateHistory(-1);
+                return;
+            }
+            // Arrow Down - next message from history
+            if (e.key === 'ArrowDown' && !e.shiftKey) {
+                e.preventDefault();
+                navigateHistory(1);
+                return;
+            }
+            // Tab - nickname autocomplete
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                autocompleteNick();
+                return;
+            }
+        });
 
         // Keyboard shortcuts
         document.addEventListener('keydown', function (e) {
@@ -110,6 +145,12 @@
             } else {
                 hideContextMenu();
             }
+        });
+
+        // Global chat toggle button
+        dom.chatGlobalBtn.addEventListener('click', function () {
+            state.globalChat = !state.globalChat;
+            dom.chatGlobalBtn.classList.toggle('active', state.globalChat);
         });
     }
 
@@ -308,7 +349,29 @@
     function clearAllLogs() {
         state.logs.console = [];
         state.logs.chat = [];
+        state.knownNicks = [];
         renderAll();
+    }
+
+    // Merge existing logs with new entries, avoiding duplicates by timestamp
+    function mergeLogs(existing, newEntries) {
+        if (!newEntries || newEntries.length === 0) return existing;
+        // Build a set of existing timestamps for fast lookup
+        var seen = {};
+        existing.forEach(function (e) {
+            seen[e.timestamp] = true;
+        });
+        // Add only new entries
+        var result = existing.slice();
+        newEntries.forEach(function (e) {
+            if (!seen[e.timestamp]) {
+                result.push(e);
+                seen[e.timestamp] = true;
+            }
+        });
+        // Sort by timestamp just in case
+        result.sort(function (a, b) { return a.timestamp - b.timestamp; });
+        return result;
     }
 
     // ===== CLOCK =====
@@ -328,7 +391,9 @@
 
         state.eventSource.addEventListener('console', function (e) {
             try {
-                state.logs.console = JSON.parse(e.data);
+                var newEntries = JSON.parse(e.data);
+                // Merge: keep existing, add only new ones (by timestamp)
+                state.logs.console = mergeLogs(state.logs.console, newEntries);
                 renderLog(dom.consoleLog, state.logs.console);
                 dom.consoleCount.textContent = state.logs.console.length;
             } catch (err) {}
@@ -336,7 +401,8 @@
 
         state.eventSource.addEventListener('chat', function (e) {
             try {
-                state.logs.chat = JSON.parse(e.data);
+                var newEntries = JSON.parse(e.data);
+                state.logs.chat = mergeLogs(state.logs.chat, newEntries);
                 renderLog(dom.chatLog, state.logs.chat);
                 dom.chatCount.textContent = state.logs.chat.length;
             } catch (err) {}
@@ -372,7 +438,7 @@
     async function loadInitialData() {
         try {
             var results = await Promise.all([
-                fetchJSON('/api/console?limit=200'),
+                fetchJSON('/api/console?limit=2000'),
                 fetchJSON('/api/chat'),
                 fetchJSON('/api/status')
             ]);
@@ -528,6 +594,8 @@
         renderLog(dom.chatLog, state.logs.chat);
         dom.consoleCount.textContent = state.logs.console.length;
         dom.chatCount.textContent = state.logs.chat.length;
+        // Re-extract nicknames when chat updates
+        extractNicksFromChat();
     }
 
     function renderLog(container, entries) {
@@ -536,7 +604,7 @@
             return;
         }
         var html = '';
-        var start = Math.max(0, entries.length - 700);
+        var start = Math.max(0, entries.length - 5000);
         for (var i = start; i < entries.length; i++) {
             var entry = entries[i];
             var time = formatTime(entry.timestamp);
@@ -558,11 +626,15 @@
     }
 
     function processMessage(msg, level) {
-        // If it's a CHAT level message, strip the [CHAT] prefix for display
-        if (level === 'CHAT' && state.stripChatTag) {
+        // Strip [CHAT] prefix if setting is on (for both RECV and CHAT levels)
+        if (state.stripChatTag && (level === 'CHAT' || level === 'RECV')) {
             msg = msg.replace(/^\[CHAT\]\s*/i, '');
         }
-        return formatMinecraftColors(escapeHtml(msg));
+        msg = formatMinecraftColors(escapeHtml(msg));
+        // Highlight rank symbols: Ⓖ bright yellow bold, Ⓛ bright green bold
+        msg = msg.replace(/Ⓖ/g, '<span class="rank-G">Ⓖ</span>');
+        msg = msg.replace(/Ⓛ/g, '<span class="rank-L">Ⓛ</span>');
+        return msg;
     }
 
     function formatTime(ts) {
@@ -602,10 +674,135 @@
         return result;
     }
 
+    // ===== CHAT HISTORY =====
+    function navigateHistory(direction) {
+        if (state.chatHistory.length === 0) return;
+
+        state.chatHistoryIndex += direction;
+
+        // Clamp index
+        if (state.chatHistoryIndex < -1) state.chatHistoryIndex = -1;
+        if (state.chatHistoryIndex >= state.chatHistory.length) {
+            state.chatHistoryIndex = state.chatHistory.length - 1;
+        }
+
+        // -1 means empty input (new message)
+        if (state.chatHistoryIndex === -1) {
+            dom.chatInput.value = '';
+        } else {
+            dom.chatInput.value = state.chatHistory[state.chatHistoryIndex];
+            // Move cursor to end
+            dom.chatInput.setSelectionRange(dom.chatInput.value.length, dom.chatInput.value.length);
+        }
+    }
+
+    // ===== NICKNAME AUTOCOMPLETE =====
+    function autocompleteNick() {
+        var val = dom.chatInput.value;
+        var cursorPos = dom.chatInput.selectionStart;
+        var textBeforeCursor = val.substring(0, cursorPos);
+
+        // Find the last word being typed (before cursor)
+        var lastSpace = textBeforeCursor.lastIndexOf(' ');
+        var currentWord = textBeforeCursor.substring(lastSpace + 1);
+
+        // Extract nicknames from chat logs
+        if (state.knownNicks.length === 0) {
+            extractNicksFromChat();
+        }
+
+        // Filter nicks that start with current word (case-insensitive)
+        var matches = state.knownNicks.filter(function (nick) {
+            return nick.toLowerCase().indexOf(currentWord.toLowerCase()) === 0 && nick.toLowerCase() !== currentWord.toLowerCase();
+        });
+
+        // Remove duplicates
+        var unique = [];
+        var seen = {};
+        matches.forEach(function (n) {
+            var lower = n.toLowerCase();
+            if (!seen[lower]) {
+                seen[lower] = true;
+                unique.push(n);
+            }
+        });
+        matches = unique;
+
+        if (matches.length === 0) {
+            dom.chatInput.classList.remove('autocomplete-active');
+            return;
+        }
+
+        // Cycle through matches
+        state.nickMatchIndex = (state.nickMatchIndex + 1) % matches.length;
+
+        // If prefix changed, reset index
+        if (state.nickMatchPrefix !== currentWord.toLowerCase()) {
+            state.nickMatchPrefix = currentWord.toLowerCase();
+            state.nickMatchIndex = 0;
+        }
+
+        var selectedNick = matches[state.nickMatchIndex];
+
+        // Auto-capitalize: if original word was all uppercase, make nick uppercase
+        if (currentWord === currentWord.toUpperCase() && currentWord.length > 1) {
+            selectedNick = selectedNick.toUpperCase();
+        }
+
+        // Replace the word with the selected nick
+        var newText = textBeforeCursor.substring(0, lastSpace + 1) + selectedNick + val.substring(cursorPos);
+        dom.chatInput.value = newText;
+
+        // Visual feedback
+        dom.chatInput.classList.add('autocomplete-active');
+        setTimeout(function () { dom.chatInput.classList.remove('autocomplete-active'); }, 300);
+
+        // Move cursor after the inserted nick
+        var newPos = lastSpace + 1 + selectedNick.length;
+        dom.chatInput.setSelectionRange(newPos, newPos);
+    }
+
+    function extractNicksFromChat() {
+        var nickSet = {};
+        // Extract from RECV entries: [nickname] message
+        state.logs.chat.forEach(function (entry) {
+            var msg = entry.message || '';
+            // Match pattern: [nickname] followed by arrow/space
+            // Handles: [Nick] ➯ msg, [Nick] → msg, [Nick] msg
+            var regex = /\]([^\]]+)\s*[\u2794\u2192\u203A\u00BB]/;
+            var matches = msg.match(regex);
+            if (matches) {
+                var nick = matches[1].trim();
+                if (nick.length > 1 && nick.length < 20) {
+                    // Store original case version
+                    nickSet[nick.toLowerCase()] = nick;
+                }
+            }
+        });
+        state.knownNicks = Object.values(nickSet).sort();
+    }
+
     // ===== CHAT =====
     async function sendChat() {
         var msg = dom.chatInput.value.trim();
         if (!msg) return;
+
+        // Save to history (avoid duplicates of last message)
+        if (state.chatHistory.length === 0 || state.chatHistory[state.chatHistory.length - 1] !== msg) {
+            state.chatHistory.push(msg);
+            // Keep last 50 messages
+            if (state.chatHistory.length > 50) state.chatHistory.shift();
+        }
+        state.chatHistoryIndex = -1;
+
+        // Reset autocomplete state
+        state.nickMatchIndex = -1;
+        state.nickMatchPrefix = '';
+
+        // Prepend "!" for global chat if toggle is on
+        if (state.globalChat && !msg.startsWith('!')) {
+            msg = '!' + msg;
+        }
         try {
             var res = await fetch('/api/chat/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg }) });
             var data = await res.json();

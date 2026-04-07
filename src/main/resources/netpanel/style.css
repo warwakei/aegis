@@ -394,6 +394,17 @@ body {
     color: var(--text-primary);
 }
 
+/* Rank symbols in chat */
+.rank-G {
+    color: #ffff00;
+    font-weight: 900;
+}
+
+.rank-L {
+    color: #00ff00;
+    font-weight: 900;
+}
+
 /* Chat panel font size - slightly larger */
 #panel-chat .panel-body {
     font-size: 14px;
@@ -419,6 +430,33 @@ body {
     padding: 6px 8px;
     border-top: 1px solid var(--border-color);
     background: var(--bg-panel-header);
+    align-items: center;
+}
+
+#chat-global-btn {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    color: var(--text-dim);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+#chat-global-btn:hover {
+    border-color: var(--accent-yellow);
+    color: var(--accent-yellow);
+}
+
+#chat-global-btn.active {
+    border-color: #ffff00;
+    color: #ffff00;
+    background: rgba(255, 255, 0, 0.1);
+    text-shadow: 0 0 8px #ffff00;
 }
 
 #chat-input {
@@ -440,6 +478,12 @@ body {
 
 #chat-input::placeholder {
     color: var(--text-dim);
+}
+
+/* Autocomplete hint */
+#chat-input.autocomplete-active {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 0 1px var(--accent-cyan);
 }
 
 #chat-send-btn {
