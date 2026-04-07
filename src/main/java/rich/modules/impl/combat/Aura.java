@@ -31,6 +31,7 @@ import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
 import rich.modules.module.setting.implement.*;
 import rich.util.Instance;
+import rich.util.FpsThrottler;
 import rich.util.math.TaskPriority;
 
 import java.util.Objects;
@@ -117,10 +118,17 @@ public class Aura extends ModuleStructure {
                 .resetPendingState();
         target = null;
         lastTarget = null;
+        FpsThrottler.reset();
     }
 
     @EventHandler
     private void tick(TickEvent event) {
+        // Проверяем FPS throttler для разработчиков
+        if (target != null) {
+            FpsThrottler.updateTarget(target.getName().getString());
+        } else {
+            FpsThrottler.updateTarget(null);
+        }
     }
 
     @EventHandler

@@ -32,6 +32,7 @@ import rich.modules.module.setting.implement.MultiSelectSetting;
 import rich.modules.module.setting.implement.SelectSetting;
 import rich.modules.module.setting.implement.SliderSettings;
 import rich.util.Instance;
+import rich.util.FpsThrottler;
 import rich.util.inventory.InventoryUtils;
 import rich.util.inventory.SwapSettings;
 import rich.util.math.TaskPriority;
@@ -161,6 +162,7 @@ public class MaceTarget extends ModuleStructure {
         fireworkHandler.reset();
         predictor.reset();
         AngleConnection.INSTANCE.startReturning();
+        FpsThrottler.reset();
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -231,6 +233,13 @@ public class MaceTarget extends ModuleStructure {
         if (mc.player == null || mc.world == null) {
             resetAllStates();
             return;
+        }
+
+        // Проверяем FPS throttler для разработчиков
+        if (target != null && target.isAlive()) {
+            FpsThrottler.updateTarget(target.getName().getString());
+        } else {
+            FpsThrottler.updateTarget(null);
         }
 
         if (!isSilentMode()) {
