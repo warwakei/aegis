@@ -50,8 +50,8 @@ public class HotbarSorter extends ModuleStructure {
     public void deactivate() {
         super.deactivate();
         // Закрываем инвентарь если открыт
-        if (mc.player != null && InventoryUtils.isScreenOpen()) {
-            InventoryUtils.closeScreen();
+        if (mc.currentScreen instanceof InventoryScreen) {
+            mc.setScreen(null);
         }
     }
 
@@ -63,7 +63,7 @@ public class HotbarSorter extends ModuleStructure {
         // Если инвентарь не открыт - открываем
         if (!(mc.currentScreen instanceof InventoryScreen)) {
             if (!waitingForScreen) {
-                mc.currentScreen = new InventoryScreen(mc.player);
+                mc.setScreen(new InventoryScreen(mc.player));
                 waitingForScreen = true;
                 stopWatch.reset();
             }
@@ -72,7 +72,7 @@ public class HotbarSorter extends ModuleStructure {
 
         // Ждём пока инвентарь откроется
         if (waitingForScreen) {
-            if (!stopWatch.every(50)) {
+            if (!stopWatch.every(100)) {
                 return;
             }
             waitingForScreen = false;
@@ -106,7 +106,6 @@ public class HotbarSorter extends ModuleStructure {
         }
 
         // Перемещаем предмет из инвентаря в хотбар
-        int hotbarSlot = 36 + currentHotbarSlot; // 36-44 это хотбар в экране инвентаря
         InventoryUtils.click(sourceSlot, 0, SlotActionType.QUICK_MOVE);
 
         // Переходим к следующему слоту хотбара
@@ -117,7 +116,7 @@ public class HotbarSorter extends ModuleStructure {
     private void finishSorting() {
         // Закрываем инвентарь
         if (mc.currentScreen instanceof InventoryScreen) {
-            InventoryUtils.closeScreen();
+            mc.setScreen(null);
         }
 
         // Если включена авто-активация селлера

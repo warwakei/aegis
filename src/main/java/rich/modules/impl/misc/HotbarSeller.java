@@ -58,7 +58,8 @@ public class HotbarSeller extends ModuleStructure {
     public void onTick(TickEvent e) {
         if (mc.player == null || mc.world == null) return;
 
-        if (currentSlot >= 9) {
+        // Проверяем что все слоты проданы (0-8 = 9 слотов)
+        if (currentSlot > 8) {
             // Закончили все слоты хотбара
             finishSelling();
             return;
@@ -68,7 +69,7 @@ public class HotbarSeller extends ModuleStructure {
             return;
         }
 
-        // Устанавливаем текущий слот
+        // Устанавливаем текущий слот (0-8)
         mc.player.getInventory().setSelectedSlot(currentSlot);
         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(currentSlot));
 
