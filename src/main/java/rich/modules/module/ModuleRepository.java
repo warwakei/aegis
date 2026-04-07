@@ -106,6 +106,8 @@ public class ModuleRepository {
                 .add(new JenroCasino())
                 .add(new JenroChatGame())
                 .add(new JenroClanFarm())
+                .add(new HotbarSeller())
+                .add(new HotbarSorter())
                 .add(new FunnyGameMoneyFarm())
                 .add(new AutoBuy())
                 .hidden(new AutoParser());
