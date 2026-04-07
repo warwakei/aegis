@@ -267,9 +267,7 @@ public class MainMenuScreen extends Screen {
         drawBackground(currentZoom);
         if (mainAlpha > 0.01f) renderMainMenuContent(fixedWidth, fixedHeight, scaledMouseX, scaledMouseY, menuProgress, mainAlpha, unlockTextAlpha, currentTime);
         if (altAlpha > 0.01f) renderAltScreenContent(fixedWidth, fixedHeight, scaledMouseX, scaledMouseY, altAlpha, currentTime);
-        Render2D.blur(scaledMouseX, scaledMouseY, 1, 1, BLUR_RADIUS, 1, new Color(128, 128, 128, 0).getRGB());
         Fonts.TEST.drawCentered(Version.NAME + " © All Rights Reserved", fixedWidth / 2f, fixedHeight - 6, 5f, new Color(128, 128, 128, 128).getRGB());
-        Render2D.blur(scaledMouseX, scaledMouseY, 1, 1, BLUR_RADIUS, 1, new Color(128, 128, 128, 0).getRGB());
         Render2D.endOverlay();
     }
 
@@ -455,10 +453,10 @@ public class MainMenuScreen extends Screen {
                 client.setScreen(new net.minecraft.client.gui.screen.world.SelectWorldScreen(this)); break;
             case 1: // Multiplayer
                 client.setScreen(new MultiplayerScreen(this)); break;
-            case 2: // Settings - открываем TitleScreen (ванильное поведение)
-                client.setScreen(new net.minecraft.client.gui.screen.TitleScreen()); break;
-            case 3: // AltManager (пользователь)
+            case 2: // AltManager (пользователь)
                 switchToView(View.ALT_SCREEN); break;
+            case 3: // Settings - открываем TitleScreen (ванильное поведение)
+                client.setScreen(new net.minecraft.client.gui.screen.TitleScreen()); break;
             case 4: // Exit
                 client.scheduleStop(); break;
         }
