@@ -172,7 +172,7 @@ public class AutoBuy extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void handleServerSwitchCommand() {
         String switchCmd = network.pollServerSwitch();
-        if (switchCmd != null) {
+        if (switchCmd != null && mc.player != null && mc.getNetworkHandler() != null) {
             msg("§e[ПРОВЕРЯЮЩИЙ] Переключаюсь на сервер: " + switchCmd);
             mc.player.networkHandler.sendChatCommand(switchCmd.substring(1));
             serverManager.setWaitingForServerLoad(true);
@@ -227,7 +227,7 @@ public class AutoBuy extends ModuleStructure {
             }
         }
 
-        if (ahOpenTimer.hasTimeElapsed(11000)) {
+        if (ahOpenTimer.hasTimeElapsed(11000) && mc.player != null && mc.getNetworkHandler() != null) {
             mc.player.networkHandler.sendChatCommand("ah");
             ahOpenTimer.resetCounter();
         }
@@ -463,7 +463,8 @@ public class AutoBuy extends ModuleStructure {
     }
 
     private void msg(String text) {
-        if (notifications.isValue() && mc.player != null) {
+        if (notifications.isValue() && mc.player != null && mc.getNetworkHandler() != null) {
+            mc.player.sendMessage(net.minecraft.text.Text.literal(text), false);
         }
     }
 

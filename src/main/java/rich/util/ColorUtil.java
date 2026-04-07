@@ -477,11 +477,18 @@ public class ColorUtil {
         return new int[]{color, color, color, color, color, color, color, color};
     }
 
-    public int rainbow(int speed, int index, float saturation, float brightness, float opacity) {
+    public static int rainbow(int speed, int index, float saturation, float brightness, float opacity) {
         int angle = (int) ((System.currentTimeMillis() / speed + index) % 360);
         float hue = angle / 360f;
         int color = Color.HSBtoRGB(hue, saturation, brightness);
-        return getColor(red(color), green(color), blue(color), Math.round(opacity * 255));
+        int red = (color >> 16) & 0xFF;
+        int green = (color >> 8) & 0xFF;
+        int blue = color & 0xFF;
+        int alpha = Math.round(opacity * 255);
+        return ((MathHelper.clamp(alpha, 0, 255) << 24) |
+                (MathHelper.clamp(red, 0, 255) << 16) |
+                (MathHelper.clamp(green, 0, 255) << 8) |
+                MathHelper.clamp(blue, 0, 255));
     }
 
     public int fade(int speed, int index, int first, int second) {
@@ -635,5 +642,66 @@ public class ColorUtil {
 
     public int getOutline() {
         return new Color(0x373746).getRGB();
+    }
+
+    public static int createGradientColor(int startColor, int endColor, float progress) {
+        progress = Math.max(0, Math.min(1, progress));
+        
+        int startR = (startColor >> 16) & 0xFF;
+        int startG = (startColor >> 8) & 0xFF;
+        int startB = startColor & 0xFF;
+        int startA = (startColor >> 24) & 0xFF;
+        
+        int endR = (endColor >> 16) & 0xFF;
+        int endG = (endColor >> 8) & 0xFF;
+        int endB = endColor & 0xFF;
+        int endA = (endColor >> 24) & 0xFF;
+        
+        int r = (int)(startR + (endR - startR) * progress);
+        int g = (int)(startG + (endG - startG) * progress);
+        int b = (int)(startB + (endB - startB) * progress);
+        int a = (int)(startA + (endA - startA) * progress);
+        
+        return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
+    public static int[] generateGradientColors(int startColor, int endColor, int steps) {
+        int[] colors = new int[steps];
+        for (int i = 0; i < steps; i++) {
+            float progress = steps > 1 ? (float)i / (steps - 1) : 0;
+            colors[i] = createGradientColor(startColor, endColor, progress);
+        }
+        return colors;
+    }
+
+    public static int brightenColor(int color, float factor) {
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        int a = (color >> 24) & 0xFF;
+        
+        r = Math.min(255, (int)(r * factor));
+        g = Math.min(255, (int)(g * factor));
+        b = Math.min(255, (int)(b * factor));
+        
+        return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
+    public static int darkenColorStatic(int color, float factor) {
+        return brightenColor(color, 1.0f / factor);
+    }
+
+    public static int desaturateColor(int color, float factor) {
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        int a = (color >> 24) & 0xFF;
+        
+        float[] hsb = java.awt.Color.RGBtoHSB(r, g, b, null);
+        hsb[1] *= factor;
+        hsb[1] = Math.max(0, Math.min(1, hsb[1]));
+        
+        int rgb = java.awt.Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+        return (a << 24) | (rgb & 0x00FFFFFF);
     }
 }

@@ -47,6 +47,9 @@ public class AutoTpAccept extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginMutation)
     public void onTick(TickEvent e) {
+        if (mc.player == null || mc.getNetworkHandler() == null) return;
+        
+        // Принимаем tp только если НЕ в PvP и есть запрос
         if (!Network.isPvp() && canAccept) {
             mc.player.networkHandler.sendChatCommand("tpaccept");
             canAccept = false;

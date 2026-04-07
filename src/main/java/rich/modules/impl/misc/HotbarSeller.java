@@ -47,7 +47,7 @@ public class HotbarSeller extends ModuleStructure {
     public void deactivate() {
         super.deactivate();
         // Возвращаем слот обратно
-        if (mc.player != null) {
+        if (mc.player != null && mc.getNetworkHandler() != null) {
             mc.player.getInventory().setSelectedSlot(0);
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(0));
         }
@@ -56,7 +56,10 @@ public class HotbarSeller extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onTick(TickEvent e) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null || mc.getNetworkHandler() == null) {
+            setState(false);
+            return;
+        }
 
         // Проверяем что все слоты проданы (0-8 = 9 слотов)
         if (currentSlot > 8) {

@@ -103,30 +103,38 @@ public class Watermark extends AbstractHudElement {
         }
         setHeight(22);
 
+        float pulse = (float) Math.sin(currentTime * 0.002) * 0.1f + 0.9f;
+        
         Render2D.gradientRect(x, y + 3, totalWidth, 20,
                 new int[]{
-                        new Color(52, 52, 52, 255).getRGB(),
-                        new Color(22, 22, 22, 255).getRGB(),
-                        new Color(52, 52, 52, 255).getRGB(),
-                        new Color(22, 22, 22, 255).getRGB()
+                        new Color(55, 55, 62, 255).getRGB(),
+                        new Color(24, 24, 28, 255).getRGB(),
+                        new Color(50, 50, 58, 255).getRGB(),
+                        new Color(24, 24, 28, 255).getRGB()
                 },
                 5);
 
-        Render2D.outline(x, y + 3, totalWidth, 20, 0.35f, new Color(90, 90, 90, 255).getRGB(), 5);
+        Render2D.outline(x, y + 3, totalWidth, 20, 0.35f, new Color(95, 100, 115, 255).getRGB(), 5);
+
+        float blurSize = 8f;
+        int blurAlpha = 30;
+        Render2D.blur(x, y + 3, totalWidth, 20, blurSize, 5, new Color(20, 25, 40, blurAlpha).getRGB());
 
         float tpsBoxX = x + totalWidth;
 
         if (showTps) {
             Render2D.gradientRect(tpsBoxX, y + 3, tpsBoxWidth, 20,
                     new int[]{
-                            new Color(52, 52, 52, 255).getRGB(),
-                            new Color(22, 22, 22, 255).getRGB(),
-                            new Color(52, 52, 52, 255).getRGB(),
-                            new Color(22, 22, 22, 255).getRGB()
+                            new Color(55, 55, 62, 255).getRGB(),
+                            new Color(24, 24, 28, 255).getRGB(),
+                            new Color(50, 50, 58, 255).getRGB(),
+                            new Color(24, 24, 28, 255).getRGB()
                     },
                     5);
 
-            Render2D.outline(tpsBoxX, y + 3, tpsBoxWidth, 20, 0.35f, new Color(90, 90, 90, 255).getRGB(), 5);
+            Render2D.outline(tpsBoxX, y + 3, tpsBoxWidth, 20, 0.35f, new Color(95, 100, 115, 255).getRGB(), 5);
+            
+            Render2D.blur(tpsBoxX, y + 3, tpsBoxWidth, 20, blurSize, 5, new Color(20, 25, 40, blurAlpha).getRGB());
         }
 
         float textY = y + 7;
@@ -134,50 +142,46 @@ public class Watermark extends AbstractHudElement {
 
         float offsetX = textX + 5;
 
-        // Иконка пользователя - центрируем по вертикали
-        Fonts.CATEGORY_ICONS.draw("d", offsetX, textY + 1.5f, 10, new Color(225, 225, 225, 255).getRGB());
+        Fonts.CATEGORY_ICONS.draw("d", offsetX, textY + 1.5f, 10, new Color(230, 235, 245, 255).getRGB());
         offsetX += 12;
 
         Fonts.BOLD.draw(username, offsetX, textY + 3, 6, new Color(255, 255, 255, 255).getRGB());
         offsetX += usernameWidth + 5;
 
-        Fonts.TEST.draw("»", offsetX, textY + 1.5f, 8, new Color(155, 155, 155, 255).getRGB());
+        Fonts.TEST.draw("»", offsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
         offsetX += 12;
 
-        // Иконка FPS
-        Fonts.CATEGORY_ICONS.draw("b", offsetX, textY + 2.5f, 9, new Color(225, 225, 225, 255).getRGB());
+        Fonts.CATEGORY_ICONS.draw("b", offsetX, textY + 2.5f, 9, new Color(230, 235, 245, 255).getRGB());
         offsetX += 12;
 
         float fpsOffsetX = offsetX;
         drawAnimatedTextPerChar(fpsNumber, oldFps, fpsOffsetX, textY + 3, 6, fpsAnimation);
         offsetX += fpsNumberWidth + 2;
 
-        Fonts.BOLD.draw(fpsText, offsetX, textY + 3, 6, new Color(155, 155, 155, 255).getRGB());
+        Fonts.BOLD.draw(fpsText, offsetX, textY + 3, 6, new Color(160, 170, 190, 255).getRGB());
         offsetX += fpsTextWidth + 5;
 
-        Fonts.TEST.draw("»", offsetX, textY + 1.5f, 8, new Color(155, 155, 155, 255).getRGB());
+        Fonts.TEST.draw("»", offsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
         offsetX += 12;
 
-        // Иконка времени
-        Fonts.CATEGORY_ICONS.draw("n", offsetX, textY + 2.5f, 9, new Color(225, 225, 225, 255).getRGB());
+        Fonts.CATEGORY_ICONS.draw("n", offsetX, textY + 2.5f, 9, new Color(230, 235, 245, 255).getRGB());
         offsetX += 12;
 
         float timeOffsetX = offsetX;
         drawAnimatedTextPerChar(time, oldTime, timeOffsetX, textY + 3, 6, timeAnimation);
 
         if (showTps) {
-            // Иконка TPS - центрируем
-            Fonts.ICONSTYPETHO.draw("t", tpsBoxX + 5, textY + 0.5f, 12, new Color(225, 225, 225, 255).getRGB());
+            Fonts.ICONSTYPETHO.draw("t", tpsBoxX + 5, textY + 0.5f, 12, new Color(230, 235, 245, 255).getRGB());
 
             float tpsOffsetX = tpsBoxX + 19;
 
-            Fonts.TEST.draw("»", tpsOffsetX, textY + 1.5f, 8, new Color(155, 155, 155, 255).getRGB());
+            Fonts.TEST.draw("»", tpsOffsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
             tpsOffsetX += 8;
 
             drawAnimatedTextPerChar(tpsNumber, oldTps, tpsOffsetX, textY + 3, 6, tpsAnimation);
             tpsOffsetX += tpsNumberWidth + 2;
 
-            Fonts.BOLD.draw(tpsText, tpsOffsetX, textY + 3, 6, new Color(155, 155, 155, 255).getRGB());
+            Fonts.BOLD.draw(tpsText, tpsOffsetX, textY + 3, 6, new Color(160, 170, 190, 255).getRGB());
         }
     }
 

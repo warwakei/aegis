@@ -1,6 +1,7 @@
 package rich.screens.clickgui.impl.background.render;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.math.MathHelper;
 import rich.util.render.Render2D;
 import rich.util.render.font.Fonts;
 
@@ -10,15 +11,47 @@ public class BackgroundRenderer {
 
     public void render(DrawContext context, float bgX, float bgY, float alphaMultiplier) {
         int baseAlpha = (int) (255 * alphaMultiplier);
+        
+        long currentTime = System.currentTimeMillis();
+        float pulse = (float) Math.sin(currentTime * 0.0015) * 0.1f + 0.9f;
+        
+        int r1 = (int)(26 * pulse);
+        int g1 = (int)(26 * pulse);
+        int b1 = (int)(30 * pulse);
+        
+        int r2 = (int)(5 * pulse);
+        int g2 = (int)(5 * pulse);
+        int b2 = (int)(8 * pulse);
+        
         int[] gradientColors = {
-                new Color(26, 26, 26, baseAlpha).getRGB(),
-                new Color(0, 0, 0, baseAlpha).getRGB(),
-                new Color(26, 26, 26, baseAlpha).getRGB(),
-                new Color(0, 0, 0, baseAlpha).getRGB(),
-                new Color(26, 26, 20, baseAlpha).getRGB()
+                new Color(r1 + 4, g1 + 4, b1 + 6, baseAlpha).getRGB(),
+                new Color(r2, g2, b2, baseAlpha).getRGB(),
+                new Color(r1, g1, b1, baseAlpha).getRGB(),
+                new Color(r2 + 3, g2 + 3, b2 + 5, baseAlpha).getRGB(),
+                new Color(r1 + 2, g1 + 2, b1 + 3, baseAlpha).getRGB()
         };
 
         Render2D.gradientRect(bgX, bgY, 400, 250, gradientColors, 15);
+        
+        float edgeGlowSize = 2f;
+        int edgeAlpha = (int)(15 * alphaMultiplier);
+        int edgeColor = new Color(60, 80, 120, edgeAlpha).getRGB();
+        
+        Render2D.gradientRect(bgX, bgY, 400, edgeGlowSize,
+                new int[]{
+                        new Color(60, 80, 120, 0).getRGB(),
+                        edgeColor,
+                        edgeColor,
+                        new Color(60, 80, 120, 0).getRGB()
+                }, 0);
+        
+        Render2D.gradientRect(bgX, bgY + 250 - edgeGlowSize, 400, edgeGlowSize,
+                new int[]{
+                        new Color(60, 80, 120, 0).getRGB(),
+                        edgeColor,
+                        edgeColor,
+                        new Color(60, 80, 120, 0).getRGB()
+                }, 0);
     }
 
     public void renderCategoryPanel(float bgX, float bgY, float bgHeight, float alphaMultiplier) {

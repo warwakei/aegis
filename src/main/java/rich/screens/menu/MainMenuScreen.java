@@ -256,6 +256,12 @@ public class MainMenuScreen extends Screen {
         Initialization.getInstance().getManager().getRenderCore().getTexturePipeline()
                 .drawTexture(BACKGROUND_TEXTURE, offsetX, offsetY, zoomedWidth, zoomedHeight,
                         0, 0, 1, 1, colors, radii, 1f);
+
+        long currentTime = Util.getMeasuringTimeMs();
+        float pulse = (float) Math.sin(currentTime * 0.001) * 0.5f + 0.5f;
+        int overlayAlpha = (int)(8 + pulse * 5);
+        int overlayColor = withAlpha(0x1a2040, overlayAlpha);
+        Render2D.rect(0, 0, screenWidth, screenHeight, overlayColor, 0);
     }
 
     @Override
@@ -428,13 +434,36 @@ public class MainMenuScreen extends Screen {
         float fontSize = 48f;
         float textHeight = Fonts.BOLD.getHeight(fontSize);
 
-        Fonts.BOLD.drawCentered(timeText, centerX, centerY - textHeight / 2f, fontSize, withAlpha(0xFFFFFF, textAlpha));
+        long currentTime = Util.getMeasuringTimeMs();
+        float timePulse = (float) Math.sin(currentTime * 0.003) * 0.1f + 0.9f;
+        int timeColor = withAlpha(0xFFFFFF, (int)(textAlpha * timePulse));
+        
+        Fonts.BOLD.drawCentered(timeText, centerX, centerY - textHeight / 2f, fontSize, timeColor);
 
         String dateText = java.time.LocalDate.now().format(
                 java.time.format.DateTimeFormatter.ofPattern("EEEE, MMMM d", java.util.Locale.ENGLISH)
         );
-        int dateAlpha = (int) (opacity * 200);
-        Fonts.BOLD.drawCentered(dateText, centerX, centerY + textHeight / 2f + 4, 12f, withAlpha(0xFFFFFF, dateAlpha));
+        int dateAlpha = (int) (opacity * 220);
+        
+        float dateY = centerY + textHeight / 2f + 4;
+        float dateWidth = Fonts.BOLD.getWidth(dateText, 12f);
+        float dateX = centerX - dateWidth / 2f;
+        
+        float lineWidth = dateWidth + 20;
+        float lineHeight = 0.5f;
+        float lineY = dateY - 3f;
+        int lineAlpha = (int)(dateAlpha * 0.4f);
+        int lineColor = withAlpha(0x80a0c0, lineAlpha);
+        
+        Render2D.gradientRect(centerX - lineWidth / 2f, lineY, lineWidth, lineHeight,
+                new int[]{
+                        withAlpha(0x406080, 0),
+                        lineColor,
+                        lineColor,
+                        withAlpha(0x406080, 0)
+                }, 0);
+        
+        Fonts.BOLD.draw(dateText, dateX, dateY, 12f, withAlpha(0xc0d0e0, dateAlpha));
     }
 
     private void renderButtons(float mouseX, float mouseY, float opacity, int screenWidth, int screenHeight, float menuProgress, float extraSlideOffset) {
@@ -470,10 +499,10 @@ public class MainMenuScreen extends Screen {
         float drawY = centerY - halfSize;
         float radius = size / 2f;
 
-        int bgAlpha = (int) (opacity * 120);
-        int headerAlpha = (int) (opacity * (150 + hoverProgress * 50));
-        int outlineAlpha = (int) (opacity * (150 + hoverProgress * 80));
-        int blurAlpha = (int) (opacity * 80);
+        int bgAlpha = (int) (opacity * 140);
+        int headerAlpha = (int) (opacity * (170 + hoverProgress * 60));
+        int outlineAlpha = (int) (opacity * (180 + hoverProgress * 75));
+        int blurAlpha = (int) (opacity * 100);
 
         int bgTopLeft, bgTopRight, bgBottomLeft, bgBottomRight;
         int outlineColor;
@@ -481,40 +510,62 @@ public class MainMenuScreen extends Screen {
 
         if (index == 4) {
             float redLerp = exitButtonRedProgress;
-            int rBg = (int) MathHelper.lerp(redLerp, 0x14, 0x2a);
-            int gBg = (int) MathHelper.lerp(redLerp, 0x17, 0x14);
-            int bBg = (int) MathHelper.lerp(redLerp, 0x1f, 0x14);
+            int rBg = (int) MathHelper.lerp(redLerp, 0x18, 0x30);
+            int gBg = (int) MathHelper.lerp(redLerp, 0x1a, 0x18);
+            int bBg = (int) MathHelper.lerp(redLerp, 0x22, 0x1a);
 
             bgTopLeft = withAlpha((rBg << 16) | (gBg << 8) | bBg, headerAlpha);
-            bgTopRight = withAlpha((rBg + 4 << 16) | (gBg + 4 << 8) | bBg + 5, headerAlpha);
-            bgBottomLeft = withAlpha((rBg - 4 << 16) | (gBg - 4 << 8) | bBg - 5, headerAlpha);
+            bgTopRight = withAlpha((rBg + 6 << 16) | (gBg + 6 << 8) | bBg + 6, headerAlpha);
+            bgBottomLeft = withAlpha((rBg - 6 << 16) | (gBg - 6 << 8) | bBg - 6, headerAlpha);
             bgBottomRight = withAlpha((rBg << 16) | (gBg << 8) | bBg, headerAlpha);
 
-            int outR = (int) MathHelper.lerp(redLerp, 0x25, 0x5a);
-            int outG = (int) MathHelper.lerp(redLerp, 0x2a, 0x3a);
-            int outB = (int) MathHelper.lerp(redLerp, 0x36, 0x3a);
+            int outR = (int) MathHelper.lerp(redLerp, 0x2a, 0x6a);
+            int outG = (int) MathHelper.lerp(redLerp, 0x2e, 0x40);
+            int outB = (int) MathHelper.lerp(redLerp, 0x3a, 0x40);
             outlineColor = withAlpha((outR << 16) | (outG << 8) | outB, outlineAlpha);
 
             int iconR = 255;
-            int iconG = (int) MathHelper.lerp(redLerp, 255, 140);
-            int iconB = (int) MathHelper.lerp(redLerp, 255, 140);
+            int iconG = (int) MathHelper.lerp(redLerp, 255, 150);
+            int iconB = (int) MathHelper.lerp(redLerp, 255, 150);
             iconColor = withAlpha((iconR << 16) | (iconG << 8) | iconB, (int) (opacity * 255));
         } else {
-            bgTopLeft = withAlpha(0x14171f, headerAlpha);
-            bgTopRight = withAlpha(0x181b24, headerAlpha);
-            bgBottomLeft = withAlpha(0x10131a, headerAlpha);
-            bgBottomRight = withAlpha(0x14171f, headerAlpha);
-            outlineColor = withAlpha(0x252a36, outlineAlpha);
-            iconColor = withAlpha(0xFFFFFF, (int) (opacity * 255));
+            long currentTime = Util.getMeasuringTimeMs();
+            float pulse = (float) Math.sin(currentTime * 0.002 + index * 0.5) * 0.15f + 0.85f;
+            
+            int baseR = 0x16 + (int)(hoverProgress * 8);
+            int baseG = 0x19 + (int)(hoverProgress * 8);
+            int baseB = 0x24 + (int)(hoverProgress * 12);
+            
+            bgTopLeft = withAlpha(((baseR + 4) << 16) | ((baseG + 6) << 8) | (baseB + 8), headerAlpha);
+            bgTopRight = withAlpha(((baseR + 8) << 16) | ((baseG + 10) << 8) | (baseB + 12), headerAlpha);
+            bgBottomLeft = withAlpha((baseR << 16) | (baseG << 8) | baseB, headerAlpha);
+            bgBottomRight = withAlpha(((baseR + 4) << 16) | ((baseG + 4) << 8) | (baseB + 4), headerAlpha);
+            
+            int outR = 0x28 + (int)(hoverProgress * 20);
+            int outG = 0x2d + (int)(hoverProgress * 20);
+            int outB = 0x3a + (int)(hoverProgress * 25);
+            outlineColor = withAlpha((outR << 16) | (outG << 8) | outB, outlineAlpha);
+            
+            int iconBright = (int)(200 + hoverProgress * 55);
+            iconColor = withAlpha(0xFFFFFF, (int) (opacity * iconBright * pulse));
         }
 
-        int blurTint = withAlpha(0x060810, blurAlpha);
+        int blurTint = withAlpha(0x080a12, blurAlpha);
         Render2D.blur(drawX, drawY, size, size, BLUR_RADIUS, radius, blurTint);
 
         int[] bgColors = {bgTopLeft, bgTopRight, bgBottomRight, bgBottomLeft};
         Render2D.gradientRect(drawX, drawY, size, size, bgColors, radius);
 
-        Render2D.outline(drawX, drawY, size, size, OUTLINE_THICKNESS, outlineColor, radius);
+        Render2D.outline(drawX, drawY, size, size, OUTLINE_THICKNESS + hoverProgress * 0.5f, outlineColor, radius);
+
+        if (hoverProgress > 0.01f) {
+            float glowSize = size * (1.0f + hoverProgress * 0.15f);
+            float glowX = centerX - glowSize / 2f;
+            float glowY = centerY - glowSize / 2f;
+            int glowAlpha = (int)(opacity * hoverProgress * 40);
+            int glowColor = withAlpha(0x4060a0, glowAlpha);
+            Render2D.blur(glowX, glowY, glowSize, glowSize, BLUR_RADIUS * 1.5f, radius * 1.2f, glowColor);
+        }
 
         float iconSize = 17f * scaleVal;
         String icon = BUTTON_ICONS[index];

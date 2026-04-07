@@ -109,19 +109,31 @@ public class TargetHud extends AbstractHudElement {
     private void drawBackground(float x, float y, float alpha) {
         int alphaInt = (int) (255 * alpha);
 
+        long currentTime = System.currentTimeMillis();
+        float pulse = (float) Math.sin(currentTime * 0.002) * 0.05f + 0.95f;
+
+        int bgR1 = (int)(55 * pulse);
+        int bgG1 = (int)(55 * pulse);
+        int bgB1 = (int)(62 * pulse);
+        
+        int bgR2 = (int)(24 * pulse);
+        int bgG2 = (int)(24 * pulse);
+        int bgB2 = (int)(28 * pulse);
+
         Render2D.gradientRect(x + 2, y + 2, getWidth() - 4, getHeight() - 4,
                 new int[]{
-                        new Color(52, 52, 52, alphaInt).getRGB(),
-                        new Color(22, 22, 22, alphaInt).getRGB(),
-                        new Color(52, 52, 52, alphaInt).getRGB(),
-                        new Color(22, 22, 22, alphaInt).getRGB()
+                        new Color(bgR1 + 3, bgG1 + 3, bgB1 + 5, alphaInt).getRGB(),
+                        new Color(bgR2, bgG2, bgB2, alphaInt).getRGB(),
+                        new Color(bgR1, bgG1, bgB1, alphaInt).getRGB(),
+                        new Color(bgR2 + 2, bgG2 + 2, bgB2 + 3, alphaInt).getRGB()
                 },
                 6);
 
-        Render2D.outline(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 0.35f, new Color(90, 90, 90, alphaInt).getRGB(), 5);
+        Render2D.outline(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 0.35f, new Color(95, 100, 120, alphaInt).getRGB(), 5);
 
-        int blurTint = ColorUtil.rgba(0, 0, 0, 0);
-        Render2D.blur(x + 2, y + 2, 1, 1, 0f, 7, blurTint);
+        float blurSize = 10f;
+        int blurAlpha = (int)(35 * alpha);
+        Render2D.blur(x + 2, y + 2, getWidth() - 4, getHeight() - 4, blurSize, 6, new Color(15, 20, 35, blurAlpha).getRGB());
     }
 
     private void drawFace(float x, float y, float alpha) {
@@ -243,18 +255,31 @@ public class TargetHud extends AbstractHudElement {
             float waveSpeed = 1500f;
             float wavePhase = (elapsed % (long) waveSpeed) / waveSpeed * (float) Math.PI * 2f;
 
+            int healthBarWidth = (int)(barWidth * healthPercent);
+            
             int[] colors = new int[4];
-            for (int i = 0; i < 2; i++) {
-                float charWave = (float) Math.sin(wavePhase - i * 1.5f);
+            for (int i = 0; i < 4; i++) {
+                float charWave = (float) Math.sin(wavePhase - i * 1.2f);
                 float waveFactor = (charWave + 1f) / 2f;
 
-                int baseGray = (int) (155 + 100 * waveFactor);
-
-                colors[i * 2] = new Color(baseGray, baseGray, baseGray, (int) (255 * alpha)).getRGB();
-                colors[i * 2 + 1] = new Color(baseGray, baseGray, baseGray, (int) (255 * alpha)).getRGB();
+                float hue = 0.25f + waveFactor * 0.15f;
+                int baseColor = ColorUtil.hsvToRgb(hue, 0.3f, 0.7f + waveFactor * 0.3f);
+                colors[i] = new Color(ColorUtil.getRed(baseColor), ColorUtil.getGreen(baseColor), ColorUtil.getBlue(baseColor), (int) (255 * alpha)).getRGB();
             }
 
-            Render2D.gradientRect(barX, barY, barWidth * healthPercent, barHeight, colors, barRadius);
+            Render2D.gradientRect(barX, barY, healthBarWidth, barHeight, colors, barRadius);
+            
+            if (healthPercent > 0.3f) {
+                float highlightWidth = healthBarWidth * 0.3f;
+                float highlightAlpha = alpha * 0.15f;
+                Render2D.gradientRect(barX, barY, highlightWidth, barHeight / 2f,
+                        new int[]{
+                                new Color(255, 255, 255, (int)(highlightAlpha * 255)).getRGB(),
+                                new Color(255, 255, 255, (int)(highlightAlpha * 100)).getRGB(),
+                                new Color(255, 255, 255, 0).getRGB(),
+                                new Color(255, 255, 255, 0).getRGB()
+                        }, 2);
+            }
         }
 
         float absorptionPercent = Math.max(0, Math.min(1, absorptionAnimation));
@@ -263,20 +288,30 @@ public class TargetHud extends AbstractHudElement {
             float waveSpeed = 1200f;
             float wavePhase = (elapsed % (long) waveSpeed) / waveSpeed * (float) Math.PI * 2f;
 
+            int absorpBarWidth = (int)(barWidth * absorptionPercent);
             int[] goldColors = new int[4];
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 4; i++) {
                 float charWave = (float) Math.sin(wavePhase - i * 1.5f);
                 float waveFactor = (charWave + 1f) / 2f;
 
-                int cr = 255;
-                int cg = (int) (165 + 50 * waveFactor);
-                int cb = 0;
+                int cr = (int)(240 + 15 * waveFactor);
+                int cg = (int)(180 + 40 * waveFactor);
+                int cb = (int)(20 + 30 * waveFactor);
 
-                goldColors[i * 2] = new Color(cr, cg, cb, (int) (200 * alpha)).getRGB();
-                goldColors[i * 2 + 1] = new Color(cr, cg, cb, (int) (200 * alpha)).getRGB();
+                goldColors[i] = new Color(cr, cg, cb, (int) (220 * alpha)).getRGB();
             }
 
-            Render2D.gradientRect(barX, barY, barWidth * absorptionPercent, barHeight, goldColors, barRadius);
+            Render2D.gradientRect(barX, barY, absorpBarWidth, barHeight, goldColors, barRadius);
+            
+            float highlightWidth = absorpBarWidth * 0.4f;
+            float highlightAlpha = alpha * 0.2f;
+            Render2D.gradientRect(barX, barY, highlightWidth, barHeight / 2f,
+                    new int[]{
+                            new Color(255, 255, 200, (int)(highlightAlpha * 255)).getRGB(),
+                            new Color(255, 255, 180, (int)(highlightAlpha * 120)).getRGB(),
+                            new Color(255, 255, 150, 0).getRGB(),
+                            new Color(255, 255, 150, 0).getRGB()
+                    }, 2);
         }
     }
 }

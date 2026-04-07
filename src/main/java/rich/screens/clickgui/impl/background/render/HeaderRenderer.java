@@ -22,11 +22,25 @@ public class HeaderRenderer {
     }
 
     private void renderHeaderPanel(float bgX, float bgY, float bgWidth, float alphaMultiplier) {
-        int panelAlpha = (int) (25 * alphaMultiplier);
+        int panelAlpha = (int) (30 * alphaMultiplier);
         int outlineAlpha = (int) (255 * alphaMultiplier);
 
-        Render2D.rect(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, new Color(128, 128, 128, panelAlpha).getRGB(), 8);
-        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f, new Color(55, 55, 55, outlineAlpha).getRGB(), 8);
+        long currentTime = System.currentTimeMillis();
+        float pulse = (float) Math.sin(currentTime * 0.002) * 0.1f + 0.9f;
+        
+        int r = (int)(30 * pulse);
+        int g = (int)(30 * pulse);
+        int b = (int)(35 * pulse);
+
+        Render2D.gradientRect(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25,
+                new int[]{
+                        new Color(r + 5, g + 5, b + 8, panelAlpha).getRGB(),
+                        new Color(r, g, b, panelAlpha).getRGB(),
+                        new Color(r + 3, g + 3, b + 5, panelAlpha).getRGB(),
+                        new Color(r, g, b, panelAlpha).getRGB()
+                }, 8);
+        
+        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f, new Color(60, 65, 75, outlineAlpha).getRGB(), 8);
     }
 
     private void renderSearchBox(float bgX, float bgY, SearchHandler searchHandler, float alphaMultiplier) {
@@ -36,14 +50,33 @@ public class HeaderRenderer {
         float searchBoxH = 15f;
 
         int outlineAlpha = (int) (255 * alphaMultiplier);
-        int panelAlpha = (int) (25 * alphaMultiplier);
+        int panelAlpha = (int) (30 * alphaMultiplier);
 
-        Color searchOutline = searchHandler.isSearchActive()
-                ? new Color(180, 180, 180, outlineAlpha)
-                : new Color(55, 55, 55, outlineAlpha);
+        long currentTime = System.currentTimeMillis();
+        float focusPulse = searchHandler.getSearchFocusAnimation();
+        
+        Color searchOutline;
+        if (searchHandler.isSearchActive()) {
+            int r = (int)(140 + 40 * focusPulse);
+            int g = (int)(160 + 40 * focusPulse);
+            int b = (int)(200 + 55 * focusPulse);
+            searchOutline = new Color(r, g, b, outlineAlpha);
+        } else {
+            searchOutline = new Color(55, 60, 70, outlineAlpha);
+        }
 
-        int searchBgAlpha = (int) ((25 + searchHandler.getSearchFocusAnimation() * 15) * alphaMultiplier);
-        Render2D.rect(searchBoxX, searchBoxY, searchBoxW, searchBoxH, new Color(40, 40, 45, searchBgAlpha).getRGB(), 4);
+        int searchBgAlpha = (int) ((30 + focusPulse * 20) * alphaMultiplier);
+        int bgR = (int)(35 + focusPulse * 8);
+        int bgG = (int)(35 + focusPulse * 8);
+        int bgB = (int)(40 + focusPulse * 10);
+        
+        Render2D.gradientRect(searchBoxX, searchBoxY, searchBoxW, searchBoxH,
+                new int[]{
+                        new Color(bgR + 3, bgG + 3, bgB + 5, searchBgAlpha).getRGB(),
+                        new Color(bgR, bgG, bgB, searchBgAlpha).getRGB(),
+                        new Color(bgR + 2, bgG + 2, bgB + 3, searchBgAlpha).getRGB(),
+                        new Color(bgR, bgG, bgB, searchBgAlpha).getRGB()
+                }, 4);
         Render2D.outline(searchBoxX, searchBoxY, searchBoxW, searchBoxH, 0.5f, searchOutline.getRGB(), 4);
 
         float textAreaX = searchBoxX + 5;
@@ -53,11 +86,11 @@ public class HeaderRenderer {
         } else if (searchHandler.isSearchActive()) {
             renderSearchPlaceholder(searchBoxX, searchBoxY, searchBoxH, textAreaX, searchHandler, alphaMultiplier, true);
         } else {
-            Fonts.BOLD.draw("Search Modules...", textAreaX, searchBoxY + 5f, 5, new Color(128, 128, 128, outlineAlpha).getRGB());
+            Fonts.BOLD.draw("Search Modules...", textAreaX, searchBoxY + 5f, 5, new Color(128, 135, 145, outlineAlpha).getRGB());
         }
 
-        Render2D.rect(searchBoxX + 53, searchBoxY + 3.5f, 1, searchBoxH - 7, new Color(128, 128, 128, panelAlpha).getRGB(), 8);
-        Fonts.ICONS.draw("U", searchBoxX + 55, searchBoxY + 1.5f, 12, new Color(128, 128, 128, outlineAlpha).getRGB());
+        Render2D.rect(searchBoxX + 53, searchBoxY + 3.5f, 1, searchBoxH - 7, new Color(100, 110, 130, panelAlpha).getRGB(), 8);
+        Fonts.ICONS.draw("U", searchBoxX + 55, searchBoxY + 1.5f, 12, new Color(140, 150, 165, outlineAlpha).getRGB());
     }
 
     private void renderSearchText(float searchBoxX, float searchBoxY, float searchBoxW, float searchBoxH,

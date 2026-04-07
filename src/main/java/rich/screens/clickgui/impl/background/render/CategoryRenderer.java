@@ -109,6 +109,9 @@ public class CategoryRenderer {
     private void renderCategoryItem(float bgX, float textY, String name, String icon, float animation, float alphaMultiplier) {
         float offsetX = animation * MAX_OFFSET;
 
+        long currentTime = System.currentTimeMillis();
+        float iconPulse = (float) Math.sin(currentTime * 0.003 + textY * 0.1f) * 0.1f + 0.9f;
+
         int baseGray = 128;
         int targetWhite = 255;
         int colorValue = (int) (baseGray + (targetWhite - baseGray) * animation);
@@ -120,17 +123,38 @@ public class CategoryRenderer {
         float textX = iconX + iconWidth + ICON_SPACING;
         float textWidth = Fonts.BOLD.getWidth(name, TEXT_SIZE);
 
-        Fonts.CATEGORY_ICONS.draw(icon, iconX, textY + 0.5f, ICON_SIZE, textColor.getRGB());
+        int iconAlpha = (int)(alpha * iconPulse);
+        Fonts.CATEGORY_ICONS.draw(icon, iconX, textY + 0.5f, ICON_SIZE, new Color(colorValue, colorValue, colorValue, iconAlpha).getRGB());
 
         if (animation > 0.01f) {
             float lineWidth = (iconWidth + ICON_SPACING + textWidth) * animation;
-            float lineAlpha = animation * 60 * alphaMultiplier;
-            Render2D.rect(iconX, textY + 9f, lineWidth, 0.5f, new Color(255, 255, 255, (int) lineAlpha).getRGB(), 0);
+            float lineAlpha = animation * 80 * alphaMultiplier;
+            
+            Render2D.gradientRect(iconX, textY + 9f, lineWidth, 0.5f,
+                    new int[]{
+                            new Color(100, 140, 200, 0).getRGB(),
+                            new Color(180, 200, 255, (int)lineAlpha).getRGB(),
+                            new Color(180, 200, 255, (int)lineAlpha).getRGB(),
+                            new Color(100, 140, 200, 0).getRGB()
+                    }, 0);
 
-            float ballAlpha = animation * 200 * alphaMultiplier;
+            float ballAlpha = animation * 220 * alphaMultiplier;
             float ballX = bgX + 12f;
             float ballY = textY + 2.5f;
-            Render2D.rect(ballX, ballY, BALL_SIZE, BALL_SIZE, new Color(255, 255, 255, (int) ballAlpha).getRGB(), BALL_SIZE / 2f);
+            float ballSize = BALL_SIZE + animation * 1f;
+            
+            int ballR = (int)(180 + 75 * animation);
+            int ballG = (int)(200 + 55 * animation);
+            int ballB = 255;
+            Render2D.rect(ballX, ballY, ballSize, ballSize, new Color(ballR, ballG, ballB, (int) ballAlpha).getRGB(), ballSize / 2f);
+            
+            if (animation > 0.5f) {
+                float glowSize = ballSize * 2.5f;
+                float glowX = ballX - (glowSize - ballSize) / 2f;
+                float glowY = ballY - (glowSize - ballSize) / 2f;
+                int glowAlpha = (int)((animation - 0.5f) * 60 * alphaMultiplier);
+                Render2D.blur(glowX, glowY, glowSize, glowSize, 6f, glowSize / 2f, new Color(140, 180, 255, glowAlpha).getRGB());
+            }
         }
 
         Fonts.BOLD.draw(name, textX, textY, TEXT_SIZE, textColor.getRGB());

@@ -56,6 +56,14 @@ public class StrikeManager implements IMinecraft {
     private long pendingAttackTime = 0;
     private Runnable pendingAttack = null;
 
+    // Статистика попаданий/промахов для адаптивного CPS
+    private int consecutiveMisses = 0;
+    private int consecutiveHits = 0;
+    private long lastHitValidationTime = 0;
+
+    // Ссылка на CPS настройку из Aura
+    private rich.modules.module.setting.implement.SliderSettings cpsSetting;
+
     void tick() {
         if (mc.player != null && mc.player.isOnGround()) {
             ticksOnBlock++;
@@ -85,6 +93,14 @@ public class StrikeManager implements IMinecraft {
     
     /**
      * Обновляет CPS из настроек
+     */
+    public void updateCPS(int cps, rich.modules.module.setting.implement.SliderSettings setting) {
+        cpsScheduler.updateCPS(cps);
+        this.cpsSetting = setting;
+    }
+
+    /**
+     * Обновляет CPS из настроек (обратная совместимость)
      */
     public void updateCPS(int cps) {
         cpsScheduler.updateCPS(cps);
@@ -655,8 +671,25 @@ public class StrikeManager implements IMinecraft {
             return true; // В воде всё равно не будет крита
         }
 
-        // Проверяем что не восходим
-        if (isAscending()) {
+        // Проверяем что не восходим слишком быстро
+        // УМЕНЬШЕНА чувствительность: раньше было > 0.0, теперь > 0.2
+        // Это позволяет атаковать даже при небольшом подъёме
+        if (isAscending() && mc.player.getVelocity().y > 0.2) {
+            return false;
+        }
+
+        // Проверяем fallDistance - если падаем достаточно, точно атакуем
+        if (mc.player.fallDistance > 1.0) {
+            return true;
+        }
+
+        // Если velocityY отрицательный (падаем) - атакуем
+        if (mc.player.getVelocity().y < 0) {
+            return true;
+        }
+
+        // Если на земле - не атакуем (пусть взлетит заново)
+        if (mc.player.isOnGround()) {
             return false;
         }
 
@@ -837,6 +870,29 @@ public class StrikeManager implements IMinecraft {
         Vec3d eyePos = mc.player.getEyePos();
         Vec3d lookVec = AngleConnection.INSTANCE.getRotation().toVector();
         Vec3d endVec = eyePos.add(lookVec.multiply(config.getMaximumRange()));
-        return config.getBox().raycast(eyePos, endVec).isPresent();
+        
+        // Улучшенная проверка - расширяем хитбокс для более надёжного попадания
+        Box expandedBox = config.getBox().expand(0.2);
+        return expandedBox.raycast(eyePos, endVec).isPresent();
+    }
+
+    /**
+     * Адаптивный CPS - автоматически подстраивается под условия
+     */
+    private int getAdaptiveCPS() {
+        if (cpsSetting == null) return 8; // Дефолтное значение
+        int baseCPS = (int)cpsSetting.getValue();
+
+        // Если много промахов - снижаем CPS для точности
+        if (consecutiveMisses > 3) {
+            return Math.max(5, baseCPS - 2);
+        }
+
+        // Если всё хорошо - можно немного поднять
+        if (consecutiveHits > 10) {
+            return Math.min(20, baseCPS + 1);
+        }
+
+        return baseCPS;
     }
 }

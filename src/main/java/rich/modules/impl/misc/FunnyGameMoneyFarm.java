@@ -119,8 +119,9 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onTick(TickEvent event) {
-        if (mc.player == null || mc.world == null) {
+        if (mc.player == null || mc.world == null || mc.getNetworkHandler() == null) {
             phase = FarmPhase.IDLE;
+            setState(false);
             return;
         }
 
@@ -359,20 +360,24 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void interactWithNpc() {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null || mc.getNetworkHandler() == null) return;
 
         // Ищем ближайшего NPC (AntiBot распознаёт NPC как бота)
         PlayerEntity nearestNpc = null;
         double nearestDistance = Double.MAX_VALUE;
 
+        AntiBot antiBot = AntiBot.getInstance();
+        
         for (PlayerEntity entity : mc.world.getPlayers()) {
             if (entity == mc.player) continue;
 
             // Проверяем через AntiBot — NPC распознаются как боты
-            AntiBot antiBot = AntiBot.getInstance();
-            if (antiBot != null && antiBot.isBot(entity)) {
+            boolean isBot = (antiBot != null) && antiBot.isBot(entity);
+            
+            // Если AntiBot недоступен, используем дистанцию как fallback
+            if (isBot || antiBot == null) {
                 double distance = mc.player.distanceTo(entity);
-                if (distance < nearestDistance) {
+                if (distance < nearestDistance && distance < 10.0) {
                     nearestDistance = distance;
                     nearestNpc = entity;
                 }
@@ -385,14 +390,14 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             mc.player.swingHand(Hand.MAIN_HAND);
             ChatMessage.brandmessage("Взаимодействие с NPC: " + nearestNpc.getName().getString());
         } else {
-            // Fallback — если NPC не найден, пробуем кликнуть вперёд
+            // Fallback — если NPC не найден, пробуем кликать вперёд
             Vec3d lookVec = mc.player.getRotationVec(1.0f);
             Vec3d hitVec = mc.player.getEyePos().add(lookVec.multiply(2.0));
-            BlockPos interactPos = mc.player.getBlockPos();
+            BlockPos interactPos = mc.player.getBlockPos().offset(mc.player.getHorizontalFacing());
 
             BlockHitResult hitResult = new BlockHitResult(
                     hitVec,
-                    Direction.DOWN,
+                    mc.player.getHorizontalFacing().getOpposite(),
                     interactPos,
                     false
             );

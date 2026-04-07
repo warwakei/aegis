@@ -37,6 +37,7 @@ import rich.util.Instance;
 import rich.util.math.Projection;
 import rich.util.modules.esp.RwPrefix;
 import rich.util.network.Network;
+import rich.util.render.AnimatedColorHelper;
 import rich.util.render.Render2D;
 import rich.util.render.font.Fonts;
 import rich.util.render.item.ItemRender;
@@ -84,13 +85,26 @@ public class Esp extends ModuleStructure {
     public SliderSettings boxAlpha = new SliderSettings("Прозрачность", "Прозрачность бокса")
             .setValue(1.0F).range(0.1F, 1.0F).visible(() -> boxType.isSelected("3D Box"));
 
+    public SelectSetting colorAnimationMode = new SelectSetting("Анимация цвета", "Режим анимации цвета бокса")
+            .value("Нет", "Ping-Pong", "Круговая", "Пульсация", "Радуга")
+            .selected("Нет")
+            .visible(() -> playerSetting.isSelected("Box"));
+
+    public SliderSettings colorAnimationSpeed = new SliderSettings("Скорость анимации", "Скорость анимации цвета")
+            .range(0.5f, 5.0f).setValue(2.0f)
+            .visible(() -> !colorAnimationMode.getSelected().equals("Нет"));
+
+    public ColorSetting animationColor2 = new ColorSetting("Второй цвет", "Второй цвет для градиента анимации")
+            .value(0xFFAA44FF)
+            .visible(() -> !colorAnimationMode.getSelected().equals("Нет") && !colorAnimationMode.getSelected().equals("Радуга"));
+
     private static final float DISTANCE = 128.0f;
     private static final int GRAY_COLOR = 0xFF888888;
     private static final int WHITE_COLOR = 0xFFFFFFFF;
 
     public Esp() {
         super("Esp", "Esp", ModuleCategory.RENDER);
-        settings(entityType, playerSetting, boxType, boxColor, friendColor, flatBoxOutline, boxAlpha);
+        settings(entityType, playerSetting, boxType, boxColor, friendColor, flatBoxOutline, boxAlpha, colorAnimationMode, colorAnimationSpeed, animationColor2);
     }
 
     @EventHandler
@@ -113,6 +127,7 @@ public class Esp extends ModuleStructure {
     public void onWorldRender(WorldRenderEvent e) {
         if (!entityType.isSelected("Player")) return;
         float tickDelta = e.getPartialTicks();
+        long currentTime = System.currentTimeMillis();
 
         for (PlayerEntity player : players) {
             if (player == null || player == mc.player) continue;
@@ -128,9 +143,32 @@ public class Esp extends ModuleStructure {
 
             boolean friend = FriendUtils.isFriend(player);
             int baseColor = friend ? getFriendColor() : getClientColor();
+            
+            String animMode = colorAnimationMode.getSelected();
+            int animatedColor;
+            
+            if (!animMode.equals("Нет")) {
+                float speed = colorAnimationSpeed.getValue();
+                
+                if (animMode.equals("Радуга")) {
+                    animatedColor = ColorUtil.rainbow((int)(speed * 200), 0, 0.8f, 0.9f, boxAlpha.getValue());
+                } else if (animMode.equals("Пульсация")) {
+                    animatedColor = AnimatedColorHelper.getPulsingColor(baseColor, speed, currentTime);
+                } else {
+                    AnimatedColorHelper.AnimationMode mode = animMode.equals("Ping-Pong") ? 
+                            AnimatedColorHelper.AnimationMode.PING_PONG : 
+                            AnimatedColorHelper.AnimationMode.CIRCULAR;
+                    int[] gradientColors = AnimatedColorHelper.getAnimatedOutlineGradient(
+                            baseColor, animationColor2.getColor(), speed, currentTime, 1.0f, mode);
+                    animatedColor = gradientColors[0];
+                }
+            } else {
+                animatedColor = baseColor;
+            }
+            
             int alpha = (int) (boxAlpha.getValue() * 255);
-            int fillColor = (baseColor & 0x00FFFFFF) | (alpha << 24);
-            int outlineColor = baseColor | 0xFF000000;
+            int fillColor = (animatedColor & 0x00FFFFFF) | (alpha << 24);
+            int outlineColor = animatedColor | 0xFF000000;
 
             if (boxType.isSelected("3D Box") && playerSetting.isSelected("Box")) {
                 Box interpBox = player.getDimensions(player.getPose()).getBoxAt(interpX, interpY, interpZ);
@@ -267,7 +305,28 @@ public class Esp extends ModuleStructure {
     }
 
     private void drawBox(boolean friend, Vector4d vec, PlayerEntity player) {
-        int client = friend ? getFriendColor() : getClientColor();
+        int baseColor = friend ? getFriendColor() : getClientColor();
+        long currentTime = System.currentTimeMillis();
+        String animMode = colorAnimationMode.getSelected();
+        
+        int client;
+        if (!animMode.equals("Нет")) {
+            float speed = colorAnimationSpeed.getValue();
+            
+            if (animMode.equals("Радуга")) {
+                client = ColorUtil.rainbow((int)(speed * 200), 0, 0.8f, 0.9f, 1.0f);
+            } else if (animMode.equals("Пульсация")) {
+                client = AnimatedColorHelper.getPulsingColor(baseColor, speed, currentTime);
+            } else {
+                AnimatedColorHelper.AnimationMode mode = animMode.equals("Ping-Pong") ? 
+                        AnimatedColorHelper.AnimationMode.PING_PONG : 
+                        AnimatedColorHelper.AnimationMode.CIRCULAR;
+                client = AnimatedColorHelper.getAnimatedOutlineColor(baseColor, speed, currentTime, mode);
+            }
+        } else {
+            client = baseColor;
+        }
+        
         int black = 0x80000000;
 
         float posX = (float) vec.x;

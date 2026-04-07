@@ -67,7 +67,10 @@ public class AutoDuel extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onTick(TickEvent event) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null || mc.getNetworkHandler() == null) {
+            setState(false);
+            return;
+        }
 
         handleDuelLogic();
         handleScreenInteraction();
@@ -122,6 +125,8 @@ public class AutoDuel extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void sendDuelRequest(String player) {
+        if (mc.player == null || mc.getNetworkHandler() == null) return;
+        
         if (babki.isValue()) {
             mc.player.networkHandler.sendChatCommand("duel " + player + " " + money.getText());
         } else {

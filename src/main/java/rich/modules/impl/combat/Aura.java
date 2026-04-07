@@ -192,12 +192,12 @@ public class Aura extends ModuleStructure {
         StrikeManager strikeManager = Initialization.getInstance().getManager()
                 .getAttackPerpetrator()
                 .getStrikeManager();
-        
+
         if (strikeManager != null) {
             strikeManager.set1_8Mode(mode1_8.isValue());
-            strikeManager.updateCPS(cpsSetting.getInt());
+            strikeManager.updateCPS(cpsSetting.getInt(), cpsSetting);
         }
-        
+
         // Автоматически отключаем криты если включен 1.8 режим
         if (mode1_8.isValue() && checkCrit.isValue()) {
             checkCrit.setValue(false);

@@ -59,22 +59,26 @@ public class Instant180 extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onRotationUpdate(RotationUpdateEvent event) {
-        if (!rotating || mc.player == null) {
+        if (!rotating || mc.player == null || mc.world == null) {
             return;
         }
 
         float speed = rotationSpeed.getValue();
-        float currentYaw = mc.player.getYaw();
+        
+        // Получаем текущий угол из AngleConnection (не из player)
+        Angle currentRotation = AngleConnection.INSTANCE.getRotation();
+        float currentYaw = currentRotation != null ? currentRotation.getYaw() : mc.player.getYaw();
 
         // Вычисляем кратчайший путь поворота
         float delta = targetYaw - currentYaw;
         delta = normalizeAngle(delta);
 
-        if (Math.abs(delta) <= speed) {
+        if (Math.abs(delta) <= speed || Math.abs(delta) < 0.5f) {
             // Достигли цели
             rotateTo(targetYaw);
             rotating = false;
             setState(false);
+            AngleConnection.INSTANCE.startReturning();
             return;
         }
 
@@ -86,9 +90,7 @@ public class Instant180 extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void rotateTo(float yaw) {
-        // Поворачиваем камеру локально для мгновенного эффекта
-        mc.player.setYaw(yaw);
-        
+        // Используем AngleConnection для плавного поворота без джиттера
         Angle angle = new Angle(yaw, mc.player.getPitch());
         Angle.VecRotation rotation = new Angle.VecRotation(angle, angle.toVector());
         AngleConfig config = new AngleConfig(new LinearConstructor(), true, silent.isValue());

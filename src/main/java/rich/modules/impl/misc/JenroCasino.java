@@ -156,17 +156,18 @@ public class JenroCasino extends ModuleStructure {
         if (mc.player == null || mc.world == null) return null;
 
         BlockPos playerPos = mc.player.getBlockPos();
-        int searchRadius = 5;
+        int searchRadius = 8; // Увеличил с 5 до 8 для лучшего поиска
 
         BlockPos nearestLever = null;
         double nearestDistance = Double.MAX_VALUE;
 
         // Ищем рычаги в радиусе
         for (int x = -searchRadius; x <= searchRadius; x++) {
-            for (int y = -searchRadius; y <= searchRadius; y++) {
+            for (int y = -2; y <= 3; y++) { // Ограничил Y диапазон (рычаги обычно рядом)
                 for (int z = -searchRadius; z <= searchRadius; z++) {
                     BlockPos pos = playerPos.add(x, y, z);
-                    Block block = mc.world.getBlockState(pos).getBlock();
+                    var state = mc.world.getBlockState(pos);
+                    Block block = state.getBlock();
 
                     if (block == Blocks.LEVER) {
                         double distance = mc.player.getEyePos().distanceTo(Vec3d.ofCenter(pos));

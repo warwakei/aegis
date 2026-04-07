@@ -23,6 +23,7 @@ import rich.modules.module.setting.implement.ColorSetting;
 import rich.modules.module.setting.implement.MultiSelectSetting;
 import rich.modules.module.setting.implement.SelectSetting;
 import rich.modules.module.setting.implement.SliderSettings;
+import rich.util.ColorUtil;
 import rich.util.Instance;
 
 import java.util.ArrayList;
@@ -70,12 +71,29 @@ public class Particles extends ModuleStructure {
     public SliderSettings size = new SliderSettings("Размер", "Размер частиц")
             .range(0.1f, 1.0f).setValue(1f);
 
+    public SelectSetting colorMode = new SelectSetting("Цветовой режим", "Режим окраски частиц")
+            .value("Один цвет", "Градиент", "Радуга", "По триггеру")
+            .selected("Один цвет");
+
     public BooleanSetting randomColor = new BooleanSetting("Рандомный цвет", "Каждый партикл получает случайный цвет")
-            .setValue(false);
+            .setValue(false)
+            .visible(() -> colorMode.getSelected().equals("Один цвет"));
 
     public ColorSetting color = new ColorSetting("Цвет", "Цвет партиклов")
             .value(0xFF896148)
-            .visible(() -> !randomColor.isValue());
+            .visible(() -> colorMode.getSelected().equals("Один цвет") && !randomColor.isValue());
+
+    public ColorSetting gradientStart = new ColorSetting("Градиент - Начало", "Начальный цвет градиента")
+            .value(0xFF614889)
+            .visible(() -> colorMode.getSelected().equals("Градиент"));
+
+    public ColorSetting gradientEnd = new ColorSetting("Градиент - Конец", "Конечный цвет градиента")
+            .value(0xFF486189)
+            .visible(() -> colorMode.getSelected().equals("Градиент"));
+
+    public SliderSettings rainbowSpeed = new SliderSettings("Скорость радуги", "Скорость анимации радуги")
+            .range(1, 10).setValue(5)
+            .visible(() -> colorMode.getSelected().equals("Радуга"));
 
     private static final float GLOW_SIZE = 7.5f;
     private static final int TOTEM_DURATION = 20;
@@ -100,7 +118,7 @@ public class Particles extends ModuleStructure {
 
     public Particles() {
         super("Particles", "Custom particles system", ModuleCategory.RENDER);
-        settings(mode, glowMode, triggers, amount, walkAmount, spread, speed, lifeTime, size, randomColor, color);
+        settings(mode, glowMode, triggers, amount, walkAmount, spread, speed, lifeTime, size, colorMode, randomColor, color, gradientStart, gradientEnd, rainbowSpeed);
     }
 
     @Override
@@ -111,10 +129,38 @@ public class Particles extends ModuleStructure {
     }
 
     private int getParticleColor() {
+        String mode = colorMode.getSelected();
+        
+        if (mode.equals("Радуга")) {
+            float speed = rainbowSpeed.getValue() * 100f;
+            return ColorUtil.rainbow((int)speed, 0, 0.8f, 0.9f, 1.0f);
+        }
+        
+        if (mode.equals("Градиент")) {
+            long currentTime = System.currentTimeMillis();
+            float speed = 2000f;
+            float progress = (currentTime % (long)speed) / speed;
+            return ColorUtil.interpolateColor(gradientStart.getColor(), gradientEnd.getColor(), progress);
+        }
+        
+        if (mode.equals("По триггеру")) {
+            return 0xFFFFFFFF;
+        }
+        
         if (randomColor.isValue()) {
             return RANDOM_COLORS[ThreadLocalRandom.current().nextInt(RANDOM_COLORS.length)];
         }
         return color.getColor();
+    }
+
+    private int getTriggerColor(String trigger) {
+        return switch (trigger) {
+            case "Удар" -> 0xFFFF4444;
+            case "Тотем" -> 0xFF44FF44;
+            case "Ходьба" -> 0xFF4488FF;
+            case "Бросаемый предмет" -> 0xFFFFAA44;
+            default -> 0xFFFFFF;
+        };
     }
 
     private float getGravity() {
@@ -216,6 +262,8 @@ public class Particles extends ModuleStructure {
         float spreadValue = spread.getValue() * 0.05f;
         float speedMult = getSpeedMultiplier();
 
+        int particleColor = colorMode.getSelected().equals("По триггеру") ? getTriggerColor("Ходьба") : getParticleColor();
+
         for (int i = 0; i < particlesToSpawn; i++) {
             double px = mc.player.getX() - offsetX + (Math.random() - 0.5) * 0.3;
             double py = mc.player.getY() + 0.3 + Math.random() * (mc.player.getHeight() - 0.3);
@@ -232,7 +280,7 @@ public class Particles extends ModuleStructure {
             particles.add(new Particle3D(
                     pos,
                     velocity,
-                    getParticleColor(),
+                    particleColor,
                     size.getValue() * 0.6f,
                     lifeTime.getValue() * 0.5f
             ).setGravity(getGravity()).setVelocityMultiplier(0.99f).setMode(getParticleMode()).setGlowMode(getGlowMode()));
@@ -242,6 +290,8 @@ public class Particles extends ModuleStructure {
     private void handleProjectileParticles() {
         float spreadValue = spread.getValue() * 0.03f;
         float speedMult = getSpeedMultiplier();
+
+        int particleColor = colorMode.getSelected().equals("По триггеру") ? getTriggerColor("Бросаемый предмет") : getParticleColor();
 
         for (Entity entity : mc.world.getEntities()) {
             if (entity instanceof ThrownEntity || entity instanceof ArrowEntity || entity instanceof TridentEntity) {
@@ -274,7 +324,7 @@ public class Particles extends ModuleStructure {
                         particles.add(new Particle3D(
                                 pos,
                                 velocity,
-                                getParticleColor(),
+                                particleColor,
                                 size.getValue() * 0.5f,
                                 lifeTime.getValue() * 0.3f
                         ).setGravity(getGravity()).setVelocityMultiplier(0.99f).setMode(getParticleMode()).setGlowMode(getGlowMode()));
@@ -294,6 +344,8 @@ public class Particles extends ModuleStructure {
         float speedMult = getSpeedMultiplier();
 
         int count = amount.getInt();
+        int particleColor = colorMode.getSelected().equals("По триггеру") ? getTriggerColor("Удар") : getParticleColor();
+        
         for (int i = 0; i < count; i++) {
             double px = target.getX();
             double py = target.getY() + (Math.random() * target.getHeight());
@@ -310,7 +362,7 @@ public class Particles extends ModuleStructure {
             particles.add(new Particle3D(
                     pos,
                     velocity,
-                    getParticleColor(),
+                    particleColor,
                     size.getValue(),
                     lifeTime.getValue()
             ).setGravity(getGravity()).setVelocityMultiplier(0.99f).setMode(getParticleMode()).setGlowMode(getGlowMode()));

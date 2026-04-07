@@ -88,6 +88,9 @@ public class MaceTarget extends ModuleStructure {
     final BooleanSetting strictValidation = new BooleanSetting("Строгая валидация", "Терять цель если не видно")
             .setValue(false);
 
+    final BooleanSetting windBurstSupport = new BooleanSetting("Wind Burst III", "Поддержка Wind Burst - повторный взлёт после подбрасывания")
+            .setValue(true);
+
     final TargetPredictor predictor = new TargetPredictor();
     final FlightController flightController;
     final ArmorSwapHandler armorSwapHandler;
@@ -96,12 +99,21 @@ public class MaceTarget extends ModuleStructure {
     final StageHandler stageHandler;
     final TargetFinder targetFinder = new TargetFinder();
     final StopWatch fireworkTimer = new StopWatch();
+    final StopWatch windBurstTimer = new StopWatch();
 
     LivingEntity target;
 
+    // Wind Burst III detection
+    private boolean wasAttacking = false;
+    private boolean windBurstDetected = false;
+    private double velocityBeforeAttack = 0;
+    private long attackTime = 0;
+    private static final long WIND_BURST_WINDOW_MS = 500; // Окно для обнаружения Wind Burst
+    private static final double WIND_BURST_VELOCITY_THRESHOLD = 0.8; // Минимальная вертикальная скорость для обнаружения
+
     public MaceTarget() {
         super("MaceTarget", "Mace Target", ModuleCategory.COMBAT);
-        settings(serverMode, modeSetting, height, priority, smartPath, targetType, autoEquipChest, predictMovement, swapDistance, attackRange, strictValidation);
+        settings(serverMode, modeSetting, height, priority, smartPath, targetType, autoEquipChest, predictMovement, swapDistance, attackRange, strictValidation, windBurstSupport);
 
         flightController = new FlightController(predictor);
         armorSwapHandler = new ArmorSwapHandler(this::buildSettings);
@@ -145,6 +157,10 @@ public class MaceTarget extends ModuleStructure {
         fireworkHandler.reset();
         predictor.reset();
         fireworkTimer.reset();
+        windBurstTimer.reset();
+        wasAttacking = false;
+        windBurstDetected = false;
+        attackTime = 0;
     }
 
     @Override
@@ -161,6 +177,10 @@ public class MaceTarget extends ModuleStructure {
         armorSwapHandler.reset();
         fireworkHandler.reset();
         predictor.reset();
+        windBurstTimer.reset();
+        wasAttacking = false;
+        windBurstDetected = false;
+        attackTime = 0;
         AngleConnection.INSTANCE.startReturning();
         FpsThrottler.reset();
     }
@@ -220,6 +240,10 @@ public class MaceTarget extends ModuleStructure {
             attackHandler.performAttack(target);
             attackHandler.setPendingAttack(false);
 
+            // Запоминаем время атаки для Wind Burst detection
+            attackTime = System.currentTimeMillis();
+            wasAttacking = true;
+
             if (attackHandler.isShouldDisableAfterAttack()) {
                 attackHandler.setShouldDisableAfterAttack(false);
                 setState(false);
@@ -242,6 +266,11 @@ public class MaceTarget extends ModuleStructure {
             FpsThrottler.updateTarget(null);
         }
 
+        // Wind Burst III detection
+        if (windBurstSupport.isValue()) {
+            checkWindBurst();
+        }
+
         if (!isSilentMode()) {
             armorSwapHandler.processLoop();
             fireworkHandler.processLoop();
@@ -256,6 +285,56 @@ public class MaceTarget extends ModuleStructure {
         }
 
         processStage();
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void checkWindBurst() {
+        if (mc.player == null) return;
+
+        // Если мы только что атаковали и нас подбросило вверх
+        if (wasAttacking && !windBurstDetected) {
+            long timeSinceAttack = System.currentTimeMillis() - attackTime;
+            double currentVelocityY = mc.player.getVelocity().y;
+
+            // Проверяем что нас подбросило вверх с достаточной скоростью
+            if (timeSinceAttack < WIND_BURST_WINDOW_MS && currentVelocityY > WIND_BURST_VELOCITY_THRESHOLD) {
+                windBurstDetected = true;
+                windBurstTimer.reset();
+            }
+        }
+
+        // Если Wind Burst обнаружен и мы всё ещё летим вверх
+        if (windBurstDetected) {
+            // Ждём пока начнём падать
+            if (mc.player.getVelocity().y <= 0) {
+                // Начинаем повторный цикл - переключаемся на элитру и взлетаем
+                handleWindBurstRecovery();
+                windBurstDetected = false;
+            }
+
+            // Таймаут если Wind Burst не сработал
+            if (windBurstTimer.finished(2000)) {
+                windBurstDetected = false;
+            }
+        }
+
+        // Обновляем состояние атаки
+        wasAttacking = attackHandler.getLastAttackTime() > 0;
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleWindBurstRecovery() {
+        // Сразу переходим в режим полёта вверх
+        stageHandler.setStage(Stage.FLYING_UP);
+        fireworkTimer.reset();
+
+        // Если на нас нагрудник - переключаемся на элитру
+        if (!InventoryUtils.hasElytra()) {
+            int elytraSlot = InventoryUtils.findElytraSlot();
+            if (elytraSlot != -1) {
+                armorSwapHandler.startSwap(elytraSlot, isSilentMode());
+            }
+        }
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -332,7 +411,11 @@ public class MaceTarget extends ModuleStructure {
         fireworkHandler.reset();
         attackHandler.reset();
         predictor.reset();
+        windBurstTimer.reset();
         target = null;
         stageHandler.reset();
+        wasAttacking = false;
+        windBurstDetected = false;
+        attackTime = 0;
     }
 }

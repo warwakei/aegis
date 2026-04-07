@@ -8,6 +8,7 @@ import rich.util.config.impl.ConfigPath;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,9 +108,23 @@ public class ConfigDataHandler {
     public boolean loadConfig(String name) {
         try {
             Path configDir = ConfigPath.getConfigDirectory();
-            Path configFile = configDir.resolve(name + ".json");
-            return Files.exists(configFile);
+            Path sourceConfig = configDir.resolve(name + ".json");
+            Path targetConfig = ConfigPath.getConfigFile();
+
+            if (!Files.exists(sourceConfig)) {
+                return false;
+            }
+
+            // Копируем выбранный конфиг в autoconfig.json
+            Files.copy(sourceConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
+
+            // Загружаем конфиг через ConfigSystem
+            ConfigSystem.getInstance().load();
+
+            selectedConfig = name;
+            return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

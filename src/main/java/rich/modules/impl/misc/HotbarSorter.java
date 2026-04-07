@@ -58,29 +58,42 @@ public class HotbarSorter extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onTick(TickEvent e) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null) {
+            setState(false);
+            return;
+        }
 
-        // Если инвентарь не открыт - открываем
+        // Если sortingComplete - закрываем и выходим
+        if (sortingComplete) {
+            finishSorting();
+            return;
+        }
+
+        // Если инвентарь не открыт - открываем (только один раз)
         if (!(mc.currentScreen instanceof InventoryScreen)) {
             if (!waitingForScreen) {
                 mc.setScreen(new InventoryScreen(mc.player));
                 waitingForScreen = true;
                 stopWatch.reset();
+            } else if (!stopWatch.every(100)) {
+                // Ждём открытия инвентаря
+                return;
+            } else {
+                // Таймаут - инвентарь не открылся
+                setState(false);
             }
             return;
         }
 
-        // Ждём пока инвентарь откроется
+        // Инвентарь открылся
         if (waitingForScreen) {
-            if (!stopWatch.every(100)) {
-                return;
-            }
             waitingForScreen = false;
+            stopWatch.reset();
         }
 
         // Если достигли конца хотбара - завершаем
         if (currentHotbarSlot >= 9) {
-            finishSorting();
+            sortingComplete = true;
             return;
         }
 
@@ -101,7 +114,7 @@ public class HotbarSorter extends ModuleStructure {
 
         // Если предметов в инвентаре нет - завершаем
         if (sourceSlot == -1) {
-            finishSorting();
+            sortingComplete = true;
             return;
         }
 
