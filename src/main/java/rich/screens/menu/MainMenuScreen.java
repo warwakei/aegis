@@ -33,7 +33,6 @@ public class MainMenuScreen extends Screen {
     private static final float FIXED_GUI_SCALE = 2.0f;
     private static final int BUTTON_SIZE = 42;
     private static final int BUTTON_SPACING = 16;
-    private static final float BLUR_RADIUS = 15f;
     private static final String[] BUTTON_ICONS = {"a", "b", "x", "s", "i"};
 
     private enum View { MAIN_MENU, ALT_SCREEN }
@@ -230,11 +229,6 @@ public class MainMenuScreen extends Screen {
             int particleAlpha = (int) (alpha * 100);
             float size = p.size * (0.8f + alphaPulse * 0.4f);
             Render2D.rect(p.x, p.y, size, size, withAlpha(0x4060a0, particleAlpha), size / 2f);
-            if (alpha > 0.3f) {
-                float glowSize = size * 3f;
-                int glowAlpha = (int) (alpha * 20);
-                Render2D.blur(p.x - glowSize / 2f, p.y - glowSize / 2f, glowSize, glowSize, 4f, glowSize / 2f, withAlpha(0x4060a0, glowAlpha));
-            }
         }
     }
 
@@ -380,7 +374,6 @@ public class MainMenuScreen extends Screen {
         int bgAlpha = (int) (opacity * 140);
         int headerAlpha = (int) (opacity * (170 + hoverProgress * 60));
         int outlineAlpha = (int) (opacity * (180 + hoverProgress * 75));
-        int blurAlpha = (int) (opacity * 100);
         int bgTopLeft, bgTopRight, bgBottomLeft, bgBottomRight, outlineColor, iconColor;
         if (index == 4) {
             float redLerp = exitButtonRedProgress;
@@ -415,15 +408,8 @@ public class MainMenuScreen extends Screen {
             int iconBright = (int)(200 + hoverProgress * 55);
             iconColor = withAlpha(0xFFFFFF, (int) (opacity * iconBright * pulse));
         }
-        Render2D.blur(drawX, drawY, size, size, BLUR_RADIUS, radius, withAlpha(0x080a12, blurAlpha));
         Render2D.gradientRect(drawX, drawY, size, size, new int[]{bgTopLeft, bgTopRight, bgBottomRight, bgBottomLeft}, radius);
         Render2D.outline(drawX, drawY, size, size, 1f + hoverProgress * 0.5f, outlineColor, radius);
-        if (glowProgress > 0.01f) {
-            float glowSize = size * (1.0f + glowProgress * 0.2f);
-            int glowAlpha = (int)(opacity * glowProgress * 50);
-            int glowColor = index == 4 ? withAlpha(0xa04040, glowAlpha) : withAlpha(0x4060a0, glowAlpha);
-            Render2D.blur(centerX - glowSize / 2f, centerYPos - glowSize / 2f, glowSize, glowSize, BLUR_RADIUS * 1.8f, radius * 1.3f, glowColor);
-        }
         float iconSize = 17f * scaleVal;
         String icon = BUTTON_ICONS[index];
         float iconWidth = Fonts.MAINMENUSCREEN.getWidth(icon, iconSize);
@@ -455,8 +441,8 @@ public class MainMenuScreen extends Screen {
                 client.setScreen(new MultiplayerScreen(this)); break;
             case 2: // AltManager (пользователь)
                 switchToView(View.ALT_SCREEN); break;
-            case 3: // Settings - открываем TitleScreen (ванильное поведение)
-                client.setScreen(new net.minecraft.client.gui.screen.TitleScreen()); break;
+            case 3: // Settings - открываем настройки майнкрафта
+                client.setScreen(new net.minecraft.client.gui.screen.option.OptionsScreen(this, client.options)); break;
             case 4: // Exit
                 client.scheduleStop(); break;
         }
@@ -470,8 +456,114 @@ public class MainMenuScreen extends Screen {
         if (currentView == View.MAIN_MENU) {
             int hovered = getHoveredButton(scaledMouseX, scaledMouseY, getFixedScaledWidth(), getFixedScaledHeight(), getMenuProgress(Util.getMeasuringTimeMs()));
             if (hovered >= 0) { handleButtonClick(hovered); return true; }
+        } else if (currentView == View.ALT_SCREEN && transitionPhase == TransitionPhase.NONE) {
+            return handleAltManagerClick(scaledMouseX, scaledMouseY);
         }
         return super.mouseClicked(click, doubled);
+    }
+
+    private boolean handleAltManagerClick(float mouseX, float mouseY) {
+        int screenWidth = getFixedScaledWidth();
+        int screenHeight = getFixedScaledHeight();
+
+        float totalWidth = LEFT_PANEL_WIDTH + 5 + RIGHT_PANEL_WIDTH;
+        float totalHeight = LEFT_PANEL_TOP_HEIGHT + 5 + LEFT_PANEL_BOTTOM_HEIGHT;
+        float centerX = screenWidth / 2f;
+        float centerY = screenHeight / 2f;
+        float startX = centerX - totalWidth / 2f;
+        float startY = centerY - totalHeight / 2f;
+
+        // Левая панель верх - кнопка добавления
+        float addBtnX = startX + 5 + LEFT_PANEL_WIDTH - 10 - 14 - 3;
+        float addBtnY = startY + 38;
+        float addBtnSize = 14;
+        if (mouseX >= addBtnX && mouseX <= addBtnX + addBtnSize &&
+            mouseY >= addBtnY && mouseY <= addBtnY + addBtnSize) {
+            if (!nicknameText.isEmpty()) {
+                String date = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+                accountConfig.addAccount(new AccountEntry(nicknameText, date, null, false, accountConfig.getAccounts().size()));
+                accountConfig.save();
+                nicknameText = "";
+            }
+            return true;
+        }
+
+        // Кнопка Random
+        float randomBtnX = startX + 5;
+        float randomBtnY = addBtnY + 20;
+        float randomBtnWidth = LEFT_PANEL_WIDTH - 10;
+        float randomBtnHeight = 16;
+        if (mouseX >= randomBtnX && mouseX <= randomBtnX + randomBtnWidth &&
+            mouseY >= randomBtnY && mouseY <= randomBtnY + randomBtnHeight) {
+            String[] randomNames = {"Steve", "Alex", "Herobrine", "Notch", "jeb_", "Dinnerbone"};
+            nicknameText = randomNames[new java.util.Random().nextInt(randomNames.length)] + new java.util.Random().nextInt(1000);
+            return true;
+        }
+
+        // Кнопка Clear All
+        float clearBtnX = startX + 5;
+        float clearBtnY = randomBtnY + 21;
+        float clearBtnWidth = LEFT_PANEL_WIDTH - 10;
+        float clearBtnHeight = 16;
+        if (mouseX >= clearBtnX && mouseX <= clearBtnX + clearBtnWidth &&
+            mouseY >= clearBtnY && mouseY <= clearBtnY + clearBtnHeight) {
+            accountConfig.clearAllAccounts();
+            return true;
+        }
+
+        // Правая панель - кнопки аккаунтов
+        float rightPanelX = startX + LEFT_PANEL_WIDTH + 5;
+        List<AccountEntry> sortedAccounts = accountConfig.getSortedAccounts();
+        float accountListX = rightPanelX + 5;
+        float accountListY = startY + 28;
+        float accountListWidth = RIGHT_PANEL_WIDTH - 10;
+        float accountListHeight = RIGHT_PANEL_HEIGHT - 31;
+
+        float cardWidth = (accountListWidth - 5) / 2f;
+        float cardHeight = 40;
+        float cardGap = 5;
+
+        for (int i = 0; i < sortedAccounts.size(); i++) {
+            int col = i % 2;
+            int row = i / 2;
+
+            float cardX = accountListX + col * (cardWidth + cardGap);
+            float cardY = accountListY + row * (cardHeight + cardGap) - scrollOffset;
+
+            if (cardY + cardHeight < accountListY - 10 || cardY > accountListY + accountListHeight + 10) continue;
+
+            float buttonSize = 12;
+            float buttonYPos = cardY + cardHeight - buttonSize - 5;
+            float pinBtnX = cardX + cardWidth - buttonSize * 2 - 8;
+            float delBtnX = cardX + cardWidth - buttonSize - 5;
+
+            AccountEntry account = sortedAccounts.get(i);
+
+            // Pin button
+            if (mouseX >= pinBtnX && mouseX <= pinBtnX + buttonSize &&
+                mouseY >= buttonYPos && mouseY <= buttonYPos + buttonSize) {
+                account.setPinned(!account.isPinned());
+                accountConfig.save();
+                return true;
+            }
+
+            // Delete button
+            if (mouseX >= delBtnX && mouseX <= delBtnX + buttonSize &&
+                mouseY >= buttonYPos && mouseY <= buttonYPos + buttonSize) {
+                accountConfig.removeAccount(account);
+                return true;
+            }
+
+            // Клик по карточке - выбор аккаунта
+            if (mouseX >= cardX && mouseX <= cardX + cardWidth &&
+                mouseY >= cardY && mouseY <= cardY + cardHeight) {
+                accountConfig.setActiveAccount(account.getName(), account.getDate(), account.getSkin());
+                accountConfig.save();
+                return true;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -493,7 +585,7 @@ public class MainMenuScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontal, double vertical) {
         if (currentView == View.ALT_SCREEN) {
-            targetScrollOffset = Math.max(-200f, Math.min(0f, targetScrollOffset + (float) (vertical * 20)));
+            targetScrollOffset = Math.max(-200f, Math.min(0f, targetScrollOffset - (float) (vertical * 20)));
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, horizontal, vertical);

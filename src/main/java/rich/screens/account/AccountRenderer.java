@@ -233,7 +233,6 @@ public class AccountRenderer {
         Render2D.gradientRect(x, y, width, 22, headerColors, 6, 6, 0, 0);
         Render2D.outline(x, y, width, height, OUTLINE_THICKNESS, outlineColor, 6);
         Fonts.BOLD.draw("Accounts List", x + 8, y + 7, 8f, withAlpha(0xFFFFFF, titleAlpha));
-        Render2D.blur(x, y, width, height, 4f, 6, ColorUtil.rgba(0, 0, 0, 15));
 
         float accountListX = x + 5;
         float accountListY = y + 28;

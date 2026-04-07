@@ -333,9 +333,15 @@ public class AltManagerScreen extends Screen {
         int screenHeight = getFixedScaledHeight();
         float panelX = (screenWidth - PANEL_WIDTH) / 2f;
         float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
+
+        // Учитываем slide анимацию
+        float slideOffset = (1f - panelSlideProgress) * 50f;
+        panelY += slideOffset;
+
         float listY = panelY + 50;
 
         if (mouseX < panelX + 8 || mouseX > panelX + PANEL_WIDTH - 8) return -1;
+        if (mouseY < listY || mouseY > listY + PANEL_HEIGHT - 50) return -1;
 
         float itemY = listY + scrollOffset;
         for (int i = 0; i < accounts.size(); i++) {
@@ -355,13 +361,18 @@ public class AltManagerScreen extends Screen {
         int hovered = getHoveredAccount(scaledMouseX, scaledMouseY);
         if (hovered >= 0) {
             AccountEntry account = accounts.get(hovered);
-            float itemY = 0;
+
             int screenWidth = getFixedScaledWidth();
             int screenHeight = getFixedScaledHeight();
             float panelX = (screenWidth - PANEL_WIDTH) / 2f;
             float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
+
+            // Учитываем slide анимацию
+            float slideOffset = (1f - panelSlideProgress) * 50f;
+            panelY += slideOffset;
+
             float listY = panelY + 50;
-            itemY = listY + scrollOffset + hovered * (ACCOUNT_ITEM_HEIGHT + ACCOUNT_ITEM_SPACING);
+            float itemY = listY + scrollOffset + hovered * (ACCOUNT_ITEM_HEIGHT + ACCOUNT_ITEM_SPACING);
 
             // Проверяем кнопки
             float buttonSize = 16;

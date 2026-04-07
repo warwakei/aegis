@@ -16,9 +16,7 @@ public class ScreenMixin {
 
     @Inject(method = "renderBackground", at = @At("HEAD"), cancellable = true)
     private void disableBackgroundBlurAndDimming(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if ((Object) this instanceof ClickGui) {
-            ci.cancel();
-        }
+        ci.cancel();
     }
 
     @Inject(method = "handleClickEvent", at = @At("HEAD"), cancellable = true)
