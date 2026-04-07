@@ -93,13 +93,13 @@ public class Watermark extends AbstractHudElement {
         float tpsNumberWidth = Fonts.BOLD.getWidth(tpsNumber, 6);
         float tpsTextWidth = Fonts.BOLD.getWidth(tpsText, 6);
 
-        float totalWidth = 10 + usernameWidth + 10 + 8 + 10 + 12 + fpsNumberWidth + 2 + fpsTextWidth + 10 + 8 + 10 + 12 + timeWidth - 18;
-        float tpsBoxWidth = 10 + 12 + 12 + tpsNumberWidth + 2 + tpsTextWidth + 2;
+        float totalWidth = usernameWidth + fpsNumberWidth + fpsTextWidth + timeWidth + 97;
+        float tpsBoxWidth = 10 + 12 + 8 + tpsNumberWidth + 2 + tpsTextWidth + 10;
 
         if (showTps) {
-            setWidth((int) (totalWidth + tpsBoxWidth + 30));
+            setWidth((int) (totalWidth + tpsBoxWidth + 10));
         } else {
-            setWidth((int) (totalWidth + 30));
+            setWidth((int) (totalWidth + 10));
         }
         setHeight(22);
 
