@@ -23,6 +23,7 @@ import rich.modules.impl.combat.aura.attack.StrikeManager;
 import rich.modules.impl.combat.aura.attack.StrikerConstructor;
 import rich.modules.impl.combat.aura.impl.*;
 import rich.modules.impl.combat.aura.impl.RotateConstructor;
+import rich.modules.impl.combat.aura.mace.SilentMaceHandler;
 import rich.modules.impl.combat.aura.rotations.*;
 import rich.modules.impl.combat.aura.target.MultiPoint;
 import rich.modules.impl.combat.aura.target.TargetFinder;
@@ -95,9 +96,15 @@ public class Aura extends ModuleStructure {
             .setValue(8)
             .visible(() -> mode1_8.isValue());
 
+    @Getter
+    private final BooleanSetting silentMace = new BooleanSetting("Silent Mace", "Авто-свап булавы при падении с 9+ блоков")
+            .setValue(false);
+
+    private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
+
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace);
     }
 
     @NonFinal
@@ -119,10 +126,16 @@ public class Aura extends ModuleStructure {
         target = null;
         lastTarget = null;
         FpsThrottler.reset();
+        silentMaceHandler.forceReset();
     }
 
     @EventHandler
     private void tick(TickEvent event) {
+        // Silent Mace handler
+        if (silentMace.isValue()) {
+            silentMaceHandler.onTick(target);
+        }
+
         // Проверяем FPS throttler для разработчиков
         if (target != null) {
             FpsThrottler.updateTarget(target.getName().getString());
@@ -162,6 +175,10 @@ public class Aura extends ModuleStructure {
                 }
             }
             case EventType.POST -> {
+                // Если Silent Mace активен и сейчас атакует булавой — пропускаем обычную атаку
+                if (silentMace.isValue() && silentMaceHandler.isActive()) {
+                    return;
+                }
                 if (target != null) {
                     Initialization.getInstance().getManager().getAttackPerpetrator().performAttack(getConfig());
                 }
