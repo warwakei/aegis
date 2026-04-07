@@ -1,8 +1,11 @@
 package rich.screens.menu;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.input.CharInput;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -204,6 +207,7 @@ public class MainMenuScreen extends Screen {
         float[] radii = {0, 0, 0, 0};
         Initialization.getInstance().getManager().getRenderCore().getTexturePipeline()
                 .drawTexture(BACKGROUND_TEXTURE, offsetX, offsetY, zoomedWidth, zoomedHeight, 0, 0, 1, 1, colors, radii, 1f);
+        // Убрал overlay blur - теперь фон чёткий
         long currentTime = Util.getMeasuringTimeMs();
         float pulse = (float) Math.sin(currentTime * 0.001) * 0.5f + 0.5f;
         int overlayAlpha = (int)(8 + pulse * 5);
@@ -447,12 +451,54 @@ public class MainMenuScreen extends Screen {
 
     public void handleButtonClick(int index) {
         switch (index) {
-            case 0: client.setScreen(new net.minecraft.client.gui.screen.world.SelectWorldScreen(this)); break;
-            case 1: client.setScreen(new MultiplayerScreen(this)); break;
-            case 2: switchToView(View.ALT_SCREEN); break;
-            case 3: client.setScreen(new net.minecraft.client.gui.screen.TitleScreen()); break;
-            case 4: client.scheduleStop(); break;
+            case 0: // Singleplayer
+                client.setScreen(new net.minecraft.client.gui.screen.world.SelectWorldScreen(this)); break;
+            case 1: // Multiplayer
+                client.setScreen(new MultiplayerScreen(this)); break;
+            case 2: // Settings - открываем TitleScreen (ванильное поведение)
+                client.setScreen(new net.minecraft.client.gui.screen.TitleScreen()); break;
+            case 3: // AltManager (пользователь)
+                switchToView(View.ALT_SCREEN); break;
+            case 4: // Exit
+                client.scheduleStop(); break;
         }
+    }
+
+    @Override
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (!isUnlocked) { unlock(); return true; }
+        float scaledMouseX = toFixedCoord(click.x());
+        float scaledMouseY = toFixedCoord(click.y());
+        if (currentView == View.MAIN_MENU) {
+            int hovered = getHoveredButton(scaledMouseX, scaledMouseY, getFixedScaledWidth(), getFixedScaledHeight(), getMenuProgress(Util.getMeasuringTimeMs()));
+            if (hovered >= 0) { handleButtonClick(hovered); return true; }
+        }
+        return super.mouseClicked(click, doubled);
+    }
+
+    @Override
+    public boolean keyPressed(KeyInput input) {
+        if (!isUnlocked) { unlock(); return true; }
+        if (input.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE) {
+            if (currentView == View.ALT_SCREEN) { switchToView(View.MAIN_MENU); return true; }
+            client.setScreen(null); return true;
+        }
+        return super.keyPressed(input);
+    }
+
+    @Override
+    public boolean charTyped(CharInput input) {
+        if (!isUnlocked) { unlock(); return true; }
+        return super.charTyped(input);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontal, double vertical) {
+        if (currentView == View.ALT_SCREEN) {
+            targetScrollOffset = Math.max(-200f, Math.min(0f, targetScrollOffset + (float) (vertical * 20)));
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, horizontal, vertical);
     }
 
     @Override

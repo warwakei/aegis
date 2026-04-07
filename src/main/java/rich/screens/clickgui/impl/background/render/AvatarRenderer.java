@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import rich.util.config.impl.account.AccountConfig;
 import rich.util.render.Render2D;
-import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
 import rich.util.render.gif.GifRender;
 
@@ -12,7 +11,6 @@ import java.awt.*;
 
 public class AvatarRenderer {
 
-    private static final int FORCED_GUI_SCALE = 2;
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public void render(DrawContext context, float bgX, float bgY, float alphaMultiplier) {
@@ -26,7 +24,7 @@ public class AvatarRenderer {
             username = mc.getSession().getUsername();
         }
 
-        // Removed useless blur calls (0 radius does nothing)
+        // Фон с GIF
         context.getMatrices().pushMatrix();
         GifRender.drawBackground(bgX + 12.5f, bgY + 12.5f, 70, 30, 7, applyAlpha(-1, alpha));
         Render2D.rect(bgX + 15f, bgY + 15f, 25, 25, new Color(42, 42, 42, alpha).getRGB(), 15);
@@ -36,14 +34,22 @@ public class AvatarRenderer {
 
         Render2D.rect(bgX + 12.5f, bgY + 12.5f, 70, 30, new Color(0, 0, 0, alphaFon).getRGB(), 7);
 
+        // Никнейм - рендерим без scissor (он вызывал мерцание)
         float textX = bgX + 44;
         float textY = bgY + 22;
         float maxTextWidth = 35f;
-        float textHeight = 14f;
 
-        Scissor.enable(textX, textY - 2, maxTextWidth, textHeight, FORCED_GUI_SCALE);
-        Fonts.BOLD.draw(username, textX, textY, 6, new Color(255, 255, 255, alphaText).getRGB());
-        Scissor.disable();
+        // Обрезаем никнейм если слишком длинный
+        String displayName = username;
+        float nameWidth = Fonts.BOLD.getWidth(displayName, 6);
+        if (nameWidth > maxTextWidth) {
+            while (Fonts.BOLD.getWidth(displayName + "…", 6) > maxTextWidth && displayName.length() > 1) {
+                displayName = displayName.substring(0, displayName.length() - 1);
+            }
+            displayName += "…";
+        }
+
+        Fonts.BOLD.draw(displayName, textX, textY, 6, new Color(255, 255, 255, alphaText).getRGB());
     }
 
     private int applyAlpha(int color, int alpha) {

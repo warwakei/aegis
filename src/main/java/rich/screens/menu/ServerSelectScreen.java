@@ -338,6 +338,15 @@ public class ServerSelectScreen extends Screen {
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE) {
+            client.setScreen(previousScreen);
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
     public boolean shouldPause() {
         return false;
     }
