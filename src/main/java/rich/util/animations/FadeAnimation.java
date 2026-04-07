@@ -8,7 +8,7 @@ public class FadeAnimation {
     private long startTime;
     private boolean forwards = true;
     private double value = 0.0;
-    private Easing easing = Easings.EXPO_OUT;
+    private Easing easing = Easings.SPRING; // Spring по умолчанию
 
     public FadeAnimation(long durationMs) {
         this.duration = durationMs;
@@ -32,6 +32,10 @@ public class FadeAnimation {
 
     public void setDirection(boolean forwards) {
         this.forwards = forwards;
+    }
+
+    public void setEasing(Easing easing) {
+        this.easing = easing;
     }
 
     public void reset() {

@@ -43,8 +43,12 @@ public class ColorUtil {
 
     private final long CACHE_EXPIRATION_TIME = 60 * 1000;
     private final ConcurrentHashMap<ColorKey, CacheEntry> colorCache = new ConcurrentHashMap<>();
-    private final ScheduledExecutorService cacheCleaner = Executors.newScheduledThreadPool(1);
     private final DelayQueue<CacheEntry> cleanupQueue = new DelayQueue<>();
+    private final ScheduledExecutorService cacheCleaner = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "ColorUtil-CacheCleaner");
+        t.setDaemon(true); // Daemon thread - не будет блокировать завершение JVM
+        return t;
+    });
     public static final Pattern FORMATTING_CODE_PATTERN = Pattern.compile("(?i)§[0-9a-f-or]");
     public Char2IntArrayMap colorCodes = new Char2IntArrayMap() {{
         put('0', 0x000000);
@@ -65,16 +69,43 @@ public class ColorUtil {
         put('F', 0xFFFFFF);
     }};
 
+    // Ограничиваем размер кэша чтобы не было утечки памяти
+    private static final int MAX_CACHE_SIZE = 5000;
+
     static {
         cacheCleaner.scheduleWithFixedDelay(() -> {
-            CacheEntry entry = cleanupQueue.poll();
-            while (entry != null) {
-                if (entry.isExpired()) {
-                    colorCache.remove(entry.getKey());
+            try {
+                CacheEntry entry = cleanupQueue.poll();
+                while (entry != null) {
+                    if (entry.isExpired()) {
+                        colorCache.remove(entry.getKey());
+                    }
+                    entry = cleanupQueue.poll();
                 }
-                entry = cleanupQueue.poll();
+                
+                // Дополнительная защита: если кэш слишком большой - очищаем старые записи
+                if (colorCache.size() > MAX_CACHE_SIZE) {
+                    colorCache.entrySet().stream()
+                            .sorted((a, b) -> Long.compare(a.getValue().expirationTime, b.getValue().expirationTime))
+                            .limit(colorCache.size() - MAX_CACHE_SIZE)
+                            .forEach(e -> {
+                                colorCache.remove(e.getKey());
+                                cleanupQueue.remove(e.getValue());
+                            });
+                }
+            } catch (Exception ignored) {
+                // Игнорируем ошибки в фоновом потоке
             }
         }, 0, 1, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Останавливает cleaner (вызывается при shutdown)
+     */
+    public static void shutdown() {
+        cacheCleaner.shutdownNow();
+        colorCache.clear();
+        cleanupQueue.clear();
     }
 
     public final int RED = getColor(255, 0, 0);

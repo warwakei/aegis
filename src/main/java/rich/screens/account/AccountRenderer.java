@@ -233,7 +233,7 @@ public class AccountRenderer {
         Render2D.gradientRect(x, y, width, 22, headerColors, 6, 6, 0, 0);
         Render2D.outline(x, y, width, height, OUTLINE_THICKNESS, outlineColor, 6);
         Fonts.BOLD.draw("Accounts List", x + 8, y + 7, 8f, withAlpha(0xFFFFFF, titleAlpha));
-        Render2D.blur(x, y, width, height, 0f, 0, ColorUtil.rgba(0, 0, 0, 1));
+        Render2D.blur(x, y, width, height, 4f, 6, ColorUtil.rgba(0, 0, 0, 15));
 
         float accountListX = x + 5;
         float accountListY = y + 28;
@@ -288,7 +288,7 @@ public class AccountRenderer {
         int[] cardColors = {cardTopLeft, cardTopRight, cardBottomRight, cardBottomLeft};
 
         Render2D.gradientRect(x, y, width, height, cardColors, 4);
-        Render2D.blur(x, y, 1, 1, 0f, 0, ColorUtil.rgba(0, 0, 0, 0));
+        // Removed useless blur call (0 radius does nothing)
 
         int cardOutlineColor = withAlpha(0x252a36, (int) (contentAlpha * 80));
         Render2D.outline(x, y, width, height, 0.5f, cardOutlineColor, 4);
@@ -341,7 +341,7 @@ public class AccountRenderer {
         int[] pinBtnColors = {pinBtnColor, pinBtnColor, pinBtnColor, pinBtnColor};
         Render2D.gradientRect(pinButtonX, buttonYPos, buttonSize, buttonSize, pinBtnColors, 3);
         Render2D.outline(pinButtonX, buttonYPos, buttonSize, buttonSize, 0.5f, pinOutlineColor, 3);
-        Render2D.blur(x, y, 1, 1, 0f, 0, ColorUtil.rgba(0, 0, 0, 0));
+        // Removed useless blur call (0 radius does nothing)
 
         int pinIconColor = account.isPinned() ? withAlpha(0xffd700, titleAlpha) : withAlpha(0xc0c8d4, titleAlpha);
         Fonts.MAINMENUSCREEN.drawCentered("c", pinButtonX + buttonSize / 2f, buttonYPos + 1.5f, 9f, pinIconColor);
@@ -351,7 +351,7 @@ public class AccountRenderer {
         int[] delBtnColors = {delBtnColor, delBtnColor, delBtnColor, delBtnColor};
         Render2D.gradientRect(deleteButtonX, buttonYPos, buttonSize, buttonSize, delBtnColors, 3);
         Render2D.outline(deleteButtonX, buttonYPos, buttonSize, buttonSize, 0.5f, withAlpha(0x353a46, (int) (contentAlpha * 100)), 3);
-        Render2D.blur(x, y, 1, 1, 0f, 0, ColorUtil.rgba(0, 0, 0, 0));
+        // Removed useless blur call (0 radius does nothing)
 
         int delIconColor = deleteHovered ? withAlpha(0xff8080, titleAlpha) : withAlpha(0xc0c8d4, titleAlpha);
         Fonts.GUI_ICONS.drawCentered("O", deleteButtonX + buttonSize / 2f, buttonYPos + 0.5f, 11f, delIconColor);

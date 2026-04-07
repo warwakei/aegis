@@ -1,6 +1,7 @@
 package rich.screens.clickgui.impl.background.render;
 
 import rich.modules.module.category.ModuleCategory;
+import rich.util.animations.Easings;
 import rich.util.render.Render2D;
 import rich.util.render.font.Fonts;
 
@@ -24,9 +25,9 @@ public class CategoryRenderer {
 
     private final Map<ModuleCategory, Float> categoryAnimations = new HashMap<>();
 
-    private static final float ANIMATION_SPEED = 8f;
-    private static final float MAX_OFFSET = 5f;
-    private static final float BALL_SIZE = 3f;
+    private static final float ANIMATION_SPEED = 10f; // Быстрее с Spring easing
+    private static final float MAX_OFFSET = 4f; // Чуть меньше offset
+    private static final float BALL_SIZE = 3.5f;
     private static final float TEXT_SIZE = 6f;
     private static final float ICON_SIZE = 6f;
     private static final float ICON_SPACING = 4f;
@@ -55,8 +56,12 @@ public class CategoryRenderer {
         float target = cat == selected ? 1f : 0f;
         float current = categoryAnimations.getOrDefault(cat, 0f);
 
+        // Spring easing для более естественного движения
         float diff = target - current;
-        float change = diff * ANIMATION_SPEED * deltaTime;
+        float rawProgress = Math.min(1f, ANIMATION_SPEED * deltaTime);
+        float springProgress = (float) Easings.SPRING.ease(rawProgress);
+        
+        float change = diff * springProgress;
 
         if (Math.abs(diff) < 0.001f) {
             categoryAnimations.put(cat, target);

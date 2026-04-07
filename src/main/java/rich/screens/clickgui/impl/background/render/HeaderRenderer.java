@@ -22,25 +22,27 @@ public class HeaderRenderer {
     }
 
     private void renderHeaderPanel(float bgX, float bgY, float bgWidth, float alphaMultiplier) {
-        int panelAlpha = (int) (30 * alphaMultiplier);
+        int panelAlpha = (int) (28 * alphaMultiplier); // Чуть меньше
         int outlineAlpha = (int) (255 * alphaMultiplier);
 
         long currentTime = System.currentTimeMillis();
-        float pulse = (float) Math.sin(currentTime * 0.002) * 0.1f + 0.9f;
-        
-        int r = (int)(30 * pulse);
-        int g = (int)(30 * pulse);
-        int b = (int)(35 * pulse);
+        // Более плавная пульсация
+        float pulse = (float) Math.sin(currentTime * 0.0015) * 0.08f + 0.92f;
+
+        int r = (int)(28 * pulse);
+        int g = (int)(28 * pulse);
+        int b = (int)(33 * pulse);
 
         Render2D.gradientRect(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25,
                 new int[]{
-                        new Color(r + 5, g + 5, b + 8, panelAlpha).getRGB(),
+                        new Color(r + 6, g + 6, b + 10, panelAlpha).getRGB(),
+                        new Color(r + 2, g + 2, b + 4, panelAlpha).getRGB(),
                         new Color(r, g, b, panelAlpha).getRGB(),
-                        new Color(r + 3, g + 3, b + 5, panelAlpha).getRGB(),
-                        new Color(r, g, b, panelAlpha).getRGB()
+                        new Color(r + 1, g + 1, b + 2, panelAlpha).getRGB()
                 }, 8);
-        
-        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f, new Color(60, 65, 75, outlineAlpha).getRGB(), 8);
+
+        // Более аккуратный outline
+        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f, new Color(52, 57, 67, outlineAlpha).getRGB(), 8);
     }
 
     private void renderSearchBox(float bgX, float bgY, SearchHandler searchHandler, float alphaMultiplier) {

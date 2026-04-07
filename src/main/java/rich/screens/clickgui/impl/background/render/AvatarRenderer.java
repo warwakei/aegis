@@ -26,9 +26,8 @@ public class AvatarRenderer {
             username = mc.getSession().getUsername();
         }
 
-        Render2D.blur(bgX + 15f, bgY + 15f, 1, 1, 0f, 0, alphaText);
+        // Removed useless blur calls (0 radius does nothing)
         context.getMatrices().pushMatrix();
-        Render2D.blur(bgX + 15f, bgY + 15f, 1, 1, 0f, 0, alphaText);
         GifRender.drawBackground(bgX + 12.5f, bgY + 12.5f, 70, 30, 7, applyAlpha(-1, alpha));
         Render2D.rect(bgX + 15f, bgY + 15f, 25, 25, new Color(42, 42, 42, alpha).getRGB(), 15);
         GifRender.drawAvatar(bgX + 16f, bgY + 16f, 23, 23, 15, applyAlpha(-1, alpha));
@@ -44,10 +43,7 @@ public class AvatarRenderer {
 
         Scissor.enable(textX, textY - 2, maxTextWidth, textHeight, FORCED_GUI_SCALE);
         Fonts.BOLD.draw(username, textX, textY, 6, new Color(255, 255, 255, alphaText).getRGB());
-        Render2D.blur(textX, textY + 7, 1, 1, 0f, 0, alphaText);
         Scissor.disable();
-
-        Render2D.blur(textX, textY + 7, 1, 1, 0f, 0, alphaText);
     }
 
     private int applyAlpha(int color, int alpha) {

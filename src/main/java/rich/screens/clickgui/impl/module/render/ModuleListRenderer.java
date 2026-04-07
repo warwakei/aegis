@@ -20,12 +20,15 @@ public class ModuleListRenderer {
     private static final float MODULE_ITEM_HEIGHT = 22f;
     private static final float MODULE_LIST_CORNER_RADIUS = 6f;
     private static final float CORNER_INSET = 3f;
-    private static final float STATE_BALL_SIZE = 3f;
+    private static final float STATE_BALL_SIZE = 3.5f; // Чуть больше для видимости
     private static final float STATE_TEXT_OFFSET = 6f;
-    private static final float BIND_BOX_HEIGHT = 9f;
-    private static final float BIND_BOX_MIN_WIDTH = 18f;
-    private static final float BIND_BOX_PADDING = 6f;
-    private static final float BIND_WIDTH_ANIM_SPEED = 12f;
+    private static final float BIND_BOX_HEIGHT = 10f; // Чуть выше
+    private static final float BIND_BOX_MIN_WIDTH = 20f;
+    private static final float BIND_BOX_PADDING = 7f;
+    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // Быстрее
+    private static final float BIND_ALPHA_ANIM_SPEED = 12f;
+    private static final float OUTLINE_THICKNESS = 0.5f;
+    private static final float SCROLL_FADE_SIZE = 12f; // Плавнее
 
     private final ModuleAnimationHandler animationHandler;
     private final ModuleBindHandler bindHandler;
@@ -149,39 +152,68 @@ public class ModuleListRenderer {
 
             float scaledWidth = (width - 6) * scale;
 
-            Render2D.rect(animX, scaledModY, scaledWidth, scaledHeight, bgColor, 5);
+            // Pixel-perfect alignment - округляем координаты
+            float alignedX = Math.round(animX * 10f) / 10f;
+            float alignedY = Math.round(scaledModY * 10f) / 10f;
+            float alignedW = Math.round(scaledWidth * 10f) / 10f;
+            float alignedH = Math.round(scaledHeight * 10f) / 10f;
+
+            Render2D.rect(alignedX, alignedY, alignedW, alignedH, bgColor, 5);
 
             if (selected) {
+                // Улучшенный пульсирующий эффект для выбранного модуля
                 float pulseValue = (float) (Math.sin(animHandler.getSelectedPulseAnimation()) * 0.5 + 0.5);
-
                 float highlightBoost = isHighlighted ? animHandler.getHighlightAnimation() * 0.5f : 0f;
 
-                int baseOutlineAlpha = (int) (80 + 80 * highlightBoost);
-                int pulseOutlineAlpha = (int) (40 + 40 * highlightBoost);
+                // Более яркий и плавный аутлайн
+                int baseOutlineAlpha = (int) (90 + 70 * highlightBoost);
+                int pulseOutlineAlpha = (int) (50 + 50 * highlightBoost);
                 int outlineAlpha = (int) ((baseOutlineAlpha + pulseOutlineAlpha * pulseValue) * combinedAlpha);
 
-                int baseColorValue = (int) (80 + 50 * highlightBoost);
-                int outlineColorValue = (int) (baseColorValue + 30 * pulseValue);
-                int outlineG = (int) (80 + 20 * pulseValue + 40 * highlightBoost);
-                int outlineB = (int) (80 + 20 * pulseValue + 40 * highlightBoost);
+                // Улучшенные цвета пульсации
+                int outlineR = (int) (100 + 50 * pulseValue + 60 * highlightBoost);
+                int outlineG = (int) (100 + 30 * pulseValue + 30 * highlightBoost);
+                int outlineB = (int) (100 + 20 * pulseValue + 20 * highlightBoost);
 
-                Render2D.outline(animX, scaledModY, scaledWidth, scaledHeight, 0.5f,
-                        new Color(Math.min(255, outlineColorValue), Math.min(255, outlineG), Math.min(255, outlineB), outlineAlpha).getRGB(), 5);
+                // Рендерим аутлайн с pixel-perfect толщиной
+                Render2D.outline(alignedX, alignedY, alignedW, alignedH, OUTLINE_THICKNESS,
+                        new Color(Math.min(255, outlineR), Math.min(255, outlineG), Math.min(255, outlineB), outlineAlpha).getRGB(), 5);
+
+                // Дополнительный glow эффект для выбранного модуля
+                if (pulseValue > 0.7f) {
+                    float glowAlpha = (pulseValue - 0.7f) * 3.33f * combinedAlpha; // 0-100%
+                    int glowIntensity = (int) (glowAlpha * 15);
+                    Render2D.blur(alignedX - 1, alignedY - 1, alignedW + 2, alignedH + 2,
+                            4f, 6f, new Color(100, 130, 180, glowIntensity).getRGB());
+                }
             } else if (hoverAnim > 0.01f) {
-                int outlineAlpha = (int) (60 * hoverAnim * combinedAlpha);
-                Render2D.outline(animX, scaledModY, scaledWidth, scaledHeight, 0.5f,
-                        new Color(120, 120, 120, outlineAlpha).getRGB(), 5);
+                // Плавный hover outline
+                int outlineAlpha = (int) (70 * hoverAnim * combinedAlpha);
+                Render2D.outline(alignedX, alignedY, alignedW, alignedH, OUTLINE_THICKNESS,
+                        new Color(130, 140, 160, outlineAlpha).getRGB(), 5);
             }
 
             float stateTextOffset = stateAnim * STATE_TEXT_OFFSET;
 
             if (stateAnim > 0.01f) {
-                float ballAlpha = stateAnim * 200 * combinedAlpha;
-                float ballX = animX + 4;
-                float ballY = scaledModY + (scaledHeight - STATE_BALL_SIZE * scale) / 2f + 1F;
+                // Улучшенный индикатор состояния с glow
+                float ballAlpha = stateAnim * 220 * combinedAlpha;
+                float ballX = alignedX + 4;
+                float ballY = alignedY + (alignedH - STATE_BALL_SIZE * scale) / 2f + 1F;
+                
                 Render2D.rect(ballX, ballY, STATE_BALL_SIZE * scale, STATE_BALL_SIZE * scale,
                         new Color(255, 255, 255, (int) ballAlpha).getRGB(),
                         STATE_BALL_SIZE * scale / 2f);
+
+                // Glow для включённого модуля
+                if (stateAnim > 0.8f) {
+                    float glowAlpha = (stateAnim - 0.8f) * 5 * combinedAlpha;
+                    int glowSize = (int) (STATE_BALL_SIZE * scale * 2.5f);
+                    float glowX = ballX - (glowSize - STATE_BALL_SIZE * scale) / 2f;
+                    float glowY = ballY - (glowSize - STATE_BALL_SIZE * scale) / 2f;
+                    Render2D.blur(glowX, glowY, glowSize, glowSize, 3f, glowSize / 2f,
+                            new Color(200, 220, 255, (int) (glowAlpha * 20)).getRGB());
+                }
             }
 
             String name = module.getName();
@@ -307,14 +339,18 @@ public class ModuleListRenderer {
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade, int alpha, int size) {
         if (topFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float fadeAlpha = alpha * topFade * (1f - i / (float) size);
-                Render2D.rect(x, y + i, w, 1, new Color(20, 20, 20, (int) fadeAlpha).getRGB(), 0);
+                // Плавное затухание через sin curve
+                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float fadeAlpha = alpha * topFade * smoothProgress;
+                Render2D.rect(x, y + i, w, 1, new Color(15, 15, 18, (int) fadeAlpha).getRGB(), 0);
             }
         }
         if (bottomFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float fadeAlpha = alpha * bottomFade * (i / (float) size);
-                Render2D.rect(x, y + h - size + i, w, 1, new Color(20, 20, 20, (int) fadeAlpha).getRGB(), 0);
+                // Плавное затухание через sin curve
+                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float fadeAlpha = alpha * bottomFade * smoothProgress;
+                Render2D.rect(x, y + h - size + i, w, 1, new Color(15, 15, 18, (int) fadeAlpha).getRGB(), 0);
             }
         }
     }

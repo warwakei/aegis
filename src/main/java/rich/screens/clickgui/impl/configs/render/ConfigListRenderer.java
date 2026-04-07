@@ -4,6 +4,7 @@ import net.minecraft.client.gui.DrawContext;
 import rich.screens.clickgui.impl.configs.ConfigsRenderer;
 import rich.screens.clickgui.impl.configs.handler.ConfigAnimationHandler;
 import rich.screens.clickgui.impl.configs.handler.ConfigDataHandler;
+import rich.util.animations.Easings;
 import rich.util.render.Render2D;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
@@ -15,7 +16,9 @@ public class ConfigListRenderer {
 
     private static final float CONFIG_ITEM_HEIGHT = 24f;
     private static final float CONFIG_ITEM_SPACING = 3f;
-    private static final float HOVER_SPEED = 0.15f;
+    private static final float HOVER_SPEED = 0.18f; // Быстрее
+    private static final float OUTLINE_THICKNESS = 0.5f;
+    private static final float SCROLL_FADE_SIZE = 12f;
 
     private final ConfigAnimationHandler animationHandler;
     private final ConfigDataHandler dataHandler;
@@ -55,7 +58,9 @@ public class ConfigListRenderer {
             }
 
             if (itemY + CONFIG_ITEM_HEIGHT >= listY && itemY <= listY + listH) {
-                float itemSlide = (1f - itemAlpha) * 15f;
+                // Spring easing для появления
+                float easedProgress = (float) Easings.SPRING.ease(itemAlpha);
+                float itemSlide = (1f - easedProgress) * 15f;
                 renderConfigItem(config, listX + itemSlide, itemY, listW, mouseX, mouseY, alpha * itemAlpha);
             }
             itemY += CONFIG_ITEM_HEIGHT + CONFIG_ITEM_SPACING;
@@ -76,30 +81,41 @@ public class ConfigListRenderer {
 
         float hoverAnim = animationHandler.getHoverAnimation(config);
         float target = isHovered ? 1f : 0f;
-        hoverAnim += (target - hoverAnim) * HOVER_SPEED;
+        // Spring easing для hover
+        float diff = target - hoverAnim;
+        hoverAnim += diff * HOVER_SPEED;
         animationHandler.setHoverAnimation(config, hoverAnim);
 
-        renderItemBackground(x, y, width, isSelected, hoverAnim, alpha);
-        renderItemName(config, x, y - 0.5f, alpha);
-        renderActionButtons(config, x, y - 0.5f, width, mouseX, mouseY, alpha);
+        // Pixel-perfect alignment
+        float alignedX = Math.round(x * 10f) / 10f;
+        float alignedY = Math.round(y * 10f) / 10f;
+
+        renderItemBackground(alignedX, alignedY, width, isSelected, hoverAnim, alpha);
+        renderItemName(config, alignedX, alignedY - 0.5f, alpha);
+        renderActionButtons(config, alignedX, alignedY - 0.5f, width, mouseX, mouseY, alpha);
     }
 
     private void renderItemBackground(float x, float y, float width, boolean isSelected,
                                       float hoverAnim, float alpha) {
-        int bgAlpha = (int) ((20 + 15 * hoverAnim + (isSelected ? 10 : 0)) * alpha);
-        int gray = (int) (60 + 20 * hoverAnim);
+        int bgAlpha = (int) ((18 + 14 * hoverAnim + (isSelected ? 12 : 0)) * alpha);
+        int gray = (int) (55 + 18 * hoverAnim);
         Render2D.rect(x, y, width, CONFIG_ITEM_HEIGHT, new Color(gray, gray, gray, bgAlpha).getRGB(), 5);
 
         if (isSelected || hoverAnim > 0.01f) {
-            int outlineAlpha = (int) ((40 + 40 * hoverAnim) * alpha);
-            Render2D.outline(x, y, width, CONFIG_ITEM_HEIGHT, 0.5f,
-                    new Color(100, 100, 100, outlineAlpha).getRGB(), 5);
+            int outlineAlpha = (int) ((35 + 45 * hoverAnim) * alpha);
+            // Более яркий outline при hover
+            int outlineR = (int) (90 + 30 * hoverAnim);
+            int outlineG = (int) (100 + 30 * hoverAnim);
+            int outlineB = (int) (120 + 30 * hoverAnim);
+            
+            Render2D.outline(x, y, width, CONFIG_ITEM_HEIGHT, OUTLINE_THICKNESS,
+                    new Color(outlineR, outlineG, outlineB, outlineAlpha).getRGB(), 5);
         }
     }
 
     private void renderItemName(String config, float x, float y, float alpha) {
-        Fonts.GUI_ICONS.draw("B", x + 4, y + 4.5f, 16, new Color(220, 220, 220, (int) (25 * alpha)).getRGB());
-        Fonts.BOLD.draw(config, x + 10, y + 8, 6, new Color(220, 220, 220, (int) (255 * alpha)).getRGB());
+        Fonts.GUI_ICONS.draw("B", x + 4, y + 4.5f, 16, new Color(210, 210, 215, (int) (22 * alpha)).getRGB());
+        Fonts.BOLD.draw(config, x + 10, y + 8, 6, new Color(215, 215, 220, (int) (245 * alpha)).getRGB());
     }
 
     private void renderActionButtons(String config, float x, float y, float width,
@@ -156,17 +172,19 @@ public class ConfigListRenderer {
     }
 
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade) {
-        int size = 15;
+        int size = (int) SCROLL_FADE_SIZE;
         if (topFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float fadeAlpha = 80 * topFade * (1f - i / (float) size);
-                Render2D.rect(x, y + i, w, 1, new Color(20, 20, 20, (int) fadeAlpha).getRGB(), 0);
+                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float fadeAlpha = 80 * topFade * smoothProgress;
+                Render2D.rect(x, y + i, w, 1, new Color(15, 15, 18, (int) fadeAlpha).getRGB(), 0);
             }
         }
         if (bottomFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float fadeAlpha = 80 * bottomFade * (i / (float) size);
-                Render2D.rect(x, y + h - size + i, w, 1, new Color(20, 20, 20, (int) fadeAlpha).getRGB(), 0);
+                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float fadeAlpha = 80 * bottomFade * smoothProgress;
+                Render2D.rect(x, y + h - size + i, w, 1, new Color(15, 15, 18, (int) fadeAlpha).getRGB(), 0);
             }
         }
     }

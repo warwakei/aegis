@@ -27,8 +27,12 @@ public class SliderComponent extends AbstractSettingComponent {
 
     private long lastUpdateTime = System.currentTimeMillis();
 
-    private static final float ANIMATION_SPEED = 8f;
-    private static final float FAST_ANIMATION_SPEED = 12f;
+    private static final float ANIMATION_SPEED = 10f; // Быстрее
+    private static final float FAST_ANIMATION_SPEED = 14f;
+    private static final float KNOB_ANIM_SPEED = 12f;
+    private static final float TRACK_HEIGHT = 2.5f;
+    private static final float KNOB_BASE_SIZE = 5.5f; // Чуть больше
+    private static final float OUTLINE_THICKNESS = 0.15f; // Тоньше и аккуратнее
 
     public SliderComponent(SliderSettings setting) {
         super(setting);
@@ -52,12 +56,15 @@ public class SliderComponent extends AbstractSettingComponent {
         float deltaTime = getDeltaTime();
         updateAnimations(mouseX, mouseY, deltaTime);
 
+        // Более плавная анимация с Spring easing
         float range = sliderSettings.getMax() - sliderSettings.getMin();
         float targetPercentage = range > 0 ? (sliderSettings.getValue() - sliderSettings.getMin()) / range : 0f;
-        animatedPercentage += (targetPercentage - animatedPercentage) * 0.25f;
+        float percentageDiff = targetPercentage - animatedPercentage;
+        animatedPercentage += percentageDiff * 0.28f; // Быстрее
 
         float knobTarget = dragging ? 1f : 0f;
-        knobAnimation += (knobTarget - knobAnimation) * 0.25f;
+        float knobDiff = knobTarget - knobAnimation;
+        knobAnimation += knobDiff * KNOB_ANIM_SPEED * deltaTime;
         knobAnimation = Math.max(0f, Math.min(1f, knobAnimation));
 
         int iconAlpha = (int)(200 * alphaMultiplier);
@@ -175,30 +182,41 @@ public class SliderComponent extends AbstractSettingComponent {
 
     private void renderSlider() {
         float sliderY = y + 11;
-        float sliderHeight = 2.5f;
         float sliderPadding = 1f;
         float sliderTrackWidth = width - 2;
 
-        Render2D.rect(x + sliderPadding, sliderY, sliderTrackWidth, sliderHeight,
-                applyAlpha(new Color(60, 60, 65, 220)).getRGB(), 2f);
+        // Более аккуратный трек
+        Render2D.rect(x + sliderPadding, sliderY, sliderTrackWidth, TRACK_HEIGHT,
+                applyAlpha(new Color(50, 50, 55, 200)).getRGB(), 2f);
 
         float filledWidth = sliderTrackWidth * animatedPercentage;
 
         if (filledWidth > 0) {
-            Render2D.rect(x + sliderPadding, sliderY, filledWidth, sliderHeight,
-                    applyAlpha(new Color(130, 130, 135, 230)).getRGB(), 2f);
+            // Улучшенный цвет заполненной части
+            Render2D.rect(x + sliderPadding, sliderY, filledWidth, TRACK_HEIGHT,
+                    applyAlpha(new Color(120, 125, 135, 220)).getRGB(), 2f);
         }
 
-        float knobBaseSize = 5f;
-        float knobSize = knobBaseSize + (knobAnimation * 1f);
+        // Более плавный knob с glow эффектом
+        float knobSize = KNOB_BASE_SIZE + (knobAnimation * 1.2f);
         float knobX = x + sliderPadding + (sliderTrackWidth * animatedPercentage) - (knobSize / 2f);
-        float knobY = sliderY + (sliderHeight / 2f) - (knobSize / 2f);
+        float knobY = sliderY + (TRACK_HEIGHT / 2f) - (knobSize / 2f);
 
         knobX = Math.max(x + sliderPadding - (knobSize / 2f),
                 Math.min(knobX, x + sliderPadding + sliderTrackWidth - (knobSize / 2f)));
 
+        // Glow при hover
+        if (knobAnimation > 0.5f) {
+            float glowSize = knobSize * 2.2f;
+            float glowX = knobX - (glowSize - knobSize) / 2f;
+            float glowY = knobY - (glowSize - knobSize) / 2f;
+            int glowAlpha = (int) ((knobAnimation - 0.5f) * 2 * 25 * alphaMultiplier);
+            Render2D.blur(glowX, glowY, glowSize, glowSize, 3f, glowSize / 2f,
+                    new Color(140, 160, 200, glowAlpha).getRGB());
+        }
+
         Render2D.rect(knobX, knobY, knobSize, knobSize,
-                applyAlpha(new Color(180, 180, 185, 255)).getRGB(), knobSize / 2f);
+                applyAlpha(new Color(175, 180, 190, 255)).getRGB(), knobSize / 2f);
     }
 
     private boolean isValueHover(double mouseX, double mouseY) {

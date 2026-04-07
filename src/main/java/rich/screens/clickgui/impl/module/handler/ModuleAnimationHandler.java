@@ -50,19 +50,20 @@ public class ModuleAnimationHandler {
     private float categoryTransitionProgress = 1f;
     private long categoryTransitionStartTime = 0;
 
-    private static final float MODULE_ANIM_DURATION = 300f;
-    private static final float SETTING_ANIM_DURATION = 450f;
-    private static final float CATEGORY_TRANSITION_DURATION = 280f;
+    private static final float MODULE_ANIM_DURATION = 320f; // Чуть дольше для плавности
+    private static final float SETTING_ANIM_DURATION = 400f;
+    private static final float CATEGORY_TRANSITION_DURATION = 300f; // Плавнее переход
     private static final float HIGHLIGHT_DURATION = 2000f;
-    private static final float HOVER_ANIM_SPEED = 8f;
-    private static final float STATE_ANIM_SPEED = 10f;
-    private static final float ICON_ANIM_SPEED = 10f;
-    private static final float FAVORITE_ANIM_SPEED = 8f;
-    private static final float POSITION_ANIM_SPEED = 6f;
-    private static final float BIND_WIDTH_ANIM_SPEED = 12f;
-    private static final float PULSE_SPEED = 5.5f;
-    private static final float VISIBILITY_ANIM_SPEED = 8f;
-    private static final float HEIGHT_ANIM_SPEED = 10f;
+    private static final float HOVER_ANIM_SPEED = 10f; // Быстрее реакция на hover
+    private static final float STATE_ANIM_SPEED = 12f; // Быстрее смена состояния
+    private static final float ICON_ANIM_SPEED = 12f;
+    private static final float FAVORITE_ANIM_SPEED = 10f;
+    private static final float POSITION_ANIM_SPEED = 8f; // Плавнее позиционирование
+    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // Быстрее bind box
+    private static final float BIND_ALPHA_ANIM_SPEED = 10f;
+    private static final float PULSE_SPEED = 4.0f; // Медленнее пульсация (естественнее)
+    private static final float VISIBILITY_ANIM_SPEED = 10f;
+    private static final float HEIGHT_ANIM_SPEED = 12f;
     private static final float CORNER_INSET = 3f;
     private static final float MODULE_ITEM_HEIGHT = 22f;
 
@@ -138,7 +139,8 @@ public class ModuleAnimationHandler {
 
         long elapsed = System.currentTimeMillis() - categoryTransitionStartTime;
         float progress = Math.min(1f, elapsed / CATEGORY_TRANSITION_DURATION);
-        categoryTransitionProgress = easeOutCubic(progress);
+        // QuartInOut для очень плавного перехода
+        categoryTransitionProgress = easeInOutQuart(progress);
 
         if (progress >= 1f) {
             isCategoryTransitioning = false;
@@ -332,7 +334,13 @@ public class ModuleAnimationHandler {
     private float animateTowards(float current, float target, float speed, float deltaTime) {
         float diff = target - current;
         if (Math.abs(diff) < 0.001f) return target;
-        return current + diff * speed * deltaTime;
+        
+        // Используем SPRING-like анимацию для более естественного движения
+        // springCurve даёт быстрый старт и плавное замедление
+        float rawProgress = Math.min(1f, speed * deltaTime);
+        float springProgress = (float) rich.util.animations.Easings.SPRING.ease(rawProgress);
+        
+        return current + diff * springProgress;
     }
 
     private float easeOutCubic(float x) {
@@ -345,6 +353,10 @@ public class ModuleAnimationHandler {
 
     public float easeOutQuart(float x) {
         return 1f - (float) Math.pow(1 - x, 4);
+    }
+
+    public float easeInOutQuart(float x) {
+        return x < 0.5f ? 8f * x * x * x * x : 1f - (float) Math.pow(-2f * x + 2f, 4) / 2f;
     }
 
     public float getCategorySlideDistance() {

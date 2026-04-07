@@ -16,7 +16,7 @@ public class SmoothAnimation {
     private boolean finished = false;
 
     public SmoothAnimation run(double valueTo, double durationSeconds) {
-        return this.run(valueTo, durationSeconds, Easings.EXPO_OUT, false);
+        return this.run(valueTo, durationSeconds, Easings.SPRING, false);
     }
 
     public SmoothAnimation run(double valueTo, double durationSeconds, Easing easing) {
@@ -24,7 +24,7 @@ public class SmoothAnimation {
     }
 
     public SmoothAnimation run(double valueTo, double durationSeconds, boolean safe) {
-        return this.run(valueTo, durationSeconds, Easings.EXPO_OUT, safe);
+        return this.run(valueTo, durationSeconds, Easings.SPRING, safe);
     }
 
     public SmoothAnimation run(double valueTo, double durationSeconds, Easing easing, boolean safe) {

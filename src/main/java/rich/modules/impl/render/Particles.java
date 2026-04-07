@@ -42,11 +42,11 @@ public class Particles extends ModuleStructure {
     final List<TotemEmitter> totemEmitters = new ArrayList<>();
 
     public SelectSetting mode = new SelectSetting("Режим", "Тип партиклов")
-            .value("Кубы", "Корона", "Куб", "Доллар", "Сердце", "Молния", "Линия", "Ромб", "Снежинка", "Звезда", "Звезда 2", "Треугольник", "Рандом")
+            .value("Кубы", "Корона", "Куб", "Доллар", "Сердце", "Молния", "Линия", "Ромб", "Снежинка", "Звезда", "Звезда 2", "Треугольник", "Рандом", "Спираль", "Вихрь", "Фейерверк", "Пламя", "Магия", "Галактика")
             .selected("Звезда");
 
     public SelectSetting glowMode = new SelectSetting("Свечение", "Тип эффекта свечения")
-            .value("Bloom", "Bloom Sample", "Оба")
+            .value("Bloom", "Bloom Sample", "Оба", "Трейл")
             .selected("Bloom Sample");
 
     public MultiSelectSetting triggers = new MultiSelectSetting("Триггеры", "Когда спавнить партиклы")
@@ -54,22 +54,41 @@ public class Particles extends ModuleStructure {
             .selected("Удар", "Тотем", "Ходьба", "Бросаемый предмет");
 
     public SliderSettings amount = new SliderSettings("Количество", "Кол-во партиклов при ударе")
-            .range(10, 40).setValue(40);
+            .range(10, 60).setValue(40);
 
     public SliderSettings walkAmount = new SliderSettings("Кол-во при ходьбе", "Кол-во партиклов в секунду при ходьбе")
-            .range(10, 30).setValue(30).visible(() -> triggers.isSelected("Ходьба"));
+            .range(10, 50).setValue(30).visible(() -> triggers.isSelected("Ходьба"));
 
     public SliderSettings spread = new SliderSettings("Разброс", "Сила разброса частиц в стороны")
-            .range(0.5f, 3.0f).setValue(1.0f);
+            .range(0.5f, 5.0f).setValue(1.0f);
 
     public SliderSettings speed = new SliderSettings("Скорость", "Скорость движения частиц")
-            .range(0.1f, 3.0f).setValue(2.0f);
+            .range(0.1f, 5.0f).setValue(2.0f);
 
     public SliderSettings lifeTime = new SliderSettings("Время жизни", "Время жизни частиц в секундах")
-            .range(0.5f, 10f).setValue(2.5f);
+            .range(0.5f, 15f).setValue(2.5f);
 
     public SliderSettings size = new SliderSettings("Размер", "Размер частиц")
-            .range(0.1f, 1.0f).setValue(1f);
+            .range(0.1f, 2.0f).setValue(1f);
+
+    // Новые настройки для физики
+    public BooleanSetting enablePhysics = new BooleanSetting("Физика", "Включить улучшенную физику частиц")
+            .setValue(true);
+
+    public SliderSettings turbulence = new SliderSettings("Турбулентность", "Сила случайного отклонения")
+            .range(0f, 1.0f).setValue(0.05f)
+            .visible(() -> enablePhysics.isValue());
+
+    public SliderSettings attraction = new SliderSettings("Притяжение", "Сила притяжения к цели (-1 = отталкивание)")
+            .range(-1.0f, 1.0f).setValue(0.0f)
+            .visible(() -> enablePhysics.isValue());
+
+    public BooleanSetting enableTrails = new BooleanSetting("Трейлы", "Частицы оставляют след")
+            .setValue(false);
+
+    public SliderSettings trailLength = new SliderSettings("Длина трейла", "Максимальная длина следа")
+            .range(5, 50).setValue(20)
+            .visible(() -> enableTrails.isValue());
 
     public SelectSetting colorMode = new SelectSetting("Цветовой режим", "Режим окраски частиц")
             .value("Один цвет", "Градиент", "Радуга", "По триггеру")
@@ -118,7 +137,9 @@ public class Particles extends ModuleStructure {
 
     public Particles() {
         super("Particles", "Custom particles system", ModuleCategory.RENDER);
-        settings(mode, glowMode, triggers, amount, walkAmount, spread, speed, lifeTime, size, colorMode, randomColor, color, gradientStart, gradientEnd, rainbowSpeed);
+        settings(mode, glowMode, triggers, amount, walkAmount, spread, speed, lifeTime, size,
+                enablePhysics, turbulence, attraction, enableTrails, trailLength,
+                colorMode, randomColor, color, gradientStart, gradientEnd, rainbowSpeed);
     }
 
     @Override

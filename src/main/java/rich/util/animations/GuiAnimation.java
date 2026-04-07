@@ -11,6 +11,8 @@ public class GuiAnimation {
     protected int ms = 250;
     protected double value = 1.0;
     protected Direction direction = Direction.FORWARDS;
+    // Easing для анимации (по умолчанию Spring для быстрого отклика)
+    protected Easing easing = Easings.SPRING;
 
     public GuiAnimation reset() {
         counter.resetCounter();
@@ -38,16 +40,17 @@ public class GuiAnimation {
 
     public Double getOutput() {
         double progress = Math.min(1.0, (double) counter.getTime() / ms);
-        double eased = easeOutQuart(progress);
+        double eased = easing.ease(progress);
 
         if (direction == Direction.FORWARDS) {
             return eased * value;
         } else {
-            return (1.0 - eased) * value;
+            return (1.0 - easing.ease(progress)) * value;
         }
     }
 
-    private double easeOutQuart(double x) {
-        return 1.0 - Math.pow(1.0 - x, 4);
+    public GuiAnimation setEasing(Easing easing) {
+        this.easing = easing;
+        return this;
     }
 }

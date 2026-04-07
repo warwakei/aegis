@@ -240,7 +240,7 @@ public class CoolDowns extends AbstractHudElement {
 
         boolean hasAnimatingCooldowns = !cooldownAnimations.isEmpty();
         int blurTint = ColorUtil.rgba(0, 0, 0, 0);
-        Render2D.blur(x, y, 1, 1, 0f, 0, blurTint);
+        // Removed useless blur call (0 radius does nothing)
 
         float fixedTimerWidth = Fonts.BOLD.getWidth(TIMER_TEMPLATE, 6);
 
@@ -321,7 +321,7 @@ public class CoolDowns extends AbstractHudElement {
                             new Color(52, 52, 52, bgAlpha).getRGB()
                     }, 3);
 
-            Render2D.blur(x, y, 1, 1, 0f, 0, blurTint);
+            // Removed useless blur call (0 radius does nothing)
 
             Render2D.outline(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9, 0.05f,
                     new Color(132, 132, 132, bgAlpha).getRGB(), 2);
@@ -366,7 +366,7 @@ public class CoolDowns extends AbstractHudElement {
                                 new Color(52, 52, 52, textAlpha).getRGB(),
                                 new Color(52, 52, 52, textAlpha).getRGB()
                         }, 3);
-                Render2D.blur(x, y, 1, 1, 0f, 0, blurTint);
+                // Removed useless blur call (0 radius does nothing)
 
                 Render2D.outline(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9, 0.05f,
                         new Color(132, 132, 132, textAlpha).getRGB(), 2);

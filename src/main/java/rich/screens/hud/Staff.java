@@ -349,7 +349,7 @@ public class Staff extends AbstractHudElement {
         Render2D.texture(skin, faceX - hatOffset, faceY - hatOffset, hatSize, hatSize,
                 40f / 64f, 8f / 64f, 48f / 64f, 16f / 64f, color, 0, 2f);
 
-        Render2D.blur(faceX, faceY, 1, 1, 0f, 0, ColorUtil.rgba(0, 0, 0, 0));
+        // Removed useless blur call (0 radius does nothing)
     }
 
     private void drawStatusCircle(float circleX, float circleY, int alpha) {

@@ -22,6 +22,8 @@ public class SettingsPanelRenderer {
     private static final float CORNER_INSET = 3f;
     private static final int SETTING_HEIGHT = 16;
     private static final int SETTING_SPACING = 2;
+    private static final float SEPARATOR_THICKNESS = 1.25f;
+    private static final float SCROLL_FADE_SIZE = 10f; // Плавнее
 
     private final ModuleAnimationHandler animationHandler;
 
@@ -36,10 +38,16 @@ public class SettingsPanelRenderer {
         animHandler.updateSettingAnimations(settingComponents);
         animHandler.updateVisibilityAnimations(settingComponents);
 
-        int panelAlpha = (int) (15 * alphaMultiplier);
+        int panelAlpha = (int) (12 * alphaMultiplier); // Меньше
         int outlineAlpha = (int) (215 * alphaMultiplier);
-        Render2D.rect(x, y, width, height, new Color(64, 64, 64, panelAlpha).getRGB(), SETTINGS_PANEL_CORNER_RADIUS);
-        Render2D.outline(x, y, width, height, 0.5f, new Color(55, 55, 55, outlineAlpha).getRGB(), SETTINGS_PANEL_CORNER_RADIUS);
+        // Pixel-perfect alignment
+        float alignedX = Math.round(x * 10f) / 10f;
+        float alignedY = Math.round(y * 10f) / 10f;
+        float alignedW = Math.round(width * 10f) / 10f;
+        float alignedH = Math.round(height * 10f) / 10f;
+        
+        Render2D.rect(alignedX, alignedY, alignedW, alignedH, new Color(64, 64, 64, panelAlpha).getRGB(), SETTINGS_PANEL_CORNER_RADIUS);
+        Render2D.outline(alignedX, alignedY, alignedW, alignedH, 0.5f, new Color(48, 48, 55, outlineAlpha).getRGB(), SETTINGS_PANEL_CORNER_RADIUS);
 
         if (selectedModule == null) {
             String text = "Select a module";
@@ -48,17 +56,20 @@ public class SettingsPanelRenderer {
             float textHeight = Fonts.BOLD.getHeight(textSize);
             float centerX = x + (width - textWidth) / 2f;
             float centerY = y + (height - textHeight) / 2f;
-            Fonts.BOLD.draw(text, centerX, centerY, textSize, new Color(100, 100, 100, (int) (150 * alphaMultiplier)).getRGB());
+            Fonts.BOLD.draw(text, centerX, centerY, textSize, new Color(90, 90, 95, (int) (140 * alphaMultiplier)).getRGB());
             return;
         }
 
-        Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, new Color(255, 255, 255, (int) (200 * alphaMultiplier)).getRGB());
+        // Улучшенный заголовок модуля
+        Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, new Color(240, 240, 245, (int) (210 * alphaMultiplier)).getRGB());
         String desc = selectedModule.getDescription();
         if (desc != null && !desc.isEmpty()) {
-            Fonts.BOLD.draw(desc.length() > 52 ? desc.substring(0, 55) + "..." : desc, x + 15, y + 20, 5, new Color(128, 128, 128, (int) (150 * alphaMultiplier)).getRGB());
-            Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, new Color(128, 128, 128, (int) (150 * alphaMultiplier)).getRGB());
+            String displayDesc = desc.length() > 50 ? desc.substring(0, 50) + "..." : desc;
+            Fonts.BOLD.draw(displayDesc, x + 15, y + 20, 5, new Color(115, 115, 120, (int) (140 * alphaMultiplier)).getRGB());
+            Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, new Color(115, 115, 120, (int) (140 * alphaMultiplier)).getRGB());
         }
-        Render2D.rect(x + 8, y + 30, width - 16, 1.25f, new Color(64, 64, 64, (int) (64 * alphaMultiplier)).getRGB(), 10);
+        // Более аккуратная линия-разделитель
+        Render2D.rect(x + 8, y + 30, width - 16, SEPARATOR_THICKNESS, new Color(55, 55, 60, (int) (60 * alphaMultiplier)).getRGB(), 10);
 
         float sideInset = CORNER_INSET;
         float bottomInset = CORNER_INSET + 3;
@@ -178,14 +189,16 @@ public class SettingsPanelRenderer {
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade, int alpha, int size) {
         if (topFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float fadeAlpha = alpha * topFade * (1f - i / (float) size);
-                Render2D.rect(x, y + i, w, 1, new Color(20, 20, 20, (int) fadeAlpha).getRGB(), 0);
+                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float fadeAlpha = alpha * topFade * smoothProgress;
+                Render2D.rect(x, y + i, w, 1, new Color(12, 12, 15, (int) fadeAlpha).getRGB(), 0);
             }
         }
         if (bottomFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float fadeAlpha = alpha * bottomFade * (i / (float) size);
-                Render2D.rect(x, y + h - size + i, w, 1, new Color(20, 20, 20, (int) fadeAlpha).getRGB(), 0);
+                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float fadeAlpha = alpha * bottomFade * smoothProgress;
+                Render2D.rect(x, y + h - size + i, w, 1, new Color(12, 12, 15, (int) fadeAlpha).getRGB(), 0);
             }
         }
     }

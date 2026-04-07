@@ -39,6 +39,7 @@ public class Info extends AbstractHudElement {
         if (mc.player == null) return;
 
         boolean showBps = Hud.getInstance() != null && Hud.getInstance().showBps.isValue();
+        float alphaFactor = alpha / 255.0f;
 
         long currentTime = System.currentTimeMillis();
         double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
@@ -105,72 +106,80 @@ public class Info extends AbstractHudElement {
         }
         setHeight(22);
 
+        int bgAlpha = clampAlpha(alphaFactor);
+        int outlineAlpha = clampAlpha(alphaFactor);
+
         Render2D.gradientRect(x + 12, y + 3, coordsWidth, 20,
                 new int[]{
-                        new Color(52, 52, 52, 255).getRGB(),
-                        new Color(22, 22, 22, 255).getRGB(),
-                        new Color(52, 52, 52, 255).getRGB(),
-                        new Color(22, 22, 22, 255).getRGB()
+                        new Color(52, 52, 52, bgAlpha).getRGB(),
+                        new Color(22, 22, 22, bgAlpha).getRGB(),
+                        new Color(52, 52, 52, bgAlpha).getRGB(),
+                        new Color(22, 22, 22, bgAlpha).getRGB()
                 },
                 5);
 
-        Render2D.outline(x + 12, y + 3, coordsWidth, 20, 0.35f, new Color(90, 90, 90, 255).getRGB(), 5);
+        Render2D.outline(x + 12, y + 3, coordsWidth, 20, 0.35f, new Color(90, 90, 90, outlineAlpha).getRGB(), 5);
 
         float textY = y + 7;
         float textX = x + 12;
 
-        Fonts.ICONSTYPETHO.draw("n", textX + 5, textY + 0.5f, 11, new Color(255, 255, 255, 255).getRGB());
+        int iconAlpha = clampAlpha(alphaFactor);
+        Fonts.ICONSTYPETHO.draw("n", textX + 5, textY + 0.5f, 11, new Color(255, 255, 255, iconAlpha).getRGB());
 
         float offsetX = textX + 22;
 
-        Fonts.BOLD.draw(xText, offsetX, textY + 3, 6, new Color(155, 155, 155, 255).getRGB());
+        Fonts.BOLD.draw(xText, offsetX, textY + 3, 6, new Color(155, 155, 155, iconAlpha).getRGB());
         offsetX += xTextWidth + 2;
 
-        Fonts.BOLD.draw(xValue, offsetX, textY + 3, 6, new Color(255, 255, 255, 255).getRGB());
+        Fonts.BOLD.draw(xValue, offsetX, textY + 3, 6, new Color(255, 255, 255, iconAlpha).getRGB());
         offsetX += xValueWidth;
 
-        Fonts.TEST.draw("»", offsetX + 4, textY + 1.5f, 8, new Color(155, 155, 155, 255).getRGB());
+        Fonts.TEST.draw("»", offsetX + 4, textY + 1.5f, 8, new Color(155, 155, 155, iconAlpha).getRGB());
         offsetX += 12;
 
-        Fonts.BOLD.draw(yText, offsetX, textY + 3, 6, new Color(155, 155, 155, 255).getRGB());
+        Fonts.BOLD.draw(yText, offsetX, textY + 3, 6, new Color(155, 155, 155, iconAlpha).getRGB());
         offsetX += yTextWidth + 2;
 
-        Fonts.BOLD.draw(yValue, offsetX, textY + 3, 6, new Color(255, 255, 255, 255).getRGB());
+        Fonts.BOLD.draw(yValue, offsetX, textY + 3, 6, new Color(255, 255, 255, iconAlpha).getRGB());
         offsetX += yValueWidth;
 
-        Fonts.TEST.draw("»", offsetX + 4, textY + 1.5f, 8, new Color(155, 155, 155, 255).getRGB());
+        Fonts.TEST.draw("»", offsetX + 4, textY + 1.5f, 8, new Color(155, 155, 155, iconAlpha).getRGB());
         offsetX += 12;
 
-        Fonts.BOLD.draw(zText, offsetX, textY + 3, 6, new Color(155, 155, 155, 255).getRGB());
+        Fonts.BOLD.draw(zText, offsetX, textY + 3, 6, new Color(155, 155, 155, iconAlpha).getRGB());
         offsetX += zTextWidth + 2;
 
-        Fonts.BOLD.draw(zValue, offsetX, textY + 3, 6, new Color(255, 255, 255, 255).getRGB());
+        Fonts.BOLD.draw(zValue, offsetX, textY + 3, 6, new Color(255, 255, 255, iconAlpha).getRGB());
 
         if (showBps) {
             float bpsBoxX = x + 12 + coordsWidth + 4;
 
             Render2D.gradientRect(bpsBoxX, y + 3, bpsWidth, 20,
                     new int[]{
-                            new Color(52, 52, 52, 255).getRGB(),
-                            new Color(22, 22, 22, 255).getRGB(),
-                            new Color(52, 52, 52, 255).getRGB(),
-                            new Color(22, 22, 22, 255).getRGB()
+                            new Color(52, 52, 52, bgAlpha).getRGB(),
+                            new Color(22, 22, 22, bgAlpha).getRGB(),
+                            new Color(52, 52, 52, bgAlpha).getRGB(),
+                            new Color(22, 22, 22, bgAlpha).getRGB()
                     },
                     5);
 
-            Render2D.outline(bpsBoxX, y + 3, bpsWidth, 20, 0.35f, new Color(90, 90, 90, 255).getRGB(), 5);
+            Render2D.outline(bpsBoxX, y + 3, bpsWidth, 20, 0.35f, new Color(90, 90, 90, outlineAlpha).getRGB(), 5);
 
-            Fonts.ICONSTYPETHO.draw("l", bpsBoxX + 5, textY + 0.5f, 11, new Color(255, 255, 255, 255).getRGB());
+            Fonts.ICONSTYPETHO.draw("l", bpsBoxX + 5, textY + 0.5f, 11, new Color(255, 255, 255, iconAlpha).getRGB());
 
             float bpsOffsetX = bpsBoxX + 20;
 
-            Fonts.TEST.draw("»", bpsOffsetX, textY + 1.5f, 8, new Color(155, 155, 155, 255).getRGB());
+            Fonts.TEST.draw("»", bpsOffsetX, textY + 1.5f, 8, new Color(155, 155, 155, iconAlpha).getRGB());
             bpsOffsetX += 10;
 
-            Fonts.BOLD.draw(bpsValue, bpsOffsetX, textY + 3, 6, new Color(255, 255, 255, 255).getRGB());
+            Fonts.BOLD.draw(bpsValue, bpsOffsetX, textY + 3, 6, new Color(255, 255, 255, iconAlpha).getRGB());
             bpsOffsetX += bpsValueWidth + 2;
 
-            Fonts.BOLD.draw(bpsText, bpsOffsetX, textY + 3, 6, new Color(155, 155, 155, 255).getRGB());
+            Fonts.BOLD.draw(bpsText, bpsOffsetX, textY + 3, 6, new Color(155, 155, 155, iconAlpha).getRGB());
         }
+    }
+
+    private int clampAlpha(float alpha) {
+        return Math.max(0, Math.min(255, (int) (alpha * 255)));
     }
 }

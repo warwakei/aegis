@@ -165,10 +165,11 @@ public class Esp extends ModuleStructure {
             } else {
                 animatedColor = baseColor;
             }
-            
+
             int alpha = (int) (boxAlpha.getValue() * 255);
             int fillColor = (animatedColor & 0x00FFFFFF) | (alpha << 24);
-            int outlineColor = animatedColor | 0xFF000000;
+            // Исправлено: outline теперь использует тот же alpha что и fill, а не жёсткий 0xFF
+            int outlineColor = (animatedColor & 0x00FFFFFF) | (alpha << 24);
 
             if (boxType.isSelected("3D Box") && playerSetting.isSelected("Box")) {
                 Box interpBox = player.getDimensions(player.getPose()).getBoxAt(interpX, interpY, interpZ);
@@ -404,7 +405,7 @@ public class Esp extends ModuleStructure {
         float drawY = (float) vec.y - scaledHeight - 2;
 
         Render2D.texture(TEXTURE, drawX, drawY, scaledWidth, scaledHeight, color);
-        Render2D.blur(drawX, drawY, 1, 1, 0f, 0, ColorUtil.rgba(0, 0, 0, 0));
+        // Removed useless blur call (0 radius does nothing)
 
         float itemScale = scale;
         float itemStartX = drawX + 7 * scale;
