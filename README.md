@@ -4,7 +4,7 @@
 **Codename:** Neo                            
 **Version:** 0.5.9 Beta                                    
 **Tag:** v0.5.9                                    
-**Full name:** Aegis Neo 058                                 
+**Full name:** Aegis Neo 059                                  
 
 ## Minecraft Info
 
