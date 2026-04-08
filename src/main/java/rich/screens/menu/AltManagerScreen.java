@@ -527,14 +527,6 @@ public class AltManagerScreen extends Screen {
 
     @Override
     public boolean mouseClicked(Click click, boolean doubled) {
-        // Сначала передаём клик в TextFieldWidgets
-        if (nameField.mouseClicked(click, doubled)) {
-            return true;
-        }
-        if (passwordField.mouseClicked(click, doubled)) {
-            return true;
-        }
-
         float scaledMouseX = toFixedCoord(click.x());
         float scaledMouseY = toFixedCoord(click.y());
 
@@ -549,24 +541,26 @@ public class AltManagerScreen extends Screen {
             float slideOffset = (1f - addDialogProgress) * 30f;
             dialogY += slideOffset;
 
-            // Проверяем клик по полям ввода
+            // Проверяем клик по полям ввода (используем scaled координаты)
             float nameFieldY = dialogY + 45;
             float passFieldY = dialogY + 80;
             float fieldWidth = ADD_DIALOG_WIDTH - 30;
 
             // Клик по name field
-            if (scaledMouseX >= dialogX + 15 && scaledMouseX <= dialogX + 15 + fieldWidth &&
-                    scaledMouseY >= nameFieldY - 2 && scaledMouseY <= nameFieldY + 22) {
+            if (scaledMouseX >= dialogX + 20 && scaledMouseX <= dialogX + 20 + fieldWidth - 10 &&
+                    scaledMouseY >= nameFieldY && scaledMouseY <= nameFieldY + 20) {
                 nameField.setFocused(true);
                 passwordField.setFocused(false);
+                nameField.mouseClicked(click, doubled);
                 return true;
             }
 
             // Клик по password field
-            if (scaledMouseX >= dialogX + 15 && scaledMouseX <= dialogX + 15 + fieldWidth &&
-                    scaledMouseY >= passFieldY - 2 && scaledMouseY <= passFieldY + 22) {
+            if (scaledMouseX >= dialogX + 20 && scaledMouseX <= dialogX + 20 + fieldWidth - 10 &&
+                    scaledMouseY >= passFieldY && scaledMouseY <= passFieldY + 20) {
                 passwordField.setFocused(true);
                 nameField.setFocused(false);
+                passwordField.mouseClicked(click, doubled);
                 return true;
             }
 
