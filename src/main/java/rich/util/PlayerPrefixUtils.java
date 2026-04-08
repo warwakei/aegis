@@ -53,6 +53,92 @@ public class PlayerPrefixUtils {
         PREFIX_MAP.put("lentauhc", new PlayerPrefix(
             createSimplePrefix("Dumb", Formatting.WHITE)
         ));
+
+        // Новые префиксы
+        // 123BDB123 - dolboeb (зелёный, жирный, курсив)
+        PREFIX_MAP.put("123bdb123", new PlayerPrefix(
+            createAegisPrefix("dolboeb", Formatting.GREEN, true, false, true)
+        ));
+
+        // software - podsos (золотой, жирный)
+        PREFIX_MAP.put("software", new PlayerPrefix(
+            createAegisPrefix("podsos", Formatting.GOLD, true, false)
+        ));
+
+        // AsTRe1d - Босс жалоб (тёмно-фиолетовый, жирный, подчеркнутый)
+        PREFIX_MAP.put("astre1d", new PlayerPrefix(
+            createAegisPrefix("Босс жалоб", Formatting.DARK_PURPLE, true, true)
+        ));
+
+        // _Razzyy_ - Pidorazzy (фиолетовый, жирный, курсив)
+        PREFIX_MAP.put("_razzyy_", new PlayerPrefix(
+            createAegisPrefix("Pidorazzy", Formatting.DARK_PURPLE, true, false, true)
+        ));
+
+        // _FOXi4k_ - lisenok (тёмно-зелёный, жирный)
+        PREFIX_MAP.put("_foxi4k_", new PlayerPrefix(
+            createAegisPrefix("lisenok", Formatting.DARK_GREEN, true, false)
+        ));
+
+        // Ridap - pidaR (уважаемая персона - белый, жирный, подчеркнутый)
+        PREFIX_MAP.put("ridap", new PlayerPrefix(
+            createAegisPrefix("pidaR", Formatting.WHITE, true, true)
+        ));
+
+        // II_BlackBitch_II - Greatest (крутейшая женщина - розовый, жирный, курсив)
+        PREFIX_MAP.put("ii_blackbitch_ii", new PlayerPrefix(
+            createAegisPrefix("Greatest", Formatting.LIGHT_PURPLE, true, false, true)
+        ));
+
+        // DeMpDeez - pidaR (твинк Ridap - белый, жирный, подчеркнутый)
+        PREFIX_MAP.put("dempdeez", new PlayerPrefix(
+            createAegisPrefix("pidaR", Formatting.WHITE, true, true)
+        ));
+
+        // woo - gavnoo (тёмно-серый, жирный)
+        PREFIX_MAP.put("woo", new PlayerPrefix(
+            createAegisPrefix("gavnoo", Formatting.DARK_GRAY, true, false)
+        ));
+
+        // Amurka777 - govnurka666 (серый, жирный, курсив)
+        PREFIX_MAP.put("amurka777", new PlayerPrefix(
+            createAegisPrefix("govnurka666", Formatting.GRAY, true, false, true)
+        ));
+
+        // _kacherga - onmyface! (жёлтый, жирный)
+        PREFIX_MAP.put("_kacherga", new PlayerPrefix(
+            createAegisPrefix("onmyface!", Formatting.YELLOW, true, false)
+        ));
+
+        // ____ - Autism (голубой, жирный, курсив, подчеркнутый)
+        PREFIX_MAP.put("____", new PlayerPrefix(
+            createAegisPrefix("Autism", Formatting.AQUA, true, true, true)
+        ));
+
+        // xyanya - Autism (голубой, жирный, курсив, подчеркнутый)
+        PREFIX_MAP.put("xyanya", new PlayerPrefix(
+            createAegisPrefix("Autism", Formatting.AQUA, true, true, true)
+        ));
+
+        // vaizu - important (зелёный, жирный, подчеркнутый)
+        PREFIX_MAP.put("vaizu", new PlayerPrefix(
+            createAegisPrefix("important", Formatting.GREEN, true, true)
+        ));
+
+        // JeNro0 - god (золотой, жирный, курсив, подчеркнутый)
+        PREFIX_MAP.put("jenro0", new PlayerPrefix(
+            createAegisPrefix("god", Formatting.GOLD, true, true, true)
+        ));
+
+        // syka_oldi - eblan (тёмно-серый, жирный)
+        PREFIX_MAP.put("syka_oldi", new PlayerPrefix(
+            createAegisPrefix("eblan", Formatting.DARK_GRAY, true, false)
+        ));
+
+        // miss - rizz (розовый, жирный, курсив)
+        PREFIX_MAP.put("miss", new PlayerPrefix(
+            createAegisPrefix("rizz", Formatting.LIGHT_PURPLE, true, false, true)
+        ));
     }
 
     /**
