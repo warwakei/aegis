@@ -497,22 +497,13 @@ public class StrikeManager implements IMinecraft {
         boolean elytraMode = checkElytraMode(config);
 
         if (elytraMode) {
-            // На ElytraTarget бьём быстро — только raycast и cooldown
-            if (!RaycastAngle.rayTrace(config)) {
-                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "Elytra raycast miss");
-                return;
-            }
-
-            // Фиксированная задержка атаки минимум 200ms для ElytraTarget
+            // На ElytraTarget бьём сразу — БЕЗ raycast и БЕЗ критов
+            // Минимальная задержка 150ms чтобы не закликивало
             long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
-            if (timeSinceLastAttack < 200) {
-                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "Elytra attack delay (200ms)");
+            if (timeSinceLastAttack < 150) {
                 return;
             }
-
-            // На ElytraTarget НЕ проверяем криты вообще — бьём всегда
+            // Криты НЕ проверяем — бьём всегда
         } else {
             // Обычный режим — полные проверки
             if (!RaycastAngle.rayTrace(config)) {

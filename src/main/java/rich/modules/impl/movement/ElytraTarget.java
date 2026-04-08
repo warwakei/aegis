@@ -191,7 +191,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
         );
 
         // Применяем микро-смещение через setPosition — не создаёт сопротивления
-        Vec3d currentPos = mc.player.getPos();
+        Vec3d currentPos = mc.player.getEntityPos();
         mc.player.setPosition(
                 currentPos.x + lastAntiPredictOffset.x * 0.02,
                 currentPos.y,

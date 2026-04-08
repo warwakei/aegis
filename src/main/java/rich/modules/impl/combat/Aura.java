@@ -251,16 +251,16 @@ public class Aura extends ModuleStructure {
             }
 
             // INTERCEPT PREDICTION — летим НАПЕРЕХВАТ цели, не кружимся вокруг
-            Vec3d ourPos = mc.player.getPos();
-            Vec3d targetPos = target.getPos();
+            Vec3d ourPos = mc.player.getEntityPos();
+            Vec3d targetPos = target.getEntityPos();
             Vec3d toTarget = targetPos.subtract(ourPos);
             double distanceToTarget = toTarget.horizontalLength();
             
             // Определяем что цель кружится вокруг нас
             boolean targetIsOrbiting = false;
             if (targetSpeed > 0.3 && distanceToTarget > 1.0) {
-                Vec3d toTargetNorm = toTarget.horizontalNormalize();
-                Vec3d velNorm = targetVelocity.horizontalNormalize();
+                Vec3d toTargetNorm = new Vec3d(toTarget.x, 0, toTarget.z).normalize();
+                Vec3d velNorm = new Vec3d(targetVelocity.x, 0, targetVelocity.z).normalize();
                 // Cross product — перпендикулярная скорость
                 double crossProduct = toTargetNorm.x * velNorm.z - toTargetNorm.z * velNorm.x;
                 double radialSpeed = Math.abs(toTargetNorm.dotProduct(velNorm));
