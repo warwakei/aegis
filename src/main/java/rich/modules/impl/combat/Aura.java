@@ -46,7 +46,7 @@ public class Aura extends ModuleStructure {
 
     @Getter
     public final SelectSetting mode = new SelectSetting("Режим наводки", "Select aim mode")
-            .value("Matrix", "FunTime Snap", "Snap", "SpookyTime")
+            .value("Matrix", "FunTime Snap", "Snap", "SpookyTime", "Jenro")
             .selected("Matrix");
 
     private final SelectSetting moveFix = new SelectSetting("Коррекция движения", "Select move fix mode")
@@ -63,7 +63,7 @@ public class Aura extends ModuleStructure {
             .setValue(1.5f);
 
     public final MultiSelectSetting options = new MultiSelectSetting("Настройки", "Select settings")
-            .value("Бить сквозь стены", "Рандомизация крита", "Не бить если ешь")
+            .value("Бить сквозь стены", "Рандомизация крита", "Не бить если ешь", "Рандомизация высоты")
             .selected("Бить сквозь стены", "Рандомизация крита", "Не бить если ешь");
 
     private final MultiSelectSetting targetType = new MultiSelectSetting("Настройка целей", "Select target settings")
@@ -101,15 +101,31 @@ public class Aura extends ModuleStructure {
             .setValue(false);
 
     @Getter
-    private final SelectSetting elytraRotationMode = new SelectSetting("Ротация для ElytraTarget", "Режим ротации при использовании ElytraTarget (snap ротации не работают с элитратаргет)")
-            .value("Linear (Track)", "Static", "Smooth")
-            .selected("Linear (Track)");
+    private final SelectSetting elytraRotationMode = new SelectSetting("Ротация для ElytraTarget", "Режим ротации при использовании ElytraTarget (Snap ротации не работают)")
+            .value("Matrix", "SpookyTime", "Jenro")
+            .selected("Matrix");
+
+    @Getter
+    private final SliderSettings heightRandom = new SliderSettings("Рандомизация высоты", "Смещение точки прицеливания по высоте (±значение)")
+            .range(0.0f, 0.5f)
+            .setValue(0.2f)
+            .visible(() -> options.isSelected("Рандомизация высоты"));
+
+    @Getter
+    private final BooleanSetting fakeRotation = new BooleanSetting("Фейковая ротация", "Дёргать камеру в сторону от врага перед ударом (~130мс)")
+            .setValue(false);
+
+    @Getter
+    private final SliderSettings fakeRotationAmount = new SliderSettings("Сила фейка", "Насколько сильно дёргать камеру")
+            .range(1.0f, 15.0f)
+            .setValue(5.0f)
+            .visible(() -> fakeRotation.isValue());
 
     private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
 
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount);
     }
 
     @NonFinal
@@ -123,7 +139,8 @@ public class Aura extends ModuleStructure {
 
     @Override
     public void deactivate() {
-        AngleConnection.INSTANCE.startReturning();
+        AngleConnection.INSTANCE.clear();
+        AngleConnection.INSTANCE.reset();
         Initialization.getInstance().getManager()
                 .getAttackPerpetrator()
                 .getAttackHandler()
@@ -271,6 +288,12 @@ public class Aura extends ModuleStructure {
             }
         }
 
+        // Рандомизация высоты удара (±0.1-0.3)
+        if (options.isSelected("Рандомизация высоты") && heightRandom.getValue() > 0) {
+            double randomOffset = (Math.random() - 0.5) * 2 * heightRandom.getValue();
+            computedPoint = new Vec3d(computedPoint.x, computedPoint.y + randomOffset, computedPoint.z);
+        }
+
         Angle angle = MathAngle.fromVec3d(computedPoint.subtract(Objects.requireNonNull(mc.player).getEyePos()));
         return new StrikerConstructor.AttackPerpetratorConfigurable(
                 target,
@@ -291,30 +314,16 @@ public class Aura extends ModuleStructure {
         boolean visibleCorrection = !moveFix.isSelected("Отключена");
         boolean freeCorrection = moveFix.isSelected("Свободная");
         
-        RotateConstructor elytraMode = switch (elytraRotationMode.getSelected()) {
-            case "Static" -> new LinearConstructor() {
-                @Override
-                public Vec3d randomValue() {
-                    return Vec3d.ZERO;
-                }
-            };
-            case "Smooth" -> new LinearConstructor();
-            default -> new LinearConstructor();
-        };
+        RotateConstructor elytraMode = getElytraRotateConstructor();
         
         return new AngleConfig(elytraMode, visibleCorrection, freeCorrection);
     }
 
     private rich.modules.impl.combat.aura.impl.RotateConstructor getElytraRotateConstructor() {
         return switch (elytraRotationMode.getSelected()) {
-            case "Static" -> new LinearConstructor() {
-                @Override
-                public Vec3d randomValue() {
-                    return Vec3d.ZERO;
-                }
-            };
-            case "Smooth" -> new LinearConstructor();
-            default -> new LinearConstructor();
+            case "Matrix" -> new MatrixAngle();
+            case "SpookyTime" -> new SPAngle();
+            default -> new MatrixAngle();
         };
     }
 
@@ -509,6 +518,7 @@ public class Aura extends ModuleStructure {
         return switch (mode.getSelected()) {
             case "FunTime Snap" -> new FTAngle();
             case "SpookyTime" -> new SPAngle();
+            case "Jenro" -> new JenroAngle();
             case "Snap" -> new SnapAngle();
             case "Matrix" -> new MatrixAngle();
             default -> new LinearConstructor();

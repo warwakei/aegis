@@ -521,6 +521,11 @@ public class StrikeManager implements IMinecraft {
             return;
         }
 
+        // Фейковая ротация — дёргаем камеру в сторону от врага
+        if (Aura.getInstance().getFakeRotation().isValue()) {
+            performFakeRotation(config.getTarget());
+        }
+
         preAttackEntity(config);
 
         boolean wasSprinting = mc.player.isSprinting();
@@ -945,5 +950,44 @@ public class StrikeManager implements IMinecraft {
         }
 
         return baseCPS;
+    }
+
+    /**
+     * Фейковая ротация — дёргает камеру в сторону от врага на ~130мс
+     * Выглядит как обычное "дёрганье" камеры, скрывая настоящий паттерн наведения
+     */
+    private void performFakeRotation(net.minecraft.entity.LivingEntity target) {
+        if (mc.player == null || target == null) return;
+
+        Aura aura = Aura.getInstance();
+        float amount = aura.getFakeRotationAmount().getValue();
+
+        // Вычисляем направление от врага
+        Vec3d toTarget = target.getEyePos().subtract(mc.player.getEyePos());
+        double horizontalAngle = Math.atan2(toTarget.z, toTarget.x);
+
+        // Рандомное отклонение в сторону
+        double fakeYawOffset = (Math.random() - 0.5) * 2 * amount;
+        double fakePitchOffset = (Math.random() * 0.5 + 0.25) * amount; // Чуть меньше по питчу
+
+        // Текущая ротация
+        rich.modules.impl.combat.aura.Angle currentAngle = AngleConnection.INSTANCE.getRotation();
+
+        // Дёргаем в сторону
+        float fakeYaw = currentAngle.getYaw() + (float) fakeYawOffset;
+        float fakePitch = currentAngle.getPitch() + (float) fakePitchOffset;
+
+        rich.modules.impl.combat.aura.Angle fakeAngle = new rich.modules.impl.combat.aura.Angle(fakeYaw, fakePitch);
+        AngleConnection.INSTANCE.setRotation(fakeAngle);
+
+        // Через 130мс возвращаемся к цели
+        new Thread(() -> {
+            try {
+                Thread.sleep(130);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            // Возврат обработается автоматически через AngleConnection
+        }).start();
     }
 }

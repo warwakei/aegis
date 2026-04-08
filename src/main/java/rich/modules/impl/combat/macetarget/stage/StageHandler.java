@@ -94,25 +94,21 @@ public class StageHandler {
     public void handleAttacking(LivingEntity target, boolean hasElytra) {
         double distance = mc.player.distanceTo(target);
 
-        // Если элитра всё ещё на нас и свап не активен - начинаем свап
-        if (hasElytra && !armorSwapHandler.isActive()) {
-            int slot = InventoryUtils.findChestArmorSlot();
-            if (slot != -1) {
-                armorSwapHandler.startSwap(slot, silentMode);
-            }
-            return;
-        }
-
         // Атакуем сразу как свап завершён и мы в радиусе атаки
         if (!hasElytra && !armorSwapHandler.isActive() && distance < attackRange) {
             if (!attackHandler.isPendingAttack()) {
                 attackHandler.setPendingAttack(true);
             }
-            // После атаки переходим обратно наверх
+            // После атаки — СРАЗУ свапаемся на элитру и летим за врагом
             if (attackHandler.getLastAttackTime() > 0) {
                 if (reallyWorldMode) {
                     attackHandler.setShouldDisableAfterAttack(true);
                 } else {
+                    // Всегда запускаем свап на элитру после удара
+                    int elytraSlot = InventoryUtils.findElytraSlot();
+                    if (elytraSlot != -1) {
+                        armorSwapHandler.startSwap(elytraSlot, silentMode);
+                    }
                     stage = Stage.FLYING_UP;
                     fireworkTimer.reset();
                 }

@@ -14,6 +14,8 @@ import rich.util.Instance;
 import rich.util.sounds.SoundManager;
 import rich.util.timer.StopWatch;
 
+import java.util.Random;
+
 public class ElytraTarget extends ModuleStructure implements IMinecraft {
 
     public static ElytraTarget getInstance() {
@@ -34,6 +36,13 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
     public final SliderSettings doubleSneakDistance = new SliderSettings("Дистанция шифта", "Максимальная дистанция для активации двойного шифта")
             .setValue(4.5f).range(3.0F, 6.0F);
 
+    public final BooleanSetting antiPredict = new BooleanSetting("Анти-предсказание", "Случайное лёгкое смещение позиции чтобы враг не мог стабильно таргетить")
+            .setValue(false);
+
+    public final SliderSettings antiPredictAmount = new SliderSettings("Сила анти-предсказания", "Насколько сильно смещаться")
+            .setValue(0.15f).range(0.05F, 0.4F)
+            .visible(() -> antiPredict.isValue());
+
     public static boolean shouldElytraTarget = false;
 
     // Состояние двойного шифта (public для доступа из StrikeManager)
@@ -45,7 +54,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
 
     public ElytraTarget() {
         super("ElytraTarget", "Elytra Target", ModuleCategory.MOVEMENT);
-        settings(elytraFindRange, elytraForward, forward, doubleSneak, doubleSneakDistance);
+        settings(elytraFindRange, elytraForward, forward, doubleSneak, doubleSneakDistance, antiPredict, antiPredictAmount);
     }
 
     @EventHandler
@@ -94,6 +103,11 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
         // Выполняем последовательность двойного шифта
         if (sneakSequenceActive) {
             executeDoubleSneak();
+        }
+
+        // Анти-предсказание — случайное лёгкое смещение позиции
+        if (antiPredict.isValue() && shouldElytraTarget && mc.player.isGliding()) {
+            applyAntiPrediction();
         }
     }
 
@@ -145,6 +159,30 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
         sneakSequenceActive = false;
         sneakCount = 0;
         // Не сбрасываем sneakTimer здесь чтобы не прерывать текущую анимацию
+    }
+
+    /**
+     * Анти-предсказание — случайное лёгкое смещение позиции
+     * Делает игрока непредсказуемым для вражеского авто-таргета
+     */
+    private final Random antiPredictRandom = new Random();
+    private long lastAntiPredictTime = 0;
+    private static final long ANTI_PREDICT_INTERVAL = 200; // Обновление каждые 200мс
+
+    private void applyAntiPrediction() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastAntiPredictTime < ANTI_PREDICT_INTERVAL) return;
+        lastAntiPredictTime = currentTime;
+
+        float amount = antiPredictAmount.getValue();
+
+        // Случайное смещение по X и Z (очень маленькое)
+        double offsetX = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
+        double offsetZ = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
+        double offsetY = (antiPredictRandom.nextDouble() - 0.5) * amount * 0.5; // Ещё меньше по Y
+
+        // Применяем как лёгкий толчок к velocity
+        mc.player.addVelocity(offsetX * 0.1, offsetY * 0.1, offsetZ * 0.1);
     }
 
     @Override
