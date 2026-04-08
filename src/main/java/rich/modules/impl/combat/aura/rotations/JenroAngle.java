@@ -97,7 +97,7 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
         boolean elytraTargetMode = mc.player.isGliding() && entity instanceof net.minecraft.entity.LivingEntity le && le.isGliding();
 
         float deltaTime = 0.75f;
-        circlePhase += deltaTime * randomLerp(9f, 14f); // Быстрее фаза
+        circlePhase += deltaTime * randomLerp(11f, 16f); // Ещё быстрее фаза для быстрой реакции
         if (circlePhase > Math.PI * 2) circlePhase -= Math.PI * 2;
 
         if (canAttack) {
@@ -139,22 +139,22 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
 
         float targetSpeed;
         if (canAttack) {
-            targetSpeed = randomLerp(1.15f, 1.3f); // Рейджовее (было 1.0)
+            targetSpeed = elytraTargetMode ? randomLerp(1.3f, 1.5f) : randomLerp(1.2f, 1.4f);
         } else if (lookingAtHitbox) {
-            targetSpeed = randomLerp(0.45f, 0.25f);
+            targetSpeed = elytraTargetMode ? randomLerp(0.95f, 1.05f) : randomLerp(0.5f, 0.3f);
         } else if (entity != null) {
-            // Для ElytraTarget всегда быстрая скорость — мы летим за целью
+            // Для ElytraTarget максимальная скорость — мы летим за целью
             if (elytraTargetMode) {
-                targetSpeed = randomLerp(0.9f, 1f); // Быстро для элитр
+                targetSpeed = randomLerp(1.0f, 1.1f); // Максимальная скорость для элитр
             } else {
                 float distanceFactor = MathHelper.clamp(rotationDifference / 30f, 0.1f, 1f);
-                targetSpeed = randomLerp(0.55f, 0.35f) * distanceFactor; // Рейджовее (было 0.45-0.25)
+                targetSpeed = randomLerp(0.6f, 0.4f) * distanceFactor;
             }
         } else {
-            targetSpeed = !attackTimer.finished(600) ? 0.65f : randomLerp(0.3f, 0.45f);
+            targetSpeed = !attackTimer.finished(600) ? 0.7f : randomLerp(0.35f, 0.5f);
         }
 
-        currentSpeed += (targetSpeed - currentSpeed) * 0.75f; // Быстрее интерполяция (было 0.65)
+        currentSpeed += (targetSpeed - currentSpeed) * 0.9f; // Моментальная интерполяция
 
         float lineYaw = (Math.abs(yawDelta / rotationDifference) * 180);
         float linePitch = (Math.abs(pitchDelta / rotationDifference) * 90);
@@ -167,18 +167,28 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
 
         // При атаке — без плавности, сразу в цель
         float newYaw, newPitch;
-        if (canAttack && !elytraTargetMode) {
+        if (canAttack) {
             // Рейдж: моментально в цель + джиттер
-            newYaw = currentAngle.getYaw() + moveYaw + totalJitterYaw;
-            newPitch = currentAngle.getPitch() + movePitch + totalJitterPitch;
-        } else if (elytraTargetMode && canAttack) {
-            // На элитрах с атакой — немного плавности для точности
-            newYaw = MathHelper.lerp(currentSpeed, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + totalJitterYaw;
-            newPitch = MathHelper.lerp(currentSpeed, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + totalJitterPitch;
+            if (elytraTargetMode) {
+                // На элитрах — быстрая ротация почти без сглаживания
+                newYaw = MathHelper.lerp(0.9f, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + totalJitterYaw;
+                newPitch = MathHelper.lerp(0.9f, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + totalJitterPitch;
+            } else {
+                // Обычная атака — мгновенно
+                newYaw = currentAngle.getYaw() + moveYaw + totalJitterYaw;
+                newPitch = currentAngle.getPitch() + movePitch + totalJitterPitch;
+            }
         } else {
-            // Обычная плавность
-            newYaw = MathHelper.lerp(currentSpeed, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + totalJitterYaw;
-            newPitch = MathHelper.lerp(currentSpeed, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + totalJitterPitch;
+            // Не может атаковать — быстрая ротация для преследования
+            if (elytraTargetMode) {
+                // Для ElytraTarget очень быстрое следование за целью
+                newYaw = MathHelper.lerp(0.9f, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + totalJitterYaw;
+                newPitch = MathHelper.lerp(0.9f, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + totalJitterPitch;
+            } else {
+                // Обычная плавность
+                newYaw = MathHelper.lerp(currentSpeed, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + totalJitterYaw;
+                newPitch = MathHelper.lerp(currentSpeed, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + totalJitterPitch;
+            }
         }
 
         return new Angle(newYaw, MathHelper.clamp(newPitch, -90, 90));

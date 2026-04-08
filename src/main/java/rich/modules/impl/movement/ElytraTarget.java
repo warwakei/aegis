@@ -1,6 +1,7 @@
 package rich.modules.impl.movement;
 
 import antidaunleak.api.annotation.Native;
+import net.minecraft.util.math.Vec3d;
 import rich.IMinecraft;
 import rich.events.api.EventHandler;
 import rich.events.impl.KeyEvent;
@@ -26,7 +27,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             .setValue(32).range(6F, 64F);
 
     public SliderSettings elytraForward = new SliderSettings("Значение перегона", "заебался")
-            .setValue(3).range(0F, 6F);
+            .setValue(5).range(0F, 6F);
 
     final BindSetting forward = new BindSetting("Кнопка вкл/выкл перегона", "");
 
@@ -164,10 +165,12 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
     /**
      * Анти-предсказание — случайное лёгкое смещение позиции
      * Делает игрока непредсказуемым для вражеского авто-таргета
+     * Используем setPosition вместо addVelocity чтобы не создавать сопротивление
      */
     private final Random antiPredictRandom = new Random();
     private long lastAntiPredictTime = 0;
-    private static final long ANTI_PREDICT_INTERVAL = 200; // Обновление каждые 200мс
+    private static final long ANTI_PREDICT_INTERVAL = 150; // Быстрее обновление
+    private Vec3d lastAntiPredictOffset = new Vec3d(0, 0, 0);
 
     private void applyAntiPrediction() {
         long currentTime = System.currentTimeMillis();
@@ -176,13 +179,24 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
 
         float amount = antiPredictAmount.getValue();
 
-        // Случайное смещение по X и Z (очень маленькое)
-        double offsetX = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
-        double offsetZ = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
-        double offsetY = (antiPredictRandom.nextDouble() - 0.5) * amount * 0.5; // Ещё меньше по Y
+        // Плавное изменение смещения чтобы не было резких рывков
+        double targetOffsetX = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
+        double targetOffsetZ = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
 
-        // Применяем как лёгкий толчок к velocity
-        mc.player.addVelocity(offsetX * 0.1, offsetY * 0.1, offsetZ * 0.1);
+        // Интерполируем к новой цели (плавный переход)
+        lastAntiPredictOffset = new Vec3d(
+                lastAntiPredictOffset.x + (targetOffsetX - lastAntiPredictOffset.x) * 0.4,
+                lastAntiPredictOffset.y,
+                lastAntiPredictOffset.z + (targetOffsetZ - lastAntiPredictOffset.z) * 0.4
+        );
+
+        // Применяем микро-смещение через setPosition — не создаёт сопротивления
+        Vec3d currentPos = mc.player.getPos();
+        mc.player.setPosition(
+                currentPos.x + lastAntiPredictOffset.x * 0.02,
+                currentPos.y,
+                currentPos.z + lastAntiPredictOffset.z * 0.02
+        );
     }
 
     @Override

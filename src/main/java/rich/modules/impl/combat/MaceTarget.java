@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
+import rich.Initialization;
 import rich.events.api.EventHandler;
 import rich.events.api.types.EventType;
 import rich.events.impl.InputEvent;
@@ -209,7 +210,13 @@ public class MaceTarget extends ModuleStructure {
                 findTarget();
             }
 
-            if (target == null) return;
+            if (target == null) {
+                // Если MaceTarget не нашёл цель - даём Aurе работать
+                return;
+            }
+
+            // Синхронизируем target с Aurой для корректной работы
+            Aura.target = target;
 
             predictor.update(target);
 
@@ -243,6 +250,13 @@ public class MaceTarget extends ModuleStructure {
             // Запоминаем время атаки для Wind Burst detection
             attackTime = System.currentTimeMillis();
             wasAttacking = true;
+
+            // Обновляем время атаки в StrikeManager для синхронизации
+            var strikeManager = Initialization.getInstance().getManager()
+                    .getAttackPerpetrator().getStrikeManager();
+            if (strikeManager != null) {
+                strikeManager.updateLastAttackTime();
+            }
 
             if (attackHandler.isShouldDisableAfterAttack()) {
                 attackHandler.setShouldDisableAfterAttack(false);

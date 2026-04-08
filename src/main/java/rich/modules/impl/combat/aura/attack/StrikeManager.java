@@ -427,6 +427,11 @@ public class StrikeManager implements IMinecraft {
         boolean checkCritEnabled = aura.getCheckCrit().isValue();
         boolean smartCritsEnabled = aura.getSmartCrits().isValue();
 
+        // ElytraTarget проверяется отдельно в handleAttack, здесь пропускаем
+        if (isElytraTargetMode()) {
+            return true;
+        }
+
         // В воде или с ограничениями — всегда разрешаем (крит всё равно невозможен)
         if (isInWater() || hasLowCeiling() || hasMovementRestrictions()) {
             return true;
@@ -490,35 +495,50 @@ public class StrikeManager implements IMinecraft {
         }
 
         boolean elytraMode = checkElytraMode(config);
-        if (elytraMode && !checkElytraRaycast(config)) {
-            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Elytra raycast miss");
-            return;
-        }
 
-        if (!RaycastAngle.rayTrace(config)) {
-            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
-            return;
-        }
+        if (elytraMode) {
+            // На ElytraTarget бьём быстро — только raycast и cooldown
+            if (!RaycastAngle.rayTrace(config)) {
+                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "Elytra raycast miss");
+                return;
+            }
 
-        if (!isLookingAtTarget(config)) {
-            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
-            return;
-        }
+            // Фиксированная задержка атаки минимум 200ms для ElytraTarget
+            long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
+            if (timeSinceLastAttack < 200) {
+                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "Elytra attack delay (200ms)");
+                return;
+            }
 
-        // Для 1.8 режима не проверяем clickScheduler - там своя логика CPS
-        if (!is1_8Mode && !clickScheduler.isCooldownComplete(0)) {
-            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "ClickScheduler cooldown");
-            return;
-        }
+            // На ElytraTarget НЕ проверяем криты вообще — бьём всегда
+        } else {
+            // Обычный режим — полные проверки
+            if (!RaycastAngle.rayTrace(config)) {
+                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
+                return;
+            }
 
-        if (!canCritNow()) {
-            HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Can't crit now");
-            return;
+            if (!isLookingAtTarget(config)) {
+                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
+                return;
+            }
+
+            // Для 1.8 режима не проверяем clickScheduler - там своя логика CPS
+            if (!is1_8Mode && !clickScheduler.isCooldownComplete(0)) {
+                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "ClickScheduler cooldown");
+                return;
+            }
+
+            if (!canCritNow()) {
+                HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "Can't crit now");
+                return;
+            }
         }
 
         // Фейковая ротация — дёргаем камеру в сторону от врага
@@ -570,20 +590,26 @@ public class StrikeManager implements IMinecraft {
                     mc.player.distanceTo(config.getTarget()), false, "Eating");
             return;
         }
-        if (mc.player.distanceTo(config.getTarget()) > Aura.getInstance().getAttackrange().getValue()) {
+        if (mc.player.distanceTo(config.getTarget()) > Aura.getInstance().getAttackrange().getValue() + 1.0) {
             HitregLogger.logAuraAttack("Mace", config.getTarget(),
                     mc.player.distanceTo(config.getTarget()), false, "Out of range");
             return;
         }
-        if (!RaycastAngle.rayTrace(config)) {
-            HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
-            return;
-        }
-        if (!isLookingAtTarget(config)) {
-            HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
-            return;
+
+        // Для ElytraTarget минимум проверок
+        boolean elytraMode = checkElytraMode(config);
+        if (!elytraMode) {
+            // Обычный режим - полные проверки
+            if (!RaycastAngle.rayTrace(config)) {
+                HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
+                return;
+            }
+            if (!isLookingAtTarget(config)) {
+                HitregLogger.logAuraAttack("Mace", config.getTarget(),
+                        mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
+                return;
+            }
         }
 
         // Для 1.8 режима используем CPS логику, для обычного - clickScheduler
@@ -608,7 +634,7 @@ public class StrikeManager implements IMinecraft {
             }
         }
 
-        // Упрощённая проверка критов для булавы (менее капризна)
+        // Упрощённая проверка критов для булавы
         if (!canCritForMace()) {
             HitregLogger.logAuraAttack("Mace", config.getTarget(),
                     mc.player.distanceTo(config.getTarget()), false, "Can't crit for mace");
@@ -712,6 +738,15 @@ public class StrikeManager implements IMinecraft {
         // Если криты не обязательны - разрешаем атаку
         if (!checkCritEnabled) {
             return true;
+        }
+
+        // ElytraTarget - минимум проверок
+        if (isElytraTargetMode()) {
+            // На элитрах только базовые проверки
+            if (mc.player.isOnGround()) {
+                return false; // На земле не атакуем
+            }
+            return true; // В воздухе всегда разрешаем
         }
 
         // На земле НЕ атакуем — главный источник флагов античита
@@ -926,9 +961,12 @@ public class StrikeManager implements IMinecraft {
         Vec3d eyePos = mc.player.getEyePos();
         Vec3d lookVec = AngleConnection.INSTANCE.getRotation().toVector();
         Vec3d endVec = eyePos.add(lookVec.multiply(config.getMaximumRange()));
-        
+
         // Улучшенная проверка - расширяем хитбокс для более надёжного попадания
-        Box expandedBox = config.getBox().expand(0.2);
+        // Для ElytraTarget ещё больше чтобы не миссать
+        boolean elytraTarget = mc.player.isGliding() && config.getTarget().isGliding();
+        double expandAmount = elytraTarget ? 0.35 : 0.2;
+        Box expandedBox = config.getBox().expand(expandAmount);
         return expandedBox.raycast(eyePos, endVec).isPresent();
     }
 
@@ -989,5 +1027,15 @@ public class StrikeManager implements IMinecraft {
             }
             // Возврат обработается автоматически через AngleConnection
         }).start();
+    }
+
+    /**
+     * Проверяем режим ElytraTarget — когда оба игрока на элитрах
+     */
+    private boolean isElytraTargetMode() {
+        if (mc.player == null || Aura.target == null) return false;
+        return mc.player.isGliding() && Aura.target.isGliding()
+                && rich.modules.impl.movement.ElytraTarget.getInstance() != null
+                && rich.modules.impl.movement.ElytraTarget.getInstance().isState();
     }
 }

@@ -250,42 +250,60 @@ public class Aura extends ModuleStructure {
                 leadTicks = ElytraTarget.getInstance().elytraForward.getValue();
             }
 
-            if (targetSpeed > 0.35) {
-                // Проверяем орбитальное движение (strafe вокруг нас)
-                Vec3d toTarget = target.getEntityPos().subtract(mc.player.getEntityPos());
-                double dotProduct = toTarget.normalize().dotProduct(targetVelocity.normalize());
-                boolean isOrbiting = Math.abs(dotProduct) < 0.3 && targetSpeed > 0.4;
-
-                Vec3d predictedPos;
-                if (isOrbiting) {
-                    // Целевое движение по орбите — предсказываем по угловой скорости
-                    double radius = toTarget.horizontalLength();
-                    double angularSpeed = targetSpeed / radius;
-                    double angleDelta = angularSpeed * leadTicks;
-
-                    double currentAngle = Math.atan2(toTarget.z, toTarget.x);
-                    double predictedAngle = currentAngle + angleDelta;
-
-                    double predictedX = mc.player.getX() + Math.cos(predictedAngle) * radius;
-                    double predictedZ = mc.player.getZ() + Math.sin(predictedAngle) * radius;
-                    double predictedY = target.getY() + targetVelocity.y * leadTicks;
-
-                    predictedPos = new Vec3d(predictedX, predictedY, predictedZ);
-                } else {
-                    // Линейное предсказание
-                    predictedPos = target.getEntityPos().add(targetVelocity.multiply(leadTicks));
-                }
-
-                computedPoint = predictedPos.add(0, target.getHeight() / 2, 0);
-
-                hitbox = new Box(
-                        predictedPos.x - target.getWidth() / 2,
-                        predictedPos.y,
-                        predictedPos.z - target.getWidth() / 2,
-                        predictedPos.x + target.getWidth() / 2,
-                        predictedPos.y + target.getHeight(),
-                        predictedPos.z + target.getWidth() / 2);
+            // INTERCEPT PREDICTION — летим НАПЕРЕХВАТ цели, не кружимся вокруг
+            Vec3d ourPos = mc.player.getPos();
+            Vec3d targetPos = target.getPos();
+            Vec3d toTarget = targetPos.subtract(ourPos);
+            double distanceToTarget = toTarget.horizontalLength();
+            
+            // Определяем что цель кружится вокруг нас
+            boolean targetIsOrbiting = false;
+            if (targetSpeed > 0.3 && distanceToTarget > 1.0) {
+                Vec3d toTargetNorm = toTarget.horizontalNormalize();
+                Vec3d velNorm = targetVelocity.horizontalNormalize();
+                // Cross product — перпендикулярная скорость
+                double crossProduct = toTargetNorm.x * velNorm.z - toTargetNorm.z * velNorm.x;
+                double radialSpeed = Math.abs(toTargetNorm.dotProduct(velNorm));
+                double tangentialSpeed = Math.abs(crossProduct);
+                // Если тангенциальная скорость > радиальной — цель кружится
+                targetIsOrbiting = tangentialSpeed > radialSpeed * 1.5;
             }
+
+            Vec3d predictedPos;
+            if (targetIsOrbiting) {
+                // Цель КРУЖИТСЯ — летим НАПЕРЕХВАТ по прямой (по хорде круга)
+                // Не кружимся вместе с ней, а режем путь
+                double ourSpeed = mc.player.getVelocity().horizontalLength();
+                if (ourSpeed < 0.5) ourSpeed = 1.5;
+                
+                // Время до перехвата
+                double timeToIntercept = distanceToTarget / Math.max(ourSpeed + targetSpeed, 0.5);
+                timeToIntercept = Math.min(timeToIntercept, leadTicks);
+                
+                // Предсказываем где цель будет и летим ТУДА напрямую
+                predictedPos = targetPos.add(targetVelocity.multiply(timeToIntercept));
+                
+                // Добавляем компенсацию направления — предсказываем ЧУТЬ дальше по ходу цели
+                // чтобы не лететь в точку где она УЖЕ была
+                double leadMultiplier = 1.0 + (targetSpeed * 0.8);
+                predictedPos = targetPos.add(targetVelocity.multiply(leadTicks * leadMultiplier));
+            } else {
+                // Обычное линейное предсказание
+                double leadMultiplier = 1.0 + (targetSpeed * 0.5);
+                predictedPos = targetPos.add(targetVelocity.multiply(leadTicks * leadMultiplier));
+            }
+
+            computedPoint = predictedPos.add(0, target.getHeight() / 2, 0);
+
+            // Расширенный хитбокс для более стабильных попаданий
+            double expandAmount = 0.35;
+            hitbox = new Box(
+                    predictedPos.x - target.getWidth() / 2 - expandAmount,
+                    predictedPos.y - expandAmount,
+                    predictedPos.z - target.getWidth() / 2 - expandAmount,
+                    predictedPos.x + target.getWidth() / 2 + expandAmount,
+                    predictedPos.y + target.getHeight() + expandAmount,
+                    predictedPos.z + target.getWidth() / 2 + expandAmount);
         }
 
         // Рандомизация высоты удара (±0.1-0.3)

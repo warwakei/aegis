@@ -3,6 +3,7 @@ package rich.screens.menu;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.text.Text;
@@ -48,6 +49,20 @@ public class AltManagerScreen extends Screen {
     private final List<MenuParticle> particles = new ArrayList<>();
     private final Random particleRandom = new Random();
 
+    // Состояние диалога добавления
+    private boolean showAddDialog = false;
+    private TextFieldWidget nameField;
+    private TextFieldWidget passwordField;
+    private float addDialogProgress = 0f;
+    private long addDialogOpenTime = 0L;
+
+    private static final float ADD_DIALOG_WIDTH = 300;
+    private static final float ADD_DIALOG_HEIGHT = 200;
+
+    // Состояние кнопки добавления
+    private boolean addButtonHovered = false;
+    private long addButtonHoverTime = 0L;
+
     private static final float PANEL_WIDTH = 450;
     private static final float PANEL_HEIGHT = 350;
     private static final float ACCOUNT_ITEM_HEIGHT = 40;
@@ -84,6 +99,25 @@ public class AltManagerScreen extends Screen {
     protected void init() {
         initialized = false;
         loadAccounts();
+
+        // Инициализация TextFieldWidget
+        int scaledWidth = getFixedScaledWidth();
+        int scaledHeight = getFixedScaledHeight();
+        float centerX = (scaledWidth - ADD_DIALOG_WIDTH) / 2f;
+        float centerY = (scaledHeight - ADD_DIALOG_HEIGHT) / 2f;
+
+        int fieldWidth = (int) (ADD_DIALOG_WIDTH - 40);
+        int fieldY = (int) (centerY + 45);
+
+        nameField = new TextFieldWidget(this.textRenderer, (int) centerX + 20, fieldY, fieldWidth, 20, Text.literal("Username"));
+        nameField.setMaxLength(32);
+        nameField.setDrawsBackground(false);
+        this.addSelectableChild(nameField);
+
+        passwordField = new TextFieldWidget(this.textRenderer, (int) centerX + 20, fieldY + 35, fieldWidth, 20, Text.literal("Password"));
+        passwordField.setMaxLength(64);
+        passwordField.setDrawsBackground(false);
+        this.addSelectableChild(passwordField);
     }
 
     private int getFixedScaledWidth() {
@@ -163,7 +197,33 @@ public class AltManagerScreen extends Screen {
 
         hoveredAccount = getHoveredAccount(scaledMouseX, scaledMouseY);
 
+        // Проверяем hover для кнопки добавления
+        if (!showAddDialog) {
+            int screenWidth = getFixedScaledWidth();
+            int screenHeight = getFixedScaledHeight();
+            float panelX = (screenWidth - PANEL_WIDTH) / 2f;
+            float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
+            float slideOffsetPanel = (1f - panelSlideProgress) * 50f;
+            panelY += slideOffsetPanel;
+
+            float addBtnX = panelX + PANEL_WIDTH - 30;
+            float addBtnY = panelY + 8;
+            float addBtnSize = 20;
+
+            addButtonHovered = scaledMouseX >= addBtnX && scaledMouseX <= addBtnX + addBtnSize &&
+                    scaledMouseY >= addBtnY && scaledMouseY <= addBtnY + addBtnSize;
+        } else {
+            addButtonHovered = false;
+        }
+
         renderAccountPanel(scaledMouseX, scaledMouseY, panelSlideProgress, currentTime);
+
+        // Диалог добавления аккаунта
+        if (showAddDialog) {
+            long dialogElapsed = currentTime - addDialogOpenTime;
+            addDialogProgress = (float) Easings.SPRING.ease(Math.min(1f, dialogElapsed / 250f));
+            renderAddDialog(scaledMouseX, scaledMouseY, addDialogProgress, currentTime);
+        }
 
         Render2D.endOverlay();
     }
@@ -249,8 +309,14 @@ public class AltManagerScreen extends Screen {
 
     private void renderAddButton(float x, float y, float width, float height, float slideProgress, long currentTime) {
         int alpha = (int) (slideProgress * 200);
-        Render2D.rect(x, y, width, height, withAlpha(0x2A3040, alpha), 4);
-        Render2D.outline(x, y, width, height, 0.5f, withAlpha(0x405060, alpha), 4);
+
+        if (addButtonHovered) {
+            Render2D.rect(x, y, width, height, withAlpha(0x3A4050, alpha), 4);
+            Render2D.outline(x, y, width, height, 0.5f, withAlpha(0x6080a0, alpha), 4);
+        } else {
+            Render2D.rect(x, y, width, height, withAlpha(0x2A3040, alpha), 4);
+            Render2D.outline(x, y, width, height, 0.5f, withAlpha(0x405060, alpha), 4);
+        }
         Fonts.GUI_ICONS.draw("+", x + 4, y + 3, 12, withAlpha(0x80a0c0, alpha));
     }
 
@@ -328,6 +394,112 @@ public class AltManagerScreen extends Screen {
         }
     }
 
+    private void renderAddDialog(float mouseX, float mouseY, float progress, long currentTime) {
+        int screenWidth = getFixedScaledWidth();
+        int screenHeight = getFixedScaledHeight();
+
+        float dialogX = (screenWidth - ADD_DIALOG_WIDTH) / 2f;
+        float dialogY = (screenHeight - ADD_DIALOG_HEIGHT) / 2f;
+
+        // Slide анимация
+        float slideOffset = (1f - progress) * 30f;
+        dialogY += slideOffset;
+
+        // Тень
+        float shadowSize = 15f;
+        Render2D.blur(dialogX - shadowSize / 2, dialogY - shadowSize / 2,
+                ADD_DIALOG_WIDTH + shadowSize, ADD_DIALOG_HEIGHT + shadowSize,
+                shadowSize, 10, withAlpha(0x000000, 60));
+
+        // Фон
+        int bgAlpha = (int) (progress * 255);
+        int bgTop = withAlpha(0x1e1e28, bgAlpha);
+        int bgBottom = withAlpha(0x14141c, bgAlpha);
+        Render2D.gradientRect(dialogX, dialogY, ADD_DIALOG_WIDTH, ADD_DIALOG_HEIGHT,
+                new int[]{bgTop, bgTop, bgBottom, bgBottom}, 10);
+
+        // Outline
+        int outlineAlpha = (int) (progress * 200);
+        Render2D.outline(dialogX, dialogY, ADD_DIALOG_WIDTH, ADD_DIALOG_HEIGHT, 0.5f, withAlpha(0x3A3A4A, outlineAlpha), 10);
+
+        // Заголовок
+        float titleY = dialogY + 12;
+        float titleX = dialogX + 15;
+        Fonts.BOLD.draw("Add Account", titleX, titleY, 9, withAlpha(0xFFFFFF, bgAlpha));
+
+        // Линия
+        Render2D.rect(dialogX + 10, titleY + 14, ADD_DIALOG_WIDTH - 20, 0.5f,
+                withAlpha(0x3A3A4A, (int) (progress * 100)), 10);
+
+        // Поля ввода
+        int fieldAlpha = (int) (progress * 255);
+
+        // Фон name field
+        float nameFieldY = dialogY + 45;
+        Render2D.rect(dialogX + 15, nameFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
+                withAlpha(0x252530, fieldAlpha), 4);
+        Render2D.outline(dialogX + 15, nameFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
+                0.5f, withAlpha(0x3A3A4A, fieldAlpha), 4);
+
+        // Placeholder/текст name
+        if (nameField.getText().isEmpty()) {
+            Fonts.REGULAR.draw("Username", dialogX + 20, nameFieldY + 3, 6, withAlpha(0x607080, fieldAlpha));
+        } else {
+            Fonts.REGULAR.draw(nameField.getText(), dialogX + 20, nameFieldY + 3, 6, withAlpha(0xFFFFFF, fieldAlpha));
+        }
+
+        // Фон password field
+        float passFieldY = dialogY + 80;
+        Render2D.rect(dialogX + 15, passFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
+                withAlpha(0x252530, fieldAlpha), 4);
+        Render2D.outline(dialogX + 15, passFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
+                0.5f, withAlpha(0x3A3A4A, fieldAlpha), 4);
+
+        // Placeholder/текст password
+        if (passwordField.getText().isEmpty()) {
+            Fonts.REGULAR.draw("Password", dialogX + 20, passFieldY + 3, 6, withAlpha(0x607080, fieldAlpha));
+        } else {
+            Fonts.REGULAR.draw("•".repeat(passwordField.getText().length()), dialogX + 20, passFieldY + 3, 6, withAlpha(0xFFFFFF, fieldAlpha));
+        }
+
+        // Кнопка "Add"
+        float addBtnWidth = 80;
+        float addBtnHeight = 22;
+        float addBtnX = dialogX + ADD_DIALOG_WIDTH - addBtnWidth - 15;
+        float addBtnY = dialogY + ADD_DIALOG_HEIGHT - addBtnHeight - 12;
+        int addBtnAlpha = (int) (progress * 220);
+
+        boolean addBtnHovered = mouseX >= addBtnX && mouseX <= addBtnX + addBtnWidth &&
+                mouseY >= addBtnY && mouseY <= addBtnY + addBtnHeight;
+
+        if (addBtnHovered) {
+            Render2D.rect(addBtnX, addBtnY, addBtnWidth, addBtnHeight, withAlpha(0x3A5040, addBtnAlpha), 4);
+        } else {
+            Render2D.rect(addBtnX, addBtnY, addBtnWidth, addBtnHeight, withAlpha(0x2A3040, addBtnAlpha), 4);
+        }
+        Render2D.outline(addBtnX, addBtnY, addBtnWidth, addBtnHeight, 0.5f, withAlpha(0x405060, addBtnAlpha), 4);
+        Fonts.REGULAR.draw("Add", addBtnX + 28, addBtnY + 5, 6, withAlpha(0x80c080, addBtnAlpha));
+
+        // Кнопка "Cancel"
+        float cancelBtnX = dialogX + 15;
+        boolean cancelBtnHovered = mouseX >= cancelBtnX && mouseX <= cancelBtnX + addBtnWidth &&
+                mouseY >= addBtnY && mouseY <= addBtnY + addBtnHeight;
+
+        if (cancelBtnHovered) {
+            Render2D.rect(cancelBtnX, addBtnY, addBtnWidth, addBtnHeight, withAlpha(0x503030, addBtnAlpha), 4);
+        } else {
+            Render2D.rect(cancelBtnX, addBtnY, addBtnWidth, addBtnHeight, withAlpha(0x302020, addBtnAlpha), 4);
+        }
+        Render2D.outline(cancelBtnX, addBtnY, addBtnWidth, addBtnHeight, 0.5f, withAlpha(0x403030, addBtnAlpha), 4);
+        Fonts.REGULAR.draw("Cancel", cancelBtnX + 14, addBtnY + 5, 6, withAlpha(0xc08080, addBtnAlpha));
+    }
+
+    private void closeAddDialog() {
+        showAddDialog = false;
+        nameField.setText("");
+        passwordField.setText("");
+    }
+
     private int getHoveredAccount(float mouseX, float mouseY) {
         int screenWidth = getFixedScaledWidth();
         int screenHeight = getFixedScaledHeight();
@@ -358,23 +530,113 @@ public class AltManagerScreen extends Screen {
         float scaledMouseX = toFixedCoord(click.x());
         float scaledMouseY = toFixedCoord(click.y());
 
+        // Если диалог добавления открыт
+        if (showAddDialog) {
+            int screenWidth = getFixedScaledWidth();
+            int screenHeight = getFixedScaledHeight();
+            float dialogX = (screenWidth - ADD_DIALOG_WIDTH) / 2f;
+            float dialogY = (screenHeight - ADD_DIALOG_HEIGHT) / 2f;
+
+            // Учитываем slide анимацию
+            float slideOffset = (1f - addDialogProgress) * 30f;
+            dialogY += slideOffset;
+
+            // Проверяем клик по полям ввода
+            float nameFieldY = dialogY + 45;
+            float passFieldY = dialogY + 80;
+            float fieldWidth = ADD_DIALOG_WIDTH - 30;
+
+            // Клик по name field
+            if (scaledMouseX >= dialogX + 15 && scaledMouseX <= dialogX + 15 + fieldWidth &&
+                    scaledMouseY >= nameFieldY - 2 && scaledMouseY <= nameFieldY + 22) {
+                nameField.setFocused(true);
+                passwordField.setFocused(false);
+                return true;
+            }
+
+            // Клик по password field
+            if (scaledMouseX >= dialogX + 15 && scaledMouseX <= dialogX + 15 + fieldWidth &&
+                    scaledMouseY >= passFieldY - 2 && scaledMouseY <= passFieldY + 22) {
+                passwordField.setFocused(true);
+                nameField.setFocused(false);
+                return true;
+            }
+
+            // Кнопка "Add"
+            float addBtnWidth = 80;
+            float addBtnHeight = 22;
+            float addBtnX = dialogX + ADD_DIALOG_WIDTH - addBtnWidth - 15;
+            float addBtnY = dialogY + ADD_DIALOG_HEIGHT - addBtnHeight - 12;
+
+            if (scaledMouseX >= addBtnX && scaledMouseX <= addBtnX + addBtnWidth &&
+                    scaledMouseY >= addBtnY && scaledMouseY <= addBtnY + addBtnHeight) {
+                // Добавляем аккаунт
+                nameField.setFocused(false);
+                passwordField.setFocused(false);
+                String name = nameField.getText().trim();
+                String password = passwordField.getText().trim();
+
+                if (!name.isEmpty()) {
+                    // Здесь можно добавить логику валидации/авторизации
+                    String date = java.time.LocalDate.now().toString(); // текущая дата
+                    AccountEntry newAccount = new AccountEntry(name, date, null);
+                    accountConfig.addAccount(newAccount);
+                    loadAccounts();
+                    closeAddDialog();
+                }
+                return true;
+            }
+
+            // Кнопка "Cancel"
+            float cancelBtnX = dialogX + 15;
+            if (scaledMouseX >= cancelBtnX && scaledMouseX <= cancelBtnX + addBtnWidth &&
+                    scaledMouseY >= addBtnY && scaledMouseY <= addBtnY + addBtnHeight) {
+                nameField.setFocused(false);
+                passwordField.setFocused(false);
+                closeAddDialog();
+                return true;
+            }
+
+            // Клик вне диалога - закрываем его
+            if (scaledMouseX < dialogX || scaledMouseX > dialogX + ADD_DIALOG_WIDTH ||
+                    scaledMouseY < dialogY || scaledMouseY > dialogY + ADD_DIALOG_HEIGHT) {
+                nameField.setFocused(false);
+                passwordField.setFocused(false);
+                closeAddDialog();
+            }
+
+            return true; // Блокируем остальные клики при открытом диалоге
+        }
+
+        // Проверяем клик по кнопке "+"
+        int screenWidth = getFixedScaledWidth();
+        int screenHeight = getFixedScaledHeight();
+        float panelX = (screenWidth - PANEL_WIDTH) / 2f;
+        float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
+
+        float slideOffset = (1f - panelSlideProgress) * 50f;
+        panelY += slideOffset;
+
+        float addBtnX = panelX + PANEL_WIDTH - 30;
+        float addBtnY = panelY + 8;
+        float addBtnSize = 20;
+
+        if (scaledMouseX >= addBtnX && scaledMouseX <= addBtnX + addBtnSize &&
+                scaledMouseY >= addBtnY && scaledMouseY <= addBtnY + addBtnSize) {
+            showAddDialog = true;
+            addDialogOpenTime = Util.getMeasuringTimeMs();
+            addDialogProgress = 0f;
+            return true;
+        }
+
+        // Обычная обработка кликов по аккаунтам
         int hovered = getHoveredAccount(scaledMouseX, scaledMouseY);
         if (hovered >= 0) {
             AccountEntry account = accounts.get(hovered);
 
-            int screenWidth = getFixedScaledWidth();
-            int screenHeight = getFixedScaledHeight();
-            float panelX = (screenWidth - PANEL_WIDTH) / 2f;
-            float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
-
-            // Учитываем slide анимацию
-            float slideOffset = (1f - panelSlideProgress) * 50f;
-            panelY += slideOffset;
-
             float listY = panelY + 50;
             float itemY = listY + scrollOffset + hovered * (ACCOUNT_ITEM_HEIGHT + ACCOUNT_ITEM_SPACING);
 
-            // Проверяем кнопки
             float buttonSize = 16;
             float buttonY = itemY + (ACCOUNT_ITEM_HEIGHT - buttonSize) / 2f;
             float useBtnX = panelX + 8 + PANEL_WIDTH - 16 - buttonSize * 2 - 10;
@@ -382,7 +644,6 @@ public class AltManagerScreen extends Screen {
 
             if (scaledMouseX >= useBtnX && scaledMouseX <= useBtnX + buttonSize &&
                     scaledMouseY >= buttonY && scaledMouseY <= buttonY + buttonSize) {
-                // Использовать аккаунт
                 accountConfig.setActiveAccount(account.getName(), account.getDate(), account.getSkin());
                 accountConfig.save();
                 selectedAccount = hovered;
@@ -391,7 +652,6 @@ public class AltManagerScreen extends Screen {
 
             if (scaledMouseX >= delBtnX && scaledMouseX <= delBtnX + buttonSize &&
                     scaledMouseY >= buttonY && scaledMouseY <= buttonY + buttonSize) {
-                // Удалить аккаунт
                 accounts.remove(hovered);
                 accountConfig.save();
                 return true;
@@ -402,6 +662,9 @@ public class AltManagerScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontal, double vertical) {
+        if (showAddDialog) {
+            return true; // Блокируем скролл при открытом диалоге
+        }
         float maxScroll = (float) Math.max(0, accounts.size() * (ACCOUNT_ITEM_HEIGHT + ACCOUNT_ITEM_SPACING) - (PANEL_HEIGHT - 60));
         targetScrollOffset = Math.max(-maxScroll, Math.min(0f, (float) (targetScrollOffset + vertical * 20)));
         return true;
@@ -410,14 +673,51 @@ public class AltManagerScreen extends Screen {
     @Override
     public boolean keyPressed(KeyInput keyInput) {
         if (keyInput.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE) {
+            if (showAddDialog) {
+                closeAddDialog();
+                return true;
+            }
             client.setScreen(previousScreen);
             return true;
         }
+
+        // Обработка клавиатуры для TextFieldWidget
+        if (showAddDialog) {
+            if (nameField.isFocused() && nameField.keyPressed(keyInput)) {
+                return true;
+            }
+            if (passwordField.isFocused() && passwordField.keyPressed(keyInput)) {
+                return true;
+            }
+
+            // Enter для добавления
+            if (keyInput.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER || keyInput.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER) {
+                String name = nameField.getText().trim();
+                if (!name.isEmpty()) {
+                    String date = java.time.LocalDate.now().toString();
+                    AccountEntry newAccount = new AccountEntry(name, date, null);
+                    accountConfig.addAccount(newAccount);
+                    loadAccounts();
+                    closeAddDialog();
+                }
+                return true;
+            }
+        }
+
         return super.keyPressed(keyInput);
     }
 
     @Override
     public boolean charTyped(CharInput charInput) {
+        // Обработка ввода символов для TextFieldWidget
+        if (showAddDialog) {
+            if (nameField.isFocused() && nameField.charTyped(charInput)) {
+                return true;
+            }
+            if (passwordField.isFocused() && passwordField.charTyped(charInput)) {
+                return true;
+            }
+        }
         return super.charTyped(charInput);
     }
 
