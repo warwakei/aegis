@@ -42,36 +42,31 @@ public class ConfigCommand extends Command {
                     return;
                 }
                 String name = args[1];
-                Path configDir = ConfigPath.getConfigDirectory();
-                Path configFile = configDir.resolve(name + ".json");
+                Path configFile = ConfigPath.getConfigFile(name);
 
                 if (Files.exists(configFile)) {
                     try {
-                        ConfigSystem.getInstance().load();
-                        logDirect(String.format("Конфигурация %s загружена!", name));
+                        ConfigSystem.getInstance().load(name);
+                        logDirect(String.format("§aКонфигурация §f%s§a загружена!", name));
                     } catch (Exception e) {
-                        logDirect(String.format("Ошибка при загрузке конфига! Детали: %s", e.getMessage()), Formatting.RED);
+                        logDirect(String.format("§cОшибка при загрузке конфига! %s", e.getMessage()), Formatting.RED);
                     }
                 } else {
-                    logDirect(String.format("Конфигурация %s не найдена!", name), Formatting.RED);
+                    logDirect(String.format("§cКонфигурация §f%s§c не найдена!", name), Formatting.RED);
                 }
             }
             case "save" -> {
                 if (args.length < 2) {
                     ConfigSystem.getInstance().save();
-                    logDirect("Конфигурация сохранена!");
+                    logDirect("§aКонфигурация сохранена в §fautoconfig.aegisconfig§a!");
                     return;
                 }
                 String name = args[1];
                 try {
-                    Path configDir = ConfigPath.getConfigDirectory();
-                    Path newConfig = configDir.resolve(name + ".json");
-                    ConfigSystem.getInstance().save();
-                    Path currentConfig = ConfigPath.getConfigFile();
-                    Files.copy(currentConfig, newConfig);
-                    logDirect(String.format("Конфигурация %s сохранена!", name));
+                    ConfigSystem.getInstance().save(name);
+                    logDirect(String.format("§aКонфигурация §f%s§a сохранена!", name));
                 } catch (Exception e) {
-                    logDirect(String.format("Ошибка при сохранении конфига! Детали: %s", e.getMessage()), Formatting.RED);
+                    logDirect(String.format("§cОшибка при сохранении конфига! %s", e.getMessage()), Formatting.RED);
                 }
             }
             case "list" -> {
@@ -85,7 +80,7 @@ public class ConfigCommand extends Command {
                 List<String> configs = getConfigs();
 
                 if (configs.isEmpty()) {
-                    logDirect("Конфигурации не найдены!", Formatting.RED);
+                    logDirect("§cКонфигурации не найдены!", Formatting.RED);
                     return;
                 }
 
@@ -127,9 +122,9 @@ public class ConfigCommand extends Command {
                         pb = new ProcessBuilder("xdg-open", configDir.toAbsolutePath().toString());
                     }
                     pb.start();
-                    logDirect("Папка с конфигурациями открыта!");
+                    logDirect("§aПапка с конфигурациями открыта!");
                 } catch (IOException e) {
-                    logDirect("Папка с конфигурациями не найдена! " + e.getMessage(), Formatting.RED);
+                    logDirect("§cПапка с конфигурациями не найдена! " + e.getMessage(), Formatting.RED);
                 }
             }
             default -> {
@@ -189,10 +184,10 @@ public class ConfigCommand extends Command {
             Path configDir = ConfigPath.getConfigDirectory();
             if (Files.exists(configDir)) {
                 Files.list(configDir)
-                        .filter(path -> path.toString().endsWith(".json"))
+                        .filter(path -> path.toString().endsWith(".aegisconfig"))
                         .forEach(path -> {
                             String name = path.getFileName().toString();
-                            configs.add(name.substring(0, name.length() - 5));
+                            configs.add(name.substring(0, name.length() - 12)); // remove ".aegisconfig"
                         });
             }
         } catch (IOException ignored) {}

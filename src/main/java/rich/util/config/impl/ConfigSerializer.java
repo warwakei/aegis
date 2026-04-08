@@ -36,7 +36,7 @@ public class ConfigSerializer {
         root.add("autobuy", serializeAutoBuy());
         root.addProperty("version", "2.0");
         root.addProperty("timestamp", System.currentTimeMillis());
-        root.addProperty("client", "Rich Modern");
+        root.addProperty("client", "Aegis");
 
         return GSON.toJson(root);
     }

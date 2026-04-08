@@ -100,11 +100,16 @@ public class Aura extends ModuleStructure {
     private final BooleanSetting silentMace = new BooleanSetting("Silent Mace", "Авто-свап булавы при падении с 9+ блоков")
             .setValue(false);
 
+    @Getter
+    private final SelectSetting elytraRotationMode = new SelectSetting("Ротация для ElytraTarget", "Режим ротации при использовании ElytraTarget (snap ротации не работают с элитратаргет)")
+            .value("Linear (Track)", "Static", "Smooth")
+            .selected("Linear (Track)");
+
     private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
 
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode);
     }
 
     @NonFinal
@@ -229,7 +234,31 @@ public class Aura extends ModuleStructure {
             }
 
             if (targetSpeed > 0.35) {
-                Vec3d predictedPos = target.getEntityPos().add(targetVelocity.multiply(leadTicks));
+                // Проверяем орбитальное движение (strafe вокруг нас)
+                Vec3d toTarget = target.getEntityPos().subtract(mc.player.getEntityPos());
+                double dotProduct = toTarget.normalize().dotProduct(targetVelocity.normalize());
+                boolean isOrbiting = Math.abs(dotProduct) < 0.3 && targetSpeed > 0.4;
+
+                Vec3d predictedPos;
+                if (isOrbiting) {
+                    // Целевое движение по орбите — предсказываем по угловой скорости
+                    double radius = toTarget.horizontalLength();
+                    double angularSpeed = targetSpeed / radius;
+                    double angleDelta = angularSpeed * leadTicks;
+
+                    double currentAngle = Math.atan2(toTarget.z, toTarget.x);
+                    double predictedAngle = currentAngle + angleDelta;
+
+                    double predictedX = mc.player.getX() + Math.cos(predictedAngle) * radius;
+                    double predictedZ = mc.player.getZ() + Math.sin(predictedAngle) * radius;
+                    double predictedY = target.getY() + targetVelocity.y * leadTicks;
+
+                    predictedPos = new Vec3d(predictedX, predictedY, predictedZ);
+                } else {
+                    // Линейное предсказание
+                    predictedPos = target.getEntityPos().add(targetVelocity.multiply(leadTicks));
+                }
+
                 computedPoint = predictedPos.add(0, target.getHeight() / 2, 0);
 
                 hitbox = new Box(
@@ -258,15 +287,47 @@ public class Aura extends ModuleStructure {
         return new AngleConfig(getSmoothMode(), visibleCorrection, freeCorrection);
     }
 
+    public AngleConfig getElytraRotationConfig() {
+        boolean visibleCorrection = !moveFix.isSelected("Отключена");
+        boolean freeCorrection = moveFix.isSelected("Свободная");
+        
+        RotateConstructor elytraMode = switch (elytraRotationMode.getSelected()) {
+            case "Static" -> new LinearConstructor() {
+                @Override
+                public Vec3d randomValue() {
+                    return Vec3d.ZERO;
+                }
+            };
+            case "Smooth" -> new LinearConstructor();
+            default -> new LinearConstructor();
+        };
+        
+        return new AngleConfig(elytraMode, visibleCorrection, freeCorrection);
+    }
+
+    private rich.modules.impl.combat.aura.impl.RotateConstructor getElytraRotateConstructor() {
+        return switch (elytraRotationMode.getSelected()) {
+            case "Static" -> new LinearConstructor() {
+                @Override
+                public Vec3d randomValue() {
+                    return Vec3d.ZERO;
+                }
+            };
+            case "Smooth" -> new LinearConstructor();
+            default -> new LinearConstructor();
+        };
+    }
+
     private void rotateToTarget(StrikerConstructor.AttackPerpetratorConfigurable config) {
         StrikeManager attackHandler = Initialization.getInstance().getManager().getAttackPerpetrator()
                 .getAttackHandler();
         AngleConnection controller = AngleConnection.INSTANCE;
         Angle.VecRotation rotation = new Angle.VecRotation(config.getAngle(), config.getAngle().toVector());
-        AngleConfig rotationConfig = getRotationConfig();
 
         boolean elytraMode = mc.player.isGliding() && ElytraTarget.getInstance() != null
                 && ElytraTarget.getInstance().isState();
+        
+        AngleConfig rotationConfig = elytraMode ? getElytraRotationConfig() : getRotationConfig();
 
         switch (mode.getSelected()) {
 
@@ -439,9 +500,12 @@ public class Aura extends ModuleStructure {
     }
 
     public RotateConstructor getSmoothMode() {
-        if (mc.player.isGliding() && ElytraTarget.getInstance() != null && ElytraTarget.getInstance().isState()) {
-            return new LinearConstructor();
+        boolean elytraMode = mc.player.isGliding() && ElytraTarget.getInstance() != null && ElytraTarget.getInstance().isState();
+        
+        if (elytraMode) {
+            return getElytraRotateConstructor();
         }
+        
         return switch (mode.getSelected()) {
             case "FunTime Snap" -> new FTAngle();
             case "SpookyTime" -> new SPAngle();

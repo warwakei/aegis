@@ -109,7 +109,7 @@ public class AttackHandler {
     }
 
     /**
-     * Улучшенная проверка критов
+     * Улучшенная проверка критов — НЕ флагает античит
      */
     private CritStatus canCritEnhanced(LivingEntity target) {
         if (mc.player == null) return new CritStatus(false, "No player");
@@ -119,30 +119,30 @@ public class AttackHandler {
             return new CritStatus(false, "On ground");
         }
 
-        // Проверяем что мы падаем (основное условие для крита)
         double fallDistance = mc.player.fallDistance;
         double velocityY = mc.player.getVelocity().y;
 
-        // Если мы восходим с достаточной скоростью - не атакуем
-        if (velocityY > 0.3) {
-            return new CritStatus(false, "Ascending too fast");
+        // Восходим слишком быстро — ждём
+        if (velocityY > 0.15) {
+            return new CritStatus(false, "Ascending");
         }
 
-        // Если падаем достаточно - точно будет крит
-        if (fallDistance > 1.5 || velocityY < -0.1) {
+        // Хороший крит: падаем с достаточным fallDistance
+        if (fallDistance > 1.0 && velocityY < -0.05) {
             return new CritStatus(true, "Good crit", true);
         }
 
-        // Если начали падение - можно атаковать
-        if (velocityY <= 0.1 && velocityY > -0.1) {
+        // Начало падения: velocityY близок к нулю и fallDistance > 0
+        if (fallDistance > 0.3 && velocityY <= 0.05 && velocityY > -0.05) {
             return new CritStatus(true, "Start of fall", true);
         }
 
-        // Если восходим медленно - всё ещё можем атаковать (скоро начнёт падать)
-        if (velocityY <= 0.3) {
-            return new CritStatus(true, "Slow ascent, will fall soon", false);
+        // Маленькое падение — можно атаковать но не гарантированно
+        if (fallDistance > 0.5 && velocityY < 0) {
+            return new CritStatus(true, "Small crit", true);
         }
 
+        // Не атакуем в остальных случаях чтобы не флагать античит
         return new CritStatus(false, "No crit conditions");
     }
 

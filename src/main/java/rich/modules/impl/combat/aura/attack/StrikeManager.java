@@ -188,6 +188,25 @@ public class StrikeManager implements IMinecraft {
         if (!is1_8Mode) {
             clickScheduler.recalculate();
         }
+
+        // Обновляем счётчик для ElytraTarget double sneak
+        updateElytraTargetTradeHit();
+    }
+
+    private void updateElytraTargetTradeHit() {
+        if (Aura.target != null && Aura.target.isAlive()) {
+            rich.modules.impl.movement.ElytraTarget elytraTarget = rich.modules.impl.movement.ElytraTarget.getInstance();
+            if (elytraTarget != null && elytraTarget.isState() && elytraTarget.doubleSneak.isValue()) {
+                long currentTime = System.currentTimeMillis();
+                long timeSinceLastHit = currentTime - elytraTarget.lastTradeHitTime;
+                if (timeSinceLastHit < 800) {
+                    elytraTarget.consecutiveTradeHits++;
+                } else {
+                    elytraTarget.consecutiveTradeHits = 1;
+                }
+                elytraTarget.lastTradeHitTime = currentTime;
+            }
+        }
     }
     
     /**
@@ -408,25 +427,49 @@ public class StrikeManager implements IMinecraft {
         boolean checkCritEnabled = aura.getCheckCrit().isValue();
         boolean smartCritsEnabled = aura.getSmartCrits().isValue();
 
+        // В воде или с ограничениями — всегда разрешаем (крит всё равно невозможен)
         if (isInWater() || hasLowCeiling() || hasMovementRestrictions()) {
             return true;
         }
 
+        // Если криты не обязательны — разрешаем
         if (!checkCritEnabled) {
             return true;
         }
 
-        if (isAscending()) {
+        // УМНЫЕ КРИТЫ: надёжная проверка чтобы не флагать античит
+        if (smartCritsEnabled) {
+            // На земле НЕ атакуем — это главный источник флагов
+            if (mc.player.isOnGround()) {
+                return false;
+            }
+
+            // Восходящее движение — не атакуем
+            if (isAscending()) {
+                return false;
+            }
+
+            // Проверяем что падаем с достаточным fallDistance
+            if (mc.player.fallDistance > 0.5 && isDescending()) {
+                return true;
+            }
+
+            // Проверяем симуляцией: будет ли крит в ближайшие 3 тика
+            for (int i = 1; i <= 3; i++) {
+                if (willBeCritInTicks(i)) {
+                    return true;
+                }
+            }
+
+            // Если только начали падение (velocityY ~0) и fallDistance > 0
+            if (mc.player.fallDistance > 0.0F && Math.abs(mc.player.getVelocity().y) < 0.08) {
+                return true;
+            }
+
             return false;
         }
 
-        if (smartCritsEnabled) {
-            if (mc.player.isOnGround()) {
-                return true;
-            }
-            return isDescending() && mc.player.fallDistance > 0.0F;
-        }
-
+        // ОБЫЧНЫЕ КРИТЫ: только идеальный крит
         return isPerfectCrit();
     }
 
@@ -666,35 +709,38 @@ public class StrikeManager implements IMinecraft {
             return true;
         }
 
-        // Базовые проверки - только вода и лава
-        if (isInWater()) {
-            return true; // В воде всё равно не будет крита
-        }
-
-        // Проверяем что не восходим слишком быстро
-        // УМЕНЬШЕНА чувствительность: раньше было > 0.0, теперь > 0.2
-        // Это позволяет атаковать даже при небольшом подъёме
-        if (isAscending() && mc.player.getVelocity().y > 0.2) {
-            return false;
-        }
-
-        // Проверяем fallDistance - если падаем достаточно, точно атакуем
-        if (mc.player.fallDistance > 1.0) {
-            return true;
-        }
-
-        // Если velocityY отрицательный (падаем) - атакуем
-        if (mc.player.getVelocity().y < 0) {
-            return true;
-        }
-
-        // Если на земле - не атакуем (пусть взлетит заново)
+        // На земле НЕ атакуем — главный источник флагов античита
         if (mc.player.isOnGround()) {
             return false;
         }
 
-        // Всё остальное разрешаем - булава менее капризна
-        return true;
+        // В воде — всё равно не будет крита, разрешаем
+        if (isInWater()) {
+            return true;
+        }
+
+        // Проверяем что не восходим
+        if (isAscending() && mc.player.getVelocity().y > 0.1) {
+            return false;
+        }
+
+        // Если падаем — точно атакуем
+        if (mc.player.fallDistance > 0.5 && mc.player.getVelocity().y < 0) {
+            return true;
+        }
+
+        // Если velocityY отрицательный (падаем) — атакуем
+        if (mc.player.getVelocity().y < -0.05) {
+            return true;
+        }
+
+        // Начало падения
+        if (mc.player.fallDistance > 0.3 && Math.abs(mc.player.getVelocity().y) < 0.08) {
+            return true;
+        }
+
+        // Всё остальное запрещаем чтобы не флагать античит
+        return false;
     }
 
     void handleTriggerAttack(StrikerConstructor.AttackPerpetratorConfigurable config, TriggerBot triggerBot) {
@@ -755,9 +801,11 @@ public class StrikeManager implements IMinecraft {
             return false;
 
         if (smartCritsEnabled) {
+            // На земле НЕ атакуем — источник флагов античита
             if (mc.player.isOnGround()) {
-                return true;
+                return false;
             }
+            // Проверяем что падаем
             return isDescending() && mc.player.fallDistance > 0.0F;
         }
 
@@ -819,7 +867,9 @@ public class StrikeManager implements IMinecraft {
                     return true;
                 if (smartCritsEnabled) {
                     PlayerSimulation sim = PlayerSimulation.simulateLocalPlayer(i);
-                    if (sim.onGround)
+                    // НЕ проверяем onGround — это вызывает флаги античита
+                    // Вместо этого проверяем что sim не на земле и падает
+                    if (!sim.onGround && sim.velocity.y <= 0.0 && sim.fallDistance > 0.0F)
                         return true;
                 }
             }
@@ -856,7 +906,8 @@ public class StrikeManager implements IMinecraft {
                     return true;
                 if (smartCritsEnabled) {
                     PlayerSimulation sim = PlayerSimulation.simulateLocalPlayer(i);
-                    if (sim.onGround)
+                    // НЕ проверяем onGround — это вызывает флаги античита
+                    if (!sim.onGround && sim.velocity.y <= 0.0 && sim.fallDistance > 0.0F)
                         return true;
                 }
             }

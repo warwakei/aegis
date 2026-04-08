@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +14,39 @@
                 <div class="menu-item" id="menu-view-btn">
                     <span>View</span>
                     <div class="dropdown" id="menu-view">
+                        <div class="dropdown-section">Data Panels</div>
                         <div class="dropdown-item" data-action="toggle-console">Console</div>
                         <div class="dropdown-item" data-action="toggle-chat">Chat</div>
-                        <div class="dropdown-item" data-action="toggle-status">⚙ Status</div>
-                        <div class="dropdown-item" data-action="toggle-world">World</div>
-                        <div class="dropdown-item" data-action="toggle-potions">Potions</div>
-                        <div class="dropdown-item" data-action="toggle-server">Server</div>
+                        <div class="dropdown-item" data-action="toggle-status">Status</div>
                         <div class="dropdown-separator"></div>
-                        <div class="dropdown-item" data-action="lock-panels">🔒Lock Panels</div>
-                        <div class="dropdown-item" data-action="unlock-panels">🔓Unlock Panels</div>
+                        <div class="dropdown-section">World</div>
+                        <div class="dropdown-item" data-action="toggle-world">World Info</div>
+                        <div class="dropdown-item" data-action="toggle-potions">Potion Effects</div>
+                        <div class="dropdown-item" data-action="toggle-server">Server Info</div>
                         <div class="dropdown-separator"></div>
-                        <div class="dropdown-item" data-action="clear-logs">Clear Logs</div>
+                        <div class="dropdown-section">Moderation</div>
+                        <div class="dropdown-item" data-action="toggle-moderation">Moderating Utils</div>
+                        <div class="dropdown-item" data-action="toggle-anticheat">Anticheat Monitor</div>
                         <div class="dropdown-separator"></div>
-                        <div class="dropdown-item" data-action="strip-chat-tag" id="menu-strip-chat">Strip [CHAT]</div>
-                        <div class="dropdown-item" data-action="short-time" id="menu-short-time">Short Time (HH:MM)</div>
-                        <div class="dropdown-item" data-action="strip-recv" id="menu-strip-recv">Strip RECV</div>
+                        <div class="dropdown-section">Dev Tools</div>
+                        <div class="dropdown-item" data-action="toggle-hitreg">Hitreg Logger</div>
+                        <div class="dropdown-item" data-action="toggle-performance">Performance Profiler</div>
+                        <div class="dropdown-item" data-action="toggle-network">Network Monitor</div>
+                        <div class="dropdown-item" data-action="toggle-sessions">Session Tracker</div>
+                        <div class="dropdown-item" data-action="toggle-pluginDebug">Plugin Debugger</div>
+                        <div class="dropdown-item" data-action="toggle-logFilter">Log Filter</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-section">System</div>
+                        <div class="dropdown-item" data-action="toggle-modules">Module Manager</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-item" data-action="lock-panels">Lock Panels</div>
+                        <div class="dropdown-item" data-action="unlock-panels">Unlock Panels</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-item" data-action="clear-logs">Clear All Logs</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-item" data-action="strip-chat-tag">Strip [CHAT] prefix</div>
+                        <div class="dropdown-item" data-action="short-time">Short Time (HH:MM)</div>
+                        <div class="dropdown-item" data-action="strip-recv">Strip RECV entries</div>
                     </div>
                 </div>
                 <span class="separator">│</span>
@@ -52,14 +70,14 @@
 
         <!-- Main Grid -->
         <main id="main-grid">
-            <!-- Console Panel (hidden by default) -->
+            <!-- Console Panel -->
             <div class="panel panel-draggable hidden" id="panel-console">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
                     <span class="panel-title">⌘ Console</span>
                     <span class="panel-count" id="console-count">0</span>
                     <span class="panel-controls">
-                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
                     </span>
                 </div>
                 <div class="panel-body" id="console-log"></div>
@@ -70,15 +88,15 @@
             <div class="panel panel-draggable" id="panel-chat">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
-                    <span class="panel-title">💬 Chat</span>
+                    <span class="panel-title">◈ Chat</span>
                     <span class="panel-count" id="chat-count">0</span>
                     <span class="panel-controls">
-                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
                     </span>
                 </div>
                 <div class="panel-body" id="chat-log"></div>
                 <div class="chat-input-area">
-                    <button id="chat-global-btn" title="Toggle global chat (!)">Ⓖ</button>
+                    <button id="chat-global-btn" title="Toggle global chat (!)">G</button>
                     <input type="text" id="chat-input" placeholder="Type message..." autocomplete="off">
                     <button id="chat-send-btn">Send</button>
                 </div>
@@ -91,59 +109,191 @@
                     <span class="panel-drag-handle">⠿</span>
                     <span class="panel-title">⚙ Status</span>
                     <span class="panel-controls">
-                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
                     </span>
                 </div>
                 <div class="panel-body" id="system-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
 
-            <!-- World Info Panel (hidden by default) -->
+            <!-- Moderating Utils Panel -->
+            <div class="panel panel-draggable hidden" id="panel-moderation">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">☰ Moderating Utils</span>
+                    <span class="panel-count" id="moderation-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="moderation-log"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Anticheat Monitor Panel -->
+            <div class="panel panel-draggable hidden" id="panel-anticheat">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">⚡ Anticheat Monitor</span>
+                    <span class="panel-count" id="anticheat-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="anticheat-log"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Hitreg Logger Panel -->
+            <div class="panel panel-draggable hidden" id="panel-hitreg">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">⚔ Hitreg Logger</span>
+                    <span class="panel-count" id="hitreg-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="hitreg-log"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Performance Profiler Panel -->
+            <div class="panel panel-draggable hidden" id="panel-performance">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">⏱ Performance Profiler</span>
+                    <span class="panel-count" id="performance-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="performance-info"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Network Monitor Panel -->
+            <div class="panel panel-draggable hidden" id="panel-network">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">⟁ Network Monitor</span>
+                    <span class="panel-count" id="network-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="network-info"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Session Tracker Panel -->
+            <div class="panel panel-draggable hidden" id="panel-sessions">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">◉ Session Tracker</span>
+                    <span class="panel-count" id="sessions-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="sessions-log"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Plugin Debugger Panel -->
+            <div class="panel panel-draggable hidden" id="panel-pluginDebug">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">⌘ Plugin Debugger</span>
+                    <span class="panel-count" id="pluginDebug-count">0</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="pluginDebug-log"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Log Filter Panel -->
+            <div class="panel panel-draggable hidden" id="panel-logFilter">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">⎯ Log Filter</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="logFilter-info">
+                    <div class="log-filter-input-area">
+                        <input type="text" id="log-filter-pattern" placeholder="Enter regex pattern..." autocomplete="off">
+                        <button id="log-filter-apply">Apply</button>
+                        <button id="log-filter-clear">Clear</button>
+                    </div>
+                    <div id="log-filter-results"></div>
+                </div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- World Info Panel -->
             <div class="panel panel-draggable hidden" id="panel-world">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
-                    <span class="panel-title">🌍 World</span>
+                    <span class="panel-title">⊞ World Info</span>
                     <span class="panel-controls">
-                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
                     </span>
                 </div>
                 <div class="panel-body" id="world-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
 
-            <!-- Potions Panel (hidden by default) -->
+            <!-- Potions Panel -->
             <div class="panel panel-draggable hidden" id="panel-potions">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
-                    <span class="panel-title">🧪 Potions</span>
+                    <span class="panel-title">⊕ Potion Effects</span>
                     <span class="panel-controls">
-                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
                     </span>
                 </div>
                 <div class="panel-body" id="potions-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
 
-            <!-- Server Info Panel (hidden by default) -->
+            <!-- Server Info Panel -->
             <div class="panel panel-draggable hidden" id="panel-server">
                 <div class="panel-header">
                     <span class="panel-drag-handle">⠿</span>
-                    <span class="panel-title">🖥 Server</span>
+                    <span class="panel-title">⊘ Server Info</span>
                     <span class="panel-controls">
-                        <span class="panel-ctrl-btn" data-action="lock">🔓</span>
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
                     </span>
                 </div>
                 <div class="panel-body" id="server-info"></div>
+                <div class="panel-resize-handle"></div>
+            </div>
+
+            <!-- Module Manager Panel -->
+            <div class="panel panel-draggable hidden" id="panel-modules">
+                <div class="panel-header">
+                    <span class="panel-drag-handle">⠿</span>
+                    <span class="panel-title">◇ Module Manager</span>
+                    <span class="panel-controls">
+                        <span class="panel-ctrl-btn" data-action="lock">○</span>
+                    </span>
+                </div>
+                <div class="panel-body" id="modules-info"></div>
                 <div class="panel-resize-handle"></div>
             </div>
         </main>
 
         <!-- Footer -->
         <footer id="footer">
-            <span class="footer-item">F1 — Console</span>
-            <span class="footer-item">F2 — Chat</span>
-            <span class="footer-item">F3 — Status</span>
             <span class="footer-item">ESC — Clear</span>
+            <span class="footer-sep">·</span>
+            <span class="footer-item">Tab — Nick autocomplete</span>
+            <span class="footer-sep">·</span>
+            <span class="footer-item">View menu — Toggle panels</span>
         </footer>
     </div>
 

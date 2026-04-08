@@ -6,11 +6,12 @@ import rich.util.config.impl.ConfigSerializer;
 import rich.util.config.impl.autosaver.ConfigAutoSaver;
 import rich.util.config.impl.consolelogger.Logger;
 
+import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- *  © 2026 Copyright Rich Client 2.0
+ *  © 2026 Copyright Aegis Client
  *        All Rights Reserved ®
  */
 
@@ -44,18 +45,29 @@ public class ConfigSystem {
             load();
             autoSaver.start();
             registerShutdownHook();
-            Logger.success("AutoConfiguration: System initialized!");
+            Logger.success("ConfigSystem: Initialized!");
         }
     }
 
     private void registerShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            Logger.info("AutoConfiguration: Shutdown detected, saving...");
+            Logger.info("ConfigSystem: Shutdown detected, saving...");
             shutdown();
-        }, "Rich-ConfigShutdown"));
+        }, "Aegis-ConfigShutdown"));
     }
 
+    // Сохраняет текущий конфиг в autoconfig.aegisconfig
     public void save() {
+        saveToPath(ConfigPath.getConfigFile());
+    }
+
+    // Сохраняет текущий конфиг в указанный файл
+    public void save(String name) {
+        Path targetPath = ConfigPath.getConfigFile(name);
+        saveToPath(targetPath);
+    }
+
+    private void saveToPath(Path targetPath) {
         if (!initialized.get()) {
             return;
         }
@@ -64,14 +76,14 @@ public class ConfigSystem {
         }
         try {
             String data = serializer.serialize();
-            boolean success = fileHandler.write(data);
+            boolean success = fileHandler.write(data, targetPath);
             if (success) {
-                Logger.success("AutoConfiguration: autoconfig.json saved successfully!");
+                Logger.success("ConfigSystem: Saved to " + targetPath.getFileName());
             } else {
-                Logger.error("AutoConfiguration: autoconfig.json save failed!");
+                Logger.error("ConfigSystem: Save failed for " + targetPath.getFileName());
             }
         } catch (Exception e) {
-            Logger.error("AutoConfiguration: Save error! " + e.getMessage());
+            Logger.error("ConfigSystem: Save error! " + e.getMessage());
         } finally {
             saving.set(false);
         }
@@ -81,20 +93,31 @@ public class ConfigSystem {
         return CompletableFuture.runAsync(this::save);
     }
 
+    // Загружает конфиг из autoconfig.aegisconfig
     public void load() {
-        if (!fileHandler.exists()) {
-            Logger.info("AutoConfiguration: No config found, creating new...");
-            save();
+        loadFromPath(ConfigPath.getConfigFile());
+    }
+
+    // Загружает конфиг из указанного файла
+    public void load(String name) {
+        Path sourcePath = ConfigPath.getConfigFile(name);
+        loadFromPath(sourcePath);
+    }
+
+    private void loadFromPath(Path sourcePath) {
+        if (!fileHandler.exists(sourcePath)) {
+            Logger.info("ConfigSystem: Config not found (" + sourcePath.getFileName() + "), creating new...");
+            saveToPath(sourcePath);
             return;
         }
         try {
-            String data = fileHandler.read();
+            String data = fileHandler.read(sourcePath);
             if (data != null && !data.isEmpty()) {
                 serializer.deserialize(data);
-                Logger.success("AutoConfiguration: autoconfig.json loaded successfully!");
+                Logger.success("ConfigSystem: Loaded " + sourcePath.getFileName());
             }
         } catch (Exception e) {
-            Logger.error("AutoConfiguration: Load error! " + e.getMessage());
+            Logger.error("ConfigSystem: Load error! " + e.getMessage());
         }
     }
 
@@ -104,12 +127,12 @@ public class ConfigSystem {
         }
         autoSaver.shutdown();
         save();
-        Logger.success("AutoConfiguration: Shutdown complete!");
+        Logger.success("ConfigSystem: Shutdown complete!");
     }
 
     public void reload() {
         load();
-        Logger.success("AutoConfiguration: Config reloaded!");
+        Logger.success("ConfigSystem: Config reloaded!");
     }
 
     public boolean isInitialized() {

@@ -12,9 +12,12 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import rich.netpanel.loggers.AnticheatMonitor;
 import rich.netpanel.loggers.ChatBridge;
 import rich.netpanel.loggers.ConsoleCapture;
+import rich.netpanel.loggers.HitregLogger;
 import rich.netpanel.loggers.LogBuffer;
+import rich.netpanel.loggers.ModerationLogger;
 
 import java.io.*;
 import java.lang.management.ManagementFactory;
@@ -40,6 +43,10 @@ public class NetPanelServer {
     private ExecutorService executor;
     private int port;
     private static int currentPort = 0;
+    private static ModuleManager staticModuleManager;
+    private final ModuleManager moduleManager = new ModuleManager();
+
+    public static ModuleManager getModuleManager() { return staticModuleManager; }
 
     // FPS tracking
     private int lastFps = 0;
@@ -59,6 +66,10 @@ public class NetPanelServer {
             port = findFreePort(DEFAULT_PORT);
             currentPort = port;
 
+            // Initialize modules
+            moduleManager.init();
+            staticModuleManager = moduleManager;
+
             server = HttpServer.create(new InetSocketAddress("127.0.0.1", port), 0);
             executor = Executors.newFixedThreadPool(4);
             server.setExecutor(executor);
@@ -74,6 +85,13 @@ public class NetPanelServer {
             server.createContext("/api/world", new WorldHandler());
             server.createContext("/api/potions", new PotionsHandler());
             server.createContext("/api/server", new ServerHandler());
+            server.createContext("/api/modules", new ModulesHandler());
+            server.createContext("/api/moderation", new ModerationHandler());
+            server.createContext("/api/anticheat", new AnticheatHandler());
+            server.createContext("/api/hitreg", new HitregHandler());
+            server.createContext("/api/performance", new PerformanceHandler());
+            server.createContext("/api/network", new NetworkHandler());
+            server.createContext("/api/sessions", new SessionsHandler());
             server.createContext("/api/stream", new SSEHandler());
 
             server.start();
@@ -302,6 +320,11 @@ public class NetPanelServer {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
+            ModuleManager mm = NetPanelServer.getModuleManager();
+            if (mm != null && !mm.isModuleEnabled("console")) {
+                sendJson(exchange, 200, new JsonArray());
+                return;
+            }
             String query = exchange.getRequestURI().getQuery();
             int limit = 200;
             if (query != null && query.startsWith("limit=")) {
@@ -325,6 +348,11 @@ public class NetPanelServer {
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) {
                 exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+            ModuleManager mm = NetPanelServer.getModuleManager();
+            if (mm != null && !mm.isModuleEnabled("chat")) {
+                sendJson(exchange, 200, new JsonArray());
                 return;
             }
             List<LogBuffer.LogEntry> entries = ChatBridge.getBuffer().getLatest(10000);
@@ -558,14 +586,17 @@ public class NetPanelServer {
             OutputStream os = exchange.getResponseBody();
             long lastConsoleSize = 0;
             long lastChatSize = 0;
+            long lastModSize = 0;
+            long lastACSize = 0;
 
             try {
                 while (true) {
                     Thread.sleep(300);
 
-                    // Check for new data
                     long cSize = ConsoleCapture.getBuffer().size();
                     long chSize = ChatBridge.getBuffer().size();
+                    long mSize = ModerationLogger.getBuffer().size();
+                    long acSize = AnticheatMonitor.getBuffer().size();
 
                     if (cSize != lastConsoleSize) {
                         sendSSEEvent(os, "console", ConsoleCapture.getBuffer().getLatest(20));
@@ -575,8 +606,15 @@ public class NetPanelServer {
                         sendSSEEvent(os, "chat", ChatBridge.getBuffer().getLatest(200));
                         lastChatSize = chSize;
                     }
+                    if (mSize != lastModSize) {
+                        sendSSEEvent(os, "moderation", ModerationLogger.getBuffer().getLatest(20));
+                        lastModSize = mSize;
+                    }
+                    if (acSize != lastACSize) {
+                        sendSSEEvent(os, "anticheat", AnticheatMonitor.getBuffer().getLatest(20));
+                        lastACSize = acSize;
+                    }
 
-                    // Send system info (FPS, memory, CPU)
                     JsonObject sysInfo = new JsonObject();
                     MinecraftClient mc = MinecraftClient.getInstance();
                     sysInfo.addProperty("fps", mc.getCurrentFps());
@@ -605,6 +643,178 @@ public class NetPanelServer {
             String data = GSON.toJson(arr);
             String sse = "event: " + event + "\ndata: " + data + "\n\n";
             os.write(sse.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    // ===== Modules Handler =====
+    private class ModulesHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+
+            String method = exchange.getRequestMethod();
+
+            if ("GET".equals(method)) {
+                sendJson(exchange, 200, moduleManager.getModulesJson());
+                return;
+            }
+
+            if ("POST".equals(method)) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) sb.append(line);
+                    JsonObject body = GSON.fromJson(sb.toString(), JsonObject.class);
+
+                    String action = body != null && body.has("action") ? body.get("action").getAsString() : "";
+                    String moduleId = body != null && body.has("id") ? body.get("id").getAsString() : "";
+
+                    switch (action) {
+                        case "toggle":
+                            boolean enabled = body != null && body.has("enabled") && body.get("enabled").getAsBoolean();
+                            boolean success = moduleManager.toggleModule(moduleId, enabled);
+                            JsonObject resp = new JsonObject();
+                            resp.addProperty("success", success);
+                            sendJson(exchange, success ? 200 : 404, resp);
+                            return;
+                        case "setting":
+                            String key = body != null && body.has("key") ? body.get("key").getAsString() : "";
+                            Object value = body != null && body.has("value") ? body.get("value") : null;
+                            boolean settingSuccess = moduleManager.updateModuleSetting(moduleId, key, value);
+                            JsonObject resp2 = new JsonObject();
+                            resp2.addProperty("success", settingSuccess);
+                            sendJson(exchange, settingSuccess ? 200 : 404, resp2);
+                            return;
+                        default:
+                            JsonObject err = new JsonObject();
+                            err.addProperty("success", false);
+                            err.addProperty("error", "Unknown action: " + action);
+                            sendJson(exchange, 400, err);
+                    }
+                } catch (Exception e) {
+                    JsonObject resp = new JsonObject();
+                    resp.addProperty("success", false);
+                    resp.addProperty("error", e.getMessage());
+                    sendJson(exchange, 500, resp);
+                }
+            }
+        }
+    }
+
+    // ===== Moderation Handler =====
+    private static class ModerationHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+            ModuleManager mm = NetPanelServer.getModuleManager();
+            if (mm != null && !mm.isModuleEnabled("moderation")) { sendJson(exchange, 200, new JsonArray()); return; }
+            List<LogBuffer.LogEntry> entries = ModerationLogger.getBuffer().getLatest(500);
+            JsonArray arr = new JsonArray();
+            for (LogBuffer.LogEntry e : entries) {
+                JsonObject obj = new JsonObject();
+                obj.addProperty("timestamp", e.timestamp());
+                obj.addProperty("level", e.level());
+                obj.addProperty("message", e.message());
+                arr.add(obj);
+            }
+            sendJson(exchange, 200, arr);
+        }
+    }
+
+    // ===== Anticheat Handler =====
+    private static class AnticheatHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+            ModuleManager mm = NetPanelServer.getModuleManager();
+            if (mm != null && !mm.isModuleEnabled("anticheat")) { sendJson(exchange, 200, new JsonArray()); return; }
+            List<LogBuffer.LogEntry> entries = AnticheatMonitor.getBuffer().getLatest(500);
+            JsonArray arr = new JsonArray();
+            for (LogBuffer.LogEntry e : entries) {
+                JsonObject obj = new JsonObject();
+                obj.addProperty("timestamp", e.timestamp());
+                obj.addProperty("level", e.level());
+                obj.addProperty("message", e.message());
+                arr.add(obj);
+            }
+            JsonObject resp = new JsonObject();
+            resp.add("entries", arr);
+            resp.addProperty("totalFlags", AnticheatMonitor.getTotalFlags());
+            resp.addProperty("anticheatName", AnticheatMonitor.getLastAnticheatName());
+            sendJson(exchange, 200, resp);
+        }
+    }
+
+    // ===== Hitreg Handler =====
+    private static class HitregHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+            ModuleManager mm = NetPanelServer.getModuleManager();
+            if (mm != null && !mm.isModuleEnabled("hitreg")) { sendJson(exchange, 200, new JsonArray()); return; }
+            List<LogBuffer.LogEntry> entries = HitregLogger.getBuffer().getLatest(500);
+            JsonArray arr = new JsonArray();
+            for (LogBuffer.LogEntry e : entries) {
+                JsonObject obj = new JsonObject();
+                obj.addProperty("timestamp", e.timestamp());
+                obj.addProperty("level", e.level());
+                obj.addProperty("message", e.message());
+                arr.add(obj);
+            }
+            sendJson(exchange, 200, arr);
+        }
+    }
+
+    // ===== Performance Handler =====
+    private class PerformanceHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+            MinecraftClient mc = MinecraftClient.getInstance();
+            JsonObject perf = new JsonObject();
+            perf.addProperty("tps", Math.round(NetPanelServer.this.tps * 100.0) / 100.0);
+            perf.addProperty("fps", mc.getCurrentFps());
+            int entityCount = 0;
+            if (mc.world != null) {
+                int count = 0;
+                for (var e : mc.world.getEntities()) count++;
+                entityCount = count;
+            }
+            perf.addProperty("entityCount", entityCount);
+            perf.addProperty("chunkCount", mc.world != null ? mc.world.getChunkManager().getLoadedChunkCount() : 0);
+            sendJson(exchange, 200, perf);
+        }
+    }
+
+    // ===== Network Handler =====
+    private static class NetworkHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+            MinecraftClient mc = MinecraftClient.getInstance();
+            JsonObject net = new JsonObject();
+            if (mc.getNetworkHandler() != null && mc.player != null) {
+                var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
+                if (entry != null) net.addProperty("ping", entry.getLatency());
+                else net.addProperty("ping", -1);
+            } else net.addProperty("ping", -1);
+            net.addProperty("connected", mc.getNetworkHandler() != null);
+            sendJson(exchange, 200, net);
+        }
+    }
+
+    // ===== Sessions Handler =====
+    private static class SessionsHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+            // Sessions are tracked via console parsing for now
+            JsonObject sessions = new JsonObject();
+            sessions.addProperty("note", "Session tracking via console");
+            sendJson(exchange, 200, sessions);
         }
     }
 

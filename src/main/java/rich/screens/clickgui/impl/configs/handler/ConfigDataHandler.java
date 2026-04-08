@@ -39,10 +39,10 @@ public class ConfigDataHandler {
             Path configDir = ConfigPath.getConfigDirectory();
             if (Files.exists(configDir)) {
                 Files.list(configDir)
-                        .filter(path -> path.toString().endsWith(".json"))
+                        .filter(path -> path.toString().endsWith(".aegisconfig"))
                         .forEach(path -> {
                             String name = path.getFileName().toString();
-                            String configName = name.substring(0, name.length() - 5);
+                            String configName = name.substring(0, name.length() - 12); // remove ".aegisconfig"
                             if (!configName.equalsIgnoreCase("autoconfig")) {
                                 configs.add(configName);
                             }
@@ -87,82 +87,64 @@ public class ConfigDataHandler {
             return false;
         }
 
-        try {
-            Path configDir = ConfigPath.getConfigDirectory();
-            Path newConfig = configDir.resolve(name + ".json");
-
-            if (Files.exists(newConfig)) {
-                return false;
-            }
-
-            ConfigSystem.getInstance().save();
-            Path currentConfig = ConfigPath.getConfigFile();
-            Files.copy(currentConfig, newConfig);
-            refreshConfigs();
-            return true;
-        } catch (Exception e) {
+        Path targetPath = ConfigPath.getConfigFile(name);
+        if (Files.exists(targetPath)) {
             return false;
         }
+
+        ConfigSystem.getInstance().save(name);
+        refreshConfigs();
+        return true;
     }
 
     public boolean loadConfig(String name) {
-        try {
-            Path configDir = ConfigPath.getConfigDirectory();
-            Path sourceConfig = configDir.resolve(name + ".json");
-            Path targetConfig = ConfigPath.getConfigFile();
+        Path sourcePath = ConfigPath.getConfigFile(name);
 
-            if (!Files.exists(sourceConfig)) {
-                return false;
-            }
-
-            // Копируем выбранный конфиг в autoconfig.json
-            Files.copy(sourceConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
-
-            // Загружаем конфиг через ConfigSystem
-            ConfigSystem.getInstance().load();
-
-            selectedConfig = name;
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!Files.exists(sourcePath)) {
             return false;
         }
+
+        // Копируем выбранный конфиг в autoconfig.aegisconfig
+        Path targetPath = ConfigPath.getConfigFile();
+        try {
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            return false;
+        }
+
+        // Загружаем конфиг через ConfigSystem
+        ConfigSystem.getInstance().load();
+
+        selectedConfig = name;
+        return true;
     }
 
     public boolean refreshConfig(String name) {
-        try {
-            Path configDir = ConfigPath.getConfigDirectory();
-            Path configFile = configDir.resolve(name + ".json");
+        Path configFile = ConfigPath.getConfigFile(name);
 
-            if (!Files.exists(configFile)) {
-                return false;
-            }
-
-            ConfigSystem.getInstance().save();
-            Files.deleteIfExists(configFile);
-            Path currentConfig = ConfigPath.getConfigFile();
-            Files.copy(currentConfig, configFile);
-            return true;
-        } catch (Exception e) {
+        if (!Files.exists(configFile)) {
             return false;
         }
+
+        ConfigSystem.getInstance().save(name);
+        return true;
     }
 
     public boolean deleteConfig(String name) {
-        try {
-            Path configDir = ConfigPath.getConfigDirectory();
-            Path configFile = configDir.resolve(name + ".json");
+        Path configFile = ConfigPath.getConfigFile(name);
 
-            if (Files.exists(configFile)) {
-                Files.delete(configFile);
-                if (name.equals(selectedConfig)) {
-                    selectedConfig = null;
-                }
-                refreshConfigs();
-                return true;
-            }
+        if (!Files.exists(configFile)) {
             return false;
-        } catch (Exception e) {
+        }
+
+        try {
+            Files.delete(configFile);
+            if (name.equals(selectedConfig)) {
+                selectedConfig = null;
+            }
+            refreshConfigs();
+            return true;
+        } catch (IOException e) {
             return false;
         }
     }

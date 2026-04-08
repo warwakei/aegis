@@ -5,8 +5,8 @@
     const state = {
         connected: false,
         eventSource: null,
-        logs: { console: [], chat: [] },
-        panels: { console: false, chat: true, status: true, world: false, potions: false, server: false },
+        logs: { console: [], chat: [], moderation: [], anticheat: [], hitreg: [] },
+        panels: { console: false, chat: true, status: true, world: false, potions: false, server: false, modules: false, moderation: false, anticheat: false, hitreg: false, performance: false, network: false, sessions: false, pluginDebug: false, logFilter: false },
         panelsLocked: false,
         globalChat: false,
         // Chat history
@@ -54,6 +54,23 @@
         dom.panelWorld = document.getElementById('panel-world');
         dom.panelPotions = document.getElementById('panel-potions');
         dom.panelServer = document.getElementById('panel-server');
+        dom.panelModules = document.getElementById('panel-modules');
+        dom.panelModeration = document.getElementById('panel-moderation');
+        dom.panelAnticheat = document.getElementById('panel-anticheat');
+        dom.panelHitreg = document.getElementById('panel-hitreg');
+        dom.panelPerformance = document.getElementById('panel-performance');
+        dom.panelNetwork = document.getElementById('panel-network');
+        dom.panelSessions = document.getElementById('panel-sessions');
+        dom.panelPluginDebug = document.getElementById('panel-pluginDebug');
+        dom.panelLogFilter = document.getElementById('panel-logFilter');
+        dom.modulesInfo = document.getElementById('modules-info');
+        dom.moderationLog = document.getElementById('moderation-log');
+        dom.anticheatLog = document.getElementById('anticheat-log');
+        dom.hitregLog = document.getElementById('hitreg-log');
+        dom.performanceInfo = document.getElementById('performance-info');
+        dom.networkInfo = document.getElementById('network-info');
+        dom.sessionsLog = document.getElementById('sessions-log');
+        dom.pluginDebugLog = document.getElementById('pluginDebug-log');
         dom.systemInfo = document.getElementById('system-info');
         dom.worldInfo = document.getElementById('world-info');
         dom.potionsInfo = document.getElementById('potions-info');
@@ -163,6 +180,15 @@
             case 'toggle-world': togglePanel('world'); loadWorldInfo(); break;
             case 'toggle-potions': togglePanel('potions'); loadPotionsInfo(); break;
             case 'toggle-server': togglePanel('server'); loadServerInfo(); break;
+            case 'toggle-moderation': togglePanel('moderation'); loadModerationInfo(); break;
+            case 'toggle-anticheat': togglePanel('anticheat'); loadAnticheatInfo(); break;
+            case 'toggle-hitreg': togglePanel('hitreg'); loadHitregInfo(); break;
+            case 'toggle-performance': togglePanel('performance'); loadPerformanceInfo(); break;
+            case 'toggle-network': togglePanel('network'); loadNetworkInfo(); break;
+            case 'toggle-sessions': togglePanel('sessions'); loadSessionsInfo(); break;
+            case 'toggle-pluginDebug': togglePanel('pluginDebug'); loadPluginDebugInfo(); break;
+            case 'toggle-logFilter': togglePanel('logFilter'); break;
+            case 'toggle-modules': togglePanel('modules'); loadModulesInfo(); break;
             case 'lock-panels': lockAllPanels(); break;
             case 'unlock-panels': unlockAllPanels(); break;
             case 'clear-logs': clearAllLogs(); break;
@@ -340,7 +366,10 @@
         state.panels[name] = !state.panels[name];
         var panelMap = {
             console: dom.panelConsole, chat: dom.panelChat, status: dom.panelStatus,
-            world: dom.panelWorld, potions: dom.panelPotions, server: dom.panelServer
+            world: dom.panelWorld, potions: dom.panelPotions, server: dom.panelServer,
+            modules: dom.panelModules, moderation: dom.panelModeration, anticheat: dom.panelAnticheat,
+            hitreg: dom.panelHitreg, performance: dom.panelPerformance, network: dom.panelNetwork,
+            sessions: dom.panelSessions, pluginDebug: dom.panelPluginDebug, logFilter: dom.panelLogFilter
         };
         var panel = panelMap[name];
         if (panel) panel.classList.toggle('hidden', !state.panels[name]);
@@ -349,6 +378,9 @@
     function clearAllLogs() {
         state.logs.console = [];
         state.logs.chat = [];
+        state.logs.moderation = [];
+        state.logs.anticheat = [];
+        state.logs.hitreg = [];
         state.knownNicks = [];
         renderAll();
     }
@@ -408,14 +440,36 @@
             } catch (err) {}
         });
 
+        state.eventSource.addEventListener('moderation', function (e) {
+            try {
+                var newEntries = JSON.parse(e.data);
+                state.logs.moderation = mergeLogs(state.logs.moderation, newEntries);
+                renderLog(dom.moderationLog, state.logs.moderation);
+                document.getElementById('moderation-count').textContent = state.logs.moderation.length;
+            } catch (err) {}
+        });
+
+        state.eventSource.addEventListener('anticheat', function (e) {
+            try {
+                var newEntries = JSON.parse(e.data);
+                state.logs.anticheat = mergeLogs(state.logs.anticheat, newEntries);
+                renderLog(dom.anticheatLog, state.logs.anticheat);
+                document.getElementById('anticheat-count').textContent = state.logs.anticheat.length;
+            } catch (err) {}
+        });
+
         state.eventSource.addEventListener('system', function (e) {
             try {
                 var data = JSON.parse(e.data);
                 updateSystemInfo(data);
-                // Auto-refresh panels when visible
                 if (state.panels.world) loadWorldInfo();
                 if (state.panels.potions) loadPotionsInfo();
                 if (state.panels.server) loadServerInfo();
+                if (state.panels.performance) loadPerformanceInfo();
+                if (state.panels.network) loadNetworkInfo();
+                if (state.panels.moderation) loadModerationInfo();
+                if (state.panels.anticheat) loadAnticheatInfo();
+                if (state.panels.hitreg) loadHitregInfo();
             } catch (err) {}
         });
 
@@ -588,6 +642,149 @@
         dom.serverInfo.innerHTML = html;
     }
 
+    // ===== MODERATION =====
+    async function loadModerationInfo() {
+        try {
+            var data = await fetchJSON('/api/moderation');
+            state.logs.moderation = data || [];
+            renderLog(dom.moderationLog, state.logs.moderation);
+            document.getElementById('moderation-count').textContent = state.logs.moderation.length;
+        } catch (err) { dom.moderationLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
+    }
+
+    // ===== ANTICHEAT =====
+    async function loadAnticheatInfo() {
+        try {
+            var data = await fetchJSON('/api/anticheat');
+            if (data && data.entries) {
+                state.logs.anticheat = data.entries;
+                renderLog(dom.anticheatLog, state.logs.anticheat);
+                document.getElementById('anticheat-count').textContent = state.logs.anticheat.length;
+            }
+        } catch (err) { dom.anticheatLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
+    }
+
+    // ===== HITREG =====
+    async function loadHitregInfo() {
+        try {
+            var data = await fetchJSON('/api/hitreg');
+            state.logs.hitreg = data || [];
+            renderLog(dom.hitregLog, state.logs.hitreg);
+            document.getElementById('hitreg-count').textContent = state.logs.hitreg.length;
+        } catch (err) { dom.hitregLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
+    }
+
+    // ===== PERFORMANCE =====
+    async function loadPerformanceInfo() {
+        try { renderPerformanceInfo(await fetchJSON('/api/performance')); } catch (err) { dom.performanceInfo.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed</div>'; }
+    }
+    function renderPerformanceInfo(data) {
+        if (!data) return;
+        var h = '<div class="sys-section-title">Performance</div>';
+        h += '<div class="sys-row"><span class="sys-label">TPS</span><span class="sys-value">' + data.tps + '</span></div>';
+        h += '<div class="sys-row"><span class="sys-label">FPS</span><span class="sys-value">' + data.fps + '</span></div>';
+        h += '<div class="sys-row"><span class="sys-label">Entities</span><span class="sys-value">' + data.entityCount + '</span></div>';
+        h += '<div class="sys-row"><span class="sys-label">Chunks</span><span class="sys-value">' + data.chunkCount + '</span></div>';
+        dom.performanceInfo.innerHTML = h;
+    }
+
+    // ===== NETWORK =====
+    async function loadNetworkInfo() {
+        try { renderNetworkInfo(await fetchJSON('/api/network')); } catch (err) { dom.networkInfo.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed</div>'; }
+    }
+    function renderNetworkInfo(data) {
+        if (!data) return;
+        var h = '<div class="sys-section-title">Network</div>';
+        h += '<div class="sys-row"><span class="sys-label">Connected</span><span class="sys-value">' + (data.connected ? 'Yes' : 'No') + '</span></div>';
+        if (data.ping >= 0) h += '<div class="sys-row"><span class="sys-label">Ping</span><span class="sys-value">' + data.ping + ' ms</span></div>';
+        dom.networkInfo.innerHTML = h;
+    }
+
+    // ===== SESSIONS / PLUGIN DEBUG =====
+    async function loadSessionsInfo() { try { var d = await fetchJSON('/api/sessions'); dom.sessionsLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;font-size:11px;">' + escapeHtml(d.note || 'No data') + '</div>'; } catch (err) {} }
+    async function loadPluginDebugInfo() { dom.pluginDebugLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;font-size:11px;">Plugin events will appear here</div>'; }
+
+    // ===== MODULES INFO =====
+    async function loadModulesInfo() {
+        try {
+            var data = await fetchJSON('/api/modules');
+            renderModulesInfo(data);
+        } catch (err) {
+            dom.modulesInfo.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">⚠️ Failed to load modules</div>';
+        }
+    }
+
+    function renderModulesInfo(data) {
+        if (!data || !data.length) {
+            dom.modulesInfo.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">No modules</div>';
+            return;
+        }
+        var html = '';
+        data.forEach(function (m) {
+            html += '<div class="module-card' + (m.enabled ? '' : ' module-disabled') + '">';
+            html += '<div class="module-header">';
+            html += '<span class="module-icon">' + escapeHtml(m.icon || '⬡') + '</span>';
+            html += '<div class="module-info">';
+            html += '<div class="module-name">' + escapeHtml(m.name) + ' <span style="font-weight:normal;color:var(--text-dim);font-size:9px;">v' + escapeHtml(m.version || '1.0') + '</span></div>';
+            html += '<div class="module-desc">' + escapeHtml(m.description || '') + '</div>';
+            html += '<div class="module-author">by ' + escapeHtml(m.author || 'Unknown') + '</div>';
+            html += '</div>';
+            html += '<button class="module-toggle-btn" data-id="' + escapeHtml(m.id) + '" data-enabled="' + m.enabled + '">';
+            html += m.enabled ? 'ON' : 'OFF';
+            html += '</button>';
+            html += '</div>';
+            var settings = m.settings || {};
+            var keys = Object.keys(settings);
+            if (keys.length > 0) {
+                html += '<div class="module-settings">';
+                keys.forEach(function (key) {
+                    var val = settings[key];
+                    html += '<div class="module-setting-row">';
+                    html += '<span class="module-setting-key">' + escapeHtml(key) + '</span>';
+                    if (typeof val === 'boolean') {
+                        html += '<button class="module-setting-toggle" data-module="' + escapeHtml(m.id) + '" data-key="' + escapeHtml(key) + '">' + (val ? 'on' : 'off') + '</button>';
+                    } else if (typeof val === 'number') {
+                        html += '<input type="number" class="module-setting-input" data-module="' + escapeHtml(m.id) + '" data-key="' + escapeHtml(key) + '" value="' + val + '">';
+                    } else {
+                        html += '<span class="module-setting-value">' + escapeHtml(String(val)) + '</span>';
+                    }
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+            html += '</div>';
+        });
+        dom.modulesInfo.innerHTML = html;
+        dom.modulesInfo.querySelectorAll('.module-toggle-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                toggleModule(btn.getAttribute('data-id'), btn.getAttribute('data-enabled') !== 'true');
+            });
+        });
+        dom.modulesInfo.querySelectorAll('.module-setting-toggle').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                updateModuleSetting(btn.getAttribute('data-module'), btn.getAttribute('data-key'), btn.textContent.trim() !== '✓');
+            });
+        });
+        dom.modulesInfo.querySelectorAll('.module-setting-input').forEach(function (input) {
+            input.addEventListener('change', function () {
+                updateModuleSetting(input.getAttribute('data-module'), input.getAttribute('data-key'), parseInt(input.value, 10));
+            });
+        });
+    }
+
+    async function toggleModule(moduleId, enabled) {
+        try {
+            await fetch('/api/modules', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'toggle', id: moduleId, enabled: enabled }) });
+            loadModulesInfo();
+        } catch (err) { console.error('Toggle module failed:', err); }
+    }
+
+    async function updateModuleSetting(moduleId, key, value) {
+        try {
+            await fetch('/api/modules', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'setting', id: moduleId, key: key, value: value }) });
+        } catch (err) { console.error('Update setting failed:', err); }
+    }
+
     // ===== RENDERING =====
     function renderAll() {
         renderLog(dom.consoleLog, state.logs.console);
@@ -678,19 +875,23 @@
     function navigateHistory(direction) {
         if (state.chatHistory.length === 0) return;
 
+        // direction: -1 = up (older), 1 = down (newer)
+        // Start from the END of history (newest = last index)
         state.chatHistoryIndex += direction;
 
-        // Clamp index
+        // Clamp: -1 = back to empty input, max = last index (newest message)
         if (state.chatHistoryIndex < -1) state.chatHistoryIndex = -1;
         if (state.chatHistoryIndex >= state.chatHistory.length) {
             state.chatHistoryIndex = state.chatHistory.length - 1;
         }
 
-        // -1 means empty input (new message)
+        // -1 means empty input (draft / new message)
         if (state.chatHistoryIndex === -1) {
             dom.chatInput.value = '';
         } else {
-            dom.chatInput.value = state.chatHistory[state.chatHistoryIndex];
+            // Access from END: index 0 in our navigation = last element = newest
+            var actualIndex = state.chatHistory.length - 1 - state.chatHistoryIndex;
+            dom.chatInput.value = state.chatHistory[actualIndex];
             // Move cursor to end
             dom.chatInput.setSelectionRange(dom.chatInput.value.length, dom.chatInput.value.length);
         }
