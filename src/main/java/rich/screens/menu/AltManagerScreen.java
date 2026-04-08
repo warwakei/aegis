@@ -527,6 +527,14 @@ public class AltManagerScreen extends Screen {
 
     @Override
     public boolean mouseClicked(Click click, boolean doubled) {
+        // Сначала передаём клик в TextFieldWidgets
+        if (nameField.mouseClicked(click, doubled)) {
+            return true;
+        }
+        if (passwordField.mouseClicked(click, doubled)) {
+            return true;
+        }
+
         float scaledMouseX = toFixedCoord(click.x());
         float scaledMouseY = toFixedCoord(click.y());
 

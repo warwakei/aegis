@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import rich.util.PlayerPrefixUtils;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -24,7 +25,7 @@ public class PlayerListHudMixin {
     @Inject(method = "collectPlayerEntries", at = @At("RETURN"), cancellable = true)
     private void addVanishedEntries(CallbackInfoReturnable<List<PlayerListEntry>> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
-        List<PlayerListEntry> originalList = cir.getReturnValue();
+        List<PlayerListEntry> originalList = new ArrayList<>(cir.getReturnValue());
         List<PlayerListEntry> vanishedList = new ArrayList<>();
 
         Scoreboard scoreboard = client.world.getScoreboard();
@@ -54,6 +55,15 @@ public class PlayerListHudMixin {
             fake.setDisplayName(displayName);
             fake.setListOrder(Integer.MIN_VALUE);
             vanishedList.add(fake);
+        }
+
+        // Добавляем префиксы к игрокам
+        for (PlayerListEntry entry : originalList) {
+            String playerName = entry.getProfile().name();
+            if (PlayerPrefixUtils.hasPrefix(playerName)) {
+                MutableText displayName = PlayerPrefixUtils.getFullNameWithPrefix(playerName);
+                entry.setDisplayName(displayName);
+            }
         }
 
         List<PlayerListEntry> finalList = new ArrayList<>();

@@ -226,6 +226,11 @@ public class Aura extends ModuleStructure {
         }
     }
 
+    // Для отслеживания круга - если долго преследуем но дистанция не уменьшается
+    private Vec3d lastOrbitCheckPos = null;
+    private long orbitStartTime = 0;
+    private static final long ORBIT_BREAK_TIME = 800; // Через 800ms разрываем круг
+
     @Native(type = Native.Type.VMProtectBeginMutation)
     public StrikerConstructor.AttackPerpetratorConfigurable getConfig() {
         float baseRange = attackrange.getValue();
@@ -250,53 +255,56 @@ public class Aura extends ModuleStructure {
                 leadTicks = ElytraTarget.getInstance().elytraForward.getValue();
             }
 
-            // INTERCEPT PREDICTION — летим НАПЕРЕХВАТ цели, не кружимся вокруг
             Vec3d ourPos = mc.player.getEntityPos();
             Vec3d targetPos = target.getEntityPos();
-            Vec3d toTarget = targetPos.subtract(ourPos);
-            double distanceToTarget = toTarget.horizontalLength();
-            
-            // Определяем что цель кружится вокруг нас
-            boolean targetIsOrbiting = false;
-            if (targetSpeed > 0.3 && distanceToTarget > 1.0) {
-                Vec3d toTargetNorm = new Vec3d(toTarget.x, 0, toTarget.z).normalize();
-                Vec3d velNorm = new Vec3d(targetVelocity.x, 0, targetVelocity.z).normalize();
-                // Cross product — перпендикулярная скорость
-                double crossProduct = toTargetNorm.x * velNorm.z - toTargetNorm.z * velNorm.x;
-                double radialSpeed = Math.abs(toTargetNorm.dotProduct(velNorm));
-                double tangentialSpeed = Math.abs(crossProduct);
-                // Если тангенциальная скорость > радиальной — цель кружится
-                targetIsOrbiting = tangentialSpeed > radialSpeed * 1.5;
+            double currentDistance = ourPos.distanceTo(targetPos);
+
+            // DETECT ORBIT: если мы преследуем цель но дистанция НЕ уменьшается
+            boolean breakingOrbit = false;
+            if (lastOrbitCheckPos != null) {
+                double lastDistance = lastOrbitCheckPos.distanceTo(targetPos);
+                long orbitTime = System.currentTimeMillis() - orbitStartTime;
+                
+                // Если дистанция не уменьшается уже 800ms+ и цель кружится
+                if (orbitTime > ORBIT_BREAK_TIME && Math.abs(currentDistance - lastDistance) < 0.5) {
+                    // Проверяем что цель реально кружится (перпендикулярная скорость)
+                    Vec3d toTarget = targetPos.subtract(ourPos);
+                    if (toTarget.horizontalLength() > 1.0) {
+                        Vec3d toTargetNorm = new Vec3d(toTarget.x, 0, toTarget.z).normalize();
+                        Vec3d velNorm = new Vec3d(targetVelocity.x, 0, targetVelocity.z).normalize();
+                        double crossProduct = Math.abs(toTargetNorm.x * velNorm.z - toTargetNorm.z * velNorm.x);
+                        double radialSpeed = Math.abs(toTargetNorm.dotProduct(velNorm));
+                        
+                        // Цель кружится и мы не приближаемся — РАЗРЫВАЕМ КРУГ
+                        if (crossProduct > radialSpeed * 1.2) {
+                            breakingOrbit = true;
+                        }
+                    }
+                }
             }
 
+            // Если разрываем круг - летим НАПРЯМУЮ к цели без предсказания
             Vec3d predictedPos;
-            if (targetIsOrbiting) {
-                // Цель КРУЖИТСЯ — летим НАПЕРЕХВАТ по прямой (по хорде круга)
-                // Не кружимся вместе с ней, а режем путь
-                double ourSpeed = mc.player.getVelocity().horizontalLength();
-                if (ourSpeed < 0.5) ourSpeed = 1.5;
-                
-                // Время до перехвата
-                double timeToIntercept = distanceToTarget / Math.max(ourSpeed + targetSpeed, 0.5);
-                timeToIntercept = Math.min(timeToIntercept, leadTicks);
-                
-                // Предсказываем где цель будет и летим ТУДА напрямую
-                predictedPos = targetPos.add(targetVelocity.multiply(timeToIntercept));
-                
-                // Добавляем компенсацию направления — предсказываем ЧУТЬ дальше по ходу цели
-                // чтобы не лететь в точку где она УЖЕ была
-                double leadMultiplier = 1.0 + (targetSpeed * 0.8);
-                predictedPos = targetPos.add(targetVelocity.multiply(leadTicks * leadMultiplier));
+            if (breakingOrbit) {
+                // Летим ПРЯМО к цели - никакого предсказания
+                predictedPos = targetPos;
+                // Сбрасываем отслеживание
+                lastOrbitCheckPos = null;
+                orbitStartTime = 0;
             } else {
-                // Обычное линейное предсказание
-                double leadMultiplier = 1.0 + (targetSpeed * 0.5);
+                // Обычное предсказание
+                double leadMultiplier = 1.0 + (targetSpeed * 0.6);
                 predictedPos = targetPos.add(targetVelocity.multiply(leadTicks * leadMultiplier));
+                
+                // Обновляем отслеживание круга
+                lastOrbitCheckPos = targetPos;
+                if (orbitStartTime == 0) orbitStartTime = System.currentTimeMillis();
             }
 
             computedPoint = predictedPos.add(0, target.getHeight() / 2, 0);
 
             // Расширенный хитбокс для более стабильных попаданий
-            double expandAmount = 0.35;
+            double expandAmount = breakingOrbit ? 0.5 : 0.35; // Ещё больше при разрыве круга
             hitbox = new Box(
                     predictedPos.x - target.getWidth() / 2 - expandAmount,
                     predictedPos.y - expandAmount,

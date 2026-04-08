@@ -665,12 +665,20 @@
     }
 
     // ===== HITREG =====
+    var lastHitregCount = 0;
+
     async function loadHitregInfo() {
         try {
             var data = await fetchJSON('/api/hitreg');
-            state.logs.hitreg = data || [];
-            renderLog(dom.hitregLog, state.logs.hitreg);
-            document.getElementById('hitreg-count').textContent = state.logs.hitreg.length;
+            if (!data || data.length === 0) return;
+
+            // Only update if there are new entries (don't re-render same data)
+            if (data.length !== lastHitregCount) {
+                state.logs.hitreg = data;
+                lastHitregCount = data.length;
+                renderLog(dom.hitregLog, state.logs.hitreg);
+                document.getElementById('hitreg-count').textContent = state.logs.hitreg.length;
+            }
         } catch (err) { dom.hitregLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
     }
 
@@ -795,11 +803,19 @@
         extractNicksFromChat();
     }
 
+    // Track scroll positions to preserve user scroll when updating
+    var scrollPositions = {};
+
     function renderLog(container, entries) {
         if (!entries || !entries.length) {
             container.innerHTML = '<div class="log-entry" style="color:var(--text-dim)">No data...</div>';
             return;
         }
+
+        // Check if user is near bottom (within 50px)
+        var isNearBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 50;
+        var containerId = container.id;
+
         var html = '';
         var start = Math.max(0, entries.length - 5000);
         for (var i = start; i < entries.length; i++) {
@@ -819,7 +835,18 @@
             html += '<div class="log-entry" data-raw="' + escapeHtml(rawMsg) + '"><span class="log-time">' + time + '</span><span class="log-level ' + level + '">' + level + '</span><span class="log-msg">' + msg + '</span></div>\n';
         }
         container.innerHTML = html;
-        container.scrollTop = container.scrollHeight;
+
+        // Only auto-scroll if user was at bottom, otherwise preserve position
+        if (isNearBottom) {
+            container.scrollTop = container.scrollHeight;
+        } else {
+            // User scrolled up - preserve their position
+            var savedScroll = scrollPositions[containerId];
+            if (savedScroll !== undefined) {
+                container.scrollTop = savedScroll;
+            }
+        }
+        scrollPositions[containerId] = container.scrollTop;
     }
 
     function processMessage(msg, level) {

@@ -405,6 +405,24 @@ body {
     font-weight: 900;
 }
 
+/* Hitreg panel - bigger font for readability */
+#panel-hitreg .panel-body {
+    font-size: 13px;
+}
+
+#panel-hitreg .log-entry {
+    font-size: 13px;
+    padding: 2px 4px;
+}
+
+#panel-hitreg .log-level {
+    font-size: 11px;
+}
+
+#panel-hitreg .log-time {
+    font-size: 12px;
+}
+
 /* Chat panel font size - slightly larger */
 #panel-chat .panel-body {
     font-size: 14px;

@@ -497,7 +497,13 @@ public class StrikeManager implements IMinecraft {
         boolean elytraMode = checkElytraMode(config);
 
         if (elytraMode) {
-            // На ElytraTarget бьём сразу — БЕЗ raycast и БЕЗ критов
+            // На ElytraTarget бьём без raycast и без проверок критов
+            // Но ЖДЁМ attack cooldown чтобы не спамить
+            float cooldownProgress = mc.player.getAttackCooldownProgress(0);
+            if (cooldownProgress < 0.95F) {
+                return; // Ждём кулдаун
+            }
+            
             // Минимальная задержка 150ms чтобы не закликивало
             long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
             if (timeSinceLastAttack < 150) {
