@@ -42,8 +42,24 @@ public class Particles extends ModuleStructure {
     final List<TotemEmitter> totemEmitters = new ArrayList<>();
 
     public SelectSetting mode = new SelectSetting("Режим", "Тип партиклов")
-            .value("Кубы", "Корона", "Куб", "Доллар", "Сердце", "Молния", "Линия", "Ромб", "Снежинка", "Звезда", "Звезда 2", "Треугольник", "Рандом", "Спираль", "Вихрь", "Фейерверк", "Пламя", "Магия", "Галактика")
-            .selected("Звезда");
+            .value("Кубы", "Корона", "Куб", "Доллар", "Сердце", "Молния", "Линия", "Ромб", "Снежинка", "Звезда", "Звезда 2", "Треугольник", "Рандом", "Спираль", "Вихрь", "Фейерверк", "Пламя", "Магия", "Галактика", "Комета")
+            .selected("Комета");
+
+    public BooleanSetting sizePulse = new BooleanSetting("Пульсация размера", "Частицы пульсируют в размере")
+            .setValue(true);
+
+    public SliderSettings pulseIntensity = new SliderSettings("Интенсивность пульсации", "Сила пульсации размера")
+            .range(0.1f, 1.0f).setValue(0.3f)
+            .visible(() -> sizePulse.isValue());
+
+    public BooleanSetting sparkTrail = new BooleanSetting("Искры при ударе", "Добавить искры-трейлы при атаке")
+            .setValue(true);
+
+    public SliderSettings sparkCount = new SliderSettings("Кол-во искр", "Количество искр на частицу")
+            .range(1, 5).setValue(2);
+
+    public SliderSettings glowBrightness = new SliderSettings("Яркость свечения", "Яркость glow эффекта")
+            .range(0.5f, 2.0f).setValue(1.0f);
 
     public SelectSetting glowMode = new SelectSetting("Свечение", "Тип эффекта свечения")
             .value("Bloom", "Bloom Sample", "Оба", "Трейл")
@@ -139,7 +155,8 @@ public class Particles extends ModuleStructure {
         super("Particles", "Custom particles system", ModuleCategory.RENDER);
         settings(mode, glowMode, triggers, amount, walkAmount, spread, speed, lifeTime, size,
                 enablePhysics, turbulence, attraction, enableTrails, trailLength,
-                colorMode, randomColor, color, gradientStart, gradientEnd, rainbowSpeed);
+                colorMode, randomColor, color, gradientStart, gradientEnd, rainbowSpeed,
+                sizePulse, pulseIntensity, sparkTrail, sparkCount, glowBrightness);
     }
 
     @Override
@@ -208,6 +225,7 @@ public class Particles extends ModuleStructure {
             case "Звезда 2" -> Particle3D.ParticleMode.STAR_ALT;
             case "Треугольник" -> Particle3D.ParticleMode.TRIANGLE;
             case "Рандом" -> Particle3D.ParticleMode.RANDOM;
+            case "Комета" -> Particle3D.ParticleMode.COMET;
             default -> Particle3D.ParticleMode.CUBES;
         };
     }
@@ -366,7 +384,7 @@ public class Particles extends ModuleStructure {
 
         int count = amount.getInt();
         int particleColor = colorMode.getSelected().equals("По триггеру") ? getTriggerColor("Удар") : getParticleColor();
-        
+
         for (int i = 0; i < count; i++) {
             double px = target.getX();
             double py = target.getY() + (Math.random() * target.getHeight());
@@ -387,6 +405,33 @@ public class Particles extends ModuleStructure {
                     size.getValue(),
                     lifeTime.getValue()
             ).setGravity(getGravity()).setVelocityMultiplier(0.99f).setMode(getParticleMode()).setGlowMode(getGlowMode()));
+
+            // Добавляем искры
+            if (sparkTrail.isValue()) {
+                for (int s = 0; s < sparkCount.getInt(); s++) {
+                    Vec3d sparkPos = new Vec3d(
+                            px + (Math.random() - 0.5) * 0.3,
+                            py + (Math.random() - 0.5) * 0.3,
+                            pz + (Math.random() - 0.5) * 0.3
+                    );
+
+                    Vec3d sparkVelocity = new Vec3d(
+                            (Math.random() - 0.5) * spreadValue * speedMult * 0.5,
+                            Math.random() * spreadValue * speedMult * 0.3,
+                            (Math.random() - 0.5) * spreadValue * speedMult * 0.5
+                    );
+
+                    int sparkColor = ColorUtil.lerpColor(0xFFFFAA00, particleColor, (float) s / sparkCount.getInt());
+
+                    particles.add(new Particle3D(
+                            sparkPos,
+                            sparkVelocity,
+                            sparkColor,
+                            size.getValue() * 0.4f,
+                            lifeTime.getValue() * 0.4f
+                    ).setGravity(getGravity() * 0.5f).setVelocityMultiplier(0.97f).setMode(Particle3D.ParticleMode.CUBES).setGlowMode(Particle3D.GlowMode.BLOOM_SAMPLE));
+                }
+            }
         }
     }
 

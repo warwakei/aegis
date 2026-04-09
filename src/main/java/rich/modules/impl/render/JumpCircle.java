@@ -35,14 +35,28 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
 
     final SliderSettings maxSize = new SliderSettings("Max Size", "Максимальный размер круга")
             .setValue(2f)
-            .range(1.0f, 2.0f);
+            .range(1.0f, 3.0f);
 
     final SliderSettings speed = new SliderSettings("Speed", "Скорость анимации")
             .setValue(2000f)
-            .range(1000f, 2000f);
+            .range(1000f, 3000f);
+
+    final BooleanSetting doubleRing = new BooleanSetting("Двойное кольцо", "Второе кольцо с задержкой")
+            .setValue(true);
+
+    final SliderSettings ringOffset = new SliderSettings("Смещение кольца", "Задержка второго кольца")
+            .range(0.05f, 0.3f).setValue(0.15f)
+            .visible(() -> doubleRing.isValue());
+
+    final BooleanSetting rotatingSegments = new BooleanSetting("Вращающиеся сегменты", "Добавить вращающиеся сегменты")
+            .setValue(true);
 
     final BooleanSetting glow = new BooleanSetting("Glow", "Эффект свечения")
             .setValue(true);
+
+    final SliderSettings glowIntensity = new SliderSettings("Интенсивность свечения", "Сила glow эффекта")
+            .range(0.5f, 2.0f).setValue(1.0f)
+            .visible(() -> glow.isValue());
 
     final ColorSetting color1 = new ColorSetting("Цвет 1", "Первый цвет")
             .value(ColorUtil.getColor(137, 97, 72, 255));
@@ -50,11 +64,14 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
     final ColorSetting color2 = new ColorSetting("Цвет 2", "Второй цвет")
             .value(ColorUtil.getColor(255, 255, 255, 255));
 
+    final ColorSetting glowColor = new ColorSetting("Цвет свечения", "Цвет для glow эффекта")
+            .value(ColorUtil.getColor(180, 200, 255, 100));
+
     private static final int SEGMENTS = 64;
 
     public JumpCircle() {
         super("JumpCircle", "Jump Circle", ModuleCategory.RENDER);
-        settings(maxSize, speed, glow, color1, color2);
+        settings(maxSize, speed, doubleRing, ringOffset, rotatingSegments, glow, glowIntensity, color1, color2, glowColor);
     }
 
     @EventHandler
@@ -128,14 +145,36 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
             alpha = 1f;
         }
 
+        // Пульация для красоты
+        float pulse = (float) Math.sin(progress * Math.PI * 6) * 0.05f + 1.0f;
+        alpha *= pulse;
+
         alpha = Math.max(0f, Math.min(1f, alpha));
 
         float rotationOffset = (lifeTime / 1000f) * 0.5f * 360f;
 
         Vec3d circlePos = circle.pos();
 
+        // Рендер второго кольца
+        if (doubleRing.isValue() && progress > ringOffset.getValue()) {
+            float secondProgress = (progress - ringOffset.getValue()) / (1f - ringOffset.getValue());
+            float secondScale = bounceOut(secondProgress) * maxSize.getValue() * 0.85f;
+            float secondAlpha = alpha * 0.6f;
+            float secondRotation = rotationOffset + 180f;
+
+            if (glow.isValue()) {
+                renderGradientGlow(matrices, immediate, circlePos, secondScale, secondAlpha * 0.08f * glowIntensity.getValue(), secondRotation, cameraPos);
+            }
+            renderGradientCircle(matrices, immediate, circlePos, secondScale, secondAlpha, secondRotation, cameraPos);
+        }
+
+        // Вращающиеся сегменты
+        if (rotatingSegments.isValue()) {
+            renderRotatingSegments(matrices, immediate, circlePos, scale, alpha * 0.4f, rotationOffset, cameraPos);
+        }
+
         if (glow.isValue()) {
-            renderGradientGlow(matrices, immediate, circlePos, scale, alpha * 0.1f, rotationOffset, cameraPos);
+            renderGradientGlow(matrices, immediate, circlePos, scale, alpha * 0.1f * glowIntensity.getValue(), rotationOffset, cameraPos);
         }
 
         renderGradientCircle(matrices, immediate, circlePos, scale, alpha, rotationOffset, cameraPos);
@@ -234,6 +273,48 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
 
             float glowSize = size * 0.4f;
             renderTexturedQuadAtPos(matrices, buffer, glowPos, glowSize, glowColor, cameraPos);
+        }
+    }
+
+    private void renderRotatingSegments(MatrixStack matrices, VertexConsumerProvider.Immediate immediate,
+                                        Vec3d pos, float size, float alpha, float rotationOffset, Vec3d cameraPos) {
+        int segmentCount = 8;
+        float segmentArc = 0.3f; // размер сегмента в радианах
+
+        VertexConsumer buffer = immediate.getBuffer(ClientPipelines.BLOOM_ESP.apply(glowTexture));
+
+        for (int i = 0; i < segmentCount; i++) {
+            float baseAngle = (float) (2 * Math.PI * i / segmentCount) + (rotationOffset / 180f) * (float) Math.PI;
+
+            int segments = 8;
+            float angleStep = segmentArc / segments;
+
+            for (int j = 0; j < segments; j++) {
+                float angle1 = baseAngle + angleStep * j;
+                float angle2 = baseAngle + angleStep * (j + 1);
+
+                float t = (float) j / segments;
+                int segColor = getGradientColor(color1.getColor(), color2.getColor(), t, alpha * 0.5f);
+
+                float radius = size / 2f;
+                float x1 = (float) (Math.cos(angle1) * radius);
+                float z1 = (float) (Math.sin(angle1) * radius);
+                float x2 = (float) (Math.cos(angle2) * radius);
+                float z2 = (float) (Math.sin(angle2) * radius);
+
+                matrices.push();
+                matrices.translate((float) (pos.x - cameraPos.x), (float) (pos.y - cameraPos.y), (float) (pos.z - cameraPos.z));
+                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90f));
+
+                org.joml.Matrix4f matrix = matrices.peek().getPositionMatrix();
+
+                buffer.vertex(matrix, x1 * 0.95f, z1 * 0.95f, 0).texture(0, 0).color(segColor);
+                buffer.vertex(matrix, x1, z1, 0).texture(0, 1).color(segColor);
+                buffer.vertex(matrix, x2, z2, 0).texture(1, 1).color(segColor);
+                buffer.vertex(matrix, x2 * 0.95f, z2 * 0.95f, 0).texture(1, 0).color(segColor);
+
+                matrices.pop();
+            }
         }
     }
 

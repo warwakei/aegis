@@ -52,6 +52,7 @@ public class ModuleRepository {
                 .add(new ServerHelper())
                 .add(new WindJump())
                 .add(new TargetESP())
+                .add(new Tracers())
                 .add(new BlockOverlay())
                 .add(new HitSound())
                 .add(new ClickPearl())

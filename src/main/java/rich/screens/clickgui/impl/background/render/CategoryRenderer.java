@@ -134,35 +134,78 @@ public class CategoryRenderer {
         if (animation > 0.01f) {
             float lineWidth = (iconWidth + ICON_SPACING + textWidth) * animation;
             float lineAlpha = animation * 80 * alphaMultiplier;
-            
+
+            // Анимированный градиент для underline
+            int gradientAlpha = (int)(lineAlpha * 1.5f);
+            int glowColor1 = blendColor(100, 140, 200, currentTime, 0);
+            int glowColor2 = blendColor(180, 200, 255, currentTime, 1);
+
             Render2D.gradientRect(iconX, textY + 9f, lineWidth, 0.5f,
                     new int[]{
-                            new Color(100, 140, 200, 0).getRGB(),
-                            new Color(180, 200, 255, (int)lineAlpha).getRGB(),
-                            new Color(180, 200, 255, (int)lineAlpha).getRGB(),
-                            new Color(100, 140, 200, 0).getRGB()
+                            new Color(glowColor1, glowColor1, glowColor1, 0).getRGB(),
+                            new Color(glowColor2, glowColor2, glowColor2, (int)(lineAlpha * 1.2f)).getRGB(),
+                            new Color(glowColor2, glowColor2, glowColor2, (int)(lineAlpha * 1.2f)).getRGB(),
+                            new Color(glowColor1, glowColor1, glowColor1, 0).getRGB()
                     }, 0);
 
+            // Ball с улучшенным glow
             float ballAlpha = animation * 220 * alphaMultiplier;
             float ballX = bgX + 12f;
             float ballY = textY + 2.5f;
             float ballSize = BALL_SIZE + animation * 1f;
-            
-            int ballR = (int)(180 + 75 * animation);
-            int ballG = (int)(200 + 55 * animation);
+
+            // Анимированный цвет шара
+            float ballPulse = (float) Math.sin(currentTime * 0.004 + textY * 0.05f) * 0.1f + 0.9f;
+            int ballR = (int)((180 + 75 * animation) * ballPulse);
+            int ballG = (int)((200 + 55 * animation) * ballPulse);
             int ballB = 255;
             Render2D.rect(ballX, ballY, ballSize, ballSize, new Color(ballR, ballG, ballB, (int) ballAlpha).getRGB(), ballSize / 2f);
-            
-            if (animation > 0.5f) {
-                float glowSize = ballSize * 2.5f;
+
+            // Улучшенный glow с анимацией
+            if (animation > 0.3f) {
+                float glowIntensity = (animation - 0.3f) / 0.7f;
+                float glowPulse = (float) Math.sin(currentTime * 0.005) * 0.2f + 0.8f;
+                float glowSize = ballSize * (2.5f + glowIntensity * 0.5f) * glowPulse;
                 float glowX = ballX - (glowSize - ballSize) / 2f;
                 float glowY = ballY - (glowSize - ballSize) / 2f;
-                int glowAlpha = (int)((animation - 0.5f) * 60 * alphaMultiplier);
-                Render2D.blur(glowX, glowY, glowSize, glowSize, 6f, glowSize / 2f, new Color(140, 180, 255, glowAlpha).getRGB());
+                int glowAlpha = (int)((animation - 0.3f) * 70 * alphaMultiplier * glowPulse);
+
+                // Многослойный glow
+                for (int layer = 0; layer < 2; layer++) {
+                    float layerScale = 1.0f + layer * 0.3f;
+                    int layerGlowAlpha = (int)(glowAlpha * (1.0f - layer * 0.3f));
+                    float layerGlowSize = glowSize * layerScale;
+                    float layerGlowX = ballX - (layerGlowSize - ballSize) / 2f;
+                    float layerGlowY = ballY - (layerGlowSize - ballSize) / 2f;
+
+                    Render2D.blur(layerGlowX, layerGlowY, layerGlowSize, layerGlowSize, 6f, layerGlowSize / 2f,
+                            new Color(140, 180, 255, layerGlowAlpha).getRGB());
+                }
+            }
+
+            // Частицы при выборе категории
+            if (animation > 0.8f) {
+                float particleAlpha = (animation - 0.8f) / 0.2f * 150 * alphaMultiplier;
+                float particleSize = 1.5f;
+
+                for (int i = 0; i < 3; i++) {
+                    float particleX = bgX + 10f + (float)Math.sin(currentTime * 0.003 + i * 2.0f) * 5f;
+                    float particleY = textY + 3f + (float)Math.cos(currentTime * 0.004 + i * 1.5f) * 4f;
+
+                    if (particleAlpha > 10) {
+                        Render2D.rect(particleX, particleY, particleSize, particleSize,
+                                new Color(180, 200, 255, (int)particleAlpha).getRGB(), particleSize / 2f);
+                    }
+                }
             }
         }
 
         Fonts.BOLD.draw(name, textX, textY, TEXT_SIZE, textColor.getRGB());
+    }
+
+    private int blendColor(int r, int g, int b, long time, int offset) {
+        float pulse = (float) Math.sin(time * 0.002 + offset) * 0.15f + 0.85f;
+        return (int)((r * pulse + g * pulse + b * pulse) / 3);
     }
 
     public ModuleCategory getCategoryAtPosition(double mouseX, double mouseY, float bgX, float bgY) {

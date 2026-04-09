@@ -18,6 +18,8 @@ import rich.util.animations.Direction;
 import rich.util.animations.EaseInOutQuad;
 import rich.util.render.сliemtpipeline.ClientPipelines;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Particle3D implements IMinecraft {
@@ -35,7 +37,8 @@ public class Particle3D implements IMinecraft {
         STAR,
         STAR_ALT,
         TRIANGLE,
-        RANDOM
+        RANDOM,
+        COMET
     }
 
     public enum GlowMode {
@@ -99,6 +102,13 @@ public class Particle3D implements IMinecraft {
     private GlowMode glowMode = GlowMode.BOTH;
     private boolean spinning = true;
 
+    // Для кометы
+    private final List<Vec3d> trailPositions = new ArrayList<>();
+    private static final int MAX_TRAIL_LENGTH = 12;
+
+    // Для пульсации размера
+    private float baseScale;
+
     public Particle3D(Vec3d pos, Vec3d velocity, int color, float scale, float maxAgeSeconds) {
         this.start = System.currentTimeMillis();
         this.phase = (float) (Math.random() * 100.0);
@@ -114,6 +124,7 @@ public class Particle3D implements IMinecraft {
         this.velocityZ = velocity.z;
         this.color = color;
         this.scale = scale;
+        this.baseScale = scale;
         this.lifeTimeMs = (long) (maxAgeSeconds * 1000);
 
         this.fadeInAnimation = new EaseInOutQuad().setMs(150).setValue(1.0);
@@ -197,6 +208,21 @@ public class Particle3D implements IMinecraft {
             this.rotation += 2.0f;
         }
 
+        // Обновление хвоста кометы
+        if (actualMode == ParticleMode.COMET) {
+            trailPositions.add(new Vec3d(this.x, this.y, this.z));
+            if (trailPositions.size() > MAX_TRAIL_LENGTH) {
+                trailPositions.remove(0);
+            }
+        }
+
+        // Пульсация размера
+        float lifeRatio = 1.0f - (float) (now - this.start) / lifeTimeMs;
+        if (lifeRatio > 0) {
+            float pulse = (float) Math.sin(now * 0.008) * 0.15f + 1.0f;
+            this.scale = this.baseScale * pulse * Math.min(lifeRatio * 2.0f, 1.0f);
+        }
+
         if (!fadingOut && now - this.start > lifeTimeMs) {
             fadingOut = true;
             this.fadeOutAnimation.setDirection(Direction.BACKWARDS);
@@ -262,7 +288,7 @@ public class Particle3D implements IMinecraft {
         if (actualMode == ParticleMode.CUBES) {
             renderCube(matrices, immediate, relX, relY, relZ, alpha, glowSize, cameraYaw, cameraPitch);
         } else {
-            renderTextured(matrices, immediate, relX, relY, relZ, alpha, glowSize, cameraYaw, cameraPitch);
+            renderTextured(matrices, immediate, relX, relY, relZ, alpha, glowSize, cameraYaw, cameraPitch, cameraPos, partialTicks);
         }
     }
 
@@ -304,7 +330,7 @@ public class Particle3D implements IMinecraft {
 
     private void renderTextured(MatrixStack matrices, VertexConsumerProvider immediate,
                                 float relX, float relY, float relZ, float alpha, float glowSize,
-                                float cameraYaw, float cameraPitch) {
+                                float cameraYaw, float cameraPitch, Vec3d cameraPos, float partialTicks) {
         Identifier texture = getTexture();
         if (texture == null) return;
 
@@ -349,6 +375,52 @@ public class Particle3D implements IMinecraft {
         renderGlowEffect(immediate, gMat, glowCol, alpha, glowSizePrimary, glowSizeSecondary);
 
         matrices.pop();
+
+        // Рендер хвоста кометы
+        if (actualMode == ParticleMode.COMET && !trailPositions.isEmpty()) {
+            renderCometTrail(matrices, immediate, cameraYaw, cameraPitch, cameraPos, partialTicks);
+        }
+    }
+
+    private void renderCometTrail(MatrixStack matrices, VertexConsumerProvider immediate,
+                                   float cameraYaw, float cameraPitch, Vec3d cameraPos, float partialTicks) {
+        if (trailPositions.size() < 2) return;
+
+        Identifier texture = Identifier.of("rich", "textures/world/dashbloomsample.png");
+        RenderLayer layer = ClientPipelines.WORLD_PARTICLES_GLOW.apply(texture);
+        VertexConsumer buffer = immediate.getBuffer(layer);
+
+        for (int i = 0; i < trailPositions.size() - 1; i++) {
+            float trailAlpha = (float) i / trailPositions.size() * getAlpha() * 0.6f;
+            if (trailAlpha < 0.05f) continue;
+
+            Vec3d pos = trailPositions.get(i);
+            float relX = (float) (pos.x - cameraPos.x);
+            float relY = (float) (pos.y - cameraPos.y);
+            float relZ = (float) (pos.z - cameraPos.z);
+
+            float trailSize = scale * 0.3f * ((float) i / trailPositions.size());
+
+            matrices.push();
+            matrices.translate(relX, relY, relZ);
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(cameraPitch));
+            Matrix4f mat = matrices.peek().getPositionMatrix();
+
+            int trailColor = ColorUtil.multAlpha(color, trailAlpha);
+            int r = (trailColor >> 16) & 0xFF;
+            int g = (trailColor >> 8) & 0xFF;
+            int b = trailColor & 0xFF;
+            int a = (int) (trailAlpha * 255);
+
+            float half = trailSize / 2.0f;
+            buffer.vertex(mat, -half, -half, 0).texture(0, 0).color(r, g, b, a);
+            buffer.vertex(mat, -half, half, 0).texture(0, 1).color(r, g, b, a);
+            buffer.vertex(mat, half, half, 0).texture(1, 1).color(r, g, b, a);
+            buffer.vertex(mat, half, -half, 0).texture(1, 0).color(r, g, b, a);
+
+            matrices.pop();
+        }
     }
 
     private void renderGlowEffect(VertexConsumerProvider immediate, Matrix4f matrix, int color, float alpha, float sizePrimary, float sizeSecondary) {

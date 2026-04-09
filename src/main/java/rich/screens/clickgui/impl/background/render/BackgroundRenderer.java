@@ -12,7 +12,7 @@ public class BackgroundRenderer {
         int baseAlpha = (int) (255 * alphaMultiplier);
 
         long currentTime = System.currentTimeMillis();
-        // Более плавная и естественная пульсация (меньше амплитуда)
+        // Более плавная и естественная пульсация
         float pulse = (float) Math.sin(currentTime * 0.0012) * 0.08f + 0.92f;
 
         // Улучшенные цвета фона - более глубокие и насыщенные
@@ -26,20 +26,23 @@ public class BackgroundRenderer {
 
         // 5-цветный градиент для более плавного перехода
         int[] gradientColors = {
-                new Color(r1 + 6, g1 + 6, b1 + 10, baseAlpha).getRGB(),  // top-left светлее
-                new Color(r1 + 2, g1 + 3, b1 + 6, baseAlpha).getRGB(),   // top-center
-                new Color(r2 + 4, g2 + 4, b2 + 8, baseAlpha).getRGB(),   // top-right
-                new Color(r2, g2, b2 + 4, baseAlpha).getRGB(),           // bottom-right темнее
-                new Color(r1, g1, b1 + 4, baseAlpha).getRGB()            // bottom-left
+                new Color(r1 + 6, g1 + 6, b1 + 10, baseAlpha).getRGB(),
+                new Color(r1 + 2, g1 + 3, b1 + 6, baseAlpha).getRGB(),
+                new Color(r2 + 4, g2 + 4, b2 + 8, baseAlpha).getRGB(),
+                new Color(r2, g2, b2 + 4, baseAlpha).getRGB(),
+                new Color(r1, g1, b1 + 4, baseAlpha).getRGB()
         };
 
         Render2D.gradientRect(bgX, bgY, 400, 250, gradientColors, 15);
 
-        // Улучшенный edge glow - более мягкий и плавный
-        float edgeGlowSize = 3f; // Чуть больше
-        int edgeAlpha = (int)(12 * alphaMultiplier); // Меньше альфа для мягкости
+        // Анимированная градиентная полоса сверху
+        renderAnimatedTopBar(bgX, bgY, alphaMultiplier, currentTime);
 
-        // Верхний edge glow - плавный градиент
+        // Улучшенный edge glow - более мягкий и плавный
+        float edgeGlowSize = 3f;
+        int edgeAlpha = (int)(12 * alphaMultiplier);
+
+        // Верхний edge glow
         Render2D.gradientRect(bgX, bgY, 400, edgeGlowSize,
                 new int[]{
                         new Color(50, 70, 110, 0).getRGB(),
@@ -68,6 +71,65 @@ public class BackgroundRenderer {
                         new Color(50, 70, 110, leftEdgeAlpha).getRGB(),
                         new Color(50, 70, 110, 0).getRGB()
                 }, 0);
+
+        // Правый edge glow
+        Render2D.gradientRect(bgX + 400 - sideGlowSize, bgY, sideGlowSize, 250,
+                new int[]{
+                        new Color(50, 70, 110, 0).getRGB(),
+                        new Color(50, 70, 110, leftEdgeAlpha).getRGB(),
+                        new Color(50, 70, 110, leftEdgeAlpha).getRGB(),
+                        new Color(50, 70, 110, 0).getRGB()
+                }, 0);
+    }
+
+    private void renderAnimatedTopBar(float bgX, float bgY, float alphaMultiplier, long currentTime) {
+        // Градиентная полоса сверху с анимацией
+        int barHeight = 1;
+        float barY = bgY + 2.5f;
+
+        // Анимированный градиент
+        float animOffset = (currentTime % 3000) / 3000f;
+
+        int startColor = new Color(80, 120, 200, (int)(40 * alphaMultiplier)).getRGB();
+        int midColor = new Color(140, 180, 255, (int)(60 * alphaMultiplier)).getRGB();
+        int endColor = new Color(80, 120, 200, (int)(40 * alphaMultiplier)).getRGB();
+
+        // Разделяем полосу на сегменты для анимации
+        int segmentCount = 4;
+        float segmentWidth = 400f / segmentCount;
+
+        for (int i = 0; i < segmentCount; i++) {
+            float segX = bgX + i * segmentWidth;
+            float localT = (i / (float)segmentCount + animOffset) % 1f;
+
+            int segColor;
+            if (localT < 0.5f) {
+                segColor = blendColors(startColor, midColor, localT * 2f);
+            } else {
+                segColor = blendColors(midColor, endColor, (localT - 0.5f) * 2f);
+            }
+
+            Render2D.rect(segX, barY, segmentWidth, barHeight, segColor, 0);
+        }
+    }
+
+    private int blendColors(int color1, int color2, float t) {
+        int r1 = (color1 >> 16) & 0xFF;
+        int g1 = (color1 >> 8) & 0xFF;
+        int b1 = color1 & 0xFF;
+        int a1 = (color1 >> 24) & 0xFF;
+
+        int r2 = (color2 >> 16) & 0xFF;
+        int g2 = (color2 >> 8) & 0xFF;
+        int b2 = color2 & 0xFF;
+        int a2 = (color2 >> 24) & 0xFF;
+
+        int r = (int)(r1 + (r2 - r1) * t);
+        int g = (int)(g1 + (g2 - g1) * t);
+        int b = (int)(b1 + (b2 - b1) * t);
+        int a = (int)(a1 + (a2 - a1) * t);
+
+        return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
     public void renderCategoryPanel(float bgX, float bgY, float bgHeight, float alphaMultiplier) {

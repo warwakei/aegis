@@ -170,21 +170,44 @@ public class ModuleListRenderer {
                 int pulseOutlineAlpha = (int) (50 + 50 * highlightBoost);
                 int outlineAlpha = (int) ((baseOutlineAlpha + pulseOutlineAlpha * pulseValue) * combinedAlpha);
 
-                // Улучшенные цвета пульсации
-                int outlineR = (int) (100 + 50 * pulseValue + 60 * highlightBoost);
-                int outlineG = (int) (100 + 30 * pulseValue + 30 * highlightBoost);
-                int outlineB = (int) (100 + 20 * pulseValue + 20 * highlightBoost);
+                // Улучшенные цвета пульсации с градиентом
+                long currentTime = System.currentTimeMillis();
+                float colorShift = (float) Math.sin(currentTime * 0.002 + i * 0.5f) * 0.15f + 0.85f;
+                int outlineR = (int) ((100 + 50 * pulseValue + 60 * highlightBoost) * colorShift);
+                int outlineG = (int) ((100 + 30 * pulseValue + 30 * highlightBoost) * colorShift);
+                int outlineB = (int) ((100 + 20 * pulseValue + 20 * highlightBoost) * colorShift);
 
                 // Рендерим аутлайн с pixel-perfect толщиной
                 Render2D.outline(alignedX, alignedY, alignedW, alignedH, OUTLINE_THICKNESS,
                         new Color(Math.min(255, outlineR), Math.min(255, outlineG), Math.min(255, outlineB), outlineAlpha).getRGB(), 5);
 
-                // Дополнительный glow эффект для выбранного модуля
-                if (pulseValue > 0.7f) {
-                    float glowAlpha = (pulseValue - 0.7f) * 3.33f * combinedAlpha; // 0-100%
-                    int glowIntensity = (int) (glowAlpha * 15);
+                // Улучшенный многослойный glow эффект
+                if (pulseValue > 0.5f) {
+                    float glowIntensity = (pulseValue - 0.5f) * 2f * combinedAlpha;
+
+                    // Основной glow
+                    int mainGlowAlpha = (int) (glowIntensity * 20);
                     Render2D.blur(alignedX - 1, alignedY - 1, alignedW + 2, alignedH + 2,
-                            4f, 6f, new Color(100, 130, 180, glowIntensity).getRGB());
+                            4f, 6f, new Color(100, 130, 180, mainGlowAlpha).getRGB());
+
+                    // Дополнительный яркий слой
+                    if (pulseValue > 0.7f) {
+                        float brightGlowAlpha = (pulseValue - 0.7f) * 3.33f * 12 * combinedAlpha;
+                        Render2D.blur(alignedX, alignedY, alignedW, alignedH,
+                                3f, 4f, new Color(140, 170, 220, (int) brightGlowAlpha).getRGB());
+                    }
+
+                    // Тонкая градиентная полоса снизу как индикатор
+                    float indicatorHeight = 1.5f;
+                    float indicatorY = alignedY + alignedH - indicatorHeight;
+                    int indicatorAlpha = (int) (pulseValue * 80 * combinedAlpha);
+
+                    int indColor1 = new Color(80, 120, 200, indicatorAlpha).getRGB();
+                    int indColor2 = new Color(140, 180, 255, indicatorAlpha).getRGB();
+                    int indColor3 = new Color(80, 120, 200, indicatorAlpha).getRGB();
+
+                    Render2D.gradientRect(alignedX + 2, indicatorY, alignedW - 4, indicatorHeight,
+                            new int[]{indColor1, indColor2, indColor3}, 0);
                 }
             } else if (hoverAnim > 0.01f) {
                 // Плавный hover outline

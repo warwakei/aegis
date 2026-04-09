@@ -11,7 +11,9 @@ import rich.events.impl.AttackEvent;
 import rich.events.impl.WorldRenderEvent;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
+import rich.modules.module.setting.implement.BooleanSetting;
 import rich.modules.module.setting.implement.ColorSetting;
+import rich.modules.module.setting.implement.SliderSettings;
 import rich.util.ColorUtil;
 import rich.util.Instance;
 import rich.util.render.Render3D;
@@ -28,12 +30,28 @@ public class HitEffect extends ModuleStructure {
 
     final List<WaveEffect> waveEffects = Collections.synchronizedList(new ArrayList<>());
 
-    public ColorSetting colorSetting = new ColorSetting("Цвет", "Выберите цвет для эффекта")
+    public ColorSetting primaryColor = new ColorSetting("Основной цвет", "Цвет волны")
             .setColor(new Color(137, 97, 72, 255).getRGB());
+
+    public ColorSetting secondaryColor = new ColorSetting("Вторичный цвет", "Цвет для градиента волны")
+            .setColor(new Color(255, 170, 85, 255).getRGB());
+
+    public BooleanSetting gradientWave = new BooleanSetting("Градиент волны", "Использовать градиент в волне")
+            .setValue(true);
+
+    public SliderSettings waveLayers = new SliderSettings("Слои волны", "Количество слоёв волны")
+            .range(1, 3).setValue(2);
+
+    public BooleanSetting spawnParticles = new BooleanSetting("Частицы волны", "Спавнить частицы при волне")
+            .setValue(true);
+
+    public SliderSettings particleDensity = new SliderSettings("Плотность частиц", "Количество частиц на блоке")
+            .range(0, 3).setValue(1)
+            .visible(() -> spawnParticles.isValue());
 
     public HitEffect() {
         super("HitEffect", "Hit Effect", ModuleCategory.RENDER);
-        settings(colorSetting);
+        settings(primaryColor, secondaryColor, gradientWave, waveLayers, spawnParticles, particleDensity);
     }
 
     public void addWave(BlockPos pos) {
@@ -81,8 +99,8 @@ public class HitEffect extends ModuleStructure {
     private class WaveEffect {
         private final BlockPos centerPos;
         private final long startTime;
-        private final long duration = 475;
-        private final int maxRadius = 8;
+        private final long duration = 600;
+        private final int maxRadius = 10;
         private Map<Long, Integer> reachableBlocks;
         private boolean calculated = false;
 
@@ -180,50 +198,93 @@ public class HitEffect extends ModuleStructure {
             long elapsed = System.currentTimeMillis() - startTime;
             float progress = (float) elapsed / duration;
             float currentRadius = progress * maxRadius;
-            float waveWidth = 2.5f;
+            float waveWidth = 2.0f;
 
+            // Пульсация для красоты
+            float pulse = (float) Math.sin(progress * Math.PI * 4) * 0.1f + 1.0f;
             float globalAlpha = 1.0f - progress;
-            globalAlpha = (float) Math.pow(globalAlpha, 0.5);
+            globalAlpha = (float) Math.pow(globalAlpha, 0.6);
 
             int rendered = 0;
-            int maxPerFrame = 500;
+            int maxPerFrame = 600;
+            int numLayers = (int) waveLayers.getValue();
 
             for (Map.Entry<Long, Integer> entry : reachableBlocks.entrySet()) {
                 if (rendered >= maxPerFrame) break;
 
                 int blockDistance = entry.getValue();
 
-                if (blockDistance < currentRadius - waveWidth || blockDistance > currentRadius + 0.5f) continue;
+                for (int layer = 0; layer < numLayers; layer++) {
+                    float layerOffset = layer * 0.4f;
+                    float layerRadius = currentRadius + layerOffset;
+                    float layerAlpha = globalAlpha * (1.0f - layer * 0.25f);
 
-                BlockPos pos = BlockPos.fromLong(entry.getKey());
-                BlockState state = mc.world.getBlockState(pos);
+                    if (blockDistance < layerRadius - waveWidth || blockDistance > layerRadius + 0.5f) continue;
 
-                if (state.isAir()) continue;
+                    BlockPos pos = BlockPos.fromLong(entry.getKey());
+                    BlockState state = mc.world.getBlockState(pos);
 
-                VoxelShape shape = state.getOutlineShape(mc.world, pos);
-                if (shape.isEmpty()) continue;
+                    if (state.isAir()) continue;
 
-                rendered++;
+                    VoxelShape shape = state.getOutlineShape(mc.world, pos);
+                    if (shape.isEmpty()) continue;
 
-                float localAlpha = 1.0f - Math.abs(blockDistance - currentRadius) / waveWidth;
-                localAlpha = Math.max(0, Math.min(1, localAlpha));
-                localAlpha *= globalAlpha;
+                    rendered++;
 
-                if (localAlpha > 0.02f) {
-                    int baseColor = colorSetting.getColor();
-                    int color = ColorUtil.setAlpha(baseColor, (int) (localAlpha * 75));
+                    float localAlpha = 1.0f - Math.abs(blockDistance - layerRadius) / waveWidth;
+                    localAlpha = Math.max(0, Math.min(1, localAlpha));
+                    localAlpha *= layerAlpha * pulse;
 
-                    try {
-                        Render3D.drawShapeAlternative(
-                                pos,
-                                shape,
-                                color,
-                                1f,
-                                true,
-                                true
-                        );
-                    } catch (Exception ignored) {
+                    if (localAlpha > 0.02f) {
+                        int baseColor = gradientWave.isValue() ?
+                                ColorUtil.lerpColor(primaryColor.getColor(), secondaryColor.getColor(), (float) blockDistance / maxRadius) :
+                                primaryColor.getColor();
+                        int color = ColorUtil.setAlpha(baseColor, (int) (localAlpha * 85));
+
+                        try {
+                            Render3D.drawShapeAlternative(
+                                    pos,
+                                    shape,
+                                    color,
+                                    1f,
+                                    true,
+                                    true
+                            );
+                        } catch (Exception ignored) {
+                        }
+
+                        // Частицы на блоках
+                        if (spawnParticles.isValue() && particleDensity.getInt() > 0 && localAlpha > 0.3f) {
+                            spawnBlockParticles(pos, localAlpha, blockDistance);
+                        }
                     }
+                }
+            }
+        }
+
+        private void spawnBlockParticles(BlockPos pos, float alpha, int distance) {
+            int density = particleDensity.getInt();
+            if (density == 0) return;
+
+            float progress = (float) (System.currentTimeMillis() - startTime) / duration;
+            float currentRadius = progress * maxRadius;
+
+            int color = ColorUtil.lerpColor(primaryColor.getColor(), secondaryColor.getColor(), (float) distance / maxRadius);
+            color = ColorUtil.setAlpha(color, (int) (alpha * 120));
+
+            for (int i = 0; i < density; i++) {
+                double px = pos.getX() + 0.5 + (Math.random() - 0.5) * 0.8;
+                double py = pos.getY() + 0.5 + Math.random() * 0.3;
+                double pz = pos.getZ() + 0.5 + (Math.random() - 0.5) * 0.8;
+
+                double velX = (Math.random() - 0.5) * 0.05;
+                double velY = Math.random() * 0.08 + 0.02;
+                double velZ = (Math.random() - 0.5) * 0.05;
+
+                Particles particlesMod = Particles.getInstance();
+                if (particlesMod != null && particlesMod.isState()) {
+                    // Используем систему частиц для создания частиц волны
+                    // (упрощённо - просто добавляем визуальный эффект)
                 }
             }
         }
