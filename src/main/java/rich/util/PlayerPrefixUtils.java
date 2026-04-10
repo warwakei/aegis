@@ -139,6 +139,33 @@ public class PlayerPrefixUtils {
         PREFIX_MAP.put("miss", new PlayerPrefix(
             createAegisPrefix("rizz", Formatting.LIGHT_PURPLE, true, false, true)
         ));
+
+        // ===== Новые префиксы =====
+
+        // cloures - Льйоша (голубой, жирный, курсив)
+        PREFIX_MAP.put("cloures", new PlayerPrefix(
+            createAegisPrefix("Льйоша", Formatting.AQUA, true, false, true)
+        ));
+
+        // SlIpE - Govnoed (тёмно-зелёный, жирный)
+        PREFIX_MAP.put("slipe", new PlayerPrefix(
+            createAegisPrefix("Govnoed", Formatting.DARK_GREEN, true, false)
+        ));
+
+        // Java45 - Autism (голубой, жирный, курсив, подчеркнутый)
+        PREFIX_MAP.put("java45", new PlayerPrefix(
+            createAegisPrefix("Autism", Formatting.AQUA, true, true, true)
+        ));
+
+        // Mr_Grize - Гризюля (жёлтый, жирный, подчеркнутый)
+        PREFIX_MAP.put("mr_grize", new PlayerPrefix(
+            createAegisPrefix("Гризюля", Formatting.YELLOW, true, true)
+        ));
+
+        // Vorond123 - Gay (розовый, жирный, курсив)
+        PREFIX_MAP.put("vorond123", new PlayerPrefix(
+            createAegisPrefix("Gay", Formatting.LIGHT_PURPLE, true, false, true)
+        ));
     }
 
     /**
