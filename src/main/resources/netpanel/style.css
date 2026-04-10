@@ -315,6 +315,18 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
+#hitreg-copy-btn {
+    cursor: pointer;
+    font-size: 13px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.2s;
+}
+
+#hitreg-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
 .panel-body {
     flex: 1;
     overflow-y: auto;
@@ -357,9 +369,9 @@ body {
 .log-entry {
     padding: 1px 4px;
     border-radius: 2px;
-    white-space: pre;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
     font-size: var(--font-size-xs);
     cursor: context-menu;
 }

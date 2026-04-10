@@ -89,6 +89,7 @@ public class NetPanelServer {
             server.createContext("/api/moderation", new ModerationHandler());
             server.createContext("/api/anticheat", new AnticheatHandler());
             server.createContext("/api/hitreg", new HitregHandler());
+            server.createContext("/api/hitreg/export", new HitregExportHandler());
             server.createContext("/api/performance", new PerformanceHandler());
             server.createContext("/api/network", new NetworkHandler());
             server.createContext("/api/sessions", new SessionsHandler());
@@ -765,6 +766,30 @@ public class NetPanelServer {
                 arr.add(obj);
             }
             sendJson(exchange, 200, arr);
+        }
+    }
+
+    // ===== Hitreg Export Handler (for clipboard copy) =====
+    private static class HitregExportHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
+
+            String query = exchange.getRequestURI().getQuery();
+            int count = 30; // default
+            if (query != null && query.startsWith("count=")) {
+                try { count = Integer.parseInt(query.substring(6)); } catch (NumberFormatException ignored) {}
+            }
+
+            String text = HitregLogger.getFormattedEntries(count);
+            if (text.isEmpty()) {
+                JsonObject err = new JsonObject();
+                err.addProperty("error", "No entries to export");
+                sendJson(exchange, 404, err);
+                return;
+            }
+
+            sendText(exchange, 200, text, "text/plain");
         }
     }
 

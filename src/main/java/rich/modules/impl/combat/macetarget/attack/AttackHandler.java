@@ -44,30 +44,32 @@ public class AttackHandler {
     public void performAttack(LivingEntity target) {
         if (mc.player == null || target == null) return;
 
+        String whileCond = HitregLogger.buildWhileCondition(mc.player);
+
         // Проверка кулдауна атаки через StrikeManager
         if (!isAttackReady()) {
-            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Attack cooldown");
+            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Attack cooldown", whileCond);
             return;
         }
 
         // Проверка умных критов с улучшенной логикой
         CritStatus critStatus = canCritEnhanced(target);
         if (!critStatus.canAttack) {
-            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, 
-                    "Can't crit: " + critStatus.reason);
+            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false,
+                    "Can't crit: " + critStatus.reason, whileCond);
             return;
         }
 
         // Проверка видимости цели
         if (!isTargetVisible(target)) {
-            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Target not visible");
+            HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Target not visible", whileCond);
             return;
         }
 
         // Проверка дистанции с допуском на движение
         double distance = mc.player.distanceTo(target);
         if (distance > 6.5) { // 5.0 range + 1.5 tolerance for movement
-            HitregLogger.logMaceAttack("Attack", target, distance, false, "Too far");
+            HitregLogger.logMaceAttack("Attack", target, distance, false, "Too far", whileCond);
             return;
         }
 
@@ -86,7 +88,7 @@ public class AttackHandler {
         // Валидация попадания
         validateHit(target);
         
-        HitregLogger.logMaceAttack("Attack", target, distance, true, "MaceTarget attack sent (crit: " + critStatus.isCrit + ")");
+        HitregLogger.logMaceAttack("Attack", target, distance, true, "MaceTarget attack sent (crit: " + critStatus.isCrit + ")", whileCond);
 
         // Обновляем время последней атаки
         lastAttackTime = System.currentTimeMillis();

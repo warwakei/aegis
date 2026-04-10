@@ -483,9 +483,11 @@ public class StrikeManager implements IMinecraft {
             return;
         }
 
+        String whileCond = HitregLogger.buildWhileCondition(mc.player);
+
         if (shouldWaitForEating()) {
             HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Eating");
+                    mc.player.distanceTo(config.getTarget()), false, "Eating", whileCond);
             return;
         }
 
@@ -503,7 +505,7 @@ public class StrikeManager implements IMinecraft {
             if (cooldownProgress < 0.95F) {
                 return; // Ждём кулдаун
             }
-            
+
             // Минимальная задержка 150ms чтобы не закликивало
             long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
             if (timeSinceLastAttack < 150) {
@@ -514,26 +516,26 @@ public class StrikeManager implements IMinecraft {
             // Обычный режим — полные проверки
             if (!RaycastAngle.rayTrace(config)) {
                 HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
+                        mc.player.distanceTo(config.getTarget()), false, "RayTrace failed", whileCond);
                 return;
             }
 
             if (!isLookingAtTarget(config)) {
                 HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
+                        mc.player.distanceTo(config.getTarget()), false, "Not looking at target", whileCond);
                 return;
             }
 
             // Для 1.8 режима не проверяем clickScheduler - там своя логика CPS
             if (!is1_8Mode && !clickScheduler.isCooldownComplete(0)) {
                 HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "ClickScheduler cooldown");
+                        mc.player.distanceTo(config.getTarget()), false, "ClickScheduler cooldown", whileCond);
                 return;
             }
 
             if (!canCritNow()) {
                 HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "Can't crit now");
+                        mc.player.distanceTo(config.getTarget()), false, "Can't crit now", whileCond);
                 return;
             }
         }
@@ -560,7 +562,7 @@ public class StrikeManager implements IMinecraft {
         executeAttack(config);
         // Log successful attack
         HitregLogger.logAuraAttack(Aura.getInstance().getMode().getSelected(), config.getTarget(),
-                mc.player.distanceTo(config.getTarget()), true, "Attack executed");
+                mc.player.distanceTo(config.getTarget()), true, "Attack executed", whileCond);
 
         if (shouldReset) {
             if (Aura.getInstance().getResetSprintMode().isSelected("Пакетный")) {
@@ -582,14 +584,16 @@ public class StrikeManager implements IMinecraft {
     }
 
     private void handleMaceAttack(StrikerConstructor.AttackPerpetratorConfigurable config) {
+        String whileCond = HitregLogger.buildWhileCondition(mc.player);
+
         if (shouldWaitForEating()) {
             HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Eating");
+                    mc.player.distanceTo(config.getTarget()), false, "Eating", whileCond);
             return;
         }
         if (mc.player.distanceTo(config.getTarget()) > Aura.getInstance().getAttackrange().getValue() + 1.0) {
             HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Out of range");
+                    mc.player.distanceTo(config.getTarget()), false, "Out of range", whileCond);
             return;
         }
 
@@ -599,12 +603,12 @@ public class StrikeManager implements IMinecraft {
             // Обычный режим - полные проверки
             if (!RaycastAngle.rayTrace(config)) {
                 HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "RayTrace failed");
+                        mc.player.distanceTo(config.getTarget()), false, "RayTrace failed", whileCond);
                 return;
             }
             if (!isLookingAtTarget(config)) {
                 HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "Not looking at target");
+                        mc.player.distanceTo(config.getTarget()), false, "Not looking at target", whileCond);
                 return;
             }
         }
@@ -614,19 +618,19 @@ public class StrikeManager implements IMinecraft {
             // 1.8 режим - проверяем CPS очередь
             if (!canAttack1_8()) {
                 HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "CPS cooldown");
+                        mc.player.distanceTo(config.getTarget()), false, "CPS cooldown", whileCond);
                 return;
             }
         } else {
             // Обычный режим - проверяем clickScheduler
             if (!clickScheduler.isMaceFastAttack()) {
                 HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "ClickScheduler mace fast attack");
+                        mc.player.distanceTo(config.getTarget()), false, "ClickScheduler mace fast attack", whileCond);
                 return;
             }
             if (!attackTimer.finished(25)) {
                 HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                        mc.player.distanceTo(config.getTarget()), false, "Attack timer not finished");
+                        mc.player.distanceTo(config.getTarget()), false, "Attack timer not finished", whileCond);
                 return;
             }
         }
@@ -634,7 +638,7 @@ public class StrikeManager implements IMinecraft {
         // Упрощённая проверка критов для булавы
         if (!canCritForMace()) {
             HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                    mc.player.distanceTo(config.getTarget()), false, "Can't crit for mace");
+                    mc.player.distanceTo(config.getTarget()), false, "Can't crit for mace", whileCond);
             return;
         }
 
@@ -654,7 +658,7 @@ public class StrikeManager implements IMinecraft {
 
         executeAttack(config);
         HitregLogger.logAuraAttack("Mace", config.getTarget(),
-                mc.player.distanceTo(config.getTarget()), true, "Mace attack executed");
+                mc.player.distanceTo(config.getTarget()), true, "Mace attack executed", whileCond);
 
         if (shouldReset) {
             if (Aura.getInstance().getResetSprintMode().isSelected("Пакетный")) {

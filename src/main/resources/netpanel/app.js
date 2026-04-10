@@ -153,6 +153,15 @@
             });
         });
 
+        // Hitreg copy button
+        var hitregCopyBtn = document.getElementById('hitreg-copy-btn');
+        if (hitregCopyBtn) {
+            hitregCopyBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                copyHitregLog();
+            });
+        }
+
         // Context menu on all log entries
         document.addEventListener('contextmenu', function (e) {
             var logEntry = e.target.closest('.log-entry');
@@ -667,6 +676,43 @@
     // ===== HITREG =====
     var lastHitregCount = 0;
 
+    async function copyHitregLog() {
+        try {
+            var res = await fetch('/api/hitreg/export?count=30');
+            if (!res.ok) {
+                showHitregCopyFeedback('No entries to export', false);
+                return;
+            }
+            var text = await res.text();
+            navigator.clipboard.writeText(text).then(function () {
+                showHitregCopyFeedback('Copied ' + text.split('\n').filter(function (l) { return l.startsWith('✔') || l.startsWith('✘'); }).length + ' hits to clipboard', true);
+            }).catch(function () {
+                // Fallback for non-clipboard API
+                var ta = document.createElement('textarea');
+                ta.value = text; document.body.appendChild(ta);
+                ta.select(); document.execCommand('copy');
+                document.body.removeChild(ta);
+                showHitregCopyFeedback('Copied hits to clipboard', true);
+            });
+        } catch (err) {
+            showHitregCopyFeedback('Failed to export: ' + err.message, false);
+        }
+    }
+
+    function showHitregCopyFeedback(msg, success) {
+        var btn = document.getElementById('hitreg-copy-btn');
+        if (!btn) return;
+        var original = btn.textContent;
+        btn.textContent = success ? '✓' : '✘';
+        btn.style.color = success ? '#55FF55' : '#FF5555';
+        btn.title = msg;
+        setTimeout(function () {
+            btn.textContent = original;
+            btn.style.color = '';
+            btn.title = 'Copy last 30 hits';
+        }, 1500);
+    }
+
     async function loadHitregInfo() {
         try {
             var data = await fetchJSON('/api/hitreg');
@@ -855,6 +901,8 @@
             msg = msg.replace(/^\[CHAT\]\s*/i, '');
         }
         msg = formatMinecraftColors(escapeHtml(msg));
+        // Convert literal \n to real newlines (displayed via white-space: pre)
+        msg = msg.replace(/\\n/g, '\n');
         // Highlight rank symbols: Ⓖ bright yellow bold, Ⓛ bright green bold
         msg = msg.replace(/Ⓖ/g, '<span class="rank-G">Ⓖ</span>');
         msg = msg.replace(/Ⓛ/g, '<span class="rank-L">Ⓛ</span>');

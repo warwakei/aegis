@@ -146,10 +146,11 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "getWindowTitle", at = @At("RETURN"), cancellable = true)
     private void getWindowTitle(CallbackInfoReturnable<String> cir) {
-        UserProfile userProfile = UserProfile.getInstance();
-        String username = userProfile.profile("username");
-        String role = userProfile.profile("role");
-        cir.setReturnValue(String.format("%s (%s - %s)", Version.FULL_NAME, role, username));
+        rich.util.TitleManager titleManager = rich.util.TitleManager.getInstance();
+        String customTitle = titleManager.getWindowTitle();
+        if (customTitle != null) {
+            cir.setReturnValue(customTitle);
+        }
     }
 
     @Inject(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getInventory()Lnet/minecraft/entity/player/PlayerInventory;"), cancellable = true)

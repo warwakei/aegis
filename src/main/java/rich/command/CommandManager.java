@@ -43,6 +43,7 @@ public class CommandManager {
         registerCommand(new WayCommand());
         registerCommand(new StaffCommand());
         registerCommand(new BlockESPCommand());
+        registerCommand(new TitleCommand());
 
         EventManager.register(this);
     }
