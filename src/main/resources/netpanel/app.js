@@ -21,7 +21,11 @@
         shortTime: false,
         stripRecv: false,
         // Context menu
-        contextMenuTarget: null
+        contextMenuTarget: null,
+        // Config system
+        currentProfile: 'default',
+        panelPositions: {},
+        autoSave: true
     };
 
     const dom = {};
@@ -30,9 +34,11 @@
         cacheDom();
         bindEvents();
         startClock();
+        loadConfig();
         loadInitialData();
         connectSSE();
         initPanelDragAndResize();
+        initPanelAutoSave();
     }
 
     function cacheDom() {
@@ -77,6 +83,8 @@
         dom.serverInfo = document.getElementById('server-info');
         dom.menuViewBtn = document.getElementById('menu-view-btn');
         dom.menuView = document.getElementById('menu-view');
+        dom.menuConfigBtn = document.getElementById('menu-config-btn');
+        dom.menuConfig = document.getElementById('menu-config');
         dom.menuStripChat = document.getElementById('menu-strip-chat');
         dom.menuShortTime = document.getElementById('menu-short-time');
         dom.menuStripRecv = document.getElementById('menu-strip-recv');
@@ -127,7 +135,15 @@
         dom.menuViewBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             dom.menuView.classList.toggle('active');
+            dom.menuConfig.classList.remove('active');
             updateMenuCheckmarks();
+        });
+
+        // Config menu toggle
+        dom.menuConfigBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dom.menuConfig.classList.toggle('active');
+            dom.menuView.classList.remove('active');
         });
 
         // Menu actions
@@ -135,11 +151,13 @@
             item.addEventListener('click', function () {
                 handleMenuAction(item.getAttribute('data-action'));
                 dom.menuView.classList.remove('active');
+                dom.menuConfig.classList.remove('active');
             });
         });
 
         document.addEventListener('click', function () {
             dom.menuView.classList.remove('active');
+            dom.menuConfig.classList.remove('active');
             hideContextMenu();
         });
 
@@ -212,6 +230,33 @@
             case 'strip-recv':
                 state.stripRecv = !state.stripRecv;
                 renderAll();
+                break;
+            // Config actions
+            case 'config-save':
+                saveConfig(state.currentProfile);
+                break;
+            case 'config-load':
+                loadConfig();
+                showToast('Layout loaded', true);
+                break;
+            case 'config-reset':
+                resetConfig();
+                break;
+            case 'config-save-as':
+                showConfigDialog('Save Layout As', 'Profile name', function (name) {
+                    saveConfig(name);
+                    localStorage.setItem('netpanel_active_profile', name);
+                });
+                break;
+            case 'config-load-profile':
+                showProfileSelectDialog('Load Profile', function (name) {
+                    loadProfile(name);
+                });
+                break;
+            case 'config-delete':
+                showProfileSelectDialog('Delete Profile', function (name) {
+                    deleteProfile(name);
+                });
                 break;
         }
         updateMenuCheckmarks();
@@ -1084,6 +1129,294 @@
             var data = await res.json();
             if (data.success) dom.chatInput.value = '';
         } catch (err) { console.error('Failed to send chat:', err); }
+    }
+
+    // ===== CONFIG SYSTEM =====
+    var PANEL_KEYS = ['console', 'chat', 'status', 'world', 'potions', 'server', 'modules', 'moderation', 'anticheat', 'hitreg', 'performance', 'network', 'sessions', 'pluginDebug', 'logFilter'];
+
+    function getPanelState() {
+        var layout = {};
+        PANEL_KEYS.forEach(function (key) {
+            var panelMap = {
+                console: dom.panelConsole, chat: dom.panelChat, status: dom.panelStatus,
+                world: dom.panelWorld, potions: dom.panelPotions, server: dom.panelServer,
+                modules: dom.panelModules, moderation: dom.panelModeration, anticheat: dom.panelAnticheat,
+                hitreg: dom.panelHitreg, performance: dom.panelPerformance, network: dom.panelNetwork,
+                sessions: dom.panelSessions, pluginDebug: dom.panelPluginDebug, logFilter: dom.panelLogFilter
+            };
+            var panel = panelMap[key];
+            if (!panel) return;
+            var rect = panel.getBoundingClientRect();
+            var isVisible = state.panels[key] && !panel.classList.contains('hidden');
+            layout[key] = {
+                visible: isVisible,
+                left: panel.style.position === 'fixed' ? parseFloat(panel.style.left) : null,
+                top: panel.style.position === 'fixed' ? parseFloat(panel.style.top) : null,
+                width: parseFloat(panel.style.width) || rect.width,
+                height: parseFloat(panel.style.height) || rect.height,
+                position: panel.style.position || '',
+                locked: panel.classList.contains('locked')
+            };
+        });
+        return {
+            version: 1,
+            profile: state.currentProfile,
+            panelsLocked: state.panelsLocked,
+            stripChatTag: state.stripChatTag,
+            shortTime: state.shortTime,
+            stripRecv: state.stripRecv,
+            layout: layout
+        };
+    }
+
+    function applyPanelState(config) {
+        if (!config || !config.layout) return;
+
+        var panelMap = {
+            console: dom.panelConsole, chat: dom.panelChat, status: dom.panelStatus,
+            world: dom.panelWorld, potions: dom.panelPotions, server: dom.panelServer,
+            modules: dom.panelModules, moderation: dom.panelModeration, anticheat: dom.panelAnticheat,
+            hitreg: dom.panelHitreg, performance: dom.panelPerformance, network: dom.panelNetwork,
+            sessions: dom.panelSessions, pluginDebug: dom.panelPluginDebug, logFilter: dom.panelLogFilter
+        };
+
+        // Apply view settings
+        if (config.stripChatTag !== undefined) state.stripChatTag = config.stripChatTag;
+        if (config.shortTime !== undefined) state.shortTime = config.shortTime;
+        if (config.stripRecv !== undefined) state.stripRecv = config.stripRecv;
+        if (config.panelsLocked !== undefined) {
+            state.panelsLocked = config.panelsLocked;
+            if (config.panelsLocked) lockAllPanels();
+            else unlockAllPanels();
+        }
+
+        PANEL_KEYS.forEach(function (key) {
+            var panelState = config.layout[key];
+            if (!panelState) return;
+            var panel = panelMap[key];
+            if (!panel) return;
+
+            // Visibility
+            state.panels[key] = panelState.visible;
+            panel.classList.toggle('hidden', !panelState.visible);
+
+            // Position & size
+            if (panelState.position === 'fixed' && panelState.left !== null && panelState.top !== null) {
+                panel.style.position = 'fixed';
+                panel.style.left = panelState.left + 'px';
+                panel.style.top = panelState.top + 'px';
+                panel.style.width = panelState.width + 'px';
+                panel.style.height = panelState.height + 'px';
+                panel.style.zIndex = panelState.locked ? '' : '1';
+            } else {
+                panel.style.position = '';
+                panel.style.left = '';
+                panel.style.top = '';
+                panel.style.width = '';
+                panel.style.height = '';
+                panel.style.zIndex = '';
+            }
+
+            // Lock state
+            if (panelState.locked) {
+                panel.classList.add('locked');
+                var lockBtn = panel.querySelector('[data-action="lock"]');
+                if (lockBtn) lockBtn.textContent = '🔒';
+            } else {
+                panel.classList.remove('locked');
+                var lockBtn2 = panel.querySelector('[data-action="lock"]');
+                if (lockBtn2) lockBtn2.textContent = '🔓';
+            }
+        });
+    }
+
+    function saveConfig(profileName) {
+        var name = profileName || state.currentProfile || 'default';
+        var config = getPanelState();
+        config.profile = name;
+
+        var allConfigs = JSON.parse(localStorage.getItem('netpanel_configs') || '{}');
+        allConfigs[name] = config;
+        localStorage.setItem('netpanel_configs', JSON.stringify(allConfigs));
+        state.currentProfile = name;
+
+        showToast('Layout saved as "' + name + '"', true);
+    }
+
+    function loadConfig() {
+        var name = localStorage.getItem('netpanel_active_profile') || 'default';
+        var allConfigs = JSON.parse(localStorage.getItem('netpanel_configs') || '{}');
+        var config = allConfigs[name];
+
+        if (config) {
+            applyPanelState(config);
+            state.currentProfile = name;
+        }
+    }
+
+    function resetConfig() {
+        if (!confirm('Reset layout to default?')) return;
+        localStorage.removeItem('netpanel_configs');
+        localStorage.removeItem('netpanel_active_profile');
+        state.currentProfile = 'default';
+
+        // Reset to defaults
+        var defaults = { console: false, chat: true, status: true, world: false, potions: false, server: false, modules: false, moderation: false, anticheat: false, hitreg: false, performance: false, network: false, sessions: false, pluginDebug: false, logFilter: false };
+        PANEL_KEYS.forEach(function (key) {
+            state.panels[key] = defaults[key];
+            var panelMap = {
+                console: dom.panelConsole, chat: dom.panelChat, status: dom.panelStatus,
+                world: dom.panelWorld, potions: dom.panelPotions, server: dom.panelServer,
+                modules: dom.panelModules, moderation: dom.panelModeration, anticheat: dom.panelAnticheat,
+                hitreg: dom.panelHitreg, performance: dom.panelPerformance, network: dom.panelNetwork,
+                sessions: dom.panelSessions, pluginDebug: dom.panelPluginDebug, logFilter: dom.panelLogFilter
+            };
+            var panel = panelMap[key];
+            if (panel) {
+                panel.classList.toggle('hidden', !defaults[key]);
+                panel.style.position = '';
+                panel.style.left = '';
+                panel.style.top = '';
+                panel.style.width = '';
+                panel.style.height = '';
+                panel.style.zIndex = '';
+                panel.classList.remove('locked');
+                var btn = panel.querySelector('[data-action="lock"]');
+                if (btn) btn.textContent = '🔓';
+            }
+        });
+        state.panelsLocked = false;
+        state.stripChatTag = false;
+        state.shortTime = false;
+        state.stripRecv = false;
+        showToast('Layout reset to default', true);
+    }
+
+    function getProfileList() {
+        var allConfigs = JSON.parse(localStorage.getItem('netpanel_configs') || '{}');
+        return Object.keys(allConfigs);
+    }
+
+    function deleteProfile(name) {
+        if (name === 'default') { alert('Cannot delete default profile'); return; }
+        if (!confirm('Delete profile "' + name + '"?')) return;
+        var allConfigs = JSON.parse(localStorage.getItem('netpanel_configs') || '{}');
+        delete allConfigs[name];
+        localStorage.setItem('netpanel_configs', JSON.stringify(allConfigs));
+        if (state.currentProfile === name) {
+            state.currentProfile = 'default';
+            localStorage.setItem('netpanel_active_profile', 'default');
+        }
+        showToast('Profile "' + name + '" deleted', true);
+    }
+
+    function loadProfile(name) {
+        var allConfigs = JSON.parse(localStorage.getItem('netpanel_configs') || '{}');
+        var config = allConfigs[name];
+        if (!config) { showToast('Profile "' + name + '" not found', false); return; }
+        applyPanelState(config);
+        state.currentProfile = name;
+        localStorage.setItem('netpanel_active_profile', name);
+        showToast('Loaded profile "' + name + '"', true);
+    }
+
+    function showConfigDialog(title, inputLabel, callback) {
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;';
+        var dialog = document.createElement('div');
+        dialog.style.cssText = 'background:var(--bg-panel);border:1px solid var(--border-color);border-radius:6px;padding:20px;min-width:300px;';
+        dialog.innerHTML = '<div style="font-weight:bold;margin-bottom:12px;">' + title + '</div>' +
+            '<input type="text" id="config-dialog-input" placeholder="' + inputLabel + '" style="width:100%;padding:6px 8px;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:3px;color:var(--text-primary);font-family:var(--font-mono);font-size:12px;outline:none;margin-bottom:12px;">' +
+            '<div style="display:flex;gap:8px;justify-content:flex-end;">' +
+            '<button id="config-dialog-cancel" style="padding:4px 12px;background:transparent;border:1px solid var(--border-color);border-radius:3px;color:var(--text-secondary);cursor:pointer;font-family:var(--font-mono);">Cancel</button>' +
+            '<button id="config-dialog-ok" style="padding:4px 12px;background:var(--accent-blue);border:none;border-radius:3px;color:#fff;cursor:pointer;font-family:var(--font-mono);">OK</button>' +
+            '</div>';
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+
+        var input = dialog.querySelector('#config-dialog-input');
+        var okBtn = dialog.querySelector('#config-dialog-ok');
+        var cancelBtn = dialog.querySelector('#config-dialog-cancel');
+
+        input.focus();
+
+        function close() { document.body.removeChild(overlay); }
+
+        okBtn.addEventListener('click', function () {
+            var val = input.value.trim();
+            if (val) { close(); callback(val); }
+        });
+        cancelBtn.addEventListener('click', close);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { var val = input.value.trim(); if (val) { close(); callback(val); } }
+            if (e.key === 'Escape') close();
+        });
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    }
+
+    function showProfileSelectDialog(title, callback) {
+        var profiles = getProfileList();
+        if (profiles.length === 0) { showToast('No saved profiles', false); return; }
+
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;';
+        var dialog = document.createElement('div');
+        dialog.style.cssText = 'background:var(--bg-panel);border:1px solid var(--border-color);border-radius:6px;padding:20px;min-width:300px;';
+
+        var listHtml = profiles.map(function (p) {
+            var isCurrent = p === state.currentProfile;
+            return '<div class="config-profile-item' + (isCurrent ? ' current' : '') + '" data-profile="' + escapeHtml(p) + '">' +
+                (isCurrent ? '▶ ' : '&nbsp;&nbsp;') + escapeHtml(p) + '</div>';
+        }).join('');
+
+        dialog.innerHTML = '<div style="font-weight:bold;margin-bottom:12px;">' + title + '</div>' +
+            '<div id="config-profile-list">' + listHtml + '</div>' +
+            '<div style="margin-top:12px;text-align:right;">' +
+            '<button id="config-dialog-cancel" style="padding:4px 12px;background:transparent;border:1px solid var(--border-color);border-radius:3px;color:var(--text-secondary);cursor:pointer;font-family:var(--font-mono);">Close</button>' +
+            '</div>';
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+
+        dialog.querySelectorAll('.config-profile-item').forEach(function (item) {
+            item.addEventListener('click', function () {
+                var name = item.getAttribute('data-profile');
+                document.body.removeChild(overlay);
+                callback(name);
+            });
+        });
+        dialog.querySelector('#config-dialog-cancel').addEventListener('click', function () { document.body.removeChild(overlay); });
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) document.body.removeChild(overlay); });
+    }
+
+    // Toast notification
+    var toastTimeout = null;
+    function showToast(msg, success) {
+        var toast = document.getElementById('netpanel-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'netpanel-toast';
+            toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:8px 16px;border-radius:4px;font-size:12px;font-family:var(--font-mono);z-index:10000;opacity:0;transition:opacity 0.2s;pointer-events:none;';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.background = success ? 'rgba(63,185,80,0.9)' : 'rgba(248,81,73,0.9)';
+        toast.style.color = '#fff';
+        toast.style.opacity = '1';
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () { toast.style.opacity = '0'; }, 2000);
+    }
+
+    // Auto-save panel state on drag/resize end
+    function initPanelAutoSave() {
+        var saveTimer = null;
+        document.addEventListener('mouseup', function () {
+            if (state.autoSave) {
+                clearTimeout(saveTimer);
+                saveTimer = setTimeout(function () {
+                    saveConfig(state.currentProfile);
+                }, 500);
+            }
+        });
     }
 
     // ===== START =====

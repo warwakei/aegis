@@ -61,6 +61,8 @@ public class ModuleRepository {
                 .add(new TargetStrafe())
                 .add(new AutoLeave())
                 .add(new Strafe())
+                .add(new Strafe45())
+                .add(new Wayfinder())
                 .add(new AutoDuel())
                 .add(new NoWeb())
                 .add(new AutoTpAccept())

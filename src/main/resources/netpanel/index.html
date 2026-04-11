@@ -49,8 +49,20 @@
                         <div class="dropdown-item" data-action="strip-recv">Strip RECV entries</div>
                     </div>
                 </div>
-                <span class="separator">│</span>
-                <span class="logo">AEGIS</span><span class="logo-sub">NEO</span>
+                <div class="menu-item" id="menu-config-btn">
+                    <span>Config</span>
+                    <div class="dropdown" id="menu-config">
+                        <div class="dropdown-section">Layout</div>
+                        <div class="dropdown-item" data-action="config-save">💾 Save Layout</div>
+                        <div class="dropdown-item" data-action="config-load">📂 Load Layout</div>
+                        <div class="dropdown-item" data-action="config-reset">🔄 Reset to Default</div>
+                        <div class="dropdown-separator"></div>
+                        <div class="dropdown-section">Profiles</div>
+                        <div class="dropdown-item" data-action="config-save-as">💾 Save Layout As...</div>
+                        <div class="dropdown-item" data-action="config-load-profile">📂 Load Profile...</div>
+                        <div class="dropdown-item" data-action="config-delete">🗑️ Delete Profile</div>
+                    </div>
+                </div>
                 <span class="separator">│</span>
                 <span class="title">NetPanel</span>
             </div>

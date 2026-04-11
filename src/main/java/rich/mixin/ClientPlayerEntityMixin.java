@@ -21,6 +21,7 @@ import rich.events.api.EventManager;
 import rich.events.api.types.EventType;
 import rich.events.impl.*;
 import rich.modules.impl.combat.aura.AngleConnection;
+import rich.modules.impl.movement.Strafe45;
 import rich.util.move.MoveUtil;
 
 import static rich.IMinecraft.mc;
@@ -106,6 +107,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @ModifyExpressionValue(method = { "sendMovementPackets",
             "tick" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getYaw()F"))
     private float hookSilentRotationYaw(float original) {
+        // 45SP silent strafe — highest priority
+        Strafe45 strafe45 = Strafe45.getInstance();
+        if (strafe45 != null && strafe45.isState() && strafe45.isStrafePending()) {
+            return strafe45.getStrafeYaw();
+        }
+
+        // Normal silent rotation via AngleConnection
         if (mc.player != null && AngleConnection.INSTANCE.getRotation() != null) {
             float currentYaw = AngleConnection.INSTANCE.getRotation().getYaw();
             float newBodyYaw = MoveUtil.calculateBodyYaw(
@@ -131,6 +139,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @ModifyExpressionValue(method = { "sendMovementPackets",
             "tick" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getPitch()F"))
     private float hookSilentRotationPitch(float original) {
+        Strafe45 strafe45 = Strafe45.getInstance();
+        if (strafe45 != null && strafe45.isState() && strafe45.isStrafePending()) {
+            return strafe45.getStrafePitch();
+        }
         if (AngleConnection.INSTANCE.getRotation() != null) {
             return AngleConnection.INSTANCE.getRotation().getPitch();
         }

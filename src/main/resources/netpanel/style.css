@@ -103,6 +103,25 @@ body {
     overflow-y: auto;
 }
 
+/* Custom scrollbar for dropdown menus */
+.dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 3px;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--text-dim);
+}
+
 .dropdown.active {
     display: block;
 }
@@ -125,20 +144,6 @@ body {
     height: 1px;
     background: var(--border-color);
     margin: 4px 0;
-}
-
-.logo {
-    font-size: var(--font-size-lg);
-    font-weight: 700;
-    color: var(--accent-blue);
-    letter-spacing: 2px;
-}
-
-.logo-sub {
-    font-size: var(--font-size-lg);
-    font-weight: 700;
-    color: var(--accent-purple);
-    letter-spacing: 2px;
 }
 
 .separator {
@@ -861,4 +866,29 @@ body {
 }
 #log-filter-results {
     padding: 8px;
+}
+
+/* ===== CONFIG DIALOG ===== */
+.config-profile-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    transition: background 0.15s;
+    border-radius: 3px;
+}
+
+.config-profile-item:hover {
+    background: var(--accent-blue);
+    color: var(--bg-primary);
+}
+
+.config-profile-item.current {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.config-profile-item.current:hover {
+    background: var(--accent-blue);
+    color: var(--bg-primary);
 }
