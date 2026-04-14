@@ -24,6 +24,7 @@ import rich.modules.impl.combat.aura.attack.StrikerConstructor;
 import rich.modules.impl.combat.aura.impl.*;
 import rich.modules.impl.combat.aura.impl.RotateConstructor;
 import rich.modules.impl.combat.aura.mace.SilentMaceHandler;
+import rich.modules.impl.combat.aura.shield.ShieldBreakerHandler;
 import rich.modules.impl.combat.aura.rotations.*;
 import rich.modules.impl.combat.aura.target.MultiPoint;
 import rich.modules.impl.combat.aura.target.TargetFinder;
@@ -129,11 +130,16 @@ public class Aura extends ModuleStructure {
     private final BooleanSetting moveFixInFly = new BooleanSetting("Коррекция в полёте", "Работает ли коррекция движения когда игрок в полёте (Fly / Elytra)")
             .setValue(false);
 
+    @Getter
+    private final BooleanSetting shieldBreaker = new BooleanSetting("ShieldBreaker", "Авто-свап топора при блокировании щитом цели (как Silent Mace)")
+            .setValue(false);
+
     private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
+    private final ShieldBreakerHandler shieldBreakerHandler = new ShieldBreakerHandler();
 
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly, shieldBreaker);
     }
 
     @NonFinal
@@ -163,6 +169,7 @@ public class Aura extends ModuleStructure {
         lastTarget = null;
         FpsThrottler.reset();
         silentMaceHandler.forceReset();
+        shieldBreakerHandler.forceReset();
         // Сброс AutoFlyme
         lastJumpPressTime = 0;
         flymeCommandSent = false;
@@ -173,6 +180,11 @@ public class Aura extends ModuleStructure {
         // Silent Mace handler
         if (silentMace.isValue()) {
             silentMaceHandler.onTick(target);
+        }
+
+        // Shield Breaker handler
+        if (shieldBreaker.isValue()) {
+            shieldBreakerHandler.onTick(target);
         }
 
         // Проверяем FPS throttler для разработчиков
@@ -216,6 +228,10 @@ public class Aura extends ModuleStructure {
             case EventType.POST -> {
                 // Если Silent Mace активен и сейчас атакует булавой — пропускаем обычную атаку
                 if (silentMace.isValue() && silentMaceHandler.isActive()) {
+                    return;
+                }
+                // Если Shield Breaker активен и сейчас атакует топором — пропускаем обычную атаку
+                if (shieldBreaker.isValue() && shieldBreakerHandler.isActive()) {
                     return;
                 }
                 if (target != null) {
