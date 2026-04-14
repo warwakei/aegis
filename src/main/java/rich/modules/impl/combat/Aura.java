@@ -121,11 +121,19 @@ public class Aura extends ModuleStructure {
             .setValue(5.0f)
             .visible(() -> fakeRotation.isValue());
 
+    @Getter
+    private final BooleanSetting autoFlyme = new BooleanSetting("AutoFlyme", "Двойной пробел в прыжке пропишет /flyme (для серверов Jenro)")
+            .setValue(false);
+
+    @Getter
+    private final BooleanSetting moveFixInFly = new BooleanSetting("Коррекция в полёте", "Работает ли коррекция движения когда игрок в полёте (Fly / Elytra)")
+            .setValue(false);
+
     private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
 
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly);
     }
 
     @NonFinal
@@ -133,6 +141,12 @@ public class Aura extends ModuleStructure {
 
     @NonFinal
     public LivingEntity lastTarget;
+
+    // AutoFlyme - отслеживание двойного нажатия пробела
+    @NonFinal
+    private long lastJumpPressTime = 0;
+    @NonFinal
+    private boolean flymeCommandSent = false; // чтобы не спамить команду каждый тик
 
     TargetFinder targetSelector = new TargetFinder();
     MultiPoint pointFinder = new MultiPoint();
@@ -149,6 +163,9 @@ public class Aura extends ModuleStructure {
         lastTarget = null;
         FpsThrottler.reset();
         silentMaceHandler.forceReset();
+        // Сброс AutoFlyme
+        lastJumpPressTime = 0;
+        flymeCommandSent = false;
     }
 
     @EventHandler
@@ -402,6 +419,16 @@ public class Aura extends ModuleStructure {
         if (!isState())
             return;
 
+        // ===== AutoFlyme Logic =====
+        handleAutoFlyme();
+
+        // ===== MoveFix Logic =====
+        // Если moveFixInFly выключен и игрок в полёте - не применяем коррекцию движения
+        boolean isInFly = mc.player.getAbilities().flying || mc.player.isGliding();
+        if (isInFly && !moveFixInFly.isValue()) {
+            return;
+        }
+
         if (target == null || !target.isAlive())
             return;
 
@@ -516,6 +543,49 @@ public class Aura extends ModuleStructure {
             }
 
             event.setDirectionalLow(forward, back, left, right);
+        }
+    }
+
+    /**
+     * AutoFlyme - при двойном нажатии пробела в прыжке без флая прописывает /flyme
+     * Работает только для серверов Jenro (funnymc.su и подобные)
+     */
+    @Native(type = Native.Type.VMProtectBeginMutation)
+    private void handleAutoFlyme() {
+        if (!autoFlyme.isValue()) {
+            flymeCommandSent = false; // сброс при выключенной настройке
+            return;
+        }
+
+        // Если у игрока уже есть флай (ability) - ничего не делаем
+        if (mc.player.getAbilities().flying) {
+            flymeCommandSent = false; // сброс, можно будет снова активировать если флай отключат
+            return;
+        }
+
+        // Проверяем что игрок нажимает пробел
+        boolean jumpPressed = mc.options.jumpKey.isPressed();
+        long currentTime = System.currentTimeMillis();
+
+        if (jumpPressed) {
+            // Проверяем двойное нажатие (в пределах 500мс между нажатиями)
+            if (currentTime - lastJumpPressTime < 500 && lastJumpPressTime > 0) {
+                // Проверяем что игрок в прыжке (не на земле)
+                boolean inJump = !mc.player.isOnGround() && mc.player.fallDistance < 0.1;
+
+                if (inJump && !flymeCommandSent) {
+                    // Пропишем /flyme
+                    mc.player.networkHandler.sendChatCommand("flyme");
+                    flymeCommandSent = true;
+                }
+            }
+            lastJumpPressTime = currentTime;
+        } else {
+            // Если пробел отпущен и флай не включился - сбрасываем flymeCommandSent
+            // чтобы можно было попробовать снова
+            if (flymeCommandSent && !mc.player.getAbilities().flying) {
+                flymeCommandSent = false;
+            }
         }
     }
 

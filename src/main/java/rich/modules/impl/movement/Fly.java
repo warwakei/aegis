@@ -28,10 +28,10 @@ public class Fly extends ModuleStructure {
             .selected("Normal");
 
     SliderSettings speedXZ = new SliderSettings("Скорость XZ", "Горизонтальная скорость")
-            .setValue(1.5F).range(1.0F, 10.0F)
+            .setValue(1.5F).range(0.1F, 70.0F)
             .visible(() -> !mode.isSelected("FunTime Up"));
     SliderSettings speedY = new SliderSettings("Скорость Y", "Вертикальная скорость")
-            .setValue(1.5F).range(0.0F, 10.0F)
+            .setValue(1.5F).range(0.1F, 70.0F)
             .visible(() -> !mode.isSelected("FunTime Up"));
 
     @NonFinal
