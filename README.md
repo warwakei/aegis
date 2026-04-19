@@ -2,9 +2,9 @@
 
 **Name:** Aegis                        
 **Codename:** Neo                            
-**Version:**0.6.1 Beta                                    
-**Tag:** v0.6.1                                    
-**Full name:** Aegis Neo061                                  
+**Version:**0.6.2 Beta                                    
+**Tag:** v0.6.2                                    
+**Full name:** Aegis Neo062                                  
 
 ## Minecraft Info
 
