@@ -10,6 +10,7 @@ import rich.util.render.Render2D;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
 import rich.util.string.KeyHelper;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -133,15 +134,7 @@ public class HotKeys extends AbstractHudElement {
         int bgAlpha = (int) (255 * alphaFactor);
 
         if (contentHeight > 0) {
-            Render2D.gradientRect(x, y, getWidth(), contentHeight,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(32, 32, 32, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(32, 32, 32, bgAlpha).getRGB()
-                    },
-                    5);
-            Render2D.outline(x, y, getWidth(), contentHeight, 0.35f, new Color(90, 90, 90, bgAlpha).getRGB(), 5);
+            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor);
         }
 
         Scissor.enable(x, y, getWidth(), contentHeight,2);
@@ -151,18 +144,12 @@ public class HotKeys extends AbstractHudElement {
         float countTextWidth = Fonts.BOLD.getWidth(moduleCountText, 6);
         float activeTextWidth = Fonts.BOLD.getWidth("Active:", 6);
 
-        Render2D.gradientRect(x + getWidth() - countTextWidth - activeTextWidth + 2, y + 5, 14, 12,
-                new int[]{
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB()
-                },
-                3);
+        float badgeX = x + getWidth() - countTextWidth - activeTextWidth + 2;
+        float badgeY = y + 5;
+        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor);
+        Fonts.HUD_ICONS.draw("g", badgeX + 2, badgeY + 1, 10, ClickGuiPalette.textMuted(alphaFactor));
 
-        Fonts.HUD_ICONS.draw("g", x + getWidth() - countTextWidth - activeTextWidth + 4, y + 6, 10, new Color(165, 165, 165, bgAlpha).getRGB());
-
-        Fonts.BOLD.draw("Binds", x + 8, y + 6.5f, 6, new Color(255, 255, 255, bgAlpha).getRGB());
+        Fonts.BOLD.draw("Binds", x + 8, y + 6.5f, 6, ClickGuiPalette.textPrimary(alphaFactor));
 
         int moduleOffset = 23;
 
@@ -174,51 +161,25 @@ public class HotKeys extends AbstractHudElement {
 
             float bindBoxX = x + getWidth() - bindWidth - 11.5f;
 
-            Render2D.gradientRect(bindBoxX, y + moduleOffset - 2f, bindWidth + 4, 9,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB()
-                    },
-                    3);
-
-            Render2D.outline(bindBoxX, y + moduleOffset - 2f, bindWidth + 4, 9, 0.05f,
-                    new Color(132, 132, 132, bgAlpha).getRGB(), 2);
-
+            HudStyle.inset(bindBoxX, y + moduleOffset - 2f, bindWidth + 4, 9, 3, alphaFactor);
             Render2D.rect(x + 8, y + moduleOffset - 1, 1f, 7,
-                    new Color(155, 155, 155, (int) (128 * alphaFactor)).getRGB(), 1);
+                    ClickGuiPalette.borderSubtle(alphaFactor), 1);
             Fonts.BOLD.draw(name, x + 13, y + moduleOffset - 1.5f, 6,
-                    new Color(255, 255, 255, bgAlpha).getRGB());
+                    ClickGuiPalette.textPrimary(alphaFactor));
             Fonts.BOLD.draw(bind, bindBoxX + 2, y + moduleOffset - 1, 6,
-                    new Color(165, 165, 165, bgAlpha).getRGB());
+                    ClickGuiPalette.textMuted(alphaFactor));
         } else {
             for (ModuleStructure module : keysList) {
                 String bind = "[" + KeyHelper.getKeyName(module.getKey()) + "]";
 
                 float bindWidth = Fonts.BOLD.getWidth(bind, 6);
 
-                int textColor = new Color(255, 255, 255, bgAlpha).getRGB();
-                int accentColor = new Color(165, 165, 165, bgAlpha).getRGB();
-                int separatorColor = new Color(155, 155, 155, (int) (128 * alphaFactor)).getRGB();
-
                 float bindBoxX = x + getWidth() - bindWidth - 11.5f;
 
-                Render2D.gradientRect(bindBoxX, y + moduleOffset - 2f, bindWidth + 4, 9,
-                        new int[]{
-                                new Color(52, 52, 52, bgAlpha).getRGB(),
-                                new Color(52, 52, 52, bgAlpha).getRGB(),
-                                new Color(52, 52, 52, bgAlpha).getRGB(),
-                                new Color(52, 52, 52, bgAlpha).getRGB()
-                        },
-                        3);
-
-                Render2D.outline(bindBoxX, y + moduleOffset - 2f, bindWidth + 4, 9, 0.05f,
-                        new Color(132, 132, 132, bgAlpha).getRGB(), 2);
-
-                Render2D.rect(x + 8, y + moduleOffset - 1, 1f, 7, separatorColor, 1);
-                Fonts.BOLD.draw(module.getName(), x + 13, y + moduleOffset - 1.5f, 6, textColor);
-                Fonts.BOLD.draw(bind, bindBoxX + 2, y + moduleOffset - 1, 6, accentColor);
+                HudStyle.inset(bindBoxX, y + moduleOffset - 2f, bindWidth + 4, 9, 3, alphaFactor);
+                Render2D.rect(x + 8, y + moduleOffset - 1, 1f, 7, ClickGuiPalette.borderSubtle(alphaFactor), 1);
+                Fonts.BOLD.draw(module.getName(), x + 13, y + moduleOffset - 1.5f, 6, ClickGuiPalette.textPrimary(alphaFactor));
+                Fonts.BOLD.draw(bind, bindBoxX + 2, y + moduleOffset - 1, 6, ClickGuiPalette.textMuted(alphaFactor));
 
                 moduleOffset += 11;
             }

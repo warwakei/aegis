@@ -128,8 +128,10 @@ public class CategoryRenderer {
 
         if (animation > 0.02f) {
             int barA = (int) (animation * 220 * alphaMultiplier);
-            float barH = 9f + animation * 2f;
-            float barY = textY + 1f;
+            float textH = Fonts.BOLD.getHeight(TEXT_SIZE);
+            float barH = (textH + 2.0f) + animation * 2f;
+            // Align the accent bar with the category label baseline (slightly higher than before).
+            float barY = textY - 1.5f;
             int rgb = ClickGuiPalette.ACCENT;
             int r = (rgb >> 16) & 0xFF;
             int g = (rgb >> 8) & 0xFF;

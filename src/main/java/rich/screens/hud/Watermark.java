@@ -108,37 +108,12 @@ public class Watermark extends AbstractHudElement {
         float pulse = (float) Math.sin(currentTime * 0.002) * 0.1f + 0.9f;
         float alphaFactor = alpha / 255.0f;
 
-        Render2D.gradientRect(x, y + 3, totalWidth, 20,
-                new int[]{
-                        new Color(55, 55, 62, clampAlpha(alphaFactor)).getRGB(),
-                        new Color(24, 24, 28, clampAlpha(alphaFactor)).getRGB(),
-                        new Color(50, 50, 58, clampAlpha(alphaFactor)).getRGB(),
-                        new Color(24, 24, 28, clampAlpha(alphaFactor)).getRGB()
-                },
-                5);
-
-        int outlineAlpha = clampAlpha(alphaFactor);
-        Render2D.outline(x, y + 3, totalWidth, 20, 0.35f, new Color(95, 100, 115, outlineAlpha).getRGB(), 5);
-
-        float blurSize = 8f;
-        int blurAlpha = clampAlpha(alphaFactor * 0.12f);
-        Render2D.blur(x, y + 3, totalWidth, 20, blurSize, 5, new Color(20, 25, 40, blurAlpha).getRGB());
+        HudStyle.panel(x, y + 3, totalWidth, 20, 5f, alphaFactor);
 
         float tpsBoxX = x + totalWidth;
 
         if (showTps) {
-            Render2D.gradientRect(tpsBoxX, y + 3, tpsBoxWidth, 20,
-                    new int[]{
-                            new Color(55, 55, 62, clampAlpha(alphaFactor)).getRGB(),
-                            new Color(24, 24, 28, clampAlpha(alphaFactor)).getRGB(),
-                            new Color(50, 50, 58, clampAlpha(alphaFactor)).getRGB(),
-                            new Color(24, 24, 28, clampAlpha(alphaFactor)).getRGB()
-                    },
-                    5);
-
-            Render2D.outline(tpsBoxX, y + 3, tpsBoxWidth, 20, 0.35f, new Color(95, 100, 115, outlineAlpha).getRGB(), 5);
-
-            Render2D.blur(tpsBoxX, y + 3, tpsBoxWidth, 20, blurSize, 5, new Color(20, 25, 40, blurAlpha).getRGB());
+            HudStyle.panel(tpsBoxX, y + 3, tpsBoxWidth, 20, 5f, alphaFactor);
         }
 
         float textY = y + 7;

@@ -11,6 +11,7 @@ import rich.util.render.Render2D;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
 import rich.util.render.item.ItemRender;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 
 import java.awt.*;
 import java.util.*;
@@ -281,28 +282,16 @@ public class CoolDowns extends AbstractHudElement {
         int bgAlpha = (int) (255 * alphaFactor);
 
         if (contentHeight > 0) {
-            Render2D.gradientRect(x, y, getWidth(), contentHeight,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(32, 32, 32, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(32, 32, 32, bgAlpha).getRGB()
-                    }, 5);
-            Render2D.outline(x, y, getWidth(), contentHeight, 0.35f, new Color(90, 90, 90, bgAlpha).getRGB(), 5);
+            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor);
         }
 
         Scissor.enable(x, y, getWidth(), contentHeight, FORCED_GUI_SCALE);
 
-        Render2D.gradientRect(x + getWidth() - 22.5f, y + 5, 14, 12,
-                new int[]{
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB()
-                }, 3);
-
-        Fonts.ICONS.draw("D", x + getWidth() - 20f, y + 6.5f, 9, new Color(165, 165, 165, bgAlpha).getRGB());
-        Fonts.BOLD.draw("CoolDowns", x + 8, y + 6.5f, 6, new Color(255, 255, 255, bgAlpha).getRGB());
+        float badgeX = x + getWidth() - 22.5f;
+        float badgeY = y + 5;
+        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor);
+        Fonts.ICONS.draw("D", badgeX + 2.5f, badgeY + 1.5f, 9, ClickGuiPalette.textMuted(alphaFactor));
+        Fonts.BOLD.draw("CoolDowns", x + 8, y + 6.5f, 6, ClickGuiPalette.textPrimary(alphaFactor));
 
         int moduleOffset = 23;
         float timerBoxWidth = fixedTimerWidth + 4;
@@ -313,18 +302,7 @@ public class CoolDowns extends AbstractHudElement {
             String name = "Example CoolDown";
             String duration = "0:00";
 
-            Render2D.gradientRect(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB()
-                    }, 3);
-
-            // Removed useless blur call (0 radius does nothing)
-
-            Render2D.outline(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9, 0.05f,
-                    new Color(132, 132, 132, bgAlpha).getRGB(), 2);
+            HudStyle.inset(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9, 3, alphaFactor);
 
             float itemX = x + 8;
             float itemY = y + moduleOffset - 1f;
@@ -336,11 +314,11 @@ public class CoolDowns extends AbstractHudElement {
             }
 
             float nameX = x + 20;
-            Fonts.BOLD.draw(name, nameX, y + moduleOffset - 1f, 6, new Color(255, 255, 255, bgAlpha).getRGB());
+            Fonts.BOLD.draw(name, nameX, y + moduleOffset - 1f, 6, ClickGuiPalette.textPrimary(alphaFactor));
 
             float durationWidth = Fonts.BOLD.getWidth(duration, 6);
             float durationX = fixedTimerBoxX + (timerBoxWidth - durationWidth) / 2;
-            Fonts.BOLD.draw(duration, durationX + 1, y + moduleOffset, 6, new Color(165, 165, 165, bgAlpha).getRGB());
+            Fonts.BOLD.draw(duration, durationX + 1, y + moduleOffset, 6, ClickGuiPalette.textMuted(alphaFactor));
         } else {
             for (Map.Entry<Item, Float> entry : cooldownAnimations.entrySet()) {
                 Item item = entry.getKey();
@@ -359,17 +337,8 @@ public class CoolDowns extends AbstractHudElement {
 
                 int textAlpha = (int) (255 * animation * alphaFactor);
 
-                Render2D.gradientRect(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9,
-                        new int[]{
-                                new Color(52, 52, 52, textAlpha).getRGB(),
-                                new Color(52, 52, 52, textAlpha).getRGB(),
-                                new Color(52, 52, 52, textAlpha).getRGB(),
-                                new Color(52, 52, 52, textAlpha).getRGB()
-                        }, 3);
-                // Removed useless blur call (0 radius does nothing)
-
-                Render2D.outline(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9, 0.05f,
-                        new Color(132, 132, 132, textAlpha).getRGB(), 2);
+                float aMul = textAlpha / 255.0f;
+                HudStyle.inset(fixedTimerBoxX + 1, y + moduleOffset - 1f, timerBoxWidth, 9, 3, aMul);
 
                 float itemX = x + 8;
                 float itemY = y + moduleOffset - 1f;
@@ -381,11 +350,11 @@ public class CoolDowns extends AbstractHudElement {
                 }
 
                 float nameX = x + 20;
-                Fonts.BOLD.draw(name, nameX, y + moduleOffset - 0.5f, 6, new Color(255, 255, 255, textAlpha).getRGB());
+                Fonts.BOLD.draw(name, nameX, y + moduleOffset - 0.5f, 6, ClickGuiPalette.textPrimary(aMul));
 
                 float durationWidth = Fonts.BOLD.getWidth(duration, 6);
                 float durationX = fixedTimerBoxX + (timerBoxWidth - durationWidth) / 2;
-                Fonts.BOLD.draw(duration, durationX + 1, y + moduleOffset, 6, new Color(165, 165, 165, textAlpha).getRGB());
+                Fonts.BOLD.draw(duration, durationX + 1, y + moduleOffset, 6, ClickGuiPalette.textMuted(aMul));
 
                 moduleOffset += (int) (animation * 11);
             }

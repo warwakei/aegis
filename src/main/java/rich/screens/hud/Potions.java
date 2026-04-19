@@ -9,7 +9,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import rich.client.draggables.AbstractHudElement;
 import rich.util.animations.Direction;
-import rich.util.render.Render2D;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
 
@@ -252,15 +252,7 @@ public class Potions extends AbstractHudElement {
         int bgAlpha = (int) (255 * alphaFactor);
 
         if (contentHeight > 0) {
-            Render2D.gradientRect(x, y, getWidth(), contentHeight,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(32, 32, 32, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(32, 32, 32, bgAlpha).getRGB()
-                    },
-                    5);
-            Render2D.outline(x, y, getWidth(), contentHeight, 0.35f, new Color(90, 90, 90, bgAlpha).getRGB(), 5);
+            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor);
         }
 
         Scissor.enable(x, y, getWidth(), contentHeight, 2);
@@ -270,18 +262,12 @@ public class Potions extends AbstractHudElement {
         float countTextWidth = Fonts.BOLD.getWidth(countText, 6);
         float potionsTextWidth = Fonts.BOLD.getWidth("Potions", 6);
 
-        Render2D.gradientRect(x + getWidth() - countTextWidth - potionsTextWidth + 3, y + 5, 14, 12,
-                new int[]{
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB()
-                },
-                3);
+        float badgeX = x + getWidth() - countTextWidth - potionsTextWidth + 3;
+        float badgeY = y + 5;
+        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor);
+        Fonts.HUD_ICONS.draw("f", badgeX + 2, badgeY + 1, 10, ClickGuiPalette.textMuted(alphaFactor));
 
-        Fonts.HUD_ICONS.draw("f", x + getWidth() - countTextWidth - potionsTextWidth + 5, y + 6, 10, new Color(165, 165, 165, bgAlpha).getRGB());
-
-        Fonts.BOLD.draw("Potions", x + 8, y + 6.5f, 6, new Color(255, 255, 255, bgAlpha).getRGB());
+        Fonts.BOLD.draw("Potions", x + 8, y + 6.5f, 6, ClickGuiPalette.textPrimary(alphaFactor));
 
         int moduleOffset = 23;
 
@@ -293,17 +279,7 @@ public class Potions extends AbstractHudElement {
             float timerWidth = Fonts.BOLD.getWidth(timer, 6);
             float timerBoxX = x + getWidth() - timerWidth - 11.5f;
 
-            Render2D.gradientRect(timerBoxX, y + moduleOffset - 2f, timerWidth + 4, 9,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB()
-                    },
-                    3);
-
-            Render2D.outline(timerBoxX, y + moduleOffset - 2f, timerWidth + 4, 9, 0.05f,
-                    new Color(132, 132, 132, bgAlpha).getRGB(), 2);
+            HudStyle.inset(timerBoxX, y + moduleOffset - 2f, timerWidth + 4, 9, 3, alphaFactor);
 
             Identifier randomTexture = getRandomEffectTexture();
             float scale = ICON_SIZE / 18f;
@@ -318,15 +294,15 @@ public class Potions extends AbstractHudElement {
 
             float nameX = x + 20;
             Fonts.BOLD.draw(name, nameX, y + moduleOffset - 1.5f, 6,
-                    new Color(255, 255, 255, bgAlpha).getRGB());
+                    ClickGuiPalette.textPrimary(alphaFactor));
 
             float nameWidth = Fonts.BOLD.getWidth(name, 6);
 
             Fonts.TEST.draw(levelText, nameX + nameWidth + 2, y + moduleOffset - 0.5f, 5,
-                    new Color(155, 155, 155, bgAlpha).getRGB());
+                    ClickGuiPalette.textMuted(alphaFactor));
 
             Fonts.BOLD.draw(timer, timerBoxX + 2, y + moduleOffset - 1, 6,
-                    new Color(165, 165, 165, bgAlpha).getRGB());
+                    ClickGuiPalette.textMuted(alphaFactor));
         } else if (hasAnimatingEffects) {
             for (Map.Entry<String, Float> entry : effectAnimations.entrySet()) {
                 String id = entry.getKey();
@@ -348,23 +324,14 @@ public class Potions extends AbstractHudElement {
                 int baseAlpha = (int) (255 * animation * alphaFactor);
                 int blinkAlpha = getBlinkAlpha(duration, baseAlpha);
 
-                int textColor = new Color(255, 255, 255, blinkAlpha).getRGB();
-                int levelColor = new Color(155, 155, 155, blinkAlpha).getRGB();
-                int timerColor = new Color(165, 165, 165, blinkAlpha).getRGB();
+                float aMul = blinkAlpha / 255.0f;
+                int textColor = ClickGuiPalette.textPrimary(aMul);
+                int levelColor = ClickGuiPalette.textMuted(aMul);
+                int timerColor = ClickGuiPalette.textMuted(aMul);
 
                 float timerBoxX = x + getWidth() - timerWidth - 11.5f;
 
-                Render2D.gradientRect(timerBoxX, y + moduleOffset - 2f, timerWidth + 4, 9,
-                        new int[]{
-                                new Color(52, 52, 52, blinkAlpha).getRGB(),
-                                new Color(52, 52, 52, blinkAlpha).getRGB(),
-                                new Color(52, 52, 52, blinkAlpha).getRGB(),
-                                new Color(52, 52, 52, blinkAlpha).getRGB()
-                        },
-                        3);
-
-                Render2D.outline(timerBoxX, y + moduleOffset - 2f, timerWidth + 4, 9, 0.05f,
-                        new Color(132, 132, 132, blinkAlpha).getRGB(), 2);
+                HudStyle.inset(timerBoxX, y + moduleOffset - 2f, timerWidth + 4, 9, 3, aMul);
 
                 Identifier effectTexture = getEffectTexture(effect.getEffectType());
                 float scale = ICON_SIZE / 18f;

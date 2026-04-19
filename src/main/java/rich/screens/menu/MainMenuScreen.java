@@ -258,7 +258,8 @@ public class MainMenuScreen extends Screen {
     }
 
     private void renderMenuTopBar(int screenWidth, long currentTime) {
-        float h = 27f;
+        // Slightly tighter header: closer to the top and with less vertical padding.
+        float h = 18f;
         float pulse = (float) Math.sin(currentTime * 0.0012) * 0.06f + 0.94f;
         int barA = (int) (42 * pulse);
         Render2D.gradientRect(0, 0, screenWidth, h, new int[]{
@@ -268,10 +269,9 @@ public class MainMenuScreen extends Screen {
                 withAlpha(0x080a10, (int) (barA * 0.88f))
         }, 0);
         Render2D.rect(0, h - 1f, screenWidth, 1f, withAlpha(0x4A6FA5, (int) (105 * pulse)), 0);
-        Fonts.BOLD.draw("AEGIS NEO", 14f, 7.5f, 6.5f, withAlpha(0xE8EAEF, (int) (240 * pulse)));
         String rightTag = "Main Menu";
         float rw = Fonts.REGULARNEW.getWidth(rightTag, 5f);
-        Fonts.REGULARNEW.draw(rightTag, screenWidth - rw - 14f, 9.5f, 5f, withAlpha(0x8898a8, (int) (195 * pulse)));
+        Fonts.REGULARNEW.draw(rightTag, screenWidth - rw - 14f, 5.8f, 5f, withAlpha(0x8898a8, (int) (195 * pulse)));
     }
 
     private void renderBackgroundParticles(int screenWidth, int screenHeight, float zoom) {
@@ -407,9 +407,7 @@ public class MainMenuScreen extends Screen {
         int lineColor = withAlpha(0x80a0c0, lineAlpha);
         Render2D.gradientRect(centerX - lineWidth / 2f, lineY, lineWidth, 0.5f, new int[]{withAlpha(0x406080, 0), lineColor, lineColor, withAlpha(0x406080, 0)}, 0);
         Fonts.BOLD.draw(dateText, dateX, dateY, 12f, withAlpha(0xc0d0e0, dateAlpha));
-        float subY = dateY + 13f;
-        int subA = (int) (opacity * 155);
-        Fonts.REGULARNEW.drawCentered("Aegis Neo", centerX, subY, 5.5f, withAlpha(0x6a7a98, subA));
+        // Intentionally no extra centered subtitle here (keeps main menu clean).
     }
 
     private void renderButtons(float mouseX, float mouseY, float opacity, int screenWidth, int screenHeight, float menuProgress, float extraSlideOffset, long currentTime) {

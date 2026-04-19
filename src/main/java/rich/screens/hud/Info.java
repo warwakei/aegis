@@ -109,16 +109,7 @@ public class Info extends AbstractHudElement {
         int bgAlpha = clampAlpha(alphaFactor);
         int outlineAlpha = clampAlpha(alphaFactor);
 
-        Render2D.gradientRect(x + 12, y + 3, coordsWidth, 20,
-                new int[]{
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(22, 22, 22, bgAlpha).getRGB(),
-                        new Color(52, 52, 52, bgAlpha).getRGB(),
-                        new Color(22, 22, 22, bgAlpha).getRGB()
-                },
-                5);
-
-        Render2D.outline(x + 12, y + 3, coordsWidth, 20, 0.35f, new Color(90, 90, 90, outlineAlpha).getRGB(), 5);
+        HudStyle.panel(x + 12, y + 3, coordsWidth, 20, 5f, alphaFactor);
 
         float textY = y + 7;
         float textX = x + 12;
@@ -154,16 +145,7 @@ public class Info extends AbstractHudElement {
         if (showBps) {
             float bpsBoxX = x + 12 + coordsWidth + 4;
 
-            Render2D.gradientRect(bpsBoxX, y + 3, bpsWidth, 20,
-                    new int[]{
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(22, 22, 22, bgAlpha).getRGB(),
-                            new Color(52, 52, 52, bgAlpha).getRGB(),
-                            new Color(22, 22, 22, bgAlpha).getRGB()
-                    },
-                    5);
-
-            Render2D.outline(bpsBoxX, y + 3, bpsWidth, 20, 0.35f, new Color(90, 90, 90, outlineAlpha).getRGB(), 5);
+            HudStyle.panel(bpsBoxX, y + 3, bpsWidth, 20, 5f, alphaFactor);
 
             Fonts.ICONSTYPETHO.draw("l", bpsBoxX + 5, textY + 0.5f, 11, new Color(255, 255, 255, iconAlpha).getRGB());
 

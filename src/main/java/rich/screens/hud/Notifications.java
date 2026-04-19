@@ -7,6 +7,7 @@ import rich.util.animations.Direction;
 import rich.util.animations.OutBack;
 import rich.util.render.Render2D;
 import rich.util.render.font.Fonts;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -177,25 +178,15 @@ public class Notifications extends AbstractHudElement {
             int icAlpha = clampAlpha(155 * anim * alphaFactor);
 
             if (bgAlpha > 0) {
-                Render2D.gradientRect(startX, startY, width, NOTIFICATION_HEIGHT,
-                        new int[]{
-                                new Color(52, 52, 52, bgAlpha).getRGB(),
-                                new Color(32, 32, 32, bgAlpha).getRGB(),
-                                new Color(52, 52, 52, bgAlpha).getRGB(),
-                                new Color(32, 32, 32, bgAlpha).getRGB()
-                        }, 4);
-
-                Render2D.outline(startX, startY, width, NOTIFICATION_HEIGHT, 0.35f,
-                        new Color(90, 90, 90, bgAlpha).getRGB(), 4);
-
-                Render2D.outline(startX + 2.75f, startY + 2, 12, 12, 0.35f,
-                        new Color(90, 90, 90, bgAlpha).getRGB(), 4);
+                float aMul = bgAlpha / 255.0f;
+                HudStyle.panel(startX, startY, width, NOTIFICATION_HEIGHT, 4f, aMul);
+                HudStyle.inset(startX + 2.75f, startY + 2, 12, 12, 4f, aMul);
 
                 Fonts.BOLD.draw(notification.text, startX + offsetX + 16, startY + 4.5f, 6,
-                        new Color(255, 255, 255, bgAlpha).getRGB());
+                        ClickGuiPalette.textPrimary(aMul));
 
                 Fonts.GUI_ICONS.draw("C", startX + 5f, startY + 4f, 8,
-                        new Color(255, 255, 255, icAlpha).getRGB());
+                        ClickGuiPalette.textMuted(icAlpha / 255.0f));
             }
 
             totalHeight = Math.max(totalHeight, notification.currentY + NOTIFICATION_HEIGHT);

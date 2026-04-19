@@ -107,33 +107,7 @@ public class TargetHud extends AbstractHudElement {
     }
 
     private void drawBackground(float x, float y, float alpha) {
-        int alphaInt = (int) (255 * alpha);
-
-        long currentTime = System.currentTimeMillis();
-        float pulse = (float) Math.sin(currentTime * 0.002) * 0.05f + 0.95f;
-
-        int bgR1 = (int)(55 * pulse);
-        int bgG1 = (int)(55 * pulse);
-        int bgB1 = (int)(62 * pulse);
-        
-        int bgR2 = (int)(24 * pulse);
-        int bgG2 = (int)(24 * pulse);
-        int bgB2 = (int)(28 * pulse);
-
-        Render2D.gradientRect(x + 2, y + 2, getWidth() - 4, getHeight() - 4,
-                new int[]{
-                        new Color(bgR1 + 3, bgG1 + 3, bgB1 + 5, alphaInt).getRGB(),
-                        new Color(bgR2, bgG2, bgB2, alphaInt).getRGB(),
-                        new Color(bgR1, bgG1, bgB1, alphaInt).getRGB(),
-                        new Color(bgR2 + 2, bgG2 + 2, bgB2 + 3, alphaInt).getRGB()
-                },
-                6);
-
-        Render2D.outline(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 0.35f, new Color(95, 100, 120, alphaInt).getRGB(), 5);
-
-        float blurSize = 10f;
-        int blurAlpha = (int)(35 * alpha);
-        Render2D.blur(x + 2, y + 2, getWidth() - 4, getHeight() - 4, blurSize, 6, new Color(15, 20, 35, blurAlpha).getRGB());
+        HudStyle.panel(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 6f, alpha);
     }
 
     private void drawFace(float x, float y, float alpha) {
