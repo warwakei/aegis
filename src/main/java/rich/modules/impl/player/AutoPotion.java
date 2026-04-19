@@ -52,6 +52,12 @@ public class AutoPotion extends ModuleStructure {
     int selectedSlot = -1;
     final float THROW_PITCH = 90f;
     final int ROTATION_WAIT_TICKS = 2;
+    final int MAX_ROTATION_TICKS = 10;
+
+    private int pendingPotions = 0;
+    private PotionType[] throwQueue = new PotionType[3];
+    private int queueHead = 0;
+    private int queueSize = 0;
 
     public AutoPotion() {
         super("AutoPotion", ModuleCategory.PLAYER);
@@ -65,6 +71,10 @@ public class AutoPotion extends ModuleStructure {
         spoofed = false;
         rotationTicks = 0;
         selectedSlot = -1;
+        pendingPotions = 0;
+        queueHead = 0;
+        queueSize = 0;
+        throwQueue = new PotionType[3];
         AngleConnection.INSTANCE.startReturning();
     }
 
@@ -191,45 +201,78 @@ public class AutoPotion extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void processThrow() {
+        if (queueSize == 0) {
+            buildThrowQueue();
+        }
+
+        if (queueSize == 0) {
+            resetThrowState();
+            if (autoOff.isValue()) setState(false);
+            return;
+        }
+
         rotationTicks++;
 
         Angle currentRotation = AngleConnection.INSTANCE.getRotation();
-        boolean rotationReady = currentRotation != null && currentRotation.getPitch() >= 80f;
+        boolean rotationReady = currentRotation != null && currentRotation.getPitch() <= -80f;
         boolean waitedEnough = rotationTicks >= ROTATION_WAIT_TICKS;
 
         if (rotationReady && waitedEnough) {
-            boolean threwAny = false;
-
-            if (canBuff(PotionType.STRENGTH)) {
-                throwPotion(PotionType.STRENGTH);
-                threwAny = true;
-            }
-            if (canBuff(PotionType.SPEED)) {
-                throwPotion(PotionType.SPEED);
-                threwAny = true;
-            }
-            if (canBuff(PotionType.FIRE_RESISTANCE)) {
-                throwPotion(PotionType.FIRE_RESISTANCE);
-                threwAny = true;
+            PotionType toThrow = dequeuePotion();
+            if (toThrow != null) {
+                throwPotion(toThrow);
+                pendingPotions--;
             }
 
-            if (selectedSlot != -1) {
-                mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(selectedSlot));
-            }
+            if (queueSize == 0 || pendingPotions == 0) {
+                if (selectedSlot != -1) {
+                    mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(selectedSlot));
+                }
+                timer.reset();
+                spoofed = false;
+                rotationTicks = 0;
+                isActivePotion = false;
 
-            timer.reset();
-            spoofed = false;
-            rotationTicks = 0;
-            isActivePotion = false;
-
-            if (autoOff.isValue() || !threwAny) {
-                setState(false);
+                if (autoOff.isValue()) {
+                    setState(false);
+                }
+            } else {
+                rotationTicks = 0;
             }
         }
 
-        if (rotationTicks > 10) {
+        if (rotationTicks > MAX_ROTATION_TICKS) {
             resetThrowState();
+            if (autoOff.isValue()) setState(false);
         }
+    }
+
+    private void buildThrowQueue() {
+        pendingPotions = 0;
+        queueHead = 0;
+        queueSize = 0;
+        throwQueue = new PotionType[3];
+
+        if (canBuff(PotionType.STRENGTH)) {
+            throwQueue[queueSize++] = PotionType.STRENGTH;
+            pendingPotions++;
+        }
+        if (canBuff(PotionType.SPEED)) {
+            throwQueue[queueSize++] = PotionType.SPEED;
+            pendingPotions++;
+        }
+        if (canBuff(PotionType.FIRE_RESISTANCE)) {
+            throwQueue[queueSize++] = PotionType.FIRE_RESISTANCE;
+            pendingPotions++;
+        }
+    }
+
+    private PotionType dequeuePotion() {
+        if (queueSize == 0) return null;
+        PotionType potion = throwQueue[queueHead];
+        queueHead = (queueHead + 1) % 3;
+        queueSize--;
+        return potion;
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)

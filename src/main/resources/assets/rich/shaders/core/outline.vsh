@@ -7,6 +7,8 @@ layout(std140) uniform OutlineData {
     vec4 colors[8];
     vec4 thicknesses;
     vec4 thicknesses2;
+    vec4 glowColor;
+    vec4 glowParams; // x = glowRadius, y = glowIntensity, z, w = padding
 };
 
 out vec2 fragCoord;

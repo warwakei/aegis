@@ -19,7 +19,7 @@ import rich.util.timer.StopWatch;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LongJump extends ModuleStructure {
-    SelectSetting modeSetting = new SelectSetting("Режим", "Режим прыжка").value("Boat", "Shulker Screen", "Slime Boost", "FunTime Soul Sand").selected("Always");
+    SelectSetting modeSetting = new SelectSetting("Режим", "Режим прыжка").value("Boat", "Shulker Screen", "Slime Boost", "FunTime Soul Sand").selected("Boat");
 
     @NonFinal
     private boolean wasInShulkerScreen = false;

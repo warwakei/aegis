@@ -6,7 +6,7 @@ layout(std140) uniform SheenData {
     vec4 radii;
     vec4 tintColor;
     vec4 params0; // time, intensity, speed, angle
-    vec4 params1; // grain, unused...
+    vec4 params1; // grain, blendMode, unused...
 };
 
 out vec2 fragCoord;

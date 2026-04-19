@@ -12,6 +12,7 @@ import rich.modules.module.setting.implement.BindSetting;
 import rich.modules.module.setting.implement.BooleanSetting;
 import rich.modules.module.setting.implement.SliderSettings;
 import rich.util.Instance;
+import rich.util.movement.MovementUtil;
 import rich.util.sounds.SoundManager;
 import rich.util.timer.StopWatch;
 
@@ -37,12 +38,18 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
     public final SliderSettings doubleSneakDistance = new SliderSettings("Дистанция шифта", "Максимальная дистанция для активации двойного шифта")
             .setValue(4.5f).range(3.0F, 6.0F);
 
+    public final SliderSettings minTradeHits = new SliderSettings("Мин. хиты", "Минимум хитов для активации двойного шифта")
+            .setValue(3).range(1, 8);
+
     public final BooleanSetting antiPredict = new BooleanSetting("Анти-предсказание", "Случайное лёгкое смещение позиции чтобы враг не мог стабильно таргетить")
             .setValue(false);
 
     public final SliderSettings antiPredictAmount = new SliderSettings("Сила анти-предсказания", "Насколько сильно смещаться")
             .setValue(0.15f).range(0.05F, 0.4F)
             .visible(() -> antiPredict.isValue());
+
+    public final SliderSettings motionSmoothing = new SliderSettings("Плавность", "Сглаживание движения (0.1 = плавно)")
+            .setValue(0.3f).range(0.1f, 0.9f);
 
     public static boolean shouldElytraTarget = false;
 
@@ -55,7 +62,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
 
     public ElytraTarget() {
         super("ElytraTarget", "Elytra Target", ModuleCategory.MOVEMENT);
-        settings(elytraFindRange, elytraForward, forward, doubleSneak, doubleSneakDistance, antiPredict, antiPredictAmount);
+        settings(elytraFindRange, elytraForward, forward, doubleSneak, doubleSneakDistance, minTradeHits, antiPredict, antiPredictAmount, motionSmoothing);
     }
 
     @EventHandler
@@ -96,8 +103,8 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Активируем двойной шифт после 3+ попаданий в перекритовке
-        if (consecutiveTradeHits >= 3 && !sneakSequenceActive) {
+        // Активируем двойной шифт после minTradeHits попаданий
+        if (consecutiveTradeHits >= minTradeHits.getValue() && !sneakSequenceActive) {
             startDoubleSneak();
         }
 
@@ -169,8 +176,22 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
      */
     private final Random antiPredictRandom = new Random();
     private long lastAntiPredictTime = 0;
-    private static final long ANTI_PREDICT_INTERVAL = 150; // Быстрее обновление
+    private static final long ANTI_PREDICT_INTERVAL = 150;
     private Vec3d lastAntiPredictOffset = new Vec3d(0, 0, 0);
+
+    public static Vec3d smoothedVelocity = Vec3d.ZERO;
+    private Vec3d targetVelocity = Vec3d.ZERO;
+
+    private void applyVelocitySmoothing(Vec3d inputVelocity) {
+        if (mc.player == null) return;
+
+        targetVelocity = inputVelocity;
+        float smooth = (float) motionSmoothing.getValue();
+
+        smoothedVelocity = MovementUtil.applySmoothVelocity(smoothedVelocity, targetVelocity, smooth);
+
+        mc.player.setVelocity(smoothedVelocity);
+    }
 
     private void applyAntiPrediction() {
         long currentTime = System.currentTimeMillis();
@@ -205,5 +226,9 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
         resetSneakState();
         consecutiveTradeHits = 0;
         lastTradeHitTime = 0;
+        smoothedVelocity = Vec3d.ZERO;
+        targetVelocity = Vec3d.ZERO;
     }
+
+
 }

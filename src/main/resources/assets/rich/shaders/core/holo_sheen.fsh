@@ -1,16 +1,18 @@
 #version 150
 
+uniform sampler2D NoiseSampler;
+
 in vec2 fragCoord;
 in vec2 pixelCoord;
-in vec2 rectSize;
-in vec4 cornerRadii;
-in vec4 tint;
-in float guiScale;
-in float timeSeconds;
-in float intensity;
-in float speed;
-in float angle;
-in float grain;
+
+layout(std140) uniform SheenData {
+    vec4 rect;
+    vec4 screen;
+    vec4 radii;
+    vec4 tintColor;
+    vec4 params0; // time, intensity, speed, angle
+    vec4 params1; // grain, blendMode, unused...
+};
 
 out vec4 fragColor;
 
@@ -35,26 +37,26 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-    vec2 halfSize = rectSize * 0.5;
+    vec2 halfSize = rect.zw * 0.5;
     vec2 center = pixelCoord - halfSize;
 
     float maxRadius = min(halfSize.x, halfSize.y);
-    vec4 radii = min(cornerRadii, vec4(maxRadius));
+    vec4 currentRadii = min(radii, vec4(maxRadius));
 
-    float dist = roundedBoxSDF(center, halfSize, radii);
+    float dist = roundedBoxSDF(center, halfSize, currentRadii);
 
     float pixelWidth = fwidth(dist);
-    float smoothing = max(pixelWidth, 0.5 / guiScale);
+    float smoothing = max(pixelWidth, 0.5 / screen.z); // guiScale is screen.z
     float alpha = 1.0 - smoothstep(-smoothing, smoothing, dist);
 
     if (alpha < 0.01) {
         discard;
     }
 
-    vec2 uv = pixelCoord / max(rectSize, vec2(1.0));
+    vec2 uv = pixelCoord / max(rect.zw, vec2(1.0)); // rectSize is rect.zw
 
-    float t = fract(timeSeconds * speed);
-    vec2 dir = vec2(cos(angle), sin(angle));
+    float t = fract(params0.x * params0.z); // timeSeconds * speed
+    vec2 dir = vec2(cos(params0.w), sin(params0.w)); // angle
 
     // Sheen band traveling across the panel
     float sweep = dot(uv - 0.5, normalize(dir));
@@ -67,14 +69,24 @@ void main() {
     vec3 iri = hsv2rgb(vec3(hue, 0.55, 1.0));
 
     // Grain to avoid "flat digital"
-    float n = hash12(gl_FragCoord.xy);
-    float g = (n - 0.5) * grain;
+    float n = texture(NoiseSampler, uv * 10.0 + timeSeconds * 0.1).r; // Use NoiseSampler
+    float g = (n - 0.5) * params1.x; // grain is params1.x
 
-    float sheen = band * intensity;
+    float sheen = band * params0.y; // intensity is params0.y
     vec3 col = mix(vec3(1.0), iri, 0.55) * sheen;
     col += g;
 
     // Pure additive overlay, alpha gated by panel SDF
-    fragColor = vec4(col * tint.rgb, alpha * tint.a * sheen);
+    // fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen); // Original blending
+
+    // New blending based on blendMode
+    if (params1.y == 1.0) { // Example: Additive blending
+        fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen) + fragColor;
+    } else if (params1.y == 2.0) { // Example: Screen blending
+        vec4 src = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
+        fragColor = 1.0 - (1.0 - src) * (1.0 - fragColor);
+    } else { // Default: Alpha blending
+        fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
+    }
 }
 

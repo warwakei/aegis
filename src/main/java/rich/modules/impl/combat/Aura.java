@@ -213,7 +213,7 @@ public class Aura extends ModuleStructure {
                 }
 
                 boolean passed = false;
-                if (mode.isSelected("FunTime Snap") || mode.isSelected("HolyWorld")) {
+                if (mode.isSelected("FunTime Snap")) {
                     passed = true;
                 }
                 if (target != null && passed && target.distanceTo(mc.player) <= attackrange.getValue() + 0.25F) {

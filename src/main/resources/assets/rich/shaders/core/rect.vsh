@@ -5,15 +5,12 @@ layout(std140) uniform RectData {
     vec4 screen;
     vec4 radii;
     vec4 colors[9];
+    vec4 shadowColor;
+    vec4 shadowOffsetAndRadius; // xy = offset, z = radius, w = padding
 };
 
 out vec2 fragCoord;
 out vec2 pixelCoord;
-out vec2 rectSize;
-out vec4 cornerRadii;
-out vec4 fragColors[9];
-out float guiScale;
-out float innerBlur;
 
 void main() {
     vec2 positions[6] = vec2[](
@@ -35,12 +32,4 @@ void main() {
 
     fragCoord = pos;
     pixelCoord = pos * rect.zw;
-    rectSize = rect.zw;
-    cornerRadii = radii;
-    guiScale = screen.z;
-    innerBlur = screen.w;
-
-    for (int i = 0; i < 9; i++) {
-        fragColors[i] = colors[i];
-    }
 }

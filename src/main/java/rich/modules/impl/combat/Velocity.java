@@ -62,7 +62,7 @@ public class Velocity extends ModuleStructure {
         handleAdditionalPackets(e);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
+    @Native(type = Native.Type.VMProtectBeginMutation)
     private void handleVelocityPacket(PacketEvent e, EntityVelocityUpdateS2CPacket pac) {
         Vec3d velocity = pac.getVelocity();
 
@@ -125,7 +125,7 @@ public class Velocity extends ModuleStructure {
         }
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
+    @Native(type = Native.Type.VMProtectBeginMutation)
     private void handleMatrixTick() {
         if (mc.player == null) return;
         
@@ -142,7 +142,7 @@ public class Velocity extends ModuleStructure {
         }
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
+    @Native(type = Native.Type.VMProtectBeginMutation)
     private void handleNewGrimTick() {
         if (mc.player == null || mc.player.networkHandler == null) return;
         

@@ -66,6 +66,7 @@ public class Manager {
         clickgui = new ClickGui();
         eventManager = new EventManager();
         renderCore = new RenderCore();
+        renderCore.init();
         scissor = new Scissor();
         hudManager = new HudManager();
         hudManager.initElements();

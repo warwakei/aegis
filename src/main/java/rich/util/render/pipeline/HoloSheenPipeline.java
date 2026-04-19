@@ -34,7 +34,7 @@ public class HoloSheenPipeline {
     private static final Matrix4f TEXTURE_MATRIX = new Matrix4f();
 
     private static final float FIXED_GUI_SCALE = 2.0f;
-    private static final int BUFFER_SIZE = 128;
+    private static final int BUFFER_SIZE = 140;
 
     private static final RenderPipeline PIPELINE = RenderPipelines.register(
             RenderPipeline.builder(RenderPipelines.TRANSFORMS_AND_PROJECTION_SNIPPET)
@@ -78,6 +78,12 @@ public class HoloSheenPipeline {
 
     public void drawSheen(float x, float y, float width, float height, float radius, int tintColor,
                           float intensity, float speed, float angleRadians, float grain) {
+        drawSheen(x, y, width, height, radius, tintColor, intensity, speed, angleRadians, grain, null, 0);
+    }
+
+    public void drawSheen(float x, float y, float width, float height, float radius, int tintColor,
+                          float intensity, float speed, float angleRadians, float grain,
+                          Identifier noiseTextureId, int blendMode) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.getFramebuffer() == null) return;
 
@@ -97,10 +103,26 @@ public class HoloSheenPipeline {
                 radius,
                 tintColor,
                 time, intensity, speed,
-                angleRadians, grain
+                angleRadians, grain,
+                blendMode
         );
 
-        uploadAndDraw(client);
+        int noiseTextureGlId = 0;
+        if (noiseTextureId != null) {
+            AbstractTexture texture = client.getTextureManager().getTexture(noiseTextureId);
+            if (texture != null) {
+                try {
+                    GpuTexture gpuTexture = texture.getGlTexture();
+                    if (gpuTexture != null) {
+                        noiseTextureGlId = getTextureGlId(gpuTexture);
+                    }
+                } catch (Exception e) {
+                    // Ignore
+                }
+            }
+        }
+
+        uploadAndDraw(client, noiseTextureGlId);
     }
 
     private void prepareUniformData(float x, float y, float width, float height,
@@ -109,7 +131,8 @@ public class HoloSheenPipeline {
                                     float radius,
                                     int tintColor,
                                     float timeSeconds, float intensity, float speed,
-                                    float angleRadians, float grain) {
+                                    float angleRadians, float grain,
+                                    int blendMode) {
         dataBuffer.clear();
 
         dataBuffer.putFloat(x);
@@ -143,14 +166,14 @@ public class HoloSheenPipeline {
         dataBuffer.putFloat(angleRadians);
 
         dataBuffer.putFloat(grain);
-        dataBuffer.putFloat(0f);
-        dataBuffer.putFloat(0f);
-        dataBuffer.putFloat(0f);
+        dataBuffer.putFloat(blendMode); // New blendMode
+        dataBuffer.putFloat(0f); // Padding
+        dataBuffer.putFloat(0f); // Padding
 
         dataBuffer.flip();
     }
 
-    private void uploadAndDraw(MinecraftClient client) {
+    private void uploadAndDraw(MinecraftClient client, int noiseTextureGlId) {
         int size = dataBuffer.remaining();
         if (uniformBuffer == null || uniformBuffer.size() < size) {
             if (uniformBuffer != null) uniformBuffer.close();
@@ -167,6 +190,11 @@ public class HoloSheenPipeline {
         GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms()
                 .write(RenderSystem.getModelViewMatrix(), COLOR_MODULATOR, MODEL_OFFSET, TEXTURE_MATRIX);
 
+        if (noiseTextureGlId > 0) {
+            GL13.glActiveTexture(GL13.GL_TEXTURE1);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, noiseTextureGlId);
+        }
+
         try (RenderPass renderPass = encoder.createRenderPass(
                 () -> "minecraft:holo_sheen_pass",
                 client.getFramebuffer().getColorAttachmentView(),
@@ -180,8 +208,17 @@ public class HoloSheenPipeline {
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
             renderPass.setUniform("SheenData", uniformBuffer);
+            if (noiseTextureGlId > 0) {
+                renderPass.setSampler("NoiseSampler", 1);
+            }
 
             renderPass.draw(0, 6);
+        }
+
+        if (noiseTextureGlId > 0) {
+            GL13.glActiveTexture(GL13.GL_TEXTURE1);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
         }
     }
 
@@ -199,6 +236,34 @@ public class HoloSheenPipeline {
             dataBuffer = null;
         }
         initialized = false;
+    }
+
+    private int getTextureGlId(GpuTexture gpuTexture) {
+        try {
+            var field = gpuTexture.getClass().getDeclaredField("id");
+            field.setAccessible(true);
+            return field.getInt(gpuTexture);
+        } catch (Exception e1) {
+            try {
+                var field = gpuTexture.getClass().getDeclaredField("glId");
+                field.setAccessible(true);
+                return field.getInt(gpuTexture);
+            } catch (Exception e2) {
+                try {
+                    for (var f : gpuTexture.getClass().getDeclaredFields()) {
+                        if (f.getType() == int.class) {
+                            f.setAccessible(true);
+                            int value = f.getInt(gpuTexture);
+                            if (value > 0) {
+                                return value;
+                            }
+                        }
+                    }
+                } catch (Exception e3) {
+                }
+            }
+        }
+        return 0;
     }
 }
 

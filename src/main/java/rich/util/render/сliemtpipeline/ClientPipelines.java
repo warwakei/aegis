@@ -19,7 +19,7 @@ public class ClientPipelines {
 
     public static final RenderPipeline ROMB_ESP_PIPELINE = RenderPipelines.register(
             RenderPipeline.builder(TRANSFORMS_AND_PROJECTION_SNIPPET)
-                    .withLocation("pipeline/wtex")
+                    .withLocation("pipeline/romb_esp")
                     .withVertexShader("core/position_tex_color")
                     .withFragmentShader("core/position_tex_color")
                     .withSampler("Sampler0")
@@ -42,7 +42,7 @@ public class ClientPipelines {
 
     public static final RenderPipeline GHOSTS_ESP_PIPELINE = RenderPipelines.register(
             RenderPipeline.builder(TRANSFORMS_AND_PROJECTION_SNIPPET)
-                    .withLocation("pipeline/wtex")
+                    .withLocation("pipeline/ghosts_esp")
                     .withVertexShader("core/position_tex_color")
                     .withFragmentShader("core/position_tex_color")
                     .withSampler("Sampler0")
@@ -66,7 +66,7 @@ public class ClientPipelines {
 
     public static final RenderPipeline CHAIN_ESP_PIPELINE = RenderPipelines.register(
             RenderPipeline.builder(TRANSFORMS_AND_PROJECTION_SNIPPET)
-                    .withLocation("pipeline/wtex")
+                    .withLocation("pipeline/chain_esp")
                     .withVertexShader("core/position_tex_color")
                     .withFragmentShader("core/position_tex_color")
                     .withSampler("Sampler0")

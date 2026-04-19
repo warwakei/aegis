@@ -31,7 +31,7 @@ vec4 gaussianBlur(vec2 uv, float radius) {
     float twoSigma2 = 2.0 * sigma * sigma;
 
     int samples = int(ceil(radius));
-    samples = clamp(samples, 1, 10);
+    samples = clamp(samples, 1, 20);
 
     for (int x = -samples; x <= samples; x++) {
         for (int y = -samples; y <= samples; y++) {

@@ -48,7 +48,7 @@ public class RectPipeline {
     );
 
     private static final Vector4f COLOR_MODULATOR = new Vector4f(1f, 1f, 1f, 1f);
-    private static final int BUFFER_SIZE = 256;
+    private static final int BUFFER_SIZE = 288;
 
     private GpuBuffer uniformBuffer;
     private GpuBuffer dummyVertexBuffer;
@@ -64,25 +64,34 @@ public class RectPipeline {
         this.dataBuffer = MemoryUtil.memAlloc(BUFFER_SIZE);
 
         ByteBuffer dummyData = MemoryUtil.memAlloc(4);
-        dummyData.putInt(0);
-        dummyData.flip();
-        this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
-                () -> "minecraft:dummy_vertex",
-                GpuBuffer.USAGE_VERTEX,
-                dummyData
-        );
-        MemoryUtil.memFree(dummyData);
+        try {
+            dummyData.putInt(0);
+            dummyData.flip();
+            this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
+                    () -> "minecraft:dummy_vertex",
+                    GpuBuffer.USAGE_VERTEX,
+                    dummyData
+            );
+        } finally {
+            MemoryUtil.memFree(dummyData);
+        }
 
         initialized = true;
     }
 
     public void drawRect(float x, float y, float width, float height,
                          int[] colors, float[] radii) {
-        drawRect(x, y, width, height, colors, radii, 0f);
+        drawRect(x, y, width, height, colors, radii, 0f, 0, 0f, 0f, 0f);
     }
 
     public void drawRect(float x, float y, float width, float height,
                          int[] colors, float[] radii, float innerBlur) {
+        drawRect(x, y, width, height, colors, radii, innerBlur, 0, 0f, 0f, 0f);
+    }
+
+    public void drawRect(float x, float y, float width, float height,
+                         int[] colors, float[] radii, float innerBlur,
+                         int shadowColor, float shadowOffsetX, float shadowOffsetY, float shadowRadius) {
 
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.getFramebuffer() == null) return;
@@ -100,7 +109,8 @@ public class RectPipeline {
                 fixedScreenWidth,
                 fixedScreenHeight,
                 FIXED_GUI_SCALE, innerBlur,
-                colors9, radii);
+                colors9, radii,
+                shadowColor, shadowOffsetX, shadowOffsetY, shadowRadius);
 
         uploadAndDraw(client);
     }
@@ -148,7 +158,8 @@ public class RectPipeline {
     private void prepareUniformData(float x, float y, float width, float height,
                                     float screenWidth, float screenHeight,
                                     float guiScale, float innerBlur,
-                                    int[] colors, float[] radii) {
+                                    int[] colors, float[] radii,
+                                    int shadowColor, float shadowOffsetX, float shadowOffsetY, float shadowRadius) {
         dataBuffer.clear();
 
         dataBuffer.putFloat(x);
@@ -178,6 +189,21 @@ public class RectPipeline {
             dataBuffer.putFloat(bl);
             dataBuffer.putFloat(a);
         }
+
+        float shadowA = ((shadowColor >> 24) & 0xFF) / 255.0f;
+        float shadowR = ((shadowColor >> 16) & 0xFF) / 255.0f;
+        float shadowG = ((shadowColor >> 8) & 0xFF) / 255.0f;
+        float shadowB = (shadowColor & 0xFF) / 255.0f;
+
+        dataBuffer.putFloat(shadowR);
+        dataBuffer.putFloat(shadowG);
+        dataBuffer.putFloat(shadowB);
+        dataBuffer.putFloat(shadowA);
+
+        dataBuffer.putFloat(shadowOffsetX);
+        dataBuffer.putFloat(shadowOffsetY);
+        dataBuffer.putFloat(shadowRadius);
+        dataBuffer.putFloat(0f); // Padding
 
         dataBuffer.flip();
     }

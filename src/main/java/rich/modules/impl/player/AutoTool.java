@@ -40,6 +40,12 @@ public class AutoTool extends ModuleStructure {
     final BooleanSetting stopSprint = new BooleanSetting("Стоп спринт", "Останавливать спринт при ломке (Legit режим)")
             .setValue(true);
 
+    final BooleanSetting antiBreak = new BooleanSetting("Анти ломка", "Не менять инструмент когда блок вот-вот сломается")
+            .setValue(true);
+
+    final BooleanSetting preferDurability = new BooleanSetting("По долговечности", "Предпочитать инструмент с большей прочностью")
+            .setValue(false);
+
     long lastSwapTime = 0;
     long lastBreakTime = 0;
 
@@ -54,7 +60,7 @@ public class AutoTool extends ModuleStructure {
 
     public AutoTool() {
         super("AutoTool", "Auto Tool", ModuleCategory.PLAYER);
-        settings(modeSetting, swapBack, fullInventory, stopSprint);
+        settings(modeSetting, swapBack, fullInventory, stopSprint, antiBreak, preferDurability);
     }
 
     @Override
@@ -168,6 +174,11 @@ public class AutoTool extends ModuleStructure {
         if (mc.player.isCreative()) return;
         if (isActive) return;
         if (!hasSwapCooldownPassed()) return;
+
+        // Анти-ломка: не меняем инструмент если блок почти сломан
+        if (antiBreak.isValue() && e.getStage() == BlockBreakingEvent.Stage.PRE_DAMAGE) {
+            return;
+        }
 
         Slot bestSlot = findBestTool(lastBreakPos);
         Slot mainHandSlot = getMainHandSlot();
@@ -301,21 +312,38 @@ public class AutoTool extends ModuleStructure {
         Slot mainHandSlot = getMainHandSlot();
         float currentSpeed = mainHandSlot != null ? mainHandSlot.getStack().getMiningSpeedMultiplier(state) : 1.0f;
 
-        // Определяем диапазон слотов для поиска
         int startSlot = fullInventory.isValue() ? 9 : 36;
-        int endSlot = fullInventory.isValue() ? 44 : 45;
+        int endSlot = 45;
 
-        Slot bestSlot = mc.player.playerScreenHandler.slots.stream()
+        var slots = mc.player.playerScreenHandler.slots.stream()
                 .filter(slot -> slot.id >= startSlot && slot.id < endSlot)
                 .filter(slot -> !slot.getStack().isEmpty())
                 .filter(slot -> slot.getStack().getMiningSpeedMultiplier(state) > 1.0f)
-                .max(Comparator.comparingDouble(slot -> slot.getStack().getMiningSpeedMultiplier(state)))
-                .orElse(null);
+                .toList();
+
+        if (slots.isEmpty()) return mainHandSlot;
+
+        Slot bestSlot;
+        if (preferDurability.isValue()) {
+            bestSlot = slots.stream()
+                    .max(Comparator.comparingInt(slot -> getDurability(slot)))
+                    .orElse(mainHandSlot);
+        } else {
+            bestSlot = slots.stream()
+                    .max(Comparator.comparingDouble(slot -> slot.getStack().getMiningSpeedMultiplier(state)))
+                    .orElse(mainHandSlot);
+        }
 
         if (bestSlot != null && bestSlot.getStack().getMiningSpeedMultiplier(state) > currentSpeed) {
             return bestSlot;
         }
 
         return mainHandSlot;
+    }
+
+    private int getDurability(Slot slot) {
+        ItemStack stack = slot.getStack();
+        if (stack.getItem().getMaxDamage() == 0) return Integer.MAX_VALUE;
+        return stack.getMaxDamage() - stack.getDamage();
     }
 }

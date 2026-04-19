@@ -17,6 +17,10 @@ void main() {
     sum += texture(Sampler0, clamp(uv + halfpixel.xy, vec2(0.005), vec2(0.995)));
     sum += texture(Sampler0, clamp(uv + vec2(halfpixel.x, -halfpixel.y), vec2(0.005), vec2(0.995)));
     sum += texture(Sampler0, clamp(uv - vec2(halfpixel.x, -halfpixel.y), vec2(0.005), vec2(0.995)));
+    sum += texture(Sampler0, clamp(uv + vec2(0.0, halfpixel.y), vec2(0.005), vec2(0.995)));
+    sum += texture(Sampler0, clamp(uv - vec2(0.0, halfpixel.y), vec2(0.005), vec2(0.995)));
+    sum += texture(Sampler0, clamp(uv + vec2(halfpixel.x, 0.0), vec2(0.005), vec2(0.995)));
+    sum += texture(Sampler0, clamp(uv - vec2(halfpixel.x, 0.0), vec2(0.005), vec2(0.995)));
 
-    fragColor = sum / 8.0;
+    fragColor = sum / 12.0;
 }

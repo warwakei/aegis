@@ -41,6 +41,12 @@ public class RenderCore {
         this.fontRenderer = new FontRenderer();
     }
 
+    public void init() {
+        ensureFontsLoaded();
+        ensureArcInitialized();
+        ensureArcOutlineInitialized();
+    }
+
     private void ensureFontsLoaded() {
         if (fontsLoaded) return;
         fontsLoaded = true;

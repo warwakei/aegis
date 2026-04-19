@@ -69,13 +69,16 @@ public class TexturePipeline {
         this.dataBuffer = MemoryUtil.memAlloc(BUFFER_SIZE);
 
         ByteBuffer dummyData = MemoryUtil.memAlloc(4);
-        dummyData.putInt(0);
-        dummyData.flip();
-        this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
-                () -> "minecraft:texture_dummy_vertex",
-                GpuBuffer.USAGE_VERTEX,
-                dummyData);
-        MemoryUtil.memFree(dummyData);
+        try {
+            dummyData.putInt(0);
+            dummyData.flip();
+            this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
+                    () -> "minecraft:texture_dummy_vertex",
+                    GpuBuffer.USAGE_VERTEX,
+                    dummyData);
+        } finally {
+            MemoryUtil.memFree(dummyData);
+        }
 
         initialized = true;
     }

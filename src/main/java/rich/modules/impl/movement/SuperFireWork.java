@@ -17,24 +17,49 @@ import rich.modules.module.setting.implement.SliderSettings;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SuperFireWork extends ModuleStructure {
     SelectSetting modeSetting = new SelectSetting("Режим", "Выберите тип режима")
-            .value("BravoHvH", "ReallyWorld", "PulseHVH", "Custom");
+            .value("BravoHvH", "ReallyWorld", "PulseHVH", "Custom", "Soft");
 
     SliderSettings customSpeedSetting = new SliderSettings("Скорость", "Скорость для Custom режима")
             .range(1.5f, 3f)
             .setValue(1.963f)
             .visible(() -> modeSetting.isSelected("Custom"));
 
-    BooleanSetting nearBoostSetting = new BooleanSetting("", "");
+    SliderSettings speedYSetting = new SliderSettings("Скорость Y", "Вертикальная скорость (меньше = плавнее)")
+            .range(0.5f, 2.5f)
+            .setValue(1.5f);
+
+    SliderSettings smoothingFactor = new SliderSettings("Плавность", "Сглаживание скорости (0.1 = плавно, 1.0 = резко)")
+            .range(0.1f, 1.0f)
+            .setValue(0.6f);
+
+    BooleanSetting nearBoostSetting = new BooleanSetting("Буст рядом", "Увеличивать скорость когда игрок рядом")
+            .setValue(true);
+
+    BooleanSetting smoothVelocity = new BooleanSetting("Плавная скорость", "Плавно интерполировать скорость")
+            .setValue(true);
+
+    BooleanSetting adaptiveSpeed = new BooleanSetting("Адаптивная скорость", "Автоматически подстраивать скорость под FPS")
+            .setValue(true);
+
+    private Vec3d lastVelocity = Vec3d.ZERO;
+    private double baseSpeedMultiplier = 1.0;
 
     public SuperFireWork() {
         super("SuperFireWork", "Super FireWork", ModuleCategory.MOVEMENT);
-        settings(modeSetting, customSpeedSetting);
+        settings(modeSetting, customSpeedSetting, speedYSetting, smoothingFactor, nearBoostSetting, smoothVelocity, adaptiveSpeed);
+    }
+
+    @Override
+    public void deactivate() {
+        lastVelocity = Vec3d.ZERO;
     }
 
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onFirework(FireworkEvent e) {
         if (mc.player == null || !mc.player.isGliding()) return;
+
+        updateAdaptiveSpeed();
 
         float yaw = AngleConnection.INSTANCE.getRotation().getYaw() % 360f;
         if (yaw < 0) yaw += 360f;
@@ -47,6 +72,26 @@ public class SuperFireWork extends ModuleStructure {
             handlePulseHVHMode(e, yaw);
         } else if (modeSetting.isSelected("Custom")) {
             handleCustomMode(e, yaw);
+        } else if (modeSetting.isSelected("Soft")) {
+            handleSoftMode(e, yaw);
+        }
+    }
+
+    private void updateAdaptiveSpeed() {
+        if (!adaptiveSpeed.isValue()) {
+            baseSpeedMultiplier = 1.0;
+            return;
+        }
+
+        int fps = mc.getCurrentFps();
+        if (fps < 30) {
+            baseSpeedMultiplier = 0.7;
+        } else if (fps < 60) {
+            baseSpeedMultiplier = 0.85;
+        } else if (fps > 144) {
+            baseSpeedMultiplier = 1.05;
+        } else {
+            baseSpeedMultiplier = 1.0;
         }
     }
 
@@ -136,15 +181,33 @@ public class SuperFireWork extends ModuleStructure {
         boolean nearPlayer = checkNearPlayer(5f);
 
         double speedXZ;
-        double speedY = 1.66;
+        double speedY = speedYSetting.getValue();
 
         if (isDiagonal) {
             speedXZ = customSpeedSetting.getValue();
         } else if (nearBoostSetting.isValue() && nearPlayer) {
             speedXZ = customSpeedSetting.getValue() - 0.1f;
-            speedY = 1.67;
+            speedY = speedYSetting.getValue() + 0.1f;
         } else {
             speedXZ = 1.675;
+        }
+
+        applyFireworkVelocity(e, speedXZ, speedY);
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleSoftMode(FireworkEvent e, float yaw) {
+        boolean isDiagonal = checkDiagonal(yaw, 20f);
+        boolean nearPlayer = checkNearPlayer(6f);
+
+        double speedXZ = 1.45;
+        double speedY = speedYSetting.getValue() * 0.8;
+
+        if (isDiagonal) {
+            speedXZ = 1.65;
+        } else if (nearBoostSetting.isValue() && nearPlayer) {
+            speedXZ = 1.55;
+            speedY = speedYSetting.getValue() * 0.9;
         }
 
         applyFireworkVelocity(e, speedXZ, speedY);
@@ -180,10 +243,32 @@ public class SuperFireWork extends ModuleStructure {
         Vec3d rotationVector = AngleConnection.INSTANCE.getMoveRotation().toVector();
         Vec3d currentVelocity = e.getVector();
 
-        e.setVector(currentVelocity.add(
-                rotationVector.x * 0.1 + (rotationVector.x * speedXZ - currentVelocity.x) * 0.5,
-                rotationVector.y * 0.1 + (rotationVector.y * speedY - currentVelocity.y) * 0.5,
-                rotationVector.z * 0.1 + (rotationVector.z * speedXZ - currentVelocity.z) * 0.5
-        ));
+        speedXZ *= baseSpeedMultiplier;
+        speedY *= baseSpeedMultiplier;
+
+        Vec3d targetVelocity = new Vec3d(
+                rotationVector.x * speedXZ,
+                rotationVector.y * speedY,
+                rotationVector.z * speedXZ
+        );
+
+        Vec3d finalVelocity;
+        if (smoothVelocity.isValue()) {
+            double factor = smoothingFactor.getValue();
+            finalVelocity = new Vec3d(
+                    lerp(lastVelocity.x, targetVelocity.x, factor),
+                    lerp(lastVelocity.y, targetVelocity.y, factor),
+                    lerp(lastVelocity.z, targetVelocity.z, factor)
+            );
+            lastVelocity = finalVelocity;
+        } else {
+            finalVelocity = targetVelocity;
+        }
+
+        e.setVector(finalVelocity);
+    }
+
+    private double lerp(double start, double end, double factor) {
+        return start + (end - start) * factor;
     }
 }

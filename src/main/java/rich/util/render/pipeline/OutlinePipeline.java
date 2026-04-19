@@ -48,7 +48,7 @@ public class OutlinePipeline {
     );
 
     private static final Vector4f COLOR_MODULATOR = new Vector4f(1f, 1f, 1f, 1f);
-    private static final int BUFFER_SIZE = 512;
+    private static final int BUFFER_SIZE = 544;
 
     private GpuBuffer uniformBuffer;
     private GpuBuffer dummyVertexBuffer;
@@ -64,20 +64,29 @@ public class OutlinePipeline {
         this.dataBuffer = MemoryUtil.memAlloc(BUFFER_SIZE);
 
         ByteBuffer dummyData = MemoryUtil.memAlloc(4);
-        dummyData.putInt(0);
-        dummyData.flip();
-        this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
-                () -> "minecraft:outline_dummy_vertex",
-                GpuBuffer.USAGE_VERTEX,
-                dummyData
-        );
-        MemoryUtil.memFree(dummyData);
+        try {
+            dummyData.putInt(0);
+            dummyData.flip();
+            this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
+                    () -> "minecraft:outline_dummy_vertex",
+                    GpuBuffer.USAGE_VERTEX,
+                    dummyData
+            );
+        } finally {
+            MemoryUtil.memFree(dummyData);
+        }
 
         initialized = true;
     }
 
     public void drawOutline(float x, float y, float width, float height,
                             int[] colors, float[] thicknesses, float[] radii, float smoothness) {
+        drawOutline(x, y, width, height, colors, thicknesses, radii, smoothness, 0, 0f, 0f);
+    }
+
+    public void drawOutline(float x, float y, float width, float height,
+                            int[] colors, float[] thicknesses, float[] radii, float smoothness,
+                            int glowColor, float glowRadius, float glowIntensity) {
 
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.getFramebuffer() == null) return;
@@ -93,7 +102,8 @@ public class OutlinePipeline {
                 fixedScreenWidth,
                 fixedScreenHeight,
                 FIXED_GUI_SCALE,
-                colors, thicknesses, radii, smoothness);
+                colors, thicknesses, radii, smoothness,
+                glowColor, glowRadius, glowIntensity);
 
         uploadAndDraw(client);
     }
@@ -101,7 +111,8 @@ public class OutlinePipeline {
     private void prepareUniformData(float x, float y, float width, float height,
                                     float screenWidth, float screenHeight,
                                     float guiScale,
-                                    int[] colors, float[] thicknesses, float[] radii, float smoothness) {
+                                    int[] colors, float[] thicknesses, float[] radii, float smoothness,
+                                    int glowColor, float glowRadius, float glowIntensity) {
         dataBuffer.clear();
 
         dataBuffer.putFloat(x);
@@ -136,6 +147,21 @@ public class OutlinePipeline {
             float t = i < thicknesses.length ? thicknesses[i] : thicknesses[thicknesses.length - 1];
             dataBuffer.putFloat(t);
         }
+
+        float glowA = ((glowColor >> 24) & 0xFF) / 255.0f;
+        float glowR = ((glowColor >> 16) & 0xFF) / 255.0f;
+        float glowG = ((glowColor >> 8) & 0xFF) / 255.0f;
+        float glowB = (glowColor & 0xFF) / 255.0f;
+
+        dataBuffer.putFloat(glowR);
+        dataBuffer.putFloat(glowG);
+        dataBuffer.putFloat(glowB);
+        dataBuffer.putFloat(glowA);
+
+        dataBuffer.putFloat(glowRadius);
+        dataBuffer.putFloat(glowIntensity);
+        dataBuffer.putFloat(0f); // Padding
+        dataBuffer.putFloat(0f); // Padding
 
         dataBuffer.flip();
     }

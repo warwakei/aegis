@@ -103,14 +103,17 @@ public class KawaseBlurPipeline {
         this.dataBuffer = MemoryUtil.memAlloc(BUFFER_SIZE);
 
         ByteBuffer dummyData = MemoryUtil.memAlloc(4);
-        dummyData.putInt(0);
-        dummyData.flip();
-        this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
-                () -> "minecraft:kawase_dummy_vertex",
-                GpuBuffer.USAGE_VERTEX,
-                dummyData
-        );
-        MemoryUtil.memFree(dummyData);
+        try {
+            dummyData.putInt(0);
+            dummyData.flip();
+            this.dummyVertexBuffer = RenderSystem.getDevice().createBuffer(
+                    () -> "minecraft:kawase_dummy_vertex",
+                    GpuBuffer.USAGE_VERTEX,
+                    dummyData
+            );
+        } finally {
+            MemoryUtil.memFree(dummyData);
+        }
 
         this.downTextures = new GpuTexture[MAX_ITERATIONS];
         this.downTextureViews = new GpuTextureView[MAX_ITERATIONS];
