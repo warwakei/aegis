@@ -81,6 +81,11 @@ public class MainMenuScreen extends Screen {
     private static final float RIGHT_PANEL_HEIGHT = 165;
     private static final float SLIDE_DISTANCE = 40f;
     private static final float ZOOM_SPEED = 3f;
+    /** Совпадает с AccountRenderer.renderLeftPanelTop (поле ника + кнопка +) */
+    private static final float NICK_FIELD_Y_OFF = 38f;
+    private static final float NICK_FIELD_HEIGHT = 14f;
+    private static final float NICK_ADD_BTN_SIZE = 14f;
+    private static final float NICK_ADD_GAP = 3f;
 
     public MainMenuScreen() {
         super(Text.literal("Main Menu"));
@@ -151,6 +156,9 @@ public class MainMenuScreen extends Screen {
 
     private void switchToView(View view) {
         if (currentView != view && transitionPhase == TransitionPhase.NONE) {
+            if (view == View.MAIN_MENU) {
+                nicknameFieldFocused = false;
+            }
             targetView = view;
             transitionPhase = TransitionPhase.FADE_OUT;
             transitionStart = Util.getMeasuringTimeMs();
@@ -195,6 +203,10 @@ public class MainMenuScreen extends Screen {
         return currentView == View.ALT_SCREEN ? 1f : 0f;
     }
 
+    /**
+     * Фон меню: {@link Initialization} → {@link rich.util.render.shader.RenderCore#getTexturePipeline()}
+     * (текстура на GL-quad), дальше тон/виньетка/частицы через {@link Render2D} → RectPipeline (кастомный пайплайн, не чистый Blaze3D UI).
+     */
     private void drawBackground(float zoom) {
         int screenWidth = getFixedScaledWidth();
         int screenHeight = getFixedScaledHeight();
@@ -204,14 +216,62 @@ public class MainMenuScreen extends Screen {
         float offsetY = (screenHeight - zoomedHeight) / 2f;
         int[] colors = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
         float[] radii = {0, 0, 0, 0};
-        Initialization.getInstance().getManager().getRenderCore().getTexturePipeline()
-                .drawTexture(BACKGROUND_TEXTURE, offsetX, offsetY, zoomedWidth, zoomedHeight, 0, 0, 1, 1, colors, radii, 1f);
-        // Убрал overlay blur - теперь фон чёткий
+
+        Initialization init = Initialization.getInstance();
+        if (init != null && init.getManager() != null && init.getManager().getRenderCore() != null) {
+            init.getManager().getRenderCore().getTexturePipeline()
+                    .drawTexture(BACKGROUND_TEXTURE, offsetX, offsetY, zoomedWidth, zoomedHeight, 0, 0, 1, 1, colors, radii, 1f);
+        }
+
         long currentTime = Util.getMeasuringTimeMs();
-        float pulse = (float) Math.sin(currentTime * 0.001) * 0.5f + 0.5f;
-        int overlayAlpha = (int)(8 + pulse * 5);
-        Render2D.rect(0, 0, screenWidth, screenHeight, withAlpha(0x1a2040, overlayAlpha), 0);
+        renderMenuColorGrade(screenWidth, screenHeight, currentTime);
+        renderMenuVignette(screenWidth, screenHeight);
         renderBackgroundParticles(screenWidth, screenHeight, zoom);
+        renderMenuTopBar(screenWidth, currentTime);
+    }
+
+    private void renderMenuColorGrade(int screenWidth, int screenHeight, long currentTime) {
+        float pulse = (float) Math.sin(currentTime * 0.0008) * 0.5f + 0.5f;
+        int baseTint = (int) (12 + pulse * 7);
+        Render2D.rect(0, 0, screenWidth, screenHeight, withAlpha(0x080c14, baseTint), 0);
+        int g = (int) (22 + pulse * 10);
+        Render2D.gradientRect(0, 0, screenWidth, screenHeight, new int[]{
+                withAlpha(0x152238, g),
+                withAlpha(0x0e1420, (int) (g * 0.65f)),
+                withAlpha(0x060810, (int) (g * 0.4f)),
+                withAlpha(0x101828, (int) (g * 0.55f))
+        }, 0);
+    }
+
+    private void renderMenuVignette(int screenWidth, int screenHeight) {
+        float ew = Math.min(168f, screenWidth * 0.24f);
+        float eh = Math.min(128f, screenHeight * 0.2f);
+        int edge = 118;
+        Render2D.gradientRect(0, 0, ew, screenHeight, new int[]{
+                withAlpha(0x000000, edge), withAlpha(0x000000, 0), withAlpha(0x000000, 0), withAlpha(0x000000, edge)}, 0);
+        Render2D.gradientRect(screenWidth - ew, 0, ew, screenHeight, new int[]{
+                withAlpha(0x000000, 0), withAlpha(0x000000, edge), withAlpha(0x000000, edge), withAlpha(0x000000, 0)}, 0);
+        Render2D.gradientRect(0, 0, screenWidth, eh, new int[]{
+                withAlpha(0x000000, 88), withAlpha(0x000000, 88), withAlpha(0x000000, 0), withAlpha(0x000000, 0)}, 0);
+        Render2D.gradientRect(0, screenHeight - eh, screenWidth, eh, new int[]{
+                withAlpha(0x000000, 0), withAlpha(0x000000, 0), withAlpha(0x000000, 82), withAlpha(0x000000, 82)}, 0);
+    }
+
+    private void renderMenuTopBar(int screenWidth, long currentTime) {
+        float h = 27f;
+        float pulse = (float) Math.sin(currentTime * 0.0012) * 0.06f + 0.94f;
+        int barA = (int) (42 * pulse);
+        Render2D.gradientRect(0, 0, screenWidth, h, new int[]{
+                withAlpha(0x0e121a, barA),
+                withAlpha(0x0e121a, barA),
+                withAlpha(0x080a10, (int) (barA * 0.88f)),
+                withAlpha(0x080a10, (int) (barA * 0.88f))
+        }, 0);
+        Render2D.rect(0, h - 1f, screenWidth, 1f, withAlpha(0x4A6FA5, (int) (105 * pulse)), 0);
+        Fonts.BOLD.draw("AEGIS NEO", 14f, 7.5f, 6.5f, withAlpha(0xE8EAEF, (int) (240 * pulse)));
+        String rightTag = "Main Menu";
+        float rw = Fonts.REGULARNEW.getWidth(rightTag, 5f);
+        Fonts.REGULARNEW.draw(rightTag, screenWidth - rw - 14f, 9.5f, 5f, withAlpha(0x8898a8, (int) (195 * pulse)));
     }
 
     private void renderBackgroundParticles(int screenWidth, int screenHeight, float zoom) {
@@ -228,7 +288,7 @@ public class MainMenuScreen extends Screen {
             float alpha = p.baseAlpha * alphaPulse;
             int particleAlpha = (int) (alpha * 100);
             float size = p.size * (0.8f + alphaPulse * 0.4f);
-            Render2D.rect(p.x, p.y, size, size, withAlpha(0x4060a0, particleAlpha), size / 2f);
+            Render2D.rect(p.x, p.y, size, size, withAlpha(0x5078c0, particleAlpha), size / 2f);
         }
     }
 
@@ -261,7 +321,10 @@ public class MainMenuScreen extends Screen {
         drawBackground(currentZoom);
         if (mainAlpha > 0.01f) renderMainMenuContent(fixedWidth, fixedHeight, scaledMouseX, scaledMouseY, menuProgress, mainAlpha, unlockTextAlpha, currentTime);
         if (altAlpha > 0.01f) renderAltScreenContent(fixedWidth, fixedHeight, scaledMouseX, scaledMouseY, altAlpha, currentTime);
-        Fonts.TEST.drawCentered(Version.NAME + " © All Rights Reserved", fixedWidth / 2f, fixedHeight - 6, 5f, new Color(128, 128, 128, 128).getRGB());
+        int footLine1 = withAlpha(0x8a95a8, 150);
+        int footLine2 = withAlpha(0x5c6578, 118);
+        Fonts.REGULARNEW.drawCentered(Version.NAME, fixedWidth / 2f, fixedHeight - 15, 5f, footLine1);
+        Fonts.REGULARNEW.drawCentered("© All Rights Reserved", fixedWidth / 2f, fixedHeight - 6, 4f, footLine2);
         Render2D.endOverlay();
     }
 
@@ -344,6 +407,9 @@ public class MainMenuScreen extends Screen {
         int lineColor = withAlpha(0x80a0c0, lineAlpha);
         Render2D.gradientRect(centerX - lineWidth / 2f, lineY, lineWidth, 0.5f, new int[]{withAlpha(0x406080, 0), lineColor, lineColor, withAlpha(0x406080, 0)}, 0);
         Fonts.BOLD.draw(dateText, dateX, dateY, 12f, withAlpha(0xc0d0e0, dateAlpha));
+        float subY = dateY + 13f;
+        int subA = (int) (opacity * 155);
+        Fonts.REGULARNEW.drawCentered("Aegis Neo", centerX, subY, 5.5f, withAlpha(0x6a7a98, subA));
     }
 
     private void renderButtons(float mouseX, float mouseY, float opacity, int screenWidth, int screenHeight, float menuProgress, float extraSlideOffset, long currentTime) {
@@ -462,6 +528,14 @@ public class MainMenuScreen extends Screen {
         return super.mouseClicked(click, doubled);
     }
 
+    private boolean isOverNicknameField(float mouseX, float mouseY, float startX, float startY) {
+        float fieldX = startX + 5;
+        float fieldY = startY + NICK_FIELD_Y_OFF;
+        float fieldW = LEFT_PANEL_WIDTH - 10 - NICK_ADD_BTN_SIZE - NICK_ADD_GAP;
+        return mouseX >= fieldX && mouseX <= fieldX + fieldW
+                && mouseY >= fieldY && mouseY <= fieldY + NICK_FIELD_HEIGHT;
+    }
+
     private boolean handleAltManagerClick(float mouseX, float mouseY) {
         int screenWidth = getFixedScaledWidth();
         int screenHeight = getFixedScaledHeight();
@@ -473,10 +547,18 @@ public class MainMenuScreen extends Screen {
         float startX = centerX - totalWidth / 2f;
         float startY = centerY - totalHeight / 2f;
 
-        // Левая панель верх - кнопка добавления
-        float addBtnX = startX + 5 + LEFT_PANEL_WIDTH - 10 - 14 - 3;
-        float addBtnY = startY + 38;
-        float addBtnSize = 14;
+        if (isOverNicknameField(mouseX, mouseY, startX, startY)) {
+            nicknameFieldFocused = true;
+            return true;
+        }
+        nicknameFieldFocused = false;
+
+        // Левая панель верх — кнопка «+» (координаты как в AccountRenderer)
+        float fieldX = startX + 5;
+        float fieldW = LEFT_PANEL_WIDTH - 10 - NICK_ADD_BTN_SIZE - NICK_ADD_GAP;
+        float addBtnX = fieldX + fieldW + NICK_ADD_GAP;
+        float addBtnY = startY + NICK_FIELD_Y_OFF;
+        float addBtnSize = NICK_ADD_BTN_SIZE;
         if (mouseX >= addBtnX && mouseX <= addBtnX + addBtnSize &&
             mouseY >= addBtnY && mouseY <= addBtnY + addBtnSize) {
             if (!nicknameText.isEmpty()) {
@@ -490,7 +572,7 @@ public class MainMenuScreen extends Screen {
 
         // Кнопка Random
         float randomBtnX = startX + 5;
-        float randomBtnY = addBtnY + 20;
+        float randomBtnY = addBtnY + NICK_FIELD_HEIGHT + 6;
         float randomBtnWidth = LEFT_PANEL_WIDTH - 10;
         float randomBtnHeight = 16;
         if (mouseX >= randomBtnX && mouseX <= randomBtnX + randomBtnWidth &&
@@ -570,8 +652,33 @@ public class MainMenuScreen extends Screen {
     public boolean keyPressed(KeyInput input) {
         if (!isUnlocked) { unlock(); return true; }
         if (input.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE) {
-            if (currentView == View.ALT_SCREEN) { switchToView(View.MAIN_MENU); return true; }
+            if (currentView == View.ALT_SCREEN) {
+                if (nicknameFieldFocused) {
+                    nicknameFieldFocused = false;
+                    return true;
+                }
+                switchToView(View.MAIN_MENU);
+                return true;
+            }
             client.setScreen(null); return true;
+        }
+        if (currentView == View.ALT_SCREEN && nicknameFieldFocused) {
+            if (input.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE) {
+                if (!nicknameText.isEmpty()) {
+                    nicknameText = nicknameText.substring(0, nicknameText.length() - 1);
+                }
+                return true;
+            }
+            if (input.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER || input.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER) {
+                if (!nicknameText.isEmpty()) {
+                    String date = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+                    accountConfig.addAccount(new AccountEntry(nicknameText, date, null, false, accountConfig.getAccounts().size()));
+                    accountConfig.save();
+                    nicknameText = "";
+                    nicknameFieldFocused = false;
+                }
+                return true;
+            }
         }
         return super.keyPressed(input);
     }
@@ -579,6 +686,13 @@ public class MainMenuScreen extends Screen {
     @Override
     public boolean charTyped(CharInput input) {
         if (!isUnlocked) { unlock(); return true; }
+        if (currentView == View.ALT_SCREEN && nicknameFieldFocused) {
+            int cp = input.codepoint();
+            if (!Character.isISOControl(cp) && cp < 0x10000 && nicknameText.length() < 32) {
+                nicknameText += Character.toString(cp);
+            }
+            return true;
+        }
         return super.charTyped(input);
     }
 

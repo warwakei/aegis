@@ -27,12 +27,12 @@ public class AvatarRenderer {
         // Фон с GIF
         context.getMatrices().pushMatrix();
         GifRender.drawBackground(bgX + 12.5f, bgY + 12.5f, 70, 30, 7, applyAlpha(-1, alpha));
-        Render2D.rect(bgX + 15f, bgY + 15f, 25, 25, new Color(42, 42, 42, alpha).getRGB(), 15);
+        Render2D.rect(bgX + 15f, bgY + 15f, 25, 25, new Color(22, 24, 32, alpha).getRGB(), 15);
         GifRender.drawAvatar(bgX + 16f, bgY + 16f, 23, 23, 15, applyAlpha(-1, alpha));
         Render2D.rect(bgX + 33, bgY + 33, 5, 5, new Color(0, 255, 0, alpha).getRGB(), 10);
         context.getMatrices().popMatrix();
 
-        Render2D.rect(bgX + 12.5f, bgY + 12.5f, 70, 30, new Color(0, 0, 0, alphaFon).getRGB(), 7);
+        Render2D.rect(bgX + 12.5f, bgY + 12.5f, 70, 30, new Color(8, 10, 16, alphaFon).getRGB(), 7);
 
         // Никнейм - рендерим без scissor (он вызывал мерцание)
         float textX = bgX + 44;

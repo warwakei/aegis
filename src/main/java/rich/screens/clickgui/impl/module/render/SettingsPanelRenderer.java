@@ -7,6 +7,7 @@ import rich.screens.clickgui.impl.module.handler.ModuleScrollHandler;
 import rich.screens.clickgui.impl.settingsrender.ColorComponent;
 import rich.screens.clickgui.impl.settingsrender.MultiSelectComponent;
 import rich.screens.clickgui.impl.settingsrender.SelectComponent;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 import rich.util.interfaces.AbstractSettingComponent;
 import rich.util.render.Render2D;
 import rich.util.render.shader.Scissor;
@@ -38,16 +39,13 @@ public class SettingsPanelRenderer {
         animHandler.updateSettingAnimations(settingComponents);
         animHandler.updateVisibilityAnimations(settingComponents);
 
-        int panelAlpha = (int) (12 * alphaMultiplier); // Меньше
-        int outlineAlpha = (int) (215 * alphaMultiplier);
-        // Pixel-perfect alignment
         float alignedX = Math.round(x * 10f) / 10f;
         float alignedY = Math.round(y * 10f) / 10f;
         float alignedW = Math.round(width * 10f) / 10f;
         float alignedH = Math.round(height * 10f) / 10f;
-        
-        Render2D.rect(alignedX, alignedY, alignedW, alignedH, new Color(64, 64, 64, panelAlpha).getRGB(), SETTINGS_PANEL_CORNER_RADIUS);
-        Render2D.outline(alignedX, alignedY, alignedW, alignedH, 0.5f, new Color(48, 48, 55, outlineAlpha).getRGB(), SETTINGS_PANEL_CORNER_RADIUS);
+
+        Render2D.rect(alignedX, alignedY, alignedW, alignedH, ClickGuiPalette.panelList(alphaMultiplier), SETTINGS_PANEL_CORNER_RADIUS);
+        Render2D.outline(alignedX, alignedY, alignedW, alignedH, 0.5f, ClickGuiPalette.border(alphaMultiplier), SETTINGS_PANEL_CORNER_RADIUS);
 
         if (selectedModule == null) {
             String text = "Select a module";
@@ -56,20 +54,20 @@ public class SettingsPanelRenderer {
             float textHeight = Fonts.BOLD.getHeight(textSize);
             float centerX = x + (width - textWidth) / 2f;
             float centerY = y + (height - textHeight) / 2f;
-            Fonts.BOLD.draw(text, centerX, centerY, textSize, new Color(90, 90, 95, (int) (140 * alphaMultiplier)).getRGB());
+            Fonts.BOLD.draw(text, centerX, centerY, textSize, ClickGuiPalette.textMuted(alphaMultiplier));
             return;
         }
 
         // Улучшенный заголовок модуля
-        Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, new Color(240, 240, 245, (int) (210 * alphaMultiplier)).getRGB());
+        Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, ClickGuiPalette.textPrimary(alphaMultiplier));
         String desc = selectedModule.getDescription();
         if (desc != null && !desc.isEmpty()) {
             String displayDesc = desc.length() > 50 ? desc.substring(0, 50) + "..." : desc;
-            Fonts.BOLD.draw(displayDesc, x + 15, y + 20, 5, new Color(115, 115, 120, (int) (140 * alphaMultiplier)).getRGB());
-            Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, new Color(115, 115, 120, (int) (140 * alphaMultiplier)).getRGB());
+            Fonts.BOLD.draw(displayDesc, x + 15, y + 20, 5, ClickGuiPalette.textMuted(alphaMultiplier));
+            Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, ClickGuiPalette.textMuted(alphaMultiplier));
         }
         // Более аккуратная линия-разделитель
-        Render2D.rect(x + 8, y + 30, width - 16, SEPARATOR_THICKNESS, new Color(55, 55, 60, (int) (60 * alphaMultiplier)).getRGB(), 10);
+        Render2D.rect(x + 8, y + 30, width - 16, SEPARATOR_THICKNESS, new Color(38, 42, 52, (int) (90 * alphaMultiplier)).getRGB(), 10);
 
         float sideInset = CORNER_INSET;
         float bottomInset = CORNER_INSET + 3;

@@ -131,6 +131,12 @@ public class ClickGui extends Screen implements IMinecraft {
         return false;
     }
 
+    /** Координаты клика в том же пространстве, что и рендер (после scale в overlay). */
+    private float clickGuiMouseScale() {
+        int guiScale = mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
+        return (float) FIXED_GUI_SCALE / guiScale;
+    }
+
     private void updateHintAnimation() {
         long currentTime = System.currentTimeMillis();
         float deltaTime = Math.min((currentTime - lastHintUpdateTime) / 1000f, 0.1f);
@@ -201,9 +207,9 @@ public class ClickGui extends Screen implements IMinecraft {
 
         context.createNewRootLayer();
 
-        int dimAlpha = (int) (125 * animValue);
+        int dimAlpha = (int) (148 * animValue);
         if (dimAlpha > 0) {
-            Render2D.rect(0, 0, 5000, 5000, new Color(0, 0, 0, dimAlpha).getRGB(), 0);
+            Render2D.rect(0, 0, 5000, 5000, new Color(4, 6, 10, dimAlpha).getRGB(), 0);
         }
 
         int guiScale = mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
@@ -290,8 +296,7 @@ public class ClickGui extends Screen implements IMinecraft {
     public boolean mouseClicked(Click click, boolean doubled) {
         if (closing) return false;
 
-        int guiScale = mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
-        float scale = (float) FIXED_GUI_SCALE / guiScale;
+        float scale = clickGuiMouseScale();
         double mx = click.x() / scale, my = click.y() / scale;
 
         float[] bg = calculateBackground(scale);
@@ -410,21 +415,41 @@ public class ClickGui extends Screen implements IMinecraft {
     public boolean mouseReleased(Click click) {
         if (closing) return false;
 
+        float scale = clickGuiMouseScale();
+        double mx = click.x() / scale, my = click.y() / scale;
+
         if (selectedCategory == ModuleCategory.AUTOBUY) {
-            autoBuyRenderer.mouseReleased(click.x(), click.y(), click.button());
+            autoBuyRenderer.mouseReleased(mx, my, click.button());
         }
 
 //        if (selectedCategory == ModuleCategory.CONFIGS) {
-//            configsRenderer.mouseReleased(click.x(), click.y(), click.button());
+//            configsRenderer.mouseReleased(mx, my, click.button());
 //        }
 
         for (AbstractSettingComponent c : moduleComponent.getSettingComponents()) {
-            if (c.getSetting().isVisible() && c.mouseReleased(click.x(), click.y(), click.button())) {
+            if (c.getSetting().isVisible() && c.mouseReleased(mx, my, click.button())) {
                 return true;
             }
         }
 
         return super.mouseReleased(click);
+    }
+
+    @Override
+    public boolean mouseDragged(Click click, double deltaX, double deltaY) {
+        if (closing) return false;
+
+        float scale = clickGuiMouseScale();
+        double mx = click.x() / scale;
+        double my = click.y() / scale;
+
+        for (AbstractSettingComponent c : moduleComponent.getSettingComponents()) {
+            if (c.getSetting().isVisible() && c.mouseDragged(mx, my, click.button(), deltaX / scale, deltaY / scale)) {
+                return true;
+            }
+        }
+
+        return super.mouseDragged(click, deltaX, deltaY);
     }
 
     @Override
@@ -444,8 +469,7 @@ public class ClickGui extends Screen implements IMinecraft {
             return true;
         }
 
-        int guiScale = mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
-        float scale = (float) FIXED_GUI_SCALE / guiScale;
+        float scale = clickGuiMouseScale();
         double mx = mouseX / scale, my = mouseY / scale;
 
         float[] bg = calculateBackground(scale);

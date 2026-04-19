@@ -21,8 +21,8 @@ import java.util.Random;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ElytraMotion extends ModuleStructure {
 
-    public static Fly getInstance() {
-        return Instance.get(Fly.class);
+    public static ElytraMotion getInstance() {
+        return Instance.get(ElytraMotion.class);
     }
     @NonFinal
 
@@ -44,8 +44,7 @@ public class ElytraMotion extends ModuleStructure {
         if (!state || mc.player == null || mc.world == null || !mc.player.isGliding()) return;
 
         Aura aura = Instance.get(Aura.class);
-
-        if (aura.isState()) {
+        if (aura != null && aura.isState()) {
             handleAuraMotion(aura);
         }
     }
@@ -59,8 +58,9 @@ public class ElytraMotion extends ModuleStructure {
 
     @EventHandler
     public void onPacket(PacketEvent e) {
+        if (mc.player == null) return;
         Aura aura = Instance.get(Aura.class);
-        if (aura.isState() && aura.target != null && mc.player.distanceTo(aura.target) < aura.getAttackrange().getValue() - 1F) {
+        if (aura != null && aura.isState() && aura.target != null && mc.player.distanceTo(aura.target) < aura.getAttackrange().getValue() - 1F) {
             switch (e.getPacket()) {
                 default -> {
                 }

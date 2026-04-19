@@ -2,6 +2,7 @@ package rich.screens.clickgui.impl.background.render;
 
 import rich.modules.module.category.ModuleCategory;
 import rich.screens.clickgui.impl.background.search.SearchHandler;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 import rich.util.render.Render2D;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
@@ -22,27 +23,16 @@ public class HeaderRenderer {
     }
 
     private void renderHeaderPanel(float bgX, float bgY, float bgWidth, float alphaMultiplier) {
-        int panelAlpha = (int) (28 * alphaMultiplier); // Чуть меньше
+        int panelAlpha = (int) (34 * alphaMultiplier);
         int outlineAlpha = (int) (255 * alphaMultiplier);
 
-        long currentTime = System.currentTimeMillis();
-        // Более плавная пульсация
-        float pulse = (float) Math.sin(currentTime * 0.0015) * 0.08f + 0.92f;
-
-        int r = (int)(28 * pulse);
-        int g = (int)(28 * pulse);
-        int b = (int)(33 * pulse);
-
+        int top = new Color(22, 24, 32, panelAlpha).getRGB();
+        int bot = new Color(16, 18, 24, panelAlpha).getRGB();
         Render2D.gradientRect(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25,
-                new int[]{
-                        new Color(r + 6, g + 6, b + 10, panelAlpha).getRGB(),
-                        new Color(r + 2, g + 2, b + 4, panelAlpha).getRGB(),
-                        new Color(r, g, b, panelAlpha).getRGB(),
-                        new Color(r + 1, g + 1, b + 2, panelAlpha).getRGB()
-                }, 8);
+                new int[]{top, top, bot, bot}, 6);
 
-        // Более аккуратный outline
-        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f, new Color(52, 57, 67, outlineAlpha).getRGB(), 8);
+        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f,
+                new Color(36, 40, 50, outlineAlpha).getRGB(), 6);
     }
 
     private void renderSearchBox(float bgX, float bgY, SearchHandler searchHandler, float alphaMultiplier) {
@@ -59,18 +49,18 @@ public class HeaderRenderer {
         
         Color searchOutline;
         if (searchHandler.isSearchActive()) {
-            int r = (int)(140 + 40 * focusPulse);
-            int g = (int)(160 + 40 * focusPulse);
-            int b = (int)(200 + 55 * focusPulse);
+            int r = (int) (74 + 40 * focusPulse);
+            int g = (int) (111 + 35 * focusPulse);
+            int b = (int) (165 + 25 * focusPulse);
             searchOutline = new Color(r, g, b, outlineAlpha);
         } else {
-            searchOutline = new Color(55, 60, 70, outlineAlpha);
+            searchOutline = new Color(44, 48, 58, outlineAlpha);
         }
 
-        int searchBgAlpha = (int) ((30 + focusPulse * 20) * alphaMultiplier);
-        int bgR = (int)(35 + focusPulse * 8);
-        int bgG = (int)(35 + focusPulse * 8);
-        int bgB = (int)(40 + focusPulse * 10);
+        int searchBgAlpha = (int) ((32 + focusPulse * 18) * alphaMultiplier);
+        int bgR = (int) (22 + focusPulse * 10);
+        int bgG = (int) (24 + focusPulse * 10);
+        int bgB = (int) (32 + focusPulse * 12);
         
         Render2D.gradientRect(searchBoxX, searchBoxY, searchBoxW, searchBoxH,
                 new int[]{
@@ -88,11 +78,11 @@ public class HeaderRenderer {
         } else if (searchHandler.isSearchActive()) {
             renderSearchPlaceholder(searchBoxX, searchBoxY, searchBoxH, textAreaX, searchHandler, alphaMultiplier, true);
         } else {
-            Fonts.BOLD.draw("Search Modules...", textAreaX, searchBoxY + 5f, 5, new Color(128, 135, 145, outlineAlpha).getRGB());
+            Fonts.BOLD.draw("Search Modules...", textAreaX, searchBoxY + 5f, 5, ClickGuiPalette.textMuted(alphaMultiplier));
         }
 
-        Render2D.rect(searchBoxX + 53, searchBoxY + 3.5f, 1, searchBoxH - 7, new Color(100, 110, 130, panelAlpha).getRGB(), 8);
-        Fonts.ICONS.draw("U", searchBoxX + 55, searchBoxY + 1.5f, 12, new Color(140, 150, 165, outlineAlpha).getRGB());
+        Render2D.rect(searchBoxX + 53, searchBoxY + 3.5f, 1, searchBoxH - 7, new Color(48, 52, 62, panelAlpha).getRGB(), 8);
+        Fonts.ICONS.draw("U", searchBoxX + 55, searchBoxY + 1.5f, 12, new Color(120, 128, 145, outlineAlpha).getRGB());
     }
 
     private void renderSearchText(float searchBoxX, float searchBoxY, float searchBoxW, float searchBoxH,
@@ -166,22 +156,22 @@ public class HeaderRenderer {
             if (previousCategory != null && headerTransition < 1f) {
                 float oldAlpha = (1f - eased) * categoryAlpha;
                 float oldOffsetY = eased * HEADER_SLIDE_DISTANCE;
-
                 int oldAlphaInt = (int) (128 * oldAlpha);
                 if (oldAlphaInt > 0) {
                     String oldName = previousCategory.getReadableName();
-                    Fonts.BOLD.draw(oldName, baseX, baseY + oldOffsetY, 7, new Color(128, 128, 128, oldAlphaInt).getRGB());
+                    Fonts.BOLD.draw(oldName, baseX, baseY + oldOffsetY, 7,
+                            new Color(110, 112, 120, oldAlphaInt).getRGB());
                 }
             }
 
             if (currentCategory != null) {
                 float newAlpha = eased * categoryAlpha;
                 float newOffsetY = (1f - eased) * -HEADER_SLIDE_DISTANCE;
-
                 int newAlphaInt = (int) (128 * newAlpha);
                 if (newAlphaInt > 0) {
                     String newName = currentCategory.getReadableName();
-                    Fonts.BOLD.draw(newName, baseX, baseY + newOffsetY, 7, new Color(128, 128, 128, newAlphaInt).getRGB());
+                    Fonts.BOLD.draw(newName, baseX, baseY + newOffsetY, 7,
+                            new Color(218, 220, 228, newAlphaInt).getRGB());
                 }
             }
         }

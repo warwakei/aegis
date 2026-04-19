@@ -1,6 +1,7 @@
 package rich.screens.clickgui.impl.background.render;
 
 import rich.modules.module.category.ModuleCategory;
+import rich.screens.clickgui.theme.ClickGuiPalette;
 import rich.util.animations.Easings;
 import rich.util.render.Render2D;
 import rich.util.render.font.Fonts;
@@ -25,14 +26,16 @@ public class CategoryRenderer {
 
     private final Map<ModuleCategory, Float> categoryAnimations = new HashMap<>();
 
-    private static final float ANIMATION_SPEED = 10f; // Быстрее с Spring easing
-    private static final float MAX_OFFSET = 4f; // Чуть меньше offset
-    private static final float BALL_SIZE = 3.5f;
+    private static final float ANIMATION_SPEED = 12f;
+    private static final float MAX_OFFSET = 3f;
     private static final float TEXT_SIZE = 6f;
     private static final float ICON_SIZE = 6f;
     private static final float ICON_SPACING = 4f;
     private static final float SECTION_TEXT_SIZE = 5f;
     private static final float EXTRA_CATEGORY_OFFSET = 10f;
+
+    private static final float BAR_W = 3f;
+    private static final float BAR_PAD = 9f;
 
     public CategoryRenderer() {
         for (ModuleCategory cat : MAIN_CATEGORIES) {
@@ -55,12 +58,9 @@ public class CategoryRenderer {
     private void updateCategoryAnimation(ModuleCategory cat, ModuleCategory selected, float deltaTime) {
         float target = cat == selected ? 1f : 0f;
         float current = categoryAnimations.getOrDefault(cat, 0f);
-
-        // Spring easing для более естественного движения
         float diff = target - current;
         float rawProgress = Math.min(1f, ANIMATION_SPEED * deltaTime);
         float springProgress = (float) Easings.SPRING.ease(rawProgress);
-        
         float change = diff * springProgress;
 
         if (Math.abs(diff) < 0.001f) {
@@ -78,16 +78,16 @@ public class CategoryRenderer {
     }
 
     private void renderSectionHeader(float bgX, float sectionY, String title, float alphaMultiplier) {
-        float lineWidth = 18f;
+        float lineWidth = 14f;
         float textWidth = Fonts.BOLD.getWidth(title, SECTION_TEXT_SIZE);
         float totalWidth = 65f;
         float textX = bgX + 15f + (totalWidth - textWidth) / 2f;
         float lineY = sectionY + 3f;
-        int lineAlpha = (int) (40 * alphaMultiplier);
-        int textAlpha = (int) (100 * alphaMultiplier);
-        Render2D.rect(bgX + 15f, lineY, lineWidth, 0.5f, new Color(255, 255, 255, lineAlpha).getRGB(), 0);
-        Render2D.rect(bgX + 15f + totalWidth - lineWidth, lineY, lineWidth, 0.5f, new Color(255, 255, 255, lineAlpha).getRGB(), 0);
-        Fonts.BOLD.draw(title, textX, sectionY, SECTION_TEXT_SIZE, new Color(150, 150, 150, textAlpha).getRGB());
+        int lineAlpha = (int) (32 * alphaMultiplier);
+        int textAlpha = (int) (110 * alphaMultiplier);
+        Render2D.rect(bgX + 15f, lineY, lineWidth, 0.5f, new Color(55, 58, 68, lineAlpha).getRGB(), 0);
+        Render2D.rect(bgX + 15f + totalWidth - lineWidth, lineY, lineWidth, 0.5f, new Color(55, 58, 68, lineAlpha).getRGB(), 0);
+        Fonts.BOLD.draw(title, textX, sectionY, SECTION_TEXT_SIZE, new Color(120, 124, 136, textAlpha).getRGB());
     }
 
     private void renderMainCategories(float bgX, float bgY, float alphaMultiplier) {
@@ -114,98 +114,30 @@ public class CategoryRenderer {
     private void renderCategoryItem(float bgX, float textY, String name, String icon, float animation, float alphaMultiplier) {
         float offsetX = animation * MAX_OFFSET;
 
-        long currentTime = System.currentTimeMillis();
-        float iconPulse = (float) Math.sin(currentTime * 0.003 + textY * 0.1f) * 0.1f + 0.9f;
-
-        int baseGray = 128;
-        int targetWhite = 255;
-        int colorValue = (int) (baseGray + (targetWhite - baseGray) * animation);
-        int alpha = (int) ((128 + 127 * animation) * alphaMultiplier);
-        Color textColor = new Color(colorValue, colorValue, colorValue, alpha);
+        int base = 125;
+        int hi = 235;
+        int colorValue = (int) (base + (hi - base) * animation);
+        int alpha = (int) ((135 + 120 * animation) * alphaMultiplier);
+        Color textColor = new Color(colorValue, colorValue, colorValue + (int) (8 * animation), alpha);
 
         float iconX = bgX + 17f + offsetX;
         float iconWidth = Fonts.CATEGORY_ICONS.getWidth(icon, ICON_SIZE);
         float textX = iconX + iconWidth + ICON_SPACING;
-        float textWidth = Fonts.BOLD.getWidth(name, TEXT_SIZE);
 
-        int iconAlpha = (int)(alpha * iconPulse);
-        Fonts.CATEGORY_ICONS.draw(icon, iconX, textY + 0.5f, ICON_SIZE, new Color(colorValue, colorValue, colorValue, iconAlpha).getRGB());
+        Fonts.CATEGORY_ICONS.draw(icon, iconX, textY + 0.5f, ICON_SIZE, textColor.getRGB());
 
-        if (animation > 0.01f) {
-            float lineWidth = (iconWidth + ICON_SPACING + textWidth) * animation;
-            float lineAlpha = animation * 80 * alphaMultiplier;
-
-            // Анимированный градиент для underline
-            int gradientAlpha = (int)(lineAlpha * 1.5f);
-            int glowColor1 = blendColor(100, 140, 200, currentTime, 0);
-            int glowColor2 = blendColor(180, 200, 255, currentTime, 1);
-
-            Render2D.gradientRect(iconX, textY + 9f, lineWidth, 0.5f,
-                    new int[]{
-                            new Color(glowColor1, glowColor1, glowColor1, 0).getRGB(),
-                            new Color(glowColor2, glowColor2, glowColor2, (int)(lineAlpha * 1.2f)).getRGB(),
-                            new Color(glowColor2, glowColor2, glowColor2, (int)(lineAlpha * 1.2f)).getRGB(),
-                            new Color(glowColor1, glowColor1, glowColor1, 0).getRGB()
-                    }, 0);
-
-            // Ball с улучшенным glow
-            float ballAlpha = animation * 220 * alphaMultiplier;
-            float ballX = bgX + 12f;
-            float ballY = textY + 2.5f;
-            float ballSize = BALL_SIZE + animation * 1f;
-
-            // Анимированный цвет шара
-            float ballPulse = (float) Math.sin(currentTime * 0.004 + textY * 0.05f) * 0.1f + 0.9f;
-            int ballR = (int)((180 + 75 * animation) * ballPulse);
-            int ballG = (int)((200 + 55 * animation) * ballPulse);
-            int ballB = 255;
-            Render2D.rect(ballX, ballY, ballSize, ballSize, new Color(ballR, ballG, ballB, (int) ballAlpha).getRGB(), ballSize / 2f);
-
-            // Улучшенный glow с анимацией
-            if (animation > 0.3f) {
-                float glowIntensity = (animation - 0.3f) / 0.7f;
-                float glowPulse = (float) Math.sin(currentTime * 0.005) * 0.2f + 0.8f;
-                float glowSize = ballSize * (2.5f + glowIntensity * 0.5f) * glowPulse;
-                float glowX = ballX - (glowSize - ballSize) / 2f;
-                float glowY = ballY - (glowSize - ballSize) / 2f;
-                int glowAlpha = (int)((animation - 0.3f) * 70 * alphaMultiplier * glowPulse);
-
-                // Многослойный glow
-                for (int layer = 0; layer < 2; layer++) {
-                    float layerScale = 1.0f + layer * 0.3f;
-                    int layerGlowAlpha = (int)(glowAlpha * (1.0f - layer * 0.3f));
-                    float layerGlowSize = glowSize * layerScale;
-                    float layerGlowX = ballX - (layerGlowSize - ballSize) / 2f;
-                    float layerGlowY = ballY - (layerGlowSize - ballSize) / 2f;
-
-                    Render2D.blur(layerGlowX, layerGlowY, layerGlowSize, layerGlowSize, 6f, layerGlowSize / 2f,
-                            new Color(140, 180, 255, layerGlowAlpha).getRGB());
-                }
-            }
-
-            // Частицы при выборе категории
-            if (animation > 0.8f) {
-                float particleAlpha = (animation - 0.8f) / 0.2f * 150 * alphaMultiplier;
-                float particleSize = 1.5f;
-
-                for (int i = 0; i < 3; i++) {
-                    float particleX = bgX + 10f + (float)Math.sin(currentTime * 0.003 + i * 2.0f) * 5f;
-                    float particleY = textY + 3f + (float)Math.cos(currentTime * 0.004 + i * 1.5f) * 4f;
-
-                    if (particleAlpha > 10) {
-                        Render2D.rect(particleX, particleY, particleSize, particleSize,
-                                new Color(180, 200, 255, (int)particleAlpha).getRGB(), particleSize / 2f);
-                    }
-                }
-            }
+        if (animation > 0.02f) {
+            int barA = (int) (animation * 220 * alphaMultiplier);
+            float barH = 9f + animation * 2f;
+            float barY = textY + 1f;
+            int rgb = ClickGuiPalette.ACCENT;
+            int r = (rgb >> 16) & 0xFF;
+            int g = (rgb >> 8) & 0xFF;
+            int b = rgb & 0xFF;
+            Render2D.rect(bgX + BAR_PAD, barY, BAR_W, barH, new Color(r, g, b, barA).getRGB(), 1.5f);
         }
 
         Fonts.BOLD.draw(name, textX, textY, TEXT_SIZE, textColor.getRGB());
-    }
-
-    private int blendColor(int r, int g, int b, long time, int offset) {
-        float pulse = (float) Math.sin(time * 0.002 + offset) * 0.15f + 0.85f;
-        return (int)((r * pulse + g * pulse + b * pulse) / 3);
     }
 
     public ModuleCategory getCategoryAtPosition(double mouseX, double mouseY, float bgX, float bgY) {
