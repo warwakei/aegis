@@ -12,6 +12,8 @@ public class RenderCore {
     private final RectPipeline rectPipeline;
     private final OutlinePipeline outlinePipeline;
     private final GlowOutlinePipeline glowOutlinePipeline;
+    private final HoloSheenPipeline holoSheenPipeline;
+    private final IridescentOutlinePipeline iridescentOutlinePipeline;
     private final TexturePipeline texturePipeline;
     private final BlurPipeline blurPipeline;
     private final KawaseBlurPipeline kawaseBlurPipeline;
@@ -28,6 +30,8 @@ public class RenderCore {
         this.rectPipeline = new RectPipeline();
         this.outlinePipeline = new OutlinePipeline();
         this.glowOutlinePipeline = new GlowOutlinePipeline();
+        this.holoSheenPipeline = new HoloSheenPipeline();
+        this.iridescentOutlinePipeline = new IridescentOutlinePipeline();
         this.texturePipeline = new TexturePipeline();
         this.blurPipeline = new BlurPipeline();
         this.kawaseBlurPipeline = new KawaseBlurPipeline();
@@ -91,6 +95,14 @@ public class RenderCore {
         return glowOutlinePipeline;
     }
 
+    public HoloSheenPipeline getHoloSheenPipeline() {
+        return holoSheenPipeline;
+    }
+
+    public IridescentOutlinePipeline getIridescentOutlinePipeline() {
+        return iridescentOutlinePipeline;
+    }
+
     public TexturePipeline getTexturePipeline() {
         return texturePipeline;
     }
@@ -128,6 +140,8 @@ public class RenderCore {
         rectPipeline.close();
         outlinePipeline.close();
         glowOutlinePipeline.close();
+        holoSheenPipeline.close();
+        iridescentOutlinePipeline.close();
         texturePipeline.close();
         blurPipeline.close();
         kawaseBlurPipeline.close();

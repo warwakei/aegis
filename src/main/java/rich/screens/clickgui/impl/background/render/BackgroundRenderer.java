@@ -20,6 +20,21 @@ public class BackgroundRenderer {
         Render2D.gradientRect(bgX, bgY, 400, 250,
                 new int[]{c0, c1, c2, c3}, 12);
 
+        // Subtle animated sheen overlay to make the panel feel less flat.
+        Render2D.holoSheen(
+                bgX, bgY, 400, 250,
+                12,
+                new Color(255, 255, 255, Math.max(0, Math.min(255, (int) (255 * alphaMultiplier)))).getRGB(),
+                0.55f * alphaMultiplier,
+                0.22f,
+                1.05f,
+                0.12f
+        );
+
+        // Iridescent outline sits under the regular border for a "premium" edge.
+        Render2D.iridescentOutline(bgX, bgY, 400, 250, 1.0f, 12,
+                0.18f, 0.65f, 1.0f, 0.35f * alphaMultiplier);
+
         Render2D.outline(bgX, bgY, 400, 250, 1f, ClickGuiPalette.border(alphaMultiplier), 12);
 
         float lineY = bgY + 1.5f;

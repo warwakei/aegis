@@ -361,6 +361,20 @@ public class Render2D {
                 .drawGlowOutline(x, y, width, height, color, thickness, radii, progress, baseAlpha);
     }
 
+    public static void iridescentOutline(float x, float y, float width, float height,
+                                         float thickness, float radius,
+                                         float speed, float saturation, float value, float alpha) {
+        Initialization.getInstance().getManager().getRenderCore().getIridescentOutlinePipeline()
+                .drawOutline(x, y, width, height, thickness, radius, speed, saturation, value, alpha);
+    }
+
+    public static void holoSheen(float x, float y, float width, float height,
+                                 float radius, int tintColor,
+                                 float intensity, float speed, float angleRadians, float grain) {
+        Initialization.getInstance().getManager().getRenderCore().getHoloSheenPipeline()
+                .drawSheen(x, y, width, height, radius, tintColor, intensity, speed, angleRadians, grain);
+    }
+
     public static Matrix4f createProjection() {
         int width = getFixedScaledWidth();
         int height = getFixedScaledHeight();
