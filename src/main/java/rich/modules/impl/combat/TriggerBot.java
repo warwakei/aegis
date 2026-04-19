@@ -74,6 +74,8 @@ public class TriggerBot extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private LivingEntity updateTarget() {
+        if (mc.world == null) return null;
+        
         TargetFinder.EntityFilter filter = new TargetFinder.EntityFilter(targetType.getSelected());
         float range = attackRange.getValue() + RANGE_MARGIN;
         targetSelector.searchTargets(mc.world.getEntities(), range, 360, attackSetting.isSelected("Бить сквозь стены"));
@@ -98,6 +100,8 @@ public class TriggerBot extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     public StrikerConstructor.AttackPerpetratorConfigurable getConfig() {
+        if (target == null || mc.player == null) return null;
+        
         float baseRange = attackRange.getValue() + RANGE_MARGIN;
 
         Pair<Vec3d, Box> pointData = pointFinder.computeVector(

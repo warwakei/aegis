@@ -85,11 +85,15 @@ public class FreeCam extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void onInput(InputEvent e) {
+        if (pos == null || prevPos == null) return;
+        
         float speed = speedSetting.getValue();
         double[] motion = MoveUtil.calculateDirection(e.forward(), e.sideways(), speed);
 
-        prevPos = pos;
-        pos = pos.add(motion[0], e.getInput().jump() ? speed : e.getInput().sneak() ? -speed : 0, motion[1]);
+        if (motion != null && motion.length >= 2) {
+            prevPos = pos;
+            pos = pos.add(motion[0], e.getInput().jump() ? speed : e.getInput().sneak() ? -speed : 0, motion[1]);
+        }
 
         e.inputNone();
     }

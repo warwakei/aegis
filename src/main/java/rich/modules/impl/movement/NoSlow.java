@@ -131,7 +131,7 @@ public class NoSlow extends ModuleStructure {
             }
             case "SpookyTime" -> {
                 int[] thresholds = new int[]{2, 2, 2};
-                int threshold = thresholds[cycleCounter % 2];
+                int threshold = thresholds[cycleCounter % thresholds.length];
                 if (ticks >= threshold) {
                     e.cancel();
                     ticks = 0;
@@ -139,6 +139,8 @@ public class NoSlow extends ModuleStructure {
                 }
             }
             case "Funtime" -> {
+                if (mc.player == null || mc.player.networkHandler == null) return;
+                
                 if (ticks > 0F && mc.player.getItemUseTime() > 1F) {
                     boolean mainHandCrossbow = mc.player.getMainHandStack().getItem() instanceof CrossbowItem;
                     boolean offHandCrossbow = mc.player.getOffHandStack().getItem() instanceof CrossbowItem;

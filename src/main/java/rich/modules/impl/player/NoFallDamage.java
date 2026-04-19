@@ -29,8 +29,8 @@ public class NoFallDamage extends ModuleStructure {
     public void onPacket(PacketEvent e) {
         if (mc.player == null || mc.world == null) return;
 
-        if (mc.player.fallDistance > 0 && MoveUtil.getDistanceToGround() > 4) {
-            mc.player.setVelocity(0, 0, 0);
+        if (mc.player.fallDistance > 0.0f && MoveUtil.getDistanceToGround() > 4.0) {
+            mc.player.setVelocity(mc.player.getVelocity().x, 0, mc.player.getVelocity().z);
         }
     }
 }

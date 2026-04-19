@@ -127,6 +127,8 @@ public class Velocity extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleMatrixTick() {
+        if (mc.player == null) return;
+        
         if (pendingVelocity != null) {
             mc.player.setVelocity(pendingVelocity);
             pendingVelocity = null;
@@ -142,6 +144,8 @@ public class Velocity extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleNewGrimTick() {
+        if (mc.player == null || mc.player.networkHandler == null) return;
+        
         if (ccCooldown <= 0) {
             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(
                     mc.player.getX(),

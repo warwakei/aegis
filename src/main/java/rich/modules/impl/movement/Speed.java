@@ -69,24 +69,38 @@ public class Speed extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleGrimMode() {
+        if (mc.world == null || mc.player == null) return;
+        
         int collisions = 0;
 
         for (Entity ent : mc.world.getEntities())
             if (ent != mc.player && (!(ent instanceof ArmorStandEntity)) && (ent instanceof LivingEntity || ent instanceof BoatEntity) && mc.player.getBoundingBox().expand(0.5f).intersects(ent.getBoundingBox()))
                 collisions++;
-        double[] motion = MoveUtil.forward(0.07 * collisions);
-        mc.player.addVelocity(motion[0], 0, motion[1]);
+        
+        if (collisions > 0) {
+            double[] motion = MoveUtil.forward(0.07 * collisions);
+            if (motion != null && motion.length >= 2) {
+                mc.player.addVelocity(motion[0], 0, motion[1]);
+            }
+        }
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleHolyWorldMode() {
+        if (mc.world == null || mc.player == null) return;
+        
         int collisions = 0;
 
         for (Entity ent : mc.world.getEntities())
             if (ent != mc.player && (!(ent instanceof ArmorStandEntity)) && (ent instanceof LivingEntity || ent instanceof BoatEntity) && mc.player.getBoundingBox().expand(0.35f).intersects(ent.getBoundingBox()))
                 collisions++;
-        double[] motion = MoveUtil.forward(0.0205 * collisions);
-        mc.player.addVelocity(motion[0], 0, motion[1]);
+        
+        if (collisions > 0) {
+            double[] motion = MoveUtil.forward(0.0205 * collisions);
+            if (motion != null && motion.length >= 2) {
+                mc.player.addVelocity(motion[0], 0, motion[1]);
+            }
+        }
     }
 
     private boolean hasSprintingTarget() {

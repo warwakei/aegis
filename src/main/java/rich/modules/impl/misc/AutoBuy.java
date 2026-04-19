@@ -375,6 +375,8 @@ public class AutoBuy extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void processBuyRequestsInstant(GenericContainerScreen screen) {
+        if (screen == null || screen.getScreenHandler() == null) return;
+        
         int syncId = screen.getScreenHandler().syncId;
 
         BuyRequest request;

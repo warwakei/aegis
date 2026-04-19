@@ -606,6 +606,8 @@ public class Aura extends ModuleStructure {
     }
 
     private LivingEntity updateTarget() {
+        if (mc.player == null || mc.world == null) return null;
+        
         TargetFinder.EntityFilter filter = new TargetFinder.EntityFilter(targetType.getSelected());
         float range = attackrange.getValue() + 0.25F
                 + (mc.player.isGliding() && ElytraTarget.getInstance() != null && ElytraTarget.getInstance().isState()

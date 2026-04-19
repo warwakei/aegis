@@ -80,14 +80,14 @@ public class AutoLeave extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     public void leave(Text text) {
+        if (mc.getNetworkHandler() == null) return;
+        
         switch (leaveType.getSelected()) {
             case "Hub" -> {
-                if (mc.getNetworkHandler() != null) {
-                    mc.getNetworkHandler().sendChatCommand("hub");
-                }
+                mc.getNetworkHandler().sendChatCommand("hub");
             }
             case "Main Menu" -> {
-                if (mc.getNetworkHandler() != null && mc.getNetworkHandler().getConnection() != null) {
+                if (mc.getNetworkHandler().getConnection() != null) {
                     mc.getNetworkHandler().getConnection().disconnect(Text.of("[Auto Leave] \n").copy().append(text));
                 }
             }

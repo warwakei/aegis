@@ -303,10 +303,10 @@ public class AutoTool extends ModuleStructure {
 
         // Определяем диапазон слотов для поиска
         int startSlot = fullInventory.isValue() ? 9 : 36;
-        int endSlot = fullInventory.isValue() ? 44 : 44;
+        int endSlot = fullInventory.isValue() ? 44 : 45;
 
         Slot bestSlot = mc.player.playerScreenHandler.slots.stream()
-                .filter(slot -> slot.id >= startSlot && slot.id <= endSlot)
+                .filter(slot -> slot.id >= startSlot && slot.id < endSlot)
                 .filter(slot -> !slot.getStack().isEmpty())
                 .filter(slot -> slot.getStack().getMiningSpeedMultiplier(state) > 1.0f)
                 .max(Comparator.comparingDouble(slot -> slot.getStack().getMiningSpeedMultiplier(state)))

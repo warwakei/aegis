@@ -67,9 +67,11 @@ public class ChestStealer extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleDefaultMode() {
+        if (mc.player == null || mc.currentScreen == null) return;
+        
         if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler sh) {
             sh.slots.forEach(s -> {
-                if (s.hasStack()
+                if (s != null && s.hasStack()
                         && !s.inventory.equals(mc.player.getInventory())
                         && (modeSetting.isSelected("Default") || whiteList(s.getStack().getItem()))
                         && stopWatch.every(delaySetting.getValue())) {

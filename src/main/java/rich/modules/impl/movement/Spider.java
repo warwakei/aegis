@@ -181,7 +181,7 @@ public class Spider extends ModuleStructure {
                 mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, interaction);
                 mc.player.swingHand(Hand.MAIN_HAND);
 
-                if (cooldown >= 0.5) {
+                if (cooldown >= 1) {
                     mc.player.setVelocity(mc.player.getVelocity().x, 0.63, mc.player.getVelocity().z);
                     cooldown = 0;
                 } else {

@@ -456,7 +456,7 @@ public class ElytraHelper extends ModuleStructure {
 
                 if (stopped || timeout) {
                     startSwapPhase(SwapPhase.PRE_SWAP, settings.randomPreSwapDelay());
-                    return swapCurrentDelay == 0;
+                    return true;
                 }
             }
             case PRE_SWAP -> {
@@ -478,7 +478,7 @@ public class ElytraHelper extends ModuleStructure {
                         InventoryUtils.closeScreen();
                     }
                     startSwapPhase(SwapPhase.RESUMING, settings.randomResumeDelay());
-                    return swapCurrentDelay == 0;
+                    return true;
                 }
             }
             case RESUMING -> {
