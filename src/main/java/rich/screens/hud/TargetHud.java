@@ -26,6 +26,7 @@ public class TargetHud extends AbstractHudElement {
     private float trailAnimation = 0;
     private float absorptionAnimation = 0;
     private float displayedHealth = 0;
+    private float displayedMaxHealth = 20f;
     private long lastUpdateTime = System.currentTimeMillis();
     private long startTime = System.currentTimeMillis();
 
@@ -85,6 +86,18 @@ public class TargetHud extends AbstractHudElement {
             return entity.getMaxHealth();
         }
         return entity.getHealth();
+    }
+
+    private float getMaxHealthSafe(LivingEntity entity) {
+        float max = entity.getMaxHealth();
+        if (Float.isNaN(max) || Float.isInfinite(max) || max <= 0.0f) return 20.0f;
+        return max;
+    }
+
+    private float getAbsorptionSafe(LivingEntity entity) {
+        float a = entity.getAbsorptionAmount();
+        if (Float.isNaN(a) || Float.isInfinite(a) || a < 0.0f) return 0.0f;
+        return a;
     }
 
     private String getHealthString(float health) {
@@ -178,9 +191,9 @@ public class TargetHud extends AbstractHudElement {
         float nameY = y + 13;
         float maxContentWidth = x + getWidth() - contentX - 12;
 
-        float hp = getHealth(lastTarget);
-        float maxHp = lastTarget.getMaxHealth();
-        float absorp = lastTarget.getAbsorptionAmount();
+        float hp = Math.max(0.0f, getHealth(lastTarget));
+        float maxHp = getMaxHealthSafe(lastTarget);
+        float absorp = getAbsorptionSafe(lastTarget);
 
         boolean isInvisible = lastTarget.isInvisible() && !Network.isSpookyTime() && !Network.isCopyTime();
 
@@ -190,11 +203,27 @@ public class TargetHud extends AbstractHudElement {
         } else {
             targetDisplayHealth = hp + absorp;
         }
-        displayedHealth = lerp(displayedHealth, targetDisplayHealth, deltaTime, 5f);
+        displayedHealth = lerp(displayedHealth, targetDisplayHealth, deltaTime, 7.5f);
+        displayedMaxHealth = lerp(displayedMaxHealth, maxHp, deltaTime, 6.0f);
+
+        float shownMax = Math.max(1.0f, displayedMaxHealth);
         float snappedHealth = snapToStep(displayedHealth, 0.25f);
+        float snappedHpOnly = snapToStep(hp, 0.25f);
+        float snappedAbsorp = snapToStep(absorp, 0.25f);
 
         String hpStr = getHealthString(snappedHealth);
-        String name = lastTarget.getName().getString();
+
+        String name = "";
+        if (lastTarget.getDisplayName() != null) {
+            name = lastTarget.getDisplayName().getString();
+        }
+        if (name == null || name.isEmpty()) {
+            name = lastTarget.getName().getString();
+        }
+        if (name == null || name.isEmpty()) {
+            name = lastTarget.getType().getName().getString();
+        }
+
         float hpWidth = Fonts.BOLD.getWidth(hpStr, 5.5f);
         float nameWidth = Fonts.BOLD.getWidth(name, 5.5f);
 
@@ -212,7 +241,7 @@ public class TargetHud extends AbstractHudElement {
         if (isInvisible) {
             targetHealth = 1.0f;
         } else {
-            targetHealth = hp / maxHp;
+            targetHealth = hp / shownMax;
         }
         healthAnimation = lerp(healthAnimation, targetHealth, deltaTime, 3f);
 
@@ -225,7 +254,7 @@ public class TargetHud extends AbstractHudElement {
         if (isInvisible) {
             targetAbsorption = 0;
         } else {
-            targetAbsorption = absorp / maxHp;
+            targetAbsorption = absorp / shownMax;
         }
         absorptionAnimation = lerp(absorptionAnimation, targetAbsorption, deltaTime, 3f);
 
@@ -313,5 +342,23 @@ public class TargetHud extends AbstractHudElement {
                             new Color(255, 255, 150, 0).getRGB()
                     }, 2);
         }
+
+        // Numeric HP under the bar for quick reads: "18.5/20" and absorption hint.
+        String hpNumeric;
+        if (isInvisible) {
+            hpNumeric = "??/" + getHealthString(shownMax);
+        } else {
+            hpNumeric = getHealthString(snappedHpOnly) + "/" + getHealthString(shownMax);
+            if (snappedAbsorp > 0.01f && !Network.isFunTime()) {
+                hpNumeric += " +" + getHealthString(snappedAbsorp);
+            }
+        }
+
+        float hpTextSize = 4.6f;
+        float hpTextW = Fonts.REGULAR.getWidth(hpNumeric, hpTextSize);
+        float hpTextX = barX + (barWidth - hpTextW) / 2f;
+        float hpTextY = barY + 6.5f;
+        int hpTextColor = new Color(170, 180, 195, (int) (220 * alpha)).getRGB();
+        Fonts.REGULAR.draw(hpNumeric, hpTextX, hpTextY, hpTextSize, hpTextColor);
     }
 }
