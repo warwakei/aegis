@@ -9,14 +9,21 @@ import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.textures.GpuTexture;
+import com.mojang.blaze3d.textures.GpuTextureView;
+import com.mojang.blaze3d.textures.FilterMode;
+import net.minecraft.client.gl.GpuSampler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gl.UniformType;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
@@ -34,7 +41,7 @@ public class HoloSheenPipeline {
     private static final Matrix4f TEXTURE_MATRIX = new Matrix4f();
 
     private static final float FIXED_GUI_SCALE = 2.0f;
-    private static final int BUFFER_SIZE = 140;
+    private static final int BUFFER_SIZE = 96; // rect(16) + screen(16) + radii(16) + tintColor(16) + params0(16) + params1(16) = 96
 
     private static final RenderPipeline PIPELINE = RenderPipelines.register(
             RenderPipeline.builder(RenderPipelines.TRANSFORMS_AND_PROJECTION_SNIPPET)
@@ -108,6 +115,7 @@ public class HoloSheenPipeline {
         );
 
         int noiseTextureGlId = 0;
+        GpuTextureView noiseTextureView = null;
         if (noiseTextureId != null) {
             AbstractTexture texture = client.getTextureManager().getTexture(noiseTextureId);
             if (texture != null) {
@@ -115,6 +123,7 @@ public class HoloSheenPipeline {
                     GpuTexture gpuTexture = texture.getGlTexture();
                     if (gpuTexture != null) {
                         noiseTextureGlId = getTextureGlId(gpuTexture);
+                        noiseTextureView = RenderSystem.getDevice().createTextureView(gpuTexture);
                     }
                 } catch (Exception e) {
                     // Ignore
@@ -122,7 +131,7 @@ public class HoloSheenPipeline {
             }
         }
 
-        uploadAndDraw(client, noiseTextureGlId);
+        uploadAndDraw(client, noiseTextureGlId, noiseTextureView);
     }
 
     private void prepareUniformData(float x, float y, float width, float height,
@@ -173,7 +182,7 @@ public class HoloSheenPipeline {
         dataBuffer.flip();
     }
 
-    private void uploadAndDraw(MinecraftClient client, int noiseTextureGlId) {
+    private void uploadAndDraw(MinecraftClient client, int noiseTextureGlId, GpuTextureView noiseTextureView) {
         int size = dataBuffer.remaining();
         if (uniformBuffer == null || uniformBuffer.size() < size) {
             if (uniformBuffer != null) uniformBuffer.close();
@@ -190,10 +199,7 @@ public class HoloSheenPipeline {
         GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms()
                 .write(RenderSystem.getModelViewMatrix(), COLOR_MODULATOR, MODEL_OFFSET, TEXTURE_MATRIX);
 
-        if (noiseTextureGlId > 0) {
-            GL13.glActiveTexture(GL13.GL_TEXTURE1);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, noiseTextureGlId);
-        }
+        GpuSampler sampler = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
 
         try (RenderPass renderPass = encoder.createRenderPass(
                 () -> "minecraft:holo_sheen_pass",
@@ -208,17 +214,11 @@ public class HoloSheenPipeline {
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
             renderPass.setUniform("SheenData", uniformBuffer);
-            if (noiseTextureGlId > 0) {
-                renderPass.setSampler("NoiseSampler", 1);
+            if (noiseTextureView != null) {
+                renderPass.bindTexture("NoiseSampler", noiseTextureView, sampler);
             }
 
             renderPass.draw(0, 6);
-        }
-
-        if (noiseTextureGlId > 0) {
-            GL13.glActiveTexture(GL13.GL_TEXTURE1);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-            GL13.glActiveTexture(GL13.GL_TEXTURE0);
         }
     }
 

@@ -176,7 +176,7 @@ public class AutoTool extends ModuleStructure {
         if (!hasSwapCooldownPassed()) return;
 
         // Анти-ломка: не меняем инструмент если блок почти сломан
-        if (antiBreak.isValue() && e.getStage() == BlockBreakingEvent.Stage.PRE_DAMAGE) {
+        if (antiBreak.isValue()) {
             return;
         }
 
@@ -343,7 +343,7 @@ public class AutoTool extends ModuleStructure {
 
     private int getDurability(Slot slot) {
         ItemStack stack = slot.getStack();
-        if (stack.getItem().getMaxDamage() == 0) return Integer.MAX_VALUE;
+        if (stack.getMaxDamage() == 0) return Integer.MAX_VALUE;
         return stack.getMaxDamage() - stack.getDamage();
     }
 }

@@ -8,27 +8,20 @@ layout(std140) uniform OutlineData {
     vec4 thicknesses;
     vec4 thicknesses2;
     vec4 glowColor;
-    vec4 glowParams; // x = glowRadius, y = glowIntensity, z, w = padding
+    vec4 glowParams;
 };
 
 out vec2 fragCoord;
 out vec2 pixelCoord;
-out vec2 rectSize;
-out vec4 cornerRadii;
-out vec4 fragColors[8];
-out float fragThicknesses[8];
-out float fragSmoothness;
-out float guiScale;
-out float maxThickness;
 
 void main() {
     vec2 positions[6] = vec2[](
-    vec2(0.0, 0.0),
-    vec2(1.0, 0.0),
-    vec2(1.0, 1.0),
-    vec2(0.0, 0.0),
-    vec2(1.0, 1.0),
-    vec2(0.0, 1.0)
+        vec2(0.0, 0.0),
+        vec2(1.0, 0.0),
+        vec2(1.0, 1.0),
+        vec2(0.0, 0.0),
+        vec2(1.0, 1.0),
+        vec2(0.0, 1.0)
     );
 
     vec2 pos = positions[gl_VertexID];
@@ -48,22 +41,4 @@ void main() {
 
     fragCoord = pos;
     pixelCoord = pos * (rect.zw + padding * 2.0) - padding;
-    rectSize = rect.zw;
-    cornerRadii = radii;
-    fragSmoothness = screen.z;
-    guiScale = screen.w;
-    maxThickness = maxT;
-
-    for (int i = 0; i < 8; i++) {
-        fragColors[i] = colors[i];
-    }
-
-    fragThicknesses[0] = thicknesses.x;
-    fragThicknesses[1] = thicknesses.y;
-    fragThicknesses[2] = thicknesses.z;
-    fragThicknesses[3] = thicknesses.w;
-    fragThicknesses[4] = thicknesses2.x;
-    fragThicknesses[5] = thicknesses2.y;
-    fragThicknesses[6] = thicknesses2.z;
-    fragThicknesses[7] = thicknesses2.w;
 }

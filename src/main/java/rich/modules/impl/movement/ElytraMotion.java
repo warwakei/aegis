@@ -61,6 +61,7 @@ public class ElytraMotion extends ModuleStructure {
     private final BooleanSetting autoHover = new BooleanSetting("Авто зависание", "Зависать когда не атакуем")
             .setValue(true);
 
+    @NonFinal
     private Vec3d smoothedVelocity = Vec3d.ZERO;
 
     public ElytraMotion() {
@@ -92,11 +93,11 @@ public class ElytraMotion extends ModuleStructure {
         double attackRange = aura.getAttackrange().getValue() - 1F;
 
         if (distance > attackRange) {
-            Vec3d direction = aura.target.getPos().subtract(mc.player.getPos()).normalize();
+            Vec3d direction = aura.target.getEntityPos().subtract(mc.player.getEntityPos()).normalize();
             Vec3d targetVel = direction.multiply(approachSpeed.getValue() * 2);
             applySmoothVelocity(targetVel);
         } else if (distance < attackRange - 2) {
-            Vec3d direction = mc.player.getPos().subtract(aura.target.getPos()).normalize();
+            Vec3d direction = mc.player.getEntityPos().subtract(aura.target.getEntityPos()).normalize();
             Vec3d targetVel = direction.multiply(approachSpeed.getValue());
             applySmoothVelocity(targetVel);
         } else {

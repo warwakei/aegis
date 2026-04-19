@@ -244,17 +244,7 @@ public class MainMenuScreen extends Screen {
     }
 
     private void renderMenuVignette(int screenWidth, int screenHeight) {
-        float ew = Math.min(168f, screenWidth * 0.24f);
-        float eh = Math.min(128f, screenHeight * 0.2f);
-        int edge = 118;
-        Render2D.gradientRect(0, 0, ew, screenHeight, new int[]{
-                withAlpha(0x000000, edge), withAlpha(0x000000, 0), withAlpha(0x000000, 0), withAlpha(0x000000, edge)}, 0);
-        Render2D.gradientRect(screenWidth - ew, 0, ew, screenHeight, new int[]{
-                withAlpha(0x000000, 0), withAlpha(0x000000, edge), withAlpha(0x000000, edge), withAlpha(0x000000, 0)}, 0);
-        Render2D.gradientRect(0, 0, screenWidth, eh, new int[]{
-                withAlpha(0x000000, 88), withAlpha(0x000000, 88), withAlpha(0x000000, 0), withAlpha(0x000000, 0)}, 0);
-        Render2D.gradientRect(0, screenHeight - eh, screenWidth, eh, new int[]{
-                withAlpha(0x000000, 0), withAlpha(0x000000, 0), withAlpha(0x000000, 82), withAlpha(0x000000, 82)}, 0);
+        // Vignette disabled
     }
 
     private void renderMenuTopBar(int screenWidth, long currentTime) {
@@ -374,12 +364,13 @@ public class MainMenuScreen extends Screen {
         float centerY = screenHeight / 2f;
         String text = "Press any key to continue";
         float fontSize = 14f;
-        float pulse = (float) Math.sin(unlockTextPulse) * 0.15f + 0.85f;
-        int textAlpha = (int) (opacity * 255 * pulse);
+        
+        int textAlpha = (int) (opacity * 255);
         Fonts.REGULARNEW.drawCentered(text, centerX, centerY - 5, fontSize, withAlpha(0xFFFFFF, textAlpha));
+        
         float arrowY = centerY + 25;
-        float arrowBounce = (float) Math.sin(unlockTextPulse * 1.5f) * 3f;
-        int arrowAlpha = (int) (opacity * 200 * pulse);
+        float arrowBounce = (float) Math.sin(unlockTextPulse * 1.2) * 2.5f;
+        int arrowAlpha = (int) (opacity * 230);
         Fonts.REGULARNEW.drawCentered("▼", centerX, arrowY + arrowBounce, fontSize, withAlpha(0xFFFFFF, arrowAlpha));
     }
 

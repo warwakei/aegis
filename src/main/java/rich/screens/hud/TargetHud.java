@@ -59,8 +59,25 @@ public class TargetHud extends AbstractHudElement {
         return current + (target - current) * factor;
     }
 
+    private float perlinNoise(float x, float y) {
+        float n = (float) Math.sin(x * 12.9898f + y * 78.233f) * 43758.5453f;
+        return n - (float) Math.floor(n);
+    }
+
     private float snapToStep(float value, float step) {
         return Math.round(value / step) * step;
+    }
+
+    private String truncateText(String text, float maxWidth, float fontSize) {
+        if (text.isEmpty()) return text;
+        
+        for (int i = text.length(); i > 0; i--) {
+            String truncated = text.substring(0, i) + "...";
+            if (Fonts.BOLD.getWidth(truncated, fontSize) <= maxWidth) {
+                return truncated;
+            }
+        }
+        return "...";
     }
 
     private float getHealth(LivingEntity entity) {
@@ -159,6 +176,7 @@ public class TargetHud extends AbstractHudElement {
         float faceX = x + 9;
         float contentX = faceX + faceSize + 6;
         float nameY = y + 13;
+        float maxContentWidth = x + getWidth() - contentX - 12;
 
         float hp = getHealth(lastTarget);
         float maxHp = lastTarget.getMaxHealth();
@@ -176,9 +194,13 @@ public class TargetHud extends AbstractHudElement {
         float snappedHealth = snapToStep(displayedHealth, 0.25f);
 
         String hpStr = getHealthString(snappedHealth);
-
         String name = lastTarget.getName().getString();
         float hpWidth = Fonts.BOLD.getWidth(hpStr, 5.5f);
+        float nameWidth = Fonts.BOLD.getWidth(name, 5.5f);
+
+        if (nameWidth > maxContentWidth) {
+            name = truncateText(name, maxContentWidth, 5.5f);
+        }
 
         Fonts.BOLD.draw(name, contentX, nameY, 5.5f,
                 new Color(255, 255, 255, (int) (255 * alpha)).getRGB());
@@ -233,8 +255,10 @@ public class TargetHud extends AbstractHudElement {
             
             int[] colors = new int[4];
             for (int i = 0; i < 4; i++) {
-                float charWave = (float) Math.sin(wavePhase - i * 1.2f);
-                float waveFactor = (charWave + 1f) / 2f;
+                float t = i / 3f;
+                float perlinWave = perlinNoise(wavePhase + t * 2f, t * 3f);
+                float smoothWave = (float) Math.sin(wavePhase - i * 1.2f) * 0.6f + perlinWave * 0.4f;
+                float waveFactor = (smoothWave + 1f) / 2f;
 
                 float hue = 0.25f + waveFactor * 0.15f;
                 int baseColor = ColorUtil.hsvToRgb(hue, 0.3f, 0.7f + waveFactor * 0.3f);
@@ -265,8 +289,10 @@ public class TargetHud extends AbstractHudElement {
             int absorpBarWidth = (int)(barWidth * absorptionPercent);
             int[] goldColors = new int[4];
             for (int i = 0; i < 4; i++) {
-                float charWave = (float) Math.sin(wavePhase - i * 1.5f);
-                float waveFactor = (charWave + 1f) / 2f;
+                float t = i / 3f;
+                float perlinWave = perlinNoise(wavePhase + t * 2.5f, t * 2.8f);
+                float smoothWave = (float) Math.sin(wavePhase - i * 1.5f) * 0.6f + perlinWave * 0.4f;
+                float waveFactor = (smoothWave + 1f) / 2f;
 
                 int cr = (int)(240 + 15 * waveFactor);
                 int cg = (int)(180 + 40 * waveFactor);

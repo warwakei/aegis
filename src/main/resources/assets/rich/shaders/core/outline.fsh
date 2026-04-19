@@ -11,7 +11,7 @@ layout(std140) uniform OutlineData {
     vec4 thicknesses;
     vec4 thicknesses2;
     vec4 glowColor;
-    vec4 glowParams; // x = glowRadius, y = glowIntensity, z, w = padding
+    vec4 glowParams;
 };
 
 out vec4 fragColor;
@@ -21,7 +21,6 @@ const float PI = 3.14159265359;
 float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     r.xy = (p.x > 0.0) ? r.yz : r.xw;
     r.x = (p.y > 0.0) ? r.y : r.x;
-
     vec2 q = abs(p) - b + r.x;
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
@@ -29,8 +28,7 @@ float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
 float getPerimeterPosition(vec2 center, vec2 halfSize) {
     vec2 normCenter = center / max(halfSize, vec2(0.001));
     float angle = atan(normCenter.y, normCenter.x);
-    float t = (angle + PI) / (2.0 * PI);
-    return fract(t + 0.125);
+    return fract((angle + PI) / (2.0 * PI) + 0.125);
 }
 
 vec4 getPerimeterColor(float t) {
@@ -75,19 +73,17 @@ void main() {
     float outlineThickness = getPerimeterThickness(perimeterPos);
 
     float pixelWidth = fwidth(dist);
-    float smoothing = max(pixelWidth * screen.z, 0.5 / screen.w); // fragSmoothness is screen.z, guiScale is screen.w
+    float smoothing = max(pixelWidth * screen.z, 0.5 / screen.w);
 
     float outerEdge = smoothstep(-smoothing, smoothing, dist);
     float innerEdge = smoothstep(-smoothing, smoothing, dist + outlineThickness);
     float outlineMask = innerEdge * (1.0 - outerEdge);
 
-    // Glow effect
     float glowRadius = glowParams.x;
     float glowIntensity = glowParams.y;
 
     float glowSDF = roundedBoxSDF(center, halfRectSize, currentRadii);
-    float glowAlpha = 1.0 - smoothstep(-glowRadius, glowRadius, glowSDF);
-    glowAlpha *= glowIntensity;
+    float glowAlpha = (1.0 - smoothstep(-glowRadius, glowRadius, glowSDF)) * glowIntensity;
 
     vec4 finalGlowColor = glowColor;
     finalGlowColor.a *= glowAlpha;

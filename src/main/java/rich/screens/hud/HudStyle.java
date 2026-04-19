@@ -23,18 +23,6 @@ public final class HudStyle {
 
         Render2D.gradientRect(x, y, w, h, new int[]{c0, c1, c2, c3}, radius);
 
-        // Subtle depth + "premium" vibe. Kept low so it doesn't distract in gameplay.
-        Render2D.holoSheen(
-                x, y, w, h,
-                radius,
-                new Color(255, 255, 255, (int) (255 * alphaMul)).getRGB(),
-                0.30f * alphaMul,
-                0.18f,
-                1.05f,
-                0.10f
-        );
-
-        Render2D.iridescentOutline(x, y, w, h, 0.9f, radius, 0.14f, 0.65f, 1.0f, 0.22f * alphaMul);
         Render2D.outline(x, y, w, h, 0.7f, ClickGuiPalette.border(alphaMul), radius);
     }
 

@@ -37,7 +37,8 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-    vec2 halfSize = rect.zw * 0.5;
+    vec2 rectSize = rect.zw;
+    vec2 halfSize = rectSize * 0.5;
     vec2 center = pixelCoord - halfSize;
 
     float maxRadius = min(halfSize.x, halfSize.y);
@@ -46,7 +47,7 @@ void main() {
     float dist = roundedBoxSDF(center, halfSize, currentRadii);
 
     float pixelWidth = fwidth(dist);
-    float smoothing = max(pixelWidth, 0.5 / screen.z); // guiScale is screen.z
+    float smoothing = max(pixelWidth, 0.5 / screen.z);
     float alpha = 1.0 - smoothstep(-smoothing, smoothing, dist);
 
     if (alpha < 0.01) {
@@ -55,7 +56,7 @@ void main() {
 
     vec2 uv = pixelCoord / max(rect.zw, vec2(1.0)); // rectSize is rect.zw
 
-    float t = fract(params0.x * params0.z); // timeSeconds * speed
+    float t = fract(params0.x * params0.z); // params0.x = timeSeconds, params0.z = speed
     vec2 dir = vec2(cos(params0.w), sin(params0.w)); // angle
 
     // Sheen band traveling across the panel
@@ -69,7 +70,7 @@ void main() {
     vec3 iri = hsv2rgb(vec3(hue, 0.55, 1.0));
 
     // Grain to avoid "flat digital"
-    float n = texture(NoiseSampler, uv * 10.0 + timeSeconds * 0.1).r; // Use NoiseSampler
+    float n = texture(NoiseSampler, uv * 10.0 + params0.x * 0.1).r; // params0.x = timeSeconds
     float g = (n - 0.5) * params1.x; // grain is params1.x
 
     float sheen = band * params0.y; // intensity is params0.y
@@ -80,13 +81,9 @@ void main() {
     // fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen); // Original blending
 
     // New blending based on blendMode
-    if (params1.y == 1.0) { // Example: Additive blending
-        fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen) + fragColor;
-    } else if (params1.y == 2.0) { // Example: Screen blending
-        vec4 src = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
-        fragColor = 1.0 - (1.0 - src) * (1.0 - fragColor);
-    } else { // Default: Alpha blending
-        fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
-    }
+    vec4 src = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
+    // We cannot read the destination color in a fragment shader; output the source color
+    // and let the pipeline blending mode handle additive/screen blending.
+    fragColor = src;
 }
 

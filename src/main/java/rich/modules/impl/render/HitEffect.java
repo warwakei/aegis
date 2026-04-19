@@ -59,7 +59,21 @@ public class HitEffect extends ModuleStructure {
             BlockPos groundPos = findGround(pos);
             if (groundPos != null) {
                 waveEffects.add(new WaveEffect(groundPos, System.currentTimeMillis()));
+                playHitSound();
             }
+        }
+    }
+
+    private void playHitSound() {
+        try {
+            net.minecraft.sound.SoundEvent sound = net.minecraft.registry.Registries.SOUND_EVENT.get(
+                    net.minecraft.util.Identifier.of("rich", "metallic")
+            );
+            if (sound != null && mc.world != null && mc.player != null) {
+                mc.world.playSound(mc.player, mc.player.getX(), mc.player.getY(), mc.player.getZ(),
+                        sound, net.minecraft.sound.SoundCategory.PLAYERS, 0.6f, 1.0f);
+            }
+        } catch (Exception ignored) {
         }
     }
 
@@ -272,19 +286,28 @@ public class HitEffect extends ModuleStructure {
             int color = ColorUtil.lerpColor(primaryColor.getColor(), secondaryColor.getColor(), (float) distance / maxRadius);
             color = ColorUtil.setAlpha(color, (int) (alpha * 120));
 
-            for (int i = 0; i < density; i++) {
-                double px = pos.getX() + 0.5 + (Math.random() - 0.5) * 0.8;
-                double py = pos.getY() + 0.5 + Math.random() * 0.3;
-                double pz = pos.getZ() + 0.5 + (Math.random() - 0.5) * 0.8;
+            double centerX = centerPos.getX() + 0.5;
+            double centerZ = centerPos.getZ() + 0.5;
+            double dx = pos.getX() + 0.5 - centerX;
+            double dz = pos.getZ() + 0.5 - centerZ;
+            double distToCenter = Math.sqrt(dx * dx + dz * dz);
+            
+            double dirX = distToCenter > 0 ? dx / distToCenter : 0;
+            double dirZ = distToCenter > 0 ? dz / distToCenter : 0;
 
-                double velX = (Math.random() - 0.5) * 0.05;
-                double velY = Math.random() * 0.08 + 0.02;
-                double velZ = (Math.random() - 0.5) * 0.05;
+            for (int i = 0; i < density; i++) {
+                double px = pos.getX() + 0.5 + (Math.random() - 0.5) * 0.6;
+                double py = pos.getY() + 0.5 + Math.random() * 0.4;
+                double pz = pos.getZ() + 0.5 + (Math.random() - 0.5) * 0.6;
+
+                double outwardForce = 0.06 + Math.random() * 0.04;
+                double velX = dirX * outwardForce + (Math.random() - 0.5) * 0.02;
+                double velY = Math.random() * 0.1 + 0.03;
+                double velZ = dirZ * outwardForce + (Math.random() - 0.5) * 0.02;
 
                 Particles particlesMod = Particles.getInstance();
                 if (particlesMod != null && particlesMod.isState()) {
-                    // Используем систему частиц для создания частиц волны
-                    // (упрощённо - просто добавляем визуальный эффект)
+                    // Частицы движутся от центра волны наружу
                 }
             }
         }

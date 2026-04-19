@@ -3,6 +3,7 @@ package rich.modules.impl.movement;
 import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import rich.events.api.EventHandler;
@@ -14,7 +15,7 @@ import rich.modules.module.setting.implement.BooleanSetting;
 import rich.modules.module.setting.implement.SelectSetting;
 import rich.modules.module.setting.implement.SliderSettings;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SuperFireWork extends ModuleStructure {
     SelectSetting modeSetting = new SelectSetting("Режим", "Выберите тип режима")
             .value("BravoHvH", "ReallyWorld", "PulseHVH", "Custom", "Soft");
@@ -41,7 +42,9 @@ public class SuperFireWork extends ModuleStructure {
     BooleanSetting adaptiveSpeed = new BooleanSetting("Адаптивная скорость", "Автоматически подстраивать скорость под FPS")
             .setValue(true);
 
+    @NonFinal
     private Vec3d lastVelocity = Vec3d.ZERO;
+    @NonFinal
     private double baseSpeedMultiplier = 1.0;
 
     public SuperFireWork() {

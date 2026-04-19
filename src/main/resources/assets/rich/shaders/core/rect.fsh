@@ -1,6 +1,7 @@
 #version 150
 
 in vec2 fragCoord;
+in vec2 pixelCoord;
 
 layout(std140) uniform RectData {
     vec4 rect;
@@ -8,7 +9,7 @@ layout(std140) uniform RectData {
     vec4 radii;
     vec4 colors[9];
     vec4 shadowColor;
-    vec4 shadowOffsetAndRadius; // xy = offset, z = radius, w = padding
+    vec4 shadowOffsetAndRadius;
 };
 
 out vec4 fragColor;
@@ -16,7 +17,6 @@ out vec4 fragColor;
 float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     r.xy = (p.x > 0.0) ? r.yz : r.xw;
     r.x = (p.y > 0.0) ? r.y : r.x;
-
     vec2 q = abs(p) - b + r.x;
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
@@ -62,18 +62,15 @@ vec4 sampleGradientAt(vec2 uv) {
     vec4 middle = mix(mix(c3, c4, x), mix(c4, c5, x), x);
     vec4 bottom = mix(mix(c6, c7, x), mix(c7, c8, x), x);
 
-    vec4 result = mix(mix(top, middle, y), mix(middle, bottom, y), y);
-
-    return result;
+    return mix(mix(top, middle, y), mix(middle, bottom, y), y);
 }
 
 vec4 sampleGradient(vec2 uv) {
-    if (screen.w <= 0.0) { // innerBlur is screen.w
+    if (screen.w <= 0.0) {
         return toSRGB(sampleGradientAt(uv));
     }
 
-    float blur = screen.w * 0.01; // innerBlur is screen.w
-
+    float blur = screen.w * 0.01;
     vec4 sum = vec4(0.0);
     float weightSum = 0.0;
 
@@ -102,34 +99,28 @@ vec4 sampleGradient(vec2 uv) {
     return toSRGB(sum / weightSum);
 }
 
-float dither(vec2 coord) {
-    return fract(sin(dot(coord, vec2(12.9898, 78.233))) * 43758.5453) / 255.0;
-}
-
 void main() {
-    // Calculate UV for gradient sampling
-    vec2 uv = fragCoord / rectSize + 0.5;
+    vec2 uv = fragCoord * 0.5 + 0.5;
+    vec2 halfRectSize = rect.zw * 0.5;
+    vec2 center = pixelCoord - halfRectSize;
+    
+    float maxRadius = min(halfRectSize.x, halfRectSize.y);
+    vec4 currentRadii = min(radii, vec4(maxRadius));
+    
+    float rectSDF = roundedBoxSDF(center, halfRectSize, currentRadii);
+    float pixelWidth = fwidth(rectSDF);
+    float smoothing = max(pixelWidth, 0.5 / screen.z);
+    float rectAlpha = 1.0 - smoothstep(-smoothing, smoothing, rectSDF);
 
-    // Calculate SDF for the main rectangle
-    vec2 halfRectSize = rectSize / 2.0;
-    float rectSDF = roundedBoxSDF(fragCoord, halfRectSize - cornerRadii.x, cornerRadii);
-    float rectAlpha = 1.0 - smoothstep(-0.5, 0.5, rectSDF); // Sharp edge for the rectangle
-
-    // Calculate color for the main rectangle
     vec4 rectColor = sampleGradient(uv);
     rectColor.a *= rectAlpha;
 
-    // Calculate SDF for the shadow
-    vec2 shadowFragCoord = fragCoord - shadowOffsetAndRadius.xy;
-    float shadowSDF = roundedBoxSDF(shadowFragCoord, halfRectSize - cornerRadii.x, cornerRadii);
-
-    // Apply blur to the shadow
+    vec2 shadowFragCoord = pixelCoord - shadowOffsetAndRadius.xy - halfRectSize;
+    float shadowSDF = roundedBoxSDF(shadowFragCoord, halfRectSize, currentRadii);
     float shadowAlpha = 1.0 - smoothstep(-shadowOffsetAndRadius.z, shadowOffsetAndRadius.z, shadowSDF);
 
-    // Combine shadow color with its alpha
     vec4 finalShadowColor = shadowColor;
     finalShadowColor.a *= shadowAlpha;
 
-    // Blend shadow and rectangle. Shadow should be behind.
     fragColor = rectColor + finalShadowColor * (1.0 - rectColor.a);
 }
