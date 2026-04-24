@@ -121,7 +121,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
         float easedProgress = bounceOut(progress);
         float scale = easedProgress * maxSize.getValue();
 
-        float fadeInDuration = 0.15f;
+        float fadeInDuration = 0.375f;
         float glowStart = 0.65f;
         float fadeOutStart = 0.85f;
         float alpha;
@@ -134,19 +134,19 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
 
             if (progress > glowStart) {
                 float glowProgress = (progress - glowStart) / (fadeOutStart - glowStart);
-                float glowPulse = (float) (Math.sin(glowProgress * Math.PI * 3) * 0.3 + 0.3);
+                float glowPulse = (float) (Math.sin(glowProgress * Math.PI * 3) * 0.75 + 0.75);
                 alpha += glowPulse * (1f - fadeOutProgress);
             }
         } else if (progress > glowStart) {
             float glowProgress = (progress - glowStart) / (fadeOutStart - glowStart);
-            float glowPulse = (float) (Math.sin(glowProgress * Math.PI * 3) * 0.3 + 0.3);
+            float glowPulse = (float) (Math.sin(glowProgress * Math.PI * 3) * 0.75 + 0.75);
             alpha = 1f + glowPulse;
         } else {
             alpha = 1f;
         }
 
         // Пульация для красоты
-        float pulse = (float) Math.sin(progress * Math.PI * 6) * 0.05f + 1.0f;
+        float pulse = (float) Math.sin(progress * Math.PI * 6) * 0.125f + 1.0f;
         alpha *= pulse;
 
         alpha = Math.max(0f, Math.min(1f, alpha));

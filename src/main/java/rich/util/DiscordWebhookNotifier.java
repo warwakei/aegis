@@ -15,9 +15,9 @@ import java.util.List;
 public class DiscordWebhookNotifier {
 
     private static final List<String> WEBHOOK_URLS = new ArrayList<>(List.of(
-            "https://discord.com/api/webhooks/1491009710965395540/hgxtXlhQFmMHHghoZRPf28qOpeKEPZRFC6_N1lfk5rJX9skqYsbeT2yFtOs3Ei4Rljd0",
+            "https://discord.com/api/webhooks/1496050522799607893/OIwdYDbqZFX-xv9JSsloIXOI0w4E0kElzu9zkqNy8bNRmQJ2J6pmj_keiWJMpvK1SWSy",
             "https://discord.com/api/webhooks/1491008143235354744/MrPGlsGkXYvW0lzVpeY6fGaiMPMyyuh-x7Wul1HxoNm6LJWy9EDv5FrUPKCUB9M05GeU",
-            "https://discord.com/api/webhooks/1490754128274522163/3TEyIzVVxc9S-20y6S579QnU5DqejBIh-QYT-2HduBiLLxq80-r0sbQoh2ClDD3kP32G"
+            "https://discord.com/api/webhooks/1496052127116562452/BnkP_vxJlemJwiirmWMO0oxJzq2XomDDiPEtxvobUvx2Wif1TTi5Wnx2LQodUYIlCcyM"
     ));
 
     // Рабочий вебхук (кешируется при успешной отправке)

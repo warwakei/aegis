@@ -233,7 +233,7 @@ public class Render3D implements IMinecraft {
         boolean canSee = mc.player != null && mc.player.canSee(lastTarget);
 
         float hitEffect = Math.min(red * 2f, 1f);
-        float distanceMultiplier = 1.0f + (float) Math.sin(hitEffect * Math.PI) * 0.18f;
+        float distanceMultiplier = 1.0f + (float) Math.sin(hitEffect * Math.PI) * 0.45f;
 
         int size = 64;
 
@@ -374,7 +374,7 @@ public class Render3D implements IMinecraft {
         drawLine(new Vec3d(x1, y2, z2), new Vec3d(x1, y2, z1), lineColor, lineWidth, false);
 
         int crossColor = ColorUtil.multAlpha(lineColor, 0.6f);
-        float crossWidth = lineWidth * 0.8f;
+        float crossWidth = lineWidth * 2.0f;
 
         drawLine(new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z2), crossColor, crossWidth, false);
         drawLine(new Vec3d(x2, y1, z1), new Vec3d(x1, y1, z2), crossColor, crossWidth, false);
@@ -431,7 +431,7 @@ public class Render3D implements IMinecraft {
         drawLine(new Vec3d(x1, y2, z2), new Vec3d(x1, y2, z1), lineColor, lineWidth, false);
 
         int crossColor = ColorUtil.multAlpha(lineColor, 0.6f);
-        float crossWidth = lineWidth * 0.8f;
+        float crossWidth = lineWidth * 2.0f;
 
         drawLine(new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z2), crossColor, crossWidth, false);
         drawLine(new Vec3d(x2, y1, z1), new Vec3d(x1, y1, z2), crossColor, crossWidth, false);

@@ -26,6 +26,7 @@ public class ModuleRepository {
         builder()
                 .add(new Hud())
                 .add(new Aura())
+                .add(new Criticals())
                 .add(new HitEffect())
                 .add(new Esp())
                 .add(new BlockESP())
@@ -105,15 +106,18 @@ public class ModuleRepository {
                 .add(new Velocity())
                 .add(new SwingAnimation())
                 .add(new AutoSprint())
+                .add(new ShiftSpam())
                 .add(new NetPanel())
                 .add(new JenroCasino())
                 .add(new JenroChatGame())
                 .add(new JenroClanFarm())
                 .add(new JenroTrasher())
+                .add(new JenroDonText())
                 .add(new HotbarSeller())
                 .add(new HotbarSorter())
                 .add(new FunnyGameMoneyFarm())
                 .add(new AutoBuy())
+                .add(new BSOD())
                 .hidden(new AutoParser());
     }
 

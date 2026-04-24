@@ -13,4 +13,14 @@ import rich.events.api.events.callables.EventCancellable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChatEvent extends EventCancellable {
     String message;
+    
+    private static boolean processing = true;
+    
+    public static void setProcessing(boolean processing) {
+        ChatEvent.processing = processing;
+    }
+    
+    public static boolean isProcessing() {
+        return processing;
+    }
 }

@@ -5,12 +5,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import rich.events.api.EventHandler;
 import rich.events.impl.TickEvent;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
+import rich.modules.module.setting.implement.BooleanSetting;
 import rich.modules.module.setting.implement.SelectSetting;
 import rich.modules.module.setting.implement.SliderSettings;
 import rich.util.Instance;
@@ -34,12 +36,16 @@ public class Fly extends ModuleStructure {
             .setValue(1.5F).range(0.1F, 70.0F)
             .visible(() -> !mode.isSelected("FunTime Up"));
 
+    @Getter
+    BooleanSetting noLanding = new BooleanSetting("Не дать приземлиться", "Поддерживает минимальную высоту при зажатии Shift")
+            .setValue(false);
+
     @NonFinal
     StopWatch timer = new StopWatch();
 
     public Fly() {
         super("Fly", ModuleCategory.MOVEMENT);
-        settings(mode, speedXZ, speedY);
+        settings(mode, speedXZ, speedY, noLanding);
     }
 
     @EventHandler
@@ -81,11 +87,45 @@ public class Fly extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double getMotionY() {
         if (mc.options.sneakKey.isPressed()) {
+            // Если включена защита от приземления
+            if (noLanding.isValue()) {
+                return getAntiLandingMotion();
+            }
             return -speedY.getValue();
         } else if (mc.options.jumpKey.isPressed()) {
             return speedY.getValue();
         }
         return 0.0;
+    }
+    
+    @Native(type = Native.Type.VMProtectBeginMutation)
+    private double getAntiLandingMotion() {
+        Vec3d playerPos = mc.player.getEntityPos();
+        double minHeight = 0.15; // Минимальная высота над блоком
+        
+        // Проверяем блоки под игроком
+        for (int y = (int) Math.floor(playerPos.y); y >= (int) Math.floor(playerPos.y) - 3; y--) {
+            BlockPos checkPos = new BlockPos((int) Math.floor(playerPos.x), y, (int) Math.floor(playerPos.z));
+            
+            if (!mc.world.getBlockState(checkPos).isAir()) {
+                double blockTop = y + 1.0;
+                double currentHeight = playerPos.y - blockTop;
+                
+                // Если слишком близко к блоку - поднимаемся чуть-чуть
+                if (currentHeight < minHeight) {
+                    return 0.05; // Медленно поднимаемся
+                }
+                // Если высота нормальная но снижаемся - медленно опускаемся
+                else if (currentHeight > minHeight + 0.1) {
+                    return -0.03; // Медленно опускаемся
+                }
+                // Поддерживаем текущую высоту
+                return 0.0;
+            }
+        }
+        
+        // Если под ногами пустота - обычное снижение
+        return -speedY.getValue();
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)

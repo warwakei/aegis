@@ -21,7 +21,7 @@ public class Drag {
     private static final float OUTLINE_THICKNESS = 1.0f;
     private static final int OUTLINE_COLOR = ColorUtil.rgba(255, 255, 255, 255);
 
-    private static final Set<String> EXCLUDED_ELEMENTS = Set.of("Notifications", "Watermark", "Info");
+    private static final Set<String> EXCLUDED_ELEMENTS = Set.of();
 
     private static HudElement draggingElement;
     private static int startX, startY;

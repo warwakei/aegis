@@ -20,25 +20,23 @@ public class BackgroundRenderer {
         Render2D.gradientRect(bgX, bgY, 400, 250,
                 new int[]{c0, c1, c2, c3}, 12);
 
-        // Subtle animated sheen overlay to make the panel feel less flat.
+        // Уменьшаем эффект внутри менюшки
         Render2D.holoSheen(
                 bgX, bgY, 400, 250,
                 12,
                 new Color(255, 255, 255, Math.max(0, Math.min(255, (int) (255 * alphaMultiplier)))).getRGB(),
-                0.55f * alphaMultiplier,
-                0.22f,
-                1.05f,
-                0.12f
+                0.10f * alphaMultiplier, // Уменьшено с 0.30f до 0.10f
+                0.18f,
+                1.00f,
+                0.03f
         );
 
-        // Iridescent outline sits under the regular border for a "premium" edge.
-        Render2D.iridescentOutline(bgX, bgY, 400, 250, 1.0f, 12,
-                0.18f, 0.65f, 1.0f, 0.35f * alphaMultiplier);
+        // Убираем RGB аутлайн
+        // Render2D.iridescentOutline(bgX, bgY, 400, 250, 1.0f, 12,
+        //         0.18f, 0.65f, 1.0f, 0.35f * alphaMultiplier);
 
-        Render2D.outline(bgX, bgY, 400, 250, 1f, ClickGuiPalette.border(alphaMultiplier), 12);
-
-        float lineY = bgY + 1.5f;
-        Render2D.rect(bgX + 14, lineY, 400 - 28, 1f, ClickGuiPalette.accentLine(alphaMultiplier), 0);
+        // Черный аутлайн вместо RGB
+        Render2D.outline(bgX, bgY, 400, 250, 1f, new Color(0, 0, 0, (int)(255 * alphaMultiplier)).getRGB(), 12);
     }
 
     public void renderCategoryPanel(float bgX, float bgY, float bgHeight, float alphaMultiplier) {

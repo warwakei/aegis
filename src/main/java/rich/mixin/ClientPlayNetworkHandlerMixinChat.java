@@ -20,17 +20,47 @@ public abstract class ClientPlayNetworkHandlerMixinChat {
     @Inject(method = "onChatMessage", at = @At("HEAD"), cancellable = true)
     private void onChatMessage(ChatMessageS2CPacket packet, CallbackInfo ci) {
         UUID senderUuid = packet.sender();
+        String senderName = null;
+        String messageText = null;
+        
         if (senderUuid != null) {
-            String senderName = getSenderName(senderUuid);
+            senderName = getSenderName(senderUuid);
             if (senderName != null && IgnoreUtils.isIgnore(senderName)) {
                 ci.cancel();
                 return;
             }
-            // Log chat to NetPanel
-            if (senderName != null) {
-                logChatPacket(packet, senderName);
-            }
         }
+        
+        // Получаем текст сообщения для проверки фильтров
+        messageText = extractMessageText(packet);
+        
+        // Проверяем фильтры сообщений
+        if (messageText != null && IgnoreUtils.shouldFilterMessage(messageText, senderName)) {
+            ci.cancel();
+            return;
+        }
+        
+        // Log chat to NetPanel
+        if (senderName != null) {
+            logChatPacket(packet, senderName);
+        }
+    }
+    
+    @Unique
+    private String extractMessageText(ChatMessageS2CPacket packet) {
+        try {
+            // Try to find a method that returns Text for the message content
+            for (java.lang.reflect.Method m : packet.getClass().getDeclaredMethods()) {
+                if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType())) {
+                    m.setAccessible(true);
+                    Object result = m.invoke(packet);
+                    if (result instanceof net.minecraft.text.Text text) {
+                        return text.getString();
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        return null;
     }
 
     @Unique

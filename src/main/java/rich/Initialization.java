@@ -3,6 +3,9 @@ package rich;
 import lombok.Getter;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import rich.client.splash.LoadingStages;
+import rich.client.splash.MinecraftWindowListener;
+import rich.client.splash.SplashScreenManager;
 import rich.manager.Manager;
 import rich.util.DiscordWebhookNotifier;
 import rich.util.mods.config.wave.HeartbeatManager;
@@ -24,6 +27,10 @@ public class Initialization implements ClientModInitializer {
             throw new RuntimeException("[AegisNeo] AegisUpdater01 mod is required to run AegisNeo! " +
                     "Please install AegisUpdater01.jar in your mods folder.");
         }
+        
+        SplashScreenManager.initialize();
+        LoadingStages.INITIALIZING.update();
+        MinecraftWindowListener.register();
     }
 
     public void init() {

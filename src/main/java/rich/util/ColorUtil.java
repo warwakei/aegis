@@ -17,7 +17,7 @@ import java.util.concurrent.*;
 import java.util.regex.Pattern;
 
 /**
- *  © 2025 Copyright Rich Client 2.0
+ *  © 2026 Copyright Aegis Neo 062 - Dev Build 2026 14:03 21.04
  *        All Rights Reserved ®
  */
 

@@ -51,9 +51,9 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
         int count = attackHandler.getCount();
         boolean canAttack = entity != null && attackHandler.canAttack(aura.getConfig(), 0);
 
-        boolean isActive = aura.isState() && entity != null;
+        boolean isActive = aura.isState();
 
-        // При выключении — РЕЗКО обнуляем джиттер, никакой плавности
+        // При выключении ауры — РЕЗКО обнуляем джиттер
         if (!isActive) {
             if (wasActive) {
                 // Только что выключили — резко сбрасываем
@@ -66,13 +66,17 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
                 currentSpeed = 0;
                 wasActive = false;
             }
-            // Возвращаем текущий угол без джиттера — камера сразу становится нормальной
+            return currentAngle; // Аура выключена - не поворачиваемся
+        }
+
+        // Если нет цели - тоже не поворачиваемся
+        if (entity == null) {
             return currentAngle;
         }
 
         wasActive = true;
 
-        if (entity != null && canAttack) {
+        if (entity != null) {
             Vec3d aimPoint = Vector.hitbox(entity, 1, entity.isOnGround() ? 1F : 1.256F, 1, 2);
             targetAngle = MathAngle.calculateAngle(aimPoint);
         }

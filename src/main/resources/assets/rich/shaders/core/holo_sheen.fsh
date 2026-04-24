@@ -59,31 +59,38 @@ void main() {
     float t = fract(params0.x * params0.z); // params0.x = timeSeconds, params0.z = speed
     vec2 dir = vec2(cos(params0.w), sin(params0.w)); // angle
 
-    // Sheen band traveling across the panel
+    // Seamless moving bands without hard reset pop at cycle boundary.
     float sweep = dot(uv - 0.5, normalize(dir));
-    float bandCenter = mix(-0.85, 0.85, t);
+    float travel = fract(t + sweep * 0.32);
+    float d = abs(travel - 0.5);
+    d = min(d, 1.0 - d);
+
     float bandWidth = 0.12;
-    float band = exp(-pow((sweep - bandCenter) / bandWidth, 2.0));
+    float primaryBand = exp(-pow(d / bandWidth, 2.0));
+    float secondaryBand = exp(-pow(abs(d - 0.11) / (bandWidth * 1.35), 2.0)) * 0.58;
+    float tertiaryBand = exp(-pow(abs(d - 0.22) / (bandWidth * 1.75), 2.0)) * 0.34;
+    float band = primaryBand + secondaryBand + tertiaryBand;
 
     // Subtle iridescence inside the band
     float hue = fract(0.58 + sweep * 0.35 + t * 0.25);
     vec3 iri = hsv2rgb(vec3(hue, 0.55, 1.0));
 
+    float hue2 = fract(hue + 0.17 + sin((uv.x + uv.y + t) * 6.0) * 0.04);
+    vec3 iri2 = hsv2rgb(vec3(hue2, 0.42, 1.0));
+
     // Grain to avoid "flat digital"
     float n = texture(NoiseSampler, uv * 10.0 + params0.x * 0.1).r; // params0.x = timeSeconds
     float g = (n - 0.5) * params1.x; // grain is params1.x
 
-    float sheen = band * params0.y; // intensity is params0.y
+    float scan = sin((uv.y + t * 0.8) * 140.0) * 0.006;
+    float shimmer = 0.5 + 0.5 * sin((uv.x * 16.0 + uv.y * 23.0 + t * 8.0) * 3.14159);
+
+    float sheen = band * params0.y * (0.88 + shimmer * 0.18); // intensity is params0.y
     vec3 col = mix(vec3(1.0), iri, 0.55) * sheen;
-    col += g;
+    col += iri2 * secondaryBand * params0.y * 0.25;
+    col += vec3(scan);
+    col += g * 0.6;
 
-    // Pure additive overlay, alpha gated by panel SDF
-    // fragColor = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen); // Original blending
-
-    // New blending based on blendMode
     vec4 src = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
-    // We cannot read the destination color in a fragment shader; output the source color
-    // and let the pipeline blending mode handle additive/screen blending.
     fragColor = src;
 }
-

@@ -207,10 +207,11 @@ public class ClickGui extends Screen implements IMinecraft {
 
         context.createNewRootLayer();
 
-        int dimAlpha = (int) (148 * animValue);
-        if (dimAlpha > 0) {
-            Render2D.rect(0, 0, 5000, 5000, new Color(4, 6, 10, dimAlpha).getRGB(), 0);
-        }
+        // Убираем затемнение фона - оставляем только менюшку
+        // int dimAlpha = (int) (200 * animValue);
+        // if (dimAlpha > 0) {
+        //     Render2D.rect(0, 0, 5000, 5000, new Color(2, 3, 6, dimAlpha).getRGB(), 0);
+        // }
 
         int guiScale = mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
         float scale = (float) FIXED_GUI_SCALE / guiScale;

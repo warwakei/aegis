@@ -33,7 +33,10 @@ import rich.util.config.ConfigSystem;
 import rich.util.render.font.FontRenderer;
 import rich.util.session.SessionChanger;
 import rich.util.window.WindowStyle;
+import rich.client.splash.SplashScreen;
+import rich.client.splash.SplashScreenManager;
 import antidaunleak.api.UserProfile;
+import org.lwjgl.glfw.GLFW;
 
 import static rich.IMinecraft.mc;
 
@@ -72,10 +75,47 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "stop", at = @At("HEAD"))
     private void onStop(CallbackInfo ci) {
+        long startMs = System.currentTimeMillis();
+
+        // Make the Minecraft window disappear instantly, then show a short "Finishing..." splash.
+        try {
+            MinecraftClient client = (MinecraftClient) (Object) this;
+            if (client.getWindow() != null) {
+                long handle = client.getWindow().getHandle();
+                if (handle != 0L) {
+                    GLFW.glfwHideWindow(handle);
+                }
+            }
+        } catch (Throwable ignored) {}
+
+        SplashScreen finishingSplash = null;
+        try {
+            finishingSplash = SplashScreenManager.showFinishingScreen();
+        } catch (Throwable ignored) {}
+
         ConfigSystem configSystem = ConfigSystem.getInstance();
         if (configSystem != null) {
             configSystem.shutdown();
         }
+
+        // Keep the finishing splash on screen for at least 3 seconds to create a "cinematic" shutdown.
+        long elapsed = System.currentTimeMillis() - startMs;
+        long remaining = 3000L - elapsed;
+        if (remaining > 0L) {
+            try {
+                Thread.sleep(remaining);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        try {
+            if (finishingSplash != null) {
+                finishingSplash.close();
+            } else {
+                SplashScreenManager.closeFinishingScreen();
+            }
+        } catch (Throwable ignored) {}
     }
 
     @Inject(method = "setScreen", at = @At("HEAD"))

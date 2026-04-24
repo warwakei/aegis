@@ -146,13 +146,13 @@ public class Tracers extends ModuleStructure {
     private float calculateFadeAlpha(float distance) {
         float fadeStart = fadeDistance.getValue();
         if (distance <= fadeStart) return 1.0f;
-        float fadeRange = 50.0f;
+        float fadeRange = 125.0f;
         float fade = Math.min((distance - fadeStart) / fadeRange, 1.0f);
         return 1.0f - fade;
     }
 
     private void drawGlowLine(Vec3d start, Vec3d end, int color, float glowWidth, float alpha) {
-        float glowAlpha = alpha * 0.3f;
+        float glowAlpha = alpha * 0.75f;
         int glowColor = (color & 0x00FFFFFF) | ((int) (glowAlpha * 255) << 24);
         Render3D.drawLine(start, end, glowColor, lineWidth.getValue() + glowWidth, false);
     }

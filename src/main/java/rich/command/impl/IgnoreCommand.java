@@ -11,6 +11,7 @@ import rich.command.Command;
 import rich.command.CommandManager;
 import rich.command.helpers.Paginator;
 import rich.command.helpers.TabCompleteHelper;
+import rich.util.repository.ignore.ChatFilter;
 import rich.util.repository.ignore.IgnoreUtils;
 
 import java.util.ArrayList;
@@ -65,6 +66,9 @@ public class IgnoreCommand extends Command {
                 IgnoreUtils.clearAndSave();
                 logDirect(String.format("Игнор-лист очищен! Удалено: %d", count), Formatting.GREEN);
             }
+            case "filter" -> {
+                handleFilterCommand(args);
+            }
             case "list" -> {
                 int page = 1;
                 if (args.length > 1) {
@@ -105,23 +109,141 @@ public class IgnoreCommand extends Command {
                 );
             }
             default -> {
-                logDirectRaw(Text.literal(getLine()));
-                logDirect("§f§lУПРАВЛЕНИЕ ИГНОР-ЛИСТОМ");
-                logDirectRaw(Text.literal(getLine()));
-                logDirect("§7> ignore add <name> §8- §fДобавить игрока в игнор-лист");
-                logDirect("§7> ignore remove <name> §8- §fУдалить игрока из игнор-листа");
-                logDirect("§7> ignore list §8- §fПоказать список игнор-листа");
-                logDirect("§7> ignore clear §8- §fОчистить игнор-лист");
-                logDirectRaw(Text.literal(getLine()));
+                showHelp();
             }
         }
+    }
+    
+    private void handleFilterCommand(String[] args) {
+        if (args.length < 2) {
+            showFilterHelp();
+            return;
+        }
+        
+        String filterAction = args[1].toLowerCase();
+        
+        switch (filterAction) {
+            case "warps" -> {
+                ChatFilter filter = new ChatFilter(ChatFilter.FilterType.WARPS, "");
+                IgnoreUtils.addChatFilterAndSave(filter);
+                logDirect("Фильтр для warp сообщений добавлен!", Formatting.GREEN);
+            }
+            case "custom" -> {
+                if (args.length < 4) {
+                    logDirect("Использование: ignore filter custom <contains/startsFrom/endsAt/msgCreator> <value>", Formatting.RED);
+                    return;
+                }
+                
+                String customType = args[2].toLowerCase();
+                String value = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+                
+                ChatFilter.FilterType filterType = switch (customType) {
+                    case "contains" -> ChatFilter.FilterType.CONTAINS;
+                    case "startsfrom" -> ChatFilter.FilterType.STARTS_WITH;
+                    case "endsat" -> ChatFilter.FilterType.ENDS_WITH;
+                    case "msgcreator" -> ChatFilter.FilterType.SENDER;
+                    default -> null;
+                };
+                
+                if (filterType == null) {
+                    logDirect("Неверный тип фильтра! Доступные: contains, startsFrom, endsAt, msgCreator", Formatting.RED);
+                    return;
+                }
+                
+                ChatFilter filter = new ChatFilter(filterType, value);
+                IgnoreUtils.addChatFilterAndSave(filter);
+                logDirect(String.format("Фильтр %s '%s' добавлен!", customType, value), Formatting.GREEN);
+            }
+            case "list" -> {
+                List<ChatFilter> filters = IgnoreUtils.getChatFilters();
+                if (filters.isEmpty()) {
+                    logDirect("Список фильтров пуст!", Formatting.RED);
+                    return;
+                }
+                
+                logDirectRaw(Text.literal(getLine()));
+                logDirect("§f§lФИЛЬТРЫ СООБЩЕНИЙ §7(" + filters.size() + ")");
+                logDirectRaw(Text.literal(getLine()));
+                
+                for (int i = 0; i < filters.size(); i++) {
+                    ChatFilter filter = filters.get(i);
+                    String typeStr = switch (filter.getType()) {
+                        case CONTAINS -> "содержит";
+                        case STARTS_WITH -> "начинается с";
+                        case ENDS_WITH -> "заканчивается на";
+                        case SENDER -> "отправитель";
+                        case WARPS -> "warp сообщения";
+                    };
+                    
+                    String valueStr = filter.getType() == ChatFilter.FilterType.WARPS ? "" : " '" + filter.getValue() + "'";
+                    logDirect(String.format("  §c%d. §f%s%s", i + 1, typeStr, valueStr));
+                }
+                logDirectRaw(Text.literal(getLine()));
+            }
+            case "remove" -> {
+                if (args.length < 3) {
+                    logDirect("Использование: ignore filter remove <номер>", Formatting.RED);
+                    return;
+                }
+                
+                try {
+                    int index = Integer.parseInt(args[2]) - 1;
+                    List<ChatFilter> filters = IgnoreUtils.getChatFilters();
+                    
+                    if (index < 0 || index >= filters.size()) {
+                        logDirect("Неверный номер фильтра!", Formatting.RED);
+                        return;
+                    }
+                    
+                    IgnoreUtils.removeChatFilterAndSave(index);
+                    logDirect("Фильтр удален!", Formatting.GREEN);
+                } catch (NumberFormatException e) {
+                    logDirect("Неверный номер фильтра!", Formatting.RED);
+                }
+            }
+            case "clear" -> {
+                int count = IgnoreUtils.getChatFilters().size();
+                IgnoreUtils.clearChatFiltersAndSave();
+                logDirect(String.format("Все фильтры очищены! Удалено: %d", count), Formatting.GREEN);
+            }
+            default -> {
+                showFilterHelp();
+            }
+        }
+    }
+    
+    private void showFilterHelp() {
+        logDirectRaw(Text.literal(getLine()));
+        logDirect("§f§lФИЛТРЫ СООБЩЕНИЙ");
+        logDirectRaw(Text.literal(getLine()));
+        logDirect("§7> ignore filter warps §8- §fСкрыть warp сообщения");
+        logDirect("§7> ignore filter custom contains <текст> §8- §fСкрыть сообщения содержащие текст");
+        logDirect("§7> ignore filter custom startsFrom <текст> §8- §fСкрыть сообщения начинающиеся с текста");
+        logDirect("§7> ignore filter custom endsAt <текст> §8- §fСкрыть сообщения заканчивающиеся текстом");
+        logDirect("§7> ignore filter custom msgCreator <ник> §8- §fСкрыть сообщения от игрока");
+        logDirect("§7> ignore filter list §8- §fПоказать все фильтры");
+        logDirect("§7> ignore filter remove <номер> §8- §fУдалить фильтр");
+        logDirect("§7> ignore filter clear §8- §fОчистить все фильтры");
+        logDirectRaw(Text.literal(getLine()));
+    }
+    
+    private void showHelp() {
+        logDirectRaw(Text.literal(getLine()));
+        logDirect("§f§lУПРАВЛЕНИЕ ИГНОР-ЛИСТОМ");
+        logDirectRaw(Text.literal(getLine()));
+        logDirect("§7> ignore add <name> §8- §fДобавить игрока в игнор-лист");
+        logDirect("§7> ignore remove <name> §8- §fУдалить игрока из игнор-листа");
+        logDirect("§7> ignore list §8- §fПоказать список игнор-листа");
+        logDirect("§7> ignore clear §8- §fОчистить игнор-лист");
+        logDirect("§7> ignore filter §8- §fУправление фильтрами сообщений");
+        logDirectRaw(Text.literal(getLine()));
     }
 
     @Override
     public Stream<String> tabComplete(String label, String[] args) {
         if (args.length == 1) {
             return new TabCompleteHelper()
-                    .append("add", "remove", "list", "clear")
+                    .append("add", "remove", "list", "clear", "filter")
                     .sortAlphabetically()
                     .filterPrefix(args[0])
                     .stream();
@@ -140,6 +262,18 @@ public class IgnoreCommand extends Command {
                         .filterPrefix(args[1])
                         .stream();
             }
+            if (action.equals("filter")) {
+                return new TabCompleteHelper()
+                        .append("warps", "custom", "list", "remove", "clear")
+                        .filterPrefix(args[1])
+                        .stream();
+            }
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("filter") && args[1].equalsIgnoreCase("custom")) {
+            return new TabCompleteHelper()
+                    .append("contains", "startsFrom", "endsAt", "msgCreator")
+                    .filterPrefix(args[2])
+                    .stream();
         }
         return Stream.empty();
     }
@@ -152,12 +286,13 @@ public class IgnoreCommand extends Command {
     @Override
     public List<String> getLongDesc() {
         return Arrays.asList(
-                "Команда для управления игнор-листом",
+                "Команда для управления игнор-листом и фильтрами сообщений",
                 "Использование:",
                 "> ignore add <name> - Добавить игрока в игнор-лист",
                 "> ignore remove <name> - Удалить игрока из игнор-листа",
                 "> ignore list - Показать список игнор-листа",
-                "> ignore clear - Очистить игнор-лист"
+                "> ignore clear - Очистить игнор-лист",
+                "> ignore filter - Управление фильтрами сообщений"
         );
     }
 

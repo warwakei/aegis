@@ -252,7 +252,7 @@ public class Potions extends AbstractHudElement {
         int bgAlpha = (int) (255 * alphaFactor);
 
         if (contentHeight > 0) {
-            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor);
+            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor, HudStyle.Variant.SOFT);
         }
 
         Scissor.enable(x, y, getWidth(), contentHeight, 2);
@@ -264,7 +264,7 @@ public class Potions extends AbstractHudElement {
 
         float badgeX = x + getWidth() - countTextWidth - potionsTextWidth + 3;
         float badgeY = y + 5;
-        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor);
+        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor, HudStyle.Variant.ACCENT);
         Fonts.HUD_ICONS.draw("f", badgeX + 2, badgeY + 1, 10, ClickGuiPalette.textMuted(alphaFactor));
 
         Fonts.BOLD.draw("Potions", x + 8, y + 6.5f, 6, ClickGuiPalette.textPrimary(alphaFactor));

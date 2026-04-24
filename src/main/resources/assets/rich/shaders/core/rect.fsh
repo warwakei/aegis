@@ -37,6 +37,12 @@ vec4 toSRGB(vec4 linear) {
     return vec4(toSRGB(linear.rgb), linear.a);
 }
 
+float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
 float smoothInterpolate(float t) {
     return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
 }
@@ -113,6 +119,15 @@ void main() {
     float rectAlpha = 1.0 - smoothstep(-smoothing, smoothing, rectSDF);
 
     vec4 rectColor = sampleGradient(uv);
+
+    // Soft inner light for richer depth.
+    vec2 edgeUv = abs(uv * 2.0 - 1.0);
+    float edgeFactor = 1.0 - clamp(max(edgeUv.x, edgeUv.y), 0.0, 1.0);
+    float innerLight = pow(edgeFactor, 1.8) * 0.18;
+    rectColor.rgb += innerLight * vec3(0.85, 0.9, 1.0);
+
+    // Keep panel clean: no visible grain texture on UI background.
+
     rectColor.a *= rectAlpha;
 
     vec2 shadowFragCoord = pixelCoord - shadowOffsetAndRadius.xy - halfRectSize;
@@ -121,6 +136,10 @@ void main() {
 
     vec4 finalShadowColor = shadowColor;
     finalShadowColor.a *= shadowAlpha;
+
+    // Slightly broadened penumbra for softer premium shadow feel.
+    float penumbra = smoothstep(shadowOffsetAndRadius.z * 0.4, shadowOffsetAndRadius.z * 1.8, abs(shadowSDF));
+    finalShadowColor.a *= (1.0 - penumbra * 0.45);
 
     fragColor = rectColor + finalShadowColor * (1.0 - rectColor.a);
 }

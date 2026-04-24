@@ -173,8 +173,8 @@ public class Esp extends ModuleStructure {
 
             if (boxType.isSelected("3D Box") && playerSetting.isSelected("Box")) {
                 Box interpBox = player.getDimensions(player.getPose()).getBoxAt(interpX, interpY, interpZ);
-                Render3D.drawBox(interpBox, fillColor, 2, true, true, false);
-                Render3D.drawBox(interpBox, outlineColor, 2, true, false, false);
+                Render3D.drawBox(interpBox, fillColor, 5, true, true, false);
+                Render3D.drawBox(interpBox, outlineColor, 5, true, false, false);
             }
         }
     }

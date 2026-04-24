@@ -43,7 +43,7 @@ public class WorldParticles extends ModuleStructure {
 
     public SliderSettings cubeCount = new SliderSettings("Количество", "Количество частиц")
             .range(10.0f, 500.0f)
-            .setValue(100.0f);
+            .setValue(250.0f);
 
     public SliderSettings lifeTime = new SliderSettings("Время жизни", "Время жизни (сек)")
             .range(2.0f, 60.0f)
@@ -55,7 +55,7 @@ public class WorldParticles extends ModuleStructure {
 
     public SliderSettings glowSize = new SliderSettings("Свечение", "Размер свечения")
             .range(0.1f, 5.0f)
-            .setValue(3f);
+            .setValue(7.5f);
 
     public BooleanSetting physics = new BooleanSetting("Физика", "Частицы падают вниз")
             .setValue(false);

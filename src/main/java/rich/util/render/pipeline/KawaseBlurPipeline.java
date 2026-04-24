@@ -70,7 +70,7 @@ public class KawaseBlurPipeline {
     private static final Vector3f MODEL_OFFSET = new Vector3f(0, 0, 0);
     private static final Matrix4f TEXTURE_MATRIX = new Matrix4f();
 
-    private static final int MAX_ITERATIONS = 8;
+    private static final int MAX_ITERATIONS = 20;
     private static final int BUFFER_SIZE = 32;
 
     private GpuBuffer uniformBuffer;

@@ -227,7 +227,6 @@ public class MainMenuScreen extends Screen {
         renderMenuColorGrade(screenWidth, screenHeight, currentTime);
         renderMenuVignette(screenWidth, screenHeight);
         renderBackgroundParticles(screenWidth, screenHeight, zoom);
-        renderMenuTopBar(screenWidth, currentTime);
     }
 
     private void renderMenuColorGrade(int screenWidth, int screenHeight, long currentTime) {
@@ -320,7 +319,12 @@ public class MainMenuScreen extends Screen {
 
     private void renderMainMenuContent(int screenWidth, int screenHeight, float mouseX, float mouseY, float menuProgress, float alpha, float unlockTextAlpha, long currentTime) {
         float slideOffset = (1f - alpha) * 20f;
-        if (unlockTextAlpha > 0.01f && alpha > 0.5f) renderUnlockText(unlockTextAlpha * alpha, screenWidth, screenHeight);
+        
+        // Показываем текст разблокировки только когда меню еще заблокировано
+        if (!isUnlocked && unlockTextAlpha > 0.01f) {
+            renderUnlockText(unlockTextAlpha, screenWidth, screenHeight);
+        }
+        
         if (menuProgress > 0.01f) {
             renderTime(menuProgress * alpha, screenWidth, screenHeight, menuProgress, slideOffset);
             renderButtons(mouseX, mouseY, menuProgress * alpha, screenWidth, screenHeight, menuProgress, slideOffset, currentTime);
@@ -392,13 +396,7 @@ public class MainMenuScreen extends Screen {
         float dateY = centerY + textHeight / 2f + 4;
         float dateWidth = Fonts.BOLD.getWidth(dateText, 12f);
         float dateX = centerX - dateWidth / 2f;
-        float lineWidth = dateWidth + 20;
-        float lineY = dateY - 3f;
-        int lineAlpha = (int)(dateAlpha * 0.4f);
-        int lineColor = withAlpha(0x80a0c0, lineAlpha);
-        Render2D.gradientRect(centerX - lineWidth / 2f, lineY, lineWidth, 0.5f, new int[]{withAlpha(0x406080, 0), lineColor, lineColor, withAlpha(0x406080, 0)}, 0);
         Fonts.BOLD.draw(dateText, dateX, dateY, 12f, withAlpha(0xc0d0e0, dateAlpha));
-        // Intentionally no extra centered subtitle here (keeps main menu clean).
     }
 
     private void renderButtons(float mouseX, float mouseY, float opacity, int screenWidth, int screenHeight, float menuProgress, float extraSlideOffset, long currentTime) {

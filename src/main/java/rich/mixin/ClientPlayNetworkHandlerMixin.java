@@ -39,10 +39,17 @@ public abstract class ClientPlayNetworkHandlerMixin implements IMinecraft {
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void onSendChatMessage(String message, CallbackInfo ci) {
+        if (!ChatEvent.isProcessing()) return; // Избегаем рекурсии
+        
         ChatEvent event = new ChatEvent(message);
         EventManager.callEvent(event);
         if (event.isCancelled()) {
             ci.cancel();
+        } else if (!event.getMessage().equals(message)) {
+            ci.cancel();
+            ChatEvent.setProcessing(false);
+            ((ClientPlayNetworkHandler)(Object)this).sendChatMessage(event.getMessage());
+            ChatEvent.setProcessing(true);
         }
     }
 

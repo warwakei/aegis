@@ -15,9 +15,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-import java.security.SecureRandom;
+import java.util.Random;
 
 public class MatrixAngle extends RotateConstructor {
+    private static final Random RANDOM = new Random();
+    private static final float RAGE_MULTIPLIER = 1.8f;
+    
+    private long lastRotationTime = 0;
+    private float lastYawDelta = 0;
+    private float lastPitchDelta = 0;
+    private int consistentRotations = 0;
+    private boolean isInCombat = false;
+    private long combatStartTime = 0;
+    private float accumulatedError = 0;
+    private float lastSpeed = 0;
+    private int framesSinceLastAttack = 0;
+    private boolean wasLookingAtTarget = false;
+    private float targetSwitchCooldown = 0;
+    
     public MatrixAngle() {
         super("Matrix");
     }
@@ -28,30 +43,57 @@ public class MatrixAngle extends RotateConstructor {
         Aura aura = Aura.getInstance();
         StopWatch attackTimer = attackHandler.getAttackTimer();
         boolean canAttack = entity != null && attackHandler.canAttack(aura.getConfig(), 0);
-        if (entity !=null && canAttack) {
-            Vec3d aimPoint = Vector.hitbox(entity, 1, entity.isOnGround() ? 0.9F : 1.4F, 1, 2);
+        
+        boolean isTargetFar = entity != null && entity.distanceTo(mc.player) > 3.5f;
+        
+        if (entity != null) {
+            // Фиксированная высота прицеливания независимо от расстояния
+            Vec3d aimPoint = Vector.hitbox(entity, 0.7f, 0.7f, 0.7f, 1.5f);
             targetAngle = MathAngle.calculateAngle(aimPoint);
         }
+        
         Angle angleDelta = MathAngle.calculateDelta(currentAngle, targetAngle);
         float yawDelta = angleDelta.getYaw(), pitchDelta = angleDelta.getPitch();
         float rotationDifference = (float) Math.hypot(Math.abs(yawDelta), Math.abs(pitchDelta));
+        
+        long currentTime = System.currentTimeMillis();
+        boolean isRotationSuspicious = detectSuspiciousRotation(yawDelta, pitchDelta, currentTime);
+        
+        updateCombatState(canAttack, currentTime);
+        
         boolean lookingAtHitbox = false;
         if (entity != null && !canAttack && RaycastAngle.rayTrace(AngleConnection.INSTANCE.getRotation().toVector(), 4.0, entity.getBoundingBox())) {
             lookingAtHitbox = true;
         }
-        float preAttackSpeed = 1F;
-        float postAttackSpeed = lookingAtHitbox ? 0.06F : randomLerp(0F, 0.5F);
-        float speed = canAttack ? preAttackSpeed : postAttackSpeed;
+        
+        // Детект смены цели для burst режима
+        boolean targetChanged = !wasLookingAtTarget && lookingAtHitbox;
+        if (targetChanged) {
+            targetSwitchCooldown = 1.0f;
+        }
+        wasLookingAtTarget = lookingAtHitbox;
+        
+        // Сброс счетчика при атаке
+        if (canAttack) {
+            framesSinceLastAttack = 0;
+        }
+        
+        float baseSpeed = calculateAdaptiveSpeed(canAttack, lookingAtHitbox, isTargetFar, isRotationSuspicious);
+        float speed = applyAntiCheatBypass(baseSpeed, rotationDifference, currentTime);
+        
         float lineYaw = (Math.abs(yawDelta / rotationDifference) * 360);
         float linePitch = (Math.abs(pitchDelta / rotationDifference) * 180);
-        float jitterYaw = canAttack ? 0 : MoveUtil.hasPlayerMovement() ? (float) (6 * Math.sin(System.currentTimeMillis() / 65D)) : 0;
-        float jitterPitch = canAttack ? 0 : MoveUtil.hasPlayerMovement() ? (float) (2 * Math.cos(System.currentTimeMillis() / 65D)) : 0;
+        
+        float[] jitters = calculateSmartJitters(canAttack, currentTime, isRotationSuspicious);
+        float jitterYaw = jitters[0];
+        float jitterPitch = jitters[1];
 
-        float resolve1 = canAttack ? 0 : 13, resolve2 = canAttack ? 0 : 8;
+        float resolve1 = canAttack ? fastRandom(-1.0f, 1.0f) : fastRandom(4.0f, 8.5f);
+        float resolve2 = canAttack ? fastRandom(-0.8f, 0.8f) : fastRandom(2.2f, 6.0f);
 
         if (!aura.isState() || entity == null) {
-            float speedFactor3 = MathHelper.clamp(1f - (rotationDifference / 180.0f), 0.1f, 1.0f);
-            speed = !attackTimer.finished(550) ? 0.05F : 0.8F * speedFactor3;
+            float speedFactor3 = MathHelper.clamp(1f - (rotationDifference / 180.0f), 0.15f, 1.0f);
+            speed = !attackTimer.finished(650) ? 0.08F : 0.6F * speedFactor3;
             jitterYaw = 0;
             resolve2 = 0;
             resolve1 = 0;
@@ -60,15 +102,145 @@ public class MatrixAngle extends RotateConstructor {
 
         float moveYaw = MathHelper.clamp(yawDelta, -lineYaw, lineYaw) + resolve1;
         float movePitch = MathHelper.clamp(pitchDelta, -linePitch, linePitch) + resolve2;
+        
+        // Продвинутая накопленная ошибка с затуханием
+        moveYaw += accumulatedError * 0.2f; // Уменьшил влияние для резкости
+        accumulatedError += fastRandom(-0.15f, 0.15f);
+        accumulatedError *= 0.95f; // Быстрее затухание
+        accumulatedError = MathHelper.clamp(accumulatedError, -1.5f, 1.5f);
+        
+        // Оптимизация поворота - выбираем кратчайший путь
+        if (Math.abs(moveYaw) > 180) {
+            moveYaw = moveYaw > 0 ? moveYaw - 360 : moveYaw + 360;
+        }
+        
         Angle moveAngle = new Angle(currentAngle.getYaw(), currentAngle.getPitch());
-        moveAngle.setYaw(MathHelper.lerp(randomLerp(speed, speed), currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + jitterYaw);
-        moveAngle.setPitch(MathHelper.lerp(randomLerp(speed, speed), currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + jitterPitch);
+        moveAngle.setYaw(MathHelper.lerp(fastRandom(speed, speed), currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + jitterYaw);
+        moveAngle.setPitch(MathHelper.lerp(fastRandom(speed, speed), currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + jitterPitch);
+
+        lastYawDelta = yawDelta;
+        lastPitchDelta = pitchDelta;
+        lastRotationTime = currentTime;
 
         return moveAngle;
     }
+    
+    private boolean detectSuspiciousRotation(float yawDelta, float pitchDelta, long currentTime) {
+        float deltaThreshold = 0.5f;
+        if (Math.abs(yawDelta - lastYawDelta) < deltaThreshold && Math.abs(pitchDelta - lastPitchDelta) < deltaThreshold) {
+            consistentRotations++;
+        } else {
+            consistentRotations = 0;
+        }
+        
+        return consistentRotations > 8 || (currentTime - lastRotationTime) < 5;
+    }
+    
+    private void updateCombatState(boolean canAttack, long currentTime) {
+        if (canAttack && !isInCombat) {
+            isInCombat = true;
+            combatStartTime = currentTime;
+        } else if (!canAttack && isInCombat && (currentTime - combatStartTime) > 2000) {
+            isInCombat = false;
+        }
+    }
+    
+    private float calculateAdaptiveSpeed(boolean canAttack, boolean lookingAtHitbox, boolean isTargetFar, boolean suspicious) {
+        // Увеличиваем базовую скорость для быстрого наведения
+        float preAttackSpeed = fastRandom(2.0F, 3.0F) * RAGE_MULTIPLIER;
+        float postAttackSpeed = lookingAtHitbox ? fastRandom(1.2F, 1.6F) : fastRandom(1.5F, 2.0F);
+        
+        // Burst speed при смене цели
+        if (targetSwitchCooldown > 0) {
+            preAttackSpeed *= 1.5f; // Увеличиваем множитель
+            targetSwitchCooldown -= 0.1f;
+        }
+        
+        // Убираем замедление для дальних целей - всегда быстро
+        // if (isTargetFar) {  
+        //     preAttackSpeed *= 0.85f;
+        //     postAttackSpeed *= 0.9f;
+        // }
+        
+        // Убираем замедление при подозрении - приоритет скорости
+        // if (suspicious) {
+        //     preAttackSpeed *= 0.92f;
+        //     postAttackSpeed *= 0.95f;
+        // }
+        
+        return canAttack ? preAttackSpeed : postAttackSpeed;
+    }
+    
+    private float applyAntiCheatBypass(float baseSpeed, float rotationDifference, long currentTime) {
+        // Упрощаем логику для более быстрого наведения
+        float humanFactor = (float) (0.98f + 0.05f * Math.sin(currentTime / 1000.0));
+        
+        // Убираем имитацию усталости мыши - всегда быстро
+        float mouseFatigue = 1.0f;
+        
+        // Убираем замедление для больших углов - быстро поворачиваемся
+        // if (rotationDifference > 90) {
+        //     humanFactor *= 0.82f;
+        // } else if (rotationDifference > 45) {
+        //     humanFactor *= 0.92f;
+        // }
+        
+        // Убираем случайные микро-лаги
+        // if (RANDOM.nextFloat() < 0.08f) {
+        //     humanFactor *= 0.65f;
+        // }
+        
+        // Более быстрое изменение скорости
+        float targetSpeed = baseSpeed * humanFactor * mouseFatigue;
+        lastSpeed = MathHelper.lerp(0.8f, lastSpeed, targetSpeed); // Увеличил lerp для еще большей резкости
+        
+        framesSinceLastAttack++;
+        
+        return lastSpeed;
+    }
+    
+    private float[] calculateSmartJitters(boolean canAttack, long currentTime, boolean suspicious) {
+        float jitterMultiplier = suspicious ? 0.7f : 1.2f;
+        
+        // Многослойные джиттеры
+        float baseJitterYaw = (float)(2.8 * Math.sin(currentTime / 55D)) * jitterMultiplier;
+        float microJitterYaw = (float)(0.8 * Math.sin(currentTime / 23D + Math.PI/6));
+        float humanJitterYaw = (float)(1.2 * Math.cos(currentTime / 87D));
+        
+        float baseJitterPitch = (float)(1.9 * Math.cos(currentTime / 63D)) * jitterMultiplier;
+        float microJitterPitch = (float)(0.6 * Math.cos(currentTime / 31D + Math.PI/4));
+        float humanJitterPitch = (float)(0.9 * Math.sin(currentTime / 94D));
+        
+        float jitterYaw = canAttack ? 
+            fastRandom(-1.8f, 1.8f) + baseJitterYaw + microJitterYaw : 
+            fastRandom(-3.2f, 3.2f) + baseJitterYaw + humanJitterYaw;
+            
+        float jitterPitch = canAttack ? 
+            fastRandom(-1.3f, 1.3f) + baseJitterPitch + microJitterPitch : 
+            fastRandom(-2.6f, 2.6f) + baseJitterPitch + humanJitterPitch;
+            
+        // Стресс и адреналин в бою
+        if (isInCombat) {
+            long combatDuration = currentTime - combatStartTime;
+            float combatStress = Math.min(combatDuration / 4000.0f, 1.2f);
+            float adrenaline = (float)(0.5 * Math.sin(combatDuration / 200.0));
+            
+            jitterYaw += (fastRandom(-1.2f, 1.2f) + adrenaline) * combatStress;
+            jitterPitch += (fastRandom(-0.8f, 0.8f) + adrenaline * 0.7f) * combatStress;
+        }
+        
+        // Имитация дрожания рук при долгой игре
+        if (framesSinceLastAttack > 300) {
+            float handShake = framesSinceLastAttack / 1000.0f;
+            jitterYaw += fastRandom(-handShake, handShake);
+            jitterPitch += fastRandom(-handShake * 0.7f, handShake * 0.7f);
+        }
+        
+        return new float[]{jitterYaw, jitterPitch};
+    }
 
-    private float randomLerp(float min, float max) {
-        return MathHelper.lerp(new SecureRandom().nextFloat(), min, max);
+    private float fastRandom(float min, float max) {
+        return min + RANDOM.nextFloat() * (max - min);
     }
 
     @Override

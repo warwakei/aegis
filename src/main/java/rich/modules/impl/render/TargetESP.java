@@ -37,6 +37,13 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TargetESP extends ModuleStructure implements IMinecraft {
 
+    private static final float TARGET_FPS = 60f;
+    private static final float TARGET_FRAME_TIME = 1000f / TARGET_FPS;
+    private static final float HURT_DECAY = 0.25f;
+    private static final float SMOOTHING_FACTOR = 3.75f;
+    private static final float MOVING_VALUE_SPEED = 2f;
+    private static final float ROTATION_SPEED_MULTIPLIER = 0.5f;
+
     private static TargetESP instance;
 
     public static TargetESP getInstance() {
@@ -47,7 +54,7 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
     StopWatch stopWatch = new StopWatch();
 
     SelectSetting mode = new SelectSetting("Режим", "Тип TargetESP")
-            .value("Rhomb", "Ghost", "Chain", "Crystals", "Circle")
+            .value("Rhomb", "Ghost", "Chain", "Crystals", "Circle", "Pulse", "Spiral")
             .selected("Rhomb");
 
     SliderSettings crystalRotationSpeed = new SliderSettings("Скорость вращения кристаллов",
@@ -65,18 +72,19 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
             .setColor(new Color(150, 50, 255, 255).getRGB())
             .visible(() -> mode.isSelected("Ghost"));
 
-    private Vec3d smoothedPos = null;
-    private LivingEntity lastTarget = null;
+    private Vec3d smoothedPos;
+    private LivingEntity lastTarget;
     private float movingValue = 0;
     private float hurtProgress = 0;
+    private int cachedHurtColor1;
+    private int cachedHurtColor2;
 
-    private Entity lastRenderedTarget = null;
+    private Entity lastRenderedTarget;
     private final List<Crystal> crystalList = new ArrayList<>();
     private float rotationAngle = 0;
 
     private long lastFrameTime = System.currentTimeMillis();
-    private static final float TARGET_FPS = 60f;
-    private static final float TARGET_FRAME_TIME = 1000f / TARGET_FPS;
+    private long currentFrameTime = System.currentTimeMillis();
 
     public TargetESP() {
         super("TargetEsp", "Target Esp", ModuleCategory.RENDER);
@@ -95,17 +103,25 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         return deltaMs / TARGET_FRAME_TIME;
     }
 
+    private boolean isTargetValid(LivingEntity entity) {
+        return entity != null && !entity.isRemoved() && entity.isAlive();
+    }
+
+    private int getHurtColor(int baseColor) {
+        return lerpColor(baseColor, 0xFFFF0000, hurtProgress);
+    }
+
     @EventHandler
     public void onRender3D(WorldRenderEvent e) {
         float deltaTime = getDeltaTime();
+        currentFrameTime = System.currentTimeMillis();
 
         LivingEntity target = null;
-
         if (Aura.getInstance() != null && Aura.getInstance().isState()) {
             target = Aura.target;
         }
 
-        if (target == null) {
+        if (!isTargetValid(target)) {
             smoothedPos = null;
             lastTarget = null;
             espAnim.setDirection(Direction.BACKWARDS);
@@ -115,15 +131,14 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
 
         espAnim.setDirection(Direction.FORWARDS);
         float alpha = espAnim.getOutput().floatValue();
-        if (alpha <= 0.01f)
-            return;
+        if (alpha <= 0.01f) return;
 
-        movingValue += 2f * deltaTime;
-        if (movingValue > 360000)
-            movingValue = 0;
+        movingValue += MOVING_VALUE_SPEED * deltaTime;
+        if (movingValue > 360000) movingValue = 0;
 
-        float hurtDecay = 0.1f * deltaTime;
-        hurtProgress = target.hurtTime > 0 ? (float) target.hurtTime / 10f : Math.max(0, hurtProgress - hurtDecay);
+        hurtProgress = target.hurtTime > 0 ? (float) target.hurtTime / 10f : Math.max(0, hurtProgress - HURT_DECAY * deltaTime);
+        cachedHurtColor1 = getHurtColor(color1.getColor());
+        cachedHurtColor2 = getHurtColor(color2.getColor());
 
         Render3D.updateTargetEsp(deltaTime);
 
@@ -132,6 +147,10 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
             return;
         }
 
+        renderTargetEsp(e, target, alpha, deltaTime);
+    }
+
+    private void renderTargetEsp(WorldRenderEvent e, LivingEntity target, float alpha, float deltaTime) {
         MatrixStack stack = e.getStack();
         VertexConsumerProvider.Immediate provider = mc.getBufferBuilders().getEntityVertexConsumers();
 
@@ -143,14 +162,14 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
             smoothedPos = targetPos;
             lastTarget = target;
         } else {
-            float smoothingFactor = Math.min(1.0f, partialTicks * 1.5f);
+            float smoothing = Math.min(1.0f, partialTicks * SMOOTHING_FACTOR);
             double dx = targetPos.x - smoothedPos.x;
             double dy = targetPos.y - smoothedPos.y;
             double dz = targetPos.z - smoothedPos.z;
             smoothedPos = new Vec3d(
-                    smoothedPos.x + dx * smoothingFactor,
-                    smoothedPos.y + dy * smoothingFactor,
-                    smoothedPos.z + dz * smoothingFactor);
+                    smoothedPos.x + dx * smoothing,
+                    smoothedPos.y + dy * smoothing,
+                    smoothedPos.z + dz * smoothing);
         }
 
         stack.push();
@@ -159,35 +178,27 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
                 smoothedPos.y - camPos.y,
                 smoothedPos.z - camPos.z);
 
-        if (mode.isSelected("Rhomb")) {
-            renderRhomb(stack, provider, target, alpha);
-        } else if (mode.isSelected("Ghost")) {
-            renderGhost(stack, provider, target, alpha);
-        } else if (mode.isSelected("Chain")) {
-            renderChain(stack, provider, target, alpha, deltaTime);
-        } else if (mode.isSelected("Crystals")) {
-            if (crystalList.isEmpty() || lastRenderedTarget != target) {
-                createCrystals(target);
-                lastRenderedTarget = target;
+        switch (mode.getSelected()) {
+            case "Rhomb" -> renderRhomb(stack, provider, target, alpha);
+            case "Ghost" -> renderGhost(stack, provider, target, alpha);
+            case "Chain" -> renderChain(stack, provider, target, alpha, deltaTime);
+            case "Pulse" -> renderPulse(stack, provider, target, alpha, deltaTime);
+            case "Spiral" -> renderSpiral(stack, provider, target, alpha, deltaTime);
+            case "Crystals" -> {
+                if (crystalList.isEmpty() || !isTargetValid((LivingEntity) lastRenderedTarget)) {
+                    createCrystals(target);
+                    lastRenderedTarget = target;
+                }
+                renderCrystals(stack, provider, target, alpha, deltaTime);
             }
-            renderCrystals(stack, provider, target, alpha, deltaTime);
         }
 
         provider.draw();
-
         stack.pop();
     }
 
     private void renderCircle(MatrixStack stack, LivingEntity target, float alpha) {
-        int baseColor1 = color1.getColor();
-        int baseColor2 = color2.getColor();
-
-        if (hurtProgress > 0) {
-            baseColor1 = lerpColor(baseColor1, 0xFFFF0000, hurtProgress);
-            baseColor2 = lerpColor(baseColor2, 0xFFFF0000, hurtProgress);
-        }
-
-        Render3D.drawCircle(stack, target, alpha, hurtProgress, baseColor1, baseColor2);
+        Render3D.drawCircle(stack, target, alpha, hurtProgress, cachedHurtColor1, cachedHurtColor2);
     }
 
     private void renderChain(MatrixStack stack, VertexConsumerProvider provider, LivingEntity target, float alpha,
@@ -195,7 +206,7 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         VertexConsumer consumer = provider
                 .getBuffer(ClientPipelines.CHAIN_ESP.apply(Identifier.of("rich", "images/world/chain.png")));
 
-        float animValue = (System.currentTimeMillis() % 360000) / 1000f * 60f;
+        float animValue = (currentFrameTime % 360000) / 1000f * 60f;
 
         float gradusX = (float) (20 * Math.min(1 + Math.sin(Math.toRadians(animValue)), 1));
         float gradusZ = (float) (20 * (Math.min(1 + Math.sin(Math.toRadians(animValue)), 2) - 1));
@@ -208,19 +219,10 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         float chainScale = 0.5f;
 
         int alphaVal = MathHelper.clamp((int) (alpha * 128), 0, 128);
+        int c1 = withAlpha(cachedHurtColor1, alphaVal);
+        int c2 = withAlpha(cachedHurtColor2, alphaVal);
 
-        int baseColor1 = color1.getColor();
-        int baseColor2 = color2.getColor();
-
-        if (hurtProgress > 0) {
-            baseColor1 = lerpColor(baseColor1, 0xFFFF0000, hurtProgress);
-            baseColor2 = lerpColor(baseColor2, 0xFFFF0000, hurtProgress);
-        }
-
-        int c1 = withAlpha(baseColor1, alphaVal);
-        int c2 = withAlpha(baseColor2, alphaVal);
-
-        float rotationValue = (System.currentTimeMillis() % 720000) / 1000f * 30f;
+        float rotationValue = (currentFrameTime % 720000) / 1000f * 30f;
 
         for (int chain = 0; chain < 2; chain++) {
             float val = 1.2f - 0.5f * (chain == 0 ? 1.0f : 0.9f);
@@ -270,14 +272,14 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         stack.translate(0, target.getHeight() / 2f, 0);
         stack.multiply(camRot);
 
-        float timeRotation = (System.currentTimeMillis() % 6283) / 1000f;
+        float timeRotation = (currentFrameTime % 6283) / 1000f;
         stack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float) Math.sin(timeRotation) * 360));
 
         float size = 0.5f;
         stack.scale(size, size, 1);
 
-        int c1 = withAlpha(color1.getColor(), (int) (255 * alpha));
-        int c2 = withAlpha(color2.getColor(), (int) (255 * alpha));
+        int c1 = withAlpha(cachedHurtColor1, (int) (255 * alpha));
+        int c2 = withAlpha(cachedHurtColor2, (int) (255 * alpha));
 
         Vector3f[] quad = {
                 new Vector3f(-1, -1, 0),
@@ -306,25 +308,28 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
 
     private void particle(MatrixStack stack, VertexConsumer consumer, Transformation transformation, float alpha,
             int colorIndex) {
-        double radius = 0.7f;
+        double radius = 1.75f;
         double distance = 11;
 
-        float particleSize = 0.5f;
+        float particleSize = 1.25f;
         int alphaFactor = 15;
 
-        long elapsed = System.currentTimeMillis();
+        int baseColor = switch (colorIndex) {
+            case 0 -> color1.getColor();
+            case 1 -> color2.getColor();
+            default -> color3.getColor();
+        };
 
-        int baseColor;
-        switch (colorIndex) {
-            case 0 -> baseColor = color1.getColor();
-            case 1 -> baseColor = color2.getColor();
-            default -> baseColor = color3.getColor();
-        }
+        int nextColor = switch (colorIndex) {
+            case 0 -> color2.getColor();
+            case 1 -> color3.getColor();
+            default -> color1.getColor();
+        };
 
         for (int i = 0; i < 40 * alpha; i++) {
             stack.push();
 
-            double angle = 0.15 * ((elapsed * 0.5) - (i * distance)) / 30.0;
+            double angle = 0.15 * ((currentFrameTime * 0.5) - (i * distance)) / 30.0;
 
             double sin = Math.sin(angle) * radius;
             double cos = Math.cos(angle) * radius;
@@ -334,13 +339,13 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
 
             stack.multiply(mc.gameRenderer.getCamera().getRotation());
 
-            float spinRotation = (elapsed * 0.1f) - (i * 10f);
+            float spinRotation = (currentFrameTime * 0.1f) - (i * 10f);
             stack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(spinRotation));
 
             stack.translate(particleSize / 2f, particleSize / 2f, 0);
 
             float x = (float) i / (float) 40;
-            int lerpedColor = lerpColor(baseColor, getNextColor(colorIndex), x);
+            int lerpedColor = lerpColor(baseColor, nextColor, x);
 
             int c1 = withAlpha(lerpedColor, (int) ((255 - i * alphaFactor) * alpha));
             int c2 = withAlpha(lerpedColor, (int) ((255 - i * alphaFactor) * alpha));
@@ -375,20 +380,15 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
 
     private void renderCrystals(MatrixStack stack, VertexConsumerProvider provider, LivingEntity target, float alpha,
             float deltaTime) {
-        if (target == null || crystalList.isEmpty()) {
-            return;
-        }
+        if (crystalList.isEmpty()) return;
 
-        rotationAngle += crystalRotationSpeed.getValue() * deltaTime;
+        rotationAngle += crystalRotationSpeed.getValue() * deltaTime * ROTATION_SPEED_MULTIPLIER;
         rotationAngle = rotationAngle % 360;
 
         stack.push();
         stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotationAngle));
 
-        int baseColor = color1.getColor();
-        if (hurtProgress > 0) {
-            baseColor = lerpColor(baseColor, 0xFFFF0000, hurtProgress);
-        }
+        int baseColor = cachedHurtColor1;
 
         for (Crystal crystal : crystalList) {
             crystal.render(stack, provider, alpha, baseColor);
@@ -412,16 +412,16 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
             stack.push();
             stack.translate(position.x, position.y, position.z);
 
-            float timeSeconds = (System.currentTimeMillis() % 31416) / 1000f;
-            float pulsation = 1.0f + (float) (Math.sin(timeSeconds * 2f) * 0.1f);
+            float timeSeconds = (currentFrameTime % 31416) / 1000f;
+            float pulsation = 1.0f + (float) (Math.sin(timeSeconds * 2f) * 0.25f);
             stack.scale(pulsation, pulsation, pulsation);
 
-            float selfRotation = (System.currentTimeMillis() % 36000) / 100.0f * rotationSpeed;
+            float selfRotation = (currentFrameTime % 36000) / 100.0f * rotationSpeed;
             stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees((float) rotation.x));
             stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) rotation.y + selfRotation));
             stack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float) rotation.z));
 
-            float userAlpha = 0.3f;
+            float userAlpha = 0.75f;
 
             VertexConsumer filledConsumer = provider.getBuffer(ClientPipelines.CRYSTAL_FILLED);
             drawFilledCrystal(stack, filledConsumer, baseColor, userAlpha * 0.85f, alpha);
@@ -444,7 +444,7 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
 
         private void drawFilledCrystal(MatrixStack stack, VertexConsumer consumer, int baseColor, float alphaMultiplier,
                 float anim) {
-            float s = 0.05f;
+            float s = 0.125f;
             float h_prism = s * 1.0f;
             float h_pyramid = s * 1.5f;
             int numSides = 8;
@@ -517,9 +517,9 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
             VertexConsumer bloomConsumer = provider
                     .getBuffer(ClientPipelines.BLOOM_ESP.apply(Identifier.of("rich", "images/particle/glow.png")));
 
-            int bloomAlpha = (int) (0.3f * 60 * anim);
+            int bloomAlpha = (int) (0.75f * 60 * anim);
             int bloomColor = withAlpha(baseColor, bloomAlpha);
-            float bloomSize = 0.05f * 15.0f;
+            float bloomSize = 0.125f * 15.0f;
 
             Quaternionf camRot = mc.gameRenderer.getCamera().getRotation();
             int segments = 6;
@@ -605,6 +605,80 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
     private int withAlpha(int color, int alpha) {
         alpha = Math.max(0, Math.min(255, alpha));
         return (color & 0x00FFFFFF) | (alpha << 24);
+    }
+    
+    private void renderPulse(MatrixStack stack, VertexConsumerProvider provider, LivingEntity target, float alpha, float deltaTime) {
+        VertexConsumer consumer = provider.getBuffer(ClientPipelines.BLOOM_ESP.apply(Identifier.of("rich", "images/particle/glow.png")));
+        
+        float time = currentFrameTime * 0.003f;
+        float pulseScale = 1.0f + (float) Math.sin(time * 2) * 0.3f;
+        
+        stack.push();
+        stack.translate(0, target.getHeight() * 0.5f, 0);
+        stack.scale(pulseScale, pulseScale, pulseScale);
+        stack.multiply(mc.gameRenderer.getCamera().getRotation());
+        
+        // Основной пульс
+        int pulseColor = withAlpha(cachedHurtColor1, (int) (alpha * 200));
+        drawPulseRing(stack, consumer, 1.5f, pulseColor);
+        
+        // Внешний пульс
+        float outerPulse = 1.5f + (float) Math.sin(time * 1.5f) * 0.5f;
+        stack.scale(outerPulse, outerPulse, outerPulse);
+        int outerColor = withAlpha(cachedHurtColor2, (int) (alpha * 100));
+        drawPulseRing(stack, consumer, 2.0f, outerColor);
+        
+        stack.pop();
+    }
+    
+    private void drawPulseRing(MatrixStack stack, VertexConsumer consumer, float size, int color) {
+        Matrix4f matrix = stack.peek().getPositionMatrix();
+        
+        consumer.vertex(matrix, -size, -size, 0).texture(0, 1).color(color);
+        consumer.vertex(matrix, size, -size, 0).texture(1, 1).color(color);
+        consumer.vertex(matrix, size, size, 0).texture(1, 0).color(color);
+        consumer.vertex(matrix, -size, size, 0).texture(0, 0).color(color);
+    }
+    
+    private void renderSpiral(MatrixStack stack, VertexConsumerProvider provider, LivingEntity target, float alpha, float deltaTime) {
+        VertexConsumer consumer = provider.getBuffer(ClientPipelines.BLOOM_ESP.apply(Identifier.of("rich", "images/particle/glow.png")));
+        
+        float time = currentFrameTime * 0.002f;
+        int particleCount = 30;
+        
+        for (int i = 0; i < particleCount; i++) {
+            stack.push();
+            
+            float progress = (float) i / particleCount;
+            float angle = progress * 720 + time * 90; // 2 оборота спирали
+            float radius = progress * 2.0f;
+            float height = (float) Math.sin(progress * Math.PI * 4 + time * 2) * 0.5f;
+            
+            double x = Math.cos(Math.toRadians(angle)) * radius;
+            double z = Math.sin(Math.toRadians(angle)) * radius;
+            double y = target.getHeight() * 0.5f + height;
+            
+            stack.translate(x, y, z);
+            stack.multiply(mc.gameRenderer.getCamera().getRotation());
+            
+            float particleAlpha = alpha * (1.0f - progress) * 0.8f;
+            int spiralColor = lerpColor(cachedHurtColor1, cachedHurtColor2, progress);
+            spiralColor = withAlpha(spiralColor, (int) (particleAlpha * 255));
+            
+            float particleSize = 0.3f * (1.0f - progress * 0.5f);
+            drawSpiralParticle(stack, consumer, particleSize, spiralColor);
+            
+            stack.pop();
+        }
+    }
+    
+    private void drawSpiralParticle(MatrixStack stack, VertexConsumer consumer, float size, int color) {
+        Matrix4f matrix = stack.peek().getPositionMatrix();
+        
+        consumer.vertex(matrix, -size, -size, 0).texture(0, 1).color(color);
+        consumer.vertex(matrix, size, -size, 0).texture(1, 1).color(color);
+        consumer.vertex(matrix, size, size, 0).texture(1, 0).color(color);
+        consumer.vertex(matrix, -size, size, 0).texture(0, 0).color(color);
     }
 
     @FunctionalInterface

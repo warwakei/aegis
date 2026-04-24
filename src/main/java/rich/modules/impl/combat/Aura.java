@@ -134,12 +134,16 @@ public class Aura extends ModuleStructure {
     private final BooleanSetting shieldBreaker = new BooleanSetting("ShieldBreaker", "Авто-свап топора при блокировании щитом цели (как Silent Mace)")
             .setValue(false);
 
+    @Getter
+    private final BooleanSetting multiTarget = new BooleanSetting("Multi-Target", "Автоматически переключается между целями после каждого удара")
+            .setValue(false);
+
     private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
     private final ShieldBreakerHandler shieldBreakerHandler = new ShieldBreakerHandler();
 
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly, shieldBreaker);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly, shieldBreaker, multiTarget);
     }
 
     @NonFinal
@@ -147,6 +151,16 @@ public class Aura extends ModuleStructure {
 
     @NonFinal
     public LivingEntity lastTarget;
+
+    // Multi-Target система
+    @NonFinal
+    private java.util.List<LivingEntity> availableTargets = new java.util.ArrayList<>();
+    @NonFinal
+    private int currentTargetIndex = 0;
+    @NonFinal
+    private long lastAttackTime = 0;
+    @NonFinal
+    private long lastTargetSwitchTime = 0;
 
     // AutoFlyme - отслеживание двойного нажатия пробела
     @NonFinal
@@ -173,6 +187,12 @@ public class Aura extends ModuleStructure {
         // Сброс AutoFlyme
         lastJumpPressTime = 0;
         flymeCommandSent = false;
+        
+        // Сброс Multi-Target
+        availableTargets.clear();
+        currentTargetIndex = 0;
+        lastAttackTime = 0;
+        lastTargetSwitchTime = 0;
     }
 
     @EventHandler
@@ -453,11 +473,41 @@ public class Aura extends ModuleStructure {
         boolean a = mc.options.leftKey.isPressed();
         boolean d = mc.options.rightKey.isPressed();
 
+        if (moveFix.isSelected("Сфокусированная")) {
+            // Сфокусированная коррекция - движение строго по направлению взгляда
+            float yaw = AngleConnection.INSTANCE.getRotation().getYaw();
+            
+            boolean forward = false, back = false, left = false, right = false;
+            
+            if (w) forward = true;
+            if (s) back = true;
+            if (a) left = true;
+            if (d) right = true;
+            
+            event.setDirectionalLow(forward, back, left, right);
+            return;
+        }
+        
+        if (moveFix.isSelected("Свободная")) {
+            // Свободная коррекция - минимальные изменения движения
+            // Оставляем движение как есть, только слегка корректируем
+            return; // Не изменяем движение
+        }
+        
         if (moveFix.isSelected("Таргет")) {
             Vec3d playerPos = mc.player.getEntityPos();
             Vec3d targetPos = target.getEntityPos();
 
-            Vec3d moveTarget = new Vec3d(targetPos.x, playerPos.y, targetPos.z);
+            // ИСПРАВЛЕНИЕ: В полёте учитываем высоту цели
+            Vec3d moveTarget;
+            if (isInFly) {
+                // В полёте - летим к цели с учетом высоты
+                moveTarget = targetPos;
+            } else {
+                // На земле - игнорируем высоту цели
+                moveTarget = new Vec3d(targetPos.x, playerPos.y, targetPos.z);
+            }
+            
             Vec3d dir = moveTarget.subtract(playerPos).normalize();
 
             float yaw = AngleConnection.INSTANCE.getRotation().getYaw();
@@ -527,7 +577,13 @@ public class Aura extends ModuleStructure {
                 moveTargetVec = center.add(offsetVec);
             }
 
-            moveTargetVec = new Vec3d(moveTargetVec.x, playerPos.y, moveTargetVec.z);
+            // ИСПРАВЛЕНИЕ: В полёте НЕ обнуляем Y координату
+            if (!isInFly) {
+                // На земле - используем Y игрока
+                moveTargetVec = new Vec3d(moveTargetVec.x, playerPos.y, moveTargetVec.z);
+            }
+            // В полёте - используем Y цели (moveTargetVec уже содержит правильную высоту)
+
             Vec3d dir = moveTargetVec.subtract(playerPos).normalize();
 
             float yaw = AngleConnection.INSTANCE.getRotation().getYaw();
@@ -619,7 +675,110 @@ public class Aura extends ModuleStructure {
         targetSelector.searchTargets(mc.world.getEntities(), range, dynamicFov,
                 options.isSelected("Бить сквозь стены"));
         targetSelector.validateTarget(filter::isValid);
+        
+        // Multi-Target логика
+        if (multiTarget.isValue()) {
+            return updateMultiTarget(filter, range, dynamicFov);
+        }
+        
         return targetSelector.getCurrentTarget();
+    }
+    
+    private LivingEntity updateMultiTarget(TargetFinder.EntityFilter filter, float range, float dynamicFov) {
+        // Получаем всех доступных целей в радиусе поиска
+        java.util.List<LivingEntity> allTargets = new java.util.ArrayList<>();
+        java.util.List<LivingEntity> attackableTargets = new java.util.ArrayList<>();
+        float attackRange = attackrange.getValue();
+        
+        for (net.minecraft.entity.Entity entity : mc.world.getEntities()) {
+            if (entity instanceof LivingEntity living && entity != mc.player) {
+                float distance = mc.player.distanceTo(living);
+                
+                if (distance <= range && filter.isValid(living)) {
+                    // Проверяем FOV если нужно
+                    if (dynamicFov < 360) {
+                        Vec3d playerPos = mc.player.getEyePos();
+                        Vec3d targetPos = living.getEyePos();
+                        Vec3d direction = targetPos.subtract(playerPos).normalize();
+                        
+                        float playerYaw = mc.player.getYaw();
+                        float targetYaw = (float) Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90F;
+                        float angleDiff = Math.abs(MathHelper.wrapDegrees(targetYaw - playerYaw));
+                        
+                        if (angleDiff > dynamicFov / 2F) continue;
+                    }
+                    
+                    // Проверяем стены если нужно
+                    if (!options.isSelected("Бить сквозь стены")) {
+                        net.minecraft.util.hit.HitResult raycast = mc.world.raycast(new net.minecraft.world.RaycastContext(
+                            mc.player.getEyePos(),
+                            living.getEyePos(),
+                            net.minecraft.world.RaycastContext.ShapeType.COLLIDER,
+                            net.minecraft.world.RaycastContext.FluidHandling.NONE,
+                            mc.player
+                        ));
+                        
+                        if (raycast.getType() == net.minecraft.util.hit.HitResult.Type.BLOCK) {
+                            continue;
+                        }
+                    }
+                    
+                    allTargets.add(living);
+                    
+                    // Отдельно считаем цели в радиусе атаки
+                    if (distance <= attackRange) {
+                        attackableTargets.add(living);
+                    }
+                }
+            }
+        }
+        
+        // Если целей нет - сбрасываем
+        if (allTargets.isEmpty()) {
+            availableTargets.clear();
+            currentTargetIndex = 0;
+            return null;
+        }
+        
+        // Сортируем цели по дистанции (ближайшие первые)
+        allTargets.sort((a, b) -> Float.compare(mc.player.distanceTo(a), mc.player.distanceTo(b)));
+        
+        // Если список целей изменился - обновляем
+        if (!availableTargets.equals(allTargets)) {
+            LivingEntity currentTarget = availableTargets.isEmpty() ? null : 
+                (currentTargetIndex < availableTargets.size() ? availableTargets.get(currentTargetIndex) : null);
+            
+            availableTargets = new java.util.ArrayList<>(allTargets);
+            
+            // Пытаемся сохранить текущую цель если она ещё доступна
+            if (currentTarget != null && availableTargets.contains(currentTarget)) {
+                currentTargetIndex = availableTargets.indexOf(currentTarget);
+            } else {
+                currentTargetIndex = 0;
+            }
+        }
+        
+        // Если в радиусе атаки только одна цель - не переключаемся
+        if (attackableTargets.size() <= 1) {
+            // Выбираем ближайшую цель (первую в отсортированном списке)
+            currentTargetIndex = 0;
+        }
+        
+        // Проверяем что индекс валидный
+        if (currentTargetIndex >= availableTargets.size()) {
+            currentTargetIndex = 0;
+        }
+        
+        return availableTargets.get(currentTargetIndex);
+    }
+    
+    /**
+     * Переключает на следующую цель в Multi-Target режиме
+     */
+    private void switchToNextTarget() {
+        if (availableTargets.size() > 1) {
+            currentTargetIndex = (currentTargetIndex + 1) % availableTargets.size();
+        }
     }
 
     public RotateConstructor getSmoothMode() {
@@ -637,5 +796,21 @@ public class Aura extends ModuleStructure {
             case "Matrix" -> new MatrixAngle();
             default -> new LinearConstructor();
         };
+    }
+    
+    /**
+     * Уведомляет Multi-Target систему о том что произошла атака
+     */
+    public void notifyAttackExecuted() {
+        if (multiTarget.isValue() && availableTargets.size() > 1) {
+            long currentTime = System.currentTimeMillis();
+            
+            // Переключаем цель если прошло достаточно времени (100мс)
+            if (currentTime - lastTargetSwitchTime >= 100) {
+                lastAttackTime = currentTime;
+                lastTargetSwitchTime = currentTime;
+                switchToNextTarget();
+            }
+        }
     }
 }

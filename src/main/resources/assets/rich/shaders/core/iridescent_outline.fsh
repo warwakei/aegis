@@ -26,6 +26,12 @@ vec3 hsv2rgb(vec3 c) {
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
+float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
 float perimeterCoord(vec2 uv) {
     // uv in [0..1], returns 0..1 along rectangle perimeter, starting top-left going clockwise
     float x = clamp(uv.x, 0.0, 1.0);
@@ -76,15 +82,24 @@ void main() {
     float t = timeSeconds * speed;
     float hue = fract(p + t);
 
-    // Extra micro-variation to avoid "flat rainbow"
-    hue = fract(hue + sin((p + t) * 12.0) * 0.03);
+    // Richer spectral variation.
+    float harmonicA = sin((p + t) * 12.0) * 0.03;
+    float harmonicB = sin((p * 5.3 - t * 1.9) * 3.14159) * 0.02;
+    hue = fract(hue + harmonicA + harmonicB);
 
     vec3 col = hsv2rgb(vec3(hue, saturation, value));
+
+    float hueB = fract(hue + 0.11 + sin((p + t * 0.7) * 18.0) * 0.015);
+    vec3 colB = hsv2rgb(vec3(hueB, saturation * 0.72, value * 1.03));
+    col = mix(col, colB, 0.35);
 
     // Small brightness pulse
     float pulse = 0.85 + 0.15 * sin((t + p) * 6.28318);
     col *= pulse;
 
+    float sparkle = step(0.988, hash12(floor(pixelCoord * 1.5) + vec2(t * 17.0, t * 9.0)));
+    col += sparkle * 0.12;
+    col = clamp(col, vec3(0.0), vec3(1.0));
+
     outColor = vec4(col, outlineMask * alphaMul);
 }
-

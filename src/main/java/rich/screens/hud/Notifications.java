@@ -28,8 +28,10 @@ public class Notifications extends AbstractHudElement {
     private static final float NOTIFICATION_HEIGHT = 16f;
     private static final float NOTIFICATION_GAP = 3f;
 
+    private boolean positionInitialized = false;
+
     public Notifications() {
-        super("Notifications", 0, 0, 110, 16, false);
+        super("Notifications", 0, 0, 110, 16, true);
         instance = this;
     }
 
@@ -76,20 +78,24 @@ public class Notifications extends AbstractHudElement {
             }
         }
 
-        updatePosition();
+        ensureDefaultPosition();
     }
 
-    private void updatePosition() {
+    private void ensureDefaultPosition() {
         if (mc.getWindow() == null) return;
 
-        float virtualWidth = getVirtualWidth();
-        float virtualHeight = getVirtualHeight();
+        if (positionInitialized) return;
+        if (getX() != 0 || getY() != 0) {
+            positionInitialized = true;
+            return;
+        }
 
-        float crosshairX = virtualWidth / 2f;
-        float crosshairY = virtualHeight / 2f;
+        float crosshairX = getVirtualWidth() / 2f;
+        float crosshairY = getVirtualHeight() / 2f;
 
         this.setX((int) (crosshairX - 60));
         this.setY((int) (crosshairY + 100));
+        positionInitialized = true;
     }
 
     public void addNotification(String text, long duration) {
@@ -135,7 +141,7 @@ public class Notifications extends AbstractHudElement {
         if (alpha <= 0) return;
 
         float alphaFactor = alpha / 255.0f;
-        updatePosition();
+        ensureDefaultPosition();
         updateTargetPositions();
 
         float springStiffness = 180f;
@@ -179,8 +185,8 @@ public class Notifications extends AbstractHudElement {
 
             if (bgAlpha > 0) {
                 float aMul = bgAlpha / 255.0f;
-                HudStyle.panel(startX, startY, width, NOTIFICATION_HEIGHT, 4f, aMul);
-                HudStyle.inset(startX + 2.75f, startY + 2, 12, 12, 4f, aMul);
+                HudStyle.panel(startX, startY, width, NOTIFICATION_HEIGHT, 4f, aMul, HudStyle.Variant.DENSE);
+                HudStyle.inset(startX + 2.75f, startY + 2, 12, 12, 4f, aMul, HudStyle.Variant.ACCENT);
 
                 Fonts.BOLD.draw(notification.text, startX + offsetX + 16, startY + 4.5f, 6,
                         ClickGuiPalette.textPrimary(aMul));

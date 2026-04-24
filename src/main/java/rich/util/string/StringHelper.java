@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- *  © 2025 Copyright Rich Client 2.0
+ *  © 2025 © 2026 Copyright Aegis Neo 062 - Dev Build 2026 14:03 21.04 Client 2.0
  *        All Rights Reserved ®
  */
 

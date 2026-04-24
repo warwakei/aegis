@@ -49,7 +49,7 @@ public class Particles extends ModuleStructure {
             .setValue(true);
 
     public SliderSettings pulseIntensity = new SliderSettings("Интенсивность пульсации", "Сила пульсации размера")
-            .range(0.1f, 1.0f).setValue(0.3f)
+            .range(0.1f, 1.0f).setValue(0.75f)
             .visible(() -> sizePulse.isValue());
 
     public BooleanSetting sparkTrail = new BooleanSetting("Искры при ударе", "Добавить искры-трейлы при атаке")
@@ -59,7 +59,7 @@ public class Particles extends ModuleStructure {
             .range(1, 5).setValue(2);
 
     public SliderSettings glowBrightness = new SliderSettings("Яркость свечения", "Яркость glow эффекта")
-            .range(0.5f, 2.0f).setValue(1.0f);
+            .range(0.5f, 2.0f).setValue(2.5f);
 
     public SelectSetting glowMode = new SelectSetting("Свечение", "Тип эффекта свечения")
             .value("Bloom", "Bloom Sample", "Оба", "Трейл")
@@ -76,7 +76,7 @@ public class Particles extends ModuleStructure {
             .range(10, 50).setValue(30).visible(() -> triggers.isSelected("Ходьба"));
 
     public SliderSettings spread = new SliderSettings("Разброс", "Сила разброса частиц в стороны")
-            .range(0.5f, 5.0f).setValue(1.0f);
+            .range(0.5f, 5.0f).setValue(2.5f);
 
     public SliderSettings speed = new SliderSettings("Скорость", "Скорость движения частиц")
             .range(0.1f, 5.0f).setValue(2.0f);

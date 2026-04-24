@@ -155,7 +155,7 @@ public class BlockESP extends ModuleStructure {
         }
         checkCounter++;
         renderBlocks.forEach((pos, blockState) -> {
-            Render3D.drawBox(new Box(pos), color.getColor(), 1);
+            Render3D.drawBox(new Box(pos), color.getColor(), 2.5f);
         });
     }
 

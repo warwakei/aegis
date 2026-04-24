@@ -2,10 +2,7 @@ package rich.screens.hud;
 
 import net.minecraft.client.gui.DrawContext;
 import rich.client.draggables.AbstractHudElement;
-import rich.modules.impl.render.Hud;
-import rich.util.render.Render2D;
 import rich.util.render.font.Fonts;
-import rich.util.tps.TPSCalculate;
 
 import java.awt.*;
 import java.time.LocalTime;
@@ -21,15 +18,11 @@ public class Watermark extends AbstractHudElement {
     private String oldTime = "";
     private long timeAnimationStart = 0;
 
-    private String lastTps = "";
-    private String oldTps = "";
-    private long tpsAnimationStart = 0;
-
     private static final long ANIMATION_DURATION = 200;
     private static final float ANIMATION_OFFSET = 8.0f;
 
     public Watermark() {
-        super("Watermark", 10, 10, 200, 24, false);
+        super("Watermark", 20, 5, 200, 24, true);
         startAnimation();
     }
 
@@ -45,24 +38,15 @@ public class Watermark extends AbstractHudElement {
     public void drawDraggable(DrawContext context, int alpha) {
         if (alpha <= 0) return;
 
-        float x = 20;
-        float y = 5;
+        float x = getX();
+        float y = getY();
 
-        // Null-safety для сессии
         if (mc.getSession() == null) return;
+
         String username = mc.getSession().getUsername();
         String fpsNumber = String.valueOf(mc.getCurrentFps());
         String fpsText = "fps";
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-
-        boolean showTps = Hud.getInstance() != null && Hud.getInstance().showTps.isValue();
-
-        float tpsValue = 20.0f;
-        if (TPSCalculate.getInstance() != null) {
-            tpsValue = TPSCalculate.getInstance().getTpsRounded();
-        }
-        String tpsNumber = String.format("%.1f", tpsValue);
-        String tpsText = "tps";
 
         long currentTime = System.currentTimeMillis();
 
@@ -78,48 +62,25 @@ public class Watermark extends AbstractHudElement {
             timeAnimationStart = currentTime;
         }
 
-        if (!tpsNumber.equals(lastTps)) {
-            oldTps = lastTps;
-            lastTps = tpsNumber;
-            tpsAnimationStart = currentTime;
-        }
-
         float fpsAnimation = Math.min(1.0f, (currentTime - fpsAnimationStart) / (float) ANIMATION_DURATION);
         float timeAnimation = Math.min(1.0f, (currentTime - timeAnimationStart) / (float) ANIMATION_DURATION);
-        float tpsAnimation = Math.min(1.0f, (currentTime - tpsAnimationStart) / (float) ANIMATION_DURATION);
 
         float usernameWidth = Fonts.BOLD.getWidth(username, 6);
         float fpsNumberWidth = Fonts.BOLD.getWidth(fpsNumber, 6);
         float fpsTextWidth = Fonts.BOLD.getWidth(fpsText, 6);
         float timeWidth = Fonts.BOLD.getWidth(time, 6);
-        float tpsNumberWidth = Fonts.BOLD.getWidth(tpsNumber, 6);
-        float tpsTextWidth = Fonts.BOLD.getWidth(tpsText, 6);
 
         float totalWidth = usernameWidth + fpsNumberWidth + fpsTextWidth + timeWidth + 97;
-        float tpsBoxWidth = 10 + 12 + 8 + tpsNumberWidth + 2 + tpsTextWidth + 10;
 
-        if (showTps) {
-            setWidth((int) (totalWidth + tpsBoxWidth + 10));
-        } else {
-            setWidth((int) (totalWidth + 10));
-        }
+        setWidth((int) (totalWidth + 10));
         setHeight(22);
 
-        float pulse = (float) Math.sin(currentTime * 0.002) * 0.1f + 0.9f;
         float alphaFactor = alpha / 255.0f;
 
-        HudStyle.panel(x, y + 3, totalWidth, 20, 5f, alphaFactor);
-
-        float tpsBoxX = x + totalWidth;
-
-        if (showTps) {
-            HudStyle.panel(tpsBoxX, y + 3, tpsBoxWidth, 20, 5f, alphaFactor);
-        }
+        HudStyle.panel(x, y + 3, totalWidth, 20, 5f, alphaFactor, HudStyle.Variant.SOFT);
 
         float textY = y + 7;
-        float textX = x;
-
-        float offsetX = textX + 5;
+        float offsetX = x + 5;
 
         Fonts.CATEGORY_ICONS.draw("d", offsetX, textY + 1.5f, 10, new Color(230, 235, 245, 255).getRGB());
         offsetX += 12;
@@ -127,7 +88,7 @@ public class Watermark extends AbstractHudElement {
         Fonts.BOLD.draw(username, offsetX, textY + 3, 6, new Color(255, 255, 255, 255).getRGB());
         offsetX += usernameWidth + 5;
 
-        Fonts.TEST.draw("»", offsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
+        Fonts.TEST.draw(">", offsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
         offsetX += 12;
 
         Fonts.CATEGORY_ICONS.draw("b", offsetX, textY + 2.5f, 9, new Color(230, 235, 245, 255).getRGB());
@@ -140,7 +101,7 @@ public class Watermark extends AbstractHudElement {
         Fonts.BOLD.draw(fpsText, offsetX, textY + 3, 6, new Color(160, 170, 190, 255).getRGB());
         offsetX += fpsTextWidth + 5;
 
-        Fonts.TEST.draw("»", offsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
+        Fonts.TEST.draw(">", offsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
         offsetX += 12;
 
         Fonts.CATEGORY_ICONS.draw("n", offsetX, textY + 2.5f, 9, new Color(230, 235, 245, 255).getRGB());
@@ -148,20 +109,6 @@ public class Watermark extends AbstractHudElement {
 
         float timeOffsetX = offsetX;
         drawAnimatedTextPerChar(time, oldTime, timeOffsetX, textY + 3, 6, timeAnimation);
-
-        if (showTps) {
-            Fonts.ICONSTYPETHO.draw("t", tpsBoxX + 5, textY + 0.5f, 12, new Color(230, 235, 245, 255).getRGB());
-
-            float tpsOffsetX = tpsBoxX + 19;
-
-            Fonts.TEST.draw("»", tpsOffsetX, textY + 1.5f, 8, new Color(160, 170, 190, 255).getRGB());
-            tpsOffsetX += 8;
-
-            drawAnimatedTextPerChar(tpsNumber, oldTps, tpsOffsetX, textY + 3, 6, tpsAnimation);
-            tpsOffsetX += tpsNumberWidth + 2;
-
-            Fonts.BOLD.draw(tpsText, tpsOffsetX, textY + 3, 6, new Color(160, 170, 190, 255).getRGB());
-        }
     }
 
     private void drawAnimatedTextPerChar(String newText, String oldText, float x, float y, float size, float progress) {

@@ -82,7 +82,7 @@ public class Inventory extends AbstractHudElement {
 
         int bgAlpha = (int) (255 * alphaFactor);
 
-        HudStyle.panel(x + 2, contentY + 2, contentWidth - 4, contentHeight - 4, 5f, alphaFactor);
+        HudStyle.panel(x + 2, contentY + 2, contentWidth - 4, contentHeight - 4, 5f, alphaFactor, HudStyle.Variant.DENSE);
 
         float slotsStartX = x + padding;
         float slotsStartY = contentY + padding;
@@ -98,7 +98,7 @@ public class Inventory extends AbstractHudElement {
 
                 ItemStack stack = mc.player.getInventory().getStack(slotIndex);
 
-                HudStyle.inset(slotX, slotY, SLOT_SIZE, SLOT_SIZE, 2f, alphaFactor);
+                HudStyle.inset(slotX, slotY, SLOT_SIZE, SLOT_SIZE, 2f, alphaFactor, HudStyle.Variant.SOFT);
 
                 if (!stack.isEmpty()) {
                     float itemSize = 16 * ITEM_SCALE;

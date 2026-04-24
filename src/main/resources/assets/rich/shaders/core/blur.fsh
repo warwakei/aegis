@@ -23,32 +23,47 @@ float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
 
-vec4 gaussianBlur(vec2 uv, float radius) {
-    vec4 col = vec4(0.0);
-    float total = 0.0;
+float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
 
-    float sigma = max(radius * 0.5, 0.1);
-    float twoSigma2 = 2.0 * sigma * sigma;
+vec4 sampleQualityBlur(vec2 uv, float radius, vec2 jitter) {
+    vec4 accum = vec4(0.0);
+    float weightSum = 0.0;
 
-    int samples = int(ceil(radius));
-    samples = clamp(samples, 1, 20);
+    int rings = 7;
+    int ringSamples = 16;
+    float sigma = max(radius * 0.46, 0.35);
+    float invTwoSigma2 = 1.0 / max(2.0 * sigma * sigma, 0.0001);
 
-    for (int x = -samples; x <= samples; x++) {
-        for (int y = -samples; y <= samples; y++) {
-            float d = float(x * x + y * y);
-            float weight = exp(-d / twoSigma2);
+    vec2 aniso = vec2(1.0 + radius * 0.035, 1.0 - radius * 0.022);
 
-            vec2 offset = vec2(float(x), float(y)) * texelSize;
-            vec2 sampleUV = uv + offset;
+    for (int ring = 0; ring <= rings; ring++) {
+        float rNorm = float(ring) / float(rings);
+        float ringRadius = rNorm * radius;
 
-            sampleUV = clamp(sampleUV, vec2(0.001), vec2(0.999));
+        int angular = ring == 0 ? 1 : ringSamples + ring * 2;
+        for (int i = 0; i < angular; i++) {
+            float fi = float(i);
+            float fa = float(angular);
+            float a = (fi / fa) * 6.28318530718 + jitter.x * 6.28318530718 + rNorm * 1.7;
 
-            col += texture(Sampler0, sampleUV) * weight;
-            total += weight;
+            vec2 dir = vec2(cos(a), sin(a)) * aniso;
+            vec2 offset = dir * ringRadius * texelSize;
+            vec2 suv = clamp(uv + offset + jitter * texelSize * 0.8, vec2(0.001), vec2(0.999));
+
+            float d2 = dot(offset / texelSize, offset / texelSize);
+            float w = exp(-d2 * invTwoSigma2);
+
+            vec4 c = texture(Sampler0, suv);
+            accum += c * w;
+            weightSum += w;
         }
     }
 
-    return col / total;
+    return accum / max(weightSum, 1e-5);
 }
 
 void main() {
@@ -68,9 +83,23 @@ void main() {
         discard;
     }
 
-    vec4 blurred = gaussianBlur(texCoord, blurRadius);
+    vec2 jitter = vec2(
+            hash12(floor(pixelCoord) + vec2(3.17, 9.31)) - 0.5,
+            hash12(floor(pixelCoord.yx) + vec2(6.77, 1.29)) - 0.5
+    );
 
-    vec3 finalColor = mix(blurred.rgb, tintColor.rgb, tintColor.a);
+    vec4 blurred = sampleQualityBlur(texCoord, max(0.8, blurRadius * 1.25), jitter);
+
+    vec4 centerSample = texture(Sampler0, texCoord);
+    vec3 enhanced = mix(blurred.rgb, centerSample.rgb, 0.06);
+
+    float vignette = smoothstep(1.2, 0.15, length((fragCoord - 0.5) * vec2(1.08, 0.92)));
+    float localContrast = dot(abs(dFdx(enhanced)) + abs(dFdy(enhanced)), vec3(0.3333));
+    enhanced += (0.045 + localContrast * 0.15) * vignette * (0.5 + 0.5 * tintColor.a);
+
+    vec3 finalColor = mix(enhanced, tintColor.rgb, tintColor.a * 0.9);
+    finalColor += jitter.x * 0.006;
+    finalColor = clamp(finalColor, vec3(0.0), vec3(1.0));
 
     fragColor = vec4(finalColor, alpha);
 }

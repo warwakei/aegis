@@ -2,6 +2,9 @@ package rich.manager;
 
 import lombok.Getter;
 import rich.client.draggables.HudManager;
+import rich.client.splash.LoadingStages;
+import rich.client.splash.SplashScreenManager;
+import rich.util.render.shader.ShaderCompilationTracker;
 import rich.command.CommandManager;
 import rich.events.api.EventManager;
 import rich.modules.impl.combat.aura.attack.StrikerConstructor;
@@ -27,7 +30,7 @@ import rich.util.repository.way.WayRepository;
 import rich.util.tps.TPSCalculate;
 
 /**
- *  © 2026 Copyright Rich Client 2.0
+ *  © 2026 Copyright Aegis Neo 062 - Dev Build 2026 14:03 21.04
  *        All Rights Reserved ®
  */
 
@@ -47,12 +50,19 @@ public class Manager {
     private HudManager hudManager = new HudManager();
 
     public void init() {
+        LoadingStages.LOADING_CONFIG.update();
+        
+        LoadingStages.LOADING_REPOSITORIES.update();
         MacroRepository.getInstance().init();
         WayRepository.getInstance().init();
+        
+        LoadingStages.LOADING_FRIENDS_CONFIG.update();
         BlockESPConfig.getInstance().load();
         FriendConfig.getInstance().load();
         IgnoreConfig.getInstance().load();
         ChatTabManager.getInstance().init();
+        
+        LoadingStages.LOADING_STAFF_CONFIG.update();
         PrefixConfig.getInstance().load();
         StaffConfig.getInstance().load();
         ProxyConfig.getInstance().load();
@@ -61,22 +71,38 @@ public class Manager {
 
         FontInitializer.register();
 
+        LoadingStages.LOADING_TEXTURES.update();
         tpsCalculate = new TPSCalculate();
 
+        LoadingStages.LOADING_MODELS.update();
         clickgui = new ClickGui();
+        
+        LoadingStages.INITIALIZING_EVENT_SYSTEM.update();
         eventManager = new EventManager();
         renderCore = new RenderCore();
         renderCore.init();
         scissor = new Scissor();
+        
+        LoadingStages.INITIALIZING_HUD_ELEMENTS.update();
         hudManager = new HudManager();
         hudManager.initElements();
+        
+        LoadingStages.LOADING_MODULES.update();
         moduleRepository = new ModuleRepository();
         moduleRepository.setup();
         moduleProvider = new ModuleProvider(moduleRepository.modules());
         moduleSwitcher = new ModuleSwitcher(moduleRepository.modules(), eventManager);
+        
+        LoadingStages.INITIALIZING_COMMANDS.update();
         configSystem = new ConfigSystem();
         configSystem.init();
         commandManager = new CommandManager();
         commandManager.init();
+        
+        LoadingStages.FINALIZING_CONFIGS.update();
+        try { Thread.sleep(150); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        
+        LoadingStages.FINALIZING.update();
+        LoadingStages.COMPLETE.update();
     }
 }

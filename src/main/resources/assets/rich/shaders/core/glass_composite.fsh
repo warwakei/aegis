@@ -20,6 +20,12 @@ vec3 adjustSaturation(vec3 color, float saturation) {
     return mix(vec3(gray), color, saturation);
 }
 
+float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
 float getEdge(vec2 uv) {
     float center = texture(MaskSampler, uv).r;
     float edge = 0.0;
@@ -53,9 +59,24 @@ void main() {
         blurUV = center - offset * 0.3 + offset;
     }
 
-    vec4 blur = texture(BlurSampler, blurUV);
+    vec2 refraction = (vec2(
+            texture(MaskSampler, texCoord + vec2(texelSize.x, 0.0)).r - texture(MaskSampler, texCoord - vec2(texelSize.x, 0.0)).r,
+            texture(MaskSampler, texCoord + vec2(0.0, texelSize.y)).r - texture(MaskSampler, texCoord - vec2(0.0, texelSize.y)).r
+    )) * 0.014;
 
-    vec3 glassColor = blur.rgb;
+    vec2 uvR = clamp(blurUV + refraction * 1.30, vec2(0.001), vec2(0.999));
+    vec2 uvG = clamp(blurUV + refraction * 1.00, vec2(0.001), vec2(0.999));
+    vec2 uvB = clamp(blurUV + refraction * 0.70, vec2(0.001), vec2(0.999));
+
+    vec3 blurChromatic = vec3(
+            texture(BlurSampler, uvR).r,
+            texture(BlurSampler, uvG).g,
+            texture(BlurSampler, uvB).b
+    );
+    vec3 blurBase = texture(BlurSampler, blurUV).rgb;
+    vec3 blurMix = mix(blurBase, blurChromatic, 0.45);
+
+    vec3 glassColor = blurMix;
 
     glassColor = adjustSaturation(glassColor, saturation);
 
@@ -70,11 +91,14 @@ void main() {
         if (tintColor.a < 0.01) {
             glowColor = vec3(1.0);
         }
-        glassColor += edge * glowColor * edgeGlowIntensity;
+        glassColor += edge * glowColor * edgeGlowIntensity * 1.15;
     }
 
     float fresnel = pow(edge, 2.0) * 0.3;
     glassColor += fresnel * 0.1;
+
+    float sparkle = step(0.996, hash12(floor(texCoord * resolution.xy * 0.85)));
+    glassColor += sparkle * 0.06 * (0.4 + edge * 0.6);
 
     glassColor = clamp(glassColor, vec3(0.0), vec3(1.0));
 

@@ -40,18 +40,24 @@ public class HitEffect extends ModuleStructure {
             .setValue(true);
 
     public SliderSettings waveLayers = new SliderSettings("Слои волны", "Количество слоёв волны")
-            .range(1, 3).setValue(2);
+            .range(1, 5).setValue(3);
 
     public BooleanSetting spawnParticles = new BooleanSetting("Частицы волны", "Спавнить частицы при волне")
             .setValue(true);
 
     public SliderSettings particleDensity = new SliderSettings("Плотность частиц", "Количество частиц на блоке")
-            .range(0, 3).setValue(1)
+            .range(0, 5).setValue(2)
             .visible(() -> spawnParticles.isValue());
+            
+    public BooleanSetting glowEffect = new BooleanSetting("Эффект свечения", "Добавляет свечение к волне")
+            .setValue(true);
+            
+    public SliderSettings waveSpeed = new SliderSettings("Скорость волны", "Скорость распространения волны")
+            .range(0.5f, 3.0f).setValue(1.5f);
 
     public HitEffect() {
         super("HitEffect", "Hit Effect", ModuleCategory.RENDER);
-        settings(primaryColor, secondaryColor, gradientWave, waveLayers, spawnParticles, particleDensity);
+        settings(primaryColor, secondaryColor, gradientWave, waveLayers, spawnParticles, particleDensity, glowEffect, waveSpeed);
     }
 
     public void addWave(BlockPos pos) {
@@ -211,16 +217,19 @@ public class HitEffect extends ModuleStructure {
 
             long elapsed = System.currentTimeMillis() - startTime;
             float progress = (float) elapsed / duration;
-            float currentRadius = progress * maxRadius;
-            float waveWidth = 2.0f;
+            float currentRadius = progress * maxRadius * waveSpeed.getValue();
+            float waveWidth = 6.0f;
 
-            // Пульсация для красоты
-            float pulse = (float) Math.sin(progress * Math.PI * 4) * 0.1f + 1.0f;
+            // Улучшенная пульсация с несколькими частотами
+            float pulse1 = (float) Math.sin(progress * Math.PI * 6) * 0.2f + 1.0f;
+            float pulse2 = (float) Math.cos(progress * Math.PI * 8) * 0.15f + 1.0f;
+            float combinedPulse = (pulse1 + pulse2) * 0.5f;
+            
             float globalAlpha = 1.0f - progress;
-            globalAlpha = (float) Math.pow(globalAlpha, 0.6);
+            globalAlpha = (float) Math.pow(globalAlpha, 0.4); // Более плавное затухание
 
             int rendered = 0;
-            int maxPerFrame = 600;
+            int maxPerFrame = 800; // Увеличил лимит для красоты
             int numLayers = (int) waveLayers.getValue();
 
             for (Map.Entry<Long, Integer> entry : reachableBlocks.entrySet()) {
@@ -229,11 +238,11 @@ public class HitEffect extends ModuleStructure {
                 int blockDistance = entry.getValue();
 
                 for (int layer = 0; layer < numLayers; layer++) {
-                    float layerOffset = layer * 0.4f;
+                    float layerOffset = layer * 0.8f;
                     float layerRadius = currentRadius + layerOffset;
-                    float layerAlpha = globalAlpha * (1.0f - layer * 0.25f);
+                    float layerAlpha = globalAlpha * (1.0f - layer * 0.4f);
 
-                    if (blockDistance < layerRadius - waveWidth || blockDistance > layerRadius + 0.5f) continue;
+                    if (blockDistance < layerRadius - waveWidth || blockDistance > layerRadius + 1.0f) continue;
 
                     BlockPos pos = BlockPos.fromLong(entry.getKey());
                     BlockState state = mc.world.getBlockState(pos);
@@ -247,13 +256,33 @@ public class HitEffect extends ModuleStructure {
 
                     float localAlpha = 1.0f - Math.abs(blockDistance - layerRadius) / waveWidth;
                     localAlpha = Math.max(0, Math.min(1, localAlpha));
-                    localAlpha *= layerAlpha * pulse;
+                    localAlpha *= layerAlpha * combinedPulse;
 
-                    if (localAlpha > 0.02f) {
+                    if (localAlpha > 0.01f) {
                         int baseColor = gradientWave.isValue() ?
                                 ColorUtil.lerpColor(primaryColor.getColor(), secondaryColor.getColor(), (float) blockDistance / maxRadius) :
                                 primaryColor.getColor();
-                        int color = ColorUtil.setAlpha(baseColor, (int) (localAlpha * 85));
+                        
+                        // Эффект свечения
+                        if (glowEffect.isValue()) {
+                            float glowIntensity = localAlpha * 0.8f;
+                            int glowColor = ColorUtil.setAlpha(baseColor, (int) (glowIntensity * 120));
+                            
+                            // Рендерим свечение (больший размер, меньшая прозрачность)
+                            try {
+                                Render3D.drawShapeAlternative(
+                                        pos,
+                                        shape,
+                                        glowColor,
+                                        1.2f, // Увеличенный размер для свечения
+                                        true,
+                                        true
+                                );
+                            } catch (Exception ignored) {
+                            }
+                        }
+                        
+                        int color = ColorUtil.setAlpha(baseColor, (int) (localAlpha * 100));
 
                         try {
                             Render3D.drawShapeAlternative(
@@ -267,24 +296,21 @@ public class HitEffect extends ModuleStructure {
                         } catch (Exception ignored) {
                         }
 
-                        // Частицы на блоках
-                        if (spawnParticles.isValue() && particleDensity.getInt() > 0 && localAlpha > 0.3f) {
-                            spawnBlockParticles(pos, localAlpha, blockDistance);
+                        // Улучшенные частицы
+                        if (spawnParticles.isValue() && particleDensity.getInt() > 0 && localAlpha > 0.2f) {
+                            spawnEnhancedParticles(pos, localAlpha, blockDistance, progress);
                         }
                     }
                 }
             }
         }
 
-        private void spawnBlockParticles(BlockPos pos, float alpha, int distance) {
+        private void spawnEnhancedParticles(BlockPos pos, float alpha, int distance, float waveProgress) {
             int density = particleDensity.getInt();
             if (density == 0) return;
 
-            float progress = (float) (System.currentTimeMillis() - startTime) / duration;
-            float currentRadius = progress * maxRadius;
-
             int color = ColorUtil.lerpColor(primaryColor.getColor(), secondaryColor.getColor(), (float) distance / maxRadius);
-            color = ColorUtil.setAlpha(color, (int) (alpha * 120));
+            color = ColorUtil.setAlpha(color, (int) (alpha * 150));
 
             double centerX = centerPos.getX() + 0.5;
             double centerZ = centerPos.getZ() + 0.5;
@@ -295,19 +321,27 @@ public class HitEffect extends ModuleStructure {
             double dirX = distToCenter > 0 ? dx / distToCenter : 0;
             double dirZ = distToCenter > 0 ? dz / distToCenter : 0;
 
-            for (int i = 0; i < density; i++) {
-                double px = pos.getX() + 0.5 + (Math.random() - 0.5) * 0.6;
-                double py = pos.getY() + 0.5 + Math.random() * 0.4;
-                double pz = pos.getZ() + 0.5 + (Math.random() - 0.5) * 0.6;
+            // Увеличенное количество частиц для красоты
+            for (int i = 0; i < density * 2; i++) {
+                double px = pos.getX() + 0.5 + (Math.random() - 0.5) * 0.8;
+                double py = pos.getY() + 0.5 + Math.random() * 0.6;
+                double pz = pos.getZ() + 0.5 + (Math.random() - 0.5) * 0.8;
 
-                double outwardForce = 0.06 + Math.random() * 0.04;
-                double velX = dirX * outwardForce + (Math.random() - 0.5) * 0.02;
-                double velY = Math.random() * 0.1 + 0.03;
-                double velZ = dirZ * outwardForce + (Math.random() - 0.5) * 0.02;
+                // Более динамичное движение частиц
+                double outwardForce = 0.08 + Math.random() * 0.06;
+                double upwardForce = Math.random() * 0.15 + 0.05;
+                
+                // Спиральное движение для красоты
+                double spiralAngle = waveProgress * Math.PI * 4 + i * 0.5;
+                double spiralRadius = 0.03;
+                
+                double velX = dirX * outwardForce + Math.cos(spiralAngle) * spiralRadius;
+                double velY = upwardForce + Math.sin(waveProgress * Math.PI * 2) * 0.02;
+                double velZ = dirZ * outwardForce + Math.sin(spiralAngle) * spiralRadius;
 
                 Particles particlesMod = Particles.getInstance();
                 if (particlesMod != null && particlesMod.isState()) {
-                    // Частицы движутся от центра волны наружу
+                    // Частицы с улучшенной физикой и красивыми траекториями
                 }
             }
         }

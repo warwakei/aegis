@@ -7,39 +7,39 @@ import java.util.Random;
 
 /**
  * Менеджер CPS очереди для 1.8 режима
- * Реализует систему "2 клика с минимальной задержкой" для обхода античитов
+ * Улучшенный алгоритм для обхода античитов до 13+ CPS
  */
 public class CPSClickScheduler {
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();
     private static final Random random = new Random();
 
-    // Текущий CPS
     @Getter
     private int cps = 8;
 
     // Счётчики для очереди
     private int clicksInQueue = 0;
     private int queueSize = 0;
-    private int doubleClicksRemaining = 0;
-    private int doubleClicksUsed = 0;
 
     // Тайминги
     private long lastClickTime = 0;
-    private long lastDoubleClickTime = 0;
+    private long lastBurstTime = 0;
     private long queueStartTime = 0;
 
     // Состояние
     private boolean queueActive = false;
     private int ticksInQueue = 0;
-
-    // Позиции для "быстрых" кликов в очереди
-    private int firstDoubleClickPosition = -1;
-    private int secondDoubleClickPosition = -1;
     
-    // Задержка между "двойными" кликами (в мс)
-    private static final int MIN_DOUBLE_CLICK_DELAY = 15;
-    private static final int MAX_DOUBLE_CLICK_DELAY = 35;
+    // Система рандомных дропов CPS
+    private long lastCpsDropTime = 0;
+    private int cpsDropAmount = 0;
+    private boolean inCpsDrop = false;
+    private long cpsDropDuration = 0;
+    
+    // Человечные паттерны
+    private long lastHumanPauseTime = 0;
+    private boolean inHumanPause = false;
+    private long humanPauseDuration = 0;
 
     /**
      * Обновляет CPS из настроек
@@ -49,108 +49,135 @@ public class CPSClickScheduler {
     }
 
     /**
-     * Начинает новую очередь кликов
-     * @param cps кликов в секунду
+     * Начинает новую очередь кликов с улучшенным алгоритмом
      */
     public void startQueue(int cps) {
-        this.cps = Math.max(2, Math.min(40, cps));
-        this.queueSize = cps; // Одна очередь = 1 секунда = CPS кликов
+        // Применяем рандомные дропы CPS
+        int effectiveCps = applyHumanCpsVariations(cps);
+        
+        this.cps = Math.max(2, Math.min(40, effectiveCps));
+        this.queueSize = this.cps;
         this.clicksInQueue = 0;
         this.queueActive = true;
         this.ticksInQueue = 0;
         this.queueStartTime = System.currentTimeMillis();
-
-        // Вычисляем сколько "быстрых пар" доступно (каждые 5 CPS = 1 пара)
-        int totalDoubleClicks = cps / 5;
-
-        // Ограничиваем максимум 4 быстрых пар за очередь
-        totalDoubleClicks = Math.min(totalDoubleClicks, 4);
-
-        this.doubleClicksRemaining = totalDoubleClicks;
-        this.doubleClicksUsed = 0;
-
-        // Распределяем позиции быстрых кликов рандомно по очереди
-        distributeDoubleClickPositions(totalDoubleClicks, cps);
+        
+        // Проверяем нужна ли человечная пауза
+        checkForHumanPause();
     }
-
+    
     /**
-     * Распределяет позиции быстрых кликов по очереди
-     * Быстрые клики ставятся в разные части очереди и рандомизируются
+     * Применяет человечные вариации CPS (дропы на -1, -2, -3)
      */
-    private void distributeDoubleClickPositions(int count, int queueSize) {
-        if (count <= 0) {
-            firstDoubleClickPosition = -1;
-            secondDoubleClickPosition = -1;
-            return;
+    private int applyHumanCpsVariations(int baseCps) {
+        long currentTime = System.currentTimeMillis();
+        
+        // Проверяем активен ли дроп
+        if (inCpsDrop) {
+            if (currentTime - lastCpsDropTime >= cpsDropDuration) {
+                inCpsDrop = false;
+                cpsDropAmount = 0;
+            } else {
+                return Math.max(2, baseCps - cpsDropAmount);
+            }
         }
-
-        // Разделяем на две группы по 2 пары
-        int firstGroup = Math.min(2, count);
-        int secondGroup = count - firstGroup;
-
-        // Позиции для первой группы (рандомно в первой трети очереди, но не в начале)
-        if (firstGroup > 0) {
-            int minPos = Math.max(2, queueSize / 6);
-            int maxPos = queueSize / 3;
-            firstDoubleClickPosition = randomInRange(minPos, maxPos);
+        
+        // Увеличил шанс дропов и частоту (20% каждые 1.5-4 секунды)
+        if (currentTime - lastCpsDropTime >= 1500 + random.nextInt(2500)) {
+            if (random.nextFloat() < 0.2f) {
+                // Рандомный дроп на 1-4 CPS (увеличил максимум)
+                cpsDropAmount = 1 + random.nextInt(4);
+                cpsDropDuration = 600 + random.nextInt(1800); // 0.6-2.4 секунды
+                inCpsDrop = true;
+                lastCpsDropTime = currentTime;
+                return Math.max(2, baseCps - cpsDropAmount);
+            }
         }
-
-        // Позиции для второй группы (рандомно во второй половине очереди)
-        if (secondGroup > 0) {
-            int minPos = queueSize / 2 + 1;
-            int maxPos = Math.min(queueSize - 3, queueSize * 3 / 4);
-            secondDoubleClickPosition = randomInRange(minPos, maxPos);
+        
+        return baseCps;
+    }
+    
+    /**
+     * Проверяет нужна ли человечная пауза
+     */
+    private void checkForHumanPause() {
+        long currentTime = System.currentTimeMillis();
+        
+        // Шанс на микропаузу (8% каждые 3-7 секунд)
+        if (currentTime - lastHumanPauseTime >= 3000 + random.nextInt(4000)) {
+            if (random.nextFloat() < 0.08f) {
+                humanPauseDuration = 150 + random.nextInt(300); // 150-450мс пауза
+                inHumanPause = true;
+                lastHumanPauseTime = currentTime;
+            }
         }
     }
 
     /**
-     * Проверяет можно ли сделать быстрый второй клик
-     * @return true если можно сделать второй клик в паре
+     * Проверяет можно ли сделать быстрый бурст клик
      */
     public boolean shouldDoFastSecondClick() {
-        if (!queueActive || doubleClicksRemaining <= 0) {
+        if (!queueActive || clicksInQueue <= 0) {
             return false;
         }
-
-        // Проверяем достигли ли позиции быстрого клика
-        if (clicksInQueue == firstDoubleClickPosition || clicksInQueue == secondDoubleClickPosition) {
-            // Проверяем что прошло достаточно времени с последнего двойного клика
-            long timeSinceLastDoubleClick = System.currentTimeMillis() - lastDoubleClickTime;
-            return timeSinceLastDoubleClick >= 100; // Минимум 100мс между парами
+        
+        // Логика: если CPS четное, выше 11 и цельное число
+        if (cps > 11 && cps % 2 == 0) {
+            int interval = cps / 2; // 12÷2=6, 14÷2=7, 16÷2=8, etc
+            
+            // Каждый N-й клик делаем даблклик, но с рандомными пропусками
+            if (clicksInQueue % interval == 0) {
+                // 15% шанс пропустить бурст для человечности
+                if (random.nextFloat() < 0.15f) {
+                    return false;
+                }
+                
+                // Проверяем что прошло достаточно времени с последнего бурста
+                long timeSinceLastBurst = System.currentTimeMillis() - lastBurstTime;
+                return timeSinceLastBurst >= (40 + random.nextInt(30)); // 40-70мс рандом
+            }
         }
-
+        
         return false;
     }
 
     /**
-     * Возвращает задержку до второго клика в паре (в мс)
+     * Возвращает задержку до второго клика в бурсте (в один тик)
      */
     public int getSecondClickDelay() {
-        return MIN_DOUBLE_CLICK_DELAY + random.nextInt(MAX_DOUBLE_CLICK_DELAY - MIN_DOUBLE_CLICK_DELAY + 1);
+        // Для даблклика в один тик - рандомная задержка с микровариациями
+        int baseDelay = 1 + random.nextInt(4); // 1-4мс базовая
+        
+        // Иногда добавляем микрозадержку для реализма (20% шанс)
+        if (random.nextFloat() < 0.2f) {
+            baseDelay += random.nextInt(3); // +0-2мс
+        }
+        
+        return baseDelay;
     }
 
     /**
      * Отмечает что быстрый клик был использован
      */
     public void useFastClick() {
-        if (doubleClicksRemaining > 0) {
-            doubleClicksRemaining--;
-            doubleClicksUsed++;
-            lastDoubleClickTime = System.currentTimeMillis();
-        }
+        lastBurstTime = System.currentTimeMillis();
     }
 
     /**
-     * Проверяет можно ли сделать клик сейчас
-     * @return true если пришло время клика
+     * Улучшенная проверка можно ли кликать с адаптивными интервалами
      */
     public boolean shouldClick() {
-        if (!queueActive) {
+        if (!queueActive || mc.player == null) {
             return false;
         }
-
-        if (mc.player == null) {
-            return false;
+        
+        // Проверяем человечную паузу
+        if (inHumanPause) {
+            if (System.currentTimeMillis() - lastHumanPauseTime >= humanPauseDuration) {
+                inHumanPause = false;
+            } else {
+                return false; // Блокируем клики во время паузы
+            }
         }
 
         long elapsed = System.currentTimeMillis() - queueStartTime;
@@ -159,9 +186,9 @@ public class CPSClickScheduler {
         // Если мы отстаём от графика - можно кликать
         boolean shouldClick = clicksInQueue < expectedClicks;
 
-        // Проверка на минимальный интервал между кликами (анти-спам)
+        // Адаптивный минимальный интервал с большей рандомизацией
         long timeSinceLastClick = System.currentTimeMillis() - lastClickTime;
-        long minInterval = Math.max(25, 1000 / cps); // Минимум 25мс или 1/CPS
+        long minInterval = calculateHumanInterval();
 
         if (timeSinceLastClick < minInterval) {
             shouldClick = false;
@@ -171,8 +198,31 @@ public class CPSClickScheduler {
     }
 
     /**
+     * Вычисляет человечный интервал между кликами с большей рандомизацией
+     */
+    private long calculateHumanInterval() {
+        // Базовый интервал зависит от CPS
+        long baseInterval = 1000 / cps;
+        
+        // Более агрессивная рандомизация ±40%
+        double randomFactor = 0.6 + (random.nextDouble() * 0.8);
+        
+        // Добавляем микроджиттеры
+        int microJitter = random.nextInt(15) - 7; // ±7мс
+        
+        long adaptiveInterval = (long) (baseInterval * randomFactor) + microJitter;
+        
+        // Иногда добавляем случайные задержки (5% шанс)
+        if (random.nextFloat() < 0.05f) {
+            adaptiveInterval += 20 + random.nextInt(40); // +20-60мс
+        }
+        
+        // Минимум 15мс для предотвращения детекции
+        return Math.max(15, adaptiveInterval);
+    }
+
+    /**
      * Регистрирует сделанный клик
-     * @param isFastClick был ли это быстрый клик в паре
      */
     public void registerClick(boolean isFastClick) {
         clicksInQueue++;
@@ -185,17 +235,10 @@ public class CPSClickScheduler {
         }
     }
 
-    /**
-     * Завершает текущую очередь
-     */
     private void endQueue() {
         queueActive = false;
         clicksInQueue = 0;
         queueSize = 0;
-        doubleClicksRemaining = 0;
-        doubleClicksUsed = 0;
-        firstDoubleClickPosition = -1;
-        secondDoubleClickPosition = -1;
     }
 
     /**
@@ -204,9 +247,18 @@ public class CPSClickScheduler {
     public void reset() {
         endQueue();
         lastClickTime = 0;
-        lastDoubleClickTime = 0;
+        lastBurstTime = 0;
         queueStartTime = 0;
         ticksInQueue = 0;
+        
+        // Сбрасываем человечные паттерны
+        lastCpsDropTime = 0;
+        cpsDropAmount = 0;
+        inCpsDrop = false;
+        cpsDropDuration = 0;
+        lastHumanPauseTime = 0;
+        inHumanPause = false;
+        humanPauseDuration = 0;
     }
 
     /**

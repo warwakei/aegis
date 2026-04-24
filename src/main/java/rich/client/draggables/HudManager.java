@@ -21,12 +21,15 @@ public class HudManager {
         if (initialized) return;
 
         register(new Watermark());
+        register(new WatermarkTps());
         register(new HotKeys());
         register(new Notifications());
         register(new test());
         register(new Potions());
         register(new CoolDowns());
         register(new TargetHud());
+        register(new Coords());
+        register(new Bps());
         register(new Info());
         register(new Staff());
         register(new Inventory());

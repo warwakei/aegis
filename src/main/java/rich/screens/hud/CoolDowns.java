@@ -282,14 +282,14 @@ public class CoolDowns extends AbstractHudElement {
         int bgAlpha = (int) (255 * alphaFactor);
 
         if (contentHeight > 0) {
-            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor);
+            HudStyle.panel(x, y, getWidth(), contentHeight, 5f, alphaFactor, HudStyle.Variant.DENSE);
         }
 
         Scissor.enable(x, y, getWidth(), contentHeight, FORCED_GUI_SCALE);
 
         float badgeX = x + getWidth() - 22.5f;
         float badgeY = y + 5;
-        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor);
+        HudStyle.inset(badgeX, badgeY, 14, 12, 3, alphaFactor, HudStyle.Variant.ACCENT);
         Fonts.ICONS.draw("D", badgeX + 2.5f, badgeY + 1.5f, 9, ClickGuiPalette.textMuted(alphaFactor));
         Fonts.BOLD.draw("CoolDowns", x + 8, y + 6.5f, 6, ClickGuiPalette.textPrimary(alphaFactor));
 

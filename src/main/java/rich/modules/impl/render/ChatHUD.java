@@ -69,7 +69,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
             .visible(() -> backgroundMode.isSelected("Blur"));
 
     final SliderSettings blurRadius = new SliderSettings("Радиус blur", "Сила размытия")
-            .range(2f, 10f).setValue(4f)
+            .range(2f, 10f).setValue(10f)
             .visible(() -> blurEffect.isValue());
 
     final BooleanSetting shadow = new BooleanSetting("Тень", "Тень под чатом")

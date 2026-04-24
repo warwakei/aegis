@@ -19,14 +19,30 @@ import java.awt.*;
 
 public class TargetHud extends AbstractHudElement {
 
+    private static final float HEALTH_LERP_SPEED = 7.5f;
+    private static final float MAX_HEALTH_LERP_SPEED = 6.0f;
+    private static final float BAR_LERP_SPEED = 3.0f;
+    private static final float TRAIL_LERP_SPEED = 3.5f;
+    private static final float HEALTH_WAVE_SPEED = 1500f;
+    private static final float ABSORPTION_WAVE_SPEED = 1200f;
+    private static final float DEFAULT_MAX_HEALTH = 20f;
+    private static final int BAR_WIDTH = 64;
+    private static final int BAR_HEIGHT = 4;
+    private static final float BAR_RADIUS = 2f;
+    private static final float FACE_SIZE = 24f;
+    private static final float FACE_HAT_SCALE = 1.1f;
+    private static final float CONTENT_PADDING = 6f;
+    private static final float HEALTH_SNAP_STEP = 0.25f;
+
     private final StopWatch stopWatch = new StopWatch();
     private LivingEntity lastTarget;
+    private LivingEntity previousTarget;
 
     private float healthAnimation = 0;
     private float trailAnimation = 0;
     private float absorptionAnimation = 0;
     private float displayedHealth = 0;
-    private float displayedMaxHealth = 20f;
+    private float displayedMaxHealth = DEFAULT_MAX_HEALTH;
     private long lastUpdateTime = System.currentTimeMillis();
     private long startTime = System.currentTimeMillis();
 
@@ -42,17 +58,30 @@ public class TargetHud extends AbstractHudElement {
     @Override
     public void tick() {
         LivingEntity auraTarget = Aura.target;
-        if (auraTarget != null) {
-            lastTarget = auraTarget;
-            startAnimation();
-            stopWatch.reset();
-        } else if (isChat(mc.currentScreen)) {
-            lastTarget = mc.player;
-            startAnimation();
-            stopWatch.reset();
-        } else if (stopWatch.finished(10)) {
+        LivingEntity newTarget = null;
+
+        if (auraTarget != null && isEntityValid(auraTarget)) {
+            newTarget = auraTarget;
+        } else if (isChat(mc.currentScreen) && isEntityValid(mc.player)) {
+            newTarget = mc.player;
+        }
+
+        if (newTarget != lastTarget) {
+            previousTarget = lastTarget;
+            lastTarget = newTarget;
+            if (newTarget != null) {
+                startAnimation();
+                stopWatch.reset();
+            }
+        }
+
+        if (lastTarget == null && stopWatch.finished(10)) {
             stopAnimation();
         }
+    }
+
+    private boolean isEntityValid(LivingEntity entity) {
+        return entity != null && !entity.isRemoved() && entity.isAlive();
     }
 
     private float lerp(float current, float target, float deltaTime, float speed) {
@@ -82,15 +111,17 @@ public class TargetHud extends AbstractHudElement {
     }
 
     private float getHealth(LivingEntity entity) {
-        if (entity.isInvisible() && !Network.isSpookyTime() && !Network.isCopyTime()) {
+        if (isInvisible(entity)) {
             return entity.getMaxHealth();
         }
-        return entity.getHealth();
+        float h = entity.getHealth();
+        if (Float.isNaN(h) || Float.isInfinite(h) || h < 0.0f) return 0.0f;
+        return h;
     }
 
     private float getMaxHealthSafe(LivingEntity entity) {
         float max = entity.getMaxHealth();
-        if (Float.isNaN(max) || Float.isInfinite(max) || max <= 0.0f) return 20.0f;
+        if (Float.isNaN(max) || Float.isInfinite(max) || max <= 0.0f) return DEFAULT_MAX_HEALTH;
         return max;
     }
 
@@ -100,8 +131,20 @@ public class TargetHud extends AbstractHudElement {
         return a;
     }
 
+    private float getEffectiveHealthSafe(LivingEntity entity) {
+        float h = getHealth(entity);
+        float a = getAbsorptionSafe(entity);
+        float v = h + a;
+        if (Float.isNaN(v) || Float.isInfinite(v) || v < 0.0f) return 0.0f;
+        return v;
+    }
+
+    private boolean isInvisible(LivingEntity entity) {
+        return entity.isInvisible() && !Network.isSpookyTime() && !Network.isCopyTime();
+    }
+
     private String getHealthString(float health) {
-        if (lastTarget != null && lastTarget.isInvisible() && !Network.isSpookyTime() && !Network.isCopyTime()) {
+        if (lastTarget != null && isInvisible(lastTarget)) {
             return "??";
         }
         if (health >= 100) {
@@ -130,14 +173,16 @@ public class TargetHud extends AbstractHudElement {
         setHeight(40);
 
         float scaleAlpha = scaleAnimation.getOutput().floatValue();
+        float alphaMul = HudStyle.alphaMulFrom255(alpha);
+        float finalAlpha = Math.min(scaleAlpha, alphaMul);
 
-        drawBackground(x, y, scaleAlpha);
-        drawFace(x, y, scaleAlpha);
-        drawContent(x, y, scaleAlpha, deltaTime);
+        drawBackground(x, y, finalAlpha);
+        drawFace(x, y, finalAlpha);
+        drawContent(x, y, finalAlpha, deltaTime);
     }
 
     private void drawBackground(float x, float y, float alpha) {
-        HudStyle.panel(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 6f, alpha);
+        HudStyle.panel(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 6f, alpha, HudStyle.Variant.ACCENT);
     }
 
     private void drawFace(float x, float y, float alpha) {
@@ -185,167 +230,165 @@ public class TargetHud extends AbstractHudElement {
     }
 
     private void drawContent(float x, float y, float alpha, float deltaTime) {
-        float faceSize = 24;
         float faceX = x + 9;
-        float contentX = faceX + faceSize + 6;
+        float contentX = faceX + FACE_SIZE + CONTENT_PADDING;
         float nameY = y + 13;
         float maxContentWidth = x + getWidth() - contentX - 12;
 
         float hp = Math.max(0.0f, getHealth(lastTarget));
         float maxHp = getMaxHealthSafe(lastTarget);
         float absorp = getAbsorptionSafe(lastTarget);
+        boolean invisible = isInvisible(lastTarget);
 
-        boolean isInvisible = lastTarget.isInvisible() && !Network.isSpookyTime() && !Network.isCopyTime();
-
-        float targetDisplayHealth;
-        if (isInvisible) {
-            targetDisplayHealth = maxHp;
-        } else {
-            targetDisplayHealth = hp + absorp;
-        }
-        displayedHealth = lerp(displayedHealth, targetDisplayHealth, deltaTime, 7.5f);
-        displayedMaxHealth = lerp(displayedMaxHealth, maxHp, deltaTime, 6.0f);
+        float targetDisplayHealth = invisible ? maxHp : getEffectiveHealthSafe(lastTarget);
+        displayedHealth = lerp(displayedHealth, targetDisplayHealth, deltaTime, HEALTH_LERP_SPEED);
+        displayedMaxHealth = lerp(displayedMaxHealth, maxHp, deltaTime, MAX_HEALTH_LERP_SPEED);
 
         float shownMax = Math.max(1.0f, displayedMaxHealth);
-        float snappedHealth = snapToStep(displayedHealth, 0.25f);
-        float snappedHpOnly = snapToStep(hp, 0.25f);
-        float snappedAbsorp = snapToStep(absorp, 0.25f);
+        float snappedHealth = snapToStep(displayedHealth, HEALTH_SNAP_STEP);
+        float snappedHpOnly = snapToStep(hp, HEALTH_SNAP_STEP);
+        float snappedAbsorp = snapToStep(absorp, HEALTH_SNAP_STEP);
 
-        String hpStr = getHealthString(snappedHealth);
+        drawNameAndHealth(contentX, nameY, maxContentWidth, snappedHealth, alpha);
+        drawHealthBar(contentX, nameY, shownMax, hp, absorp, invisible, alpha, deltaTime);
+        drawHealthNumeric(contentX, nameY, snappedHpOnly, shownMax, snappedAbsorp, invisible, alpha);
+    }
 
-        String name = "";
-        if (lastTarget.getDisplayName() != null) {
-            name = lastTarget.getDisplayName().getString();
-        }
-        if (name == null || name.isEmpty()) {
-            name = lastTarget.getName().getString();
-        }
-        if (name == null || name.isEmpty()) {
-            name = lastTarget.getType().getName().getString();
-        }
-
-        float hpWidth = Fonts.BOLD.getWidth(hpStr, 5.5f);
-        float nameWidth = Fonts.BOLD.getWidth(name, 5.5f);
-
-        if (nameWidth > maxContentWidth) {
+    private void drawNameAndHealth(float contentX, float nameY, float maxContentWidth, float snappedHealth, float alpha) {
+        String name = getEntityName();
+        if (Fonts.BOLD.getWidth(name, 5.5f) > maxContentWidth) {
             name = truncateText(name, maxContentWidth, 5.5f);
         }
 
+        String hpStr = getHealthString(snappedHealth);
+        float hpWidth = Fonts.BOLD.getWidth(hpStr, 5.5f);
+
         Fonts.BOLD.draw(name, contentX, nameY, 5.5f,
                 new Color(255, 255, 255, (int) (255 * alpha)).getRGB());
+        Fonts.BOLD.draw(hpStr, contentX + BAR_WIDTH + 6 - hpWidth, nameY, 5.5f,
+                new Color(215, 215, 215, (int) (255 * alpha)).getRGB());
+    }
 
-        int hpColor = new Color(215, 215, 215, (int) (255 * alpha)).getRGB();
-        Fonts.BOLD.draw(hpStr, x + getWidth() - 10 - hpWidth, nameY, 5.5f, hpColor);
-
-        float targetHealth;
-        if (isInvisible) {
-            targetHealth = 1.0f;
-        } else {
-            targetHealth = hp / shownMax;
+    private String getEntityName() {
+        String name = null;
+        if (lastTarget.getDisplayName() != null) {
+            name = lastTarget.getDisplayName().getString();
         }
-        healthAnimation = lerp(healthAnimation, targetHealth, deltaTime, 3f);
-
-        if (targetHealth > trailAnimation) {
-            trailAnimation = targetHealth;
+        if (name == null || name.isBlank()) {
+            name = lastTarget.getName().getString();
         }
-        trailAnimation = lerp(trailAnimation, targetHealth, deltaTime, 3.5f);
-
-        float targetAbsorption;
-        if (isInvisible) {
-            targetAbsorption = 0;
-        } else {
-            targetAbsorption = absorp / shownMax;
+        if (name == null || name.isBlank()) {
+            name = lastTarget.getType().getName().getString();
         }
-        absorptionAnimation = lerp(absorptionAnimation, targetAbsorption, deltaTime, 3f);
+        if (name == null || name.isBlank()) {
+            name = "Unknown";
+        }
+        return name;
+    }
 
-        float barX = contentX;
-        float barY = nameY + 12f;
-        float barWidth = 64;
-        float barHeight = 4;
-        float barRadius = 2;
+    private void drawHealthBar(float barX, float barY, float shownMax, float hp, float absorp, boolean invisible, float alpha, float deltaTime) {
+        barY += 12f;
 
-        Render2D.rect(barX, barY, barWidth, barHeight,
-                new Color(30, 30, 30, (int) (200 * alpha)).getRGB(), barRadius);
+        float targetHealth = invisible ? 1.0f : hp / shownMax;
+        healthAnimation = lerp(healthAnimation, targetHealth, deltaTime, BAR_LERP_SPEED);
+
+        trailAnimation = Math.max(trailAnimation, targetHealth);
+        trailAnimation = lerp(trailAnimation, targetHealth, deltaTime, TRAIL_LERP_SPEED);
+
+        float targetAbsorption = invisible ? 0 : absorp / shownMax;
+        absorptionAnimation = lerp(absorptionAnimation, targetAbsorption, deltaTime, BAR_LERP_SPEED);
+
+        Render2D.rect(barX, barY, BAR_WIDTH, BAR_HEIGHT,
+                new Color(30, 30, 30, (int) (200 * alpha)).getRGB(), BAR_RADIUS);
 
         float healthPercent = Math.max(0, Math.min(1, healthAnimation));
         float trailPercent = Math.max(0, Math.min(1, trailAnimation));
 
         if (trailPercent > healthPercent) {
-            int trailColor = new Color(55, 55, 55, (int) (160 * alpha)).getRGB();
-            Render2D.rect(barX, barY, barWidth * trailPercent, barHeight, trailColor, barRadius);
+            Render2D.rect(barX, barY, BAR_WIDTH * trailPercent, BAR_HEIGHT,
+                    new Color(55, 55, 55, (int) (160 * alpha)).getRGB(), BAR_RADIUS);
         }
 
         if (healthPercent > 0.01f) {
-            long elapsed = System.currentTimeMillis() - startTime;
-            float waveSpeed = 1500f;
-            float wavePhase = (elapsed % (long) waveSpeed) / waveSpeed * (float) Math.PI * 2f;
-
-            int healthBarWidth = (int)(barWidth * healthPercent);
-            
-            int[] colors = new int[4];
-            for (int i = 0; i < 4; i++) {
-                float t = i / 3f;
-                float perlinWave = perlinNoise(wavePhase + t * 2f, t * 3f);
-                float smoothWave = (float) Math.sin(wavePhase - i * 1.2f) * 0.6f + perlinWave * 0.4f;
-                float waveFactor = (smoothWave + 1f) / 2f;
-
-                float hue = 0.25f + waveFactor * 0.15f;
-                int baseColor = ColorUtil.hsvToRgb(hue, 0.3f, 0.7f + waveFactor * 0.3f);
-                colors[i] = new Color(ColorUtil.getRed(baseColor), ColorUtil.getGreen(baseColor), ColorUtil.getBlue(baseColor), (int) (255 * alpha)).getRGB();
-            }
-
-            Render2D.gradientRect(barX, barY, healthBarWidth, barHeight, colors, barRadius);
-            
-            if (healthPercent > 0.3f) {
-                float highlightWidth = healthBarWidth * 0.3f;
-                float highlightAlpha = alpha * 0.15f;
-                Render2D.gradientRect(barX, barY, highlightWidth, barHeight / 2f,
-                        new int[]{
-                                new Color(255, 255, 255, (int)(highlightAlpha * 255)).getRGB(),
-                                new Color(255, 255, 255, (int)(highlightAlpha * 100)).getRGB(),
-                                new Color(255, 255, 255, 0).getRGB(),
-                                new Color(255, 255, 255, 0).getRGB()
-                        }, 2);
-            }
+            drawHealthGradient(barX, barY, healthPercent, alpha);
         }
 
         float absorptionPercent = Math.max(0, Math.min(1, absorptionAnimation));
         if (absorptionPercent > 0.01f && !Network.isFunTime()) {
-            long elapsed = System.currentTimeMillis() - startTime;
-            float waveSpeed = 1200f;
-            float wavePhase = (elapsed % (long) waveSpeed) / waveSpeed * (float) Math.PI * 2f;
+            drawAbsorptionGradient(barX, barY, absorptionPercent, alpha);
+        }
+    }
 
-            int absorpBarWidth = (int)(barWidth * absorptionPercent);
-            int[] goldColors = new int[4];
-            for (int i = 0; i < 4; i++) {
-                float t = i / 3f;
-                float perlinWave = perlinNoise(wavePhase + t * 2.5f, t * 2.8f);
-                float smoothWave = (float) Math.sin(wavePhase - i * 1.5f) * 0.6f + perlinWave * 0.4f;
-                float waveFactor = (smoothWave + 1f) / 2f;
+    private void drawHealthGradient(float barX, float barY, float healthPercent, float alpha) {
+        long elapsed = System.currentTimeMillis() - startTime;
+        float wavePhase = (elapsed % (long) HEALTH_WAVE_SPEED) / HEALTH_WAVE_SPEED * (float) Math.PI * 2f;
+        int healthBarWidth = (int) (BAR_WIDTH * healthPercent);
 
-                int cr = (int)(240 + 15 * waveFactor);
-                int cg = (int)(180 + 40 * waveFactor);
-                int cb = (int)(20 + 30 * waveFactor);
+        int[] colors = new int[4];
+        for (int i = 0; i < 4; i++) {
+            float t = i / 3f;
+            float perlinWave = perlinNoise(wavePhase + t * 2f, t * 3f);
+            float smoothWave = (float) Math.sin(wavePhase - i * 1.2f) * 0.6f + perlinWave * 0.4f;
+            float waveFactor = (smoothWave + 1f) / 2f;
 
-                goldColors[i] = new Color(cr, cg, cb, (int) (220 * alpha)).getRGB();
-            }
-
-            Render2D.gradientRect(barX, barY, absorpBarWidth, barHeight, goldColors, barRadius);
-            
-            float highlightWidth = absorpBarWidth * 0.4f;
-            float highlightAlpha = alpha * 0.2f;
-            Render2D.gradientRect(barX, barY, highlightWidth, barHeight / 2f,
-                    new int[]{
-                            new Color(255, 255, 200, (int)(highlightAlpha * 255)).getRGB(),
-                            new Color(255, 255, 180, (int)(highlightAlpha * 120)).getRGB(),
-                            new Color(255, 255, 150, 0).getRGB(),
-                            new Color(255, 255, 150, 0).getRGB()
-                    }, 2);
+            float hue = 0.25f + waveFactor * 0.15f;
+            int baseColor = ColorUtil.hsvToRgb(hue, 0.3f, 0.7f + waveFactor * 0.3f);
+            colors[i] = new Color(ColorUtil.getRed(baseColor), ColorUtil.getGreen(baseColor),
+                    ColorUtil.getBlue(baseColor), (int) (255 * alpha)).getRGB();
         }
 
-        // Numeric HP under the bar for quick reads: "18.5/20" and absorption hint.
+        Render2D.gradientRect(barX, barY, healthBarWidth, BAR_HEIGHT, colors, BAR_RADIUS);
+
+        if (healthPercent > 0.3f) {
+            float highlightWidth = healthBarWidth * 0.3f;
+            float highlightAlpha = alpha * 0.15f;
+            Render2D.gradientRect(barX, barY, highlightWidth, BAR_HEIGHT / 2f,
+                    new int[]{
+                            new Color(255, 255, 255, (int) (highlightAlpha * 255)).getRGB(),
+                            new Color(255, 255, 255, (int) (highlightAlpha * 100)).getRGB(),
+                            new Color(255, 255, 255, 0).getRGB(),
+                            new Color(255, 255, 255, 0).getRGB()
+                    }, 2);
+        }
+    }
+
+    private void drawAbsorptionGradient(float barX, float barY, float absorptionPercent, float alpha) {
+        long elapsed = System.currentTimeMillis() - startTime;
+        float wavePhase = (elapsed % (long) ABSORPTION_WAVE_SPEED) / ABSORPTION_WAVE_SPEED * (float) Math.PI * 2f;
+        int absorpBarWidth = (int) (BAR_WIDTH * absorptionPercent);
+
+        int[] goldColors = new int[4];
+        for (int i = 0; i < 4; i++) {
+            float t = i / 3f;
+            float perlinWave = perlinNoise(wavePhase + t * 2.5f, t * 2.8f);
+            float smoothWave = (float) Math.sin(wavePhase - i * 1.5f) * 0.6f + perlinWave * 0.4f;
+            float waveFactor = (smoothWave + 1f) / 2f;
+
+            int cr = (int) (240 + 15 * waveFactor);
+            int cg = (int) (180 + 40 * waveFactor);
+            int cb = (int) (20 + 30 * waveFactor);
+
+            goldColors[i] = new Color(cr, cg, cb, (int) (220 * alpha)).getRGB();
+        }
+
+        Render2D.gradientRect(barX, barY, absorpBarWidth, BAR_HEIGHT, goldColors, BAR_RADIUS);
+
+        float highlightWidth = absorpBarWidth * 0.4f;
+        float highlightAlpha = alpha * 0.2f;
+        Render2D.gradientRect(barX, barY, highlightWidth, BAR_HEIGHT / 2f,
+                new int[]{
+                        new Color(255, 255, 200, (int) (highlightAlpha * 255)).getRGB(),
+                        new Color(255, 255, 180, (int) (highlightAlpha * 120)).getRGB(),
+                        new Color(255, 255, 150, 0).getRGB(),
+                        new Color(255, 255, 150, 0).getRGB()
+                }, 2);
+    }
+
+    private void drawHealthNumeric(float barX, float barY, float snappedHpOnly, float shownMax, float snappedAbsorp, boolean invisible, float alpha) {
+        barY += 12f;
+
         String hpNumeric;
-        if (isInvisible) {
+        if (invisible) {
             hpNumeric = "??/" + getHealthString(shownMax);
         } else {
             hpNumeric = getHealthString(snappedHpOnly) + "/" + getHealthString(shownMax);
@@ -356,9 +399,8 @@ public class TargetHud extends AbstractHudElement {
 
         float hpTextSize = 4.6f;
         float hpTextW = Fonts.REGULAR.getWidth(hpNumeric, hpTextSize);
-        float hpTextX = barX + (barWidth - hpTextW) / 2f;
-        float hpTextY = barY + 6.5f;
+        float hpTextX = barX + (BAR_WIDTH - hpTextW) / 2f;
         int hpTextColor = new Color(170, 180, 195, (int) (220 * alpha)).getRGB();
-        Fonts.REGULAR.draw(hpNumeric, hpTextX, hpTextY, hpTextSize, hpTextColor);
+        Fonts.REGULAR.draw(hpNumeric, hpTextX, barY, hpTextSize, hpTextColor);
     }
 }

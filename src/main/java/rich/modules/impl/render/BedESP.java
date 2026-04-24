@@ -240,7 +240,7 @@ public class BedESP extends ModuleStructure {
         // Рендер кроватей
         renderBeds.forEach((pos, blockState) -> {
             Box box = new Box(pos);
-            Render3D.drawBox(box, color.getColor(), 1);
+            Render3D.drawBox(box, color.getColor(), 2.5f);
         });
     }
 }
