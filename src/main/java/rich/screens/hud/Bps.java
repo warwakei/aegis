@@ -16,8 +16,8 @@ public class Bps extends AbstractHudElement {
     private double targetBps = 0;
     private long lastUpdateTime = 0;
 
-    private static final double BPS_SMOOTHING = 0.05;
-    private static final double DISPLAY_SMOOTHING = 0.03;
+    private static final double BPS_SMOOTHING = 0.04;
+    private static final double DISPLAY_SMOOTHING = 0.025;
 
     public Bps() {
         super("BPS", 10, 52, 90, 24, true);

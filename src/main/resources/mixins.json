@@ -8,8 +8,9 @@
     "CameraMixin",
     "ChatHudMixin",
     "ChatInputSuggestorMixin",
+    "ChatMessageC2SPacketMixin",
     "ChatScreenMixin",
-    "ChatTabButtonMixin",
+
     "ClientPlayNetworkHandlerMixinChat",
     "ChunkOcclusionDataBuilderMixin",
     "ClientPlayerEntityMixin",

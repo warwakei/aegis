@@ -18,12 +18,12 @@ import java.util.Map;
 
 public class ModuleListRenderer {
 
-    private static final float MODULE_ITEM_HEIGHT = 22f;
-    private static final float MODULE_LIST_CORNER_RADIUS = 6f;
+    private static final float MODULE_ITEM_HEIGHT = 24f;
+    private static final float MODULE_LIST_CORNER_RADIUS = 7f;
     private static final float CORNER_INSET = 3f;
-    private static final float STATE_BALL_SIZE = 3.5f; // Чуть больше для видимости
+    private static final float STATE_BALL_SIZE = 4.0f; // Чуть больше для видимости
     private static final float STATE_TEXT_OFFSET = 6f;
-    private static final float BIND_BOX_HEIGHT = 10f; // Чуть выше
+    private static final float BIND_BOX_HEIGHT = 11f; // Чуть выше
     private static final float BIND_BOX_MIN_WIDTH = 20f;
     private static final float BIND_BOX_PADDING = 7f;
     private static final float BIND_WIDTH_ANIM_SPEED = 14f; // Быстрее

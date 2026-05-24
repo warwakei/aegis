@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import rich.Initialization;
 import rich.client.draggables.Drag;
-import rich.modules.impl.combat.macetarget.ChatTabButtonMixinAccessor;
 
 @Mixin(ChatScreen.class)
 public abstract class ChatScreenMixin extends Screen {
@@ -50,21 +49,11 @@ public abstract class ChatScreenMixin extends Screen {
     public boolean mouseReleased(Click click) {
         Drag.onMouseRelease(click);
 
-        // Вызываем обработку конца перетаскивания вкладок чата
-        if ((Object) this instanceof ChatTabButtonMixinAccessor accessor) {
-            accessor.onDragEnd(click);
-        }
-
         return super.mouseReleased(click);
     }
 
     @Override
     public boolean mouseDragged(Click click, double deltaX, double deltaY) {
-        // Вызываем обработку движения курсора для контекстного меню
-        if ((Object) this instanceof ChatTabButtonMixinAccessor accessor) {
-            accessor.onCursorMove(click.x(), click.y());
-        }
-
         return super.mouseDragged(click, deltaX, deltaY);
     }
 

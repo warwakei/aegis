@@ -55,7 +55,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
             .setValue(true);
 
     final SliderSettings glowIntensity = new SliderSettings("Интенсивность свечения", "Сила glow эффекта")
-            .range(0.5f, 2.0f).setValue(1.0f)
+            .range(0.5f, 2.0f).setValue(1.2f)
             .visible(() -> glow.isValue());
 
     final ColorSetting color1 = new ColorSetting("Цвет 1", "Первый цвет")
@@ -67,7 +67,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
     final ColorSetting glowColor = new ColorSetting("Цвет свечения", "Цвет для glow эффекта")
             .value(ColorUtil.getColor(180, 200, 255, 100));
 
-    private static final int SEGMENTS = 64;
+    private static final int SEGMENTS = 96;
 
     public JumpCircle() {
         super("JumpCircle", "Jump Circle", ModuleCategory.RENDER);

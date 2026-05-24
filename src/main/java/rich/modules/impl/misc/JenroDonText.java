@@ -52,6 +52,17 @@ public class JenroDonText extends ModuleStructure {
 
     public JenroDonText() {
         super("Jenro DonText", "Автоматически заменяет донатские слова на цветные", ModuleCategory.MISC);
+        System.out.println("[JenroDonText] Модуль создан!");
+    }
+
+    @Override
+    public void activate() {
+        System.out.println("[JenroDonText] Модуль включен!");
+    }
+
+    @Override
+    public void deactivate() {
+        System.out.println("[JenroDonText] Модуль выключен!");
     }
 
     @EventHandler

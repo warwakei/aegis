@@ -21,13 +21,28 @@ public class Vector {
 
     public static Vec3d hitbox(Entity entity, float X, float Y, float Z, float WIDTH) {
         double wHalf = entity.getWidth() / WIDTH;
-        double yExpand = MathHelper.clamp(entity.getEyeY() - entity.getY(), 0, entity.getHeight());
+        
+        // Адаптивная высота в зависимости от расстояния
+        double distance = mc.player.distanceTo(entity);
+        double targetHeight;
+        
+        if (distance < 2.0) {
+            // Близко - целимся в центр масс (грудь)
+            targetHeight = entity.getHeight() * 0.6;
+        } else if (distance < 4.0) {
+            // Средняя дистанция - чуть выше центра
+            targetHeight = entity.getHeight() * 0.7;
+        } else {
+            // Далеко - голова/верх торса
+            targetHeight = entity.getHeight() * 0.85;
+        }
+        
         double xExpand = MathHelper.clamp(mc.player.getX() - entity.getX(), -wHalf, wHalf);
         double zExpand = MathHelper.clamp(mc.player.getZ() - entity.getZ(), -wHalf, wHalf);
 
         return new Vec3d(
                 entity.getX() + xExpand / X,
-                entity.getY() + yExpand / Y,
+                entity.getY() + targetHeight / Y,
                 entity.getZ() + zExpand / Z
         );
     }

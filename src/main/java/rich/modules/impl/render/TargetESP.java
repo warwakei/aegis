@@ -40,9 +40,9 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
     private static final float TARGET_FPS = 60f;
     private static final float TARGET_FRAME_TIME = 1000f / TARGET_FPS;
     private static final float HURT_DECAY = 0.25f;
-    private static final float SMOOTHING_FACTOR = 3.75f;
-    private static final float MOVING_VALUE_SPEED = 2f;
-    private static final float ROTATION_SPEED_MULTIPLIER = 0.5f;
+    private static final float SMOOTHING_FACTOR = 4.5f;
+    private static final float MOVING_VALUE_SPEED = 2.5f;
+    private static final float ROTATION_SPEED_MULTIPLIER = 0.6f;
 
     private static TargetESP instance;
 
@@ -50,7 +50,7 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         return instance;
     }
 
-    Animation espAnim = new OutBack().setMs(300).setValue(1);
+    Animation espAnim = new OutBack().setMs(350).setValue(1);
     StopWatch stopWatch = new StopWatch();
 
     SelectSetting mode = new SelectSetting("Режим", "Тип TargetESP")
@@ -212,17 +212,17 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         float gradusZ = (float) (20 * (Math.min(1 + Math.sin(Math.toRadians(animValue)), 2) - 1));
         float width = target.getWidth() * 3;
 
-        int linksStep = 18;
-        int totalAngle = 360 * 2;
-        float chainSizeVal = 8;
-        float down = 1.5f;
-        float chainScale = 0.5f;
+        int linksStep = 14;
+        int totalAngle = 360 * 3;
+        float chainSizeVal = 10;
+        float down = 1.8f;
+        float chainScale = 0.55f;
 
-        int alphaVal = MathHelper.clamp((int) (alpha * 128), 0, 128);
+        int alphaVal = MathHelper.clamp((int) (alpha * 150), 0, 150);
         int c1 = withAlpha(cachedHurtColor1, alphaVal);
         int c2 = withAlpha(cachedHurtColor2, alphaVal);
 
-        float rotationValue = (currentFrameTime % 720000) / 1000f * 30f;
+        float rotationValue = (currentFrameTime % 720000) / 1000f * 36f;
 
         for (int chain = 0; chain < 2; chain++) {
             float val = 1.2f - 0.5f * (chain == 0 ? 1.0f : 0.9f);
@@ -275,7 +275,7 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         float timeRotation = (currentFrameTime % 6283) / 1000f;
         stack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float) Math.sin(timeRotation) * 360));
 
-        float size = 0.5f;
+        float size = 0.55f;
         stack.scale(size, size, 1);
 
         int c1 = withAlpha(cachedHurtColor1, (int) (255 * alpha));
@@ -308,11 +308,11 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
 
     private void particle(MatrixStack stack, VertexConsumer consumer, Transformation transformation, float alpha,
             int colorIndex) {
-        double radius = 1.75f;
-        double distance = 11;
+        double radius = 2.00f;
+        double distance = 10;
 
-        float particleSize = 1.25f;
-        int alphaFactor = 15;
+        float particleSize = 1.35f;
+        int alphaFactor = 18;
 
         int baseColor = switch (colorIndex) {
             case 0 -> color1.getColor();
@@ -610,8 +610,8 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
     private void renderPulse(MatrixStack stack, VertexConsumerProvider provider, LivingEntity target, float alpha, float deltaTime) {
         VertexConsumer consumer = provider.getBuffer(ClientPipelines.BLOOM_ESP.apply(Identifier.of("rich", "images/particle/glow.png")));
         
-        float time = currentFrameTime * 0.003f;
-        float pulseScale = 1.0f + (float) Math.sin(time * 2) * 0.3f;
+        float time = currentFrameTime * 0.0035f;
+        float pulseScale = 1.0f + (float) Math.sin(time * 2.5f) * 0.35f;
         
         stack.push();
         stack.translate(0, target.getHeight() * 0.5f, 0);
@@ -619,13 +619,13 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         stack.multiply(mc.gameRenderer.getCamera().getRotation());
         
         // Основной пульс
-        int pulseColor = withAlpha(cachedHurtColor1, (int) (alpha * 200));
-        drawPulseRing(stack, consumer, 1.5f, pulseColor);
+        int pulseColor = withAlpha(cachedHurtColor1, (int) (alpha * 220));
+        drawPulseRing(stack, consumer, 1.6f, pulseColor);
         
         // Внешний пульс
-        float outerPulse = 1.5f + (float) Math.sin(time * 1.5f) * 0.5f;
+        float outerPulse = 1.6f + (float) Math.sin(time * 1.8f) * 0.6f;
         stack.scale(outerPulse, outerPulse, outerPulse);
-        int outerColor = withAlpha(cachedHurtColor2, (int) (alpha * 100));
+        int outerColor = withAlpha(cachedHurtColor2, (int) (alpha * 120));
         drawPulseRing(stack, consumer, 2.0f, outerColor);
         
         stack.pop();
@@ -643,8 +643,8 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
     private void renderSpiral(MatrixStack stack, VertexConsumerProvider provider, LivingEntity target, float alpha, float deltaTime) {
         VertexConsumer consumer = provider.getBuffer(ClientPipelines.BLOOM_ESP.apply(Identifier.of("rich", "images/particle/glow.png")));
         
-        float time = currentFrameTime * 0.002f;
-        int particleCount = 30;
+        float time = currentFrameTime * 0.0025f;
+        int particleCount = 36;
         
         for (int i = 0; i < particleCount; i++) {
             stack.push();

@@ -62,11 +62,11 @@ void main() {
     vec2 refraction = (vec2(
             texture(MaskSampler, texCoord + vec2(texelSize.x, 0.0)).r - texture(MaskSampler, texCoord - vec2(texelSize.x, 0.0)).r,
             texture(MaskSampler, texCoord + vec2(0.0, texelSize.y)).r - texture(MaskSampler, texCoord - vec2(0.0, texelSize.y)).r
-    )) * 0.014;
+    )) * 0.018;
 
-    vec2 uvR = clamp(blurUV + refraction * 1.30, vec2(0.001), vec2(0.999));
+    vec2 uvR = clamp(blurUV + refraction * 1.40, vec2(0.001), vec2(0.999));
     vec2 uvG = clamp(blurUV + refraction * 1.00, vec2(0.001), vec2(0.999));
-    vec2 uvB = clamp(blurUV + refraction * 0.70, vec2(0.001), vec2(0.999));
+    vec2 uvB = clamp(blurUV + refraction * 0.60, vec2(0.001), vec2(0.999));
 
     vec3 blurChromatic = vec3(
             texture(BlurSampler, uvR).r,
@@ -74,7 +74,7 @@ void main() {
             texture(BlurSampler, uvB).b
     );
     vec3 blurBase = texture(BlurSampler, blurUV).rgb;
-    vec3 blurMix = mix(blurBase, blurChromatic, 0.45);
+    vec3 blurMix = mix(blurBase, blurChromatic, 0.50);
 
     vec3 glassColor = blurMix;
 
@@ -91,14 +91,14 @@ void main() {
         if (tintColor.a < 0.01) {
             glowColor = vec3(1.0);
         }
-        glassColor += edge * glowColor * edgeGlowIntensity * 1.15;
+        glassColor += edge * glowColor * edgeGlowIntensity * 1.25;
     }
 
-    float fresnel = pow(edge, 2.0) * 0.3;
-    glassColor += fresnel * 0.1;
+    float fresnel = pow(edge, 1.8) * 0.35;
+    glassColor += fresnel * 0.12;
 
-    float sparkle = step(0.996, hash12(floor(texCoord * resolution.xy * 0.85)));
-    glassColor += sparkle * 0.06 * (0.4 + edge * 0.6);
+    float sparkle = step(0.994, hash12(floor(texCoord * resolution.xy * 0.85)));
+    glassColor += sparkle * 0.08 * (0.3 + edge * 0.7);
 
     glassColor = clamp(glassColor, vec3(0.0), vec3(1.0));
 

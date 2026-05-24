@@ -26,15 +26,15 @@ public class CategoryRenderer {
 
     private final Map<ModuleCategory, Float> categoryAnimations = new HashMap<>();
 
-    private static final float ANIMATION_SPEED = 12f;
+    private static final float ANIMATION_SPEED = 14f;
     private static final float MAX_OFFSET = 3f;
-    private static final float TEXT_SIZE = 6f;
-    private static final float ICON_SIZE = 6f;
+    private static final float TEXT_SIZE = 6.5f;
+    private static final float ICON_SIZE = 6.5f;
     private static final float ICON_SPACING = 4f;
     private static final float SECTION_TEXT_SIZE = 5f;
     private static final float EXTRA_CATEGORY_OFFSET = 10f;
 
-    private static final float BAR_W = 3f;
+    private static final float BAR_W = 3.5f;
     private static final float BAR_PAD = 9f;
 
     public CategoryRenderer() {

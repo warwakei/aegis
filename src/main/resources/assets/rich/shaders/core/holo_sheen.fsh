@@ -10,8 +10,8 @@ layout(std140) uniform SheenData {
     vec4 screen;
     vec4 radii;
     vec4 tintColor;
-    vec4 params0; // time, intensity, speed, angle
-    vec4 params1; // grain, blendMode, unused...
+    vec4 params0;
+    vec4 params1;
 };
 
 out vec4 fragColor;
@@ -24,7 +24,6 @@ float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
 }
 
 float hash12(vec2 p) {
-    // Cheap stable noise in 0..1
     vec3 p3 = fract(vec3(p.xyx) * 0.1031);
     p3 += dot(p3, p3.yzx + 33.33);
     return fract((p3.x + p3.y) * p3.z);
@@ -54,42 +53,39 @@ void main() {
         discard;
     }
 
-    vec2 uv = pixelCoord / max(rect.zw, vec2(1.0)); // rectSize is rect.zw
+    vec2 uv = pixelCoord / max(rect.zw, vec2(1.0));
 
-    float t = fract(params0.x * params0.z); // params0.x = timeSeconds, params0.z = speed
-    vec2 dir = vec2(cos(params0.w), sin(params0.w)); // angle
+    float t = fract(params0.x * params0.z);
+    vec2 dir = vec2(cos(params0.w), sin(params0.w));
 
-    // Seamless moving bands without hard reset pop at cycle boundary.
     float sweep = dot(uv - 0.5, normalize(dir));
-    float travel = fract(t + sweep * 0.32);
+    float travel = fract(t + sweep * 0.34);
     float d = abs(travel - 0.5);
     d = min(d, 1.0 - d);
 
-    float bandWidth = 0.12;
+    float bandWidth = 0.115;
     float primaryBand = exp(-pow(d / bandWidth, 2.0));
-    float secondaryBand = exp(-pow(abs(d - 0.11) / (bandWidth * 1.35), 2.0)) * 0.58;
-    float tertiaryBand = exp(-pow(abs(d - 0.22) / (bandWidth * 1.75), 2.0)) * 0.34;
+    float secondaryBand = exp(-pow(abs(d - 0.105) / (bandWidth * 1.30), 2.0)) * 0.65;
+    float tertiaryBand = exp(-pow(abs(d - 0.21) / (bandWidth * 1.70), 2.0)) * 0.40;
     float band = primaryBand + secondaryBand + tertiaryBand;
 
-    // Subtle iridescence inside the band
-    float hue = fract(0.58 + sweep * 0.35 + t * 0.25);
-    vec3 iri = hsv2rgb(vec3(hue, 0.55, 1.0));
+    float hue = fract(0.55 + sweep * 0.42 + t * 0.30);
+    vec3 iri = hsv2rgb(vec3(hue, 0.65, 1.0));
 
-    float hue2 = fract(hue + 0.17 + sin((uv.x + uv.y + t) * 6.0) * 0.04);
-    vec3 iri2 = hsv2rgb(vec3(hue2, 0.42, 1.0));
+    float hue2 = fract(hue + 0.20 + sin((uv.x + uv.y + t) * 6.8) * 0.050);
+    vec3 iri2 = hsv2rgb(vec3(hue2, 0.50, 1.0));
 
-    // Grain to avoid "flat digital"
-    float n = texture(NoiseSampler, uv * 10.0 + params0.x * 0.1).r; // params0.x = timeSeconds
-    float g = (n - 0.5) * params1.x; // grain is params1.x
+    float n = texture(NoiseSampler, uv * 12.0 + params0.x * 0.10).r;
+    float g = (n - 0.5) * params1.x;
 
-    float scan = sin((uv.y + t * 0.8) * 140.0) * 0.006;
-    float shimmer = 0.5 + 0.5 * sin((uv.x * 16.0 + uv.y * 23.0 + t * 8.0) * 3.14159);
+    float scan = sin((uv.y + t * 0.85) * 160.0) * 0.008;
+    float shimmer = 0.5 + 0.5 * sin((uv.x * 19.0 + uv.y * 26.0 + t * 9.0) * 3.14159);
 
-    float sheen = band * params0.y * (0.88 + shimmer * 0.18); // intensity is params0.y
-    vec3 col = mix(vec3(1.0), iri, 0.55) * sheen;
-    col += iri2 * secondaryBand * params0.y * 0.25;
+    float sheen = band * params0.y * (0.85 + shimmer * 0.25);
+    vec3 col = mix(vec3(1.0), iri, 0.52) * sheen;
+    col += iri2 * secondaryBand * params0.y * 0.32;
     col += vec3(scan);
-    col += g * 0.6;
+    col += g * 0.70;
 
     vec4 src = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
     fragColor = src;

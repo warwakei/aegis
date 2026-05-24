@@ -38,13 +38,13 @@ public class GlassHandsRenderer {
     private boolean enabled = false;
     private boolean initialized = false;
 
-    private float blurRadius = 6.0f;
-    private int blurIterations = 4;
+    private float blurRadius = 7.0f;
+    private int blurIterations = 5;
     private float saturation = 1.0f;
     private boolean reflect = true;
     private int tintColor = 0x00000000;
     private float tintIntensity = 0.1f;
-    private float edgeGlowIntensity = 0.3f;
+    private float edgeGlowIntensity = 0.4f;
 
     public GlassHandsRenderer() {
         this.client = MinecraftClient.getInstance();

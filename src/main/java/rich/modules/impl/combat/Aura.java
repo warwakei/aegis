@@ -68,7 +68,7 @@ public class Aura extends ModuleStructure {
             .selected("Бить сквозь стены", "Рандомизация крита", "Не бить если ешь");
 
     private final MultiSelectSetting targetType = new MultiSelectSetting("Настройка целей", "Select target settings")
-            .value("Игроки", "Мобы", "Животные", "Друзья", "Стойки для брони", "BW Тиммейты", "Креатив", "Инвизы", "Голые инвизы")
+            .value("Игроки", "Мобы", "Животные", "Друзья", "Стойки для брони", "BW Тиммейты", "Креатив", "Инвизы", "Голые инвизы", "Фаерболлы")
             .selected("Игроки", "Мобы", "Животные");
 
     @Getter
@@ -219,6 +219,9 @@ public class Aura extends ModuleStructure {
     public void onRotationUpdate(RotationUpdateEvent e) {
         // Обновляем настройки 1.8 режима
         update1_8Settings();
+        
+        // Приоритетная обработка фаерболлов
+        handleFireballs();
         
         switch (e.getType()) {
             case EventType.PRE -> {
@@ -682,6 +685,29 @@ public class Aura extends ModuleStructure {
         }
         
         return targetSelector.getCurrentTarget();
+    }
+    
+    private void handleFireballs() {
+        if (!targetType.getSelected().contains("Фаерболлы")) return;
+        
+        float range = attackrange.getValue() + lookrange.getValue();
+        
+        for (net.minecraft.entity.Entity entity : mc.world.getEntities()) {
+            if (entity instanceof net.minecraft.entity.projectile.FireballEntity fireball) {
+                float distance = mc.player.distanceTo(fireball);
+                
+                if (distance <= range && distance > 0.5f) {
+                    Angle fireballAngle = MathAngle.calculateAngle(fireball.getEyePos());
+                    AngleConnection.INSTANCE.setRotation(fireballAngle);
+                    
+                    if (mc.player.getAttackCooldownProgress(0.5f) >= 0.9f) {
+                        mc.interactionManager.attackEntity(mc.player, fireball);
+                        mc.player.swingHand(net.minecraft.util.Hand.MAIN_HAND);
+                    }
+                    break;
+                }
+            }
+        }
     }
     
     private LivingEntity updateMultiTarget(TargetFinder.EntityFilter filter, float range, float dynamicFov) {

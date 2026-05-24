@@ -31,8 +31,8 @@ public class MainMenuScreen extends Screen {
 
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of("rich", "textures/menu/backmenu.png");
     private static final float FIXED_GUI_SCALE = 2.0f;
-    private static final int BUTTON_SIZE = 42;
-    private static final int BUTTON_SPACING = 16;
+    private static final int BUTTON_SIZE = 44;
+    private static final int BUTTON_SPACING = 18;
     private static final String[] BUTTON_ICONS = {"a", "b", "x", "s", "i"};
 
     private enum View { MAIN_MENU, ALT_SCREEN }
@@ -69,11 +69,11 @@ public class MainMenuScreen extends Screen {
     private final List<MenuParticle> menuParticles = new ArrayList<>();
     private final Random particleRandom = new Random();
 
-    private static final long UNLOCK_FADE_DURATION = 300L;
-    private static final long MENU_APPEAR_DURATION = 800L;
+    private static final long UNLOCK_FADE_DURATION = 350L;
+    private static final long MENU_APPEAR_DURATION = 900L;
     private static final long MENU_APPEAR_DELAY = 200L;
-    private static final long VIEW_FADE_OUT_DURATION = 200L;
-    private static final long VIEW_FADE_IN_DURATION = 250L;
+    private static final long VIEW_FADE_OUT_DURATION = 250L;
+    private static final long VIEW_FADE_IN_DURATION = 300L;
     private static final float LEFT_PANEL_WIDTH = 100;
     private static final float LEFT_PANEL_TOP_HEIGHT = 100;
     private static final float LEFT_PANEL_BOTTOM_HEIGHT = 58;

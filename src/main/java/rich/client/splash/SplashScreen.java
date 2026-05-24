@@ -51,7 +51,7 @@ public class SplashScreen extends JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
-        setSize(660, 340);
+        setSize(680, 350);
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         setBackground(new Color(0, 0, 0, 0));
@@ -60,7 +60,7 @@ public class SplashScreen extends JFrame {
         animationTimer = new Timer(16, e -> {
             animationTime += 0.016f;
             if (readyVisible && readyAnim < 1f) {
-                readyAnim = Math.min(1f, readyAnim + 0.03f);
+                readyAnim = Math.min(1f, readyAnim + 0.025f);
                 updateReadyVisuals();
             }
             repaint();
@@ -114,8 +114,8 @@ public class SplashScreen extends JFrame {
                         250f,
                         new float[]{0f, 0.7f, 1f},
                         new Color[]{
-                            new Color(146, 93, 255, (int)(60 + 40 * pulse1)), 
-                            new Color(146, 93, 255, (int)(20 + 15 * pulse1)), 
+                            new Color(146, 93, 255, (int)(70 + 45 * pulse1)), 
+                            new Color(146, 93, 255, (int)(25 + 18 * pulse1)), 
                             new Color(146, 93, 255, 0)
                         }
                 );
@@ -128,8 +128,8 @@ public class SplashScreen extends JFrame {
                         280f,
                         new float[]{0f, 0.6f, 1f},
                         new Color[]{
-                            new Color(70, 148, 255, (int)(45 + 35 * pulse2)), 
-                            new Color(70, 148, 255, (int)(15 + 20 * pulse2)), 
+                            new Color(70, 148, 255, (int)(55 + 40 * pulse2)), 
+                            new Color(70, 148, 255, (int)(20 + 22 * pulse2)), 
                             new Color(70, 148, 255, 0)
                         }
                 );
@@ -142,8 +142,8 @@ public class SplashScreen extends JFrame {
                         200f,
                         new float[]{0f, 0.8f, 1f},
                         new Color[]{
-                            new Color(255, 120, 180, (int)(35 + 25 * pulse1)), 
-                            new Color(255, 120, 180, (int)(10 + 15 * pulse1)), 
+                            new Color(255, 120, 180, (int)(45 + 30 * pulse1)), 
+                            new Color(255, 120, 180, (int)(15 + 18 * pulse1)), 
                             new Color(255, 120, 180, 0)
                         }
                 );
@@ -186,7 +186,7 @@ public class SplashScreen extends JFrame {
         progressBar.setUI(new BasicProgressBarUI() {
             @Override
             protected Dimension getPreferredInnerHorizontal() {
-                return new Dimension(530, 16);
+                return new Dimension(550, 18);
             }
 
             @Override
@@ -234,16 +234,16 @@ public class SplashScreen extends JFrame {
         });
 
         JLabel brandLabel = new JLabel("AEGIS NEO", SwingConstants.CENTER);
-        brandLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-        brandLabel.setForeground(new Color(168, 183, 218));
+        brandLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+        brandLabel.setForeground(new Color(178, 193, 228));
 
         percentLabel = new JLabel("0%", SwingConstants.CENTER);
-        percentLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 50));
+        percentLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 52));
         percentLabel.setForeground(Color.WHITE);
 
         statusLabel = new JLabel(currentStatus, SwingConstants.CENTER);
-        statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        statusLabel.setForeground(new Color(208, 201, 225));
+        statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        statusLabel.setForeground(new Color(218, 211, 235));
 
         JPanel progressContent = new FrostedPanel(18);
         progressContent.setLayout(new GridBagLayout());

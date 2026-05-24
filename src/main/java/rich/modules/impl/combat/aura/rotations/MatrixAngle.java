@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class MatrixAngle extends RotateConstructor {
     private static final Random RANDOM = new Random();
-    private static final float RAGE_MULTIPLIER = 1.8f;
+    private static final float RAGE_MULTIPLIER = 1.7f;
     
     private long lastRotationTime = 0;
     private float lastYawDelta = 0;
@@ -47,8 +47,27 @@ public class MatrixAngle extends RotateConstructor {
         boolean isTargetFar = entity != null && entity.distanceTo(mc.player) > 3.5f;
         
         if (entity != null) {
-            // Фиксированная высота прицеливания независимо от расстояния
-            Vec3d aimPoint = Vector.hitbox(entity, 0.7f, 0.7f, 0.7f, 1.5f);
+            // Целимся в центр хитбокса с небольшим смещением вниз
+            float distance = entity.distanceTo(mc.player);
+            
+            // Центр хитбокса = Y + половина высоты
+            double centerY = entity.getY() + (entity.getHeight() / 2.0);
+            
+            // Небольшое смещение вниз для более стабильного попадания
+            double offset;
+            if (distance < 2.0f) {
+                offset = -0.1; // Близко - чуть ниже центра
+            } else if (distance < 4.0f) {
+                offset = 0.0; // Средняя дистанция - точно в центр
+            } else {
+                offset = 0.05; // Далеко - чуть выше центра
+            }
+            
+            Vec3d aimPoint = new Vec3d(
+                entity.getX(),
+                centerY + offset,
+                entity.getZ()
+            );
             targetAngle = MathAngle.calculateAngle(aimPoint);
         }
         
@@ -81,6 +100,11 @@ public class MatrixAngle extends RotateConstructor {
         float baseSpeed = calculateAdaptiveSpeed(canAttack, lookingAtHitbox, isTargetFar, isRotationSuspicious);
         float speed = applyAntiCheatBypass(baseSpeed, rotationDifference, currentTime);
         
+        // Защита от деления на ноль
+        if (rotationDifference < 0.01f) {
+            return currentAngle;
+        }
+        
         float lineYaw = (Math.abs(yawDelta / rotationDifference) * 360);
         float linePitch = (Math.abs(pitchDelta / rotationDifference) * 180);
         
@@ -103,20 +127,19 @@ public class MatrixAngle extends RotateConstructor {
         float moveYaw = MathHelper.clamp(yawDelta, -lineYaw, lineYaw) + resolve1;
         float movePitch = MathHelper.clamp(pitchDelta, -linePitch, linePitch) + resolve2;
         
-        // Продвинутая накопленная ошибка с затуханием
-        moveYaw += accumulatedError * 0.2f; // Уменьшил влияние для резкости
+        // Нормализация yaw ПЕРЕД добавлением ошибки
+        while (moveYaw > 180) moveYaw -= 360;
+        while (moveYaw < -180) moveYaw += 360;
+        
+        // Накопленная ошибка с затуханием
+        moveYaw += accumulatedError * 0.2f;
         accumulatedError += fastRandom(-0.15f, 0.15f);
-        accumulatedError *= 0.95f; // Быстрее затухание
+        accumulatedError *= 0.95f;
         accumulatedError = MathHelper.clamp(accumulatedError, -1.5f, 1.5f);
         
-        // Оптимизация поворота - выбираем кратчайший путь
-        if (Math.abs(moveYaw) > 180) {
-            moveYaw = moveYaw > 0 ? moveYaw - 360 : moveYaw + 360;
-        }
-        
         Angle moveAngle = new Angle(currentAngle.getYaw(), currentAngle.getPitch());
-        moveAngle.setYaw(MathHelper.lerp(fastRandom(speed, speed), currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + jitterYaw);
-        moveAngle.setPitch(MathHelper.lerp(fastRandom(speed, speed), currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + jitterPitch);
+        moveAngle.setYaw(MathHelper.lerp(speed, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + jitterYaw);
+        moveAngle.setPitch(MathHelper.lerp(speed, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + jitterPitch);
 
         lastYawDelta = yawDelta;
         lastPitchDelta = pitchDelta;
@@ -133,7 +156,7 @@ public class MatrixAngle extends RotateConstructor {
             consistentRotations = 0;
         }
         
-        return consistentRotations > 8 || (currentTime - lastRotationTime) < 5;
+        return consistentRotations > 8 || (currentTime - lastRotationTime) < 16; // ~60fps = 16ms
     }
     
     private void updateCombatState(boolean canAttack, long currentTime) {
@@ -146,27 +169,14 @@ public class MatrixAngle extends RotateConstructor {
     }
     
     private float calculateAdaptiveSpeed(boolean canAttack, boolean lookingAtHitbox, boolean isTargetFar, boolean suspicious) {
-        // Увеличиваем базовую скорость для быстрого наведения
         float preAttackSpeed = fastRandom(2.0F, 3.0F) * RAGE_MULTIPLIER;
         float postAttackSpeed = lookingAtHitbox ? fastRandom(1.2F, 1.6F) : fastRandom(1.5F, 2.0F);
         
         // Burst speed при смене цели
         if (targetSwitchCooldown > 0) {
-            preAttackSpeed *= 1.5f; // Увеличиваем множитель
+            preAttackSpeed *= 1.9f;
             targetSwitchCooldown -= 0.1f;
         }
-        
-        // Убираем замедление для дальних целей - всегда быстро
-        // if (isTargetFar) {  
-        //     preAttackSpeed *= 0.85f;
-        //     postAttackSpeed *= 0.9f;
-        // }
-        
-        // Убираем замедление при подозрении - приоритет скорости
-        // if (suspicious) {
-        //     preAttackSpeed *= 0.92f;
-        //     postAttackSpeed *= 0.95f;
-        // }
         
         return canAttack ? preAttackSpeed : postAttackSpeed;
     }
@@ -192,7 +202,7 @@ public class MatrixAngle extends RotateConstructor {
         
         // Более быстрое изменение скорости
         float targetSpeed = baseSpeed * humanFactor * mouseFatigue;
-        lastSpeed = MathHelper.lerp(0.8f, lastSpeed, targetSpeed); // Увеличил lerp для еще большей резкости
+        lastSpeed = MathHelper.lerp(0.7f, lastSpeed, targetSpeed);
         
         framesSinceLastAttack++;
         
@@ -200,40 +210,39 @@ public class MatrixAngle extends RotateConstructor {
     }
     
     private float[] calculateSmartJitters(boolean canAttack, long currentTime, boolean suspicious) {
-        float jitterMultiplier = suspicious ? 0.7f : 1.2f;
+        float jitterMultiplier = suspicious ? 0.4f : 0.6f;
         
-        // Многослойные джиттеры
-        float baseJitterYaw = (float)(2.8 * Math.sin(currentTime / 55D)) * jitterMultiplier;
-        float microJitterYaw = (float)(0.8 * Math.sin(currentTime / 23D + Math.PI/6));
-        float humanJitterYaw = (float)(1.2 * Math.cos(currentTime / 87D));
+        float baseJitterYaw = (float)(1.4 * Math.sin(currentTime / 55D)) * jitterMultiplier;
+        float microJitterYaw = (float)(0.4 * Math.sin(currentTime / 23D + Math.PI/6));
+        float humanJitterYaw = (float)(0.6 * Math.cos(currentTime / 87D));
         
-        float baseJitterPitch = (float)(1.9 * Math.cos(currentTime / 63D)) * jitterMultiplier;
-        float microJitterPitch = (float)(0.6 * Math.cos(currentTime / 31D + Math.PI/4));
-        float humanJitterPitch = (float)(0.9 * Math.sin(currentTime / 94D));
+        float baseJitterPitch = (float)(0.9 * Math.cos(currentTime / 63D)) * jitterMultiplier;
+        float microJitterPitch = (float)(0.3 * Math.cos(currentTime / 31D + Math.PI/4));
+        float humanJitterPitch = (float)(0.5 * Math.sin(currentTime / 94D));
         
         float jitterYaw = canAttack ? 
-            fastRandom(-1.8f, 1.8f) + baseJitterYaw + microJitterYaw : 
-            fastRandom(-3.2f, 3.2f) + baseJitterYaw + humanJitterYaw;
+            fastRandom(-0.9f, 0.9f) + baseJitterYaw + microJitterYaw : 
+            fastRandom(-1.5f, 1.5f) + baseJitterYaw + humanJitterYaw;
             
         float jitterPitch = canAttack ? 
-            fastRandom(-1.3f, 1.3f) + baseJitterPitch + microJitterPitch : 
-            fastRandom(-2.6f, 2.6f) + baseJitterPitch + humanJitterPitch;
+            fastRandom(-0.6f, 0.6f) + baseJitterPitch + microJitterPitch : 
+            fastRandom(-1.0f, 1.0f) + baseJitterPitch + humanJitterPitch;
             
         // Стресс и адреналин в бою
         if (isInCombat) {
             long combatDuration = currentTime - combatStartTime;
-            float combatStress = Math.min(combatDuration / 4000.0f, 1.2f);
-            float adrenaline = (float)(0.5 * Math.sin(combatDuration / 200.0));
+            float combatStress = Math.min(combatDuration / 5000.0f, 0.6f);
+            float adrenaline = (float)(0.2 * Math.sin(combatDuration / 200.0));
             
-            jitterYaw += (fastRandom(-1.2f, 1.2f) + adrenaline) * combatStress;
-            jitterPitch += (fastRandom(-0.8f, 0.8f) + adrenaline * 0.7f) * combatStress;
+            jitterYaw += (fastRandom(-0.6f, 0.6f) + adrenaline) * combatStress;
+            jitterPitch += (fastRandom(-0.4f, 0.4f) + adrenaline * 0.5f) * combatStress;
         }
         
         // Имитация дрожания рук при долгой игре
         if (framesSinceLastAttack > 300) {
-            float handShake = framesSinceLastAttack / 1000.0f;
+            float handShake = Math.min(framesSinceLastAttack / 1500.0f, 0.4f);
             jitterYaw += fastRandom(-handShake, handShake);
-            jitterPitch += fastRandom(-handShake * 0.7f, handShake * 0.7f);
+            jitterPitch += fastRandom(-handShake * 0.5f, handShake * 0.5f);
         }
         
         return new float[]{jitterYaw, jitterPitch};

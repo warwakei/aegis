@@ -19,11 +19,11 @@ import java.util.List;
 
 public class SettingsPanelRenderer {
 
-    private static final float SETTINGS_PANEL_CORNER_RADIUS = 7f;
+    private static final float SETTINGS_PANEL_CORNER_RADIUS = 8f;
     private static final float CORNER_INSET = 3f;
-    private static final int SETTING_HEIGHT = 16;
-    private static final int SETTING_SPACING = 2;
-    private static final float SEPARATOR_THICKNESS = 1.25f;
+    private static final int SETTING_HEIGHT = 18;
+    private static final int SETTING_SPACING = 3;
+    private static final float SEPARATOR_THICKNESS = 1.5f;
     private static final float SCROLL_FADE_SIZE = 10f; // Плавнее
 
     private final ModuleAnimationHandler animationHandler;

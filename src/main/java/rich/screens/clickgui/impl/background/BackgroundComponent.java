@@ -14,8 +14,8 @@ import rich.screens.clickgui.impl.background.search.SearchRenderer;
 import java.util.List;
 
 public class BackgroundComponent implements IMinecraft {
-    public static final int BG_WIDTH = 400;
-    public static final int BG_HEIGHT = 250;
+    public static final int BG_WIDTH = 420;
+    public static final int BG_HEIGHT = 260;
 
     private final BackgroundRenderer backgroundRenderer;
     private final CategoryRenderer categoryRenderer;

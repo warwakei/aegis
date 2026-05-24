@@ -265,8 +265,8 @@ public class HitEffect extends ModuleStructure {
                         
                         // Эффект свечения
                         if (glowEffect.isValue()) {
-                            float glowIntensity = localAlpha * 0.8f;
-                            int glowColor = ColorUtil.setAlpha(baseColor, (int) (glowIntensity * 120));
+                            float glowIntensity = localAlpha * 1.0f;
+                            int glowColor = ColorUtil.setAlpha(baseColor, (int) (glowIntensity * 140));
                             
                             // Рендерим свечение (больший размер, меньшая прозрачность)
                             try {
@@ -274,7 +274,7 @@ public class HitEffect extends ModuleStructure {
                                         pos,
                                         shape,
                                         glowColor,
-                                        1.2f, // Увеличенный размер для свечения
+                                        1.4f, // Увеличенный размер для свечения
                                         true,
                                         true
                                 );

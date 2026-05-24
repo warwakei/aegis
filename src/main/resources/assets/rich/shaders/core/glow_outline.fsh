@@ -42,19 +42,19 @@ void main() {
     vec2 normPos = pixelCoord / rectSize;
     float diag = (normPos.x + (1.0 - normPos.y)) * 0.5;
 
-    float rayPos = progress * 1.4 - 0.2;
+    float rayPos = progress * 1.50 - 0.25;
     float distToRay = abs(diag - rayPos);
 
-    float glowWidth = 0.12;
+    float glowWidth = 0.105;
     float glow = exp(-distToRay * distToRay / (glowWidth * glowWidth));
 
-    glow *= smoothstep(0.0, 0.1, progress) * smoothstep(1.0, 0.9, progress);
+    glow *= smoothstep(0.0, 0.10, progress) * smoothstep(1.0, 0.90, progress);
 
     float finalAlpha = baseAlpha + glow * (1.0 - baseAlpha);
     finalAlpha *= outlineMask;
 
     vec3 col = fragColor.rgb;
-    float brightness = 1.0 + glow * 0.5;
+    float brightness = 1.0 + glow * 0.65;
     col = min(col * brightness, vec3(1.0));
 
     outColor = vec4(col, finalAlpha * fragColor.a);

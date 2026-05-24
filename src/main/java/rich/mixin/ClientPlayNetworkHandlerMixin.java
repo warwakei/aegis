@@ -39,17 +39,43 @@ public abstract class ClientPlayNetworkHandlerMixin implements IMinecraft {
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void onSendChatMessage(String message, CallbackInfo ci) {
-        if (!ChatEvent.isProcessing()) return; // Избегаем рекурсии
+        System.out.println("[DEBUG] sendChatMessage вызван с: '" + message + "'");
+        handleChatMessage(message, ci, false);
+    }
+
+    @Inject(method = "sendChatCommand", at = @At("HEAD"), cancellable = true)
+    private void onSendChatCommand(String command, CallbackInfo ci) {
+        System.out.println("[DEBUG] sendChatCommand вызван с: '" + command + "'");
+        handleChatMessage(command, ci, true);
+    }
+
+    private void handleChatMessage(String message, CallbackInfo ci, boolean isCommand) {
+        System.out.println("[DEBUG] ChatEvent.isProcessing(): " + ChatEvent.isProcessing());
+        
+        if (!ChatEvent.isProcessing()) {
+            System.out.println("[DEBUG] Пропускаем из-за !isProcessing()");
+            return;
+        }
         
         ChatEvent event = new ChatEvent(message);
         EventManager.callEvent(event);
+        System.out.println("[DEBUG] После callEvent, новое сообщение: '" + event.getMessage() + "'");
+        
         if (event.isCancelled()) {
+            System.out.println("[DEBUG] Событие отменено");
             ci.cancel();
         } else if (!event.getMessage().equals(message)) {
+            System.out.println("[DEBUG] Сообщение изменилось, отправляем новое");
             ci.cancel();
             ChatEvent.setProcessing(false);
-            ((ClientPlayNetworkHandler)(Object)this).sendChatMessage(event.getMessage());
+            if (isCommand) {
+                ((ClientPlayNetworkHandler)(Object)this).sendChatCommand(event.getMessage());
+            } else {
+                ((ClientPlayNetworkHandler)(Object)this).sendChatMessage(event.getMessage());
+            }
             ChatEvent.setProcessing(true);
+        } else {
+            System.out.println("[DEBUG] Сообщение не изменилось");
         }
     }
 

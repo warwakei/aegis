@@ -19,19 +19,19 @@ import java.awt.*;
 
 public class TargetHud extends AbstractHudElement {
 
-    private static final float HEALTH_LERP_SPEED = 7.5f;
-    private static final float MAX_HEALTH_LERP_SPEED = 6.0f;
-    private static final float BAR_LERP_SPEED = 3.0f;
-    private static final float TRAIL_LERP_SPEED = 3.5f;
-    private static final float HEALTH_WAVE_SPEED = 1500f;
-    private static final float ABSORPTION_WAVE_SPEED = 1200f;
+    private static final float HEALTH_LERP_SPEED = 9.0f;
+    private static final float MAX_HEALTH_LERP_SPEED = 7.5f;
+    private static final float BAR_LERP_SPEED = 4.0f;
+    private static final float TRAIL_LERP_SPEED = 4.5f;
+    private static final float HEALTH_WAVE_SPEED = 1000f;
+    private static final float ABSORPTION_WAVE_SPEED = 900f;
     private static final float DEFAULT_MAX_HEALTH = 20f;
-    private static final int BAR_WIDTH = 64;
-    private static final int BAR_HEIGHT = 4;
-    private static final float BAR_RADIUS = 2f;
-    private static final float FACE_SIZE = 24f;
+    private static final int BAR_WIDTH = 76;
+    private static final int BAR_HEIGHT = 5;
+    private static final float BAR_RADIUS = 2.5f;
+    private static final float FACE_SIZE = 28f;
     private static final float FACE_HAT_SCALE = 1.1f;
-    private static final float CONTENT_PADDING = 6f;
+    private static final float CONTENT_PADDING = 8f;
     private static final float HEALTH_SNAP_STEP = 0.25f;
 
     private final StopWatch stopWatch = new StopWatch();
@@ -47,7 +47,7 @@ public class TargetHud extends AbstractHudElement {
     private long startTime = System.currentTimeMillis();
 
     public TargetHud() {
-        super("TargetHud", 10, 80, 112, 40, true);
+        super("TargetHud", 10, 80, 130, 44, true);
     }
 
     @Override
@@ -169,8 +169,8 @@ public class TargetHud extends AbstractHudElement {
         float x = getX();
         float y = getY();
 
-        setWidth(112);
-        setHeight(40);
+        setWidth(130);
+        setHeight(44);
 
         float scaleAlpha = scaleAnimation.getOutput().floatValue();
         float alphaMul = HudStyle.alphaMulFrom255(alpha);
@@ -182,7 +182,11 @@ public class TargetHud extends AbstractHudElement {
     }
 
     private void drawBackground(float x, float y, float alpha) {
-        HudStyle.panel(x + 2, y + 2, getWidth() - 4, getHeight() - 4, 6f, alpha, HudStyle.Variant.ACCENT);
+        float panelW = getWidth() - 2;
+        float panelH = getHeight() - 2;
+        HudStyle.panel(x + 1, y + 1, panelW, panelH, 7f, alpha, HudStyle.Variant.ACCENT);
+        Render2D.outline(x + 1, y + 1, panelW, panelH, 0.8f,
+                new Color(82, 128, 184, (int) (80 * alpha)).getRGB(), 7f);
     }
 
     private void drawFace(float x, float y, float alpha) {
@@ -198,9 +202,12 @@ public class TargetHud extends AbstractHudElement {
         LivingEntityRenderState state = renderer.getAndUpdateRenderState(lastTarget, lastTickDelta);
         Identifier textureLocation = renderer.getTexture(state);
 
-        float faceSize = 24;
+        float faceSize = FACE_SIZE;
         float faceX = x + 9;
         float faceY = y + 8;
+
+        Render2D.rect(faceX - 1, faceY - 1, faceSize + 2, faceSize + 2,
+                new Color(82, 128, 184, (int) (60 * alpha)).getRGB(), 5f);
 
         float hurtPercent = lastTarget.hurtTime > 0 ? lastTarget.hurtTime / 10.0f : 0.0f;
         int r = 255;
@@ -216,7 +223,7 @@ public class TargetHud extends AbstractHudElement {
         Render2D.texture(textureLocation, faceX, faceY, faceSize, faceSize,
                 u0, v0, u1, v1, color, 0, 4f);
 
-        float hatScale = 1.1f;
+        float hatScale = FACE_HAT_SCALE;
         float hatSize = faceSize * hatScale;
         float hatOffset = (hatSize - faceSize) / 2f;
 
@@ -232,8 +239,8 @@ public class TargetHud extends AbstractHudElement {
     private void drawContent(float x, float y, float alpha, float deltaTime) {
         float faceX = x + 9;
         float contentX = faceX + FACE_SIZE + CONTENT_PADDING;
-        float nameY = y + 13;
-        float maxContentWidth = x + getWidth() - contentX - 12;
+        float nameY = y + 12;
+        float maxContentWidth = x + getWidth() - contentX - 10;
 
         float hp = Math.max(0.0f, getHealth(lastTarget));
         float maxHp = getMaxHealthSafe(lastTarget);
@@ -266,16 +273,18 @@ public class TargetHud extends AbstractHudElement {
         Fonts.BOLD.draw(name, contentX, nameY, 5.5f,
                 new Color(255, 255, 255, (int) (255 * alpha)).getRGB());
         Fonts.BOLD.draw(hpStr, contentX + BAR_WIDTH + 6 - hpWidth, nameY, 5.5f,
-                new Color(215, 215, 215, (int) (255 * alpha)).getRGB());
+                new Color(200, 215, 230, (int) (255 * alpha)).getRGB());
     }
 
     private String getEntityName() {
         String name = null;
-        if (lastTarget.getDisplayName() != null) {
-            name = lastTarget.getDisplayName().getString();
+        if (lastTarget.getName() != null) {
+            name = lastTarget.getName().getString();
         }
         if (name == null || name.isBlank()) {
-            name = lastTarget.getName().getString();
+            if (lastTarget.getDisplayName() != null) {
+                name = lastTarget.getDisplayName().getString();
+            }
         }
         if (name == null || name.isBlank()) {
             name = lastTarget.getType().getName().getString();
@@ -283,11 +292,18 @@ public class TargetHud extends AbstractHudElement {
         if (name == null || name.isBlank()) {
             name = "Unknown";
         }
+        int colonIdx = name.indexOf(']');
+        if (colonIdx != -1 && name.length() > colonIdx + 1) {
+            String after = name.substring(colonIdx + 1).trim();
+            if (!after.isEmpty() && after.length() < name.length() - 2) {
+                name = after;
+            }
+        }
         return name;
     }
 
     private void drawHealthBar(float barX, float barY, float shownMax, float hp, float absorp, boolean invisible, float alpha, float deltaTime) {
-        barY += 12f;
+        barY += 13f;
 
         float targetHealth = invisible ? 1.0f : hp / shownMax;
         healthAnimation = lerp(healthAnimation, targetHealth, deltaTime, BAR_LERP_SPEED);
@@ -299,14 +315,14 @@ public class TargetHud extends AbstractHudElement {
         absorptionAnimation = lerp(absorptionAnimation, targetAbsorption, deltaTime, BAR_LERP_SPEED);
 
         Render2D.rect(barX, barY, BAR_WIDTH, BAR_HEIGHT,
-                new Color(30, 30, 30, (int) (200 * alpha)).getRGB(), BAR_RADIUS);
+                new Color(20, 20, 20, (int) (200 * alpha)).getRGB(), BAR_RADIUS);
 
         float healthPercent = Math.max(0, Math.min(1, healthAnimation));
         float trailPercent = Math.max(0, Math.min(1, trailAnimation));
 
         if (trailPercent > healthPercent) {
             Render2D.rect(barX, barY, BAR_WIDTH * trailPercent, BAR_HEIGHT,
-                    new Color(55, 55, 55, (int) (160 * alpha)).getRGB(), BAR_RADIUS);
+                    new Color(45, 45, 45, (int) (180 * alpha)).getRGB(), BAR_RADIUS);
         }
 
         if (healthPercent > 0.01f) {
@@ -332,16 +348,19 @@ public class TargetHud extends AbstractHudElement {
             float waveFactor = (smoothWave + 1f) / 2f;
 
             float hue = 0.25f + waveFactor * 0.15f;
-            int baseColor = ColorUtil.hsvToRgb(hue, 0.3f, 0.7f + waveFactor * 0.3f);
+            int baseColor = ColorUtil.hsvToRgb(hue, 0.35f, 0.75f + waveFactor * 0.25f);
             colors[i] = new Color(ColorUtil.getRed(baseColor), ColorUtil.getGreen(baseColor),
                     ColorUtil.getBlue(baseColor), (int) (255 * alpha)).getRGB();
         }
 
         Render2D.gradientRect(barX, barY, healthBarWidth, BAR_HEIGHT, colors, BAR_RADIUS);
 
+        Render2D.rect(barX, barY, healthBarWidth, BAR_HEIGHT * 0.4f,
+                new Color(255, 255, 255, (int) (30 * alpha)).getRGB(), BAR_RADIUS);
+
         if (healthPercent > 0.3f) {
             float highlightWidth = healthBarWidth * 0.3f;
-            float highlightAlpha = alpha * 0.15f;
+            float highlightAlpha = alpha * 0.18f;
             Render2D.gradientRect(barX, barY, highlightWidth, BAR_HEIGHT / 2f,
                     new int[]{
                             new Color(255, 255, 255, (int) (highlightAlpha * 255)).getRGB(),
@@ -364,17 +383,17 @@ public class TargetHud extends AbstractHudElement {
             float smoothWave = (float) Math.sin(wavePhase - i * 1.5f) * 0.6f + perlinWave * 0.4f;
             float waveFactor = (smoothWave + 1f) / 2f;
 
-            int cr = (int) (240 + 15 * waveFactor);
-            int cg = (int) (180 + 40 * waveFactor);
-            int cb = (int) (20 + 30 * waveFactor);
+            int cr = (int) (245 + 10 * waveFactor);
+            int cg = (int) (190 + 30 * waveFactor);
+            int cb = (int) (25 + 25 * waveFactor);
 
-            goldColors[i] = new Color(cr, cg, cb, (int) (220 * alpha)).getRGB();
+            goldColors[i] = new Color(cr, cg, cb, (int) (230 * alpha)).getRGB();
         }
 
         Render2D.gradientRect(barX, barY, absorpBarWidth, BAR_HEIGHT, goldColors, BAR_RADIUS);
 
         float highlightWidth = absorpBarWidth * 0.4f;
-        float highlightAlpha = alpha * 0.2f;
+        float highlightAlpha = alpha * 0.22f;
         Render2D.gradientRect(barX, barY, highlightWidth, BAR_HEIGHT / 2f,
                 new int[]{
                         new Color(255, 255, 200, (int) (highlightAlpha * 255)).getRGB(),
@@ -385,7 +404,7 @@ public class TargetHud extends AbstractHudElement {
     }
 
     private void drawHealthNumeric(float barX, float barY, float snappedHpOnly, float shownMax, float snappedAbsorp, boolean invisible, float alpha) {
-        barY += 12f;
+        barY += 13f;
 
         String hpNumeric;
         if (invisible) {
@@ -400,7 +419,7 @@ public class TargetHud extends AbstractHudElement {
         float hpTextSize = 4.6f;
         float hpTextW = Fonts.REGULAR.getWidth(hpNumeric, hpTextSize);
         float hpTextX = barX + (BAR_WIDTH - hpTextW) / 2f;
-        int hpTextColor = new Color(170, 180, 195, (int) (220 * alpha)).getRGB();
+        int hpTextColor = new Color(180, 190, 205, (int) (220 * alpha)).getRGB();
         Fonts.REGULAR.draw(hpNumeric, hpTextX, barY, hpTextSize, hpTextColor);
     }
 }

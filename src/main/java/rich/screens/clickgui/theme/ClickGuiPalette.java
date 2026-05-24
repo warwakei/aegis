@@ -9,47 +9,47 @@ public final class ClickGuiPalette {
 
     private ClickGuiPalette() {}
 
-    public static final int ACCENT = 0xFF4A6FA5;
-    public static final int ACCENT_DIM = 0xFF354E75;
+    public static final int ACCENT = 0xFF5280B8;
+    public static final int ACCENT_DIM = 0xFF3D5A8C;
 
     public static int bgMain(float alphaMul) {
         int a = (int) (255 * alphaMul);
-        return new Color(14, 15, 20, a).getRGB();
+        return new Color(12, 13, 18, a).getRGB();
     }
 
     public static int bgElevated(float alphaMul) {
         int a = (int) (255 * alphaMul);
-        return new Color(18, 20, 28, a).getRGB();
+        return new Color(16, 18, 26, a).getRGB();
     }
 
     public static int border(float alphaMul) {
-        int a = (int) (220 * alphaMul);
-        return new Color(38, 42, 52, a).getRGB();
+        int a = (int) (230 * alphaMul);
+        return new Color(42, 46, 56, a).getRGB();
     }
 
     public static int borderSubtle(float alphaMul) {
-        int a = (int) (140 * alphaMul);
-        return new Color(32, 36, 46, a).getRGB();
+        int a = (int) (150 * alphaMul);
+        return new Color(34, 38, 48, a).getRGB();
     }
 
     public static int panelInset(float alphaMul) {
-        int a = (int) (38 * alphaMul);
+        int a = (int) (42 * alphaMul);
         return new Color(22, 24, 32, a).getRGB();
     }
 
     public static int panelList(float alphaMul) {
-        int a = (int) (28 * alphaMul);
+        int a = (int) (32 * alphaMul);
         return new Color(20, 22, 30, a).getRGB();
     }
 
     public static int textPrimary(float alphaMul) {
-        int a = (int) (235 * alphaMul);
-        return new Color(230, 232, 238, a).getRGB();
+        int a = (int) (240 * alphaMul);
+        return new Color(235, 237, 242, a).getRGB();
     }
 
     public static int textMuted(float alphaMul) {
-        int a = (int) (150 * alphaMul);
-        return new Color(110, 115, 128, a).getRGB();
+        int a = (int) (160 * alphaMul);
+        return new Color(120, 125, 138, a).getRGB();
     }
 
     public static int accentLine(float alphaMul) {

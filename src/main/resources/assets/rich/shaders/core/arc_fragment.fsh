@@ -69,7 +69,7 @@ void main() {
     float dist = sdArc(p, sc.x, sc.y, ra, rb);
 
     float scaleFactor = uScreenInfo.y;
-    float aaWidth = 1.5 / scaleFactor;
+    float aaWidth = 1.8 / scaleFactor;
     float alpha = 1.0 - smoothstep(-aaWidth, aaWidth, dist);
 
     if (alpha <= 0.001) discard;

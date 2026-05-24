@@ -18,7 +18,7 @@ public class Watermark extends AbstractHudElement {
     private String oldTime = "";
     private long timeAnimationStart = 0;
 
-    private static final long ANIMATION_DURATION = 200;
+    private static final long ANIMATION_DURATION = 250;
     private static final float ANIMATION_OFFSET = 8.0f;
 
     public Watermark() {

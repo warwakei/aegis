@@ -123,8 +123,8 @@ void main() {
     // Soft inner light for richer depth.
     vec2 edgeUv = abs(uv * 2.0 - 1.0);
     float edgeFactor = 1.0 - clamp(max(edgeUv.x, edgeUv.y), 0.0, 1.0);
-    float innerLight = pow(edgeFactor, 1.8) * 0.18;
-    rectColor.rgb += innerLight * vec3(0.85, 0.9, 1.0);
+    float innerLight = pow(edgeFactor, 1.6) * 0.22;
+    rectColor.rgb += innerLight * vec3(0.80, 0.88, 1.0);
 
     // Keep panel clean: no visible grain texture on UI background.
 
@@ -138,8 +138,8 @@ void main() {
     finalShadowColor.a *= shadowAlpha;
 
     // Slightly broadened penumbra for softer premium shadow feel.
-    float penumbra = smoothstep(shadowOffsetAndRadius.z * 0.4, shadowOffsetAndRadius.z * 1.8, abs(shadowSDF));
-    finalShadowColor.a *= (1.0 - penumbra * 0.45);
+    float penumbra = smoothstep(shadowOffsetAndRadius.z * 0.3, shadowOffsetAndRadius.z * 2.0, abs(shadowSDF));
+    finalShadowColor.a *= (1.0 - penumbra * 0.50);
 
     fragColor = rectColor + finalShadowColor * (1.0 - rectColor.a);
 }

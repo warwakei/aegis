@@ -25,8 +25,8 @@ public class Notifications extends AbstractHudElement {
     }
 
     private final List<Notification> list = new ArrayList<>();
-    private static final float NOTIFICATION_HEIGHT = 16f;
-    private static final float NOTIFICATION_GAP = 3f;
+    private static final float NOTIFICATION_HEIGHT = 18f;
+    private static final float NOTIFICATION_GAP = 4f;
 
     private boolean positionInitialized = false;
 

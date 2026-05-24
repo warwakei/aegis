@@ -36,7 +36,7 @@ public class CommandManager {
         registerCommand(new AutoBuyCommand());
         registerCommand(new FriendCommand());
         registerCommand(new IgnoreCommand());
-        registerCommand(new ChatPagesCommand());
+
         registerCommand(new MacroCommand());
         registerCommand(new BindCommand());
         registerCommand(new PrefixCommand());

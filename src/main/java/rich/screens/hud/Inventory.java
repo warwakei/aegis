@@ -13,10 +13,10 @@ import java.util.List;
 
 public class Inventory extends AbstractHudElement {
 
-    private static final int SLOT_SIZE = 12;
+    private static final int SLOT_SIZE = 13;
     private static final int SLOTS_PER_ROW = 9;
     private static final int INVENTORY_ROWS = 3;
-    private static final float ITEM_SCALE = 0.5f;
+    private static final float ITEM_SCALE = 0.55f;
 
     private int filledSlots = 0;
 

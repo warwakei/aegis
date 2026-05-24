@@ -31,6 +31,9 @@ public class SPAngle extends RotateConstructor {
     private float targetCircleRadius = 0;
 
     private float currentSpeed = 0;
+    private long lastAttackTime = 0;
+    private float postAttackSpeedBoost = 0;
+    private Vec3d lastPlayerPos = Vec3d.ZERO;
 
     public SPAngle() {
         super("SpookyTime");
@@ -92,28 +95,58 @@ public class SPAngle extends RotateConstructor {
             default -> new Angle((float) -Math.cos(timeRandom * 0.5f), (float) Math.sin(timeRandom * 2.1f));
         };
 
+        // Детект полета на элитре
+        boolean isElytraFlying = mc.player.isGliding();
+        float elytraSpeedBoost = isElytraFlying ? 0.8f : 0;
+        float elytraJitterMultiplier = isElytraFlying ? 0.4f : 1.0f;
+        
         float jitterMultiplier = canAttack ? 0.5f : (lookingAtHitbox ? 0.6f : 1f);
+        jitterMultiplier *= elytraJitterMultiplier;
 
         targetJitterYaw = randomLerp(35f, 32f) * randomAngle.getYaw() * jitterMultiplier;
         targetJitterPitch = randomLerp(5f, 2f) * randomAngle.getPitch() * jitterMultiplier;
 
-        float jitterSmoothSpeed = 0.15f;
+        float jitterSmoothSpeed = isElytraFlying ? 0.4f : 0.25f;
         currentJitterYaw += (targetJitterYaw - currentJitterYaw) * jitterSmoothSpeed;
         currentJitterPitch += (targetJitterPitch - currentJitterPitch) * jitterSmoothSpeed;
 
-        float targetSpeed;
+        // Обновляем буст после атаки
+        long currentTime = System.currentTimeMillis();
         if (canAttack) {
-            targetSpeed = randomLerp(1f, 1f);
-        } else if (lookingAtHitbox) {
-            targetSpeed = randomLerp(0.35f, 0.15f);
-        } else if (entity != null) {
-            float distanceFactor = MathHelper.clamp(rotationDifference / 30f, 0.1f, 1f);
-            targetSpeed = randomLerp(0.45f, 0.25f) * distanceFactor;
-        } else {
-            targetSpeed = !attackTimer.finished(600) ? 0.53f : randomLerp(0.2f, 0.35f);
+            lastAttackTime = currentTime;
+            postAttackSpeedBoost = 0.4f;
+        }
+        
+        if (postAttackSpeedBoost > 0) {
+            postAttackSpeedBoost -= 0.02f;
+            if (postAttackSpeedBoost < 0) postAttackSpeedBoost = 0;
         }
 
-        currentSpeed += (targetSpeed - currentSpeed) * 0.65f;
+        // Детект движения игрока
+        Vec3d currentPlayerPos = mc.player.getEyePos();
+        double playerMovement = currentPlayerPos.distanceTo(lastPlayerPos);
+        lastPlayerPos = currentPlayerPos;
+        
+        float movementSpeedBoost = 0;
+        if (playerMovement > 0.05) {
+            movementSpeedBoost = (float) Math.min(playerMovement * 2.5f, 0.6f);
+        }
+
+        float targetSpeed;
+        if (canAttack) {
+            targetSpeed = randomLerp(1f, 1f) + elytraSpeedBoost;
+        } else if (lookingAtHitbox) {
+            targetSpeed = randomLerp(0.7f, 0.5f) + postAttackSpeedBoost + movementSpeedBoost + elytraSpeedBoost;
+        } else if (entity != null) {
+            float distanceFactor = MathHelper.clamp(rotationDifference / 30f, 0.4f, 1f);
+            targetSpeed = (randomLerp(0.8f, 0.6f) + postAttackSpeedBoost + movementSpeedBoost + elytraSpeedBoost) * distanceFactor;
+        } else {
+            targetSpeed = !attackTimer.finished(600) ? 0.8f : randomLerp(0.5f, 0.6f);
+        }
+
+        // Более быстрая реакция на элитре
+        float speedLerpFactor = isElytraFlying ? 0.98f : 0.92f;
+        currentSpeed += (targetSpeed - currentSpeed) * speedLerpFactor;
 
         float lineYaw = (Math.abs(yawDelta / rotationDifference) * 180);
         float linePitch = (Math.abs(pitchDelta / rotationDifference) * 90);

@@ -43,21 +43,21 @@ public final class HudStyle {
             c3 = brighten(baseElevated, 0.02f);
             border = ClickGuiPalette.borderSubtle(alphaMul);
         } else if (variant == Variant.ACCENT) {
-            c0 = tint(baseElevated, 0x6A8CFF, 0.12f);
-            c1 = tint(baseMain, 0x2EE6D6, 0.08f);
-            c2 = tint(baseMain, 0xE97BFF, 0.08f);
-            c3 = tint(baseElevated, 0x6A8CFF, 0.10f);
-            border = tint(ClickGuiPalette.border(alphaMul), 0x78A4FF, 0.25f);
+            c0 = tint(baseElevated, 0x6A8CFF, 0.15f);
+            c1 = tint(baseMain, 0x2EE6D6, 0.10f);
+            c2 = tint(baseMain, 0xE97BFF, 0.10f);
+            c3 = tint(baseElevated, 0x6A8CFF, 0.13f);
+            border = tint(ClickGuiPalette.border(alphaMul), 0x82B0FF, 0.30f);
         } else if (variant == Variant.DENSE) {
-            c0 = darken(baseElevated, 0.18f);
-            c1 = darken(baseMain, 0.16f);
-            c2 = darken(baseMain, 0.10f);
-            c3 = darken(baseElevated, 0.08f);
-            border = tint(ClickGuiPalette.border(alphaMul), 0x4B6BA6, 0.12f);
+            c0 = darken(baseElevated, 0.20f);
+            c1 = darken(baseMain, 0.18f);
+            c2 = darken(baseMain, 0.12f);
+            c3 = darken(baseElevated, 0.10f);
+            border = tint(ClickGuiPalette.border(alphaMul), 0x5280B8, 0.15f);
         }
 
         Render2D.gradientRect(x, y, w, h, new int[]{c0, c1, c2, c3}, radius);
-        Render2D.outline(x, y, w, h, 0.7f, border, radius);
+        Render2D.outline(x, y, w, h, 0.8f, border, radius);
     }
 
     public static void inset(float x, float y, float w, float h, float radius, float alphaMul) {
@@ -72,15 +72,15 @@ public final class HudStyle {
         if (variant == Variant.SOFT) {
             inset = brighten(inset, 0.06f);
         } else if (variant == Variant.ACCENT) {
-            inset = tint(inset, 0x7DA7FF, 0.12f);
-            border = tint(border, 0x7DA7FF, 0.24f);
+            inset = tint(inset, 0x7DA7FF, 0.15f);
+            border = tint(border, 0x7DA7FF, 0.28f);
         } else if (variant == Variant.DENSE) {
-            inset = darken(inset, 0.14f);
-            border = darken(border, 0.12f);
+            inset = darken(inset, 0.16f);
+            border = darken(border, 0.14f);
         }
 
         Render2D.rect(x, y, w, h, inset, radius);
-        Render2D.outline(x, y, w, h, 0.5f, border, radius);
+        Render2D.outline(x, y, w, h, 0.6f, border, radius);
     }
 
     private static int brighten(int color, float amount) {

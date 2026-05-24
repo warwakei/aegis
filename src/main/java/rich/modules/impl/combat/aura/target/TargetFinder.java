@@ -168,14 +168,22 @@ public class TargetFinder implements IMinecraft {
             boolean isCreative = player.isCreative() || player.getAbilities().creativeMode;
             boolean isSpectator = player.isSpectator();
 
-            // Fallback for delayed client flags on some servers.
+            // Fallback для серверов с задержкой флагов
             var gameMode = player.getGameMode();
             if (gameMode != null) {
                 isCreative = isCreative || gameMode == net.minecraft.world.GameMode.CREATIVE;
                 isSpectator = isSpectator || gameMode == net.minecraft.world.GameMode.SPECTATOR;
             }
 
+            // Дополнительная проверка через abilities
+            if (player.getAbilities().invulnerable && !player.getAbilities().allowFlying) {
+                isCreative = true;
+            }
+
             if (!isCreative && !isSpectator) return false;
+            
+            // Если опция "Креатив" ВКЛЮЧЕНА - НЕ фильтруем (бьём)
+            // Если опция "Креатив" ВЫКЛЮЧЕНА - фильтруем (не бьём)
             return !targetSettings.contains("Креатив");
         }
 
@@ -197,31 +205,27 @@ public class TargetFinder implements IMinecraft {
         private boolean isInvisiblePlayer(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
 
-            // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ðµ ÑÑ„Ñ„ÐµÐºÑ‚Ð° Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸ Ñ‡ÐµÑ€ÐµÐ· getStatusEffects()
-            boolean hasInvisibilityEffect = false;
-            for (var effect : player.getStatusEffects()) {
-                if (effect.getEffectType() == StatusEffects.INVISIBILITY) {
-                    hasInvisibilityEffect = true;
-                    break;
-                }
-            }
-            
-            if (!hasInvisibilityEffect) return false; // ÐÐµÑ‚ ÑÑ„Ñ„ÐµÐºÑ‚Ð° Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸ - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼
+            // Проверяем невидимость через entity.isInvisible() И через эффект
+            boolean hasInvisibilityEffect = player.hasStatusEffect(StatusEffects.INVISIBILITY);
+            boolean isInvisibleFlag = player.isInvisible();
 
-            // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ ÐµÑÑ‚ÑŒ Ð»Ð¸ Ð±Ñ€Ð¾Ð½Ñ Ð½Ð° Ð¸Ð³Ñ€Ð¾ÐºÐµ
+            // Если нет ни эффекта, ни флага - не фильтруем
+            if (!hasInvisibilityEffect && !isInvisibleFlag) return false;
+
+            // Проверяем есть ли броня на игроке
             boolean hasArmor = hasAnyArmor(player);
 
-            // Ð•ÑÐ»Ð¸ Ð½Ð° Ð¸Ð³Ñ€Ð¾ÐºÐµ ÐµÑÑ‚ÑŒ Ð±Ñ€Ð¾Ð½Ñ - Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð¾Ð¿Ñ†Ð¸ÑŽ "Ð˜Ð½Ð²Ð¸Ð·Ñ‹"
+            // Если на игроке есть броня - проверяем опцию "Инвизы"
             if (hasArmor) {
-                // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð˜Ð½Ð²Ð¸Ð·Ñ‹" ÐÐ• Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° - Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð½Ðµ Ð±ÑŒÑ‘Ð¼)
-                // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð˜Ð½Ð²Ð¸Ð·Ñ‹" Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð±ÑŒÑ‘Ð¼)
-                return !targetSettings.contains("Ð˜Ð½Ð²Ð¸Ð·Ñ‹");
+                // Если опция "Инвизы" ВКЛЮЧЕНА - НЕ фильтруем (бьём)
+                // Если опция "Инвизы" ВЫКЛЮЧЕНА - фильтруем (не бьём)
+                return !targetSettings.contains("Инвизы");
             }
 
-            // Ð•ÑÐ»Ð¸ Ð±Ñ€Ð¾Ð½Ð¸ Ð½ÐµÑ‚ (Ð³Ð¾Ð»Ñ‹Ð¹ Ð¸Ð½Ð²Ð¸Ð·) - Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð¾Ð¿Ñ†Ð¸ÑŽ "Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹"
-            // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹" ÐÐ• Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° - Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð½Ðµ Ð±ÑŒÑ‘Ð¼)
-            // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹" Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð±ÑŒÑ‘Ð¼)
-            return !targetSettings.contains("Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹");
+            // Если брони нет (голый инвиз) - проверяем опцию "Голые инвизы"
+            // Если опция "Голые инвизы" ВКЛЮЧЕНА - НЕ фильтруем (бьём)
+            // Если опция "Голые инвизы" ВЫКЛЮЧЕНА - фильтруем (не бьём)
+            return !targetSettings.contains("Голые инвизы");
         }
 
         /**

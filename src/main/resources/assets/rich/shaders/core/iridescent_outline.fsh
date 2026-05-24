@@ -83,22 +83,22 @@ void main() {
     float hue = fract(p + t);
 
     // Richer spectral variation.
-    float harmonicA = sin((p + t) * 12.0) * 0.03;
-    float harmonicB = sin((p * 5.3 - t * 1.9) * 3.14159) * 0.02;
+    float harmonicA = sin((p + t) * 12.0) * 0.04;
+    float harmonicB = sin((p * 5.3 - t * 1.9) * 3.14159) * 0.025;
     hue = fract(hue + harmonicA + harmonicB);
 
     vec3 col = hsv2rgb(vec3(hue, saturation, value));
 
-    float hueB = fract(hue + 0.11 + sin((p + t * 0.7) * 18.0) * 0.015);
-    vec3 colB = hsv2rgb(vec3(hueB, saturation * 0.72, value * 1.03));
-    col = mix(col, colB, 0.35);
+    float hueB = fract(hue + 0.13 + sin((p + t * 0.7) * 20.0) * 0.018);
+    vec3 colB = hsv2rgb(vec3(hueB, saturation * 0.78, value * 1.05));
+    col = mix(col, colB, 0.40);
 
     // Small brightness pulse
-    float pulse = 0.85 + 0.15 * sin((t + p) * 6.28318);
+    float pulse = 0.80 + 0.20 * sin((t + p) * 6.28318);
     col *= pulse;
 
-    float sparkle = step(0.988, hash12(floor(pixelCoord * 1.5) + vec2(t * 17.0, t * 9.0)));
-    col += sparkle * 0.12;
+    float sparkle = step(0.985, hash12(floor(pixelCoord * 1.5) + vec2(t * 17.0, t * 9.0)));
+    col += sparkle * 0.15;
     col = clamp(col, vec3(0.0), vec3(1.0));
 
     outColor = vec4(col, outlineMask * alphaMul);

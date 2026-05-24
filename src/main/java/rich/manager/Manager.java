@@ -13,7 +13,7 @@ import rich.screens.clickgui.ClickGui;
 import rich.util.config.ConfigSystem;
 import rich.util.config.impl.bind.BindConfig;
 import rich.util.config.impl.blockesp.BlockESPConfig;
-import rich.util.config.impl.chattab.ChatTabManager;
+
 import rich.util.config.impl.drag.DragConfig;
 import rich.util.config.impl.friend.FriendConfig;
 import rich.util.config.impl.ignore.IgnoreConfig;
@@ -60,7 +60,7 @@ public class Manager {
         BlockESPConfig.getInstance().load();
         FriendConfig.getInstance().load();
         IgnoreConfig.getInstance().load();
-        ChatTabManager.getInstance().init();
+
         
         LoadingStages.LOADING_STAFF_CONFIG.update();
         PrefixConfig.getInstance().load();
@@ -100,7 +100,6 @@ public class Manager {
         commandManager.init();
         
         LoadingStages.FINALIZING_CONFIGS.update();
-        try { Thread.sleep(150); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         
         LoadingStages.FINALIZING.update();
         LoadingStages.COMPLETE.update();

@@ -30,8 +30,8 @@ public class SliderComponent extends AbstractSettingComponent {
     private static final float ANIMATION_SPEED = 10f; // Быстрее
     private static final float FAST_ANIMATION_SPEED = 14f;
     private static final float KNOB_ANIM_SPEED = 12f;
-    private static final float TRACK_HEIGHT = 2.5f;
-    private static final float KNOB_BASE_SIZE = 5.5f; // Чуть больше
+    private static final float TRACK_HEIGHT = 3.0f;
+    private static final float KNOB_BASE_SIZE = 6.0f; // Чуть больше
     private static final float OUTLINE_THICKNESS = 0.15f; // Тоньше и аккуратнее
 
     public SliderComponent(SliderSettings setting) {
