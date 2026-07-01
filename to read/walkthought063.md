@@ -1,6 +1,5 @@
-# Walkthrough063 — отчёт изменений (не полный, будет дополняться)
-status:
-update in progress
+# Walkthrough063 — отчёт изменений (полный)
+status: completed
 
 ## 1. EntityMixin.java — Silent Rotation Yaw Hook
 **Файл:** `src/main/java/rich/mixin/EntityMixin.java`
@@ -100,25 +99,44 @@ SpookyTime был слишком плавным при беге+прыжке —
 
 Это обновление может сильно сказатся на производительности и требовать больше ресурсов компьютера.
 
-Либо будет вторая версия из разряда "mini" с отключением некоторых улучшений для повышения производительности, либо в этом же обновлении будет много оптимизаций самого майнкрафта кактакового.
+---
+
+## 11. Build/run скрипты
+
+### 10а. aegis-build.bat
+**Файл:** `D:\pizdak\AegisNeo\aegis-build.bat`
+
+Пятишаговая сборка:
+1. `clean compileJava` для основного проекта
+2. `build` основного проекта → копирование `AegisNeo-*.jar` в `DonePacks/` (без `-sources.jar`)
+3. `clean compileJava` для launcher
+4. `build` launcher → копирование `AegisUpdater*.jar` в `DonePacks/`
+5. Без `pause` — чтобы можно было вызывать из другого .bat
+
+### 10б. aegis-run.bat
+**Файл:** `D:\pizdak\AegisNeo\aegis-run.bat`
+
+- Проверяет наличие `run/mods/AegisUpdater*.jar`
+- Если нет — вызывает `aegis-build.bat`, копирует апдейтер из `DonePacks/`
+- `clean compileJava` + `runclient`
 
 ---
 
 ---
 
-## 11. SplashScreen.java — Полный рефакторинг + анимации
+## 12. SplashScreen.java — Полный рефакторинг + анимации
 **Файл:** `src/main/java/rich/client/splash/SplashScreen.java`
 
-### 11а. Удалён мёртвый код
+### 12а. Удалён мёртвый код
 Поле `injectedLabel` — не использовалось, удалено.
 
-### 11б. Анимация таймера — порядок инициализации
+### 12б. Анимация таймера — порядок инициализации
 `animationTimer.start()` перенесён в конец конструктора (после создания всех компонентов), чтобы избежать potential NPE на `percentLabel`/`statusLabel`.
 
-### 11в. Progress card — версия
+### 12в. Progress card — версия
 Добавлена строка `Version.FULL_NAME` (Aegis 0.6.3 "Neo") под статусом загрузки.
 
-### 11г. Ready card — полная переработка
+### 12г. Ready card — полная переработка
 - **Анимированная галочка**: окружность прорисовывается по дуге (`drawArc`), затем чекмарк анимируется через dash-array stroke
 - **Пульсирующее свечение галочки** при полном появлении (`glow` second pass)
 - **Подзаголовок**: "Модули и ресурсы успешно загружены" (появляется с задержкой 0.3 от readyAnim)
@@ -126,76 +144,76 @@ SpookyTime был слишком плавным при беге+прыжке —
 - **Кнопка Launch**: увеличена до 140×42, шрифт 13px bold
 - **Плавающие частицы**: 4 цвета (фиолетовый, синий, розовый, зелёный), спавнятся снизу, поднимаются вверх, затухают. Синхронизированы через `synchronized (readyParticles)`. Отображаются в `paintChildren()` readyCard позади контента
 
-### 11д. Фон — плавная циклическая анимация цвета через HSB
+### 12д. Фон — плавная циклическая анимация цвета через HSB
 - **Три перекрывающихся синуса** для оттенка (частоты 0.08, 0.13, 0.045 Гц) — никогда не повторяется
 - **Насыщенность и яркость** тоже модулируются синусами
 - **Bottom color** имеет смещённый оттенок для градиентной глубины
 - Используется `Color.getHSBColor()` с `@SuppressWarnings("deprecation")`
 
-### 11е. Неоновые орбы — циклическая смена оттенка
+### 12е. Неоновые орбы — циклическая смена оттенка
 Каждый орб теперь медленно меняет hue (0.10 амплитуда через два синуса) вместо статичного цвета с пульсацией альфы:
 - Орб A: фиолетовый → синий → бирюзовый
 - Орб B: синий → голубой → сиреневый  
 - Орб C: розовый → фиолетовый → coral
 - Alpha-пульсация сохранена поверх hue-циклирования
 
-### 11ж. Рамка контейнера — синхронизация с фоном
+### 12ж. Рамка контейнера — синхронизация с фоном
 Цвет неоновой рамки и угловых акцентов теперь привязан к общему оттенку фона (`frameHue`, `dotHue`).
 
-### 11з. Анимация прогресс-бара
+### 12з. Анимация прогресс-бара
 Добавлен пульсирующий glow вокруг прогресс-бара (синусоида на `animationTime`).
 
-### 11и. Пульсация процентов
+### 12и. Пульсация процентов
 `percentLabel` пульсирует между 85% и 100% яркостью (`Math.sin(animationTime * 2.5f)`).
 
-### 11к. Дыхание статуса  
+### 12к. Дыхание статуса  
 `statusLabel` дышит альфой 180→255→180 (`Math.sin(animationTime * 1.8f)`).
 
-### 11л. FrostedPanel — усиленная анимация градиента
+### 12л. FrostedPanel — усиленная анимация градиента
 Градиент карточки теперь использует два наложенных синуса (периоды 1.5с и 2.2с) с амплитудой ±0.6 вместо ±0.1. Добавлен `Math.max(0, ...)` для защиты от отрицательных значений.
 
 ---
 
-## 12. Esp.java — Улучшение боксов, fade, health bar
+## 13. Esp.java — Улучшение боксов, fade, health bar
 **Файл:** `src/main/java/rich/modules/impl/render/Esp.java`
 
-### 12а. Градиентные corner box
+### 13а. Градиентные corner box
 Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и `ColorUtil.darkenColorStatic` (0.4f) — внешние углы ярче, внутренние темнее.
 
-### 12б. Distance fade
+### 13б. Distance fade
 2D боксы: `distFade = max(0.15, min(1, 1 - (distance - 8) / 60))`. Alpha каждой линии модулируется.
 3D боксы: `distFade = max(0.1, min(1, 1 - (distance - 5) / 50))` — alpha fill и outline синхронно затухают.
 
-### 12в. Health bar под ником
+### 13в. Health bar под ником
 Под блоком ника (после отрисовки текста) рисуется:
 - Фон: `Render2D.rect(..., 0x60000000, 1f)`
 - Заполнение: ширина `barWidth * hpRatio`, цвет зависит от HP (>60% зелёный, >30% жёлтый, иначе красный)
 
 ---
 
-## 13. Шейдеры — Визуальные улучшения
+## 14. Шейдеры — Визуальные улучшения
 
-### 13а. `glow_outline.fsh` — Multi-band glow
+### 14а. `glow_outline.fsh` — Multi-band glow
 **Файл:** `src/main/resources/assets/rich/shaders/core/glow_outline.fsh`
 - Три слоя свечения: sharp (0.105), soft (0.262), wide (0.525) с весами 0.6/0.3/0.1
 - Shimmer-эффект: `sin(distToRay * 40 + progress * 20)`
 - Sparkle: `hash12` + `step(0.97)`
 - Цветовой сдвиг: теплее на переднем фронте (`+warmShift`), холоднее на хвосте
 
-### 13б. `iridescent_outline.fsh` — Richer spectrum
+### 14б. `iridescent_outline.fsh` — Richer spectrum
 **Файл:** `src/main/resources/assets/rich/shaders/core/iridescent_outline.fsh`
 - Третья гармоника: `harmonicC = cos((p * 8.7 + t * 0.6) * 2.0) * 0.018`
 - Третичный акцентный цвет: `hueC` blended at 15%
 - `sparkleStreak`: второй слой sparkle с другим scaling
 - Corner glow boost: усиление свечения в углах пропорционально расстоянию от центра
 
-### 13в. `rect.fsh` — Subtle micro-grain
+### 14в. `rect.fsh` — Subtle micro-grain
 **Файл:** `src/main/resources/assets/rich/shaders/core/rect.fsh`
 - Анимированный микро-шум: `hash12(pixelCoord + vec2(grainTime * 3.0, grainTime * 1.7)) * 0.022 - 0.011`
 - Применяется с весом `rectColor.a` — не виден на прозрачных областях
 - Время выведено из `screen.x` (чтобы не требовать дополнительного uniform)
 
-### 13г. `outline.fsh` — Pulsing glow
+### 14г. `outline.fsh` — Pulsing glow
 **Файл:** `src/main/resources/assets/rich/shaders/core/outline.fsh`
 - `glowPulse = 1.0 + 0.12 * sin(glowTime * 0.005 + perimeterPos * 8.0)` — пульсация движется вдоль периметра
 - `effectiveRadius` пульсирует ±15%
@@ -203,7 +221,7 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 
 ---
 
-## 14. ClickGuiPalette.java — Расширенная палитра
+## 15. ClickGuiPalette.java — Расширенная палитра
 **Файл:** `src/main/java/rich/screens/clickgui/theme/ClickGuiPalette.java`
 
 Добавлены константы:
@@ -217,7 +235,7 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 
 ---
 
-## 15. HudStyle.java — Новый вариант GLOW
+## 16. HudStyle.java — Новый вариант GLOW
 **Файл:** `src/main/java/rich/screens/hud/HudStyle.java`
 
 - В `Variant` enum добавлен `GLOW`
@@ -227,10 +245,10 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 
 ---
 
-## 16. AMOLED ClickGui — Монохромный рестайл
+## 17. AMOLED ClickGui — Монохромный рестайл
 **Цель:** Pure black AMOLED-стиль с микро-зернистостью (roughness), минимальными границами и акцентным свечением `#6A9CFF`.
 
-### 16а. ClickGuiPalette.java — AMOLED-цвета
+### 17а. ClickGuiPalette.java — AMOLED-цвета
 **Файл:** `src/main/java/rich/screens/clickgui/theme/ClickGuiPalette.java`
 
 Все базовые цвета сдвинуты в сторону чистого чёрного с холодным отливом:
@@ -242,14 +260,14 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 - `panelList`: `(8, 9, 16, α40)` (было `20, 22, 30, α32`)
 - `textMuted`: `(110, 117, 135)` — холоднее (было `120, 125, 138`)
 
-### 16б. HudStyle.java — Variant.AMOLED
+### 17б. HudStyle.java — Variant.AMOLED
 **Файл:** `src/main/java/rich/screens/hud/HudStyle.java`
 
 Добавлен enum `AMOLED`:
 - `panel()`: фон pure black `bgMain`, лёгкий `4%` tint к `ACCENT_GLOW`/`ACCENT_TEAL`, border tinted `18%` к `ACCENT_GLOW`
 - `inset()`: `6%` tint к `ACCENT`, border `14%` tint
 
-### 16в. BackgroundRenderer.java — Чёрный холст + акцентный аутлайн
+### 17в. BackgroundRenderer.java — Чёрный холст + акцентный аутлайн
 **Файл:** `src/main/java/rich/screens/clickgui/impl/background/render/BackgroundRenderer.java`
 
 - Основной градиент: `(3,4,10)`→`(6,7,14)` — почти чистый чёрный
@@ -257,7 +275,7 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 - Чёрный аутлайн заменён на тонкий `(28,38,60)` + внешнее свечение `(40,70,120,α25)`
 - В sidebar: разделитель `(16,20,34)`, иконки X/Y/Z в `#6A9CFF`, "Soon..." в акцентном синем
 
-### 16г. ModuleListRenderer.java — Тёмные модули с акцентным глоу
+### 17г. ModuleListRenderer.java — Тёмные модули с акцентным глоу
 **Файл:** `src/main/java/rich/screens/clickgui/impl/module/render/ModuleListRenderer.java`
 
 - **Фон модуля (selected)**: пульсирует от `(12,14,24)` до `(32,42,72)` — холодный синий подтон
@@ -269,14 +287,14 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 - **Bind box**: фон `(30,34,50)`, аутлайн `#375078`, текст `#8291AA`
 - **Scroll fade**: чисто чёрный `(0,0,0)` (было `(15,15,18)`)
 
-### 16д. SettingsPanelRenderer.java — Акцентный разделитель
+### 17д. SettingsPanelRenderer.java — Акцентный разделитель
 **Файл:** `src/main/java/rich/screens/clickgui/impl/module/render/SettingsPanelRenderer.java`
 
 - Separator: пульсирующий `#3C82DC→#6A9CFF` (был серый `#262A34`)
 - Scroll fade: чисто чёрный `(0,0,0)`
 - "This module doesn't has settings" → `ClickGuiPalette.textMuted()`
 
-### 16е. CategoryRenderer.java — Пульсирующий акцентный бар
+### 17е. CategoryRenderer.java — Пульсирующий акцентный бар
 **Файл:** `src/main/java/rich/screens/clickgui/impl/background/render/CategoryRenderer.java`
 
 - **Текст категории**: при выборе подмешивается синий канал `+36`, пульсация `+18/+14/+36`
@@ -284,7 +302,7 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 - **Внешнее glow бара**: `3px` ореол `#4282DC` при animation > 0.3
 - **Section header**: линии и текст пульсируют с холодным оттенком (период 3s)
 
-### 16ж. HeaderRenderer.java — AMOLED-хедер
+### 17ж. HeaderRenderer.java — AMOLED-хедер
 **Файл:** `src/main/java/rich/screens/clickgui/impl/background/render/HeaderRenderer.java`
 
 - Header panel: `(7,8,16)`→`(10,11,20)` — чище чёрный
@@ -301,4 +319,4 @@ Corner box теперь использует `ColorUtil.brightenColor` (0.3f) и
 ---
 
 ## Статус сборки
-Все изменения успешно компилируются через `./gradlew build` (Java 21, Fabric Loom 1.15).
+Все изменения успешно компилируются через `./gradlew build` (Java 21, Fabric Loom 1.15). `aegis-build.bat` и `aegis-run.bat` протестированы — сборка и запуск проходят без ошибок.
