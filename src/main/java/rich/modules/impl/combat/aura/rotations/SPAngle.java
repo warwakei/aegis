@@ -132,20 +132,26 @@ public class SPAngle extends RotateConstructor {
             movementSpeedBoost = (float) Math.min(playerMovement * 2.5f, 0.6f);
         }
 
+        boolean isMovingAndJumping = MoveUtil.hasPlayerMovement() && !mc.player.isOnGround();
+        if (isMovingAndJumping) {
+            movementSpeedBoost += 0.25f;
+        }
+
         float targetSpeed;
         if (canAttack) {
-            targetSpeed = randomLerp(1f, 1f) + elytraSpeedBoost;
+            targetSpeed = randomLerp(1.2f, 1.2f) + elytraSpeedBoost; // Увеличиваем скорость при ударе
         } else if (lookingAtHitbox) {
-            targetSpeed = randomLerp(0.7f, 0.5f) + postAttackSpeedBoost + movementSpeedBoost + elytraSpeedBoost;
+            targetSpeed = randomLerp(0.8f, 0.6f) + postAttackSpeedBoost + movementSpeedBoost + elytraSpeedBoost;
         } else if (entity != null) {
-            float distanceFactor = MathHelper.clamp(rotationDifference / 30f, 0.4f, 1f);
+            float minDistanceFactor = isMovingAndJumping ? 0.65f : 0.4f;
+            float distanceFactor = MathHelper.clamp(rotationDifference / 30f, minDistanceFactor, 1f);
             targetSpeed = (randomLerp(0.8f, 0.6f) + postAttackSpeedBoost + movementSpeedBoost + elytraSpeedBoost) * distanceFactor;
         } else {
             targetSpeed = !attackTimer.finished(600) ? 0.8f : randomLerp(0.5f, 0.6f);
         }
 
-        // Более быстрая реакция на элитре
-        float speedLerpFactor = isElytraFlying ? 0.98f : 0.92f;
+        // Более быстрая реакция на элитре, при атаке или при беге/прыжках
+        float speedLerpFactor = isElytraFlying ? 0.98f : (canAttack ? 0.98f : (isMovingAndJumping ? 0.96f : 0.92f));
         currentSpeed += (targetSpeed - currentSpeed) * speedLerpFactor;
 
         float lineYaw = (Math.abs(yawDelta / rotationDifference) * 180);

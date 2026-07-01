@@ -126,7 +126,10 @@ void main() {
     float innerLight = pow(edgeFactor, 1.6) * 0.22;
     rectColor.rgb += innerLight * vec3(0.80, 0.88, 1.0);
 
-    // Keep panel clean: no visible grain texture on UI background.
+    // Subtle animated micro-grain for premium depth (barely visible)
+    float grainTime = screen.x * 0.001;
+    float grain = hash12(pixelCoord + vec2(grainTime * 3.0, grainTime * 1.7)) * 0.022 - 0.011;
+    rectColor.rgb += grain * rectColor.a;
 
     rectColor.a *= rectAlpha;
 

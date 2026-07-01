@@ -63,4 +63,12 @@ public abstract class EntityMixin implements IMinecraft {
         }
         return pitch;
     }
+
+    @ModifyVariable(method = "getRotationVector(FF)Lnet/minecraft/util/math/Vec3d;", at = @At("HEAD"), ordinal = 1, argsOnly = true)
+    private float modifyYaw(float yaw) {
+        if ((Object) this instanceof ClientPlayerEntity && AngleConnection.INSTANCE.getCurrentAngle() !=null) {
+            return AngleConnection.INSTANCE.getCurrentAngle().getYaw();
+        }
+        return yaw;
+    }
 }

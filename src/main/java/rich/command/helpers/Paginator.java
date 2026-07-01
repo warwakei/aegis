@@ -12,7 +12,7 @@ import java.util.function.Function;
 import static rich.command.impl.HelpCommand.getLine;
 
 /**
- *  © 2026 Copyright Aegis Neo 062 - Dev Build 2026 14:03 21.04
+ *  © 2026 Copyright Aegis Neo 063 - Dev Build 2026 14:03 21.04
  *        All Rights Reserved ®
  */
 

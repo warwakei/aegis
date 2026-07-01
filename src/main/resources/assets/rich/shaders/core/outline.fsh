@@ -79,11 +79,17 @@ void main() {
     float innerEdge = smoothstep(-smoothing, smoothing, dist + outlineThickness);
     float outlineMask = innerEdge * (1.0 - outerEdge);
 
+    // Animated glow with subtle pulsing (time derived from screen coords)
     float glowRadius = glowParams.x;
     float glowIntensity = glowParams.y;
 
+    float glowTime = screen.x + screen.y;
+    float glowPulse = 1.0 + 0.12 * sin(glowTime * 0.005 + perimeterPos * 8.0);
+    float effectiveRadius = glowRadius * (0.85 + 0.15 * sin(glowTime * 0.0035));
+    float effectiveIntensity = glowIntensity * glowPulse;
+
     float glowSDF = roundedBoxSDF(center, halfRectSize, currentRadii);
-    float glowAlpha = (1.0 - smoothstep(-glowRadius, glowRadius, glowSDF)) * glowIntensity;
+    float glowAlpha = (1.0 - smoothstep(-effectiveRadius, effectiveRadius, glowSDF)) * effectiveIntensity;
 
     vec4 finalGlowColor = glowColor;
     finalGlowColor.a *= glowAlpha;

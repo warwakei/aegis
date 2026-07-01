@@ -405,6 +405,7 @@ public class Aura extends ModuleStructure {
         return switch (elytraRotationMode.getSelected()) {
             case "Matrix" -> new MatrixAngle();
             case "SpookyTime" -> new SPAngle();
+            case "Jenro" -> new JenroAngle();
             default -> new MatrixAngle();
         };
     }
@@ -435,7 +436,7 @@ public class Aura extends ModuleStructure {
                 }
             }
 
-            case "Matrix", "SpookyTime" -> {
+            case "Matrix", "SpookyTime", "Jenro" -> {
                 controller.rotateTo(rotation, target, 1, rotationConfig, TaskPriority.HIGH_IMPORTANCE_1, this);
             }
 

@@ -14,6 +14,7 @@ import rich.events.api.EventHandler;
 import rich.events.impl.AttackEvent;
 import rich.events.impl.TickEvent;
 import rich.events.impl.WorldRenderEvent;
+import rich.modules.impl.combat.ProjectileHelper;
 import rich.modules.impl.render.particles.Particle3D;
 import rich.modules.impl.render.particles.TotemEmitter;
 import rich.modules.module.ModuleStructure;
@@ -252,6 +253,8 @@ public class Particles extends ModuleStructure {
             handleProjectileParticles();
         }
 
+        handleProjectileHelperTargetGlow();
+
         Iterator<TotemEmitter> emitterIterator = totemEmitters.iterator();
         while (emitterIterator.hasNext()) {
             TotemEmitter emitter = emitterIterator.next();
@@ -271,6 +274,33 @@ public class Particles extends ModuleStructure {
             if (p.isDead()) {
                 iterator.remove();
             }
+        }
+    }
+
+    private void handleProjectileHelperTargetGlow() {
+        ProjectileHelper helper = ProjectileHelper.getInstance();
+        if (helper == null || !helper.isState()) return;
+
+        Entity target = helper.getCurrentTarget();
+        if (target == null || target.isRemoved()) return;
+
+        Vec3d pos = target.getEyePos();
+        int color = 0xFFFF66FF;
+        int spawnCount = 6;
+
+        for (int i = 0; i < spawnCount; i++) {
+            double ox = (Math.random() - 0.5) * target.getWidth();
+            double oy = Math.random() * target.getHeight();
+            double oz = (Math.random() - 0.5) * target.getWidth();
+            Vec3d spawnPos = pos.add(ox, oy, oz);
+            Vec3d vel = new Vec3d((Math.random() - 0.5) * 0.04, Math.random() * 0.03, (Math.random() - 0.5) * 0.04);
+
+            particles.add(new Particle3D(spawnPos, vel, color, 1.15f, 0.35f)
+                    .setMode(Particle3D.ParticleMode.CUBES)
+                    .setGlowMode(Particle3D.GlowMode.BOTH)
+                    .setCollision(false)
+                    .setGravity(0.0f)
+                    .setVelocityMultiplier(0.985f));
         }
     }
 

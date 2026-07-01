@@ -11,7 +11,9 @@ public final class HudStyle {
         DEFAULT,
         SOFT,
         ACCENT,
-        DENSE
+        DENSE,
+        GLOW,
+        AMOLED
     }
 
     private HudStyle() {}
@@ -54,10 +56,27 @@ public final class HudStyle {
             c2 = darken(baseMain, 0.12f);
             c3 = darken(baseElevated, 0.10f);
             border = tint(ClickGuiPalette.border(alphaMul), 0x5280B8, 0.15f);
+        } else if (variant == Variant.GLOW) {
+            c0 = tint(baseElevated, 0x6A8CFF, 0.08f);
+            c1 = tint(baseMain, 0x6A8CFF, 0.05f);
+            c2 = tint(baseMain, 0xB877D8, 0.05f);
+            c3 = tint(baseElevated, 0x3ECFBA, 0.06f);
+            border = tint(ClickGuiPalette.border(alphaMul), 0x6A9CFF, 0.35f);
+        } else if (variant == Variant.AMOLED) {
+            c0 = tint(baseElevated, 0x6A9CFF, 0.04f);
+            c1 = baseMain;
+            c2 = baseMain;
+            c3 = tint(baseElevated, 0x3ECFBA, 0.03f);
+            border = tint(ClickGuiPalette.border(alphaMul), 0x6A9CFF, 0.18f);
         }
 
         Render2D.gradientRect(x, y, w, h, new int[]{c0, c1, c2, c3}, radius);
         Render2D.outline(x, y, w, h, 0.8f, border, radius);
+
+        // Glow variant has an extra soft glow border
+        if (variant == Variant.GLOW) {
+            Render2D.outline(x - 1, y - 1, w + 2, h + 2, 2.5f, ClickGuiPalette.accentGlow(alphaMul * 0.5f), radius + 1);
+        }
     }
 
     public static void inset(float x, float y, float w, float h, float radius, float alphaMul) {
@@ -77,6 +96,12 @@ public final class HudStyle {
         } else if (variant == Variant.DENSE) {
             inset = darken(inset, 0.16f);
             border = darken(border, 0.14f);
+        } else if (variant == Variant.GLOW) {
+            inset = tint(inset, 0x7DA7FF, 0.10f);
+            border = tint(border, 0x6A9CFF, 0.25f);
+        } else if (variant == Variant.AMOLED) {
+            inset = tint(inset, 0x6A9CFF, 0.06f);
+            border = tint(border, 0x6A9CFF, 0.14f);
         }
 
         Render2D.rect(x, y, w, h, inset, radius);

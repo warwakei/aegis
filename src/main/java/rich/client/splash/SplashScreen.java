@@ -6,9 +6,12 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import rich.util.Version;
 
 public class SplashScreen extends JFrame {
     private static final String CARD_PROGRESS = "progress";
@@ -20,8 +23,8 @@ public class SplashScreen extends JFrame {
     private final JPanel contentPanel = new JPanel(cardLayout);
 
     private final JProgressBar progressBar;
-    private final JLabel percentLabel;
-    private final JLabel statusLabel;
+    private JLabel percentLabel;
+    private JLabel statusLabel;
 
     private final JTextArea requirementsArea;
     private final JLabel requirementsTitle;
@@ -40,12 +43,18 @@ public class SplashScreen extends JFrame {
     private volatile boolean readyVisible = false;
 
     private JLabel readyTitleLabel;
-    private JLabel injectedLabel;
     private RoundedActionButton launchButton;
 
     private JLabel finishingLabel;
     private Timer finishingDotsTimer;
     private volatile int finishingDots = 0;
+
+    private final List<Particle> readyParticles = new ArrayList<>();
+    private final Random particleRandom = new Random();
+    private float particleSpawnTimer = 0f;
+    private JLabel readySubtitleLabel;
+    private JLabel readyVersionLabel;
+    private JPanel readyCardPanel;
 
     public SplashScreen() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -63,9 +72,31 @@ public class SplashScreen extends JFrame {
                 readyAnim = Math.min(1f, readyAnim + 0.025f);
                 updateReadyVisuals();
             }
+            if (readyVisible && readyAnim > 0.3f) {
+                particleSpawnTimer += 0.016f;
+                if (particleSpawnTimer > 0.06f) {
+                    particleSpawnTimer = 0f;
+                    spawnReadyParticle();
+                }
+            }
+            updateParticles();
+
+            // Пульсация процентов (только после инициализации)
+            if (!readyVisible && percentLabel != null) {
+                float pp = 0.85f + 0.15f * (float)Math.sin(animationTime * 2.5f);
+                int pv = Math.max(0, Math.min(255, (int)(255 * pp)));
+                percentLabel.setForeground(new Color(pv, pv, pv));
+            }
+
+            // Дыхание статуса (только после инициализации)
+            if (!readyVisible && statusLabel != null) {
+                float sb = 0.7f + 0.3f * (float)Math.sin(animationTime * 1.8f);
+                int sa = Math.max(0, Math.min(255, (int)(180 + 75 * sb)));
+                statusLabel.setForeground(new Color(218, 211, 235, sa));
+            }
+
             repaint();
         });
-        animationTimer.start();
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -76,6 +107,7 @@ public class SplashScreen extends JFrame {
 
         JPanel root = new JPanel(new BorderLayout()) {
             @Override
+            @SuppressWarnings("deprecation")
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -88,16 +120,35 @@ public class SplashScreen extends JFrame {
                 long time = System.currentTimeMillis();
                 float t = time / 1000.0f;
 
-                // Анимированный градиентный фон
-                float bgShift = (float)(Math.sin(t * 0.3) * 0.2);
-                GradientPaint bg = new GradientPaint(
-                        0, 0, new Color(7 + (int)(bgShift * 10), 8 + (int)(bgShift * 8), 13 + (int)(bgShift * 15)),
-                        0, h, new Color(19 + (int)(bgShift * 8), 15 + (int)(bgShift * 12), 30 + (int)(bgShift * 10))
+                // Плавная циклическая анимация цвета фона через HSB
+                float hueBase = 0.72f + 0.06f * (float)Math.sin(t * 0.08f)
+                                      + 0.04f * (float)Math.sin(t * 0.13f + 1.2f)
+                                      + 0.02f * (float)Math.cos(t * 0.045f + 2.5f);
+                float satBase = 0.35f + 0.12f * (float)Math.sin(t * 0.06f + 0.5f)
+                                      + 0.05f * (float)Math.cos(t * 0.095f + 3.0f);
+                float briBase = 0.06f + 0.03f * (float)Math.sin(t * 0.09f + 1.8f)
+                                      + 0.02f * (float)Math.cos(t * 0.055f + 0.7f);
+
+                float hueBot = hueBase + 0.05f * (float)Math.cos(t * 0.07f + 2.0f);
+                float satBot = Math.min(1f, satBase + 0.08f * (float)Math.sin(t * 0.04f + 1.0f));
+                float briBot = briBase + 0.04f * (float)Math.sin(t * 0.065f + 3.0f);
+
+                Color topColor = Color.getHSBColor(
+                    Math.max(0f, Math.min(1f, hueBase)),
+                    Math.max(0f, Math.min(1f, satBase)),
+                    Math.max(0f, Math.min(1f, briBase))
                 );
+                Color bottomColor = Color.getHSBColor(
+                    Math.max(0f, Math.min(1f, hueBot)),
+                    Math.max(0f, Math.min(1f, satBot)),
+                    Math.max(0f, Math.min(1f, briBot))
+                );
+
+                GradientPaint bg = new GradientPaint(0, 0, topColor, 0, h, bottomColor);
                 g2.setPaint(bg);
                 g2.fillRoundRect(0, 0, w, h, 28, 28);
 
-                // Плавающие неоновые орбы с улучшенной анимацией
+                // Плавающие неоновые орбы с циклической сменой цвета
                 float pulse1 = (float) ((Math.sin(t * 1.2f) + 1.0) * 0.5);
                 float pulse2 = (float) ((Math.cos(t * 0.8f) + 1.0) * 0.5);
 
@@ -108,63 +159,83 @@ public class SplashScreen extends JFrame {
                 int orbCX = (int) (w * 0.5f + Math.sin(t * 0.7f) * 40f);
                 int orbCY = (int) (h * 0.1f + Math.cos(t * 0.6f) * 15f);
 
-                // Первый орб - фиолетовый
+                // Орб A — плавное циклирование оттенка (фиолетовый → синий → бирюзовый)
+                float orbHueA = (0.72f + 0.10f * (float)Math.sin(t * 0.065f) + 0.06f * (float)Math.cos(t * 0.11f + 1.5f)) % 1.0f;
+                Color orbColorA = Color.getHSBColor(Math.max(0f, Math.min(1f, orbHueA)), 0.55f, 0.70f);
+
                 RadialGradientPaint orbA = new RadialGradientPaint(
                         new Point(orbAX, orbAY),
                         250f,
                         new float[]{0f, 0.7f, 1f},
                         new Color[]{
-                            new Color(146, 93, 255, (int)(70 + 45 * pulse1)), 
-                            new Color(146, 93, 255, (int)(25 + 18 * pulse1)), 
-                            new Color(146, 93, 255, 0)
+                            new Color(orbColorA.getRed(), orbColorA.getGreen(), orbColorA.getBlue(), (int)(70 + 45 * pulse1)), 
+                            new Color(orbColorA.getRed(), orbColorA.getGreen(), orbColorA.getBlue(), (int)(25 + 18 * pulse1)), 
+                            new Color(orbColorA.getRed(), orbColorA.getGreen(), orbColorA.getBlue(), 0)
                         }
                 );
                 g2.setPaint(orbA);
                 g2.fillOval(orbAX - 250, orbAY - 250, 500, 500);
 
-                // Второй орб - синий
+                // Орб B — плавное циклирование (синий → голубой → сиреневый)
+                float orbHueB = (0.58f + 0.10f * (float)Math.sin(t * 0.05f + 1.0f) + 0.06f * (float)Math.cos(t * 0.09f + 3.2f)) % 1.0f;
+                Color orbColorB = Color.getHSBColor(Math.max(0f, Math.min(1f, orbHueB)), 0.50f, 0.75f);
+
                 RadialGradientPaint orbB = new RadialGradientPaint(
                         new Point(orbBX, orbBY),
                         280f,
                         new float[]{0f, 0.6f, 1f},
                         new Color[]{
-                            new Color(70, 148, 255, (int)(55 + 40 * pulse2)), 
-                            new Color(70, 148, 255, (int)(20 + 22 * pulse2)), 
-                            new Color(70, 148, 255, 0)
+                            new Color(orbColorB.getRed(), orbColorB.getGreen(), orbColorB.getBlue(), (int)(55 + 40 * pulse2)), 
+                            new Color(orbColorB.getRed(), orbColorB.getGreen(), orbColorB.getBlue(), (int)(20 + 22 * pulse2)), 
+                            new Color(orbColorB.getRed(), orbColorB.getGreen(), orbColorB.getBlue(), 0)
                         }
                 );
                 g2.setPaint(orbB);
                 g2.fillOval(orbBX - 280, orbBY - 280, 560, 560);
 
-                // Третий орб - розовый
+                // Орб C — плавное циклирование (розовый → фиолетовый → Coral)
+                float orbHueC = (0.88f + 0.10f * (float)Math.sin(t * 0.085f + 2.0f) + 0.06f * (float)Math.cos(t * 0.12f + 0.8f)) % 1.0f;
+                Color orbColorC = Color.getHSBColor(Math.max(0f, Math.min(1f, orbHueC)), 0.55f, 0.70f);
+
                 RadialGradientPaint orbC = new RadialGradientPaint(
                         new Point(orbCX, orbCY),
                         200f,
                         new float[]{0f, 0.8f, 1f},
                         new Color[]{
-                            new Color(255, 120, 180, (int)(45 + 30 * pulse1)), 
-                            new Color(255, 120, 180, (int)(15 + 18 * pulse1)), 
-                            new Color(255, 120, 180, 0)
+                            new Color(orbColorC.getRed(), orbColorC.getGreen(), orbColorC.getBlue(), (int)(45 + 30 * pulse1)), 
+                            new Color(orbColorC.getRed(), orbColorC.getGreen(), orbColorC.getBlue(), (int)(15 + 18 * pulse1)), 
+                            new Color(orbColorC.getRed(), orbColorC.getGreen(), orbColorC.getBlue(), 0)
                         }
                 );
                 g2.setPaint(orbC);
                 g2.fillOval(orbCX - 200, orbCY - 200, 400, 400);
 
-                // Улучшенная рамка контейнера с неоновым свечением
+                // Рамка контейнера с неоновым свечением, реагирующим на общий оттенок
                 int cx = 26;
                 int cy = 24;
                 int cw = w - 52;
                 int ch = h - 48;
-                
+
+                float frameHue = (hueBase + 0.02f * (float)Math.sin(t * 0.1f)) % 1.0f;
+                Color frameGlowBase = Color.getHSBColor(
+                    Math.max(0f, Math.min(1f, frameHue)),
+                    0.50f + 0.15f * pulse1,
+                    0.55f + 0.10f * pulse2
+                );
+
                 for (int i = 0; i < 15; i++) {
                     int a = Math.max(0, (int)(35 - i * 2.5 + pulse1 * 10));
-                    Color frameGlow = new Color(125 + (int)(pulse1 * 30), 103 + (int)(pulse2 * 25), 170 + (int)(pulse1 * 40), a);
+                    Color frameGlow = new Color(
+                        frameGlowBase.getRed(), frameGlowBase.getGreen(), frameGlowBase.getBlue(), a
+                    );
                     g2.setColor(frameGlow);
                     g2.fillRoundRect(cx - i, cy - i, cw + i * 2, ch + i * 2, 26 + i, 26 + i);
                 }
 
                 // Анимированные световые акценты по углам
-                g2.setColor(new Color(255, 255, 255, (int)(30 + pulse1 * 20)));
+                float dotHue = (hueBase + 0.5f) % 1.0f;
+                Color dotColor = Color.getHSBColor(dotHue, 0.30f, 0.90f);
+                g2.setColor(new Color(dotColor.getRed(), dotColor.getGreen(), dotColor.getBlue(), (int)(30 + pulse1 * 20)));
                 g2.fillOval(cx + 5, cy + 5, 6, 6);
                 g2.fillOval(cx + cw - 11, cy + 5, 6, 6);
                 g2.fillOval(cx + 5, cy + ch - 11, 6, 6);
@@ -179,7 +250,21 @@ public class SplashScreen extends JFrame {
         root.setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
         root.setOpaque(false);
 
-        progressBar = new JProgressBar(0, 100);
+        progressBar = new JProgressBar(0, 100) {
+            @Override
+            public void paint(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Subtle outer glow pulse
+                float glow = 0.5f + 0.5f * (float)Math.sin(animationTime * 2.0f);
+                g2.setColor(new Color(110, 75, 240, (int)(15 * glow)));
+                g2.fillRoundRect(-3, -3, getWidth() + 6, getHeight() + 6, 18, 18);
+
+                g2.dispose();
+                super.paint(g);
+            }
+        };
         progressBar.setOpaque(false);
         progressBar.setBorder(BorderFactory.createEmptyBorder());
         progressBar.setStringPainted(false);
@@ -266,6 +351,14 @@ public class SplashScreen extends JFrame {
         gbc.insets = new Insets(10, 0, 0, 0);
         progressContent.add(statusLabel, gbc);
 
+        JLabel progressVersionLabel = new JLabel(Version.FULL_NAME, SwingConstants.CENTER);
+        progressVersionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        progressVersionLabel.setForeground(new Color(150, 140, 180, 120));
+
+        gbc.gridy = 4;
+        gbc.insets = new Insets(12, 0, 0, 0);
+        progressContent.add(progressVersionLabel, gbc);
+
         JPanel progressCard = new JPanel(new BorderLayout());
         progressCard.setOpaque(false);
         progressCard.add(progressContent, BorderLayout.CENTER);
@@ -321,9 +414,21 @@ public class SplashScreen extends JFrame {
         readyTitleLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 28));
         readyTitleLabel.setForeground(new Color(232, 240, 255, 0));
 
+        AnimatedCheckmark checkmarkPanel = new AnimatedCheckmark();
+        checkmarkPanel.setPreferredSize(new Dimension(72, 72));
+
+        readySubtitleLabel = new JLabel("Модули и ресурсы успешно загружены", SwingConstants.CENTER);
+        readySubtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        readySubtitleLabel.setForeground(new Color(200, 195, 215, 0));
+
+        readyVersionLabel = new JLabel(Version.FULL_NAME, SwingConstants.CENTER);
+        readyVersionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        readyVersionLabel.setForeground(new Color(150, 140, 180, 0));
+
         launchButton = new RoundedActionButton("launch", new Color(38, 45, 70, 220), new Color(124, 162, 230, 180));
-        launchButton.setPreferredSize(new Dimension(132, 40));
+        launchButton.setPreferredSize(new Dimension(140, 42));
         launchButton.setVisualAlpha(0f);
+        launchButton.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
         launchButton.addActionListener(e -> {
             CountDownLatch latch = launchLatch;
             if (latch != null) {
@@ -335,14 +440,22 @@ public class SplashScreen extends JFrame {
         launchPanel.setOpaque(false);
         launchPanel.add(launchButton);
 
-        JPanel centerGap = new JPanel(new BorderLayout());
-        centerGap.setOpaque(false);
-        centerGap.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        JPanel readyCenterPanel = new JPanel();
+        readyCenterPanel.setLayout(new BoxLayout(readyCenterPanel, BoxLayout.Y_AXIS));
+        readyCenterPanel.setOpaque(false);
+        checkmarkPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        readyCenterPanel.add(checkmarkPanel);
+        readyCenterPanel.add(Box.createVerticalStrut(4));
+        readySubtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        readyCenterPanel.add(readySubtitleLabel);
+        readyCenterPanel.add(Box.createVerticalStrut(2));
+        readyVersionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        readyCenterPanel.add(readyVersionLabel);
 
         JPanel readyContent = new FrostedPanel(18);
-        readyContent.setLayout(new BorderLayout(0, 5));
+        readyContent.setLayout(new BorderLayout(0, 4));
         readyContent.add(readyTitleLabel, BorderLayout.NORTH);
-        readyContent.add(centerGap, BorderLayout.CENTER);
+        readyContent.add(readyCenterPanel, BorderLayout.CENTER);
         readyContent.add(launchPanel, BorderLayout.SOUTH);
 
         JPanel readyCard = new JPanel(new BorderLayout()) {
@@ -351,12 +464,21 @@ public class SplashScreen extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 float eased = readyAnim * readyAnim * (3f - 2f * readyAnim);
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.max(0f, Math.min(1f, eased))));
+                // Paint particles behind content
+                synchronized (readyParticles) {
+                    for (Particle p : readyParticles) {
+                        int pa = Math.max(0, Math.min(255, (int)(p.alpha * 255f * eased)));
+                        g2.setColor(new Color(p.color.getRed(), p.color.getGreen(), p.color.getBlue(), pa));
+                        g2.fillOval((int)(p.x - p.size), (int)(p.y - p.size), (int)(p.size * 2), (int)(p.size * 2));
+                    }
+                }
                 super.paintChildren(g2);
                 g2.dispose();
             }
         };
         readyCard.setOpaque(false);
         readyCard.add(readyContent, BorderLayout.CENTER);
+        readyCardPanel = readyCard;
 
         finishingLabel = new JLabel("Finishing", SwingConstants.CENTER);
         finishingLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 26));
@@ -381,6 +503,7 @@ public class SplashScreen extends JFrame {
 
         applyWindowShape();
         switchToProgressCard();
+        animationTimer.start();
         setVisible(true);
         toFront();
         requestFocus();
@@ -450,6 +573,16 @@ public class SplashScreen extends JFrame {
             launchButton.setVisualAlpha(btnAlpha);
             launchButton.setBorder(BorderFactory.createEmptyBorder(9 + Math.max(0, yPad), 18, 9, 18));
             launchButton.setForeground(new Color(245, 240, 252, (int) (255f * btnAlpha)));
+        }
+
+        if (readySubtitleLabel != null) {
+            float subAlpha = Math.max(0f, Math.min(1f, (eased - 0.3f) / 0.5f));
+            readySubtitleLabel.setForeground(new Color(200, 195, 215, (int) (255f * subAlpha)));
+        }
+
+        if (readyVersionLabel != null) {
+            float verAlpha = Math.max(0f, Math.min(1f, (eased - 0.5f) / 0.4f));
+            readyVersionLabel.setForeground(new Color(150, 140, 180, (int) (170f * verAlpha)));
         }
     }
 
@@ -551,8 +684,136 @@ public class SplashScreen extends JFrame {
             if (animationTimer != null && animationTimer.isRunning()) {
                 animationTimer.stop();
             }
+            synchronized (readyParticles) {
+                readyParticles.clear();
+            }
             dispose();
         });
+    }
+
+    private void spawnReadyParticle() {
+        if (!readyVisible) return;
+        Container parent = readyCard();
+        if (parent == null) return;
+        int pw = parent.getWidth();
+        int ph = parent.getHeight();
+        if (pw <= 0 || ph <= 0) return;
+
+        float x = 40 + particleRandom.nextFloat() * (pw - 80);
+        float y = ph + 10;
+        Color[] palette = {
+            new Color(146, 93, 255),
+            new Color(70, 148, 255),
+            new Color(255, 120, 180),
+            new Color(120, 220, 160),
+        };
+        Color color = palette[particleRandom.nextInt(palette.length)];
+        synchronized (readyParticles) {
+            readyParticles.add(new Particle(x, y, color));
+        }
+    }
+
+    private Container readyCard() {
+        return readyCardPanel;
+    }
+
+    private void updateParticles() {
+        synchronized (readyParticles) {
+            java.util.Iterator<Particle> it = readyParticles.iterator();
+            while (it.hasNext()) {
+                Particle p = it.next();
+                p.life++;
+                p.x += p.vx;
+                p.y += p.vy;
+                float lifeRatio = p.life / p.maxLife;
+                if (lifeRatio > 1f) {
+                    it.remove();
+                    continue;
+                }
+                if (lifeRatio < 0.15f) {
+                    p.alpha = lifeRatio / 0.15f;
+                } else if (lifeRatio > 0.7f) {
+                    p.alpha = (1f - lifeRatio) / 0.3f;
+                } else {
+                    p.alpha = 1f;
+                }
+                p.alpha *= p.targetAlpha;
+            }
+        }
+    }
+
+    private static class Particle {
+        float x, y;
+        float vx, vy;
+        float alpha, targetAlpha;
+        float size;
+        float life, maxLife;
+        Color color;
+
+        Particle(float x, float y, Color color) {
+            this.x = x;
+            this.y = y;
+            this.vx = (float) (Math.random() - 0.5) * 0.4f;
+            this.vy = -(float) (Math.random() * 0.6f + 0.15f);
+            this.alpha = 0f;
+            this.targetAlpha = (float) (0.25 + Math.random() * 0.4);
+            this.size = (float) (1.5 + Math.random() * 3.5);
+            this.life = 0;
+            this.maxLife = (float) (120 + Math.random() * 180);
+            this.color = color;
+        }
+    }
+
+    private class AnimatedCheckmark extends JPanel {
+        private AnimatedCheckmark() {
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+            int w = getWidth();
+            int h = getHeight();
+            int cx = w / 2;
+            int cy = h / 2;
+            int r = Math.min(w, h) / 2 - 5;
+
+            float circleProgress = Math.min(1f, readyAnim * 2f);
+            float checkProgress = Math.max(0f, Math.min(1f, (readyAnim - 0.4f) * 2.5f));
+
+            // Circle
+            g2.setStroke(new BasicStroke(2.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g2.setColor(new Color(120, 215, 160, (int)(200 * circleProgress)));
+            g2.drawArc(cx - r, cy - r, r * 2, r * 2, 90, (int)(-360 * circleProgress));
+
+            // Checkmark
+            if (checkProgress > 0f) {
+                java.awt.geom.Path2D.Float path = new java.awt.geom.Path2D.Float();
+                path.moveTo(cx - r * 0.38f, cy + r * 0.02f);
+                path.lineTo(cx - r * 0.1f, cy + r * 0.32f);
+                path.lineTo(cx + r * 0.52f, cy - r * 0.28f);
+
+                float checkLen = r * 1.4f;
+                float[] dash = {checkProgress * checkLen, checkLen};
+                g2.setStroke(new BasicStroke(2.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, dash, 0f));
+                g2.setColor(new Color(120, 215, 160, (int)(220 * checkProgress)));
+                g2.draw(path);
+
+                // Pulsing glow when fully drawn
+                if (checkProgress >= 1f) {
+                    float glow = (float)(0.15 + 0.12 * Math.sin(System.currentTimeMillis() / 600.0));
+                    g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    g2.setColor(new Color(120, 215, 160, (int)(60 * glow)));
+                    g2.draw(path);
+                }
+            }
+
+            g2.dispose();
+        }
     }
 
     private static class FrostedPanel extends JPanel {
@@ -603,19 +864,19 @@ public class SplashScreen extends JFrame {
                 g2.fillRoundRect(i, i, w - i * 2, h - i * 2, radius + i * 3, radius + i * 3);
             }
 
-            // Основная карточка с динамическим градиентом
-            float gradientShift = (float)(Math.sin(time / 1200.0) * 0.1);
+            // Основная карточка с динамическим градиентом (усиленная анимация)
+            float gradientShift = (float)(Math.sin(time / 1500.0) * 0.4 + Math.sin(time / 2200.0) * 0.2);
             GradientPaint card = new GradientPaint(
                     0, 0, new Color(
-                        Math.min(255, 22 + (int)(gradientShift * 10)), 
-                        Math.min(255, 24 + (int)(gradientShift * 8)), 
-                        Math.min(255, 35 + (int)(gradientShift * 12)), 
+                        Math.min(255, Math.max(0, 20 + (int)(gradientShift * 15))), 
+                        Math.min(255, Math.max(0, 22 + (int)(gradientShift * 12))), 
+                        Math.min(255, Math.max(0, 32 + (int)(gradientShift * 18))), 
                         240
                     ),
                     w, h, new Color(
-                        Math.min(255, 28 + (int)(gradientShift * 8)), 
-                        Math.min(255, 26 + (int)(gradientShift * 10)), 
-                        Math.min(255, 42 + (int)(gradientShift * 15)), 
+                        Math.min(255, Math.max(0, 26 + (int)(gradientShift * 12))), 
+                        Math.min(255, Math.max(0, 24 + (int)(gradientShift * 15))), 
+                        Math.min(255, Math.max(0, 40 + (int)(gradientShift * 22))), 
                         220
                     )
             );

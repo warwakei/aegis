@@ -66,8 +66,11 @@ public class SettingsPanelRenderer {
             Fonts.BOLD.draw(displayDesc, x + 15, y + 20, 5, ClickGuiPalette.textMuted(alphaMultiplier));
             Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, ClickGuiPalette.textMuted(alphaMultiplier));
         }
-        // Более аккуратная линия-разделитель
-        Render2D.rect(x + 8, y + 30, width - 16, SEPARATOR_THICKNESS, new Color(38, 42, 52, (int) (90 * alphaMultiplier)).getRGB(), 10);
+        // Акцентная линия-разделитель
+        float sepPulse = (float) (Math.sin(System.currentTimeMillis() / 2000.0) * 0.5 + 0.5);
+        int sepR = (int) (60 + 46 * sepPulse);
+        Render2D.rect(x + 8, y + 30, width - 16, SEPARATOR_THICKNESS,
+                new Color(sepR, 130, 220, (int) (65 * alphaMultiplier)).getRGB(), 10);
 
         float sideInset = CORNER_INSET;
         float bottomInset = CORNER_INSET + 3;
@@ -157,7 +160,7 @@ public class SettingsPanelRenderer {
             float textHeight = Fonts.BOLD.getHeight(textSize);
             float centerX = x + (width - textWidth) / 2f;
             float centerY = y + (height - textHeight) / 2f + 10f;
-            Fonts.BOLD.draw(text, centerX, centerY, textSize, new Color(100, 100, 100, (int) (150 * alphaMultiplier)).getRGB());
+            Fonts.BOLD.draw(text, centerX, centerY, textSize, ClickGuiPalette.textMuted(alphaMultiplier));
         }
 
         renderScrollFade(x + sideInset, clipY, width - sideInset * 2, clipH,
@@ -189,14 +192,14 @@ public class SettingsPanelRenderer {
             for (int i = 0; i < size; i++) {
                 float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
                 float fadeAlpha = alpha * topFade * smoothProgress;
-                Render2D.rect(x, y + i, w, 1, new Color(12, 12, 15, (int) fadeAlpha).getRGB(), 0);
+                Render2D.rect(x, y + i, w, 1, new Color(0, 0, 0, (int) fadeAlpha).getRGB(), 0);
             }
         }
         if (bottomFade > 0.01f) {
             for (int i = 0; i < size; i++) {
                 float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
                 float fadeAlpha = alpha * bottomFade * smoothProgress;
-                Render2D.rect(x, y + h - size + i, w, 1, new Color(12, 12, 15, (int) fadeAlpha).getRGB(), 0);
+                Render2D.rect(x, y + h - size + i, w, 1, new Color(0, 0, 0, (int) fadeAlpha).getRGB(), 0);
             }
         }
     }

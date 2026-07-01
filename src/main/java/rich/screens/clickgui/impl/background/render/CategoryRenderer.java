@@ -83,11 +83,13 @@ public class CategoryRenderer {
         float totalWidth = 65f;
         float textX = bgX + 15f + (totalWidth - textWidth) / 2f;
         float lineY = sectionY + 3f;
-        int lineAlpha = (int) (32 * alphaMultiplier);
-        int textAlpha = (int) (110 * alphaMultiplier);
-        Render2D.rect(bgX + 15f, lineY, lineWidth, 0.5f, new Color(55, 58, 68, lineAlpha).getRGB(), 0);
-        Render2D.rect(bgX + 15f + totalWidth - lineWidth, lineY, lineWidth, 0.5f, new Color(55, 58, 68, lineAlpha).getRGB(), 0);
-        Fonts.BOLD.draw(title, textX, sectionY, SECTION_TEXT_SIZE, new Color(120, 124, 136, textAlpha).getRGB());
+        float pulse = (float) (Math.sin(System.currentTimeMillis() / 3000.0) * 0.5 + 0.5);
+        int lineAlpha = (int) ((28 + 14 * pulse) * alphaMultiplier);
+        int textAlpha = (int) ((100 + 30 * pulse) * alphaMultiplier);
+        int lineR = (int) (40 + 30 * pulse);
+        Render2D.rect(bgX + 15f, lineY, lineWidth, 0.5f, new Color(lineR, 80 + (int)(20*pulse), 130 + (int)(30*pulse), lineAlpha).getRGB(), 0);
+        Render2D.rect(bgX + 15f + totalWidth - lineWidth, lineY, lineWidth, 0.5f, new Color(lineR, 80 + (int)(20*pulse), 130 + (int)(30*pulse), lineAlpha).getRGB(), 0);
+        Fonts.BOLD.draw(title, textX, sectionY, SECTION_TEXT_SIZE, new Color(120 + (int)(30*pulse), 128 + (int)(20*pulse), 150 + (int)(30*pulse), textAlpha).getRGB());
     }
 
     private void renderMainCategories(float bgX, float bgY, float alphaMultiplier) {
@@ -113,12 +115,19 @@ public class CategoryRenderer {
 
     private void renderCategoryItem(float bgX, float textY, String name, String icon, float animation, float alphaMultiplier) {
         float offsetX = animation * MAX_OFFSET;
+        float pulse = (float) (Math.sin(System.currentTimeMillis() / 1200.0) * 0.5 + 0.5);
 
-        int base = 125;
-        int hi = 235;
-        int colorValue = (int) (base + (hi - base) * animation);
-        int alpha = (int) ((135 + 120 * animation) * alphaMultiplier);
-        Color textColor = new Color(colorValue, colorValue, colorValue + (int) (8 * animation), alpha);
+        int alpha = (int) ((140 + 115 * animation) * alphaMultiplier);
+
+        int colorR = (int) (135 + 103 * animation + 18 * pulse * animation);
+        int colorG = (int) (138 + 110 * animation + 14 * pulse * animation);
+        int colorB = (int) (150 + 98 * animation + 36 * pulse * animation);
+        Color textColor = new Color(
+                Math.min(255, colorR),
+                Math.min(255, colorG),
+                Math.min(255, colorB),
+                alpha
+        );
 
         float iconX = bgX + 17f + offsetX;
         float iconWidth = Fonts.CATEGORY_ICONS.getWidth(icon, ICON_SIZE);
@@ -127,16 +136,21 @@ public class CategoryRenderer {
         Fonts.CATEGORY_ICONS.draw(icon, iconX, textY + 0.5f, ICON_SIZE, textColor.getRGB());
 
         if (animation > 0.02f) {
-            int barA = (int) (animation * 220 * alphaMultiplier);
+            int barA = (int) ((160 + 60 * pulse) * animation * alphaMultiplier);
             float textH = Fonts.BOLD.getHeight(TEXT_SIZE);
             float barH = (textH + 2.0f) + animation * 2f;
-            // Align the accent bar with the category label baseline (slightly higher than before).
             float barY = textY - 1.5f;
-            int rgb = ClickGuiPalette.ACCENT;
-            int r = (rgb >> 16) & 0xFF;
-            int g = (rgb >> 8) & 0xFF;
-            int b = rgb & 0xFF;
+            int r = (int) (66 + 40 * pulse);
+            int g = (int) (100 + 56 * pulse);
+            int b = (int) (180 + 50 * pulse);
             Render2D.rect(bgX + BAR_PAD, barY, BAR_W, barH, new Color(r, g, b, barA).getRGB(), 1.5f);
+
+            // Внешнее свечение бара
+            if (animation > 0.3f) {
+                int glowA = (int) (40 * animation * pulse * alphaMultiplier);
+                Render2D.outline(bgX + BAR_PAD - 1.5f, barY - 1.5f, BAR_W + 3, barH + 3, 3f,
+                        new Color(66, 130, 220, glowA).getRGB(), 2.5f);
+            }
         }
 
         Fonts.BOLD.draw(name, textX, textY, TEXT_SIZE, textColor.getRGB());

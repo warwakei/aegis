@@ -97,19 +97,20 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
             );
         }
 
-        // Для ElytraTarget уменьшаем джиттер чтобы не мешал таргетингу
-        boolean elytraTargetMode = mc.player.isGliding() && entity instanceof net.minecraft.entity.LivingEntity le && le.isGliding();
+        // Для ElytraTarget/MaceTarget уменьшаем джиттер чтобы не мешал таргетингу
+        boolean isElytraFlying = mc.player.isGliding();
+        boolean elytraTargetMode = isElytraFlying && entity instanceof net.minecraft.entity.LivingEntity le && le.isGliding();
 
         float deltaTime = 0.75f;
         circlePhase += deltaTime * randomLerp(11f, 16f); // Ещё быстрее фаза для быстрой реакции
         if (circlePhase > Math.PI * 2) circlePhase -= Math.PI * 2;
 
         if (canAttack) {
-            targetCircleRadius = elytraTargetMode ? randomLerp(0.2f, 1f) : randomLerp(0.5f, 3.5f);
+            targetCircleRadius = (elytraTargetMode || isElytraFlying) ? randomLerp(0.2f, 1f) : randomLerp(0.5f, 3.5f);
         } else if (lookingAtHitbox) {
-            targetCircleRadius = elytraTargetMode ? randomLerp(1.5f, 3f) : randomLerp(10f, 14f);
+            targetCircleRadius = (elytraTargetMode || isElytraFlying) ? randomLerp(1.5f, 3f) : randomLerp(10f, 14f);
         } else {
-            targetCircleRadius = elytraTargetMode ? randomLerp(1.5f, 4f) : randomLerp(10f, 15f);
+            targetCircleRadius = (elytraTargetMode || isElytraFlying) ? randomLerp(1.5f, 4f) : randomLerp(10f, 15f);
         }
 
         circleRadius += (targetCircleRadius - circleRadius) * 0.18f;
@@ -129,8 +130,8 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
 
         float jitterMultiplier = canAttack ? 0.5f : (lookingAtHitbox ? 0.6f : 1f);
 
-        // Для ElytraTarget ещё сильнее уменьшаем джиттер
-        if (elytraTargetMode) {
+        // Для ElytraTarget/MaceTarget ещё сильнее уменьшаем джиттер
+        if (elytraTargetMode || isElytraFlying) {
             jitterMultiplier = 0.25f;
         }
 
@@ -143,12 +144,12 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
 
         float targetSpeed;
         if (canAttack) {
-            targetSpeed = elytraTargetMode ? randomLerp(1.3f, 1.5f) : randomLerp(1.2f, 1.4f);
+            targetSpeed = (elytraTargetMode || isElytraFlying) ? randomLerp(1.3f, 1.5f) : randomLerp(1.2f, 1.4f);
         } else if (lookingAtHitbox) {
-            targetSpeed = elytraTargetMode ? randomLerp(0.95f, 1.05f) : randomLerp(0.5f, 0.3f);
+            targetSpeed = (elytraTargetMode || isElytraFlying) ? randomLerp(0.95f, 1.05f) : randomLerp(0.5f, 0.3f);
         } else if (entity != null) {
-            // Для ElytraTarget максимальная скорость — мы летим за целью
-            if (elytraTargetMode) {
+            // Для ElytraTarget/MaceTarget максимальная скорость — мы летим за целью
+            if (elytraTargetMode || isElytraFlying) {
                 targetSpeed = randomLerp(1.0f, 1.1f); // Максимальная скорость для элитр
             } else {
                 float distanceFactor = MathHelper.clamp(rotationDifference / 30f, 0.1f, 1f);
@@ -173,7 +174,7 @@ public class JenroAngle extends RotateConstructor implements IMinecraft {
         float newYaw, newPitch;
         if (canAttack) {
             // Рейдж: моментально в цель + джиттер
-            if (elytraTargetMode) {
+            if (elytraTargetMode || isElytraFlying) {
                 // На элитрах — быстрая ротация почти без сглаживания
                 newYaw = MathHelper.lerp(0.9f, currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + totalJitterYaw;
                 newPitch = MathHelper.lerp(0.9f, currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + totalJitterPitch;

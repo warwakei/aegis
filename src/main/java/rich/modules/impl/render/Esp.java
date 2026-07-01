@@ -166,9 +166,9 @@ public class Esp extends ModuleStructure {
                 animatedColor = baseColor;
             }
 
-            int alpha = (int) (boxAlpha.getValue() * 255);
+            float distFade = Math.max(0.1f, Math.min(1f, 1f - (distance - 5f) / 50f));
+            int alpha = (int) (boxAlpha.getValue() * 255 * distFade);
             int fillColor = (animatedColor & 0x00FFFFFF) | (alpha << 24);
-            // Исправлено: outline теперь использует тот же alpha что и fill, а не жёсткий 0xFF
             int outlineColor = (animatedColor & 0x00FFFFFF) | (alpha << 24);
 
             if (boxType.isSelected("3D Box") && playerSetting.isSelected("Box")) {
@@ -303,12 +303,38 @@ public class Esp extends ModuleStructure {
         if (!spherePart.isEmpty()) {
             Fonts.TEST.draw(spherePart, drawX, posY, size, GRAY_COLOR);
         }
+
+        // Health bar
+        float hp = getHealth(player);
+        float maxHp = player.getMaxHealth() + player.getAbsorptionAmount();
+        float hpRatio = Math.max(0, Math.min(1, hp / Math.max(1, maxHp)));
+        float barWidth = totalWidth + 8;
+        float barHeight = 2.5f;
+        float barY = posY + height + 2;
+        float barX = posX - 4;
+
+        int healthColor;
+        if (hpRatio > 0.6f) {
+            healthColor = 0xFF44CC44;
+        } else if (hpRatio > 0.3f) {
+            healthColor = 0xFFDDAA00;
+        } else {
+            healthColor = 0xFFDD3333;
+        }
+
+        Render2D.rect(barX, barY, barWidth, barHeight, 0x60000000, 1f);
+        if (hpRatio > 0.01f) {
+            Render2D.rect(barX, barY, barWidth * hpRatio, barHeight, healthColor, 1f);
+        }
     }
 
     private void drawBox(boolean friend, Vector4d vec, PlayerEntity player) {
         int baseColor = friend ? getFriendColor() : getClientColor();
         long currentTime = System.currentTimeMillis();
         String animMode = colorAnimationMode.getSelected();
+
+        float distance = (float) mc.gameRenderer.getCamera().getCameraPos().distanceTo(player.getBoundingBox().getCenter());
+        float distFade = Math.max(0.15f, Math.min(1f, 1f - (distance - 8f) / 60f));
         
         int client;
         if (!animMode.equals("Нет")) {
@@ -327,7 +353,10 @@ public class Esp extends ModuleStructure {
         } else {
             client = baseColor;
         }
-        
+
+        int clientBright = ColorUtil.brightenColor(client, 0.3f);
+        int clientDim = ColorUtil.darkenColorStatic(client, 0.4f);
+
         int black = 0x80000000;
 
         float posX = (float) vec.x;
@@ -336,25 +365,31 @@ public class Esp extends ModuleStructure {
         float endPosY = (float) vec.w;
         float size = (endPosX - posX) / 3;
 
+        // Distance-based alpha fade
+        int clientDist = (client & 0x00FFFFFF) | (Math.min(255, (int)(((client >> 24) & 0xFF) * distFade)) << 24);
+        int clientBrightDist = (clientBright & 0x00FFFFFF) | (Math.min(255, (int)(((clientBright >> 24) & 0xFF) * distFade)) << 24);
+        int blackDist = (black & 0x00FFFFFF) | (Math.min(255, (int)(((black >> 24) & 0xFF) * distFade)) << 24);
+
         if (boxType.isSelected("Corner")) {
-            Render2D.rect(posX - 0.5F, posY - 0.5F, size, 0.5F, client);
-            Render2D.rect(posX - 0.5F, posY, 0.5F, size + 0.5F, client);
-            Render2D.rect(posX - 0.5F, endPosY - size - 0.5F, 0.5F, size, client);
-            Render2D.rect(posX - 0.5F, endPosY - 0.5F, size, 0.5F, client);
-            Render2D.rect(endPosX - size + 1, posY - 0.5F, size, 0.5F, client);
-            Render2D.rect(endPosX + 0.5F, posY, 0.5F, size + 0.5F, client);
-            Render2D.rect(endPosX + 0.5F, endPosY - size - 0.5F, 0.5F, size, client);
-            Render2D.rect(endPosX - size + 1, endPosY - 0.5F, size, 0.5F, client);
+            // Gradient corners — bright inner, dim outer
+            Render2D.rect(posX - 0.5F, posY - 0.5F, size, 0.5F, clientBrightDist);
+            Render2D.rect(posX - 0.5F, posY, 0.5F, size + 0.5F, clientDist);
+            Render2D.rect(posX - 0.5F, endPosY - size - 0.5F, 0.5F, size, clientDist);
+            Render2D.rect(posX - 0.5F, endPosY - 0.5F, size, 0.5F, clientBrightDist);
+            Render2D.rect(endPosX - size + 1, posY - 0.5F, size, 0.5F, clientBrightDist);
+            Render2D.rect(endPosX + 0.5F, posY, 0.5F, size + 0.5F, clientDist);
+            Render2D.rect(endPosX + 0.5F, endPosY - size - 0.5F, 0.5F, size, clientDist);
+            Render2D.rect(endPosX - size + 1, endPosY - 0.5F, size, 0.5F, clientBrightDist);
 
             if (flatBoxOutline.isValue()) {
-                Render2D.rect(posX - 1F, posY - 1, size + 1, 1.5F, black);
-                Render2D.rect(posX - 1F, posY + 0.5F, 1.5F, size + 0.5F, black);
-                Render2D.rect(posX - 1F, endPosY - size - 1, 1.5F, size, black);
-                Render2D.rect(posX - 1F, endPosY - 1, size + 1, 1.5F, black);
-                Render2D.rect(endPosX - size + 0.5F, posY - 1, size + 1, 1.5F, black);
-                Render2D.rect(endPosX, posY + 0.5F, 1.5F, size + 0.5F, black);
-                Render2D.rect(endPosX, endPosY - size - 1, 1.5F, size, black);
-                Render2D.rect(endPosX - size + 0.5F, endPosY - 1, size + 1, 1.5F, black);
+                Render2D.rect(posX - 1F, posY - 1, size + 1, 1.5F, blackDist);
+                Render2D.rect(posX - 1F, posY + 0.5F, 1.5F, size + 0.5F, blackDist);
+                Render2D.rect(posX - 1F, endPosY - size - 1, 1.5F, size, blackDist);
+                Render2D.rect(posX - 1F, endPosY - 1, size + 1, 1.5F, blackDist);
+                Render2D.rect(endPosX - size + 0.5F, posY - 1, size + 1, 1.5F, blackDist);
+                Render2D.rect(endPosX, posY + 0.5F, 1.5F, size + 0.5F, blackDist);
+                Render2D.rect(endPosX, endPosY - size - 1, 1.5F, size, blackDist);
+                Render2D.rect(endPosX - size + 0.5F, endPosY - 1, size + 1, 1.5F, blackDist);
             }
         }
     }

@@ -141,13 +141,17 @@ public class ModuleListRenderer {
             int bgColor;
 
             if (selected) {
+                float pulseValue = (float) (Math.sin(animHandler.getSelectedPulseAnimation()) * 0.5 + 0.5);
                 bgAlpha = (int) ((selectedBgAlpha + hoverAnim * 8) * combinedAlpha);
-                bgColor = new Color(32, 38, 52, bgAlpha).getRGB();
+                int r = (int) (12 + 20 * pulseValue);
+                int g = (int) (14 + 28 * pulseValue);
+                int b = (int) (24 + 48 * pulseValue);
+                bgColor = new Color(r, g, b, bgAlpha).getRGB();
             } else {
                 bgAlpha = (int) ((baseBgAlpha + (hoverBgAlpha - baseBgAlpha) * hoverAnim) * combinedAlpha);
-                int r = (int) (26 + 14 * hoverAnim);
-                int g = (int) (28 + 14 * hoverAnim);
-                int b = (int) (36 + 16 * hoverAnim);
+                int r = (int) (8 + 8 * hoverAnim);
+                int g = (int) (9 + 10 * hoverAnim);
+                int b = (int) (16 + 16 * hoverAnim);
                 bgColor = new Color(r, g, b, bgAlpha).getRGB();
             }
 
@@ -164,34 +168,46 @@ public class ModuleListRenderer {
             if (selected) {
                 float pulseValue = (float) (Math.sin(animHandler.getSelectedPulseAnimation()) * 0.5 + 0.5);
                 float highlightBoost = isHighlighted ? animHandler.getHighlightAnimation() * 0.5f : 0f;
-                int outlineAlpha = (int) ((85 + 55 * pulseValue + 40 * highlightBoost) * combinedAlpha);
-                int r = (int) (58 + 40 * pulseValue + 30 * highlightBoost);
-                int g = (int) (82 + 35 * pulseValue + 25 * highlightBoost);
-                int b = (int) (130 + 30 * pulseValue + 20 * highlightBoost);
+                int outlineAlpha = (int) ((90 + 65 * pulseValue + 50 * highlightBoost) * combinedAlpha);
+                int r = (int) (56 + 50 * pulseValue + 40 * highlightBoost);
+                int g = (int) (90 + 66 * pulseValue + 50 * highlightBoost);
+                int b = (int) (160 + 60 * pulseValue + 40 * highlightBoost);
                 Render2D.outline(alignedX, alignedY, alignedW, alignedH, OUTLINE_THICKNESS,
                         new Color(r, g, b, outlineAlpha).getRGB(), 5);
                 float barH = 1.25f;
-                int barA = (int) ((55 + 45 * pulseValue) * combinedAlpha);
+                int barA = (int) ((65 + 55 * pulseValue) * combinedAlpha);
                 Render2D.rect(alignedX + 3, alignedY + alignedH - barH - 1.5f, alignedW - 6, barH,
-                        new Color(74, 111, 165, barA).getRGB(), 0);
+                        new Color(82, 130, 220, barA).getRGB(), 0);
             } else if (hoverAnim > 0.01f) {
-                int outlineAlpha = (int) (55 * hoverAnim * combinedAlpha);
+                int outlineAlpha = (int) (45 * hoverAnim * combinedAlpha);
                 Render2D.outline(alignedX, alignedY, alignedW, alignedH, OUTLINE_THICKNESS,
-                        new Color(70, 76, 92, outlineAlpha).getRGB(), 5);
+                        new Color(50, 76, 115, outlineAlpha).getRGB(), 5);
             }
 
             float stateTextOffset = stateAnim * STATE_TEXT_OFFSET;
 
             if (stateAnim > 0.01f) {
-                // Улучшенный индикатор состояния с glow
-                float ballAlpha = stateAnim * 220 * combinedAlpha;
+                // Индикатор состояния с акцентным цветом
+                float ballAlpha = stateAnim * 230 * combinedAlpha;
                 float ballX = alignedX + 4;
                 float ballY = alignedY + (alignedH - STATE_BALL_SIZE * scale) / 2f + 1F;
+
+                int ballR = (int) (62 + 44 * stateAnim);
+                int ballG = (int) (180 + 50 * stateAnim);
+                int ballB = (int) (200 + 40 * stateAnim);
                 
                 Render2D.rect(ballX, ballY, STATE_BALL_SIZE * scale, STATE_BALL_SIZE * scale,
-                        new Color(255, 255, 255, (int) ballAlpha).getRGB(),
+                        new Color(ballR, ballG, ballB, (int) ballAlpha).getRGB(),
                         STATE_BALL_SIZE * scale / 2f);
 
+                // Внешнее свечение индикатора
+                if (stateAnim > 0.5f) {
+                    float glowAlpha = stateAnim * 60 * combinedAlpha;
+                    Render2D.outline(ballX - 1.5f, ballY - 1.5f,
+                            STATE_BALL_SIZE * scale + 3, STATE_BALL_SIZE * scale + 3, 3f,
+                            new Color(62, 180, 220, (int) glowAlpha).getRGB(),
+                            STATE_BALL_SIZE * scale / 2f + 1.5f);
+                }
             }
 
             String name = module.getName();
@@ -294,19 +310,19 @@ public class ModuleListRenderer {
 
         float finalAlpha = combinedAlpha * bindAlpha;
 
-        int bgAlpha = (int) (30 * finalAlpha);
-        Color bgColor = new Color(50, 50, 55, bgAlpha);
+        int bgAlpha = (int) (25 * finalAlpha);
+        Color bgColor = new Color(30, 34, 50, bgAlpha);
 
         Render2D.rect(boxX + 3, boxY + 0.5f, boxWidth - 6, boxHeight, bgColor.getRGB(), 3f * scale);
 
-        int outlineAlpha = (int) (60 * finalAlpha);
-        Color outlineColor = new Color(80, 80, 85, outlineAlpha);
+        int outlineAlpha = (int) (45 * finalAlpha);
+        Color outlineColor = new Color(55, 80, 120, outlineAlpha);
 
         Render2D.outline(boxX + 3, boxY + 0.5f, boxWidth - 6, boxHeight, 0.5f, outlineColor.getRGB(), 3f * scale);
 
         if (bindAlpha > 0.5f) {
-            int textAlpha = (int) (160 * finalAlpha);
-            Color textColor = new Color(140, 140, 145, textAlpha);
+            int textAlpha = (int) (150 * finalAlpha);
+            Color textColor = new Color(130, 145, 170, textAlpha);
 
             float textX = boxX + (boxWidth - textWidth) / 2f;
             float textY = boxY + (boxHeight - 5f * scale) / 2f;
@@ -317,18 +333,16 @@ public class ModuleListRenderer {
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade, int alpha, int size) {
         if (topFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                // Плавное затухание через sin curve
                 float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
                 float fadeAlpha = alpha * topFade * smoothProgress;
-                Render2D.rect(x, y + i, w, 1, new Color(15, 15, 18, (int) fadeAlpha).getRGB(), 0);
+                Render2D.rect(x, y + i, w, 1, new Color(0, 0, 0, (int) fadeAlpha).getRGB(), 0);
             }
         }
         if (bottomFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                // Плавное затухание через sin curve
                 float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
                 float fadeAlpha = alpha * bottomFade * smoothProgress;
-                Render2D.rect(x, y + h - size + i, w, 1, new Color(15, 15, 18, (int) fadeAlpha).getRGB(), 0);
+                Render2D.rect(x, y + h - size + i, w, 1, new Color(0, 0, 0, (int) fadeAlpha).getRGB(), 0);
             }
         }
     }

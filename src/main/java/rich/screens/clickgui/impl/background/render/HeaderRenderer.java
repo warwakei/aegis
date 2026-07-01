@@ -23,16 +23,16 @@ public class HeaderRenderer {
     }
 
     private void renderHeaderPanel(float bgX, float bgY, float bgWidth, float alphaMultiplier) {
-        int panelAlpha = (int) (34 * alphaMultiplier);
-        int outlineAlpha = (int) (255 * alphaMultiplier);
+        int panelAlpha = (int) (40 * alphaMultiplier);
+        int outlineAlpha = (int) (180 * alphaMultiplier);
 
-        int top = new Color(22, 24, 32, panelAlpha).getRGB();
-        int bot = new Color(16, 18, 24, panelAlpha).getRGB();
+        int top = new Color(10, 11, 20, panelAlpha).getRGB();
+        int bot = new Color(7, 8, 16, panelAlpha).getRGB();
         Render2D.gradientRect(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25,
                 new int[]{top, top, bot, bot}, 6);
 
         Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f,
-                new Color(36, 40, 50, outlineAlpha).getRGB(), 6);
+                new Color(26, 34, 52, outlineAlpha).getRGB(), 6);
     }
 
     private void renderSearchBox(float bgX, float bgY, SearchHandler searchHandler, float alphaMultiplier) {
@@ -49,24 +49,24 @@ public class HeaderRenderer {
         
         Color searchOutline;
         if (searchHandler.isSearchActive()) {
-            int r = (int) (74 + 40 * focusPulse);
-            int g = (int) (111 + 35 * focusPulse);
-            int b = (int) (165 + 25 * focusPulse);
+            int r = (int) (56 + 50 * focusPulse);
+            int g = (int) (90 + 66 * focusPulse);
+            int b = (int) (160 + 60 * focusPulse);
             searchOutline = new Color(r, g, b, outlineAlpha);
         } else {
-            searchOutline = new Color(44, 48, 58, outlineAlpha);
+            searchOutline = new Color(26, 30, 46, outlineAlpha);
         }
 
-        int searchBgAlpha = (int) ((32 + focusPulse * 18) * alphaMultiplier);
-        int bgR = (int) (22 + focusPulse * 10);
-        int bgG = (int) (24 + focusPulse * 10);
-        int bgB = (int) (32 + focusPulse * 12);
+        int searchBgAlpha = (int) ((35 + focusPulse * 20) * alphaMultiplier);
+        int bgR = (int) (7 + focusPulse * 6);
+        int bgG = (int) (8 + focusPulse * 6);
+        int bgB = (int) (14 + focusPulse * 10);
         
         Render2D.gradientRect(searchBoxX, searchBoxY, searchBoxW, searchBoxH,
                 new int[]{
-                        new Color(bgR + 3, bgG + 3, bgB + 5, searchBgAlpha).getRGB(),
+                        new Color(bgR + 2, bgG + 2, bgB + 4, searchBgAlpha).getRGB(),
                         new Color(bgR, bgG, bgB, searchBgAlpha).getRGB(),
-                        new Color(bgR + 2, bgG + 2, bgB + 3, searchBgAlpha).getRGB(),
+                        new Color(bgR + 1, bgG + 1, bgB + 2, searchBgAlpha).getRGB(),
                         new Color(bgR, bgG, bgB, searchBgAlpha).getRGB()
                 }, 4);
         Render2D.outline(searchBoxX, searchBoxY, searchBoxW, searchBoxH, 0.5f, searchOutline.getRGB(), 4);
@@ -78,11 +78,11 @@ public class HeaderRenderer {
         } else if (searchHandler.isSearchActive()) {
             renderSearchPlaceholder(searchBoxX, searchBoxY, searchBoxH, textAreaX, searchHandler, alphaMultiplier, true);
         } else {
-            Fonts.BOLD.draw("Search Modules...", textAreaX, searchBoxY + 5f, 5, ClickGuiPalette.textMuted(alphaMultiplier));
+            Fonts.BOLD.draw("Search Modules...", textAreaX, searchBoxY + 5f, 5, new Color(90, 98, 120, (int)(150 * alphaMultiplier)).getRGB());
         }
 
-        Render2D.rect(searchBoxX + 53, searchBoxY + 3.5f, 1, searchBoxH - 7, new Color(48, 52, 62, panelAlpha).getRGB(), 8);
-        Fonts.ICONS.draw("U", searchBoxX + 55, searchBoxY + 1.5f, 12, new Color(120, 128, 145, outlineAlpha).getRGB());
+        Render2D.rect(searchBoxX + 53, searchBoxY + 3.5f, 1, searchBoxH - 7, new Color(30, 38, 56, panelAlpha).getRGB(), 8);
+        Fonts.ICONS.draw("U", searchBoxX + 55, searchBoxY + 1.5f, 12, new Color(82, 130, 200, outlineAlpha).getRGB());
     }
 
     private void renderSearchText(float searchBoxX, float searchBoxY, float searchBoxW, float searchBoxH,
@@ -94,7 +94,7 @@ public class HeaderRenderer {
         }
 
         Fonts.BOLD.draw(searchHandler.getSearchText(), textAreaX, searchBoxY + 5f, 5,
-                new Color(210, 210, 220, (int) (255 * alphaMultiplier)).getRGB());
+                new Color(228, 232, 248, (int) (255 * alphaMultiplier)).getRGB());
         Scissor.disable();
 
         if (!searchHandler.hasSearchSelection()) {
@@ -112,9 +112,9 @@ public class HeaderRenderer {
         float selectionX = textAreaX + Fonts.BOLD.getWidth(beforeSelection, 5);
         float selectionWidth = Fonts.BOLD.getWidth(selection, 5);
 
-        int selAlpha = (int) (100 * searchHandler.getSearchSelectionAnimation() * alphaMultiplier);
+        int selAlpha = (int) (80 * searchHandler.getSearchSelectionAnimation() * alphaMultiplier);
         Render2D.rect(selectionX, searchBoxY + 2, selectionWidth, searchBoxH - 4,
-                new Color(100, 140, 180, selAlpha).getRGB(), 2f);
+                new Color(56, 100, 180, selAlpha).getRGB(), 2f);
     }
 
     private void renderSearchCursor(float textAreaX, float searchBoxY, float searchBoxH,
@@ -124,21 +124,21 @@ public class HeaderRenderer {
             String beforeCursor = searchHandler.getSearchText().substring(0, searchHandler.getSearchCursorPosition());
             float cursorX = textAreaX + Fonts.BOLD.getWidth(beforeCursor, 5);
             int cursorAlphaInt = (int) (255 * cursorAlpha * alphaMultiplier);
-            Render2D.rect(cursorX, searchBoxY + 3, 0.5f, searchBoxH - 6, new Color(180, 180, 185, cursorAlphaInt).getRGB(), 0);
+            Render2D.rect(cursorX, searchBoxY + 3, 0.5f, searchBoxH - 6, new Color(100, 156, 230, cursorAlphaInt).getRGB(), 0);
         }
     }
 
     private void renderSearchPlaceholder(float searchBoxX, float searchBoxY, float searchBoxH,
                                          float textAreaX, SearchHandler searchHandler, float alphaMultiplier, boolean showCursor) {
         Fonts.BOLD.draw("Type to search...", textAreaX, searchBoxY + 5f, 5,
-                new Color(100, 100, 105, (int) (150 * alphaMultiplier)).getRGB());
+                new Color(80, 90, 115, (int) (140 * alphaMultiplier)).getRGB());
 
         if (showCursor) {
             float cursorAlpha = (float) (Math.sin(searchHandler.getSearchCursorBlink() * Math.PI * 2) * 0.5 + 0.5);
             if (cursorAlpha > 0.3f) {
                 int cursorAlphaInt = (int) (255 * cursorAlpha * alphaMultiplier);
                 Render2D.rect(textAreaX, searchBoxY + 3, 0.5f, searchBoxH - 6,
-                        new Color(180, 180, 185, cursorAlphaInt).getRGB(), 0);
+                        new Color(100, 156, 230, cursorAlphaInt).getRGB(), 0);
             }
         }
     }
@@ -160,7 +160,7 @@ public class HeaderRenderer {
                 if (oldAlphaInt > 0) {
                     String oldName = previousCategory.getReadableName();
                     Fonts.BOLD.draw(oldName, baseX, baseY + oldOffsetY, 7,
-                            new Color(110, 112, 120, oldAlphaInt).getRGB());
+                            new Color(90, 95, 115, oldAlphaInt).getRGB());
                 }
             }
 
@@ -171,7 +171,7 @@ public class HeaderRenderer {
                 if (newAlphaInt > 0) {
                     String newName = currentCategory.getReadableName();
                     Fonts.BOLD.draw(newName, baseX, baseY + newOffsetY, 7,
-                            new Color(218, 220, 228, newAlphaInt).getRGB());
+                            new Color(226, 230, 248, newAlphaInt).getRGB());
                 }
             }
         }
@@ -185,7 +185,7 @@ public class HeaderRenderer {
                 if (!searchText.isEmpty()) {
                     searchLabel = "Results for \"" + (searchText.length() > 12 ? searchText.substring(0, 12) + "..." : searchText) + "\"";
                 }
-                Fonts.BOLD.draw(searchLabel, baseX, baseY, 7, new Color(160, 160, 160, searchLabelAlphaInt).getRGB());
+                Fonts.BOLD.draw(searchLabel, baseX, baseY, 7, new Color(140, 155, 185, searchLabelAlphaInt).getRGB());
             }
         }
     }
