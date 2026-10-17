@@ -4,7 +4,7 @@ layout(std140) uniform GlowOutlineData {
     vec4 rect;
     vec4 screen;
     vec4 radii;
-    vec4 params;
+    vec4 params; // x = progress, y = base alpha
     vec4 color;
 };
 
@@ -12,7 +12,7 @@ out vec2 fragCoord;
 out vec2 pixelCoord;
 out vec2 rectSize;
 out vec4 cornerRadii;
-out vec4 fragColor;
+out vec4 tintColor;
 out float thickness;
 out float progress;
 out float baseAlpha;
@@ -30,6 +30,7 @@ void main() {
 
     vec2 pos = positions[gl_VertexID];
 
+    // expand the quad so the glow can bleed outside the rect
     float padding = screen.w + 2.0;
 
     vec2 expandedPos = rect.xy - padding + pos * (rect.zw + padding * 2.0);
@@ -46,5 +47,5 @@ void main() {
     guiScale = screen.z;
     progress = params.x;
     baseAlpha = params.y;
-    fragColor = color;
+    tintColor = color;
 }

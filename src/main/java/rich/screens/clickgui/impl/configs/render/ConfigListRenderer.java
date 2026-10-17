@@ -16,7 +16,7 @@ public class ConfigListRenderer {
 
     private static final float CONFIG_ITEM_HEIGHT = 24f;
     private static final float CONFIG_ITEM_SPACING = 3f;
-    private static final float HOVER_SPEED = 0.18f; // Быстрее
+    private static final float HOVER_SPEED = 0.18f; // так побыстрее будет
     private static final float OUTLINE_THICKNESS = 0.5f;
     private static final float SCROLL_FADE_SIZE = 12f;
 
@@ -58,7 +58,7 @@ public class ConfigListRenderer {
             }
 
             if (itemY + CONFIG_ITEM_HEIGHT >= listY && itemY <= listY + listH) {
-                // Spring easing для появления
+                // пружинка для появления айтема
                 float easedProgress = (float) Easings.SPRING.ease(itemAlpha);
                 float itemSlide = (1f - easedProgress) * 15f;
                 renderConfigItem(config, listX + itemSlide, itemY, listW, mouseX, mouseY, alpha * itemAlpha);
@@ -81,12 +81,12 @@ public class ConfigListRenderer {
 
         float hoverAnim = animationHandler.getHoverAnimation(config);
         float target = isHovered ? 1f : 0f;
-        // Spring easing для hover
+        // пружинка для ховера тут
         float diff = target - hoverAnim;
         hoverAnim += diff * HOVER_SPEED;
         animationHandler.setHoverAnimation(config, hoverAnim);
 
-        // Pixel-perfect alignment
+        // ровняем пиксели чётко тут
         float alignedX = Math.round(x * 10f) / 10f;
         float alignedY = Math.round(y * 10f) / 10f;
 
@@ -103,7 +103,7 @@ public class ConfigListRenderer {
 
         if (isSelected || hoverAnim > 0.01f) {
             int outlineAlpha = (int) ((35 + 45 * hoverAnim) * alpha);
-            // Более яркий outline при hover
+            // контур ярче при ховере
             int outlineR = (int) (90 + 30 * hoverAnim);
             int outlineG = (int) (100 + 30 * hoverAnim);
             int outlineB = (int) (120 + 30 * hoverAnim);

@@ -73,7 +73,7 @@ public final class HudStyle {
         Render2D.gradientRect(x, y, w, h, new int[]{c0, c1, c2, c3}, radius);
         Render2D.outline(x, y, w, h, 0.8f, border, radius);
 
-        // Glow variant has an extra soft glow border
+        // у глоу версии мягкая рамка
         if (variant == Variant.GLOW) {
             Render2D.outline(x - 1, y - 1, w + 2, h + 2, 2.5f, ClickGuiPalette.accentGlow(alphaMul * 0.5f), radius + 1);
         }

@@ -49,7 +49,7 @@ public class AutoTpAccept extends ModuleStructure {
     public void onTick(TickEvent e) {
         if (mc.player == null || mc.getNetworkHandler() == null) return;
         
-        // Принимаем tp только если НЕ в PvP и есть запрос
+        // тп тока вне пвп
         if (!Network.isPvp() && canAccept) {
             mc.player.networkHandler.sendChatCommand("tpaccept");
             canAccept = false;

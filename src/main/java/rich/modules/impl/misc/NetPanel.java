@@ -8,8 +8,8 @@ import rich.netpanel.NetPanelServer;
 import rich.netpanel.loggers.ConsoleCapture;
 
 /**
- * NetPanel module — enables the embedded HTTP server with web dashboard.
- * Toggle in ClickGUI to start/stop the server.
+ * веб панелька с серваком внутри
+ * тыкай в кликгуи чтоб вкл
  */
 public class NetPanel extends ModuleStructure {
 
@@ -45,18 +45,18 @@ public class NetPanel extends ModuleStructure {
 
     @EventHandler
     public void onTick(TickEvent e) {
-        // Если модуль "запомнился" включённым после рестарта — перезапускаем сервер
+        // после рестарта серв заново
         if (needsRestart && isState() && server == null) {
             needsRestart = false;
             server = new NetPanelServer();
             server.start();
             ConsoleCapture.attach();
         }
-        // TPS tracking
+        // тпс считаем
         if (server != null) {
             server.onTick();
         }
-        // FPS tracking
+        // фпс считаем
         if (server != null && mc.getCurrentFps() > 0) {
             server.updateFps(mc.getCurrentFps());
         }

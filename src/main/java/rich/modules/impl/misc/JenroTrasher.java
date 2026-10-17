@@ -12,11 +12,12 @@ import rich.modules.module.category.ModuleCategory;
 import rich.util.string.chat.ChatMessage;
 
 /**
- * Автоматически выбрасывает мусор (компас + книгу/зачарованную книгу) из первых двух слотов хотбара при заходе на сервера Jenro
+ * выкидываем мусор с хотбара
+ * компас книжки на дженро
  */
 public class JenroTrasher extends ModuleStructure {
 
-    // Мусорные предметы
+    // хлам какой выкидываем
     private static final Item[] TRASH_ITEMS = {
             Items.COMPASS,
             Items.WRITTEN_BOOK,
@@ -45,7 +46,7 @@ public class JenroTrasher extends ModuleStructure {
     }
 
     /**
-     * Проверяет является ли предмет мусорным (компас/книга/зачарованная книга)
+     * чек хлам ли это
      */
     private boolean isTrashItem(ItemStack stack) {
         if (stack.isEmpty()) return false;
@@ -66,7 +67,7 @@ public class JenroTrasher extends ModuleStructure {
 
         if (trashDropped) return;
 
-        // Небольшая задержка чтобы инвентарь успел засинхронизироваться
+        // ждем чтоб инв синхнулся
         if (tickDelay < 10) {
             tickDelay++;
             return;
@@ -76,23 +77,23 @@ public class JenroTrasher extends ModuleStructure {
         int syncId = mc.player.currentScreenHandler.syncId;
         boolean foundTrash = false;
 
-        // Проверяем слот 0 хотбара
+        // чекаем слот 0
         var slot0 = inventory.getStack(0);
         if (isTrashItem(slot0)) {
-            // Хотбар слот 0 = 36 в currentScreenHandler
+            // слот 0 это 36 там
             mc.interactionManager.clickSlot(syncId, 36, 1, SlotActionType.THROW, mc.player);
             foundTrash = true;
         }
 
-        // Проверяем слот 1 хотбара
+        // чекаем слот 1
         var slot1 = inventory.getStack(1);
         if (isTrashItem(slot1)) {
-            // Хотбар слот 1 = 37 в currentScreenHandler
+            // слот 1 это 37 там
             mc.interactionManager.clickSlot(syncId, 37, 1, SlotActionType.THROW, mc.player);
             foundTrash = true;
         }
 
-        // Если выбросили хоть один мусорный предмет - помечаем что работа выполнена
+        // выкинули че то работа done
         if (foundTrash) {
             trashDropped = true;
             ChatMessage.brandmessage("Jenro Trasher: мусор выброшен");

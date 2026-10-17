@@ -48,7 +48,7 @@ public class RectPipeline {
     );
 
     private static final Vector4f COLOR_MODULATOR = new Vector4f(1f, 1f, 1f, 1f);
-    private static final int BUFFER_SIZE = 224; // rect(16) + screen(16) + radii(16) + colors[9](144) + shadowColor(16) + shadowOffsetAndRadius(16) = 224
+    private static final int BUFFER_SIZE = 224; // раскладка буфера на 224
 
     private GpuBuffer uniformBuffer;
     private GpuBuffer dummyVertexBuffer;
@@ -203,7 +203,7 @@ public class RectPipeline {
         dataBuffer.putFloat(shadowOffsetX);
         dataBuffer.putFloat(shadowOffsetY);
         dataBuffer.putFloat(shadowRadius);
-        dataBuffer.putFloat(0f); // Padding
+        dataBuffer.putFloat(0f); // добивка
 
         dataBuffer.flip();
     }

@@ -1,8 +1,5 @@
 #version 150
 
-in vec2 fragCoord;
-in vec2 pixelCoord;
-
 layout(std140) uniform OutlineData {
     vec4 rect;
     vec4 screen;
@@ -14,9 +11,22 @@ layout(std140) uniform OutlineData {
     vec4 glowParams;
 };
 
+in vec2 fragCoord;
+in vec2 pixelCoord;
+
 out vec4 fragColor;
 
 const float PI = 3.14159265359;
+
+float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
+// ---------------------------------------------------------------------------
+// sdf
+// ---------------------------------------------------------------------------
 
 float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     r.xy = (p.x > 0.0) ? r.yz : r.xw;
@@ -24,6 +34,10 @@ float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     vec2 q = abs(p) - b + r.x;
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
+
+// ---------------------------------------------------------------------------
+// perimeter gradient
+// ---------------------------------------------------------------------------
 
 float getPerimeterPosition(vec2 center, vec2 halfSize) {
     vec2 normCenter = center / max(halfSize, vec2(0.001));
@@ -59,6 +73,8 @@ float getPerimeterThickness(float t) {
     return mix(th1, th2, smoothstep(0.0, 1.0, frac));
 }
 
+// ---------------------------------------------------------------------------
+
 void main() {
     vec2 halfRectSize = rect.zw * 0.5;
     vec2 center = pixelCoord - halfRectSize;
@@ -67,7 +83,6 @@ void main() {
     vec4 currentRadii = min(radii, vec4(maxRadius));
 
     float dist = roundedBoxSDF(center, halfRectSize, currentRadii);
-
     float perimeterPos = getPerimeterPosition(center, halfRectSize);
     vec4 outlineColor = getPerimeterColor(perimeterPos);
     float outlineThickness = getPerimeterThickness(perimeterPos);
@@ -79,14 +94,15 @@ void main() {
     float innerEdge = smoothstep(-smoothing, smoothing, dist + outlineThickness);
     float outlineMask = innerEdge * (1.0 - outerEdge);
 
-    // Animated glow with subtle pulsing (time derived from screen coords)
+    // breathing glow, phase derived from the frame clock in screen.xy
     float glowRadius = glowParams.x;
     float glowIntensity = glowParams.y;
 
     float glowTime = screen.x + screen.y;
-    float glowPulse = 1.0 + 0.12 * sin(glowTime * 0.005 + perimeterPos * 8.0);
-    float effectiveRadius = glowRadius * (0.85 + 0.15 * sin(glowTime * 0.0035));
-    float effectiveIntensity = glowIntensity * glowPulse;
+    float breath = 0.85 + 0.15 * sin(glowTime * 0.0035);
+    float pulse = 1.0 + 0.10 * sin(glowTime * 0.005 + perimeterPos * 8.0);
+    float effectiveRadius = glowRadius * breath;
+    float effectiveIntensity = glowIntensity * pulse;
 
     float glowSDF = roundedBoxSDF(center, halfRectSize, currentRadii);
     float glowAlpha = (1.0 - smoothstep(-effectiveRadius, effectiveRadius, glowSDF)) * effectiveIntensity;
@@ -94,7 +110,18 @@ void main() {
     vec4 finalGlowColor = glowColor;
     finalGlowColor.a *= glowAlpha;
 
+    // travelling glint runs along the perimeter so long outlines stay alive
+    float glint = smoothstep(0.985, 1.0, fract(perimeterPos * 3.0 - glowTime * 0.0004));
+    float glintMask = glint * outlineMask * glowIntensity;
+    vec4 outlineGlint = vec4(mix(outlineColor.rgb, vec3(1.0), 0.55), outlineColor.a * glintMask * 0.55);
+
     vec4 finalOutlineColor = vec4(outlineColor.rgb, outlineColor.a * outlineMask);
+    finalOutlineColor += outlineGlint * (1.0 - finalOutlineColor.a);
+
+    // a touch of dither inside masked pixels kills the outline banding
+    float dither = (hash12(floor(pixelCoord)) - 0.5) * (0.8 / 255.0);
+    finalOutlineColor.rgb += dither;
+    finalGlowColor.rgb += dither;
 
     fragColor = finalOutlineColor + finalGlowColor * (1.0 - finalOutlineColor.a);
 }

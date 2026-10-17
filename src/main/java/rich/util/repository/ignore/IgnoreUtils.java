@@ -58,7 +58,7 @@ public class IgnoreUtils {
         return ignores.stream().anyMatch(isIgnore -> isIgnore.getName().equalsIgnoreCase(ignore));
     }
     
-    // Новые методы для фильтров
+    // фильтры чата тут
     public void addChatFilter(ChatFilter filter) {
         chatFilters.add(filter);
     }

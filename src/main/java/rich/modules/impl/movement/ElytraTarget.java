@@ -53,7 +53,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
 
     public static boolean shouldElytraTarget = false;
 
-    // Состояние двойного шифта (public для доступа из StrikeManager)
+    // стейт даблшифта для страйка
     final StopWatch sneakTimer = new StopWatch();
     int sneakCount = 0;
     boolean sneakSequenceActive = false;
@@ -87,7 +87,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Проверяем условия для перекритовки
+        // чекаем можно ли критануть
         rich.modules.impl.combat.Aura aura = rich.modules.impl.combat.Aura.getInstance();
         if (aura == null || rich.modules.impl.combat.Aura.target == null || !rich.modules.impl.combat.Aura.target.isAlive()) {
             resetSneakState();
@@ -103,17 +103,17 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Активируем двойной шифт после minTradeHits попаданий
+        // набрали хиты жмём шифт
         if (consecutiveTradeHits >= minTradeHits.getValue() && !sneakSequenceActive) {
             startDoubleSneak();
         }
 
-        // Выполняем последовательность двойного шифта
+        // жмём даблшифт щас
         if (sneakSequenceActive) {
             executeDoubleSneak();
         }
 
-        // Анти-предсказание — случайное лёгкое смещение позиции
+        // рандом сдвиг чтоб не палилось
         if (antiPredict.isValue() && shouldElytraTarget && mc.player.isGliding()) {
             applyAntiPrediction();
         }
@@ -131,7 +131,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Первый шифт
+        // первый шифт
         if (sneakCount == 0 && sneakTimer.finished(0)) {
             mc.player.setSneaking(true);
             sneakCount = 1;
@@ -139,7 +139,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Отпускаем шифт
+        // отпустили шифт
         if (sneakCount == 1 && sneakTimer.finished(50)) {
             mc.player.setSneaking(false);
             sneakCount = 2;
@@ -147,7 +147,7 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Второй шифт
+        // второй шифт
         if (sneakCount == 2 && sneakTimer.finished(80)) {
             mc.player.setSneaking(true);
             sneakCount = 3;
@@ -155,24 +155,24 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
             return;
         }
 
-        // Отпускаем шифт второй раз — завершение
+        // отпустили второй конец
         if (sneakCount == 3 && sneakTimer.finished(130)) {
             mc.player.setSneaking(false);
             resetSneakState();
-            consecutiveTradeHits = 0; // Сбрасываем счётчик
+            consecutiveTradeHits = 0; // обнуляем счётчик
         }
     }
 
     private void resetSneakState() {
         sneakSequenceActive = false;
         sneakCount = 0;
-        // Не сбрасываем sneakTimer здесь чтобы не прерывать текущую анимацию
+        // таймер не трогаем а то лагает
     }
 
     /**
-     * Анти-предсказание — случайное лёгкое смещение позиции
-     * Делает игрока непредсказуемым для вражеского авто-таргета
-     * Используем setPosition вместо addVelocity чтобы не создавать сопротивление
+     * рандом сдвиг чтоб не палили
+     * хз как но работает
+     * через setPosition чтоб не лагало
      */
     private final Random antiPredictRandom = new Random();
     private long lastAntiPredictTime = 0;
@@ -200,18 +200,18 @@ public class ElytraTarget extends ModuleStructure implements IMinecraft {
 
         float amount = antiPredictAmount.getValue();
 
-        // Плавное изменение смещения чтобы не было резких рывков
+        // плавно двигаем без рывков
         double targetOffsetX = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
         double targetOffsetZ = (antiPredictRandom.nextDouble() - 0.5) * 2 * amount;
 
-        // Интерполируем к новой цели (плавный переход)
+        // плавно тянем к цели
         lastAntiPredictOffset = new Vec3d(
                 lastAntiPredictOffset.x + (targetOffsetX - lastAntiPredictOffset.x) * 0.4,
                 lastAntiPredictOffset.y,
                 lastAntiPredictOffset.z + (targetOffsetZ - lastAntiPredictOffset.z) * 0.4
         );
 
-        // Применяем микро-смещение через setPosition — не создаёт сопротивления
+        // микродвиг чтоб не палилось
         Vec3d currentPos = mc.player.getEntityPos();
         mc.player.setPosition(
                 currentPos.x + lastAntiPredictOffset.x * 0.02,

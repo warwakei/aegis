@@ -32,6 +32,7 @@ float hash12(vec2 p) {
     return fract((p3.x + p3.y) * p3.z);
 }
 
+// walked position along the outline, 0..1
 float perimeterCoord(vec2 uv) {
     float x = clamp(uv.x, 0.0, 1.0);
     float y = clamp(uv.y, 0.0, 1.0);
@@ -77,10 +78,12 @@ void main() {
 
     vec2 uv = pixelCoord / max(rectSize, vec2(1.0));
     float p = perimeterCoord(uv);
-
     float t = timeSeconds * speed;
 
-    // Primary hue — smooth perimeter sweep with multi-frequency variation
+    // 0 at the outer edge, 1 at the inner edge
+    float across = clamp(-dist / max(thickness, 0.0001), 0.0, 1.0);
+
+    // primary hue: perimeter sweep plus a few harmonics to break up flatness
     float hue = fract(p + t);
     float harmonicA = sin((p + t) * 12.0) * 0.04;
     float harmonicB = sin((p * 5.3 - t * 1.9) * 3.14159) * 0.025;
@@ -89,32 +92,38 @@ void main() {
 
     vec3 col = hsv2rgb(vec3(hue, saturation, value));
 
-    // Secondary blended hue for richer spectral depth
+    // secondary and tertiary hues add spectral depth without going neon
     float hueB = fract(hue + 0.13 + sin((p + t * 0.7) * 20.0) * 0.018 + cos(p * 11.0 - t * 0.4) * 0.012);
     vec3 colB = hsv2rgb(vec3(hueB, saturation * 0.78, value * 1.05));
     col = mix(col, colB, 0.40);
 
-    // Tertiary accent hue for extra richness
     float hueC = fract(hue + 0.37 + sin((p * 14.0 + t * 0.3) * 1.5) * 0.022);
     vec3 colC = hsv2rgb(vec3(hueC, saturation * 0.60, value * 1.10));
     col = mix(col, colC, 0.15);
 
-    // Brightness pulse along the perimeter
+    // focal gradient: bright glass rim outside, softer body inside
+    col *= mix(1.14, 0.86, across);
+    col = mix(col, col * vec3(0.82, 0.90, 1.10), across * 0.35);
+
+    // brightness pulse travels with the sweep
     float pulse = 0.80 + 0.20 * sin((t + p) * 6.28318);
     col *= pulse;
 
-    // Directional sparkle streaks
+    // sparse sparkle, keeps long outlines from looking too clean
     float sparkle = step(0.985, hash12(floor(pixelCoord * 1.5) + vec2(t * 17.0, t * 9.0)));
     float sparkleStreak = step(0.96, hash12(floor(pixelCoord * 3.0) + vec2(t * 23.0, t * 11.0)));
-    col += sparkle * 0.15 + sparkleStreak * 0.08;
+    col += sparkle * 0.12 + sparkleStreak * 0.06;
     col = clamp(col, vec3(0.0), vec3(1.0));
 
-    // Subtle corner glow boost
+    // gentle corner lift, corners catch the eye first
     vec2 cornerDist = abs(uv - 0.5) * 2.0;
     float cornerBoost = max(cornerDist.x, cornerDist.y);
     float cornerGlow = pow(cornerBoost, 3.0) * 0.06;
     col += cornerGlow * hsv2rgb(vec3(fract(hue + 0.5), saturation * 0.5, value * 0.8));
     col = clamp(col, vec3(0.0), vec3(1.0));
 
-    outColor = vec4(col, outlineMask * alphaMul);
+    // dither the alpha, hue gradients band otherwise
+    float alphaDither = (hash12(floor(pixelCoord * 0.5)) - 0.5) * (0.7 / 255.0);
+
+    outColor = vec4(col, outlineMask * alphaMul + alphaDither);
 }

@@ -80,7 +80,7 @@ public class Aura extends ModuleStructure {
     private final BooleanSetting checkCrit = new BooleanSetting("Только криты", "Only critical hits")
             .setValue(true);
 
-    // Настройки 1.8 режима (объявляем перед smartCrits чтобы избежать forward reference)
+    // 1.8 настройки чтоб не крашило
     @Getter
     private final BooleanSetting mode1_8 = new BooleanSetting("1.8 Режим", "Режим атаки как в версии 1.8 (CPS)")
             .setValue(false);
@@ -152,7 +152,7 @@ public class Aura extends ModuleStructure {
     @NonFinal
     public LivingEntity lastTarget;
 
-    // Multi-Target система
+    // мультитаргет
     @NonFinal
     private java.util.List<LivingEntity> availableTargets = new java.util.ArrayList<>();
     @NonFinal
@@ -162,11 +162,11 @@ public class Aura extends ModuleStructure {
     @NonFinal
     private long lastTargetSwitchTime = 0;
 
-    // AutoFlyme - отслеживание двойного нажатия пробела
+    // флайми дабл пробел палим
     @NonFinal
     private long lastJumpPressTime = 0;
     @NonFinal
-    private boolean flymeCommandSent = false; // чтобы не спамить команду каждый тик
+    private boolean flymeCommandSent = false; // чтоб не спамило
 
     TargetFinder targetSelector = new TargetFinder();
     MultiPoint pointFinder = new MultiPoint();
@@ -184,11 +184,11 @@ public class Aura extends ModuleStructure {
         FpsThrottler.reset();
         silentMaceHandler.forceReset();
         shieldBreakerHandler.forceReset();
-        // Сброс AutoFlyme
+        // сброс флайми
         lastJumpPressTime = 0;
         flymeCommandSent = false;
         
-        // Сброс Multi-Target
+        // сброс таргетов
         availableTargets.clear();
         currentTargetIndex = 0;
         lastAttackTime = 0;
@@ -197,17 +197,17 @@ public class Aura extends ModuleStructure {
 
     @EventHandler
     private void tick(TickEvent event) {
-        // Silent Mace handler
+        // сайлент мейс
         if (silentMace.isValue()) {
             silentMaceHandler.onTick(target);
         }
 
-        // Shield Breaker handler
+        // ломатель щитов
         if (shieldBreaker.isValue()) {
             shieldBreakerHandler.onTick(target);
         }
 
-        // Проверяем FPS throttler для разработчиков
+        // фпс троттлер чек
         if (target != null) {
             FpsThrottler.updateTarget(target.getName().getString());
         } else {
@@ -217,10 +217,10 @@ public class Aura extends ModuleStructure {
 
     @EventHandler
     public void onRotationUpdate(RotationUpdateEvent e) {
-        // Обновляем настройки 1.8 режима
+        // обновляем 1.8
         update1_8Settings();
         
-        // Приоритетная обработка фаерболлов
+        // сначала фаерболы
         handleFireballs();
         
         switch (e.getType()) {
@@ -249,11 +249,11 @@ public class Aura extends ModuleStructure {
                 }
             }
             case EventType.POST -> {
-                // Если Silent Mace активен и сейчас атакует булавой — пропускаем обычную атаку
+                // мейс бьет сам скипаем
                 if (silentMace.isValue() && silentMaceHandler.isActive()) {
                     return;
                 }
-                // Если Shield Breaker активен и сейчас атакует топором — пропускаем обычную атаку
+                // топор бьет сам скипаем
                 if (shieldBreaker.isValue() && shieldBreakerHandler.isActive()) {
                     return;
                 }
@@ -266,7 +266,7 @@ public class Aura extends ModuleStructure {
     
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void update1_8Settings() {
-        // Обновляем StrikeManager настройками 1.8 режима
+        // пихаем 1.8 в страйк
         StrikeManager strikeManager = Initialization.getInstance().getManager()
                 .getAttackPerpetrator()
                 .getStrikeManager();
@@ -276,16 +276,16 @@ public class Aura extends ModuleStructure {
             strikeManager.updateCPS(cpsSetting.getInt(), cpsSetting);
         }
 
-        // Автоматически отключаем криты если включен 1.8 режим
+        // 1.8 криты вырубаем
         if (mode1_8.isValue() && checkCrit.isValue()) {
             checkCrit.setValue(false);
         }
     }
 
-    // Для отслеживания круга - если долго преследуем но дистанция не уменьшается
+    // палим круги хз
     private Vec3d lastOrbitCheckPos = null;
     private long orbitStartTime = 0;
-    private static final long ORBIT_BREAK_TIME = 800; // Через 800ms разрываем круг
+    private static final long ORBIT_BREAK_TIME = 800; // через 800мс рвем круг
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     public StrikerConstructor.AttackPerpetratorConfigurable getConfig() {
@@ -315,15 +315,15 @@ public class Aura extends ModuleStructure {
             Vec3d targetPos = target.getEntityPos();
             double currentDistance = ourPos.distanceTo(targetPos);
 
-            // DETECT ORBIT: если мы преследуем цель но дистанция НЕ уменьшается
+            // палим что кружит
             boolean breakingOrbit = false;
             if (lastOrbitCheckPos != null) {
                 double lastDistance = lastOrbitCheckPos.distanceTo(targetPos);
                 long orbitTime = System.currentTimeMillis() - orbitStartTime;
                 
-                // Если дистанция не уменьшается уже 800ms+ и цель кружится
+                // дистанция стоит кружит
                 if (orbitTime > ORBIT_BREAK_TIME && Math.abs(currentDistance - lastDistance) < 0.5) {
-                    // Проверяем что цель реально кружится (перпендикулярная скорость)
+                    // чек реально ли кружит
                     Vec3d toTarget = targetPos.subtract(ourPos);
                     if (toTarget.horizontalLength() > 1.0) {
                         Vec3d toTargetNorm = new Vec3d(toTarget.x, 0, toTarget.z).normalize();
@@ -331,7 +331,7 @@ public class Aura extends ModuleStructure {
                         double crossProduct = Math.abs(toTargetNorm.x * velNorm.z - toTargetNorm.z * velNorm.x);
                         double radialSpeed = Math.abs(toTargetNorm.dotProduct(velNorm));
                         
-                        // Цель кружится и мы не приближаемся — РАЗРЫВАЕМ КРУГ
+                        // кружит рвем круг
                         if (crossProduct > radialSpeed * 1.2) {
                             breakingOrbit = true;
                         }
@@ -339,28 +339,28 @@ public class Aura extends ModuleStructure {
                 }
             }
 
-            // Если разрываем круг - летим НАПРЯМУЮ к цели без предсказания
+            // рвем летим прямо
             Vec3d predictedPos;
             if (breakingOrbit) {
-                // Летим ПРЯМО к цели - никакого предсказания
+                // прямо на цель
                 predictedPos = targetPos;
-                // Сбрасываем отслеживание
+                // сброс слежки
                 lastOrbitCheckPos = null;
                 orbitStartTime = 0;
             } else {
-                // Обычное предсказание
+                // обычный предикт
                 double leadMultiplier = 1.0 + (targetSpeed * 0.6);
                 predictedPos = targetPos.add(targetVelocity.multiply(leadTicks * leadMultiplier));
                 
-                // Обновляем отслеживание круга
+                // слежку круга обновили
                 lastOrbitCheckPos = targetPos;
                 if (orbitStartTime == 0) orbitStartTime = System.currentTimeMillis();
             }
 
             computedPoint = predictedPos.add(0, target.getHeight() / 2, 0);
 
-            // Расширенный хитбокс для более стабильных попаданий
-            double expandAmount = breakingOrbit ? 0.5 : 0.35; // Ещё больше при разрыве круга
+            // хитбокс шире чтоб попадало
+            double expandAmount = breakingOrbit ? 0.5 : 0.35; // при рве еще шире
             hitbox = new Box(
                     predictedPos.x - target.getWidth() / 2 - expandAmount,
                     predictedPos.y - expandAmount,
@@ -370,7 +370,7 @@ public class Aura extends ModuleStructure {
                     predictedPos.z + target.getWidth() / 2 + expandAmount);
         }
 
-        // Рандомизация высоты удара (±0.1-0.3)
+        // рандомим высоту удара
         if (options.isSelected("Рандомизация высоты") && heightRandom.getValue() > 0) {
             double randomOffset = (Math.random() - 0.5) * 2 * heightRandom.getValue();
             computedPoint = new Vec3d(computedPoint.x, computedPoint.y + randomOffset, computedPoint.z);
@@ -459,11 +459,11 @@ public class Aura extends ModuleStructure {
         if (!isState())
             return;
 
-        // ===== AutoFlyme Logic =====
+        // флайми логика
         handleAutoFlyme();
 
-        // ===== MoveFix Logic =====
-        // Если moveFixInFly выключен и игрок в полёте - не применяем коррекцию движения
+        // мувфикс логика
+        // в полете без фикса скип
         boolean isInFly = mc.player.getAbilities().flying || mc.player.isGliding();
         if (isInFly && !moveFixInFly.isValue()) {
             return;
@@ -478,7 +478,7 @@ public class Aura extends ModuleStructure {
         boolean d = mc.options.rightKey.isPressed();
 
         if (moveFix.isSelected("Сфокусированная")) {
-            // Сфокусированная коррекция - движение строго по направлению взгляда
+            // жостко по взгляду
             float yaw = AngleConnection.INSTANCE.getRotation().getYaw();
             
             boolean forward = false, back = false, left = false, right = false;
@@ -493,22 +493,22 @@ public class Aura extends ModuleStructure {
         }
         
         if (moveFix.isSelected("Свободная")) {
-            // Свободная коррекция - минимальные изменения движения
-            // Оставляем движение как есть, только слегка корректируем
-            return; // Не изменяем движение
+            // почти не трогаем двиг
+            // двиг как есть
+            return; // двиг не трогаем
         }
         
         if (moveFix.isSelected("Таргет")) {
             Vec3d playerPos = mc.player.getEntityPos();
             Vec3d targetPos = target.getEntityPos();
 
-            // ИСПРАВЛЕНИЕ: В полёте учитываем высоту цели
+            // в полете чекаем высоту
             Vec3d moveTarget;
             if (isInFly) {
-                // В полёте - летим к цели с учетом высоты
+                // летим с высотой
                 moveTarget = targetPos;
             } else {
-                // На земле - игнорируем высоту цели
+                // на земле высоту пофиг
                 moveTarget = new Vec3d(targetPos.x, playerPos.y, targetPos.z);
             }
             
@@ -581,12 +581,12 @@ public class Aura extends ModuleStructure {
                 moveTargetVec = center.add(offsetVec);
             }
 
-            // ИСПРАВЛЕНИЕ: В полёте НЕ обнуляем Y координату
+            // в полете Y не трогаем
             if (!isInFly) {
-                // На земле - используем Y игрока
+                // на земле свой Y
                 moveTargetVec = new Vec3d(moveTargetVec.x, playerPos.y, moveTargetVec.z);
             }
-            // В полёте - используем Y цели (moveTargetVec уже содержит правильную высоту)
+            // в полете Y цели
 
             Vec3d dir = moveTargetVec.subtract(playerPos).normalize();
 
@@ -623,42 +623,41 @@ public class Aura extends ModuleStructure {
     }
 
     /**
-     * AutoFlyme - при двойном нажатии пробела в прыжке без флая прописывает /flyme
-     * Работает только для серверов Jenro (funnymc.su и подобные)
+     * дабл пробел жмет flyme
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void handleAutoFlyme() {
         if (!autoFlyme.isValue()) {
-            flymeCommandSent = false; // сброс при выключенной настройке
+            flymeCommandSent = false; // вырубили сброс
             return;
         }
 
-        // Если у игрока уже есть флай (ability) - ничего не делаем
+        // флай уже есть скип
         if (mc.player.getAbilities().flying) {
-            flymeCommandSent = false; // сброс, можно будет снова активировать если флай отключат
+            flymeCommandSent = false; // сброс ждем откл флая
             return;
         }
 
-        // Проверяем что игрок нажимает пробел
+        // чек жмет ли пробел
         boolean jumpPressed = mc.options.jumpKey.isPressed();
         long currentTime = System.currentTimeMillis();
 
         if (jumpPressed) {
-            // Проверяем двойное нажатие (в пределах 500мс между нажатиями)
+            // чек дабл клик пробела
             if (currentTime - lastJumpPressTime < 500 && lastJumpPressTime > 0) {
-                // Проверяем что игрок в прыжке (не на земле)
+                // чек что в прыжке
                 boolean inJump = !mc.player.isOnGround() && mc.player.fallDistance < 0.1;
 
                 if (inJump && !flymeCommandSent) {
-                    // Пропишем /flyme
+                    // пишем flyme
                     mc.player.networkHandler.sendChatCommand("flyme");
                     flymeCommandSent = true;
                 }
             }
             lastJumpPressTime = currentTime;
         } else {
-            // Если пробел отпущен и флай не включился - сбрасываем flymeCommandSent
-            // чтобы можно было попробовать снова
+            // пробел отпустил сброс
+            // чтоб снова пробовать
             if (flymeCommandSent && !mc.player.getAbilities().flying) {
                 flymeCommandSent = false;
             }
@@ -680,7 +679,7 @@ public class Aura extends ModuleStructure {
                 options.isSelected("Бить сквозь стены"));
         targetSelector.validateTarget(filter::isValid);
         
-        // Multi-Target логика
+        // мультитаргет логика
         if (multiTarget.isValue()) {
             return updateMultiTarget(filter, range, dynamicFov);
         }
@@ -712,7 +711,7 @@ public class Aura extends ModuleStructure {
     }
     
     private LivingEntity updateMultiTarget(TargetFinder.EntityFilter filter, float range, float dynamicFov) {
-        // Получаем всех доступных целей в радиусе поиска
+        // собираем все цели
         java.util.List<LivingEntity> allTargets = new java.util.ArrayList<>();
         java.util.List<LivingEntity> attackableTargets = new java.util.ArrayList<>();
         float attackRange = attackrange.getValue();
@@ -722,7 +721,7 @@ public class Aura extends ModuleStructure {
                 float distance = mc.player.distanceTo(living);
                 
                 if (distance <= range && filter.isValid(living)) {
-                    // Проверяем FOV если нужно
+                    // чек фова
                     if (dynamicFov < 360) {
                         Vec3d playerPos = mc.player.getEyePos();
                         Vec3d targetPos = living.getEyePos();
@@ -735,7 +734,7 @@ public class Aura extends ModuleStructure {
                         if (angleDiff > dynamicFov / 2F) continue;
                     }
                     
-                    // Проверяем стены если нужно
+                    // чек стены
                     if (!options.isSelected("Бить сквозь стены")) {
                         net.minecraft.util.hit.HitResult raycast = mc.world.raycast(new net.minecraft.world.RaycastContext(
                             mc.player.getEyePos(),
@@ -752,7 +751,7 @@ public class Aura extends ModuleStructure {
                     
                     allTargets.add(living);
                     
-                    // Отдельно считаем цели в радиусе атаки
+                    // считаем кого бить
                     if (distance <= attackRange) {
                         attackableTargets.add(living);
                     }
@@ -760,24 +759,24 @@ public class Aura extends ModuleStructure {
             }
         }
         
-        // Если целей нет - сбрасываем
+        // нет целей сброс
         if (allTargets.isEmpty()) {
             availableTargets.clear();
             currentTargetIndex = 0;
             return null;
         }
         
-        // Сортируем цели по дистанции (ближайшие первые)
+        // сортим по дистанции
         allTargets.sort((a, b) -> Float.compare(mc.player.distanceTo(a), mc.player.distanceTo(b)));
         
-        // Если список целей изменился - обновляем
+        // список поменялся обновляем
         if (!availableTargets.equals(allTargets)) {
             LivingEntity currentTarget = availableTargets.isEmpty() ? null : 
                 (currentTargetIndex < availableTargets.size() ? availableTargets.get(currentTargetIndex) : null);
             
             availableTargets = new java.util.ArrayList<>(allTargets);
             
-            // Пытаемся сохранить текущую цель если она ещё доступна
+            // держим старую цель
             if (currentTarget != null && availableTargets.contains(currentTarget)) {
                 currentTargetIndex = availableTargets.indexOf(currentTarget);
             } else {
@@ -785,13 +784,13 @@ public class Aura extends ModuleStructure {
             }
         }
         
-        // Если в радиусе атаки только одна цель - не переключаемся
+        // одна цель не свитчим
         if (attackableTargets.size() <= 1) {
-            // Выбираем ближайшую цель (первую в отсортированном списке)
+            // берем ближайшую
             currentTargetIndex = 0;
         }
         
-        // Проверяем что индекс валидный
+        // чек индекс норм
         if (currentTargetIndex >= availableTargets.size()) {
             currentTargetIndex = 0;
         }
@@ -800,7 +799,7 @@ public class Aura extends ModuleStructure {
     }
     
     /**
-     * Переключает на следующую цель в Multi-Target режиме
+     * свитч на след цель
      */
     private void switchToNextTarget() {
         if (availableTargets.size() > 1) {
@@ -826,13 +825,13 @@ public class Aura extends ModuleStructure {
     }
     
     /**
-     * Уведомляет Multi-Target систему о том что произошла атака
+     * говорим что ударили
      */
     public void notifyAttackExecuted() {
         if (multiTarget.isValue() && availableTargets.size() > 1) {
             long currentTime = System.currentTimeMillis();
             
-            // Переключаем цель если прошло достаточно времени (100мс)
+            // прошло 100мс свитчим
             if (currentTime - lastTargetSwitchTime >= 100) {
                 lastAttackTime = currentTime;
                 lastTargetSwitchTime = currentTime;

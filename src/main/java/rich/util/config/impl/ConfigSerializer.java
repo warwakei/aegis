@@ -225,11 +225,11 @@ public class ConfigSerializer {
                 textSetting.setText(element.getAsString());
             } else if (setting instanceof SelectSetting selectSetting) {
                 String selected = element.getAsString();
-                // Проверяем что значение есть в списке доступных
+                // чекаем значение в списке
                 if (selectSetting.getList().contains(selected)) {
                     selectSetting.setSelected(selected);
                 } else {
-                    // Если значения нет - ставим первое доступное
+                    // нету ставим первое
                     selectSetting.setSelected(selectSetting.getList().get(0));
                 }
             } else if (setting instanceof ColorSetting colorSetting) {
@@ -256,7 +256,7 @@ public class ConfigSerializer {
                     List<String> selected = new ArrayList<>();
                     for (JsonElement e : array) {
                         String value = e.getAsString();
-                        // Проверяем что значение есть в списке доступных
+                        // чекаем значение в списке
                         if (multiSetting.getList().contains(value)) {
                             selected.add(value);
                         }

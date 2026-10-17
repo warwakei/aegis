@@ -109,8 +109,8 @@ public class MaceTarget extends ModuleStructure {
     private boolean windBurstDetected = false;
     private double velocityBeforeAttack = 0;
     private long attackTime = 0;
-    private static final long WIND_BURST_WINDOW_MS = 500; // Окно для обнаружения Wind Burst
-    private static final double WIND_BURST_VELOCITY_THRESHOLD = 0.8; // Минимальная вертикальная скорость для обнаружения
+    private static final long WIND_BURST_WINDOW_MS = 500; // окно палева берста
+    private static final double WIND_BURST_VELOCITY_THRESHOLD = 0.8; // скорость вверх для палева
 
     public MaceTarget() {
         super("MaceTarget", "Mace Target", ModuleCategory.COMBAT);
@@ -211,11 +211,11 @@ public class MaceTarget extends ModuleStructure {
             }
 
             if (target == null) {
-                // Если MaceTarget не нашёл цель - даём Aurе работать
+                // цели нет пусти ауру
                 return;
             }
 
-            // Синхронизируем target с Aurой для корректной работы
+            // синкаем таргет с аурой
             Aura.target = target;
 
             predictor.update(target);
@@ -247,11 +247,11 @@ public class MaceTarget extends ModuleStructure {
             attackHandler.performAttack(target);
             attackHandler.setPendingAttack(false);
 
-            // Запоминаем время атаки для Wind Burst detection
+            // запомнили время удара
             attackTime = System.currentTimeMillis();
             wasAttacking = true;
 
-            // Обновляем время атаки в StrikeManager для синхронизации
+            // синкаем время удара
             var strikeManager = Initialization.getInstance().getManager()
                     .getAttackPerpetrator().getStrikeManager();
             if (strikeManager != null) {
@@ -273,14 +273,14 @@ public class MaceTarget extends ModuleStructure {
             return;
         }
 
-        // Проверяем FPS throttler для разработчиков
+        // чек фпс троттлера
         if (target != null && target.isAlive()) {
             FpsThrottler.updateTarget(target.getName().getString());
         } else {
             FpsThrottler.updateTarget(null);
         }
 
-        // Wind Burst III detection
+        // палим виндберст
         if (windBurstSupport.isValue()) {
             checkWindBurst();
         }
@@ -305,44 +305,44 @@ public class MaceTarget extends ModuleStructure {
     private void checkWindBurst() {
         if (mc.player == null) return;
 
-        // Если мы только что атаковали и нас подбросило вверх
+        // тока ударили и взлетели
         if (wasAttacking && !windBurstDetected) {
             long timeSinceAttack = System.currentTimeMillis() - attackTime;
             double currentVelocityY = mc.player.getVelocity().y;
 
-            // Проверяем что нас подбросило вверх с достаточной скоростью
+            // чек что подкинуло вверх
             if (timeSinceAttack < WIND_BURST_WINDOW_MS && currentVelocityY > WIND_BURST_VELOCITY_THRESHOLD) {
                 windBurstDetected = true;
                 windBurstTimer.reset();
             }
         }
 
-        // Если Wind Burst обнаружен и мы всё ещё летим вверх
+        // берст есть летим вверх
         if (windBurstDetected) {
-            // Ждём пока начнём падать
+            // ждем падения
             if (mc.player.getVelocity().y <= 0) {
-                // Начинаем повторный цикл - переключаемся на элитру и взлетаем
+                // по новой в элитру вверх
                 handleWindBurstRecovery();
                 windBurstDetected = false;
             }
 
-            // Таймаут если Wind Burst не сработал
+            // таймаут берст не зашел
             if (windBurstTimer.finished(2000)) {
                 windBurstDetected = false;
             }
         }
 
-        // Обновляем состояние атаки
+        // обновляем атаку
         wasAttacking = attackHandler.getLastAttackTime() > 0;
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleWindBurstRecovery() {
-        // Сразу переходим в режим полёта вверх
+        // сразу летим вверх
         stageHandler.setStage(Stage.FLYING_UP);
         fireworkTimer.reset();
 
-        // Если на нас нагрудник - переключаемся на элитру
+        // честик есть капаем элитру
         if (!InventoryUtils.hasElytra()) {
             int elytraSlot = InventoryUtils.findElytraSlot();
             if (elytraSlot != -1) {
@@ -394,10 +394,10 @@ public class MaceTarget extends ModuleStructure {
     private boolean isTargetValid(LivingEntity target) {
         if (target == null || mc.player == null || mc.world == null) return false;
         
-        // Проверка дистанции
+        // чек дистанцию
         if (mc.player.distanceTo(target) > 128.0f) return false;
         
-        // Строгая валидация - проверка видимости
+        // жестко чекаем видно ли
         if (strictValidation.isValue()) {
             Vec3d start = mc.player.getEyePos();
             Vec3d end = target.getEyePos();

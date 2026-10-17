@@ -30,13 +30,13 @@ public class AttackHandler {
     private long lastAttackTime = 0;
     private static final int MIN_ATTACK_DELAY_MS = 50;
 
-    // Для улучшенной проверки
+    // для чеков получше
     private int consecutiveMisses = 0;
     private int consecutiveHits = 0;
     private long lastValidHitTime = 0;
     private double lastTargetDistance = 0;
 
-    // Адаптивная задержка на основе условий
+    // задержка адаптив по ситуации
     private int currentAdaptiveDelay = MIN_ATTACK_DELAY_MS;
     private static final int MIN_ADAPTIVE_DELAY = 30;
     private static final int MAX_ADAPTIVE_DELAY = 100;
@@ -46,13 +46,13 @@ public class AttackHandler {
 
         String whileCond = HitregLogger.buildWhileCondition(mc.player);
 
-        // Проверка кулдауна атаки через StrikeManager
+        // чек кд через страйк
         if (!isAttackReady()) {
             HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Attack cooldown", whileCond);
             return;
         }
 
-        // Проверка умных критов с улучшенной логикой
+        // чек умные криты
         CritStatus critStatus = canCritEnhanced(target);
         if (!critStatus.canAttack) {
             HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false,
@@ -60,15 +60,15 @@ public class AttackHandler {
             return;
         }
 
-        // Проверка видимости цели
+        // чек видно ли
         if (!isTargetVisible(target)) {
             HitregLogger.logMaceAttack("Attack", target, mc.player.distanceTo(target), false, "Target not visible", whileCond);
             return;
         }
 
-        // Проверка дистанции с допуском на движение
+        // чек дистан с запасом
         double distance = mc.player.distanceTo(target);
-        if (distance > 6.5) { // 5.0 range + 1.5 tolerance for movement
+        if (distance > 6.5) { // 5 ренж плюс 1.5 запас
             HitregLogger.logMaceAttack("Attack", target, distance, false, "Too far", whileCond);
             return;
         }
@@ -76,34 +76,34 @@ public class AttackHandler {
         int maceSlot = InventoryUtils.findHotbarItem(Items.MACE);
         int prevSlot = mc.player.getInventory().getSelectedSlot();
 
-        // Свитч на булаву если нужно
+        // свитч на булаву надо ли
         if (maceSlot != -1 && maceSlot != prevSlot) {
             mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(maceSlot));
         }
 
-        // Атака - отправляем пакет на сервер
+        // бьем шлем пакет
         mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack((Entity) target, mc.player.isSneaking()));
         mc.player.swingHand(Hand.MAIN_HAND);
         
-        // Валидация попадания
+        // чек попало ли
         validateHit(target);
         
         HitregLogger.logMaceAttack("Attack", target, distance, true, "MaceTarget attack sent (crit: " + critStatus.isCrit + ")", whileCond);
 
-        // Обновляем время последней атаки
+        // время удара обновили
         lastAttackTime = System.currentTimeMillis();
 
-        // Возвращаем слот
+        // слот назад
         if (maceSlot != -1 && maceSlot != prevSlot) {
             mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(prevSlot));
         }
 
-        // Адаптивная корректировка задержки
+        // задержка адаптив правим
         updateAdaptiveDelay();
     }
 
     /**
-     * Проверка готовности атаки с адаптивной задержкой
+     * готов ли бить адаптив
      */
     private boolean isAttackReady() {
         long timeSinceLastAttack = System.currentTimeMillis() - lastAttackTime;
@@ -111,12 +111,12 @@ public class AttackHandler {
     }
 
     /**
-     * Улучшенная проверка критов — НЕ флагает античит
+     * криты улучшеные не палимся
      */
     private CritStatus canCritEnhanced(LivingEntity target) {
         if (mc.player == null) return new CritStatus(false, "No player");
 
-        // На земле НЕ атакуем! Пусть MaceTarget взлетает заново
+        // на земле не бьем летим заново
         if (mc.player.isOnGround()) {
             return new CritStatus(false, "On ground");
         }
@@ -124,32 +124,32 @@ public class AttackHandler {
         double fallDistance = mc.player.fallDistance;
         double velocityY = mc.player.getVelocity().y;
 
-        // Восходим слишком быстро — ждём
+        // вверх быстро ждем
         if (velocityY > 0.15) {
             return new CritStatus(false, "Ascending");
         }
 
-        // Хороший крит: падаем с достаточным fallDistance
+        // годный крит падаем норм
         if (fallDistance > 1.0 && velocityY < -0.05) {
             return new CritStatus(true, "Good crit", true);
         }
 
-        // Начало падения: velocityY близок к нулю и fallDistance > 0
+        // начало падения норм
         if (fallDistance > 0.3 && velocityY <= 0.05 && velocityY > -0.05) {
             return new CritStatus(true, "Start of fall", true);
         }
 
-        // Маленькое падение — можно атаковать но не гарантированно
+        // мелко падаем тоже можно
         if (fallDistance > 0.5 && velocityY < 0) {
             return new CritStatus(true, "Small crit", true);
         }
 
-        // Не атакуем в остальных случаях чтобы не флагать античит
+        // иначе молчим чтоб не палить
         return new CritStatus(false, "No crit conditions");
     }
 
     /**
-     * Проверка видимости цели
+     * видно ли цель
      */
     private boolean isTargetVisible(LivingEntity target) {
         if (mc.world == null || mc.player == null) return false;
@@ -164,30 +164,30 @@ public class AttackHandler {
             mc.player
         ));
 
-        // Если попали в блок - проверяем не слишком ли далеко он от цели
+        // блок рядом с целью норм
         if (hitResult.getType() == HitResult.Type.BLOCK) {
             BlockHitResult blockHit = (BlockHitResult) hitResult;
             double distToTarget = blockHit.getPos().distanceTo(target.getEyePos());
-            return distToTarget < 1.5; // Блок достаточно близко к цели
+            return distToTarget < 1.5; // блок близко норм
         }
 
-        // Если попали в цель - отлично
+        // в цель попали четко
         if (hitResult.getType() == HitResult.Type.ENTITY) {
             EntityHitResult entityHit = (EntityHitResult) hitResult;
             return entityHit.getEntity() == target;
         }
 
-        return true; // Нет препятствий
+        return true; // пусто можно бить
     }
 
     /**
-     * Валидация попадания
+     * чек попало ли
      */
     private void validateHit(LivingEntity target) {
-        // Проверяем что цель всё ещё рядом через короткое время
+        // чек цель рядом после удара
         double currentDistance = mc.player.distanceTo(target);
         
-        // Если цель слишком далеко после атаки - возможно промах
+        // далеко после удара мисс
         if (currentDistance > 8.0) {
             consecutiveMisses++;
             consecutiveHits = 0;
@@ -201,25 +201,25 @@ public class AttackHandler {
     }
 
     /**
-     * Адаптивная корректировка задержки на основе успешности атак
+     * задержка по миссам хитам
      */
     private void updateAdaptiveDelay() {
-        // Много промахов - увеличиваем задержку для точности
+        // миссы задержку больше
         if (consecutiveMisses >= 3) {
             currentAdaptiveDelay = Math.min(MAX_ADAPTIVE_DELAY, currentAdaptiveDelay + 10);
         }
-        // Много попаданий - можно уменьшить задержку
+        // хиты задержку меньше
         else if (consecutiveHits >= 5) {
             currentAdaptiveDelay = Math.max(MIN_ADAPTIVE_DELAY, currentAdaptiveDelay - 5);
         }
-        // Нормальное состояние
+        // норм состояние
         else {
             currentAdaptiveDelay = MIN_ATTACK_DELAY_MS;
         }
     }
 
     /**
-     * Сброс статистики
+     * стата сброс
      */
     public void resetStats() {
         consecutiveMisses = 0;
@@ -236,7 +236,7 @@ public class AttackHandler {
     }
 
     /**
-     * Класс для хранения статуса крита
+     * статус крита хранилка
      */
     private static class CritStatus {
         final boolean canAttack;

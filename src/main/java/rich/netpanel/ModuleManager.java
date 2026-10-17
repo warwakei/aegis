@@ -6,19 +6,14 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Registry and manager for NetPanel modules.
- * Architecture inspired by Docker — independent, configurable, toggleable components.
- *
- * Module naming convention follows community plugin patterns:
- *   - Core modules: shipped with AegisNeo
- *   - Community modules: contributed by users (marked with author)
+ * панелька модули тут рулим
  */
 public class ModuleManager {
 
     private final Map<String, NetPanelModule> modules = new ConcurrentHashMap<>();
 
     public void init() {
-        // ==================== CORE MODULES ====================
+        // базовые модули панельки тут
 
         registerModule(NetPanelModule.builder("console", "Console")
                 .description("Minecraft console output capture with log4j integration")
@@ -49,7 +44,7 @@ public class ModuleManager {
                 .setting("showDisk", true)
                 .build());
 
-        // ==================== DEBUG & DEV MODULES ====================
+        // дебажные модули для разрабов
 
         registerModule(NetPanelModule.builder("hitreg", "Hitreg Logger")
                 .description("Attack hit/miss logging with distance and damage tracking")
@@ -88,9 +83,9 @@ public class ModuleManager {
                 .setting("showBrand", true)
                 .build());
 
-        // ==================== MODERATION MODULES ====================
+        // модерские модули тут лежат
 
-        // Jenro Moderating — hidden until configured
+        // модерка спит пока не настроим
         NetPanelModule modModule = NetPanelModule.builder("moderation", "Jenro Moderating")
                 .description("Module to help you moderate jenro servers if you moderator or helper. *For example: funnymc.su (funnygame)")
                 .icon("\u2630")
@@ -113,7 +108,7 @@ public class ModuleManager {
                 .setting("highlightHighVL", true)
                 .build());
 
-        // ==================== PERFORMANCE MODULES ====================
+        // модули про перфоманс тут
 
         registerModule(NetPanelModule.builder("performance", "Performance Profiler")
                 .description("Tick time, GC pauses, entity count, chunk loading stats")
@@ -135,7 +130,7 @@ public class ModuleManager {
                 .setting("showBandwidth", true)
                 .build());
 
-        // ==================== SESSION MODULES ====================
+        // сессии игроков считаем тут
 
         registerModule(NetPanelModule.builder("sessions", "Session Tracker")
                 .description("Player join/leave tracking, session duration, IP logging")
@@ -147,7 +142,7 @@ public class ModuleManager {
                 .setting("showDuration", true)
                 .build());
 
-        // ==================== PLUGIN DEBUG MODULES ====================
+        // плагины дебажим тут
 
         registerModule(NetPanelModule.builder("pluginDebug", "Plugin Debugger")
                 .description("Plugin event logging, error tracking, stack trace capture")

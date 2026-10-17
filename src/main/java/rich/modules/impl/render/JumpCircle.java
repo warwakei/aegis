@@ -145,7 +145,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
             alpha = 1f;
         }
 
-        // Пульация для красоты
+        // пульс для красыты
         float pulse = (float) Math.sin(progress * Math.PI * 6) * 0.125f + 1.0f;
         alpha *= pulse;
 
@@ -155,7 +155,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
 
         Vec3d circlePos = circle.pos();
 
-        // Рендер второго кольца
+        // второе кольцо рисуем
         if (doubleRing.isValue() && progress > ringOffset.getValue()) {
             float secondProgress = (progress - ringOffset.getValue()) / (1f - ringOffset.getValue());
             float secondScale = bounceOut(secondProgress) * maxSize.getValue() * 0.85f;
@@ -168,7 +168,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
             renderGradientCircle(matrices, immediate, circlePos, secondScale, secondAlpha, secondRotation, cameraPos);
         }
 
-        // Вращающиеся сегменты
+        // крутящиеся сегменты
         if (rotatingSegments.isValue()) {
             renderRotatingSegments(matrices, immediate, circlePos, scale, alpha * 0.4f, rotationOffset, cameraPos);
         }
@@ -279,7 +279,7 @@ public class JumpCircle extends ModuleStructure implements IMinecraft {
     private void renderRotatingSegments(MatrixStack matrices, VertexConsumerProvider.Immediate immediate,
                                         Vec3d pos, float size, float alpha, float rotationOffset, Vec3d cameraPos) {
         int segmentCount = 8;
-        float segmentArc = 0.3f; // размер сегмента в радианах
+        float segmentArc = 0.3f; // размер сегментика
 
         VertexConsumer buffer = immediate.getBuffer(ClientPipelines.BLOOM_ESP.apply(glowTexture));
 

@@ -14,21 +14,15 @@ import rich.util.Instance;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Silent 45° Strafe (45SP) — performs 45° strafe rotations during jumps
- * without visually rotating the client camera or body.
- *
- * How it works:
- * - Movement packets are modified to contain 45° offset yaw (server sees & processes strafe)
- * - Body yaw is NOT modified — player's body stays facing forward
- * - Camera stays at original yaw — no visual jitter
- * - Configurable strafe count per jump (1-5), evenly distributed across jump arc
- * - Timer Boost during strafe moments for extra speed
+ * сайлент стрейф на 45 градусов
+ * камера не дёргаеца магия
+ * пакеты шлём сервер хавает
  */
 public class Strafe45 extends ModuleStructure {
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
-    // Fields read by ClientPlayerEntityMixin hooks
+    // поля читает миксин не трогать
     private boolean strafePending = false;
     private float strafeYaw = 0;
     private float strafePitch = 0;
@@ -38,13 +32,13 @@ public class Strafe45 extends ModuleStructure {
     private int strafeCount = 0;
     private boolean strafeLeft = true;
     private long lastInterferenceTime = 0;
-    private static final long INTERFERENCE_COOLDOWN = 280; // ms
+    private static final long INTERFERENCE_COOLDOWN = 280; // мс
 
-    // Timer boost active flag (checked by mixin hook)
+    // флаг буста чекает миксин
     private boolean timerBoostActive = false;
-    private boolean timerBoostNextTick = false; // chained boost for next tick
+    private boolean timerBoostNextTick = false; // буст на след тик
 
-    // ===== Settings =====
+    // настройки
     private final SliderSettings strafesPerJump = new SliderSettings("Стрейфов за прыжок", "Количество 45° стрейфов за один прыжок")
             .range(1.0f, 5.0f)
             .setValue(3.0f);
@@ -99,8 +93,8 @@ public class Strafe45 extends ModuleStructure {
     }
 
     /**
-     * Generate evenly-spaced phase timings for the given strafe count.
-     * E.g. 1 strafe → [0.5], 2 strafes → [0.33, 0.66], 3 → [0.25, 0.50, 0.75], etc.
+     * считаем фазы стрейфов
+     * хз как но работает
      */
     @Native(type = Native.Type.VMProtectBeginUltra)
     private double[] generatePhases(int count, boolean hasCeiling) {
@@ -108,7 +102,7 @@ public class Strafe45 extends ModuleStructure {
         double ceilingFactor = hasCeiling ? 0.7 : 1.0;
 
         for (int i = 0; i < count; i++) {
-            // Distribute evenly: first at 1/(n+1), last at n/(n+1)
+            // раскидываем ровно по дуге
             phases[i] = ((i + 1.0) / (count + 1.0)) * ceilingFactor;
         }
 
@@ -120,15 +114,15 @@ public class Strafe45 extends ModuleStructure {
     public void onTick(TickEvent e) {
         if (mc.player == null || mc.world == null) return;
 
-        // Clear pending flag every tick
+        // чистим флаг каждый тик
         strafePending = false;
         timerBoostActive = false;
 
-        // Chain boost from previous tick
+        // чейн буст с прошлого тика
         if (timerBoostNextTick) {
             timerBoostActive = true;
             timerBoostNextTick = false;
-            applyTimerBoost(true); // 2x boost for chained tick
+            applyTimerBoost(true); // двойной буст щас
         }
 
         boolean onGround = mc.player.isOnGround();
@@ -137,40 +131,40 @@ public class Strafe45 extends ModuleStructure {
         boolean holdingA = mc.options.leftKey.isPressed();
         boolean holdingD = mc.options.rightKey.isPressed();
 
-        // Interference: A or D while W+Space → block with 280ms cooldown
+        // жмут а/д блочим на чутка
         if (holdingW && holdingSpace && (holdingA || holdingD)) {
             lastInterferenceTime = System.currentTimeMillis();
             resetState();
             return;
         }
 
-        // Cooldown after interference
+        // кд после блочки
         if (System.currentTimeMillis() - lastInterferenceTime < INTERFERENCE_COOLDOWN) {
             resetState();
             return;
         }
 
-        // Only work when W is held
+        // только если жмём в
         if (!holdingW) {
             resetState();
             wasOnGround = onGround;
             return;
         }
 
-        // Auto-jump: no delay when space is held
+        // автопрыг без задержки
         if (holdingSpace && onGround) {
             mc.player.jump();
             return;
         }
 
-        // Detect jump start (left ground)
+        // чекаем отрыв от земли
         if (wasOnGround && !onGround) {
             isJumping = true;
             strafeCount = 0;
             strafeLeft = true;
         }
 
-        // Strafe during airborne
+        // стрейфим пока летим
         if (isJumping && !onGround) {
             double progress = getJumpProgress();
             boolean hasCeiling = isBlockAbove();
@@ -184,7 +178,7 @@ public class Strafe45 extends ModuleStructure {
             }
         }
 
-        // Landed
+        // приземлились
         if (!wasOnGround && onGround) {
             resetState();
         }
@@ -193,8 +187,8 @@ public class Strafe45 extends ModuleStructure {
     }
 
     /**
-     * Marks a strafe as pending. Next movement packet will use strafeYaw/strafePitch
-     * while the body and camera stay at their original angles.
+     * ставим стрейф в ожидание
+     * тело и камера не паляца
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void executeStrafe() {
@@ -203,13 +197,13 @@ public class Strafe45 extends ModuleStructure {
         float baseYaw = mc.player.getYaw();
         float basePitch = mc.player.getPitch();
 
-        // 45° offset — alternate sides each strafe
+        // косим на 45 туда сюда
         strafeYaw = baseYaw + (strafeLeft ? 45.0f : -45.0f);
         strafePitch = basePitch;
         strafeLeft = !strafeLeft;
         strafePending = true;
 
-        // Apply strafe velocity in the rotated direction
+        // толкаем в повёрнутую сторону
         double strafeRad = Math.toRadians(strafeYaw);
         double speed = 0.28;
         mc.player.setVelocity(
@@ -218,7 +212,7 @@ public class Strafe45 extends ModuleStructure {
                 Math.cos(strafeRad) * speed
         );
 
-        // Activate timer boost for this tick
+        // врубаем буст на тик
         if (timerBoost.isValue()) {
             timerBoostActive = true;
             applyTimerBoost();
@@ -226,8 +220,8 @@ public class Strafe45 extends ModuleStructure {
     }
 
     /**
-     * Apply timer boost by increasing velocity.
-     * @param doubled if true, applies 2x the configured boost amount
+     * бустим скорость тупо
+     * @param doubled если тру то x2
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void applyTimerBoost() {
@@ -236,15 +230,15 @@ public class Strafe45 extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void applyTimerBoost(boolean doubled) {
-        float boostRange = timerBoostAmount.getValue(); // 0.1 to 1.3
+        float boostRange = timerBoostAmount.getValue(); // от 0.1 до 1.3
 
-        // If doubled (chain boost), multiply by 2
+        // чейн то умножаем на два
         float effectiveBoost = doubled ? boostRange * 2.0f : boostRange;
 
-        // Randomize: effectiveBoost * (0.5 to 1.0) for variation
+        // рандомим чтоб не палилось
         float boost = effectiveBoost * (0.5f + ThreadLocalRandom.current().nextFloat() * 0.5f);
 
-        // Apply boost to current velocity
+        // пихаем буст в скорость
         double velX = mc.player.getVelocity().x;
         double velZ = mc.player.getVelocity().z;
         double boostMultiplier = 1.0 + (boost / 100.0);
@@ -255,7 +249,7 @@ public class Strafe45 extends ModuleStructure {
                 velZ * boostMultiplier
         );
 
-        // 15% chance to chain boost to next tick (only if not already chaining and Chain Boost enabled)
+        // 15 проц чейн на след тик
         if (!doubled && timerBoostChain.isValue() && !timerBoostNextTick) {
             if (ThreadLocalRandom.current().nextDouble(1.0) < 0.15) {
                 timerBoostNextTick = true;
@@ -264,8 +258,8 @@ public class Strafe45 extends ModuleStructure {
     }
 
     /**
-     * Estimate jump progress (0.0 = just jumped, 1.0 = about to land)
-     * based on vertical velocity.
+     * прогресс прыжка по велосити
+     * хз как но работает
      */
     @Native(type = Native.Type.VMProtectBeginUltra)
     private double getJumpProgress() {

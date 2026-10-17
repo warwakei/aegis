@@ -60,8 +60,7 @@ public class BedESP extends ModuleStructure {
     }
     
     /**
-     * Получает цвет команды игрока по шлему
-     * Упрощённая версия - проверяет только наличие кожаного шлема
+     * цвет тимы по шлему
      */
     private int getMyTeamColor() {
         if (mc.player == null) return -1;
@@ -70,13 +69,13 @@ public class BedESP extends ModuleStructure {
         if (helmet.isEmpty()) return -1;
         if (helmet.getItem() != Items.LEATHER_HELMET) return -1;
         
-        // Возвращаем -1 так как определение цвета через компонент недоступно
-        // Просто проверяем что у нас кожаный шлем
+        // хз цвет не палится
+        // чек кожаного шлема
         return 0;
     }
     
     /**
-     * Проверяет является ли кровать кроватью противника
+     * чекаем вражескую кровать
      */
     private boolean isEnemyBed(BlockPos pos) {
         if (mc.world == null) return false;
@@ -84,25 +83,25 @@ public class BedESP extends ModuleStructure {
         BlockState state = mc.world.getBlockState(pos);
         if (!(state.getBlock() instanceof BedBlock)) return false;
         
-        // Проверяем цвет кровати (в BedWars кровати это окрашенные блоки)
-        // Кровать имеет цвет в зависимости от типа (red_bed, blue_bed, etc.)
+        // смотрим цвет кровати
+        // red_bed blue_bed и тд
         String bedName = state.getBlock().getTranslationKey();
         
-        // Если это не кровать - пропускаем
+        // не кровать скипаем
         if (!bedName.contains("bed")) return false;
         
-        // Если у нас нет цвета команды - считаем что это враг
+        // своей тимы нет значит враг
         if (myTeamColor == -1) return true;
         
-        // Определяем цвет кровати по названию
+        // цвет по названию
         int bedColor = getBedColorFromName(bedName);
         
-        // Если цвета не совпадают - это вражеская кровать
+        // цвет другой значит враг
         return bedColor != -1 && bedColor != myTeamColor;
     }
     
     /**
-     * Получает цвет кровати из названия блока
+     * цвет кровати по названию
      */
     private int getBedColorFromName(String bedName) {
         if (bedName.contains("red")) return ColorUtil.getColor(255, 0, 0, 255);
@@ -130,7 +129,7 @@ public class BedESP extends ModuleStructure {
             return;
         }
         
-        // Обновляем цвет команды раз в 5 секунд
+        // апдейт тимы раз в 5 сек
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastColorCheckTime >= 5000) {
             myTeamColor = getMyTeamColor();
@@ -140,7 +139,7 @@ public class BedESP extends ModuleStructure {
         BlockPos playerPos = mc.player.getBlockPos();
         long nanoTime = System.nanoTime() / 1_000_000;
         
-        // Полное сканирование каждые 2 секунды
+        // полный скан раз в 2 сек
         if (nanoTime - lastScanTime >= 2000) {
             renderBeds.clear();
             checkedBeds.clear();
@@ -185,7 +184,7 @@ public class BedESP extends ModuleStructure {
             checkCounter = 0;
         }
         
-        // Быстрая проверка ближней зоны
+        // быра чек рядом
         if (checkCounter % 5 == 0) {
             int nearChunkRange = 1;
             
@@ -223,7 +222,7 @@ public class BedESP extends ModuleStructure {
             }
         }
         
-        // Очистка удалённых кроватей
+        // чистим сломаные кровати
         if (checkCounter % 60 == 0) {
             renderBeds.entrySet().removeIf(entry -> {
                 BlockPos pos = entry.getKey();
@@ -237,7 +236,7 @@ public class BedESP extends ModuleStructure {
         
         checkCounter++;
         
-        // Рендер кроватей
+        // рисуем кровати
         renderBeds.forEach((pos, blockState) -> {
             Box box = new Box(pos);
             Render3D.drawBox(box, color.getColor(), 2.5f);

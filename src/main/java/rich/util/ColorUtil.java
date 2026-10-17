@@ -17,8 +17,7 @@ import java.util.concurrent.*;
 import java.util.regex.Pattern;
 
 /**
- *  © 2026 Copyright Aegis Neo 063 - Dev Build 2026 14:03 21.04
- *        All Rights Reserved ®
+ * копирайт эгиса
  */
 
 @Getter
@@ -46,7 +45,7 @@ public class ColorUtil {
     private final DelayQueue<CacheEntry> cleanupQueue = new DelayQueue<>();
     private final ScheduledExecutorService cacheCleaner = Executors.newSingleThreadScheduledExecutor(r -> {
         Thread t = new Thread(r, "ColorUtil-CacheCleaner");
-        t.setDaemon(true); // Daemon thread - не будет блокировать завершение JVM
+        t.setDaemon(true); // демон чтоб не висело
         return t;
     });
     public static final Pattern FORMATTING_CODE_PATTERN = Pattern.compile("(?i)§[0-9a-f-or]");
@@ -69,7 +68,7 @@ public class ColorUtil {
         put('F', 0xFFFFFF);
     }};
 
-    // Ограничиваем размер кэша чтобы не было утечки памяти
+    // режем кеш от жора
     private static final int MAX_CACHE_SIZE = 5000;
 
     static {
@@ -83,7 +82,7 @@ public class ColorUtil {
                     entry = cleanupQueue.poll();
                 }
                 
-                // Дополнительная защита: если кэш слишком большой - очищаем старые записи
+                // чистим старый кеш
                 if (colorCache.size() > MAX_CACHE_SIZE) {
                     colorCache.entrySet().stream()
                             .sorted((a, b) -> Long.compare(a.getValue().expirationTime, b.getValue().expirationTime))
@@ -94,13 +93,13 @@ public class ColorUtil {
                             });
                 }
             } catch (Exception ignored) {
-                // Игнорируем ошибки в фоновом потоке
+                // пофиг на ошибки
             }
         }, 0, 1, TimeUnit.SECONDS);
     }
 
     /**
-     * Останавливает cleaner (вызывается при shutdown)
+     * глушим чистильщик
      */
     public static void shutdown() {
         cacheCleaner.shutdownNow();

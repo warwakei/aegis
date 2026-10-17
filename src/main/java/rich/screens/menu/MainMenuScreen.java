@@ -204,8 +204,8 @@ public class MainMenuScreen extends Screen {
     }
 
     /**
-     * Фон меню: {@link Initialization} → {@link rich.util.render.shader.RenderCore#getTexturePipeline()}
-     * (текстура на GL-quad), дальше тон/виньетка/частицы через {@link Render2D} → RectPipeline (кастомный пайплайн, не чистый Blaze3D UI).
+     * фон меню тут {@link Initialization} → {@link rich.util.render.shader.RenderCore#getTexturePipeline()}
+     * тон виньетка частицы через {@link Render2D} кастомно
      */
     private void drawBackground(float zoom) {
         int screenWidth = getFixedScaledWidth();
@@ -243,11 +243,11 @@ public class MainMenuScreen extends Screen {
     }
 
     private void renderMenuVignette(int screenWidth, int screenHeight) {
-        // Vignette disabled
+        // виньетка выключена тут
     }
 
     private void renderMenuTopBar(int screenWidth, long currentTime) {
-        // Slightly tighter header: closer to the top and with less vertical padding.
+        // шапка повыше отступы меньше
         float h = 18f;
         float pulse = (float) Math.sin(currentTime * 0.0012) * 0.06f + 0.94f;
         int barA = (int) (42 * pulse);
@@ -320,7 +320,7 @@ public class MainMenuScreen extends Screen {
     private void renderMainMenuContent(int screenWidth, int screenHeight, float mouseX, float mouseY, float menuProgress, float alpha, float unlockTextAlpha, long currentTime) {
         float slideOffset = (1f - alpha) * 20f;
         
-        // Показываем текст разблокировки только когда меню еще заблокировано
+        // текст разлока пока меню закрыто
         if (!isUnlocked && unlockTextAlpha > 0.01f) {
             renderUnlockText(unlockTextAlpha, screenWidth, screenHeight);
         }
@@ -488,15 +488,15 @@ public class MainMenuScreen extends Screen {
 
     public void handleButtonClick(int index) {
         switch (index) {
-            case 0: // Singleplayer
+            case 0: // кнопка одиночки тут
                 client.setScreen(new net.minecraft.client.gui.screen.world.SelectWorldScreen(this)); break;
-            case 1: // Multiplayer
+            case 1: // кнопка сетевой тут
                 client.setScreen(new MultiplayerScreen(this)); break;
-            case 2: // AltManager (пользователь)
+            case 2: // кнопка альтов юзера
                 switchToView(View.ALT_SCREEN); break;
-            case 3: // Settings - открываем настройки майнкрафта
+            case 3: // кнопка настроек майнкрафта
                 client.setScreen(new net.minecraft.client.gui.screen.option.OptionsScreen(this, client.options)); break;
-            case 4: // Exit
+            case 4: // кнопка выхода тут
                 client.scheduleStop(); break;
         }
     }
@@ -540,7 +540,7 @@ public class MainMenuScreen extends Screen {
         }
         nicknameFieldFocused = false;
 
-        // Левая панель верх — кнопка «+» (координаты как в AccountRenderer)
+        // слева сверху плюс как в аккаунтах
         float fieldX = startX + 5;
         float fieldW = LEFT_PANEL_WIDTH - 10 - NICK_ADD_BTN_SIZE - NICK_ADD_GAP;
         float addBtnX = fieldX + fieldW + NICK_ADD_GAP;
@@ -557,7 +557,7 @@ public class MainMenuScreen extends Screen {
             return true;
         }
 
-        // Кнопка Random
+        // кнопка рандома тут
         float randomBtnX = startX + 5;
         float randomBtnY = addBtnY + NICK_FIELD_HEIGHT + 6;
         float randomBtnWidth = LEFT_PANEL_WIDTH - 10;
@@ -569,7 +569,7 @@ public class MainMenuScreen extends Screen {
             return true;
         }
 
-        // Кнопка Clear All
+        // кнопка очистить всё тут
         float clearBtnX = startX + 5;
         float clearBtnY = randomBtnY + 21;
         float clearBtnWidth = LEFT_PANEL_WIDTH - 10;
@@ -580,7 +580,7 @@ public class MainMenuScreen extends Screen {
             return true;
         }
 
-        // Правая панель - кнопки аккаунтов
+        // справа кнопки аккаунтов
         float rightPanelX = startX + LEFT_PANEL_WIDTH + 5;
         List<AccountEntry> sortedAccounts = accountConfig.getSortedAccounts();
         float accountListX = rightPanelX + 5;
@@ -608,7 +608,7 @@ public class MainMenuScreen extends Screen {
 
             AccountEntry account = sortedAccounts.get(i);
 
-            // Pin button
+            // кнопка пина тут
             if (mouseX >= pinBtnX && mouseX <= pinBtnX + buttonSize &&
                 mouseY >= buttonYPos && mouseY <= buttonYPos + buttonSize) {
                 account.setPinned(!account.isPinned());
@@ -616,14 +616,14 @@ public class MainMenuScreen extends Screen {
                 return true;
             }
 
-            // Delete button
+            // кнопка удаления тут
             if (mouseX >= delBtnX && mouseX <= delBtnX + buttonSize &&
                 mouseY >= buttonYPos && mouseY <= buttonYPos + buttonSize) {
                 accountConfig.removeAccount(account);
                 return true;
             }
 
-            // Клик по карточке - выбор аккаунта
+            // клик по карточке выбирает
             if (mouseX >= cardX && mouseX <= cardX + cardWidth &&
                 mouseY >= cardY && mouseY <= cardY + cardHeight) {
                 accountConfig.setActiveAccount(account.getName(), account.getDate(), account.getSkin());

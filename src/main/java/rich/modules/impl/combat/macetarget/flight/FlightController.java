@@ -24,12 +24,12 @@ public class FlightController {
     private float height = 30.0f;
     private boolean smartPathEnabled = false;
 
-    // Кэш для избежания повторных вычислений
+    // кеш чтоб не считать дважды
     private Vec3d cachedTargetPosition = null;
     private LivingEntity cachedTarget = null;
     private Stage cachedStage = null;
     private long cacheTime = 0;
-    private static final long CACHE_DURATION_MS = 25; // Кэш на 25ms
+    private static final long CACHE_DURATION_MS = 25; // кеш 25мс
 
     public FlightController(TargetPredictor predictor) {
         this.predictor = predictor;
@@ -60,7 +60,7 @@ public class FlightController {
     }
 
     /**
-     * Проверяет есть ли блок в указанной позиции
+     * блок тут есть ли
      */
     private boolean hasBlockAt(Vec3d pos) {
         if (mc.world == null) return false;
@@ -70,7 +70,7 @@ public class FlightController {
     }
 
     /**
-     * Проверяет есть ли место для игрока в данной позиции (2 блока высоты)
+     * влезет ли чел 2 блока
      */
     private boolean hasSpaceForPlayer(Vec3d pos) {
         for (int h = 0; h < 2; h++) {
@@ -82,7 +82,7 @@ public class FlightController {
     }
 
     /**
-     * Проверяет видимость цели (raycast)
+     * видно ли цель рейкаст
      */
     private boolean hasClearPath(Vec3d from, Vec3d to) {
         if (mc.world == null) return false;
@@ -100,13 +100,13 @@ public class FlightController {
     }
 
     /**
-     * Ищет безопасную позицию для атаки с полным обходом препятствий по X/Y/Z
+     * ищем точку обходя стены
      */
     private Vec3d findSmartPathPosition(LivingEntity target, Stage stage) {
         Vec3d basePos = getTargetPosition(target, stage);
 
         if (!smartPathEnabled) {
-            // Без умного путя - просто летим вверх/вниз по Y
+            // без умняка просто вверх вниз
             switch (stage) {
                 case FLYING_UP -> {
                     return basePos.add(0, height, 0);
@@ -134,12 +134,12 @@ public class FlightController {
     }
 
     /**
-     * Поиск позиции для полёта вверх с обходом препятствий
+     * точка вверх обходя крышу
      */
     private Vec3d findFlyingUpPosition(Vec3d basePos, LivingEntity target) {
         Vec3d flyTarget = basePos.add(0, height, 0);
 
-        // Стратегия 1: Проверяем основную позицию сверху вниз
+        // план 1 чек верх вниз
         for (int offset = 0; offset <= 10; offset++) {
             Vec3d checkPos = basePos.add(0, height - offset, 0);
             if (hasSpaceForPlayer(checkPos)) {
@@ -147,13 +147,13 @@ public class FlightController {
             }
         }
 
-        // Стратегия 2: Поиск по спирали от центра
+        // план 2 спираль от центра
         Vec3d spiralResult = findPositionSpiral(basePos, height, 6, 2);
         if (spiralResult != null) {
             return spiralResult;
         }
 
-        // Стратегия 3: Поиск в радиусе с приоритетом ближайших точек
+        // план 3 радиус ближние точки
         Vec3d radiusResult = findPositionInRadius(basePos, height, 8);
         if (radiusResult != null) {
             return radiusResult;
@@ -163,7 +163,7 @@ public class FlightController {
     }
 
     /**
-     * Поиск позиции для атаки с обходом препятствий
+     * точка для удара обходя стены
      */
     private Vec3d findAttackPosition(Vec3d basePos, LivingEntity target, Stage stage) {
         if (mc.world == null || mc.player == null) {
@@ -172,12 +172,12 @@ public class FlightController {
 
         Vec3d playerPos = mc.player.getEyePos();
 
-        // Проверяем прямой путь к цели
+        // чек прямой путь
         if (hasClearPath(playerPos, basePos)) {
             return basePos;
         }
 
-        // Стратегия 1: Смещение вверх для обхода препятствий
+        // план 1 вверх обходим
         for (int yOffset = 1; yOffset <= 4; yOffset++) {
             Vec3d elevatedPos = basePos.add(0, yOffset, 0);
             if (hasClearPath(playerPos, elevatedPos)) {
@@ -185,24 +185,24 @@ public class FlightController {
             }
         }
 
-        // Стратегия 2: Поиск позиции с которой видна цель
+        // план 2 откуда видно
         Vec3d visibleResult = findVisiblePosition(playerPos, basePos, 5, 3);
         if (visibleResult != null) {
             return visibleResult;
         }
 
-        // Стратегия 3: Спиральный поиск вокруг цели
+        // план 3 спираль вокруг
         Vec3d spiralResult = findPositionSpiral(basePos, 2, 4, 2);
         if (spiralResult != null && hasClearPath(playerPos, spiralResult)) {
             return spiralResult;
         }
 
-        // Если ничего не помогло, возвращаем базовую позицию
+        // ниче не зашло берем базу
         return basePos;
     }
 
     /**
-     * Спиральный поиск свободной позиции
+     * спираль ищем свободную
      */
     private Vec3d findPositionSpiral(Vec3d center, double baseHeight, int maxRadius, int maxIterations) {
         List<Vec3d> candidates = new ArrayList<>();
@@ -213,11 +213,11 @@ public class FlightController {
                 double x = center.x + radius * Math.cos(rad);
                 double z = center.z + radius * Math.sin(rad);
 
-                // Проверяем несколько высот
+                // высоты разные чекаем
                 for (int yOff = -2; yOff <= 2; yOff++) {
                     Vec3d pos = new Vec3d(x, baseHeight + yOff, z);
                     if (hasSpaceForPlayer(pos)) {
-                        // Оцениваем позицию по расстоянию до центра
+                        // оценка по дистанции
                         double distance = pos.distanceTo(center);
                         candidates.add(pos);
                     }
@@ -225,13 +225,13 @@ public class FlightController {
             }
         }
 
-        // Сортируем по расстоянию и возвращаем ближайшую
+        // ближнюю берем
         candidates.sort(Comparator.comparingDouble(p -> p.distanceTo(center)));
         return candidates.isEmpty() ? null : candidates.get(0);
     }
 
     /**
-     * Поиск позиции в радиусе
+     * в радиусе ищем
      */
     private Vec3d findPositionInRadius(Vec3d center, double height, int maxRadius) {
         List<Vec3d> candidates = new ArrayList<>();
@@ -240,7 +240,7 @@ public class FlightController {
             for (int z = -maxRadius; z <= maxRadius; z++) {
                 if (x == 0 && z == 0) continue;
 
-                // Проверяем несколько высот
+                // высоты разные чекаем
                 for (int yOff = -3; yOff <= 3; yOff++) {
                     Vec3d pos = center.add(x, height + yOff, z);
                     if (hasSpaceForPlayer(pos)) {
@@ -256,7 +256,7 @@ public class FlightController {
     }
 
     /**
-     * Поиск позиции с видимостью до цели
+     * откуда видно цель
      */
     private Vec3d findVisiblePosition(Vec3d from, Vec3d targetPos, int searchRadius, int yOffset) {
         List<Vec3d> candidates = new ArrayList<>();
@@ -278,14 +278,14 @@ public class FlightController {
     }
 
     /**
-     * Рассчитывает угол до цели с учётом препятствий
+     * угол с учетом стен
      */
     public Angle calculateAngle(LivingEntity target, Stage stage) {
         if (target == null || mc.player == null) {
             return MathAngle.cameraAngle();
         }
 
-        // Проверяем кэш
+        // кеш чекаем
         long currentTime = System.currentTimeMillis();
         if (cachedTarget == target && cachedStage == stage && 
             (currentTime - cacheTime) < CACHE_DURATION_MS && cachedTargetPosition != null) {
@@ -295,7 +295,7 @@ public class FlightController {
 
         Vec3d targetPos = findSmartPathPosition(target, stage);
 
-        // Обновляем кэш
+        // кеш обновили
         cachedTargetPosition = targetPos;
         cachedTarget = target;
         cachedStage = stage;

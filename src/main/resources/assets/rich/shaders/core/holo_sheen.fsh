@@ -4,14 +4,23 @@ uniform sampler2D NoiseSampler;
 
 in vec2 fragCoord;
 in vec2 pixelCoord;
+in vec2 rectSize;
+in vec4 cornerRadii;
+in vec4 tint;
+in float guiScale;
+in float timeSeconds;
+in float intensity;
+in float speed;
+in float angle;
+in float grain;
 
 layout(std140) uniform SheenData {
     vec4 rect;
     vec4 screen;
     vec4 radii;
     vec4 tintColor;
-    vec4 params0;
-    vec4 params1;
+    vec4 params0; // time, intensity, speed, angle
+    vec4 params1; // grain, blendMode, unused...
 };
 
 out vec4 fragColor;
@@ -36,27 +45,27 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-    vec2 rectSize = rect.zw;
     vec2 halfSize = rectSize * 0.5;
     vec2 center = pixelCoord - halfSize;
 
     float maxRadius = min(halfSize.x, halfSize.y);
-    vec4 currentRadii = min(radii, vec4(maxRadius));
+    vec4 currentRadii = min(cornerRadii, vec4(maxRadius));
 
     float dist = roundedBoxSDF(center, halfSize, currentRadii);
 
     float pixelWidth = fwidth(dist);
-    float smoothing = max(pixelWidth, 0.5 / screen.z);
+    float smoothing = max(pixelWidth, 0.5 / guiScale);
     float alpha = 1.0 - smoothstep(-smoothing, smoothing, dist);
 
     if (alpha < 0.01) {
         discard;
     }
 
-    vec2 uv = pixelCoord / max(rect.zw, vec2(1.0));
+    vec2 uv = pixelCoord / max(rectSize, vec2(1.0));
 
-    float t = fract(params0.x * params0.z);
-    vec2 dir = vec2(cos(params0.w), sin(params0.w));
+    // three offset bands make the sweep read as light, not as a stripe
+    float t = fract(timeSeconds * speed);
+    vec2 dir = vec2(cos(angle), sin(angle));
 
     float sweep = dot(uv - 0.5, normalize(dir));
     float travel = fract(t + sweep * 0.34);
@@ -69,24 +78,30 @@ void main() {
     float tertiaryBand = exp(-pow(abs(d - 0.21) / (bandWidth * 1.70), 2.0)) * 0.40;
     float band = primaryBand + secondaryBand + tertiaryBand;
 
+    // oil-film hue drift across the surface plus a slow global shift
     float hue = fract(0.55 + sweep * 0.42 + t * 0.30);
     vec3 iri = hsv2rgb(vec3(hue, 0.65, 1.0));
 
     float hue2 = fract(hue + 0.20 + sin((uv.x + uv.y + t) * 6.8) * 0.050);
     vec3 iri2 = hsv2rgb(vec3(hue2, 0.50, 1.0));
 
-    float n = texture(NoiseSampler, uv * 12.0 + params0.x * 0.10).r;
-    float g = (n - 0.5) * params1.x;
+    // film grain, slow scanline and a shimmer to keep it alive
+    float n = texture(NoiseSampler, uv * 12.0 + timeSeconds * 0.10).r;
+    float g = (n - 0.5) * grain;
 
     float scan = sin((uv.y + t * 0.85) * 160.0) * 0.008;
     float shimmer = 0.5 + 0.5 * sin((uv.x * 19.0 + uv.y * 26.0 + t * 9.0) * 3.14159);
 
-    float sheen = band * params0.y * (0.85 + shimmer * 0.25);
+    float sheen = band * intensity * (0.85 + shimmer * 0.25);
     vec3 col = mix(vec3(1.0), iri, 0.52) * sheen;
-    col += iri2 * secondaryBand * params0.y * 0.32;
+    col += iri2 * secondaryBand * intensity * 0.32;
     col += vec3(scan);
     col += g * 0.70;
 
-    vec4 src = vec4(col * tintColor.rgb, alpha * tintColor.a * sheen);
-    fragColor = src;
+    // thin holographic edge so rectangles do not look pasted on
+    float edgeGlow = smoothstep(1.5, 0.0, min(min(pixelCoord.x, pixelCoord.y),
+                                             min(rectSize.x - pixelCoord.x, rectSize.y - pixelCoord.y)));
+    col += edgeGlow * iri * 0.10 * intensity;
+
+    fragColor = vec4(col * tint.rgb, alpha * tint.a * sheen);
 }

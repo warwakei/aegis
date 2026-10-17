@@ -23,7 +23,7 @@ repositories {
 }
 
 loom {
-    // No access widener needed for updater
+    // вайденер тут нафиг не нужен
 }
 
 dependencies {

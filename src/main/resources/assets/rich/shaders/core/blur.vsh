@@ -2,10 +2,10 @@
 
 layout(std140) uniform BlurData {
     vec4 rect;
-    vec4 screen;
+    vec4 screen; // xy = screen size, z = gui scale, w = blur radius
     vec4 framebufferSize;
     vec4 radii;
-    vec4 color;
+    vec4 color; // tint
 };
 
 out vec2 fragCoord;
@@ -47,6 +47,7 @@ void main() {
     texelSize = 1.0 / resolution;
     tintColor = color;
 
+    // the framebuffer is flipped, fix the sample uv here once
     vec2 fbPos = screenPos * guiScale;
     texCoord = vec2(fbPos.x / resolution.x, 1.0 - (fbPos.y / resolution.y));
 }

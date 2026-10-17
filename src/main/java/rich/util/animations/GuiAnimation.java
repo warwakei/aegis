@@ -11,7 +11,7 @@ public class GuiAnimation {
     protected int ms = 250;
     protected double value = 1.0;
     protected Direction direction = Direction.FORWARDS;
-    // Easing для анимации (по умолчанию Spring для быстрого отклика)
+    // easing для плавки
     protected Easing easing = Easings.SPRING;
 
     public GuiAnimation reset() {

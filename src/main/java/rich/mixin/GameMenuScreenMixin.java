@@ -8,16 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Миксин для удаления лишних кнопок из меню паузы (ESC)
- * Оставляет только: "Вернуться к игре", "Настройки" и "Отключиться"
- * 
- * Порядок кнопок в GameMenuScreen (по initWidgets):
- * 1. Вернуться к игре (широкая)
- * 2. Достижения
- * 3. Статистика
- * 4. Настройки
- * 5. Обратная связь / Ссылки сервера / Жалобы
- * 6. Отключиться (широкая)
+ * миксин чтоб меню почистить
  */
 @Mixin(GameMenuScreen.class)
 public class GameMenuScreenMixin {
@@ -26,17 +17,17 @@ public class GameMenuScreenMixin {
     private void onInitWidgets(CallbackInfo ci) {
         GameMenuScreen screen = (GameMenuScreen) (Object) this;
         
-        // Удаляем кнопки по их порядку в списке children()
-        // Нужно удалять в обратном порядке чтобы индексы не сбились
+        // сносим кнопки по порядку
+        // сносим с конца чтоб индексы целы
         var children = screen.children();
         
-        // Находим и удаляем ненужные кнопки
+        // ищем мусорные кнопки сносим
         children.removeIf(element -> {
             if (element instanceof ButtonWidget button) {
                 String message = button.getMessage().getString();
                 
-                // Удаляем всё кроме "Вернуться к игре", "Настройки" и "Отключиться"
-                // Эти кнопки имеют специфичные тексты в Minecraft
+                // оставляем только нужные кнопки
+                // костыль для ванилы по текстам
                 return !message.contains("Вернуться") && 
                        !message.contains("Return") && 
                        !message.contains("Game") &&

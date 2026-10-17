@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Ring buffer for log entries. Automatically overwrites oldest entries when full.
- * Thread-safe.
+ * кольцевой буфер логов держим
  */
 public class LogBuffer {
 

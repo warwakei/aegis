@@ -31,8 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Embedded HTTP server for the NetPanel web interface.
- * Serves static files from /netpanel/ and provides REST + SSE APIs.
+ * панелька сервер пашет тут
  */
 public class NetPanelServer {
 
@@ -48,17 +47,17 @@ public class NetPanelServer {
 
     public static ModuleManager getModuleManager() { return staticModuleManager; }
 
-    // FPS tracking
+    // фпс считаем тут
     private int lastFps = 0;
     private int fpsAccum = 0;
     private int fpsCount = 0;
     private long fpsLastUpdate = 0;
 
-    // TPS tracking
+    // тпс считаем тут
     private final AtomicLong tickCount = new AtomicLong(0);
     private final AtomicLong lastTickTime = new AtomicLong(System.currentTimeMillis());
     private double tps = 20.0;
-    private final long[] tickSamples = new long[600]; // 30 seconds at 20tps
+    private final long[] tickSamples = new long[600]; // тики за полминуты копим
     private int tickSampleIndex = 0;
 
     public void start() {
@@ -66,7 +65,7 @@ public class NetPanelServer {
             port = findFreePort(DEFAULT_PORT);
             currentPort = port;
 
-            // Initialize modules
+            // модули панельки стартуем
             moduleManager.init();
             staticModuleManager = moduleManager;
 
@@ -74,10 +73,10 @@ public class NetPanelServer {
             executor = Executors.newFixedThreadPool(4);
             server.setExecutor(executor);
 
-            // Static files
+            // статику панельки раздаём
             server.createContext("/", new StaticFileHandler());
 
-            // API endpoints
+            // апишки панельки вешаем
             server.createContext("/api/status", new StatusHandler());
             server.createContext("/api/console", new ConsoleHandler());
             server.createContext("/api/chat", new ChatHandler());
@@ -127,7 +126,7 @@ public class NetPanelServer {
         return startPort;
     }
 
-    // ===== TPS Tracking =====
+    // тпс трекаем тут
     public void onTick() {
         tickCount.incrementAndGet();
         long now = System.currentTimeMillis();
@@ -137,7 +136,7 @@ public class NetPanelServer {
         tickSamples[tickSampleIndex % tickSamples.length] = delta;
         tickSampleIndex++;
 
-        // Calculate TPS from last 100 samples
+        // тпс по сотке семплов считаем
         int samples = Math.min(100, tickSampleIndex);
         long totalDelta = 0;
         for (int i = 0; i < samples; i++) {
@@ -149,7 +148,7 @@ public class NetPanelServer {
         }
     }
 
-    // FPS tracking called from tick
+    // фпс из тика обновляем
     public void updateFps(int currentFps) {
         fpsAccum += currentFps;
         fpsCount++;
@@ -170,7 +169,7 @@ public class NetPanelServer {
         return tps;
     }
 
-    // ==================== Handlers ====================
+    // хендлеры панельки ниже
 
     private static void sendJson(HttpExchange exchange, int code, Object obj) throws IOException {
         String json = GSON.toJson(obj);
@@ -201,7 +200,7 @@ public class NetPanelServer {
 
         JsonObject sys = new JsonObject();
 
-        // Memory
+        // память смотрим
         long usedMem = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
         long totalMem = runtime.totalMemory() / 1024 / 1024;
         long maxMem = runtime.maxMemory() / 1024 / 1024;
@@ -210,7 +209,7 @@ public class NetPanelServer {
         sys.addProperty("maxMemory", maxMem);
         sys.addProperty("memoryPercent", (double) usedMem / maxMem * 100);
 
-        // Heap details
+        // кучу детально смотрим
         long heapUsed = memBean.getHeapMemoryUsage().getUsed() / 1024 / 1024;
         long heapMax = memBean.getHeapMemoryUsage().getMax() / 1024 / 1024;
         long heapCommitted = memBean.getHeapMemoryUsage().getCommitted() / 1024 / 1024;
@@ -218,13 +217,13 @@ public class NetPanelServer {
         sys.addProperty("heapMax", heapMax);
         sys.addProperty("heapCommitted", heapCommitted);
 
-        // Non-heap memory
+        // не кучу смотрим
         long nonHeapUsed = memBean.getNonHeapMemoryUsage().getUsed() / 1024 / 1024;
         long nonHeapMax = memBean.getNonHeapMemoryUsage().getMax() / 1024 / 1024;
         sys.addProperty("nonHeapUsed", nonHeapUsed);
         sys.addProperty("nonHeapMax", nonHeapMax > 0 ? nonHeapMax : -1);
 
-        // CPU
+        // проц смотрим
         try {
             OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
             double cpuLoad = osBean.getProcessCpuLoad();
@@ -235,7 +234,7 @@ public class NetPanelServer {
             }
             sys.addProperty("availableProcessors", osBean.getAvailableProcessors());
 
-            // System CPU load
+            // нагрузку системы смотрим
             double systemCpuLoad = osBean.getSystemCpuLoad();
             if (systemCpuLoad >= 0) {
                 sys.addProperty("systemCpuPercent", Math.round(systemCpuLoad * 100));
@@ -248,7 +247,7 @@ public class NetPanelServer {
             sys.addProperty("availableProcessors", runtime.availableProcessors());
         }
 
-        // Uptime
+        // аптайм считаем
         long uptimeMs = System.currentTimeMillis() - START_TIME;
         long uptimeSec = uptimeMs / 1000;
         long hours = uptimeSec / 3600;
@@ -257,14 +256,14 @@ public class NetPanelServer {
         sys.addProperty("uptime", String.format("%02d:%02d:%02d", hours, minutes, seconds));
         sys.addProperty("uptimeSeconds", uptimeSec);
 
-        // Thread count
+        // потоки считаем
         ThreadGroup rootGroup = Thread.currentThread().getThreadGroup();
         while (rootGroup.getParent() != null) {
             rootGroup = rootGroup.getParent();
         }
         sys.addProperty("threadCount", rootGroup.activeCount());
 
-        // Disk space (game directory)
+        // место на диске смотрим
         try {
             java.nio.file.Path gameDir = net.fabricmc.loader.api.FabricLoader.getInstance().getGameDir();
             java.nio.file.FileStore fileStore = java.nio.file.Files.getFileStore(gameDir);
@@ -282,11 +281,11 @@ public class NetPanelServer {
             sys.addProperty("diskPercent", -1);
         }
 
-        // Java version
+        // джаву показываем
         sys.addProperty("javaVersion", System.getProperty("java.version"));
         sys.addProperty("javaVendor", System.getProperty("java.vendor"));
 
-        // OS info
+        // ось показываем
         sys.addProperty("osName", System.getProperty("os.name"));
         sys.addProperty("osArch", System.getProperty("os.arch"));
         sys.addProperty("osVersion", System.getProperty("os.version"));
@@ -409,7 +408,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== World Info Handler =====
+    // мир панельке отдаём
     private static class WorldHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -421,7 +420,7 @@ public class NetPanelServer {
             JsonObject world = new JsonObject();
 
             if (mc.player != null && mc.world != null) {
-                // Coordinates
+                // корды игрока тащим
                 JsonObject pos = new JsonObject();
                 pos.addProperty("x", Math.round(mc.player.getX() * 100.0) / 100.0);
                 pos.addProperty("y", Math.round(mc.player.getY() * 100.0) / 100.0);
@@ -430,10 +429,10 @@ public class NetPanelServer {
                 pos.addProperty("pitch", Math.round(mc.player.getPitch() * 10.0) / 10.0);
                 world.add("position", pos);
 
-                // Dimension
+                // измерение смотрим
                 world.addProperty("dimension", mc.world.getRegistryKey().getValue().toString());
 
-                // Biome
+                // биом смотрим
                 var biomePos = mc.player.getBlockPos();
                 var biomeEntry = mc.world.getBiome(biomePos);
                 String biomeName = biomeEntry.getKey()
@@ -442,7 +441,7 @@ public class NetPanelServer {
                         .orElse("Unknown");
                 world.addProperty("biome", capitalize(biomeName));
 
-                // Time of day
+                // время суток смотрим
                 long worldTime = mc.world.getTimeOfDay();
                 long dayTime = worldTime % 24000;
                 String timeOfDay;
@@ -454,7 +453,7 @@ public class NetPanelServer {
                 world.addProperty("timeOfDay", timeOfDay);
                 world.addProperty("dayTime", dayTime);
 
-                // Weather
+                // погоду смотрим
                 boolean raining = mc.world.isRaining();
                 boolean thundering = mc.world.isThundering();
                 String weather;
@@ -463,7 +462,7 @@ public class NetPanelServer {
                 else weather = "Clear";
                 world.addProperty("weather", weather);
 
-                // Seed (access via reflection since ClientWorld.Properties is private)
+                // сид через рефлексию дёргаем
                 try {
                     java.lang.reflect.Field propsField = mc.world.getClass().getDeclaredField("clientWorldProperties");
                     propsField.setAccessible(true);
@@ -481,7 +480,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Potions Handler =====
+    // зельки панельке отдаём
     private static class PotionsHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -512,7 +511,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Server Info Handler =====
+    // сервак панельке отдаём
     private class ServerHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -524,10 +523,10 @@ public class NetPanelServer {
             JsonObject serverInfo = new JsonObject();
 
             if (mc.getNetworkHandler() != null) {
-                // TPS
+                // тпс суём
                 serverInfo.addProperty("tps", Math.round(tps * 100.0) / 100.0);
 
-                // Ping
+                // пинг суём
                 if (mc.player != null) {
                     var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
                     if (entry != null) {
@@ -535,7 +534,7 @@ public class NetPanelServer {
                     }
                 }
 
-                // Server address
+                // адрес серва суём
                 ServerInfo si = mc.getNetworkHandler().getServerInfo();
                 if (si != null) {
                     String address = si.address;
@@ -553,11 +552,11 @@ public class NetPanelServer {
                     }
                 }
 
-                // Player count
+                // онлайн суём
                 int playerCount = mc.getNetworkHandler().getPlayerList().size();
                 serverInfo.addProperty("players", playerCount);
 
-                // Server brand
+                // бренд серва суём
                 String brand = mc.getNetworkHandler().getBrand();
                 if (brand != null) {
                     serverInfo.addProperty("brand", brand);
@@ -573,7 +572,7 @@ public class NetPanelServer {
     }
 
     /**
-     * Server-Sent Events endpoint for real-time log streaming.
+     * ссе стрим панельке гоним
      */
     private class SSEHandler implements HttpHandler {
         @Override
@@ -628,7 +627,7 @@ public class NetPanelServer {
                     os.flush();
                 }
             } catch (InterruptedException | IOException e) {
-                // Client disconnected
+                // клиент отвалился бывает
             }
         }
 
@@ -647,7 +646,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Modules Handler =====
+    // модули панельке отдаём
     private class ModulesHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -705,7 +704,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Moderation Handler =====
+    // модерку панельке отдаём
     private static class ModerationHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -725,7 +724,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Anticheat Handler =====
+    // античит панельке отдаём
     private static class AnticheatHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -749,7 +748,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Hitreg Handler =====
+    // хитрег панельке отдаём
     private static class HitregHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -769,14 +768,14 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Hitreg Export Handler (for clipboard copy) =====
+    // хитрег для копипаста отдаём
     private static class HitregExportHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
 
             String query = exchange.getRequestURI().getQuery();
-            int count = 30; // default
+            int count = 30; // по дефолту тридцатку даём
             if (query != null && query.startsWith("count=")) {
                 try { count = Integer.parseInt(query.substring(6)); } catch (NumberFormatException ignored) {}
             }
@@ -793,7 +792,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Performance Handler =====
+    // перфоманс панельке отдаём
     private class PerformanceHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -814,7 +813,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Network Handler =====
+    // сеть панельке отдаём
     private static class NetworkHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -831,12 +830,12 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Sessions Handler =====
+    // сессии панельке отдаём
     private static class SessionsHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
-            // Sessions are tracked via console parsing for now
+            // сессии пока через консоль палим
             JsonObject sessions = new JsonObject();
             sessions.addProperty("note", "Session tracking via console");
             sendJson(exchange, 200, sessions);
@@ -849,7 +848,7 @@ public class NetPanelServer {
             String path = exchange.getRequestURI().getPath();
             if (path.equals("/")) path = "/index.html";
 
-            // Security: prevent path traversal
+            // точки в пути режем от хака
             path = path.replace("..", "");
 
             String resourcePath = "netpanel" + path;
@@ -889,7 +888,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Utility methods =====
+    // мелкие хелперы ниже
 
     private static String capitalize(String str) {
         if (str == null || str.isEmpty()) return str;

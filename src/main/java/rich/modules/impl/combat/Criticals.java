@@ -56,10 +56,10 @@ public class Criticals extends ModuleStructure {
         
         if (!timer.finished(delay.getValue())) return;
         
-        // Проверка на землю если включена
+        // чек земля вкл или нет
         if (onlyGround.isValue() && !mc.player.isOnGround()) return;
         
-        // Проверка условий для крита
+        // чек можно ли крит
         if (!canCritical()) return;
         
         switch (mode.getSelected()) {
@@ -76,16 +76,16 @@ public class Criticals extends ModuleStructure {
     }
     
     private boolean canCritical() {
-        // Для Fly режима - всегда можно
+        // флай всегда можно
         if (mode.isSelected("Fly")) {
             return true;
         }
         
-        // Базовые проверки для остальных режимов
+        // база для остальных
         if (mc.player.isTouchingWater() || mc.player.isInLava()) return false;
         if (mc.player.hasVehicle()) return false;
         
-        // Для Matrix режима - дополнительные проверки
+        // матрикс доп чек
         if (mode.isSelected("Matrix")) {
             return canMatrixCritical();
         }
@@ -94,19 +94,19 @@ public class Criticals extends ModuleStructure {
     }
     
     private boolean canMatrixCritical() {
-        // Умная логика для Matrix
+        // умный матрикс
         if (!smartMatrix.isValue()) return true;
         
         long currentTime = System.currentTimeMillis();
         
-        // Ограничиваем частоту критов для Matrix
+        // режем частоту матрикса
         if (currentTime - lastMatrixTime < 150) return false;
         
-        // Проверяем счётчик для вариации
+        // счетчик для рандома
         matrixCounter++;
         if (matrixCounter > 3) {
             matrixCounter = 0;
-            return currentTime - lastMatrixTime > 300; // Пауза каждые 3 крита
+            return currentTime - lastMatrixTime > 300; // передых каждые 3 крита
         }
         
         return true;
@@ -174,7 +174,7 @@ public class Criticals extends ModuleStructure {
         lastMatrixTime = System.currentTimeMillis();
         
         if (smartMatrix.isValue()) {
-            // Умный Matrix - адаптивные значения
+            // умный матрикс адаптив
             double[] offsets = getMatrixOffsets();
             
             for (double offset : offsets) {
@@ -182,7 +182,7 @@ public class Criticals extends ModuleStructure {
             }
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, true, false));
         } else {
-            // Стандартный Matrix
+            // обычный матрикс
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y + 0.05, z, yaw, pitch, false, false));
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, false, false));
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y + 0.03, z, yaw, pitch, false, false));
@@ -199,20 +199,20 @@ public class Criticals extends ModuleStructure {
         
         lastMatrixTime = System.currentTimeMillis();
         
-        // Специальный режим для полёта - микро движения
+        // полет микро двиги
         if (mc.player.getAbilities().flying || mc.player.isGliding()) {
-            // В полёте используем минимальные смещения
+            // в полете мелкий сдвиг
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y + 0.001, z, yaw, pitch, false, false));
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y - 0.001, z, yaw, pitch, false, false));
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, false, false));
         } else {
-            // На земле - обычный Matrix
+            // на земле обычный
             matrixCritical();
         }
     }
     
     private void flyCritical() {
-        // Безопасный режим для полёта - НЕ двигает игрока по X/Z
+        // сейв флай не двигаем
         double x = mc.player.getX();
         double y = mc.player.getY();
         double z = mc.player.getZ();
@@ -221,17 +221,17 @@ public class Criticals extends ModuleStructure {
         boolean onGround = mc.player.isOnGround();
         
         if (flyMode.isValue()) {
-            // Ультра-безопасный режим - только изменение onGround флага
+            // ультрасейв тока флаги
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, false, false));
             mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, onGround, false));
         } else {
-            // Стандартный fly режим с микро Y смещением
+            // обычный флай микро Y
             if (onGround) {
-                // На земле - минимальное поднятие
+                // на земле чутка вверх
                 mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y + 0.0001, z, yaw, pitch, false, false));
                 mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, true, false));
             } else {
-                // В воздухе - только флаг onGround
+                // в воздухе тока флаг
                 mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, false, false));
                 mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, true, false));
             }
@@ -239,7 +239,7 @@ public class Criticals extends ModuleStructure {
     }
     
     private double[] getMatrixOffsets() {
-        // Адаптивные смещения для Matrix в зависимости от счётчика
+        // сдвиги по счетчику
         return switch (matrixCounter % 4) {
             case 0 -> new double[]{0.042, 0.021, 0.003};
             case 1 -> new double[]{0.051, 0.025, 0.004};

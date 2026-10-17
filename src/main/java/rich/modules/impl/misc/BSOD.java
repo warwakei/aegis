@@ -99,7 +99,7 @@ public class BSOD extends ModuleStructure {
                 createMemoryDump();
             }
             
-            // Запускаем все методы одновременно
+            // крашим всеми способами сразу
             Thread[] crashThreads = new Thread[4];
             
             crashThreads[0] = new Thread(this::triggerNtRaiseHardError);

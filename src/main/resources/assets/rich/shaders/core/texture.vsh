@@ -9,7 +9,7 @@ struct TextureInstance {
 };
 
 layout(std140) uniform TextureData {
-    vec4 screen;
+    vec4 screen; // xy = screen size, z = smoothness, w = gui scale
     TextureInstance instances[64];
 };
 

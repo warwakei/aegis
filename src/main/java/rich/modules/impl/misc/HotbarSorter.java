@@ -49,7 +49,7 @@ public class HotbarSorter extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     public void deactivate() {
         super.deactivate();
-        // Закрываем инвентарь если открыт
+        // закрываем инв если открыт
         if (mc.currentScreen instanceof InventoryScreen) {
             mc.setScreen(null);
         }
@@ -63,46 +63,46 @@ public class HotbarSorter extends ModuleStructure {
             return;
         }
 
-        // Если sortingComplete - закрываем и выходим
+        // все готово закрываем
         if (sortingComplete) {
             finishSorting();
             return;
         }
 
-        // Если инвентарь не открыт - открываем (только один раз)
+        // инв закрыт открываем разок
         if (!(mc.currentScreen instanceof InventoryScreen)) {
             if (!waitingForScreen) {
                 mc.setScreen(new InventoryScreen(mc.player));
                 waitingForScreen = true;
                 stopWatch.reset();
             } else if (!stopWatch.every(100)) {
-                // Ждём открытия инвентаря
+                // ждем открытия инва
                 return;
             } else {
-                // Таймаут - инвентарь не открылся
+                // таймут инв не открылся
                 setState(false);
             }
             return;
         }
 
-        // Инвентарь открылся
+        // инв открылся
         if (waitingForScreen) {
             waitingForScreen = false;
             stopWatch.reset();
         }
 
-        // Если достигли конца хотбара - завершаем
+        // конец хотбара хорош
         if (currentHotbarSlot >= 9) {
             sortingComplete = true;
             return;
         }
 
-        // Не кликаем слишком быстро
+        // не кликаем быстро
         if (!stopWatch.every((long) delaySetting.getValue())) {
             return;
         }
 
-        // Ищем первый предмет в инвентаре (слоты 9-35)
+        // ищем шмот в инве
         int sourceSlot = -1;
         for (int i = 9; i < 36; i++) {
             ItemStack stack = mc.player.getInventory().getStack(i);
@@ -112,27 +112,27 @@ public class HotbarSorter extends ModuleStructure {
             }
         }
 
-        // Если предметов в инвентаре нет - завершаем
+        // инв пуст хорош
         if (sourceSlot == -1) {
             sortingComplete = true;
             return;
         }
 
-        // Перемещаем предмет из инвентаря в хотбар
+        // кидаем шмот в хотбар
         InventoryUtils.click(sourceSlot, 0, SlotActionType.QUICK_MOVE);
 
-        // Переходим к следующему слоту хотбара
+        // дальше слот хотбара
         currentHotbarSlot++;
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void finishSorting() {
-        // Закрываем инвентарь
+        // закрываем инв
         if (mc.currentScreen instanceof InventoryScreen) {
             mc.setScreen(null);
         }
 
-        // Если включена авто-активация селлера
+        // если вкл врубаем селлер
         if (autoSellerSetting.isValue()) {
             HotbarSeller hotbarSeller = getHotbarSeller();
             if (hotbarSeller != null && !hotbarSeller.isState()) {
@@ -140,13 +140,13 @@ public class HotbarSorter extends ModuleStructure {
             }
         }
 
-        // Выключаем сортер
+        // гасим сортер
         setState(false);
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private HotbarSeller getHotbarSeller() {
-        // Ищем модуль HotbarSeller через ModuleProvider
+        // ищем селлер модуль
         var initialization = rich.Initialization.getInstance();
         if (initialization == null) return null;
 

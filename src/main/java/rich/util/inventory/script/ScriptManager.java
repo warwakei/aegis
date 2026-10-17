@@ -11,22 +11,21 @@ public class ScriptManager {
     private final Map<String, Script> scripts = new ConcurrentHashMap<>();
 
     /**
-     * Returns an Optional containing the Script associated with the specified name.
-     * If the Script does not exist, it will be created and added to the map.
+     * достаём скрипт по имени
      *
-     * @param name the name of the script
-     * @return an Optional containing the Script, or an empty Optional if the name is null or empty
+     * @param name имя скрипта
+     * @return скрипт или пусто
      */
     public Optional<Script> getScript(String name) {
         return isNullOrEmpty(name) ? Optional.empty() : Optional.of(scripts.computeIfAbsent(name, x -> new Script()));
     }
 
     /**
-     * Adds a new Script to the manager.
+     * суём новый скрипт
      *
-     * @param name   the name of the script
-     * @param script the script instance to add
-     * @return the previous Script associated with the specified name, or null if there was no mapping
+     * @param name имя скрипта
+     * @param script сам скрипт
+     * @return старый скрипт или нулл
      */
     public Script addScript(String name, Script script) {
         if (isNullOrEmpty(name) || script == null) {
@@ -36,29 +35,29 @@ public class ScriptManager {
     }
 
     /**
-     * Checks if a script with the specified name exists.
+     * есть ли такой скрипт
      *
-     * @param name the name of the script
-     * @return true if the script exists, false otherwise
+     * @param name имя скрипта
+     * @return есть или нет
      */
     public boolean containsScript(String name) {
         return !isNullOrEmpty(name) && scripts.containsKey(name);
     }
 
     /**
-     * Checks if the Script associated with the specified name is finished.
+     * скрипт уже отработал
      *
-     * @param name the name of the script
-     * @return true if the script is finished, false otherwise
+     * @param name имя скрипта
+     * @return готов или нет
      */
     public boolean finished(String name) {
         return !isNullOrEmpty(name) && getScript(name).isPresent() && getScript(name).get().isFinished();
     }
 
     /**
-     * Removes the Script associated with the specified name.
+     * сносим скрипт нафиг
      *
-     * @param name the name of the script to remove, ignored if null or empty
+     * @param name какой сносить
      */
     public void removeScript(String name) {
         if (!isNullOrEmpty(name)) {
@@ -67,9 +66,9 @@ public class ScriptManager {
     }
 
     /**
-     * Cleanup the Script associated with the specified name.
+     * чистим один скрипт
      *
-     * @param name the name of the script to clean up
+     * @param name какой чистить
      */
     public void cleanupScript(String name) {
         if (!isNullOrEmpty(name)) {
@@ -81,33 +80,33 @@ public class ScriptManager {
     }
 
     /**
-     * Cleanup all scripts from the manager.
+     * чистим все скрипты
      */
     public void cleanupAll() {
         scripts.forEach((k, v) -> v.cleanup());
     }
 
     /**
-     * Removes all scripts from the manager.
+     * сносим все скрипты
      */
     public void clearAll() {
         scripts.clear();
     }
 
     /**
-     * Updates the Script associated with the specified name.
+     * тикаем один скрипт
      *
-     * @param name the name of the script to update
+     * @param name какой тикать
      */
     public void updateScript(String name) {
         updateScript(name, () -> true);
     }
 
     /**
-     * Updates the Script associated with the specified name.
+     * тикаем скрипт если можно
      *
-     * @param name      the name of the script to update
-     * @param condition the condition that must be true for the script to be updated
+     * @param name какой тикать
+     * @param condition когда можно
      */
     public void updateScript(String name, Supplier<Boolean> condition) {
         if (condition.get() && !isNullOrEmpty(name)) {
@@ -119,35 +118,35 @@ public class ScriptManager {
     }
 
     /**
-     * Updates all scripts managed by this manager.
+     * тикаем все скрипты
      */
     public void updateAll() {
         scripts.values().forEach(Script::update);
     }
 
     /**
-     * Returns an unmodifiable set of all script names managed by this manager.
+     * все имена скриптов
      *
-     * @return an unmodifiable set of script names
+     * @return имена скриптов
      */
     public Set<String> getAllScriptNames() {
         return Collections.unmodifiableSet(scripts.keySet());
     }
 
     /**
-     * Returns an unmodifiable map of all scripts managed by this manager.
+     * все скрипты скопом
      *
-     * @return an unmodifiable map of scripts
+     * @return мапа скриптов
      */
     public Map<String, Script> getAllScripts() {
         return Collections.unmodifiableMap(scripts);
     }
 
     /**
-     * Checks if a string is null or empty.
+     * строка пустая или нулл
      *
-     * @param str the string to check
-     * @return true if the string is null or empty, false otherwise
+     * @param str чё чекаем
+     * @return пусто или нет
      */
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();

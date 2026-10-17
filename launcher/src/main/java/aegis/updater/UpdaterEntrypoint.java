@@ -22,7 +22,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     private static final String MOD_NAME_PREFIX = "AegisNeo-";
     private static final String MOD_NAME_SUFFIX = ".jar";
 
-    // Pattern to extract version from jar filename: AegisNeo-0.6.3.jar ->0.6.3
+    // версию из имени джарника дёргаем
     private static final Pattern JAR_VERSION_PATTERN = Pattern.compile(
             Pattern.quote(MOD_NAME_PREFIX) + "(\\d+\\.\\d+\\.\\d+)" + Pattern.quote(MOD_NAME_SUFFIX)
     );
@@ -30,13 +30,13 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     @Override
     public void onPreLaunch() {
         try {
-            // Step 1: Clean up old AegisNeo jars (keep only the latest version)
+            // старые джарники чистим свежий оставляем
             cleanupOldAegisJars();
 
-            // Step 2: Check if AegisNeo is missing and download if needed
+            // мода нет качаем заново
             checkAndDownloadIfMissing();
 
-            // Step 3: Check for updates against GitHub
+            // апдейты с гитхаба чекаем
             runUpdateCheck();
         } catch (Exception e) {
             LOGGER.error("[AegisUpdater] Failed during pre-launch", e);
@@ -44,7 +44,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Scans the mods folder for AegisNeo jars and removes all but the latest version.
+     * старые джарники чистим свежий оставляем
      */
     private void cleanupOldAegisJars() {
         Path modsDir = FabricLoader.getInstance().getGameDir().resolve("mods");
@@ -52,7 +52,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
             return;
         }
 
-        // Find all AegisNeo jars and extract their versions
+        // все джарники ищем версии смотрим
         List<AegisJarInfo> jars = new ArrayList<>();
         try (var stream = Files.list(modsDir)) {
             stream.filter(p -> {
@@ -78,10 +78,10 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
             return;
         }
 
-        // Sort by version descending (newest first)
+        // сортим свежие сверху кладём
         jars.sort((a, b) -> compareVersions(b.version, a.version));
 
-        // Keep the first (newest), delete the rest
+        // свежий оставляем остальное трём
         AegisJarInfo latest = jars.get(0);
         LOGGER.info("[AegisUpdater] Found {} AegisNeo jars. Keeping: {} (v{})", jars.size(), latest.path.getFileName(), latest.version);
 
@@ -97,8 +97,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Extracts version number from jar filename.
-     * e.g., "AegisNeo-0.6.3.jar" -> "0.6.3"
+     * версию из имени джарника тащим
      */
     private String extractVersionFromJarName(String fileName) {
         Matcher matcher = JAR_VERSION_PATTERN.matcher(fileName);
@@ -109,8 +108,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Compares two version strings.
-     * Returns positive if v1 > v2, negative if v1 < v2, 0 if equal.
+     * версии между собой сравниваем
      */
     private int compareVersions(String v1, String v2) {
         try {
@@ -140,7 +138,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     private record AegisJarInfo(Path path, String version) {}
 
     /**
-     * If AegisNeo is not installed but the updater is, download the latest AegisNeo.
+     * мода нет качаем тут
      */
     private void checkAndDownloadIfMissing() {
         boolean hasAegisNeo = FabricLoader.getInstance().isModLoaded(MOD_ID);
@@ -167,7 +165,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     private void runUpdateCheck() {
-        // If AegisNeo is still not loaded, skip version check (we already tried to download it)
+        // мода нет проверку скипаем
         if (!FabricLoader.getInstance().isModLoaded(MOD_ID)) {
             return;
         }
@@ -199,7 +197,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Gets the currently installed version of AegisNeo mod.
+     * текущую версию мода смотрим
      */
     private String getCurrentAegisVersion() {
         return FabricLoader.getInstance().getModContainer(MOD_ID)
@@ -208,9 +206,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Fetches the latest release version from GitHub.
-     * Expected tag format: vX.X.X-stage (e.g., v0.6.3-beta)
-     * Returns version without 'v' prefix (e.g.,0.6.3-beta)
+     * свежую версию с гитхаба тянем
      */
     private String fetchLatestReleaseVersion() {
         String url = "https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest";
@@ -260,9 +256,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Downloads the latest release jar from GitHub.
-     * ВАЖНО: Скачиваем во временный файл, затем атомарно перемещаем.
-     * Это предотвращает повреждение JAR если скачивание прервётся.
+     * апдейтер качает тут через темп
      */
     private Path downloadLatestRelease(String version) {
         String jarVersion = version.split("-")[0];
@@ -279,7 +273,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
         }
 
         Path targetPath = modsDir.resolve(MOD_NAME_PREFIX + jarVersion + MOD_NAME_SUFFIX);
-        // Скачиваем во временный файл чтобы не повредить основной JAR
+        // качаем в темп чтоб не сломать
         Path tempPath = modsDir.resolve(MOD_NAME_PREFIX + jarVersion + ".jar.tmp");
 
         try {
@@ -316,7 +310,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
                 out.flush();
             }
 
-            // Проверяем что файл скачался полностью (размер совпадает)
+            // размер файла сверяем
             long actualSize = Files.size(tempPath);
             if (contentLength > 0 && actualSize != contentLength) {
                 LOGGER.error("[AegisUpdater] Download incomplete! Expected {} bytes, got {} bytes", contentLength, actualSize);
@@ -324,8 +318,8 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
                 return null;
             }
 
-            // Теперь атомарно перемещаем временный файл в целевой
-            // Сначала удаляем старые версии
+            // темп файл на место двигаем
+            // старые джарники сносим
             deleteOldAegisJars(modsDir);
             Files.move(tempPath, targetPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
 
@@ -333,11 +327,11 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
             return targetPath;
         } catch (Exception e) {
             LOGGER.error("[AegisUpdater] Failed to download update", e);
-            // Удаляем временный файл при ошибке
+            // при ошибке темп чистим
             try {
                 Files.deleteIfExists(tempPath);
             } catch (IOException ignored) {}
-            // Не удаляем targetPath здесь — если он существовал, он должен остаться рабочим
+            // рабочий джарник не трогаем
             return null;
         }
     }
@@ -368,15 +362,14 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
     }
 
     /**
-     * Compares two version strings.
-     * Returns true if latestVersion > currentVersion.
+     * версия новее чекаем тут
      */
     private boolean isVersionNewer(String latestVersion, String currentVersion) {
         return compareVersions(latestVersion, currentVersion) > 0;
     }
 
     /**
-     * Schedules a restart by creating a marker file.
+     * рестарт через файлик планируем
      */
     private void scheduleRestart() {
         Path gameDir = FabricLoader.getInstance().getGameDir();

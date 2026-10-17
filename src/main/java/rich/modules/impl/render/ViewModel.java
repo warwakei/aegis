@@ -41,7 +41,7 @@ public class ViewModel extends ModuleStructure {
     @EventHandler
     public void onHandOffset(HandOffsetEvent e) {
         Hand hand = e.getHand();
-        // Null-safety для stack
+        // чек на нулл стака
         if (e.getStack() == null) return;
         if (hand.equals(Hand.MAIN_HAND) && e.getStack().getItem() instanceof CrossbowItem) return;
 

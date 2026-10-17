@@ -14,52 +14,44 @@ import net.minecraft.util.Hand;
 import rich.util.inventory.InventoryUtils;
 
 /**
- * Silent Mace Handler для Aura
- * 
- * Логика работы:
- * - Отслеживает fallDistance >= 9 блоков
- * - Находит булаву в хотбаре или инвентаре
- * - Свапает булаву в слот → атакует → возвращает меч
- * 
- * Тайминги (по тикам):
- * - Тик 0: обнаружено падение, найден слот булавы
- * - Тик 1: свап булавы в слот (3 клика PICKUP)
- * - Тик 2: атака булавой (пакет)
- * - Тик 3: возврат меча обратно
+ * сайлент мейс для ауры
+ * палим падение 9 блоков
+ * свап булавы удар возврат
+ * тики 0 палим 1 свап 2 бьем 3 возврат
  */
 public class SilentMaceHandler {
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
-    // Минимальная высота падения для активации
+    // высота для вкл 9 блоков
     private static final double MIN_FALL_DISTANCE = 9.0;
 
     @Getter
     private MaceState state = MaceState.IDLE;
 
-    private int maceInventorySlot = -1;    // Слот булавы в инвентаре (9-35)
-    private int maceHotbarSlot = -1;       // Слот булавы в хотбаре (0-8)
-    private int originalSlot = -1;         // Оригинальный слот игрока
-    private int currentHeldSlot = -1;      // Текущий слот в руке (для возврата)
+    private int maceInventorySlot = -1;    // булава в инте 9-35
+    private int maceHotbarSlot = -1;       // булава в хотбаре 0-8
+    private int originalSlot = -1;         // слот чела был
+    private int currentHeldSlot = -1;      // щас в руке для возврата
 
     private long stateStartTime = 0;
     private LivingEntity target = null;
 
-    // Запоминанный ник для проверки разработчика
+    // ник запомнили для разраба
     private boolean wasDeveloperTarget = false;
 
     /**
-     * Состояния автомата
+     * статусы автомата
      */
     public enum MaceState {
-        IDLE,           // Ожидание
-        SWAPPING,       // Свап булавы в слот
-        ATTACKING,      // Атака булавой
-        RESTORING       // Возврат меча
+        IDLE,           // ждем
+        SWAPPING,       // суем булаву
+        ATTACKING,      // бьем булавой
+        RESTORING       // меч назад
     }
 
     /**
-     * Вызывается каждый тик из Aura
+     * тик из ауры
      */
     public void onTick(LivingEntity currentTarget) {
         if (mc.player == null || mc.world == null) {
@@ -76,43 +68,43 @@ public class SilentMaceHandler {
     }
 
     /**
-     * Состояние IDLE: проверяем нужно ли активировать булаву
+     * идле чекаем пора ли
      */
     private void handleIdle(LivingEntity currentTarget) {
-        // Проверяем условия для активации
+        // чек пора ли вкл
         if (currentTarget == null || !currentTarget.isAlive()) {
             return;
         }
 
-        // Проверяем высоту падения
+        // чек высоту падения
         double fallDistance = mc.player.fallDistance;
         if (fallDistance < MIN_FALL_DISTANCE) {
             return;
         }
 
-        // Проверяем что игрок НЕ на земле (падает)
+        // чек что летим не стоим
         if (mc.player.isOnGround()) {
             return;
         }
 
-        // Проверяем дистанцию до цели
+        // чек дистанцию
         float distance = mc.player.distanceTo(currentTarget);
         if (distance > 6.0f) {
-            return; // Цель слишком далеко
+            return; // далеко не достать
         }
 
-        // Проверяем что в руке НЕ булава
+        // чек что не булава в руке
         ItemStack mainHand = mc.player.getMainHandStack();
         if (mainHand.getItem() == Items.MACE) {
-            return; // Уже с булавой, не нужно свапать
+            return; // уже с булавой скип
         }
 
-        // Ищем булаву
+        // ищем булаву
         int hotbarMace = InventoryUtils.findHotbarItem(Items.MACE);
         int invMace = -1;
 
         if (hotbarMace == -1) {
-            // Булавы нет в хотбаре — ищем в инвентаре
+            // в хотбаре нет лезем в инт
             for (int i = 9; i < 36; i++) {
                 ItemStack stack = mc.player.getInventory().getStack(i);
                 if (stack.getItem() == Items.MACE) {
@@ -122,12 +114,12 @@ public class SilentMaceHandler {
             }
         }
 
-        // Если булавы нет нигде — отмена
+        // нигде нет отмена
         if (hotbarMace == -1 && invMace == -1) {
             return;
         }
 
-        // Инициализируем свап
+        // го свапать
         this.target = currentTarget;
         this.originalSlot = mc.player.getInventory().getSelectedSlot();
         this.currentHeldSlot = originalSlot;
@@ -135,16 +127,16 @@ public class SilentMaceHandler {
         this.maceInventorySlot = invMace;
         this.wasDeveloperTarget = true;
 
-        // Переходим в состояние свапа
+        // погнали в свап
         state = MaceState.SWAPPING;
         stateStartTime = System.currentTimeMillis();
     }
 
     /**
-     * Состояние SWAPPING: свапаем булаву в слот
+     * свап суем булаву
      */
     private void handleSwapping() {
-        // Ждём 1 тик (50ms) перед свапом чтобы убедиться что всё стабильно
+        // ждем тик чтоб стабильно
         long elapsed = System.currentTimeMillis() - stateStartTime;
         if (elapsed < 50) {
             return;
@@ -155,23 +147,23 @@ public class SilentMaceHandler {
             return;
         }
 
-        // Если булава уже в хотбаре — просто свитчим
+        // булава в хотбаре просто свитч
         if (maceHotbarSlot != -1) {
             mc.player.getInventory().setSelectedSlot(maceHotbarSlot);
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(maceHotbarSlot));
         } else if (maceInventorySlot != -1) {
-            // Булава в инвентаре — делаем silent swap
+            // булава в инте сайлент свап
             int wrappedSlot = InventoryUtils.wrapSlot(maceInventorySlot);
-            int targetHotbarSlot = originalSlot + 36; // Целевой слот хотбара в экранных координатах
+            int targetHotbarSlot = originalSlot + 36; // хотбар слот цели
 
-            // 3 клика PICKUP для свапа
-            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);   // взяли булаву
-            InventoryUtils.click(targetHotbarSlot, 0, SlotActionType.PICKUP); // положили в хотбар
-            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);   // вернули остаток
+            // 3 клика свап
+            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);   // взяли
+            InventoryUtils.click(targetHotbarSlot, 0, SlotActionType.PICKUP); // кинули в хотбар
+            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);   // остаток назад
 
             InventoryUtils.closeScreen();
 
-            // Теперь свитчим на этот слот
+            // свитч на слот
             mc.player.getInventory().setSelectedSlot(originalSlot);
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
         }
@@ -181,55 +173,55 @@ public class SilentMaceHandler {
     }
 
     /**
-     * Состояние ATTACKING: атакуем булавой
+     * бьем булавой
      */
     private void handleAttacking() {
-        // Ждём 1 тик (50ms) чтобы свап успел примениться
+        // ждем тик свап встанет
         long elapsed = System.currentTimeMillis() - stateStartTime;
         if (elapsed < 50) {
             return;
         }
 
         if (mc.player == null || target == null || !target.isAlive()) {
-            // Цель пропала — возвращаем меч
+            // цель слилась возврат меча
             state = MaceState.RESTORING;
             stateStartTime = System.currentTimeMillis();
             return;
         }
 
-        // Проверяем что всё ещё падаем
+        // чек еще летим
         if (mc.player.isOnGround()) {
-            // Уже на земле — всё равно атакуем если цель рядом
+            // на земле все равно бьем если рядом
         }
 
-        // Атакуем булавой
+        // лупим булавой
         performMaceAttack(target);
 
-        // Переходим к возврату
+        // го возврат
         state = MaceState.RESTORING;
         stateStartTime = System.currentTimeMillis();
     }
 
     /**
-     * Выполняет атаку булавой
+     * удар булавой
      */
     private void performMaceAttack(LivingEntity target) {
         if (mc.player == null || mc.getNetworkHandler() == null) return;
 
-        // Отправляем пакет атаки
+        // шлем пакет удара
         mc.getNetworkHandler().sendPacket(
                 PlayerInteractEntityC2SPacket.attack((Entity) target, mc.player.isSneaking())
         );
 
-        // Анимация руки
+        // мах рукой
         mc.player.swingHand(Hand.MAIN_HAND);
     }
 
     /**
-     * Состояние RESTORING: возвращаем меч обратно
+     * возврат меча назад
      */
     private void handleRestoring() {
-        // Ждём 1 тик (50ms) чтобы атака ушла на сервер
+        // ждем тик удар долетит
         long elapsed = System.currentTimeMillis() - stateStartTime;
         if (elapsed < 50) {
             return;
@@ -240,12 +232,12 @@ public class SilentMaceHandler {
             return;
         }
 
-        // Если булава была в инвентаре — нужно вернуть всё обратно
+        // булава была в инте вернуть все
         if (maceInventorySlot != -1) {
             int wrappedSlot = InventoryUtils.wrapSlot(maceInventorySlot);
             int sourceHotbarSlot = originalSlot + 36;
 
-            // Обратный свап
+            // обратный свап
             InventoryUtils.click(sourceHotbarSlot, 0, SlotActionType.PICKUP);
             InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);
             InventoryUtils.click(sourceHotbarSlot, 0, SlotActionType.PICKUP);
@@ -257,12 +249,12 @@ public class SilentMaceHandler {
         mc.player.getInventory().setSelectedSlot(originalSlot);
         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
 
-        // Сброс
+        // сброс
         reset();
     }
 
     /**
-     * Сброс состояния
+     * сброс стейта
      */
     public void reset() {
         state = MaceState.IDLE;
@@ -276,24 +268,24 @@ public class SilentMaceHandler {
     }
 
     /**
-     * Возвращает true если сейчас активен процесс свапа булавы
+     * щас свапаем или нет
      */
     public boolean isActive() {
         return state != MaceState.IDLE;
     }
 
     /**
-     * Принудительный сброс (при деактивации Aura)
+     * жесткий сброс при офф ауры
      */
     public void forceReset() {
         if (state != MaceState.IDLE && mc.player != null) {
-            // Возвращаем оригинальный слот
+            // слот назад
             if (originalSlot != -1) {
                 mc.player.getInventory().setSelectedSlot(originalSlot);
                 mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
             }
 
-            // Закрываем инвентарь если открыт
+            // инт закрываем если открыт
             if (InventoryUtils.isScreenOpen()) {
                 InventoryUtils.closeScreen();
             }

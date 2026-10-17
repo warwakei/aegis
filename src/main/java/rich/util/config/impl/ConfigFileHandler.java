@@ -8,8 +8,7 @@ import java.nio.file.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- *  © 2026 Copyright Aegis Client
- *        All Rights Reserved ®
+ * копирайт эгиса не трогаем
  */
 
 public class ConfigFileHandler {

@@ -6,28 +6,26 @@ import rich.util.ColorUtil;
 import java.awt.*;
 
 /**
- * Утилита для создания анимированных переливающихся цветов.
- * Поддерживает различные режимы анимации: циклический, ping-pong, круговой.
+ * утиль для переливов
  */
 public class AnimatedColorHelper {
 
     /**
-     * Режимы анимации цвета
+     * режимы цвета
      */
     public enum AnimationMode {
-        /** Циклический градиент туда-обратно (самый популярный) */
+        /** градиент туда сюда */
         PING_PONG,
-        /** Циклический градиент по кругу */
+        /** градиент по кругу */
         CIRCULAR,
-        /** Плавное пульсирование одного цвета */
+        /** пульс одним цветом */
         PULSE,
-        /** Случайные переходы между цветами */
+        /** рандом между цветами */
         RANDOM
     }
 
     /**
-     * Получить анимированный градиент для outline (4 угла)
-     * Градиент анимируется по контуру с движением туда-сюда
+     * градиент для аутлайна
      */
     public static int[] getAnimatedOutlineGradient(int color1, int color2, float speed, long time, float progress, AnimationMode mode) {
         int[] colors = new int[4];
@@ -71,7 +69,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Получить анимированный цвет для outline (монохромный с переливом)
+     * один цвет для аутлайна
      */
     public static int getAnimatedOutlineColor(int baseColor, float speed, long time, AnimationMode mode) {
         switch (mode) {
@@ -125,8 +123,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Получить анимированный градиент для прямоугольника (9 точек)
-     * Создаёт эффект бегущего света по поверхности
+     * градиент для прямоугольника
      */
     public static int[] getAnimatedRectGradient(int color1, int color2, float speed, long time, AnimationMode mode) {
         int[] colors = new int[9];
@@ -173,7 +170,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Создать радужный градиент для outline
+     * радуга для аутлайна
      */
     public static int[] getRainbowOutlineGradient(float speed, long time, float saturation, float brightness, int alpha) {
         int[] colors = new int[4];
@@ -185,7 +182,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Создать радужный градиент для прямоугольника (4 точки)
+     * радуга для прямоугольника
      */
     public static int[] getRainbowRectGradient(float speed, long time, float saturation, float brightness, int alpha) {
         int[] colors = new int[4];
@@ -197,7 +194,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Получить цвет с анимированной яркостью для пульсирующего эффекта
+     * пульс яркостью
      */
     public static int getPulsingColor(int baseColor, float speed, long time) {
         int r = (baseColor >> 16) & 0xFF;
@@ -216,7 +213,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Получить градиент с эффектом "wave" - волна проходит через цвета
+     * волна через цвета
      */
     public static int[] getWaveGradient(int color1, int color2, int color3, float speed, long time) {
         int[] colors = new int[4];
@@ -236,7 +233,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Получить цвет для Tracers - градиент между двумя цветами с анимацией
+     * цвет для трассеров
      */
     public static int getTracerColor(int color1, int color2, float speed, long time, float entityProgress) {
         float animT = (float) ((Math.sin(time * 0.002 * speed) + 1) / 2.0);
@@ -256,7 +253,7 @@ public class AnimatedColorHelper {
     }
 
     /**
-     * Создать эффект "shimmer" - мерцание на основе цвета
+     * мерцалка шиммер
      */
     public static int getShimmerColor(int baseColor, float speed, long time, float intensity) {
         int r = (baseColor >> 16) & 0xFF;

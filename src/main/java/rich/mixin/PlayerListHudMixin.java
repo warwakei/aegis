@@ -57,7 +57,7 @@ public class PlayerListHudMixin {
             vanishedList.add(fake);
         }
 
-        // Добавляем префиксы к игрокам
+        // пихаем префиксы игрокам
         for (PlayerListEntry entry : originalList) {
             String playerName = entry.getProfile().name();
             if (PlayerPrefixUtils.hasPrefix(playerName)) {

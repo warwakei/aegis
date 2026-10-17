@@ -618,11 +618,11 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
         stack.scale(pulseScale, pulseScale, pulseScale);
         stack.multiply(mc.gameRenderer.getCamera().getRotation());
         
-        // Основной пульс
+        // главный пульс
         int pulseColor = withAlpha(cachedHurtColor1, (int) (alpha * 220));
         drawPulseRing(stack, consumer, 1.6f, pulseColor);
         
-        // Внешний пульс
+        // пульс снаружи
         float outerPulse = 1.6f + (float) Math.sin(time * 1.8f) * 0.6f;
         stack.scale(outerPulse, outerPulse, outerPulse);
         int outerColor = withAlpha(cachedHurtColor2, (int) (alpha * 120));
@@ -650,7 +650,7 @@ public class TargetESP extends ModuleStructure implements IMinecraft {
             stack.push();
             
             float progress = (float) i / particleCount;
-            float angle = progress * 720 + time * 90; // 2 оборота спирали
+            float angle = progress * 720 + time * 90; // два круга спирали
             float radius = progress * 2.0f;
             float height = (float) Math.sin(progress * Math.PI * 4 + time * 2) * 0.5f;
             

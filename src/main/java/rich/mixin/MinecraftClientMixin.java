@@ -77,7 +77,7 @@ public abstract class MinecraftClientMixin {
     private void onStop(CallbackInfo ci) {
         long startMs = System.currentTimeMillis();
 
-        // Make the Minecraft window disappear instantly, then show a short "Finishing..." splash.
+        // прячем окно кажем сплеш выхода
         try {
             MinecraftClient client = (MinecraftClient) (Object) this;
             if (client.getWindow() != null) {
@@ -98,7 +98,7 @@ public abstract class MinecraftClientMixin {
             configSystem.shutdown();
         }
 
-        // Keep the finishing splash on screen for at least 3 seconds to create a "cinematic" shutdown.
+        // держим сплеш чтоб красиво выйти
         long elapsed = System.currentTimeMillis() - startMs;
         long remaining = 3000L - elapsed;
         if (remaining > 0L) {

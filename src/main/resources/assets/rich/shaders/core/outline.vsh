@@ -16,21 +16,22 @@ out vec2 pixelCoord;
 
 void main() {
     vec2 positions[6] = vec2[](
-        vec2(0.0, 0.0),
-        vec2(1.0, 0.0),
-        vec2(1.0, 1.0),
-        vec2(0.0, 0.0),
-        vec2(1.0, 1.0),
-        vec2(0.0, 1.0)
+    vec2(0.0, 0.0),
+    vec2(1.0, 0.0),
+    vec2(1.0, 1.0),
+    vec2(0.0, 0.0),
+    vec2(1.0, 1.0),
+    vec2(0.0, 1.0)
     );
 
     vec2 pos = positions[gl_VertexID];
 
     float maxT = max(
-        max(max(thicknesses.x, thicknesses.y), max(thicknesses.z, thicknesses.w)),
-        max(max(thicknesses2.x, thicknesses2.y), max(thicknesses2.z, thicknesses2.w))
+    max(max(thicknesses.x, thicknesses.y), max(thicknesses.z, thicknesses.w)),
+    max(max(thicknesses2.x, thicknesses2.y), max(thicknesses2.z, thicknesses2.w))
     );
 
+    // one pixel of slack so the outline never clips on the corner arc
     float padding = maxT + 2.0;
 
     vec2 expandedPos = rect.xy - padding + pos * (rect.zw + padding * 2.0);

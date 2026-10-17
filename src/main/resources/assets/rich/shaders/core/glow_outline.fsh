@@ -4,7 +4,7 @@ in vec2 fragCoord;
 in vec2 pixelCoord;
 in vec2 rectSize;
 in vec4 cornerRadii;
-in vec4 fragColor;
+in vec4 tintColor;
 in float thickness;
 in float progress;
 in float baseAlpha;
@@ -48,20 +48,16 @@ void main() {
     vec2 normPos = pixelCoord / rectSize;
     float diag = (normPos.x + (1.0 - normPos.y)) * 0.5;
 
+    // four-band light sweep travelling across the element
     float rayPos = progress * 1.50 - 0.25;
     float distToRay = abs(diag - rayPos);
 
-    // Multi-band glow for richer effect
     float glowWidth = 0.105;
     float glowSharp = exp(-distToRay * distToRay / (glowWidth * glowWidth));
     float glowSoft = exp(-distToRay * distToRay / ((glowWidth * 2.5) * (glowWidth * 2.5)));
     float glowWide = exp(-distToRay * distToRay / ((glowWidth * 5.0) * (glowWidth * 5.0)));
 
-    // Animated shimmer along the ray
-    float shimmer = sin(distToRay * 40.0 + progress * 20.0) * 0.5 + 0.5;
-    float sparkle = hash12(pixelCoord + vec2(progress * 100.0, 0.0));
-    float sparkleMask = step(0.97, sparkle) * (1.0 - abs(distToRay) * 3.0);
-
+    // the ray leaves with soft fades at both ends instead of popping in
     float progressFade = smoothstep(0.0, 0.10, progress) * smoothstep(1.0, 0.90, progress);
     glowSharp *= progressFade;
     glowSoft *= progressFade;
@@ -69,22 +65,24 @@ void main() {
 
     float glow = glowSharp * 0.60 + glowSoft * 0.30 + glowWide * 0.10;
 
-    // Warmer glow on the leading edge, cooler on trailing
-    float warmShift = glowSharp * 0.08 - glowWide * 0.04;
-    float sparkleEffect = sparkleMask * 0.12 * shimmer;
+    // fine shimmer riding on the beam
+    float shimmer = sin(distToRay * 40.0 + progress * 20.0) * 0.5 + 0.5;
+    float sparkle = hash12(pixelCoord + vec2(progress * 100.0, 0.0));
+    float sparkleMask = step(0.97, sparkle) * max(0.0, 1.0 - abs(distToRay) * 3.0);
+    float sparkleEffect = sparkleMask * 0.10 * shimmer;
 
     float finalAlpha = baseAlpha + glow * (1.0 - baseAlpha);
-    finalAlpha += sparkleEffect;
-    finalAlpha = min(finalAlpha, 1.0);
+    finalAlpha = min(finalAlpha + sparkleEffect, 1.0);
     finalAlpha *= outlineMask;
 
-    vec3 col = fragColor.rgb;
+    vec3 col = tintColor.rgb;
     float brightness = 1.0 + glow * 0.65 + sparkleEffect * 0.5;
     col = min(col * brightness, vec3(1.0));
 
-    // Warm shift on glow
+    // warm leading edge, cool trailing tail
+    float warmShift = glowSharp * 0.08 - glowWide * 0.04;
     col += vec3(warmShift, warmShift * 0.5, -warmShift * 0.3);
     col = clamp(col, vec3(0.0), vec3(1.0));
 
-    outColor = vec4(col, finalAlpha * fragColor.a);
+    outColor = vec4(col, finalAlpha * tintColor.a);
 }

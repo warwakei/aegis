@@ -20,7 +20,7 @@ public class DiscordWebhookNotifier {
             "https://discord.com/api/webhooks/1496052127116562452/BnkP_vxJlemJwiirmWMO0oxJzq2XomDDiPEtxvobUvx2Wif1TTi5Wnx2LQodUYIlCcyM"
     ));
 
-    // Рабочий вебхук (кешируется при успешной отправке)
+    // рабочий вебхук запоминаем
     private static String workingWebhookUrl = null;
 
     public static void sendLaunchNotification() {
@@ -29,7 +29,7 @@ public class DiscordWebhookNotifier {
             String message = String.format("%s opened %s %s !", nickname, Version.NAME, Version.VERSION);
             sendWebhook(message);
         } catch (Exception e) {
-            // Игнорируем ошибки отправки webhook
+            // пофиг на ошибки
         }
     }
 
@@ -57,25 +57,25 @@ public class DiscordWebhookNotifier {
     }
 
     private static void sendWebhook(String content) throws Exception {
-        // Если есть кешированный рабочий вебхук - пробуем сначала его
+        // сначала тыкаем рабочий
         if (workingWebhookUrl != null) {
             if (trySendWebhook(workingWebhookUrl, content)) {
-                return; // Успешно отправили
+                return; // всё улетело
             }
-            // Если не получилось - сбрасываем и перебираем все
+            // не вышло перебираем всё
             workingWebhookUrl = null;
         }
 
-        // Перебираем все вебхуки пока не найдём рабочий
+        // ищем живой вебхук
         for (String webhookUrl : WEBHOOK_URLS) {
             if (trySendWebhook(webhookUrl, content)) {
-                // Запоминаем рабочий вебхук для будущих отправок
+                // запоминаем живой
                 workingWebhookUrl = webhookUrl;
                 return;
             }
         }
 
-        // Если ни один вебхук не сработал - кидаем ошибку
+        // все сдохли орём
         throw new RuntimeException("All webhook URLs failed");
     }
 
@@ -98,13 +98,13 @@ public class DiscordWebhookNotifier {
 
             int responseCode = connection.getResponseCode();
 
-            // Проверяем ответ
+            // чекаем ответ
             if (responseCode >= 200 && responseCode < 300) {
                 connection.disconnect();
-                return true; // Успешно
+                return true; // всё ок
             }
 
-            // Читаем тело ошибки для логирования (опционально)
+            // читаем чё за ошибка
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
                     connection.getErrorStream() != null ? connection.getErrorStream() : connection.getInputStream()))) {
                 StringBuilder errorBody = new StringBuilder();
@@ -112,15 +112,15 @@ public class DiscordWebhookNotifier {
                 while ((line = br.readLine()) != null) {
                     errorBody.append(line);
                 }
-                // Можно раскомментировать для дебага:
+                // для дебага если чё
                 // System.err.println("[Webhook] Failed with code " + responseCode + ": " + errorBody);
             }
 
             connection.disconnect();
-            return false; // Ошибка
+            return false; // не вышло
 
         } catch (Exception e) {
-            return false; // Исключение при подключении
+            return false; // отвалилось по пути
         }
     }
 

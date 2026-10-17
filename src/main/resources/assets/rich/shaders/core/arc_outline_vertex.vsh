@@ -13,19 +13,20 @@ out vec2 vUV;
 out vec2 vSize;
 
 void main() {
-    vec2 positions[6];
-    positions[0] = vec2(0.0, 0.0);
-    positions[1] = vec2(1.0, 0.0);
-    positions[2] = vec2(1.0, 1.0);
-    positions[3] = vec2(0.0, 0.0);
-    positions[4] = vec2(1.0, 1.0);
-    positions[5] = vec2(0.0, 1.0);
-    
+    vec2 positions[6] = vec2[](
+    vec2(0.0, 0.0),
+    vec2(1.0, 0.0),
+    vec2(1.0, 1.0),
+    vec2(0.0, 0.0),
+    vec2(1.0, 1.0),
+    vec2(0.0, 1.0)
+    );
+
     vec2 vertex = positions[gl_VertexID];
-    
     vec2 pos = uRect.xy + vertex * uRect.zw;
+
     gl_Position = uProjection * vec4(pos, uParams2.x, 1.0);
-    
+
     vUV = vertex;
     vSize = uRect.zw;
 }

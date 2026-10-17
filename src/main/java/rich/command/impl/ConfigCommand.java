@@ -187,7 +187,7 @@ public class ConfigCommand extends Command {
                         .filter(path -> path.toString().endsWith(".aegisconfig"))
                         .forEach(path -> {
                             String name = path.getFileName().toString();
-                            configs.add(name.substring(0, name.length() - 12)); // remove ".aegisconfig"
+                            configs.add(name.substring(0, name.length() - 12)); // убираем хвост конфига тут
                         });
             }
         } catch (IOException ignored) {}

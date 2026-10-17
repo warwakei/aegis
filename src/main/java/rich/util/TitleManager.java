@@ -29,7 +29,7 @@ public class TitleManager {
 
     public String getWindowTitle() {
         if (mode == TitleMode.DEFAULT) {
-            return null; // вернём оригинальный тайтл от Minecraft
+            return null; // родной тайтл майнкрафта
         }
 
         antidaunleak.api.UserProfile userProfile = antidaunleak.api.UserProfile.getInstance();

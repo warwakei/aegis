@@ -88,7 +88,7 @@ public class Particles extends ModuleStructure {
     public SliderSettings size = new SliderSettings("Размер", "Размер частиц")
             .range(0.1f, 2.0f).setValue(1f);
 
-    // Новые настройки для физики
+    // настройки физики тут
     public BooleanSetting enablePhysics = new BooleanSetting("Физика", "Включить улучшенную физику частиц")
             .setValue(true);
 
@@ -436,7 +436,7 @@ public class Particles extends ModuleStructure {
                     lifeTime.getValue()
             ).setGravity(getGravity()).setVelocityMultiplier(0.99f).setMode(getParticleMode()).setGlowMode(getGlowMode()));
 
-            // Добавляем искры
+            // докидываем искры
             if (sparkTrail.isValue()) {
                 for (int s = 0; s < sparkCount.getInt(); s++) {
                     Vec3d sparkPos = new Vec3d(

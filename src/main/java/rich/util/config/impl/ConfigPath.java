@@ -4,8 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- *  © 2026 Copyright Aegis Client
- *        All Rights Reserved ®
+ * копирайт эгиса не трогаем
  */
 
 public class ConfigPath {

@@ -87,7 +87,7 @@ public class Fly extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double getMotionY() {
         if (mc.options.sneakKey.isPressed()) {
-            // Если включена защита от приземления
+            // костыль чтоб не приземляло
             if (noLanding.isValue()) {
                 return getAntiLandingMotion();
             }
@@ -101,9 +101,9 @@ public class Fly extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double getAntiLandingMotion() {
         Vec3d playerPos = mc.player.getEntityPos();
-        double minHeight = 0.15; // Минимальная высота над блоком
+        double minHeight = 0.15; // мин высота над блоком
         
-        // Проверяем блоки под игроком
+        // чекаем чё под ногами
         for (int y = (int) Math.floor(playerPos.y); y >= (int) Math.floor(playerPos.y) - 3; y--) {
             BlockPos checkPos = new BlockPos((int) Math.floor(playerPos.x), y, (int) Math.floor(playerPos.z));
             
@@ -111,20 +111,20 @@ public class Fly extends ModuleStructure {
                 double blockTop = y + 1.0;
                 double currentHeight = playerPos.y - blockTop;
                 
-                // Если слишком близко к блоку - поднимаемся чуть-чуть
+                // близко к блоку летим вверх
                 if (currentHeight < minHeight) {
-                    return 0.05; // Медленно поднимаемся
+                    return 0.05; // ползём вверх
                 }
-                // Если высота нормальная но снижаемся - медленно опускаемся
+                // высота норм спускаемся чутка
                 else if (currentHeight > minHeight + 0.1) {
-                    return -0.03; // Медленно опускаемся
+                    return -0.03; // ползём вниз
                 }
-                // Поддерживаем текущую высоту
+                // держим высоту
                 return 0.0;
             }
         }
         
-        // Если под ногами пустота - обычное снижение
+        // внизу пусто просто падаем
         return -speedY.getValue();
     }
 

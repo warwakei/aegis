@@ -3,7 +3,7 @@ package rich.screens.clickgui.theme;
 import java.awt.*;
 
 /**
- * Единая палитра ClickGUI: монолитный тёмный корпус с холодным акцентом.
+ * палитра гуи тёмная с холодком
  */
 public final class ClickGuiPalette {
 

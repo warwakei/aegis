@@ -1,5 +1,13 @@
 #version 150
 
+layout(std140) uniform BlurData {
+    vec4 rect;
+    vec4 screen; // xy = screen size, z = gui scale, w = blur radius
+    vec4 framebufferSize;
+    vec4 radii;
+    vec4 color; // tint
+};
+
 in vec2 fragCoord;
 in vec2 pixelCoord;
 in vec2 texCoord;
@@ -15,6 +23,9 @@ out vec4 fragColor;
 
 uniform sampler2D Sampler0;
 
+const int BLUR_RINGS = 11;
+const int BLUR_RING_SAMPLES = 22;
+
 float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     r.xy = (p.x > 0.0) ? r.yz : r.xw;
     r.x = (p.y > 0.0) ? r.y : r.x;
@@ -28,42 +39,45 @@ float hash12(vec2 p) {
     return fract((p3.x + p3.y) * p3.z);
 }
 
+// ---------------------------------------------------------------------------
+// blur
+// ---------------------------------------------------------------------------
+
 vec4 sampleQualityBlur(vec2 uv, float radius, vec2 jitter) {
     vec4 accum = vec4(0.0);
     float weightSum = 0.0;
 
-    const int rings = 11;
-    const int ringSamples = 22;
     float sigma = max(radius * 0.52, 0.42);
     float invTwoSigma2 = 1.0 / max(2.0 * sigma * sigma, 0.0001);
 
-    vec2 aniso = vec2(1.0 + radius * 0.042, 1.0 - radius * 0.020);
+    // slight anisotropy reads as motion instead of as mush
+    vec2 aniso = vec2(1.0 + radius * 0.042, 1.0 - radius * 0.020) * texelSize;
 
-    for (int ring = 0; ring <= rings; ring++) {
-        float rNorm = float(ring) / float(rings);
+    for (int ring = 0; ring <= BLUR_RINGS; ring++) {
+        float rNorm = float(ring) / float(BLUR_RINGS);
         float ringRadius = rNorm * radius;
 
-        int angular = ring == 0 ? 1 : ringSamples + ring * 3;
+        int angular = (ring == 0) ? 1 : BLUR_RING_SAMPLES + ring * 3;
         for (int i = 0; i < angular; i++) {
-            float fi = float(i);
-            float fa = float(angular);
-            float a = (fi / fa) * 6.28318530718 + jitter.x * 6.28318530718 + rNorm * 1.8;
+            float a = (float(i) / float(angular)) * 6.28318530718
+            + jitter.x * 6.28318530718
+            + rNorm * 1.8;
 
-            vec2 dir = vec2(cos(a), sin(a)) * aniso;
-            vec2 offset = dir * ringRadius * texelSize;
-            vec2 suv = clamp(uv + offset + jitter * texelSize * 0.80, vec2(0.001), vec2(0.999));
+            vec2 offset = vec2(cos(a), sin(a)) * aniso * ringRadius;
+            vec2 sampleUv = clamp(uv + offset + jitter * texelSize * 0.80, vec2(0.001), vec2(0.999));
 
             float d2 = dot(offset / texelSize, offset / texelSize);
             float w = exp(-d2 * invTwoSigma2);
 
-            vec4 c = texture(Sampler0, suv);
-            accum += c * w;
+            accum += texture(Sampler0, sampleUv) * w;
             weightSum += w;
         }
     }
 
     return accum / max(weightSum, 1e-5);
 }
+
+// ---------------------------------------------------------------------------
 
 void main() {
     vec2 halfSize = rectSize * 0.5;
@@ -83,21 +97,25 @@ void main() {
     }
 
     vec2 jitter = vec2(
-            hash12(floor(pixelCoord) + vec2(3.17, 9.31)) - 0.5,
-            hash12(floor(pixelCoord.yx) + vec2(6.77, 1.29)) - 0.5
+    hash12(floor(pixelCoord) + vec2(3.17, 9.31)) - 0.5,
+    hash12(floor(pixelCoord.yx) + vec2(6.77, 1.29)) - 0.5
     );
 
     vec4 blurred = sampleQualityBlur(texCoord, max(0.85, blurRadius * 1.35), jitter);
 
+    // keep a hint of the sharp source so text behind the blur does not die
     vec4 centerSample = texture(Sampler0, texCoord);
     vec3 enhanced = mix(blurred.rgb, centerSample.rgb, 0.055);
 
+    // local contrast lift plus a gentle vignette keeps glass from looking flat
     float vignette = smoothstep(1.30, 0.15, length((fragCoord - 0.5) * vec2(1.08, 0.92)));
     float localContrast = dot(abs(dFdx(enhanced)) + abs(dFdy(enhanced)), vec3(0.3333));
     enhanced += (0.055 + localContrast * 0.18) * vignette * (0.50 + 0.50 * tintColor.a);
 
     vec3 finalColor = mix(enhanced, tintColor.rgb, tintColor.a * 0.94);
-    finalColor += jitter.x * 0.0055;
+
+    // ordered-ish dither, cheaper on the eyes than raw noise
+    finalColor += (hash12(floor(pixelCoord)) - 0.5) * (1.0 / 255.0);
     finalColor = clamp(finalColor, vec3(0.0), vec3(1.0));
 
     fragColor = vec4(finalColor, alpha);

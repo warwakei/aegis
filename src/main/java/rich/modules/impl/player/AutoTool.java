@@ -175,7 +175,7 @@ public class AutoTool extends ModuleStructure {
         if (isActive) return;
         if (!hasSwapCooldownPassed()) return;
 
-        // Анти-ломка: не меняем инструмент если блок почти сломан
+        // блок почти сломан не трогаем
         if (antiBreak.isValue()) {
             return;
         }
@@ -271,7 +271,7 @@ public class AutoTool extends ModuleStructure {
         if (mc.player == null || mc.interactionManager == null || slot == null) return;
         int hotbarSlot = mc.player.getInventory().getSelectedSlot();
         
-        // Останавливаем спринт если нужно
+        // стопаем спринт если надо
         if (stopSprint.isValue() && mc.player.isSprinting()) {
             mc.player.setSprinting(false);
             mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
@@ -295,10 +295,10 @@ public class AutoTool extends ModuleStructure {
         if (targetSlot < 0 || targetSlot > 8) return;
         if (targetSlot == currentSlot) return;
 
-        // Отправляем пакет смены слота
+        // шлём пакет смены слота
         mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(targetSlot));
         
-        // Обновляем selectedSlot локально через setSelectedSlot для корректной работы
+        // локально слот правим чтоб не лагало
         mc.player.getInventory().setSelectedSlot(targetSlot);
     }
 

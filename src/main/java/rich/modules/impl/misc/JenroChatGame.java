@@ -17,21 +17,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Модуль для автоматического решения математических задач в чате (Jenro Chat Game)
- * Формат: "Решите: X + Y кто первый решит получит: Z$"
- * Отправляет ответ в локальный чат максимально быстро
+ * решает матешу в чате
+ * шлет ответ побыстрее
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class JenroChatGame extends ModuleStructure {
 
-    // Паттерн для парсинга: "Решите: 73 + 881" или "Решите: 100 - 50" и т.д.
+    // патерн решите 73 + 881
     private static final Pattern MATH_PATTERN = Pattern.compile(
             "Решите:\\s*(-?\\d+(?:\\.\\d+)?)\\s*([+\\-*/×÷^])\\s*(-?\\d+(?:\\.\\d+)?)",
             Pattern.CASE_INSENSITIVE
     );
 
-    // Паттерн для более сложных выражений с несколькими операциями
+    // патерн для сложных примеров
     private static final Pattern COMPLEX_MATH_PATTERN = Pattern.compile(
             "Решите:\\s*(.+?)\\s+(?:кто|первый)",
             Pattern.CASE_INSENSITIVE
@@ -81,20 +80,20 @@ public class JenroChatGame extends ModuleStructure {
             String text = packet.content().getString();
             if (text == null) return;
 
-            // Ищем сообщение с математикой
+            // ищем матешу в чате
             String cleanText = stripColorCodes(text);
             if (!cleanText.contains("Решите:") && !cleanText.contains("реши:") && !cleanText.contains("реши:")) return;
 
-            // Извлекаем математическое выражение
+            // тащим пример оттуда
             String answer = solveExpression(cleanText);
             if (answer == null) return;
 
-            // Проверяем приоритет (задержку)
+            // чек дилэя
             long currentTime = System.currentTimeMillis();
             long delay = (long) priority.getValue();
             if (currentTime - lastSolveTime < delay) return;
 
-            // Отправляем ответ
+            // шлем ответ
             sendAnswer(answer);
 
             lastSolveTime = currentTime;
@@ -113,12 +112,12 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Извлекает и решает математическое выражение из текста
+     * достаем пример и решаем
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private String solveExpression(String text) {
         try {
-            // Сначала пробуем простой паттерн с двумя числами
+            // снача простой патерн
             Matcher simpleMatcher = MATH_PATTERN.matcher(text);
             if (simpleMatcher.find()) {
                 double num1 = Double.parseDouble(simpleMatcher.group(1));
@@ -129,7 +128,7 @@ public class JenroChatGame extends ModuleStructure {
                 return formatResult(result);
             }
 
-            // Если не получилось, пробуем сложный паттерн
+            // не вышло пробуем сложный
             Matcher complexMatcher = COMPLEX_MATH_PATTERN.matcher(text);
             if (complexMatcher.find()) {
                 String expression = complexMatcher.group(1).trim();
@@ -144,7 +143,7 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Вычисляет простое выражение с двумя числами
+     * считаем простое с 2 числами
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double calculate(double num1, String operator, double num2) {
@@ -159,19 +158,18 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Вычисляет сложное выражение (поддержка нескольких операций)
+     * считаем сложное с кучей знаков
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double evaluateComplexExpression(String expression) {
         try {
-            // Заменяем символы для совместимости
+            // меняем знаки под себя
             expression = expression.replace("×", "*")
                     .replace("÷", "/")
                     .replace("−", "-")
                     .replace(",", ".");
 
-            // Простой evaluator для базовых операций
-            // Поддерживает: +, -, *, /, ^ с правильным порядком операций
+            // считатель базовых знаков
             return evaluateExpression(expression);
         } catch (Exception e) {
             return Double.NaN;
@@ -179,13 +177,13 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Простой evaluator выражений с поддержкой порядка операций
+     * считалка с порядком знаков
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double evaluateExpression(String expr) {
         expr = expr.trim();
 
-        // Убираем скобки рекурсивно
+        // скобки рекурсивно хаваем
         while (expr.contains("(")) {
             int openParen = expr.lastIndexOf('(');
             int closeParen = expr.indexOf(')', openParen);
@@ -200,11 +198,11 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Вычисляет выражение без скобок
+     * считаем без скобок
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double evaluateSimple(String expr) {
-        // Сначала возведение в степень
+        // снача степень
         while (expr.contains("^")) {
             int idx = expr.indexOf('^');
             double[] nums = extractNumbersAround(expr, idx);
@@ -212,7 +210,7 @@ public class JenroChatGame extends ModuleStructure {
             expr = replaceExpression(expr, idx, nums, result);
         }
 
-        // Затем умножение и деление
+        // потом умнож деление
         int i = 0;
         while (i < expr.length()) {
             char c = expr.charAt(i);
@@ -220,18 +218,18 @@ public class JenroChatGame extends ModuleStructure {
                 double[] nums = extractNumbersAround(expr, i);
                 double result = c == '*' ? nums[0] * nums[1] : nums[0] / nums[1];
                 expr = replaceExpression(expr, i, nums, result);
-                i = 0; // Начинаем сначала
+                i = 0; // с ноля погнали
             } else {
                 i++;
             }
         }
 
-        // Затем сложение и вычитание
+        // потом плюс минус
         i = 0;
         while (i < expr.length()) {
             char c = expr.charAt(i);
             if (c == '+' || c == '-') {
-                // Пропускаем унарный минус в начале
+                // минус в начале скипаем
                 if (c == '-' && i == 0) {
                     i++;
                     continue;
@@ -239,7 +237,7 @@ public class JenroChatGame extends ModuleStructure {
                 double[] nums = extractNumbersAround(expr, i);
                 double result = c == '+' ? nums[0] + nums[1] : nums[0] - nums[1];
                 expr = replaceExpression(expr, i, nums, result);
-                i = 0; // Начинаем сначала
+                i = 0; // с ноля погнали
             } else {
                 i++;
             }
@@ -249,11 +247,11 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Извлекает два числа вокруг оператора
+     * тащим 2 числа у знака
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private double[] extractNumbersAround(String expr, int operatorIdx) {
-        // Левое число
+        // число слева
         int leftStart = operatorIdx - 1;
         while (leftStart >= 0 && (Character.isDigit(expr.charAt(leftStart)) || expr.charAt(leftStart) == '.' || 
                (expr.charAt(leftStart) == '-' && leftStart > 0 && !Character.isDigit(expr.charAt(leftStart - 1))))) {
@@ -263,7 +261,7 @@ public class JenroChatGame extends ModuleStructure {
         String leftStr = expr.substring(leftStart, operatorIdx).trim();
         double left = Double.parseDouble(leftStr);
 
-        // Правое число
+        // число справа
         int rightEnd = operatorIdx + 1;
         while (rightEnd < expr.length() && (Character.isDigit(expr.charAt(rightEnd)) || expr.charAt(rightEnd) == '.')) {
             rightEnd++;
@@ -275,7 +273,7 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Заменяет выражение результатом
+     * меняем пример на ответ
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private String replaceExpression(String expr, int operatorIdx, double[] nums, double result) {
@@ -296,7 +294,7 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Форматирует результат (убираем .0 если целое число)
+     * красим ответ без .0
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private String formatResult(double result) {
@@ -307,21 +305,21 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Отправляет ответ в чат
+     * шлем ответ в чат
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void sendAnswer(String answer) {
         if (globalChat.isValue()) {
-            // Глобальный чат с !
+            // глобал с воскл знаком
             mc.player.networkHandler.sendChatMessage("!" + answer);
         } else {
-            // Локальный чат
+            // локалка обычная
             mc.player.networkHandler.sendChatMessage(answer);
         }
     }
 
     /**
-     * Извлекает выражение из текста для дебага
+     * пример для дебага тащим
      */
     @Native(type = Native.Type.VMProtectBeginMutation)
     private String extractExpression(String text) {
@@ -333,7 +331,7 @@ public class JenroChatGame extends ModuleStructure {
     }
 
     /**
-     * Убирает цветовые коды из текста
+     * режем цвета с текста
      */
     private String stripColorCodes(String text) {
         return text.replaceAll("(?i)[§&][0-9a-fk-or]", "").trim();

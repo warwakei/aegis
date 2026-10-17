@@ -20,14 +20,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Jenro ClanFarm — автоматическая рассылка инвайтов в клан всем игрокам
- * Логика: 5 инвайтов по 0.3с → пауза 2.3с → следующие 5 → и так далее
+ * спам инвайтами в клан
+ * пачками по 5 штук
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class JenroClanFarm extends ModuleStructure {
 
-    // Паттерн для валидации никнеймов (3-16 символов, только буквы/цифры/подчёркивание)
+    // патерн ников чек
     private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,16}$");
 
     final SliderSettings batchSize = new SliderSettings("Пакет", "Сколько инвайтов перед паузой")
@@ -83,20 +83,20 @@ public class JenroClanFarm extends ModuleStructure {
             return;
         }
 
-        // Если пауза после пакета — ждём
+        // пауза ждем
         if (isPaused) {
             long elapsed = System.currentTimeMillis() - pauseStartTime;
             long pauseDuration = (long) pauseAfterBatch.getValue();
             if (elapsed >= pauseDuration) {
                 isPaused = false;
                 batchCounter = 0;
-                // Обновляем список игроков (могли зайти новые)
+                // список апдейтим новые зашли
                 refreshPlayerList();
             }
             return;
         }
 
-        // Если все игроки получили инвайты — обновляем список и начинаем заново
+        // всех пригласили по новой
         if (availablePlayers.isEmpty()) {
             refreshPlayerList();
             if (availablePlayers.isEmpty()) {
@@ -107,17 +107,17 @@ public class JenroClanFarm extends ModuleStructure {
             batchCounter = 0;
         }
 
-        // Проверяем задержку
+        // чек дилэя
         long elapsed = System.currentTimeMillis() - lastInviteTime;
         long delay = (long) delayBetween.getValue();
         if (elapsed < delay) return;
 
-        // Отправляем инвайт
+        // шлем инвайт
         sendInvite();
         lastInviteTime = System.currentTimeMillis();
         batchCounter++;
 
-        // Проверяем нужно ли делать паузу
+        // пора паузу делать
         int size = (int) batchSize.getValue();
         if (batchCounter >= size) {
             isPaused = true;
@@ -129,11 +129,11 @@ public class JenroClanFarm extends ModuleStructure {
     private void sendInvite() {
         if (availablePlayers.isEmpty()) return;
 
-        // Выбираем случайного игрока
+        // рандом чела берем
         int randomIndex = random.nextInt(availablePlayers.size());
         String targetPlayer = availablePlayers.remove(randomIndex);
 
-        // Отправляем команду
+        // шлем команду
         mc.player.networkHandler.sendChatCommand("clan invite " + targetPlayer);
         totalInvitesSent++;
 
@@ -148,8 +148,8 @@ public class JenroClanFarm extends ModuleStructure {
         List<String> players = mc.player.networkHandler.getPlayerList().stream()
                 .map(PlayerListEntry::getProfile)
                 .map(GameProfile::name)
-                .filter(name -> !name.equals(mc.player.getGameProfile().name())) // Исключаем себя
-                .filter(name -> NICKNAME_PATTERN.matcher(name).matches()) // Только валидные ники
+                .filter(name -> !name.equals(mc.player.getGameProfile().name())) // себя скипаем
+                .filter(name -> NICKNAME_PATTERN.matcher(name).matches()) // тока норм ники
                 .collect(Collectors.toList());
 
         availablePlayers = new ArrayList<>(players);

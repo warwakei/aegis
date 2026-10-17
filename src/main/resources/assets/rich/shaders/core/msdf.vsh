@@ -1,11 +1,11 @@
 #version 150
 
 layout(std140) uniform FontData {
-    vec4 screenData;
+    vec4 screenData; // xy = screen size, w = outline width
     vec4 outlineColor;
-    vec4 atlasData;
+    vec4 atlasData; // xy = atlas size, z = px range
     ivec4 charCount;
-    vec4 chars[1024];
+    vec4 chars[1024]; // 4 vec4 per glyph: pos/size, uv, colour, rotation
 };
 
 out vec2 texCoord;

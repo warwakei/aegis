@@ -1,9 +1,9 @@
 #version 150
 
 layout(std140) uniform GlassData {
-    vec4 resolution;
+    vec4 resolution; // xy = framebuffer, z = saturation, w = reflect toggle
     vec4 tintColor;
-    vec4 settings;
+    vec4 settings; // x = tint, y = edge glow
 };
 
 out vec2 texCoord;

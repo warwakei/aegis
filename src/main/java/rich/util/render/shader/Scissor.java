@@ -11,14 +11,14 @@ public class Scissor {
     private static final Deque<int[]> scissorStack = new ArrayDeque<>();
 
     /**
-     * Включает scissor test с координатами в fixed gui scale (2.0)
-     * @param useFixedScale если true - координаты уже в fixed scale (2.0), если false - используем текущий guiScale
+     * режем экран под скейл
+     * @param useFixedScale фикс скейл или текущий
      */
     public static void enable(float x, float y, float width, float height, boolean useFixedScale) {
         int windowHeight = mc.getWindow().getHeight();
         int windowWidth = mc.getWindow().getWidth();
         
-        // Определяем масштаб: fixed (2.0) или текущий
+        // решаем какой скейл
         float guiScale = useFixedScale ? 2.0f : 
                 mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
 
@@ -27,13 +27,13 @@ public class Scissor {
         int scissorWidth = (int) (width * guiScale);
         int scissorHeight = (int) (height * guiScale);
 
-        // Clamp к размерам окна
+        // жмём в окно
         scissorX = Math.max(0, Math.min(scissorX, windowWidth));
         scissorY = Math.max(0, Math.min(scissorY, windowHeight));
         scissorWidth = Math.max(0, Math.min(scissorWidth, windowWidth - scissorX));
         scissorHeight = Math.max(0, Math.min(scissorHeight, windowHeight - scissorY));
 
-        // Пересечение с родительским scissor
+        // режем по родителю
         if (!scissorStack.isEmpty()) {
             int[] parent = scissorStack.peek();
             int parentX = parent[0];
@@ -53,7 +53,7 @@ public class Scissor {
             scissorHeight = Math.max(0, newY2 - scissorY);
         }
 
-        // Не пушим пустые области
+        // пустое не пушим
         if (scissorWidth <= 0 || scissorHeight <= 0) {
             scissorStack.push(new int[]{scissorX, scissorY, 0, 0});
             return;
@@ -66,7 +66,7 @@ public class Scissor {
     }
 
     /**
-     * Включает scissor test (legacy overload для обратной совместимости)
+     * старый сизор чтоб не сломалось
      */
     public static void enable(float x, float y, float width, float height, float guiScale) {
         int windowHeight = mc.getWindow().getHeight();
@@ -125,7 +125,7 @@ public class Scissor {
     }
 
     /**
-     * Безопасный вызов с автоматическим cleanup через try-finally
+     * сизор с авто чисткой
      */
     public static void runWithScissor(float x, float y, float width, float height, boolean useFixedScale, Runnable action) {
         enable(x, y, width, height, useFixedScale);

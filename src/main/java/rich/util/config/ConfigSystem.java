@@ -11,8 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- *  © 2026 Copyright Aegis Client
- *        All Rights Reserved ®
+ * копирайт эгиса не трогаем
  */
 
 public class ConfigSystem {
@@ -56,12 +55,12 @@ public class ConfigSystem {
         }, "Aegis-ConfigShutdown"));
     }
 
-    // Сохраняет текущий конфиг в autoconfig.aegisconfig
+    // сейвим дефолтный конфиг
     public void save() {
         saveToPath(ConfigPath.getConfigFile());
     }
 
-    // Сохраняет текущий конфиг в указанный файл
+    // сейвим в файл
     public void save(String name) {
         Path targetPath = ConfigPath.getConfigFile(name);
         saveToPath(targetPath);
@@ -93,12 +92,12 @@ public class ConfigSystem {
         return CompletableFuture.runAsync(this::save);
     }
 
-    // Загружает конфиг из autoconfig.aegisconfig
+    // грузим дефолтный конфиг
     public void load() {
         loadFromPath(ConfigPath.getConfigFile());
     }
 
-    // Загружает конфиг из указанного файла
+    // грузим из файла
     public void load(String name) {
         Path sourcePath = ConfigPath.getConfigFile(name);
         loadFromPath(sourcePath);

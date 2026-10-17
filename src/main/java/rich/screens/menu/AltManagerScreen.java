@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Кастомный AltManager с анимациями и эффектами
+ * альтменеджер кастомный с анимашками
  */
 public class AltManagerScreen extends Screen {
 
@@ -32,24 +32,24 @@ public class AltManagerScreen extends Screen {
     private final Screen previousScreen;
     private final AccountConfig accountConfig;
 
-    // Анимации
+    // анимашки крутятся тут
     private long screenOpenTime = 0L;
     private boolean initialized = false;
     private float panelSlideProgress = 0f;
     private float itemAppearProgress = 0f;
 
-    // Аккаунты
+    // аккаунты лежат тут
     private List<AccountEntry> accounts = new ArrayList<>();
     private int hoveredAccount = -1;
     private int selectedAccount = -1;
     private float scrollOffset = 0f;
     private float targetScrollOffset = 0f;
 
-    // Частицы
+    // частицы летают тут
     private final List<MenuParticle> particles = new ArrayList<>();
     private final Random particleRandom = new Random();
 
-    // Состояние диалога добавления
+    // флаг диалога добавления тут
     private boolean showAddDialog = false;
     private TextFieldWidget nameField;
     private TextFieldWidget passwordField;
@@ -59,7 +59,7 @@ public class AltManagerScreen extends Screen {
     private static final float ADD_DIALOG_WIDTH = 300;
     private static final float ADD_DIALOG_HEIGHT = 200;
 
-    // Состояние кнопки добавления
+    // состояние кнопки плюса тут
     private boolean addButtonHovered = false;
     private long addButtonHoverTime = 0L;
 
@@ -100,7 +100,7 @@ public class AltManagerScreen extends Screen {
         initialized = false;
         loadAccounts();
 
-        // Инициализация TextFieldWidget
+        // поля ввода заводим тут
         int scaledWidth = getFixedScaledWidth();
         int scaledHeight = getFixedScaledHeight();
         float centerX = (scaledWidth - ADD_DIALOG_WIDTH) / 2f;
@@ -184,7 +184,7 @@ public class AltManagerScreen extends Screen {
         panelSlideProgress = (float) Easings.SPRING.ease(Math.min(1f, elapsed / 400f));
         itemAppearProgress = (float) Easings.SPRING.ease(Math.min(1f, Math.max(0f, (elapsed - 100f) / 500f)));
 
-        // Scroll
+        // скролл списка тут
         float scrollSpeed = 12f;
         scrollOffset += (targetScrollOffset - scrollOffset) * Math.min(1f, delta * scrollSpeed);
 
@@ -197,7 +197,7 @@ public class AltManagerScreen extends Screen {
 
         hoveredAccount = getHoveredAccount(scaledMouseX, scaledMouseY);
 
-        // Проверяем hover для кнопки добавления
+        // ховер кнопки плюса чекаем
         if (!showAddDialog) {
             int screenWidth = getFixedScaledWidth();
             int screenHeight = getFixedScaledHeight();
@@ -218,7 +218,7 @@ public class AltManagerScreen extends Screen {
 
         renderAccountPanel(scaledMouseX, scaledMouseY, panelSlideProgress, currentTime);
 
-        // Диалог добавления аккаунта
+        // окошко добавления аккаунта
         if (showAddDialog) {
             long dialogElapsed = currentTime - addDialogOpenTime;
             addDialogProgress = (float) Easings.SPRING.ease(Math.min(1f, dialogElapsed / 250f));
@@ -235,48 +235,48 @@ public class AltManagerScreen extends Screen {
         float panelX = (screenWidth - PANEL_WIDTH) / 2f;
         float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
 
-        // Slide анимация
+        // выезд панели анимируем
         float slideOffset = (1f - slideProgress) * 50f;
         panelY += slideOffset;
 
-        // Тень
+        // тень под панелью тут
         float shadowSize = 18f;
         Render2D.blur(panelX - shadowSize / 2, panelY - shadowSize / 2,
                 PANEL_WIDTH + shadowSize, PANEL_HEIGHT + shadowSize,
                 shadowSize, 12, withAlpha(0x000000, 50));
 
-        // Фон панели
+        // фон панели рисуем тут
         int bgTop = withAlpha(0x1e1e28, (int) (slideProgress * 255));
         int bgBottom = withAlpha(0x14141c, (int) (slideProgress * 255));
         Render2D.gradientRect(panelX, panelY, PANEL_WIDTH, PANEL_HEIGHT,
                 new int[]{bgTop, bgTop, bgBottom, bgBottom}, 12);
 
-        // Outline
+        // контур панели рисуем
         int outlineAlpha = (int) (slideProgress * 180);
         Render2D.outline(panelX, panelY, PANEL_WIDTH, PANEL_HEIGHT, 0.5f, withAlpha(0x3A3A4A, outlineAlpha), 12);
 
-        // Заголовок
+        // заголовок панели тут
         float titleY = panelY + 12;
         float titleX = panelX + 15;
         int titleAlpha = (int) (slideProgress * 255);
         Fonts.BOLD.draw("Alt Manager", titleX, titleY, 9, withAlpha(0xFFFFFF, titleAlpha));
 
-        // Счётчик аккаунтов
+        // счётчик аккаунтов показываем
         float countX = panelX + PANEL_WIDTH - 60;
         Fonts.REGULAR.draw(accounts.size() + " alts", countX, titleY, 6, withAlpha(0x8090a0, titleAlpha));
 
-        // Линия
+        // линия разделитель тут
         Render2D.rect(panelX + 10, titleY + 14, PANEL_WIDTH - 20, 0.5f,
                 withAlpha(0x3A3A4A, (int) (slideProgress * 100)), 10);
 
-        // Кнопка добавления
+        // кнопка добавления тут
         renderAddButton(panelX + PANEL_WIDTH - 30, panelY + 8, 20, 20, slideProgress, currentTime);
 
-        // Список аккаунтов
+        // список аккаунтов тут
         float listY = titleY + 22;
         float listHeight = PANEL_HEIGHT - 50;
 
-        // Scissor
+        // ножницы обрезки включаем
         int windowHeight = client.getWindow().getHeight();
         int guiScale = client.getWindow().calculateScaleFactor(client.options.getGuiScale().getValue(), client.forcesUnicodeFont());
 
@@ -303,7 +303,7 @@ public class AltManagerScreen extends Screen {
 
         rich.util.render.shader.Scissor.disable();
 
-        // Scroll fade
+        // затухание скролла сверху снизу
         renderScrollFade(panelX + 8, listY, PANEL_WIDTH - 16, listHeight);
     }
 
@@ -326,7 +326,7 @@ public class AltManagerScreen extends Screen {
         float finalX = x + slideOffset;
         float finalY = y;
 
-        // Фон
+        // фон рисуем тут
         int bgAlpha = (int) (progress * (isHovered ? 55 : isSelected ? 40 : 25));
         int bgColor;
         if (isSelected) {
@@ -338,45 +338,45 @@ public class AltManagerScreen extends Screen {
         }
         Render2D.rect(finalX, finalY, width, height, bgColor, 6);
 
-        // Glow при hover/select
+        // свечение при ховере выборе
         if ((isHovered || isSelected) && progress > 0.5f) {
             float glowAlpha = (progress - 0.5f) * 2f;
             int glowColor = isSelected ? withAlpha(0x60a060, (int) (glowAlpha * 150)) : withAlpha(0x5060a0, (int) (glowAlpha * 150));
             Render2D.outline(finalX, finalY, width, height, 0.5f, glowColor, 6);
 
-            // Glow blur
+            // блюр свечения тут
             Render2D.blur(finalX - 2, finalY - 2, width + 4, height + 4,
                     6f, 8f, withAlpha(isSelected ? 0x60a060 : 0x4060a0, (int) (glowAlpha * 25)));
         }
 
-        // Скин
+        // скин игрока тут
         float skinX = finalX + 6;
         float skinY = finalY + 5;
         float skinSize = height - 10;
         Render2D.rect(skinX, skinY, skinSize, skinSize, withAlpha(0x303040, (int) (progress * 150)), 3);
 
-        // Никнейм
+        // ник игрока тут
         float nameX = finalX + skinSize + 12;
         float nameY = finalY + 8;
         int nameAlpha = (int) (progress * 255);
         Fonts.BOLD.draw(account.getName(), nameX, nameY, 7, withAlpha(0xFFFFFF, nameAlpha));
 
-        // Дата
+        // дата аккаунта тут
         float dateY = nameY + 11;
         int dateAlpha = (int) (progress * 180);
         Fonts.REGULAR.draw(account.getDate(), nameX, dateY, 5, withAlpha(0x8090a0, dateAlpha));
 
-        // Кнопки (использовать/удалить)
+        // кнопки юзать удалить тут
         float buttonSize = 16;
         float buttonY = finalY + (height - buttonSize) / 2f;
 
-        // Кнопка "Use"
+        // кнопка юзать тут
         float useBtnX = finalX + width - buttonSize * 2 - 10;
         int useAlpha = (int) (progress * (isHovered ? 220 : 160));
         Render2D.rect(useBtnX, buttonY, buttonSize, buttonSize, withAlpha(0x3A5040, useAlpha), 3);
         Fonts.GUI_ICONS.draw("P", useBtnX + 2, buttonY + 2, 10, withAlpha(0x60c060, useAlpha));
 
-        // Кнопка "Delete"
+        // кнопка удалить тут
         float delBtnX = finalX + width - buttonSize - 5;
         int delAlpha = (int) (progress * (isHovered ? 200 : 140));
         Render2D.rect(delBtnX, buttonY, buttonSize, buttonSize, withAlpha(0x503030, delAlpha), 3);
@@ -401,68 +401,68 @@ public class AltManagerScreen extends Screen {
         float dialogX = (screenWidth - ADD_DIALOG_WIDTH) / 2f;
         float dialogY = (screenHeight - ADD_DIALOG_HEIGHT) / 2f;
 
-        // Slide анимация
+        // выезд панели анимируем
         float slideOffset = (1f - progress) * 30f;
         dialogY += slideOffset;
 
-        // Тень
+        // тень под панелью тут
         float shadowSize = 15f;
         Render2D.blur(dialogX - shadowSize / 2, dialogY - shadowSize / 2,
                 ADD_DIALOG_WIDTH + shadowSize, ADD_DIALOG_HEIGHT + shadowSize,
                 shadowSize, 10, withAlpha(0x000000, 60));
 
-        // Фон
+        // фон рисуем тут
         int bgAlpha = (int) (progress * 255);
         int bgTop = withAlpha(0x1e1e28, bgAlpha);
         int bgBottom = withAlpha(0x14141c, bgAlpha);
         Render2D.gradientRect(dialogX, dialogY, ADD_DIALOG_WIDTH, ADD_DIALOG_HEIGHT,
                 new int[]{bgTop, bgTop, bgBottom, bgBottom}, 10);
 
-        // Outline
+        // контур панели рисуем
         int outlineAlpha = (int) (progress * 200);
         Render2D.outline(dialogX, dialogY, ADD_DIALOG_WIDTH, ADD_DIALOG_HEIGHT, 0.5f, withAlpha(0x3A3A4A, outlineAlpha), 10);
 
-        // Заголовок
+        // заголовок панели тут
         float titleY = dialogY + 12;
         float titleX = dialogX + 15;
         Fonts.BOLD.draw("Add Account", titleX, titleY, 9, withAlpha(0xFFFFFF, bgAlpha));
 
-        // Линия
+        // линия разделитель тут
         Render2D.rect(dialogX + 10, titleY + 14, ADD_DIALOG_WIDTH - 20, 0.5f,
                 withAlpha(0x3A3A4A, (int) (progress * 100)), 10);
 
-        // Поля ввода
+        // поля ввода тут
         int fieldAlpha = (int) (progress * 255);
 
-        // Фон name field
+        // фон поля ника тут
         float nameFieldY = dialogY + 45;
         Render2D.rect(dialogX + 15, nameFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
                 withAlpha(0x252530, fieldAlpha), 4);
         Render2D.outline(dialogX + 15, nameFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
                 0.5f, withAlpha(0x3A3A4A, fieldAlpha), 4);
 
-        // Placeholder/текст name
+        // плейсхолдер ника тут
         if (nameField.getText().isEmpty()) {
             Fonts.REGULAR.draw("Username", dialogX + 20, nameFieldY + 3, 6, withAlpha(0x607080, fieldAlpha));
         } else {
             Fonts.REGULAR.draw(nameField.getText(), dialogX + 20, nameFieldY + 3, 6, withAlpha(0xFFFFFF, fieldAlpha));
         }
 
-        // Фон password field
+        // фон поля пароля тут
         float passFieldY = dialogY + 80;
         Render2D.rect(dialogX + 15, passFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
                 withAlpha(0x252530, fieldAlpha), 4);
         Render2D.outline(dialogX + 15, passFieldY - 2, ADD_DIALOG_WIDTH - 30, 24,
                 0.5f, withAlpha(0x3A3A4A, fieldAlpha), 4);
 
-        // Placeholder/текст password
+        // плейсхолдер пароля тут
         if (passwordField.getText().isEmpty()) {
             Fonts.REGULAR.draw("Password", dialogX + 20, passFieldY + 3, 6, withAlpha(0x607080, fieldAlpha));
         } else {
             Fonts.REGULAR.draw("•".repeat(passwordField.getText().length()), dialogX + 20, passFieldY + 3, 6, withAlpha(0xFFFFFF, fieldAlpha));
         }
 
-        // Кнопка "Add"
+        // кнопка добавить тут
         float addBtnWidth = 80;
         float addBtnHeight = 22;
         float addBtnX = dialogX + ADD_DIALOG_WIDTH - addBtnWidth - 15;
@@ -480,7 +480,7 @@ public class AltManagerScreen extends Screen {
         Render2D.outline(addBtnX, addBtnY, addBtnWidth, addBtnHeight, 0.5f, withAlpha(0x405060, addBtnAlpha), 4);
         Fonts.REGULAR.draw("Add", addBtnX + 28, addBtnY + 5, 6, withAlpha(0x80c080, addBtnAlpha));
 
-        // Кнопка "Cancel"
+        // кнопка отмена тут
         float cancelBtnX = dialogX + 15;
         boolean cancelBtnHovered = mouseX >= cancelBtnX && mouseX <= cancelBtnX + addBtnWidth &&
                 mouseY >= addBtnY && mouseY <= addBtnY + addBtnHeight;
@@ -506,7 +506,7 @@ public class AltManagerScreen extends Screen {
         float panelX = (screenWidth - PANEL_WIDTH) / 2f;
         float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
 
-        // Учитываем slide анимацию
+        // сдвиг анимации учитываем
         float slideOffset = (1f - panelSlideProgress) * 50f;
         panelY += slideOffset;
 
@@ -530,23 +530,23 @@ public class AltManagerScreen extends Screen {
         float scaledMouseX = toFixedCoord(click.x());
         float scaledMouseY = toFixedCoord(click.y());
 
-        // Если диалог добавления открыт
+        // если окошко добавления открыто
         if (showAddDialog) {
             int screenWidth = getFixedScaledWidth();
             int screenHeight = getFixedScaledHeight();
             float dialogX = (screenWidth - ADD_DIALOG_WIDTH) / 2f;
             float dialogY = (screenHeight - ADD_DIALOG_HEIGHT) / 2f;
 
-            // Учитываем slide анимацию
+            // сдвиг анимации учитываем
             float slideOffset = (1f - addDialogProgress) * 30f;
             dialogY += slideOffset;
 
-            // Проверяем клик по полям ввода (используем scaled координаты)
+            // клики по полям в скейле чекаем
             float nameFieldY = dialogY + 45;
             float passFieldY = dialogY + 80;
             float fieldWidth = ADD_DIALOG_WIDTH - 30;
 
-            // Клик по name field
+            // клик по полю ника
             if (scaledMouseX >= dialogX + 20 && scaledMouseX <= dialogX + 20 + fieldWidth - 10 &&
                     scaledMouseY >= nameFieldY && scaledMouseY <= nameFieldY + 20) {
                 nameField.setFocused(true);
@@ -555,7 +555,7 @@ public class AltManagerScreen extends Screen {
                 return true;
             }
 
-            // Клик по password field
+            // клик по полю пароля
             if (scaledMouseX >= dialogX + 20 && scaledMouseX <= dialogX + 20 + fieldWidth - 10 &&
                     scaledMouseY >= passFieldY && scaledMouseY <= passFieldY + 20) {
                 passwordField.setFocused(true);
@@ -564,7 +564,7 @@ public class AltManagerScreen extends Screen {
                 return true;
             }
 
-            // Кнопка "Add"
+            // кнопка добавить тут
             float addBtnWidth = 80;
             float addBtnHeight = 22;
             float addBtnX = dialogX + ADD_DIALOG_WIDTH - addBtnWidth - 15;
@@ -572,15 +572,15 @@ public class AltManagerScreen extends Screen {
 
             if (scaledMouseX >= addBtnX && scaledMouseX <= addBtnX + addBtnWidth &&
                     scaledMouseY >= addBtnY && scaledMouseY <= addBtnY + addBtnHeight) {
-                // Добавляем аккаунт
+                // аккаунт добавляем тут
                 nameField.setFocused(false);
                 passwordField.setFocused(false);
                 String name = nameField.getText().trim();
                 String password = passwordField.getText().trim();
 
                 if (!name.isEmpty()) {
-                    // Здесь можно добавить логику валидации/авторизации
-                    String date = java.time.LocalDate.now().toString(); // текущая дата
+                    // сюда валидацию авторизацию воткнуть
+                    String date = java.time.LocalDate.now().toString(); // текущая дата подставляется
                     AccountEntry newAccount = new AccountEntry(name, date, null);
                     accountConfig.addAccount(newAccount);
                     loadAccounts();
@@ -589,7 +589,7 @@ public class AltManagerScreen extends Screen {
                 return true;
             }
 
-            // Кнопка "Cancel"
+            // кнопка отмена тут
             float cancelBtnX = dialogX + 15;
             if (scaledMouseX >= cancelBtnX && scaledMouseX <= cancelBtnX + addBtnWidth &&
                     scaledMouseY >= addBtnY && scaledMouseY <= addBtnY + addBtnHeight) {
@@ -599,7 +599,7 @@ public class AltManagerScreen extends Screen {
                 return true;
             }
 
-            // Клик вне диалога - закрываем его
+            // клик мимо окошка закрывает
             if (scaledMouseX < dialogX || scaledMouseX > dialogX + ADD_DIALOG_WIDTH ||
                     scaledMouseY < dialogY || scaledMouseY > dialogY + ADD_DIALOG_HEIGHT) {
                 nameField.setFocused(false);
@@ -607,10 +607,10 @@ public class AltManagerScreen extends Screen {
                 closeAddDialog();
             }
 
-            return true; // Блокируем остальные клики при открытом диалоге
+            return true; // клики лочим пока диалог открыт
         }
 
-        // Проверяем клик по кнопке "+"
+        // клик по плюсу чекаем
         int screenWidth = getFixedScaledWidth();
         int screenHeight = getFixedScaledHeight();
         float panelX = (screenWidth - PANEL_WIDTH) / 2f;
@@ -631,7 +631,7 @@ public class AltManagerScreen extends Screen {
             return true;
         }
 
-        // Обычная обработка кликов по аккаунтам
+        // клики по аккаунтам обычные
         int hovered = getHoveredAccount(scaledMouseX, scaledMouseY);
         if (hovered >= 0) {
             AccountEntry account = accounts.get(hovered);
@@ -665,7 +665,7 @@ public class AltManagerScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontal, double vertical) {
         if (showAddDialog) {
-            return true; // Блокируем скролл при открытом диалоге
+            return true; // скролл лочим пока диалог открыт
         }
         float maxScroll = (float) Math.max(0, accounts.size() * (ACCOUNT_ITEM_HEIGHT + ACCOUNT_ITEM_SPACING) - (PANEL_HEIGHT - 60));
         targetScrollOffset = Math.max(-maxScroll, Math.min(0f, (float) (targetScrollOffset + vertical * 20)));
@@ -683,7 +683,7 @@ public class AltManagerScreen extends Screen {
             return true;
         }
 
-        // Обработка клавиатуры для TextFieldWidget
+        // клаву для полей обрабатываем
         if (showAddDialog) {
             if (nameField.isFocused() && nameField.keyPressed(keyInput)) {
                 return true;
@@ -692,7 +692,7 @@ public class AltManagerScreen extends Screen {
                 return true;
             }
 
-            // Enter для добавления
+            // энтер добавляет аккаунт
             if (keyInput.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER || keyInput.key() == org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER) {
                 String name = nameField.getText().trim();
                 if (!name.isEmpty()) {
@@ -711,7 +711,7 @@ public class AltManagerScreen extends Screen {
 
     @Override
     public boolean charTyped(CharInput charInput) {
-        // Обработка ввода символов для TextFieldWidget
+        // символы в поля пихаем
         if (showAddDialog) {
             if (nameField.isFocused() && nameField.charTyped(charInput)) {
                 return true;

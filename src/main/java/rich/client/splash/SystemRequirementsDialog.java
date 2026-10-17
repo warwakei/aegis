@@ -62,20 +62,20 @@ public class SystemRequirementsDialog extends JDialog {
                 int w = getWidth();
                 int h = getHeight();
                 
-                // Блюр тень
+                // тень с блюром тут
                 for (int i = 0; i < 6; i++) {
                     int a = Math.max(0, 20 - i * 3);
                     g2.setColor(new Color(0, 0, 0, a));
                     g2.fillRoundRect(i, i, w - i * 2, h - i * 2, 8 + i, 8 + i);
                 }
                 
-                // Градиент кнопки (темнее)
+                // градиент кнопки темнее тут
                 Color baseColor = getModel().isRollover() ? new Color(40, 115, 210) : new Color(35, 100, 185);
                 GradientPaint gradient = new GradientPaint(0, 0, baseColor, 0, h, baseColor.darker());
                 g2.setPaint(gradient);
                 g2.fillRoundRect(0, 0, w, h, 8, 8);
                 
-                // Граница
+                // рамка кнопки тут
                 g2.setColor(new Color(60, 130, 220, 150));
                 g2.drawRoundRect(0, 0, w - 1, h - 1, 8, 8);
                 g2.dispose();
@@ -99,20 +99,20 @@ public class SystemRequirementsDialog extends JDialog {
                 int w = getWidth();
                 int h = getHeight();
                 
-                // Блюр тень
+                // тень с блюром тут
                 for (int i = 0; i < 6; i++) {
                     int a = Math.max(0, 20 - i * 3);
                     g2.setColor(new Color(0, 0, 0, a));
                     g2.fillRoundRect(i, i, w - i * 2, h - i * 2, 8 + i, 8 + i);
                 }
                 
-                // Градиент кнопки (темнее)
+                // градиент кнопки темнее тут
                 Color baseColor = getModel().isRollover() ? new Color(155, 50, 50) : new Color(135, 40, 40);
                 GradientPaint gradient = new GradientPaint(0, 0, baseColor, 0, h, baseColor.darker());
                 g2.setPaint(gradient);
                 g2.fillRoundRect(0, 0, w, h, 8, 8);
                 
-                // Граница
+                // рамка кнопки тут
                 g2.setColor(new Color(180, 70, 70, 150));
                 g2.drawRoundRect(0, 0, w - 1, h - 1, 8, 8);
                 g2.dispose();

@@ -95,19 +95,19 @@ public class TargetFinder implements IMinecraft {
                 .map(LivingEntity.class::cast)
                 .filter(entity -> pointFinder.hasValidPoint(entity, maxDistance, ignoreWalls) && getFov(entity, maxDistance, ignoreWalls) < maxFov);
 
-        // Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ð¿Ð¾ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸Ð¸ (128 Ð±Ð»Ð¾ÐºÐ¾Ð² Ð´Ð»Ñ MaceTarget)
-        // Ð­Ñ‚Ð¾ Ð½ÑƒÐ¶Ð½Ð¾ Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚ Ð¿Ð¾ Ð¥ÐŸ Ð½Ðµ Ð²Ñ‹Ð±Ð¸Ñ€Ð°Ð» Ñ†ÐµÐ»Ð¸ ÑÐ»Ð¸ÑˆÐºÐ¾Ð¼ Ð´Ð°Ð»ÐµÐºÐ¾
+        // сначала режем дальняк 128
+        // чтоб по хп не лететь далеко
         stream = stream.filter(entity -> entity.distanceTo(mc.player) <= maxDistance);
 
-        // Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° Ð¿Ð¾ Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ñƒ
+        // сортировка по приору
         if ("ÐœÐµÐ½ÑŒÑˆÐµ Ð¥ÐŸ".equals(priority)) {
-            // ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚ Ð¿Ð¾ Ð¥ÐŸ + Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸Ñ (Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ðµ Ð»ÐµÑ‚ÐµÑ‚ÑŒ ÑÐ»Ð¸ÑˆÐºÐ¾Ð¼ Ð´Ð°Ð»ÐµÐºÐ¾)
+            // хп плюс дистан чтоб не лететь далеко
             stream = stream.sorted(
                 Comparator.comparingDouble((LivingEntity e) -> e.getHealth())
                     .thenComparingDouble(e -> e.distanceTo(mc.player))
             );
         } else if ("Ð‘Ð¾Ð»ÑŒÑˆÐµ Ð¥ÐŸ".equals(priority)) {
-            // ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚ Ð¿Ð¾ Ð¥ÐŸ + Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸Ñ
+            // приоритет по хп + дистанция
             stream = stream.sorted(
                 Comparator.comparingDouble((LivingEntity e) -> e.getHealth()).reversed()
                     .thenComparingDouble(e -> e.distanceTo(mc.player))
@@ -115,7 +115,7 @@ public class TargetFinder implements IMinecraft {
         } else if ("Ð‘Ð»Ð¸Ð¶Ðµ Ð²ÑÐµÐ³Ð¾".equals(priority)) {
             stream = stream.sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
         } else {
-            // ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ - Ð±Ð»Ð¸Ð¶Ðµ Ð²ÑÐµÐ³Ð¾
+            // по умолчанию - ближе всего
             stream = stream.sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
         }
 
@@ -155,12 +155,12 @@ public class TargetFinder implements IMinecraft {
         }
 
         /**
-         * ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ Ð½ÑƒÐ¶Ð½Ð¾ Ð»Ð¸ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸Ð³Ñ€Ð¾ÐºÐ° Ð² ÐºÑ€ÐµÐ°Ñ‚Ð¸Ð²Ðµ/ÑÐ¿ÐµÐºÑ‚Ñ€Ðµ
-         * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ true ÐµÑÐ»Ð¸ Ð¸Ð³Ñ€Ð¾Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ ÐžÐ¢Ð¤Ð˜Ð›Ð¬Ð¢Ð ÐžÐ’ÐÐ (Ð½Ðµ Ð²Ð°Ð»Ð¸Ð´Ð½Ð°Ñ Ñ†ÐµÐ»ÑŒ)
+         * чек нужно ли фильтровать игрока в
+         * вертаем true если игрок должен быть
          *
-         * Ð›Ð¾Ð³Ð¸ÐºÐ°:
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "ÐšÑ€ÐµÐ°Ñ‚Ð¸Ð²" Ð’Ð«ÐšÐ›Ð®Ð§Ð•ÐÐ - Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ ÐºÑ€ÐµÐ°Ñ‚Ð¸Ð² Ð˜ ÑÐ¿ÐµÐºÑ‚Ð°Ñ‚Ð¾Ñ€Ð¾Ð²
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "ÐšÑ€ÐµÐ°Ñ‚Ð¸Ð²" Ð’ÐšÐ›Ð®Ð§Ð•ÐÐ - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð±ÑŒÑ‘Ð¼ Ð²ÑÐµÑ…)
+         * логика
+         * - если опция "креатив" выключена -
+         * - если опция "креатив" включена -
          */
         private boolean isCreativeOrSpectator(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
@@ -168,68 +168,68 @@ public class TargetFinder implements IMinecraft {
             boolean isCreative = player.isCreative() || player.getAbilities().creativeMode;
             boolean isSpectator = player.isSpectator();
 
-            // Fallback для серверов с задержкой флагов
+            // fallback для серверов с задержкой флагов
             var gameMode = player.getGameMode();
             if (gameMode != null) {
                 isCreative = isCreative || gameMode == net.minecraft.world.GameMode.CREATIVE;
                 isSpectator = isSpectator || gameMode == net.minecraft.world.GameMode.SPECTATOR;
             }
 
-            // Дополнительная проверка через abilities
+            // дополнительная чек через abilities
             if (player.getAbilities().invulnerable && !player.getAbilities().allowFlying) {
                 isCreative = true;
             }
 
             if (!isCreative && !isSpectator) return false;
             
-            // Если опция "Креатив" ВКЛЮЧЕНА - НЕ фильтруем (бьём)
-            // Если опция "Креатив" ВЫКЛЮЧЕНА - фильтруем (не бьём)
+            // если опция "креатив" включена - не
+            // если опция "креатив" выключена - фильтруем
             return !targetSettings.contains("Креатив");
         }
 
         /**
-         * ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ Ð½ÑƒÐ¶Ð½Ð¾ Ð»Ð¸ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ð¾Ð³Ð¾ Ð¸Ð³Ñ€Ð¾ÐºÐ° (Ñ ÑÑ„Ñ„ÐµÐºÑ‚Ð¾Ð¼ Ð·ÐµÐ»ÑŒÑ)
-         * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ true ÐµÑÐ»Ð¸ Ð¸Ð³Ñ€Ð¾Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ ÐžÐ¢Ð¤Ð˜Ð›Ð¬Ð¢Ð ÐžÐ’ÐÐ (Ð½Ðµ Ð²Ð°Ð»Ð¸Ð´Ð½Ð°Ñ Ñ†ÐµÐ»ÑŒ)
+         * чек нужно ли фильтровать невидимого игрока
+         * вертаем true если игрок должен быть
          *
-         * Ð›Ð¾Ð³Ð¸ÐºÐ° Ð´Ð»Ñ "Ð˜Ð½Ð²Ð¸Ð·Ñ‹":
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð˜Ð½Ð²Ð¸Ð·Ñ‹" Ð’Ð«ÐšÐ›Ð®Ð§Ð•ÐÐ - Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ñ… Ð’ Ð‘Ð ÐžÐÐ• (Ð½Ðµ Ð±ÑŒÑ‘Ð¼)
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð˜Ð½Ð²Ð¸Ð·Ñ‹" Ð’ÐšÐ›Ð®Ð§Ð•ÐÐ - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ñ… Ð’ Ð‘Ð ÐžÐÐ• (Ð±ÑŒÑ‘Ð¼)
+         * логика для "инвизы"
+         * - если опция "инвизы" выключена -
+         * - если опция "инвизы" включена -
          *
-         * Ð›Ð¾Ð³Ð¸ÐºÐ° Ð´Ð»Ñ "Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹":
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹" Ð’Ð«ÐšÐ›Ð®Ð§Ð•ÐÐ - Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ñ… Ð‘Ð•Ð— Ð‘Ð ÐžÐÐ˜ (Ð½Ðµ Ð±ÑŒÑ‘Ð¼)
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð“Ð¾Ð»Ñ‹Ðµ Ð¸Ð½Ð²Ð¸Ð·Ñ‹" Ð’ÐšÐ›Ð®Ð§Ð•ÐÐ - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ñ… Ð‘Ð•Ð— Ð‘Ð ÐžÐÐ˜ (Ð±ÑŒÑ‘Ð¼)
+         * логика для "голые инвизы"
+         * - если опция "голые инвизы" выключена
+         * - если опция "голые инвизы" включена
          *
-         * ÐŸÐ ÐžÐ’Ð•Ð Ð¯Ð•Ðœ Ð¢ÐžÐ›Ð¬ÐšÐž Ð­Ð¤Ð¤Ð•ÐšÐ¢ ÐÐ•Ð’Ð˜Ð”Ð˜ÐœÐžÐ¡Ð¢Ð˜ (Potion Effect)
-         * ÐÐµ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ GameMode (ÐºÑ€ÐµÐ°Ñ‚Ð¸Ð²/ÑÐ¿ÐµÐºÑ‚Ñ€) - ÑÑ‚Ð¾ Ð¾Ñ‚Ð´ÐµÐ»ÑŒÐ½Ð°Ñ Ð¾Ð¿Ñ†Ð¸Ñ "ÐšÑ€ÐµÐ°Ñ‚Ð¸Ð²"
+         * чек только эффект невидимости (potion effect)
+         * не чек gamemode (креатив/спектр) - это
          */
         private boolean isInvisiblePlayer(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
 
-            // Проверяем невидимость через entity.isInvisible() И через эффект
+            // чек невидимость через entity.isinvisible() и через
             boolean hasInvisibilityEffect = player.hasStatusEffect(StatusEffects.INVISIBILITY);
             boolean isInvisibleFlag = player.isInvisible();
 
-            // Если нет ни эффекта, ни флага - не фильтруем
+            // если нет ни эффекта, ни флага
             if (!hasInvisibilityEffect && !isInvisibleFlag) return false;
 
-            // Проверяем есть ли броня на игроке
+            // чек есть ли броня на игроке
             boolean hasArmor = hasAnyArmor(player);
 
-            // Если на игроке есть броня - проверяем опцию "Инвизы"
+            // если на игроке есть броня -
             if (hasArmor) {
-                // Если опция "Инвизы" ВКЛЮЧЕНА - НЕ фильтруем (бьём)
-                // Если опция "Инвизы" ВЫКЛЮЧЕНА - фильтруем (не бьём)
+                // если опция "инвизы" включена - не
+                // если опция "инвизы" выключена - фильтруем
                 return !targetSettings.contains("Инвизы");
             }
 
-            // Если брони нет (голый инвиз) - проверяем опцию "Голые инвизы"
-            // Если опция "Голые инвизы" ВКЛЮЧЕНА - НЕ фильтруем (бьём)
-            // Если опция "Голые инвизы" ВЫКЛЮЧЕНА - фильтруем (не бьём)
+            // если брони нет (голый инвиз) -
+            // если опция "голые инвизы" включена -
+            // если опция "голые инвизы" выключена -
             return !targetSettings.contains("Голые инвизы");
         }
 
         /**
-         * ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ ÐµÑÑ‚ÑŒ Ð»Ð¸ Ð½Ð° Ð¸Ð³Ñ€Ð¾ÐºÐµ ÐºÐ°ÐºÐ°Ñ-Ð»Ð¸Ð±Ð¾ Ð±Ñ€Ð¾Ð½Ñ
+         * чек есть ли на игроке какая-либо
          */
         private boolean hasAnyArmor(PlayerEntity player) {
             return !player.getEquippedStack(EquipmentSlot.HEAD).isEmpty() ||
@@ -239,12 +239,12 @@ public class TargetFinder implements IMinecraft {
         }
 
         /**
-         * ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÑ‚ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð»Ð¸ Ð¸Ð³Ñ€Ð¾Ðº Ñ‚Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ð¾Ð¼ Ð² BedWars Ð¿Ð¾ Ñ†Ð²ÐµÑ‚Ñƒ ÑˆÐ»ÐµÐ¼Ð°
-         * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ true ÐµÑÐ»Ð¸ Ð¸Ð³Ñ€Ð¾Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ ÐžÐ¢Ð¤Ð˜Ð›Ð¬Ð¢Ð ÐžÐ’ÐÐ (Ñ‚Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚)
+         * чек является ли игрок тиммейтом в
+         * вертаем true если игрок должен быть
          *
-         * Ð›Ð¾Ð³Ð¸ÐºÐ°:
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "BW Ð¢Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ñ‹" Ð’Ð«ÐšÐ›Ð®Ð§Ð•ÐÐ - Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ†Ð²ÐµÑ‚ ÑˆÐ»ÐµÐ¼Ð°, Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ñ‚Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ð¾Ð² (Ð½Ðµ Ð±ÑŒÑ‘Ð¼)
-         * - Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "BW Ð¢Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ñ‹" Ð’ÐšÐ›Ð®Ð§Ð•ÐÐ - ÐÐ• Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð±ÑŒÑ‘Ð¼ Ð²ÑÐµÑ…, Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ Ñ‚Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ð¾Ð²)
+         * логика
+         * - если опция "bw тиммейты" выключена
+         * - если опция "bw тиммейты" включена
          */
         private boolean isBwTeammate(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity player)) return false;
@@ -252,43 +252,43 @@ public class TargetFinder implements IMinecraft {
             ItemStack helmet = player.getEquippedStack(EquipmentSlot.HEAD);
             if (helmet.isEmpty()) return false;
 
-            // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‡Ñ‚Ð¾ ÑˆÐ»ÐµÐ¼ ÐºÐ¾Ð¶Ð°Ð½Ñ‹Ð¹
+            // чек что шлем кожаный
             if (helmet.getItem() != Items.LEATHER_HELMET) return false;
 
-            // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "BW Ð¢Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ñ‹" Ð’ÐšÐ›Ð®Ð§Ð•ÐÐ - ÐÐ• Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð±ÑŒÑ‘Ð¼ Ð²ÑÐµÑ…)
+            // если опция "bw тиммейты" включена -
             if (targetSettings.contains("BW Ð¢Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚Ñ‹")) {
-                return false; // ÐÐµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼
+                return false; // не фильтруем
             }
 
-            // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ Ð’Ð«ÐšÐ›Ð®Ð§Ð•ÐÐ - Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ†Ð²ÐµÑ‚ ÑˆÐ»ÐµÐ¼Ð°
+            // если опция выключена - чек цвет
             ItemStack myHelmet = mc.player.getEquippedStack(EquipmentSlot.HEAD);
             if (myHelmet.isEmpty()) return false;
             if (myHelmet.getItem() != Items.LEATHER_HELMET) return false;
 
-            // Ð¡Ñ€Ð°Ð²Ð½Ð¸Ð²Ð°ÐµÐ¼ Ñ†Ð²ÐµÑ‚Ð° ÑˆÐ»ÐµÐ¼Ð¾Ð²
-            // Ð•ÑÐ»Ð¸ Ñ†Ð²ÐµÑ‚Ð° ÑÐ¾Ð²Ð¿Ð°Ð´Ð°ÑŽÑ‚ - ÑÑ‚Ð¾ Ñ‚Ð¸Ð¼Ð¼ÐµÐ¹Ñ‚, Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ (Ð½Ðµ Ð±ÑŒÑ‘Ð¼)
+            // сравниваем цвета шлемов
+            // если цвета совпадают - это тиммейт,
             return getLeatherArmorColor(helmet) == getLeatherArmorColor(myHelmet);
         }
 
         /**
-         * ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÑ‚ Ñ†Ð²ÐµÑ‚ ÐºÐ¾Ð¶Ð°Ð½Ð¾Ð³Ð¾ ÑˆÐ»ÐµÐ¼Ð° Ñ‡ÐµÑ€ÐµÐ· Data Components (Minecraft 1.21.11)
+         * получает цвет кожаного шлема через data
          */
         private int getLeatherArmorColor(ItemStack stack) {
-            // ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚ DYED_COLOR Ð¸Ð· ItemStack
+            // берем компонент dyed_color из itemstack
             DyedColorComponent colorComponent = stack.get(DataComponentTypes.DYED_COLOR);
             
             if (colorComponent != null) {
                 return colorComponent.rgb();
             }
             
-            // Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ -1 ÐµÑÐ»Ð¸ ÑˆÐ»ÐµÐ¼ Ð½Ðµ Ð¿Ð¾ÐºÑ€Ð°ÑˆÐµÐ½
+            // вертаем -1 если шлем не покрашен
             return -1;
         }
 
         private boolean isFriendPlayer(LivingEntity entity) {
             if (!(entity instanceof PlayerEntity)) return false;
-            // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð”Ñ€ÑƒÐ·ÑŒÑ" ÐÐ• Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° - Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼ Ð´Ñ€ÑƒÐ·ÐµÐ¹
-            // Ð•ÑÐ»Ð¸ Ð¾Ð¿Ñ†Ð¸Ñ "Ð”Ñ€ÑƒÐ·ÑŒÑ" Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° - Ð½Ðµ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ÑƒÐµÐ¼
+            // если опция "друзья" не включена -
+            // если опция "друзья" включена - не
             return !targetSettings.contains("Ð”Ñ€ÑƒÐ·ÑŒÑ") && FriendUtils.isFriend(entity);
         }
 
@@ -300,7 +300,7 @@ public class TargetFinder implements IMinecraft {
                         || player.getGameMode() == net.minecraft.world.GameMode.CREATIVE
                         || player.getGameMode() == net.minecraft.world.GameMode.SPECTATOR;
 
-                // "Креатив" should allow targeting even if "Игроки" is disabled.
+                // "креатив" should allow targeting even if
                 if (creativeSettingEnabled && playerCreativeOrSpec) {
                     return true;
                 }

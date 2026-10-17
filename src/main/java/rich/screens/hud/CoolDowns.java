@@ -241,7 +241,7 @@ public class CoolDowns extends AbstractHudElement {
 
         boolean hasAnimatingCooldowns = !cooldownAnimations.isEmpty();
         int blurTint = ColorUtil.rgba(0, 0, 0, 0);
-        // Removed useless blur call (0 radius does nothing)
+        // блюр убран он тут лишний
 
         float fixedTimerWidth = Fonts.BOLD.getWidth(TIMER_TEMPLATE, 6);
 

@@ -42,7 +42,7 @@ public class ConfigDataHandler {
                         .filter(path -> path.toString().endsWith(".aegisconfig"))
                         .forEach(path -> {
                             String name = path.getFileName().toString();
-                            String configName = name.substring(0, name.length() - 12); // remove ".aegisconfig"
+                            String configName = name.substring(0, name.length() - 12); // убираем хвост конфига тут
                             if (!configName.equalsIgnoreCase("autoconfig")) {
                                 configs.add(configName);
                             }
@@ -104,7 +104,7 @@ public class ConfigDataHandler {
             return false;
         }
 
-        // Копируем выбранный конфиг в autoconfig.aegisconfig
+        // копируем конфиг в автоконфиг
         Path targetPath = ConfigPath.getConfigFile();
         try {
             Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
@@ -112,7 +112,7 @@ public class ConfigDataHandler {
             return false;
         }
 
-        // Загружаем конфиг через ConfigSystem
+        // грузим конфиг через систему
         ConfigSystem.getInstance().load();
 
         selectedConfig = name;

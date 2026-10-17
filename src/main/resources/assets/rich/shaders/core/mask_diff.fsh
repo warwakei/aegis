@@ -10,17 +10,18 @@ uniform sampler2D DepthBeforeSampler;
 uniform sampler2D DepthAfterSampler;
 
 layout(std140) uniform MaskData {
-    vec4 params;
+    vec4 params; // xy = target size
 };
 
 void main() {
     float depthBefore = texture(DepthBeforeSampler, texCoord).r;
     float depthAfter = texture(DepthAfterSampler, texCoord).r;
 
+    // depth is the cheap path: anything drawn closer than the scene is geometry
     float depthDiff = depthBefore - depthAfter;
-
     bool isHand = depthDiff > 0.0001;
 
+    // fallback for pipelines that do not write usable depth
     if (!isHand) {
         vec4 before = texture(BeforeSampler, texCoord);
         vec4 after = texture(AfterSampler, texCoord);

@@ -14,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.text.Text;
 import rich.events.api.EventHandler;
 import rich.events.impl.PacketEvent;
 import rich.events.impl.TickEvent;
@@ -54,7 +56,7 @@ public class JenroCasino extends ModuleStructure {
         sat = false;
         lastClickTime = 0;
 
-        // Прописываем /sit при включении
+        // пишем sit при вкл
         if (mc.player != null) {
             mc.player.networkHandler.sendChatCommand("sit");
             sat = true;
@@ -85,22 +87,22 @@ public class JenroCasino extends ModuleStructure {
             return;
         }
 
-        // Ищем ближайший рычаг
+        // ищем рычаг рядом
         BlockPos leverPos = findNearestLever();
 
         if (leverPos == null) {
-            // Если рычаг не найден - пробуем кликать в воздух (для некоторых казино)
+            // рычага нет тыкаем воздух
             clickInAir();
             lastClickTime = currentTime;
             return;
         }
 
-        // Поворот к рычагу если включено
+        // крутимся к рычагу
         if (rotate.isValue()) {
             rotateToLever(leverPos);
         }
 
-        // Кликаем по рычагу
+        // жмем рычаг
         clickLever(leverPos);
         lastClickTime = currentTime;
     }
@@ -108,43 +110,37 @@ public class JenroCasino extends ModuleStructure {
     @EventHandler
     public void onPacket(PacketEvent e) {
         if (e.getType() != PacketEvent.Type.RECEIVE) return;
-        if (!(e.getPacket() instanceof ChatMessageS2CPacket packet)) return;
 
         try {
-            String text = extractChatText(packet);
-            if (text == null) return;
-            String stripped = stripColorCodes(text);
-            // Скрываем сообщения "Машина занята, пожалуйста подождите."
-            if (stripped.contains("Машина занята")) {
-                e.cancel();
+            // казино спамит через system_chat, игровой чат тут не при чём
+            if (e.getPacket() instanceof GameMessageS2CPacket gameMessage) {
+                if (isCasinoSpam(gameMessage.content())) {
+                    e.cancel();
+                }
+                return;
+            }
+
+            if (e.getPacket() instanceof ChatMessageS2CPacket chatMessage) {
+                if (chatMessage.body() != null && isCasinoSpam(chatMessage.body().content())) {
+                    e.cancel();
+                }
             }
         } catch (Exception ignored) {}
     }
 
-    private String extractChatText(ChatMessageS2CPacket packet) {
+    // прячем спам машина занята
+    private boolean isCasinoSpam(Text text) {
+        if (text == null) return false;
         try {
-            // Search fields for Text type
-            for (var f : packet.getClass().getDeclaredFields()) {
-                if (net.minecraft.text.Text.class.isAssignableFrom(f.getType())) {
-                    f.setAccessible(true);
-                    Object val = f.get(packet);
-                    if (val instanceof net.minecraft.text.Text t) {
-                        return t.getString();
-                    }
-                }
-            }
-            // Also try methods
-            for (var m : packet.getClass().getMethods()) {
-                if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType()) && m.getParameterCount() == 0) {
-                    m.setAccessible(true);
-                    Object result = m.invoke(packet);
-                    if (result instanceof net.minecraft.text.Text t) {
-                        return t.getString();
-                    }
-                }
-            }
-        } catch (Exception ignored) {}
-        return null;
+            return isCasinoSpam(text.getString());
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private boolean isCasinoSpam(String text) {
+        if (text == null || text.isEmpty()) return false;
+        return stripColorCodes(text).contains("Машина занята");
     }
 
     private String stripColorCodes(String text) {
@@ -156,14 +152,14 @@ public class JenroCasino extends ModuleStructure {
         if (mc.player == null || mc.world == null) return null;
 
         BlockPos playerPos = mc.player.getBlockPos();
-        int searchRadius = 8; // Увеличил с 5 до 8 для лучшего поиска
+        int searchRadius = 8; // радик поболе для поиска
 
         BlockPos nearestLever = null;
         double nearestDistance = Double.MAX_VALUE;
 
-        // Ищем рычаги в радиусе
+        // рычаги рядом ищем
         for (int x = -searchRadius; x <= searchRadius; x++) {
-            for (int y = -2; y <= 3; y++) { // Ограничил Y диапазон (рычаги обычно рядом)
+            for (int y = -2; y <= 3; y++) { // игрек режем рычаги рядом
                 for (int z = -searchRadius; z <= searchRadius; z++) {
                     BlockPos pos = playerPos.add(x, y, z);
                     var state = mc.world.getBlockState(pos);
@@ -204,14 +200,14 @@ public class JenroCasino extends ModuleStructure {
     private void clickLever(BlockPos leverPos) {
         if (mc.player == null || mc.world == null || leverPos == null) return;
 
-        // Определяем направление клика
+        // куда тыкать решаем
         Direction direction = Direction.getFacing(
                 mc.player.getX() - leverPos.getX(),
                 mc.player.getY() - leverPos.getY(),
                 mc.player.getZ() - leverPos.getZ()
         );
 
-        // Получаем противоположное направление для клика
+        // наоборот для клика
         Direction clickDirection = direction.getOpposite();
 
         Vec3d hitVec = Vec3d.ofCenter(leverPos);
@@ -223,14 +219,14 @@ public class JenroCasino extends ModuleStructure {
                 false
         );
 
-        // Отправляем пакет клика
+        // шлем пакет клика
         sendSequencedPacket(sequence -> new PlayerInteractBlockC2SPacket(
                 Hand.MAIN_HAND,
                 hitResult,
                 sequence
         ));
 
-        // Анимация качания руки
+        // машем рукой
         mc.player.swingHand(Hand.MAIN_HAND);
     }
 
@@ -238,7 +234,7 @@ public class JenroCasino extends ModuleStructure {
     private void clickInAir() {
         if (mc.player == null || mc.world == null) return;
 
-        // Кликаем перед собой (для казино где нет рычага или он в другом месте)
+        // тыкаем перед собой
         Vec3d lookVec = mc.player.getRotationVecClient();
         Vec3d hitVec = mc.player.getEyePos().add(lookVec.multiply(3));
 

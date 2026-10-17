@@ -52,4 +52,3 @@ void main() {
     angle = params0.w;
     grain = params1.x;
 }
-

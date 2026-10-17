@@ -31,16 +31,16 @@ public abstract class ClientPlayNetworkHandlerMixinChat {
             }
         }
         
-        // Получаем текст сообщения для проверки фильтров
+        // дёргаем текст для фильтра
         messageText = extractMessageText(packet);
         
-        // Проверяем фильтры сообщений
+        // чекаем фильтры сообщений
         if (messageText != null && IgnoreUtils.shouldFilterMessage(messageText, senderName)) {
             ci.cancel();
             return;
         }
         
-        // Log chat to NetPanel
+        // кидаем чат в нетпанель
         if (senderName != null) {
             logChatPacket(packet, senderName);
         }
@@ -49,7 +49,7 @@ public abstract class ClientPlayNetworkHandlerMixinChat {
     @Unique
     private String extractMessageText(ChatMessageS2CPacket packet) {
         try {
-            // Try to find a method that returns Text for the message content
+            // ищем метод где лежит текст
             for (java.lang.reflect.Method m : packet.getClass().getDeclaredMethods()) {
                 if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType())) {
                     m.setAccessible(true);
@@ -66,7 +66,7 @@ public abstract class ClientPlayNetworkHandlerMixinChat {
     @Unique
     private void logChatPacket(ChatMessageS2CPacket packet, String senderName) {
         try {
-            // Try to find a method that returns Text for the message content
+            // ищем метод где лежит текст
             for (Method m : packet.getClass().getDeclaredMethods()) {
                 if (net.minecraft.text.Text.class.isAssignableFrom(m.getReturnType())) {
                     m.setAccessible(true);
@@ -78,7 +78,7 @@ public abstract class ClientPlayNetworkHandlerMixinChat {
                 }
             }
         } catch (Exception ignored) {}
-        // Fallback
+        // запасной вариант чтоб работало
         ChatBridge.logReceived(senderName, "[chat message]");
     }
 

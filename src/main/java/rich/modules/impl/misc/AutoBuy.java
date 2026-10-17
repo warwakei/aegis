@@ -381,10 +381,10 @@ public class AutoBuy extends ModuleStructure {
 
         BuyRequest request;
         while ((request = network.pollBuyRequest()) != null) {
-            // Check buy delay
+            // чек задержки покупки
             long delayMs = (long) buyDelay.getValue();
             if (delayMs > 0 && !buyDelayTimer.hasTimeElapsed(delayMs)) {
-                // Put request back by re-queueing it
+                // кидаем запрос обратно
                 network.requeueBuyRequest(request);
                 break;
             }
@@ -400,7 +400,7 @@ public class AutoBuy extends ModuleStructure {
                 tryFallbackMatch(screen, syncId, request, buyKey);
             }
 
-            // Reset delay timer after each purchase attempt
+            // сброс таймера после покупки
             if (delayMs > 0) {
                 buyDelayTimer.resetCounter();
             }

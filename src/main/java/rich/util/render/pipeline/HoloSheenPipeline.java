@@ -41,7 +41,7 @@ public class HoloSheenPipeline {
     private static final Matrix4f TEXTURE_MATRIX = new Matrix4f();
 
     private static final float FIXED_GUI_SCALE = 2.0f;
-    private static final int BUFFER_SIZE = 96; // rect(16) + screen(16) + radii(16) + tintColor(16) + params0(16) + params1(16) = 96
+    private static final int BUFFER_SIZE = 96; // раскладка буфера на 96
 
     private static final RenderPipeline PIPELINE = RenderPipelines.register(
             RenderPipeline.builder(RenderPipelines.TRANSFORMS_AND_PROJECTION_SNIPPET)
@@ -126,7 +126,7 @@ public class HoloSheenPipeline {
                         noiseTextureView = RenderSystem.getDevice().createTextureView(gpuTexture);
                     }
                 } catch (Exception e) {
-                    // Ignore
+                    // пофиг
                 }
             }
         }
@@ -175,9 +175,9 @@ public class HoloSheenPipeline {
         dataBuffer.putFloat(angleRadians);
 
         dataBuffer.putFloat(grain);
-        dataBuffer.putFloat(blendMode); // New blendMode
-        dataBuffer.putFloat(0f); // Padding
-        dataBuffer.putFloat(0f); // Padding
+        dataBuffer.putFloat(blendMode); // новый бленд
+        dataBuffer.putFloat(0f); // добивка
+        dataBuffer.putFloat(0f); // добивка
 
         dataBuffer.flip();
     }

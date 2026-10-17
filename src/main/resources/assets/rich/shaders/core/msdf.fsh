@@ -15,6 +15,7 @@ float median(float r, float g, float b) {
     return max(min(r, g), min(max(r, g), b));
 }
 
+// converts the stored median distance into pixels for resolution independence
 float screenPxRange() {
     vec2 unitRange = vec2(pxRange) / atlasSize;
     vec2 screenTexSize = vec2(1.0) / fwidth(texCoord);

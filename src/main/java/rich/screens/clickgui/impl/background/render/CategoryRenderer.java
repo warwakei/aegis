@@ -145,7 +145,7 @@ public class CategoryRenderer {
             int b = (int) (180 + 50 * pulse);
             Render2D.rect(bgX + BAR_PAD, barY, BAR_W, barH, new Color(r, g, b, barA).getRGB(), 1.5f);
 
-            // Внешнее свечение бара
+            // свечение полоски снаружи
             if (animation > 0.3f) {
                 int glowA = (int) (40 * animation * pulse * alphaMultiplier);
                 Render2D.outline(bgX + BAR_PAD - 1.5f, barY - 1.5f, BAR_W + 3, barH + 3, 3f,

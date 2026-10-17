@@ -72,7 +72,7 @@ public class RenderCore {
             try {
                 task.run();
             } catch (Exception ignored) {
-                // Continue startup even if one warmup pass fails on a specific GPU/driver.
+                // греемся дальше даже если упало
             }
             ShaderCompilationTracker.completeShader();
         }

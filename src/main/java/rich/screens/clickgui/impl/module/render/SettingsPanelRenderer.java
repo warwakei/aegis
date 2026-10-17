@@ -24,7 +24,7 @@ public class SettingsPanelRenderer {
     private static final int SETTING_HEIGHT = 18;
     private static final int SETTING_SPACING = 3;
     private static final float SEPARATOR_THICKNESS = 1.5f;
-    private static final float SCROLL_FADE_SIZE = 10f; // Плавнее
+    private static final float SCROLL_FADE_SIZE = 10f; // так плавнее будет
 
     private final ModuleAnimationHandler animationHandler;
 
@@ -58,7 +58,7 @@ public class SettingsPanelRenderer {
             return;
         }
 
-        // Улучшенный заголовок модуля
+        // заголовок модуля приукрашен
         Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, ClickGuiPalette.textPrimary(alphaMultiplier));
         String desc = selectedModule.getDescription();
         if (desc != null && !desc.isEmpty()) {
@@ -66,7 +66,7 @@ public class SettingsPanelRenderer {
             Fonts.BOLD.draw(displayDesc, x + 15, y + 20, 5, ClickGuiPalette.textMuted(alphaMultiplier));
             Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, ClickGuiPalette.textMuted(alphaMultiplier));
         }
-        // Акцентная линия-разделитель
+        // полоска разделитель с акцентом
         float sepPulse = (float) (Math.sin(System.currentTimeMillis() / 2000.0) * 0.5 + 0.5);
         int sepR = (int) (60 + 46 * sepPulse);
         Render2D.rect(x + 8, y + 30, width - 16, SEPARATOR_THICKNESS,

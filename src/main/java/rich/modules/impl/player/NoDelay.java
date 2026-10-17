@@ -22,17 +22,17 @@ public class NoDelay extends ModuleStructure {
     public void onTick(TickEvent e) {
         if (mc.player == null || mc.interactionManager == null) return;
         
-        // Задержка ломания - работает через mixin в другом месте
+        // ломание через миксин не трогаем
         // if (ignoreSetting.isSelected("Задержка ломания")) mc.interactionManager.blockBreakingCooldown = 0;
         
-        // Прыжок - используем безопасный доступ
+        // прыжок правим акуратно
         if (ignoreSetting.isSelected("Прыжок")) {
             try {
                 mc.player.jumpingCooldown = 0;
             } catch (Exception ignored) {}
         }
         
-        // Правый клик - используем безопасный доступ  
+        // пкм правим акуратно
         if (ignoreSetting.isSelected("Правый клик")) {
             try {
                 mc.itemUseCooldown = 0;

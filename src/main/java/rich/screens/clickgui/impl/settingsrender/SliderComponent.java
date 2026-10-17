@@ -27,12 +27,12 @@ public class SliderComponent extends AbstractSettingComponent {
 
     private long lastUpdateTime = System.currentTimeMillis();
 
-    private static final float ANIMATION_SPEED = 10f; // Быстрее
+    private static final float ANIMATION_SPEED = 10f; // так побыстрее будет
     private static final float FAST_ANIMATION_SPEED = 14f;
     private static final float KNOB_ANIM_SPEED = 12f;
     private static final float TRACK_HEIGHT = 3.0f;
-    private static final float KNOB_BASE_SIZE = 6.0f; // Чуть больше
-    private static final float OUTLINE_THICKNESS = 0.15f; // Тоньше и аккуратнее
+    private static final float KNOB_BASE_SIZE = 6.0f; // чуть больше сделали тут
+    private static final float OUTLINE_THICKNESS = 0.15f; // тоньше и аккуратней стало
 
     public SliderComponent(SliderSettings setting) {
         super(setting);
@@ -56,11 +56,11 @@ public class SliderComponent extends AbstractSettingComponent {
         float deltaTime = getDeltaTime();
         updateAnimations(mouseX, mouseY, deltaTime);
 
-        // Более плавная анимация с Spring easing
+        // плавная анимация на пружинке
         float range = sliderSettings.getMax() - sliderSettings.getMin();
         float targetPercentage = range > 0 ? (sliderSettings.getValue() - sliderSettings.getMin()) / range : 0f;
         float percentageDiff = targetPercentage - animatedPercentage;
-        animatedPercentage += percentageDiff * 0.28f; // Быстрее
+        animatedPercentage += percentageDiff * 0.28f; // так побыстрее будет
 
         float knobTarget = dragging ? 1f : 0f;
         float knobDiff = knobTarget - knobAnimation;
@@ -185,19 +185,19 @@ public class SliderComponent extends AbstractSettingComponent {
         float sliderPadding = 1f;
         float sliderTrackWidth = width - 2;
 
-        // Более аккуратный трек
+        // трек стал аккуратней тут
         Render2D.rect(x + sliderPadding, sliderY, sliderTrackWidth, TRACK_HEIGHT,
                 applyAlpha(new Color(50, 50, 55, 200)).getRGB(), 2f);
 
         float filledWidth = sliderTrackWidth * animatedPercentage;
 
         if (filledWidth > 0) {
-            // Улучшенный цвет заполненной части
+            // цвет заливки стал лучше
             Render2D.rect(x + sliderPadding, sliderY, filledWidth, TRACK_HEIGHT,
                     applyAlpha(new Color(120, 125, 135, 220)).getRGB(), 2f);
         }
 
-        // Более плавный knob с glow эффектом
+        // крутилка плавная со свечением
         float knobSize = KNOB_BASE_SIZE + (knobAnimation * 1.2f);
         float knobX = x + sliderPadding + (sliderTrackWidth * animatedPercentage) - (knobSize / 2f);
         float knobY = sliderY + (TRACK_HEIGHT / 2f) - (knobSize / 2f);
@@ -205,7 +205,7 @@ public class SliderComponent extends AbstractSettingComponent {
         knobX = Math.max(x + sliderPadding - (knobSize / 2f),
                 Math.min(knobX, x + sliderPadding + sliderTrackWidth - (knobSize / 2f)));
 
-        // Glow при hover
+        // свечение при ховере тут
         if (knobAnimation > 0.5f) {
             float glowSize = knobSize * 2.2f;
             float glowX = knobX - (glowSize - knobSize) / 2f;
