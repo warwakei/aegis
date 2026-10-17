@@ -46,8 +46,11 @@ public class ConfigCommand extends Command {
 
                 if (Files.exists(configFile)) {
                     try {
-                        ConfigSystem.getInstance().load(name);
-                        logDirect(String.format("§aКонфигурация §f%s§a загружена!", name));
+                        if (ConfigSystem.getInstance().load(name)) {
+                            logDirect(String.format("§aКонфигурация §f%s§a загружена!", name));
+                        } else {
+                            logDirect("§cНе удалось загрузить конфигурацию!", Formatting.RED);
+                        }
                     } catch (Exception e) {
                         logDirect(String.format("§cОшибка при загрузке конфига! %s", e.getMessage()), Formatting.RED);
                     }
@@ -57,14 +60,20 @@ public class ConfigCommand extends Command {
             }
             case "save" -> {
                 if (args.length < 2) {
-                    ConfigSystem.getInstance().save();
-                    logDirect("§aКонфигурация сохранена в §fautoconfig.aegisconfig§a!");
+                    if (ConfigSystem.getInstance().save()) {
+                        logDirect("§aКонфигурация сохранена в §fautoconfig.aegisconfig§a!");
+                    } else {
+                        logDirect("§cНе удалось сохранить конфигурацию!", Formatting.RED);
+                    }
                     return;
                 }
                 String name = args[1];
                 try {
-                    ConfigSystem.getInstance().save(name);
-                    logDirect(String.format("§aКонфигурация §f%s§a сохранена!", name));
+                    if (ConfigSystem.getInstance().save(name)) {
+                        logDirect(String.format("§aКонфигурация §f%s§a сохранена!", name));
+                    } else {
+                        logDirect("§cНе удалось сохранить конфигурацию!", Formatting.RED);
+                    }
                 } catch (Exception e) {
                     logDirect(String.format("§cОшибка при сохранении конфига! %s", e.getMessage()), Formatting.RED);
                 }

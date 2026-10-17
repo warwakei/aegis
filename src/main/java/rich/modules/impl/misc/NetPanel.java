@@ -14,7 +14,15 @@ import rich.netpanel.loggers.ConsoleCapture;
 public class NetPanel extends ModuleStructure {
 
     private NetPanelServer server;
-    private boolean needsRestart = false;
+    private boolean needsRestart = true;
+
+    @Override
+    public void setState(boolean state) {
+        super.setState(state);
+        if (!state && server != null) {
+            deactivate();
+        }
+    }
 
     public NetPanel() {
         super("NetPanel", "Web dashboard for real-time monitoring (chat, packets, console)", ModuleCategory.MISC);
@@ -25,8 +33,12 @@ public class NetPanel extends ModuleStructure {
         needsRestart = false;
         if (server == null) {
             server = new NetPanelServer();
-            server.start();
-            ConsoleCapture.attach();
+            if (server.start()) {
+                ConsoleCapture.attach();
+            } else {
+                server = null;
+                needsRestart = true;
+            }
         }
     }
 
@@ -49,8 +61,11 @@ public class NetPanel extends ModuleStructure {
         if (needsRestart && isState() && server == null) {
             needsRestart = false;
             server = new NetPanelServer();
-            server.start();
-            ConsoleCapture.attach();
+            if (server.start()) {
+                ConsoleCapture.attach();
+            } else {
+                server = null;
+            }
         }
         // тпс считаем
         if (server != null) {

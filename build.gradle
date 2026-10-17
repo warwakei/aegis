@@ -57,6 +57,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     modCompileOnly "de.maxhenkel.voicechat:voicechat-api:2.6.0"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    testImplementation 'junit:junit:4.13.2'
 }
 
 processResources {

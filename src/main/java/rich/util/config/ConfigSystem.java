@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ConfigSystem {
 
-    private static ConfigSystem instance;
+    private static volatile ConfigSystem instance;
 
     private final ConfigSerializer serializer;
     private final ConfigFileHandler fileHandler;
@@ -56,23 +56,21 @@ public class ConfigSystem {
     }
 
     // сейвим дефолтный конфиг
-    public void save() {
-        saveToPath(ConfigPath.getConfigFile());
+    public boolean save() {
+        return saveToPath(ConfigPath.getConfigFile());
     }
 
     // сейвим в файл
-    public void save(String name) {
+    public boolean save(String name) {
         Path targetPath = ConfigPath.getConfigFile(name);
-        saveToPath(targetPath);
+        return saveToPath(targetPath);
     }
 
-    private void saveToPath(Path targetPath) {
+    private synchronized boolean saveToPath(Path targetPath) {
         if (!initialized.get()) {
-            return;
+            return false;
         }
-        if (!saving.compareAndSet(false, true)) {
-            return;
-        }
+        saving.set(true);
         try {
             String data = serializer.serialize();
             boolean success = fileHandler.write(data, targetPath);
@@ -81,8 +79,10 @@ public class ConfigSystem {
             } else {
                 Logger.error("ConfigSystem: Save failed for " + targetPath.getFileName());
             }
+            return success;
         } catch (Exception e) {
             Logger.error("ConfigSystem: Save error! " + e.getMessage());
+            return false;
         } finally {
             saving.set(false);
         }
@@ -93,31 +93,32 @@ public class ConfigSystem {
     }
 
     // грузим дефолтный конфиг
-    public void load() {
-        loadFromPath(ConfigPath.getConfigFile());
+    public boolean load() {
+        return loadFromPath(ConfigPath.getConfigFile());
     }
 
     // грузим из файла
-    public void load(String name) {
+    public boolean load(String name) {
         Path sourcePath = ConfigPath.getConfigFile(name);
-        loadFromPath(sourcePath);
+        return loadFromPath(sourcePath);
     }
 
-    private void loadFromPath(Path sourcePath) {
+    private synchronized boolean loadFromPath(Path sourcePath) {
         if (!fileHandler.exists(sourcePath)) {
             Logger.info("ConfigSystem: Config not found (" + sourcePath.getFileName() + "), creating new...");
-            saveToPath(sourcePath);
-            return;
+            return saveToPath(sourcePath);
         }
         try {
             String data = fileHandler.read(sourcePath);
             if (data != null && !data.isEmpty()) {
                 serializer.deserialize(data);
                 Logger.success("ConfigSystem: Loaded " + sourcePath.getFileName());
+                return true;
             }
         } catch (Exception e) {
             Logger.error("ConfigSystem: Load error! " + e.getMessage());
         }
+        return false;
     }
 
     public void shutdown() {

@@ -33,17 +33,28 @@ public class ConfigFileHandler {
 
     public boolean write(String content, Path targetPath) {
         lock.writeLock().lock();
+        Path tempFile = null;
         try {
-            Path tempFile = targetPath.resolveSibling(targetPath.getFileName() + ".tmp");
-
+            Path target = targetPath.toAbsolutePath();
+            Files.createDirectories(target.getParent());
+            tempFile = Files.createTempFile(target.getParent(), target.getFileName() + ".", ".tmp");
             Files.writeString(tempFile, content, StandardCharsets.UTF_8);
-            Files.move(tempFile, targetPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+            try {
+                Files.move(tempFile, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(tempFile, target, StandardCopyOption.REPLACE_EXISTING);
+            }
 
             return true;
         } catch (IOException e) {
             Logger.error("ConfigSystem: Write failed! " + e.getMessage());
             return false;
         } finally {
+            if (tempFile != null) {
+                try {
+                    Files.deleteIfExists(tempFile);
+                } catch (IOException ignored) {}
+            }
             lock.writeLock().unlock();
         }
     }

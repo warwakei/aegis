@@ -142,7 +142,11 @@ public class ConfigSerializer {
                 if (repository != null) {
                     for (ModuleStructure module : repository.modules()) {
                         if (modulesJson.has(module.getName())) {
-                            deserializeModule(module, modulesJson.getAsJsonObject(module.getName()));
+                            try {
+                                deserializeModule(module, modulesJson.getAsJsonObject(module.getName()));
+                            } catch (RuntimeException e) {
+                                Logger.error("ConfigSystem: Invalid module '" + module.getName() + "': " + e.getMessage());
+                            }
                         }
                     }
                 }
@@ -152,7 +156,7 @@ public class ConfigSerializer {
                 deserializeAutoBuy(root.getAsJsonObject("autobuy"));
             }
         } catch (JsonSyntaxException e) {
-            Logger.error("AutoConfiguration: JSON syntax error!");
+            throw new IllegalArgumentException("Некорректный JSON конфигурации", e);
         }
     }
 
@@ -180,10 +184,6 @@ public class ConfigSerializer {
     }
 
     private void deserializeModule(ModuleStructure module, JsonObject moduleJson) {
-        if (moduleJson.has("enabled")) {
-            boolean enabled = moduleJson.get("enabled").getAsBoolean();
-            module.setState(enabled);
-        }
         if (moduleJson.has("key")) {
             module.setKey(moduleJson.get("key").getAsInt());
         }
@@ -201,6 +201,10 @@ public class ConfigSerializer {
                 }
             }
         }
+        // activate() must see the values from this config, not the previous one.
+        if (moduleJson.has("enabled")) {
+            module.setState(moduleJson.get("enabled").getAsBoolean());
+        }
     }
 
     private void deserializeSetting(Setting setting, JsonElement element) {
@@ -208,7 +212,11 @@ public class ConfigSerializer {
             if (setting instanceof BooleanSetting boolSetting) {
                 boolSetting.setValue(element.getAsBoolean());
             } else if (setting instanceof SliderSettings sliderSetting) {
-                sliderSetting.setValue((float) element.getAsDouble());
+                float value = element.getAsFloat();
+                if (!Float.isFinite(value)) {
+                    throw new IllegalArgumentException("Значение слайдера должно быть конечным");
+                }
+                sliderSetting.setValue(Math.max(sliderSetting.getMin(), Math.min(sliderSetting.getMax(), value)));
             } else if (setting instanceof BindSetting bindSetting) {
                 if (element.isJsonObject()) {
                     JsonObject bindJson = element.getAsJsonObject();
@@ -228,7 +236,7 @@ public class ConfigSerializer {
                 // чекаем значение в списке
                 if (selectSetting.getList().contains(selected)) {
                     selectSetting.setSelected(selected);
-                } else {
+                } else if (!selectSetting.getList().isEmpty()) {
                     // нету ставим первое
                     selectSetting.setSelected(selectSetting.getList().get(0));
                 }

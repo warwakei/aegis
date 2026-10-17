@@ -442,22 +442,25 @@
     // логи мержим дубли режем
     function mergeLogs(existing, newEntries) {
         if (!newEntries || newEntries.length === 0) return existing;
-        // метки времени в сет суём
-        var seen = {};
+        function entryKey(e) {
+            return e.id || JSON.stringify([e.timestamp, e.level, e.message]);
+        }
+        var seen = new Set();
         existing.forEach(function (e) {
-            seen[e.timestamp] = true;
+            seen.add(entryKey(e));
         });
         // только новое добавляем
         var result = existing.slice();
         newEntries.forEach(function (e) {
-            if (!seen[e.timestamp]) {
+            var key = entryKey(e);
+            if (!seen.has(key)) {
                 result.push(e);
-                seen[e.timestamp] = true;
+                seen.add(key);
             }
         });
         // по времени сортим на всякий
         result.sort(function (a, b) { return a.timestamp - b.timestamp; });
-        return result;
+        return result.slice(-10000);
     }
 
     // часики тикают тут

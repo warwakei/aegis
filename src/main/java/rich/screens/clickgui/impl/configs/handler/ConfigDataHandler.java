@@ -8,7 +8,6 @@ import rich.util.config.impl.ConfigPath;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +37,8 @@ public class ConfigDataHandler {
         try {
             Path configDir = ConfigPath.getConfigDirectory();
             if (Files.exists(configDir)) {
-                Files.list(configDir)
+                try (var paths = Files.list(configDir)) {
+                    paths.filter(Files::isRegularFile)
                         .filter(path -> path.toString().endsWith(".aegisconfig"))
                         .forEach(path -> {
                             String name = path.getFileName().toString();
@@ -47,6 +47,7 @@ public class ConfigDataHandler {
                                 configs.add(configName);
                             }
                         });
+                }
             }
         } catch (IOException ignored) {}
 
@@ -92,7 +93,9 @@ public class ConfigDataHandler {
             return false;
         }
 
-        ConfigSystem.getInstance().save(name);
+        if (!ConfigSystem.getInstance().save(name)) {
+            return false;
+        }
         refreshConfigs();
         return true;
     }
@@ -104,16 +107,9 @@ public class ConfigDataHandler {
             return false;
         }
 
-        // копируем конфиг в автоконфиг
-        Path targetPath = ConfigPath.getConfigFile();
-        try {
-            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
+        if (!ConfigSystem.getInstance().load(name) || !ConfigSystem.getInstance().save()) {
             return false;
         }
-
-        // грузим конфиг через систему
-        ConfigSystem.getInstance().load();
 
         selectedConfig = name;
         return true;
@@ -126,8 +122,7 @@ public class ConfigDataHandler {
             return false;
         }
 
-        ConfigSystem.getInstance().save(name);
-        return true;
+        return ConfigSystem.getInstance().save(name);
     }
 
     public boolean deleteConfig(String name) {

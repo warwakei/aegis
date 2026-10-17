@@ -1,6 +1,8 @@
 package aegis.updater;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.Version;
+import net.fabricmc.loader.api.VersionParsingException;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +103,7 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
      */
     private String extractVersionFromJarName(String fileName) {
         Matcher matcher = JAR_VERSION_PATTERN.matcher(fileName);
-        if (matcher.find()) {
+        if (matcher.matches()) {
             return matcher.group(1);
         }
         return null;
@@ -112,25 +114,9 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
      */
     private int compareVersions(String v1, String v2) {
         try {
-            String[] parts1 = v1.split("[-.]");
-            String[] parts2 = v2.split("[-.]");
-
-            int len = Math.max(parts1.length, parts2.length);
-            for (int i = 0; i < len; i++) {
-                String p1 = (i < parts1.length) ? parts1[i] : "0";
-                String p2 = (i < parts2.length) ? parts2[i] : "0";
-
-                try {
-                    int n1 = Integer.parseInt(p1);
-                    int n2 = Integer.parseInt(p2);
-                    if (n1 != n2) return Integer.compare(n1, n2);
-                } catch (NumberFormatException e) {
-                    int cmp = p1.compareTo(p2);
-                    if (cmp != 0) return cmp;
-                }
-            }
-            return 0;
-        } catch (Exception e) {
+            return Version.parse(v1).compareTo(Version.parse(v2));
+        } catch (VersionParsingException e) {
+            LOGGER.warn("[AegisUpdater] Invalid version: {} or {}", v1, v2);
             return 0;
         }
     }
@@ -210,8 +196,9 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
      */
     private String fetchLatestReleaseVersion() {
         String url = "https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest";
+        HttpURLConnection conn = null;
         try {
-            HttpURLConnection conn = (HttpURLConnection) URI.create(url).toURL().openConnection();
+            conn = (HttpURLConnection) URI.create(url).toURL().openConnection();
             conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
             conn.setConnectTimeout(10000);
             conn.setReadTimeout(10000);
@@ -239,6 +226,8 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
         } catch (Exception e) {
             LOGGER.error("[AegisUpdater] Failed to fetch latest version", e);
             return null;
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
 
@@ -259,7 +248,11 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
      * апдейтер качает тут через темп
      */
     private Path downloadLatestRelease(String version) {
-        String jarVersion = version.split("-")[0];
+        if (version == null || !version.matches("\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?")) {
+            LOGGER.error("[AegisUpdater] Invalid release version: {}", version);
+            return null;
+        }
+        String jarVersion = version.split("[-+]", 2)[0];
         String downloadUrl = "https://github.com/" + GITHUB_REPO + "/releases/download/v" + version + "/" + MOD_NAME_PREFIX + jarVersion + MOD_NAME_SUFFIX;
 
         Path modsDir = FabricLoader.getInstance().getGameDir().resolve("mods");
@@ -276,10 +269,11 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
         // качаем в темп чтоб не сломать
         Path tempPath = modsDir.resolve(MOD_NAME_PREFIX + jarVersion + ".jar.tmp");
 
+        HttpURLConnection conn = null;
         try {
             LOGGER.info("[AegisUpdater] Downloading from: {}", downloadUrl);
             URL url = URI.create(downloadUrl).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(15000);
             conn.setReadTimeout(60000);
             conn.setRequestProperty("User-Agent", "AegisUpdater/" + getUpdaterVersion());
@@ -318,10 +312,13 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
                 return null;
             }
 
-            // темп файл на место двигаем
-            // старые джарники сносим
-            deleteOldAegisJars(modsDir);
-            Files.move(tempPath, targetPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+            // Keep the working jars until the validated replacement is in place.
+            UpdateInstaller.install(tempPath, targetPath);
+            try {
+                deleteOldAegisJars(modsDir, targetPath);
+            } catch (IOException e) {
+                LOGGER.warn("[AegisUpdater] Update installed, but old jars could not be scanned", e);
+            }
 
             LOGGER.info("[AegisUpdater] Downloaded {} bytes to {}", actualSize, targetPath);
             return targetPath;
@@ -333,14 +330,16 @@ public class UpdaterEntrypoint implements PreLaunchEntrypoint {
             } catch (IOException ignored) {}
             // рабочий джарник не трогаем
             return null;
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
 
-    private void deleteOldAegisJars(Path modsDir) throws IOException {
+    private void deleteOldAegisJars(Path modsDir, Path installedJar) throws IOException {
         try (var stream = Files.list(modsDir)) {
             stream.filter(p -> {
                 String name = p.getFileName().toString();
-                return name.startsWith(MOD_NAME_PREFIX) && name.endsWith(MOD_NAME_SUFFIX);
+                return !p.equals(installedJar) && JAR_VERSION_PATTERN.matcher(name).matches();
             })
             .sorted(Comparator.reverseOrder())
             .forEach(p -> {

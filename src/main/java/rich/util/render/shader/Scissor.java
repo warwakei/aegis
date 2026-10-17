@@ -53,12 +53,6 @@ public class Scissor {
             scissorHeight = Math.max(0, newY2 - scissorY);
         }
 
-        // пустое не пушим
-        if (scissorWidth <= 0 || scissorHeight <= 0) {
-            scissorStack.push(new int[]{scissorX, scissorY, 0, 0});
-            return;
-        }
-
         scissorStack.push(new int[]{scissorX, scissorY, scissorWidth, scissorHeight});
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
