@@ -59,16 +59,16 @@ public class BlockOverlay extends ModuleStructure {
         if (mc.crosshairTarget instanceof BlockHitResult result && result.getType().equals(HitResult.Type.BLOCK)) {
             BlockPos pos = result.getBlockPos();
             
-            // Основная подсветка блока
+            // светим блок
             Render3D.drawShapeAlternative(pos, mc.world.getBlockState(pos).getOutlineShape(mc.world, pos), 
                     color.getColor(), 1.5f, true, true);
             
-            // Магнитные линии
+            // магнит линии
             if (magneticLines.isValue()) {
                 renderMagneticLines(e.getStack(), pos, result.getPos());
             }
         } else {
-            // Очищаем линии если не смотрим на блок
+            // не смотрим чистим линии
             lines.clear();
         }
     }
@@ -76,13 +76,13 @@ public class BlockOverlay extends ModuleStructure {
     private void renderMagneticLines(MatrixStack matrices, BlockPos blockPos, Vec3d hitPos) {
         long currentTime = System.currentTimeMillis();
         
-        // Обновляем линии каждые 50мс
+        // апдейт линий раз в 50мс
         if (currentTime - lastUpdateTime > 50) {
             updateLines(blockPos, hitPos);
             lastUpdateTime = currentTime;
         }
         
-        // Рендерим линии
+        // рисуем линии
         for (MagneticLine line : lines) {
             line.render(matrices);
         }
@@ -91,24 +91,24 @@ public class BlockOverlay extends ModuleStructure {
     private void updateLines(BlockPos blockPos, Vec3d hitPos) {
         int targetCount = lineCount.getInt();
         
-        // Добавляем новые линии если нужно
+        // докидываем линии
         while (lines.size() < targetCount) {
             lines.add(createRandomLine(blockPos));
         }
         
-        // Удаляем лишние линии
+        // режем лишние
         while (lines.size() > targetCount) {
             lines.remove(lines.size() - 1);
         }
         
-        // Обновляем существующие линии
+        // двигаем линии
         for (MagneticLine line : lines) {
             line.update(hitPos, lineSpeed.getValue());
         }
     }
     
     private MagneticLine createRandomLine(BlockPos blockPos) {
-        // Создаем линию в случайной точке внутри блока
+        // рандом точка в блоке
         double x = blockPos.getX() + random.nextDouble();
         double y = blockPos.getY() + random.nextDouble();
         double z = blockPos.getZ() + random.nextDouble();
@@ -130,32 +130,32 @@ public class BlockOverlay extends ModuleStructure {
         }
         
         public void update(Vec3d target, float speed) {
-            // Плавно двигаем конец линии к курсору
+            // тянем к курсору
             Vec3d direction = target.subtract(end).normalize().multiply(speed * 0.1);
             end = end.add(direction);
             
-            // Добавляем небольшое случайное движение для живости
+            // чуть рандома для живости
             double randomX = (random.nextDouble() - 0.5) * 0.02;
             double randomY = (random.nextDouble() - 0.5) * 0.02;
             double randomZ = (random.nextDouble() - 0.5) * 0.02;
             end = end.add(randomX, randomY, randomZ);
             
-            // Анимируем прозрачность
+            // мигаем прозрачностью
             alpha = (float) (0.3 + 0.7 * Math.sin(System.currentTimeMillis() * 0.005 + start.x + start.z));
         }
         
         public void render(MatrixStack matrices) {
-            // Рендерим светящуюся линию
+            // рисуем светяшку
             int finalColor = ColorUtil.setAlpha(color, (int) (alpha * 255));
             
-            // Основная линия
+            // главная линия
             Render3D.drawLine(start, end, finalColor, 2.0f, true);
             
-            // Светящийся эффект (дополнительные линии с меньшей прозрачностью)
+            // свечение вокруг
             int glowColor = ColorUtil.setAlpha(color, (int) (alpha * 100));
             Render3D.drawLine(start, end, glowColor, 4.0f, true);
             
-            // Яркое ядро
+            // яркое ядрышко
             int coreColor = ColorUtil.setAlpha(Color.WHITE.getRGB(), (int) (alpha * 200));
             Render3D.drawLine(start, end, coreColor, 1.0f, true);
         }

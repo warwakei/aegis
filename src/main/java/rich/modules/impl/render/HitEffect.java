@@ -220,16 +220,16 @@ public class HitEffect extends ModuleStructure {
             float currentRadius = progress * maxRadius * waveSpeed.getValue();
             float waveWidth = 6.0f;
 
-            // Улучшенная пульсация с несколькими частотами
+            // пульс на паре частот
             float pulse1 = (float) Math.sin(progress * Math.PI * 6) * 0.2f + 1.0f;
             float pulse2 = (float) Math.cos(progress * Math.PI * 8) * 0.15f + 1.0f;
             float combinedPulse = (pulse1 + pulse2) * 0.5f;
             
             float globalAlpha = 1.0f - progress;
-            globalAlpha = (float) Math.pow(globalAlpha, 0.4); // Более плавное затухание
+            globalAlpha = (float) Math.pow(globalAlpha, 0.4); // мягонько гасим
 
             int rendered = 0;
-            int maxPerFrame = 800; // Увеличил лимит для красоты
+            int maxPerFrame = 800; // лимит для красыты
             int numLayers = (int) waveLayers.getValue();
 
             for (Map.Entry<Long, Integer> entry : reachableBlocks.entrySet()) {
@@ -263,18 +263,18 @@ public class HitEffect extends ModuleStructure {
                                 ColorUtil.lerpColor(primaryColor.getColor(), secondaryColor.getColor(), (float) blockDistance / maxRadius) :
                                 primaryColor.getColor();
                         
-                        // Эффект свечения
+                        // светяшка тут
                         if (glowEffect.isValue()) {
                             float glowIntensity = localAlpha * 1.0f;
                             int glowColor = ColorUtil.setAlpha(baseColor, (int) (glowIntensity * 140));
                             
-                            // Рендерим свечение (больший размер, меньшая прозрачность)
+                            // рисуем свечение
                             try {
                                 Render3D.drawShapeAlternative(
                                         pos,
                                         shape,
                                         glowColor,
-                                        1.4f, // Увеличенный размер для свечения
+                                        1.4f, // размер поболе
                                         true,
                                         true
                                 );
@@ -296,7 +296,7 @@ public class HitEffect extends ModuleStructure {
                         } catch (Exception ignored) {
                         }
 
-                        // Улучшенные частицы
+                        // партиклы получше
                         if (spawnParticles.isValue() && particleDensity.getInt() > 0 && localAlpha > 0.2f) {
                             spawnEnhancedParticles(pos, localAlpha, blockDistance, progress);
                         }
@@ -321,17 +321,17 @@ public class HitEffect extends ModuleStructure {
             double dirX = distToCenter > 0 ? dx / distToCenter : 0;
             double dirZ = distToCenter > 0 ? dz / distToCenter : 0;
 
-            // Увеличенное количество частиц для красоты
+            // партиклов поболе для красыты
             for (int i = 0; i < density * 2; i++) {
                 double px = pos.getX() + 0.5 + (Math.random() - 0.5) * 0.8;
                 double py = pos.getY() + 0.5 + Math.random() * 0.6;
                 double pz = pos.getZ() + 0.5 + (Math.random() - 0.5) * 0.8;
 
-                // Более динамичное движение частиц
+                // шустрее двигаем партиклы
                 double outwardForce = 0.08 + Math.random() * 0.06;
                 double upwardForce = Math.random() * 0.15 + 0.05;
                 
-                // Спиральное движение для красоты
+                // спиралька для красыты
                 double spiralAngle = waveProgress * Math.PI * 4 + i * 0.5;
                 double spiralRadius = 0.03;
                 
@@ -341,7 +341,7 @@ public class HitEffect extends ModuleStructure {
 
                 Particles particlesMod = Particles.getInstance();
                 if (particlesMod != null && particlesMod.isState()) {
-                    // Частицы с улучшенной физикой и красивыми траекториями
+                    // физика и траектории
                 }
             }
         }

@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that allows to ignore method from native obfuscation
+ * аннотация игнорит метод от обфускации
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.METHOD})

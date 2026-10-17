@@ -9,12 +9,19 @@ layout(std140) uniform Uniforms {
 };
 
 in vec2 vUV;
-in vec2 vSize;
 in vec2 vPixelCoord;
 
 out vec4 fragColor;
 
-#define PI 3.14159265359
+float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
+// ---------------------------------------------------------------------------
+// arc
+// ---------------------------------------------------------------------------
 
 float sdArc(in vec2 p, in float sca, in float scb, in float ra, in float rb) {
     p.x = abs(p.x);
@@ -22,11 +29,12 @@ float sdArc(in vec2 p, in float sca, in float scb, in float ra, in float rb) {
     return k - rb;
 }
 
+// bilinear bezier over the 3x3 colour patch
 vec4 sampleColor(vec2 uv) {
-    uv = clamp(uv, 0.0, 1.0);
+    vec2 coord = clamp(uv, 0.0, 1.0);
 
-    float u = uv.x;
-    float v = uv.y;
+    float u = coord.x;
+    float v = coord.y;
 
     float u0 = (1.0 - u) * (1.0 - u);
     float u1 = 2.0 * u * (1.0 - u);
@@ -50,6 +58,8 @@ vec4 sampleColor(vec2 uv) {
     return result;
 }
 
+// ---------------------------------------------------------------------------
+
 void main() {
     vec2 center = uRect.xy + uRect.zw * 0.5;
     vec2 p = vPixelCoord - center;
@@ -68,12 +78,22 @@ void main() {
 
     float dist = sdArc(p, sc.x, sc.y, ra, rb);
 
-    float scaleFactor = uScreenInfo.y;
-    float aaWidth = 1.8 / scaleFactor;
+    // pixel-space antialiasing, scaled by the gui scale factor
+    float aaWidth = 1.8 / uScreenInfo.y;
     float alpha = 1.0 - smoothstep(-aaWidth, aaWidth, dist);
 
-    if (alpha <= 0.001) discard;
+    if (alpha <= 0.001) {
+        discard;
+    }
 
     vec4 color = sampleColor(vUV);
-    fragColor = vec4(color.rgb, color.a * alpha);
+
+    // soft focal shading across the band, thicker arcs read less flat
+    float across = clamp(-dist / max(uParams.y * 0.5, 0.0001), 0.0, 1.0);
+    float focal = mix(1.12, 0.92, across);
+
+    // tiny dither keeps the gradient from banding on wide arcs
+    float dither = (hash12(floor(vPixelCoord)) - 0.5) * (0.8 / 255.0);
+
+    fragColor = vec4(color.rgb * focal + dither, color.a * alpha);
 }

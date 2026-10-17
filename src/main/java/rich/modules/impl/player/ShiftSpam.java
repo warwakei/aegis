@@ -52,7 +52,7 @@ public class ShiftSpam extends ModuleStructure {
 
         KeyBinding sneakKey = mc.options.sneakKey;
 
-        // If the user is holding sneak themselves, don't fight them.
+        // сам жмёт шифт не мешаем
         if (sneakKey.isPressed() && !isControlling) {
             return;
         }

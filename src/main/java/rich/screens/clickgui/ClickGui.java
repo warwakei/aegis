@@ -131,7 +131,7 @@ public class ClickGui extends Screen implements IMinecraft {
         return false;
     }
 
-    /** Координаты клика в том же пространстве, что и рендер (после scale в overlay). */
+    /** клики считаем в координатах рендера */
     private float clickGuiMouseScale() {
         int guiScale = mc.getWindow().calculateScaleFactor(mc.options.getGuiScale().getValue(), mc.forcesUnicodeFont());
         return (float) FIXED_GUI_SCALE / guiScale;
@@ -207,7 +207,7 @@ public class ClickGui extends Screen implements IMinecraft {
 
         context.createNewRootLayer();
 
-        // Убираем затемнение фона - оставляем только менюшку
+        // затемнение фона убрано оставил меню
         // int dimAlpha = (int) (200 * animValue);
         // if (dimAlpha > 0) {
         //     Render2D.rect(0, 0, 5000, 5000, new Color(2, 3, 6, dimAlpha).getRGB(), 0);

@@ -107,13 +107,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @ModifyExpressionValue(method = { "sendMovementPackets",
             "tick" }, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getYaw()F"))
     private float hookSilentRotationYaw(float original) {
-        // 45SP silent strafe — highest priority
+        // стрейф 45сп самый главный
         Strafe45 strafe45 = Strafe45.getInstance();
         if (strafe45 != null && strafe45.isState() && strafe45.isStrafePending()) {
             return strafe45.getStrafeYaw();
         }
 
-        // Normal silent rotation via AngleConnection
+        // сайлент ротация чтоб работало
         if (mc.player != null && AngleConnection.INSTANCE.getRotation() != null) {
             float currentYaw = AngleConnection.INSTANCE.getRotation().getYaw();
             float newBodyYaw = MoveUtil.calculateBodyYaw(

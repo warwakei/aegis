@@ -44,7 +44,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
     final BooleanSetting smoothBackground = new BooleanSetting("Плавный фон", "Сглаживание фона чата")
             .setValue(true);
 
-    // Настройки цветов
+    // цвета тут
     final ColorSetting backgroundColor1 = new ColorSetting("Цвет фона 1", "Верхний цвет градиента")
             .value(0x1A1A24)
             .visible(() -> backgroundMode.isSelected("Градиент"));
@@ -63,7 +63,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
             .range(1f, 10f).setValue(5f)
             .visible(() -> rainbowOutline.isValue());
 
-    // Дополнительные эффекты
+    // доп эффекты
     final BooleanSetting blurEffect = new BooleanSetting("Blur эффект", "Размытие фона под чатом")
             .setValue(false)
             .visible(() -> backgroundMode.isSelected("Blur"));
@@ -97,7 +97,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
         ChatHud chatHud = mc.inGameHud.getChatHud();
         if (chatHud == null) return;
 
-        // Всегда рендерим кастомный фон
+        // всегда рисуем фон
         renderCustomChatBackground(context);
     }
 
@@ -113,7 +113,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
 
         long currentTime = System.currentTimeMillis();
 
-        // Рендерим тень
+        // рисуем тень
         if (shadow.isValue()) {
             float shadowSizeVal = shadowSize.getValue();
             Render2D.blur(x - shadowSizeVal / 2, y - shadowSizeVal / 2,
@@ -122,14 +122,14 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
                     new Color(0, 0, 0, (int) (60 * alpha)).getRGB());
         }
 
-        // Рендерим blur если включён
+        // блур если вкл
         if (backgroundMode.isSelected("Blur") && blurEffect.isValue()) {
             Render2D.blur(x, y, chatWidth, chatHeight,
                     blurRadius.getValue(), cornerRad,
                     new Color(20, 20, 30, (int) (100 * alpha)).getRGB());
         }
 
-        // Определяем цвета фона
+        // чекаем цвета фона
         int bgTop, bgBottom;
         if (backgroundMode.isSelected("Градиент")) {
             bgTop = applyAlpha(backgroundColor1.getColor(), alpha);
@@ -140,7 +140,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
             bgBottom = applyAlpha(baseColor, alpha);
         }
 
-        // Рендерим фон с градиентом
+        // фон с градиентиком
         if (backgroundMode.isSelected("Градиент")) {
             Render2D.gradientRect(x, y, chatWidth, chatHeight,
                     new int[]{bgTop, bgTop, bgBottom, bgBottom},
@@ -149,7 +149,7 @@ public class ChatHUD extends ModuleStructure implements IMinecraft {
             Render2D.rect(x, y, chatWidth, chatHeight, bgTop, cornerRad);
         }
 
-        // Рендерим аутлайн
+        // рисуем обводку
         if (outlineThick > 0) {
             int outlineCol;
             if (rainbowOutline.isValue()) {

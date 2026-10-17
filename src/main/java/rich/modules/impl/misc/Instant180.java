@@ -43,7 +43,7 @@ public class Instant180 extends ModuleStructure {
         startYaw = mc.player.getYaw();
         targetYaw = startYaw + 180.0f;
 
-        // Нормализуем угол (-180 до 180)
+        // нормим угол
         targetYaw = normalizeAngle(targetYaw);
 
         rotating = true;
@@ -65,16 +65,16 @@ public class Instant180 extends ModuleStructure {
 
         float speed = rotationSpeed.getValue();
         
-        // Получаем текущий угол из AngleConnection (не из player)
+        // берем угол не с плеера
         Angle currentRotation = AngleConnection.INSTANCE.getRotation();
         float currentYaw = currentRotation != null ? currentRotation.getYaw() : mc.player.getYaw();
 
-        // Вычисляем кратчайший путь поворота
+        // короткий путь поворота
         float delta = targetYaw - currentYaw;
         delta = normalizeAngle(delta);
 
         if (Math.abs(delta) <= speed || Math.abs(delta) < 0.5f) {
-            // Достигли цели
+            // дошли до цели
             rotateTo(targetYaw);
             rotating = false;
             setState(false);
@@ -82,7 +82,7 @@ public class Instant180 extends ModuleStructure {
             return;
         }
 
-        // Поворачиваем на заданный угол
+        // крутим на угол
         float newYaw = currentYaw + Math.signum(delta) * speed;
         rotateTo(newYaw);
         rotationTicks++;
@@ -90,7 +90,7 @@ public class Instant180 extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void rotateTo(float yaw) {
-        // Используем AngleConnection для плавного поворота без джиттера
+        // крутим без джитера
         Angle angle = new Angle(yaw, mc.player.getPitch());
         Angle.VecRotation rotation = new Angle.VecRotation(angle, angle.toVector());
         AngleConfig config = new AngleConfig(new LinearConstructor(), true, silent.isValue());
@@ -98,7 +98,7 @@ public class Instant180 extends ModuleStructure {
     }
 
     /**
-     * Нормализует угол в диапазон [-180, 180]
+     * нормим угол в -180 180
      */
     private float normalizeAngle(float angle) {
         angle = angle % 360;

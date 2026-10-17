@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Кастомный экран выбора сервера с анимациями и glow эффектами
+ * выбор сервера кастомный со свечением
  */
 public class ServerSelectScreen extends Screen {
 
@@ -28,19 +28,19 @@ public class ServerSelectScreen extends Screen {
 
     private final Screen previousScreen;
 
-    // Анимации
+    // анимашки крутятся тут
     private long screenOpenTime = 0L;
     private boolean initialized = false;
     private float panelSlideProgress = 0f;
     private float itemAppearProgress = 0f;
 
-    // Список серверов
+    // список серверов тут
     private final List<ServerEntry> servers = new ArrayList<>();
     private int hoveredServer = -1;
     private float scrollOffset = 0f;
     private float targetScrollOffset = 0f;
 
-    // Частицы
+    // частицы летают тут
     private final List<MenuParticle> particles = new ArrayList<>();
     private final Random particleRandom = new Random();
 
@@ -57,7 +57,7 @@ public class ServerSelectScreen extends Screen {
     }
 
     private void initServers() {
-        // Пример серверов (можно загружать из конфига)
+        // сервера примерные из конфига тяни
         servers.add(new ServerEntry("ReallyWorld", "rw.reallyworld.ru", "pvp", 1247));
         servers.add(new ServerEntry("HolyWorld", "hw.holyworld.ru", "anarchy", 856));
         servers.add(new ServerEntry("FunTime", "ft.funtime.ru", "mini-games", 2134));
@@ -102,7 +102,7 @@ public class ServerSelectScreen extends Screen {
         int screenHeight = getFixedScaledHeight();
         long currentTime = Util.getMeasuringTimeMs();
 
-        // Фон
+        // фон рисуем тут
         int[] colors = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
         float[] radii = {0, 0, 0, 0};
 
@@ -110,12 +110,12 @@ public class ServerSelectScreen extends Screen {
                 .drawTexture(BACKGROUND_TEXTURE, 0, 0, screenWidth, screenHeight,
                         0, 0, 1, 1, colors, radii, 1f);
 
-        // Overlay
+        // затемнение поверх фона
         float pulse = (float) Math.sin(currentTime * 0.001) * 0.5f + 0.5f;
         int overlayAlpha = (int)(10 + pulse * 5);
         Render2D.rect(0, 0, screenWidth, screenHeight, withAlpha(0x1a2040, overlayAlpha), 0);
 
-        // Частицы
+        // частицы летают тут
         renderParticles(screenWidth, screenHeight, currentTime);
     }
 
@@ -151,7 +151,7 @@ public class ServerSelectScreen extends Screen {
         panelSlideProgress = (float) Easings.SPRING.ease(Math.min(1f, elapsed / 400f));
         itemAppearProgress = (float) Easings.SPRING.ease(Math.min(1f, Math.max(0f, (elapsed - 100f) / 500f)));
 
-        // Scroll
+        // скролл списка тут
         float scrollSpeed = 12f;
         float deltaTime = delta;
         scrollOffset += (targetScrollOffset - scrollOffset) * Math.min(1f, deltaTime * scrollSpeed);
@@ -163,10 +163,10 @@ public class ServerSelectScreen extends Screen {
 
         drawBackground();
 
-        // Определяем hovered сервер
+        // ховернутый сервер вычисляем
         hoveredServer = getHoveredServer(scaledMouseX, scaledMouseY);
 
-        // Рендерим панель
+        // панель рисуем тут
         renderServerPanel(scaledMouseX, scaledMouseY, panelSlideProgress, currentTime);
 
         Render2D.endOverlay();
@@ -179,41 +179,41 @@ public class ServerSelectScreen extends Screen {
         float panelX = (screenWidth - PANEL_WIDTH) / 2f;
         float panelY = (screenHeight - PANEL_HEIGHT) / 2f;
 
-        // Slide анимация
+        // выезд панели анимируем
         float slideOffset = (1f - slideProgress) * 50f;
         panelY += slideOffset;
 
-        // Тень под панелью
+        // тень под панелью лежит
         float shadowSize = 15f;
         Render2D.blur(panelX - shadowSize / 2, panelY - shadowSize / 2,
                 PANEL_WIDTH + shadowSize, PANEL_HEIGHT + shadowSize,
                 shadowSize, 10, withAlpha(0x000000, 40));
 
-        // Фон панели
+        // фон панели рисуем тут
         int bgTop = withAlpha(0x1e1e28, (int) (slideProgress * 255));
         int bgBottom = withAlpha(0x14141c, (int) (slideProgress * 255));
         Render2D.gradientRect(panelX, panelY, PANEL_WIDTH, PANEL_HEIGHT,
                 new int[]{bgTop, bgTop, bgBottom, bgBottom}, 10);
 
-        // Outline панели
+        // контур панели рисуем
         int outlineAlpha = (int) (slideProgress * 180);
         Render2D.outline(panelX, panelY, PANEL_WIDTH, PANEL_HEIGHT, 0.5f, withAlpha(0x3A3A4A, outlineAlpha), 10);
 
-        // Заголовок
+        // заголовок панели тут
         float titleY = panelY + 10;
         float titleX = panelX + 12;
         int titleAlpha = (int) (slideProgress * 255);
         Fonts.BOLD.draw("Select Server", titleX, titleY, 8, withAlpha(0xFFFFFF, titleAlpha));
 
-        // Линия-разделитель
+        // линия разделитель тут
         Render2D.rect(panelX + 8, titleY + 14, PANEL_WIDTH - 16, 0.5f,
                 withAlpha(0x3A3A4A, (int) (slideProgress * 100)), 10);
 
-        // Список серверов
+        // список серверов тут
         float listY = titleY + 20;
         float listHeight = PANEL_HEIGHT - 40;
 
-        // Клиппинг
+        // обрезка краёв тут
         int guiScale = client.getWindow().calculateScaleFactor(client.options.getGuiScale().getValue(), client.forcesUnicodeFont());
 
         rich.util.render.shader.Scissor.enable(panelX + 8, listY, PANEL_WIDTH - 16, listHeight, guiScale);
@@ -238,7 +238,7 @@ public class ServerSelectScreen extends Screen {
 
         rich.util.render.shader.Scissor.disable();
 
-        // Scroll fade эффекты
+        // затухание скролла сверху снизу
         renderScrollFade(panelX + 8, listY, PANEL_WIDTH - 16, listHeight);
     }
 
@@ -248,40 +248,40 @@ public class ServerSelectScreen extends Screen {
         float finalX = x + slideOffset;
         float finalY = y;
 
-        // Фон
+        // фон рисуем тут
         int bgAlpha = (int) (progress * (isHovered ? 50 : 25));
         int bgColor = isHovered ? withAlpha(0x3A4060, bgAlpha) : withAlpha(0x2A2A35, bgAlpha);
         Render2D.rect(finalX, finalY, width, height, bgColor, 6);
 
-        // Glow при hover
+        // свечение при ховере тут
         if (isHovered && progress > 0.5f) {
             float glowAlpha = (progress - 0.5f) * 2f;
             Render2D.outline(finalX, finalY, width, height, 0.5f,
                     withAlpha(0x5060a0, (int) (glowAlpha * 150)), 6);
 
-            // Glow blur
+            // блюр свечения тут
             Render2D.blur(finalX - 2, finalY - 2, width + 4, height + 4,
                     5f, 8f, withAlpha(0x4060a0, (int) (glowAlpha * 20)));
         }
 
-        // Иконка сервера
+        // иконка сервера тут
         float iconX = finalX + 8;
         float iconY = finalY + (height - 12) / 2f;
         int iconAlpha = (int) (progress * 200);
         Fonts.GUI_ICONS.draw("a", iconX, iconY, 12, withAlpha(0x80a0c0, iconAlpha));
 
-        // Название сервера
+        // название сервера рисуем
         float nameX = finalX + 26;
         float nameY = finalY + 6;
         int nameAlpha = (int) (progress * 255);
         Fonts.BOLD.draw(server.name, nameX, nameY, 7, withAlpha(0xFFFFFF, nameAlpha));
 
-        // Адрес сервера
+        // адрес сервера рисуем
         float addressY = nameY + 10;
         int addressAlpha = (int) (progress * 180);
         Fonts.REGULAR.draw(server.address, nameX, addressY, 5, withAlpha(0x8090a0, addressAlpha));
 
-        // Количество игроков
+        // онлайн игроков показываем
         float playersX = finalX + width - 50;
         float playersY = finalY + (height - 6) / 2f;
         int playersAlpha = (int) (progress * 200);
@@ -289,12 +289,12 @@ public class ServerSelectScreen extends Screen {
     }
 
     private void renderScrollFade(float x, float y, float w, float h) {
-        // Top fade
+        // затухание сверху тут
         for (int i = 0; i < 10; i++) {
             float alpha = (1f - i / 10f) * 100;
             Render2D.rect(x, y + i, w, 1, withAlpha(0x14141c, (int) alpha), 0);
         }
-        // Bottom fade
+        // затухание снизу тут
         for (int i = 0; i < 10; i++) {
             float alpha = (i / 10f) * 100;
             Render2D.rect(x, y + h - 10 + i, w, 1, withAlpha(0x14141c, (int) alpha), 0);
@@ -324,7 +324,7 @@ public class ServerSelectScreen extends Screen {
     public boolean mouseClicked(Click click, boolean doubled) {
         if (hoveredServer >= 0) {
             ServerEntry server = servers.get(hoveredServer);
-            // Подключаемся к серверу
+            // коннектимся к серверу тут
             client.setScreen(new MultiplayerScreen(previousScreen));
             return true;
         }

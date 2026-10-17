@@ -8,13 +8,21 @@ import rich.netpanel.NetPanelServer;
 import rich.netpanel.loggers.ConsoleCapture;
 
 /**
- * NetPanel module — enables the embedded HTTP server with web dashboard.
- * Toggle in ClickGUI to start/stop the server.
+ * веб панелька с серваком внутри
+ * тыкай в кликгуи чтоб вкл
  */
 public class NetPanel extends ModuleStructure {
 
     private NetPanelServer server;
-    private boolean needsRestart = false;
+    private boolean needsRestart = true;
+
+    @Override
+    public void setState(boolean state) {
+        super.setState(state);
+        if (!state && server != null) {
+            deactivate();
+        }
+    }
 
     public NetPanel() {
         super("NetPanel", "Web dashboard for real-time monitoring (chat, packets, console)", ModuleCategory.MISC);
@@ -25,8 +33,12 @@ public class NetPanel extends ModuleStructure {
         needsRestart = false;
         if (server == null) {
             server = new NetPanelServer();
-            server.start();
-            ConsoleCapture.attach();
+            if (server.start()) {
+                ConsoleCapture.attach();
+            } else {
+                server = null;
+                needsRestart = true;
+            }
         }
     }
 
@@ -45,18 +57,21 @@ public class NetPanel extends ModuleStructure {
 
     @EventHandler
     public void onTick(TickEvent e) {
-        // Если модуль "запомнился" включённым после рестарта — перезапускаем сервер
+        // после рестарта серв заново
         if (needsRestart && isState() && server == null) {
             needsRestart = false;
             server = new NetPanelServer();
-            server.start();
-            ConsoleCapture.attach();
+            if (server.start()) {
+                ConsoleCapture.attach();
+            } else {
+                server = null;
+            }
         }
-        // TPS tracking
+        // тпс считаем
         if (server != null) {
             server.onTick();
         }
-        // FPS tracking
+        // фпс считаем
         if (server != null && mc.getCurrentFps() > 0) {
             server.updateFps(mc.getCurrentFps());
         }

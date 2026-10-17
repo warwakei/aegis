@@ -6,7 +6,7 @@
 - `compileJava` depends on `generateVersion` (generates `build/generated-src/rich/util/Version.java` from `src/main/resources/rich/util/Version.java.template`)
 - Source set includes `build/generated-src` — do not edit `Version.java`
 - Gradle config cache disabled (`org.gradle.configuration-cache=false`)
-- Custom Gradle home: `D:/gradle_home` (machine-specific, set in `gradle.properties`)
+- Gradle home uses the default user cache; set `GRADLE_USER_HOME` externally for a machine-specific location
 - Launcher sub-project at `launcher/` — builds separately, jar name is `AegisUpdater03.jar` (no version in archive name: `archiveVersion = ""`, `archiveClassifier = ""`)
 - Mod main jar: `AegisNeo-<version>.jar` (archivesBaseName = `AegisNeo`)
 - No CI, no pre-commit hooks, no code formatter or linter config found

@@ -13,18 +13,9 @@ import net.minecraft.util.Hand;
 import rich.util.inventory.InventoryUtils;
 
 /**
- * Shield Breaker Handler для Aura
- *
- * Логика работы:
- * - Детектит что цель использует щит (isUsingItem + Items.SHIELD)
- * - Находит топор в хотбаре или инвентаре
- * - Свапает топор в слот → атакует → возвращает оригинальный предмет
- *
- * Тайминги (по тикам):
- * - Тик 0: цель подняла щит, найден слот топора
- * - Тик 1: свап топора в слот
- * - Тик 2: атака топором (пакет)
- * - Тик 3: возврат оригинального предмета
+ * щиты ломаем топором
+ * палим щит свап удар возврат
+ * тики 0 палим 1 свап 2 бьем 3 возврат
  */
 public class ShieldBreakerHandler {
 
@@ -33,25 +24,25 @@ public class ShieldBreakerHandler {
     @Getter
     private ShieldBreakerState state = ShieldBreakerState.IDLE;
 
-    private int axeInventorySlot = -1;    // Слот топора в инвентаре (9-35)
-    private int axeHotbarSlot = -1;       // Слот топора в хотбаре (0-8)
-    private int originalSlot = -1;         // Оригинальный слот игрока
+    private int axeInventorySlot = -1;    // топор в инте 9-35
+    private int axeHotbarSlot = -1;       // топор в хотбаре 0-8
+    private int originalSlot = -1;         // слот чела был
 
     private long stateStartTime = 0;
     private LivingEntity target = null;
 
     /**
-     * Состояния автомата
+     * статусы автомата
      */
     public enum ShieldBreakerState {
-        IDLE,           // Ожидание
-        SWAPPING,       // Свап топора в слот
-        ATTACKING,      // Атака топором
-        RESTORING       // Возврат оригинального предмета
+        IDLE,           // ждем
+        SWAPPING,       // суем топор
+        ATTACKING,      // бьем топором
+        RESTORING       // шмот назад
     }
 
     /**
-     * Вызывается каждый тик из Aura
+     * тик из ауры
      */
     public void onTick(LivingEntity currentTarget) {
         if (mc.player == null || mc.world == null) {
@@ -68,15 +59,15 @@ public class ShieldBreakerHandler {
     }
 
     /**
-     * Состояние IDLE: проверяем нужно ли активировать Shield Breaker
+     * идле чекаем пора ли
      */
     private void handleIdle(LivingEntity currentTarget) {
-        // Проверяем условия для активации
+        // чек пора ли вкл
         if (currentTarget == null || !currentTarget.isAlive()) {
             return;
         }
 
-        // Проверяем что цель использует щит
+        // чек щит у цели
         if (!currentTarget.isUsingItem()) {
             return;
         }
@@ -86,24 +77,24 @@ public class ShieldBreakerHandler {
             return;
         }
 
-        // Проверяем дистанцию до цели (в радиусе атаки Aura + небольшой запас)
+        // чек дистанцию в радиусе ауры
         float distance = mc.player.distanceTo(currentTarget);
         if (distance > 6.0f) {
-            return; // Цель слишком далеко
+            return; // далеко не достать
         }
 
-        // Проверяем что в руке НЕ топор (ищем любой топор: WOODEN, STONE, IRON, GOLDEN, NETHERITE)
+        // чек что не топор в руке
         ItemStack mainHand = mc.player.getMainHandStack();
         if (isAxe(mainHand)) {
-            return; // Уже с топором, не нужно свапать
+            return; // уже с топором скип
         }
 
-        // Ищем топор в хотбаре и инвентаре
+        // ищем топор везде
         int hotbarAxe = findHotbarAxe();
         int invAxe = -1;
 
         if (hotbarAxe == -1) {
-            // Топора нет в хотбаре — ищем в инвентаре
+            // в хотбаре нет лезем в инт
             for (int i = 9; i < 36; i++) {
                 ItemStack stack = mc.player.getInventory().getStack(i);
                 if (isAxe(stack)) {
@@ -113,27 +104,27 @@ public class ShieldBreakerHandler {
             }
         }
 
-        // Если топора нет нигде — отмена
+        // нигде нет отмена
         if (hotbarAxe == -1 && invAxe == -1) {
             return;
         }
 
-        // Инициализируем свап
+        // го свапать
         this.target = currentTarget;
         this.originalSlot = mc.player.getInventory().getSelectedSlot();
         this.axeHotbarSlot = hotbarAxe;
         this.axeInventorySlot = invAxe;
 
-        // Переходим в состояние свапа
+        // погнали в свап
         state = ShieldBreakerState.SWAPPING;
         stateStartTime = System.currentTimeMillis();
     }
 
     /**
-     * Состояние SWAPPING: свапаем топор в слот
+     * свап суем топор
      */
     private void handleSwapping() {
-        // Ждём 1 тик (50ms) перед свапом чтобы убедиться что всё стабильно
+        // ждем тик чтоб стабильно
         long elapsed = System.currentTimeMillis() - stateStartTime;
         if (elapsed < 50) {
             return;
@@ -144,23 +135,23 @@ public class ShieldBreakerHandler {
             return;
         }
 
-        // Если топор уже в хотбаре — просто свитчим
+        // топор в хотбаре просто свитч
         if (axeHotbarSlot != -1) {
             mc.player.getInventory().setSelectedSlot(axeHotbarSlot);
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(axeHotbarSlot));
         } else if (axeInventorySlot != -1) {
-            // Топор в инвентаре — делаем silent swap
+            // топор в инте сайлент свап
             int wrappedSlot = InventoryUtils.wrapSlot(axeInventorySlot);
-            int targetHotbarSlot = originalSlot + 36; // Целевой слот хотбара в экранных координатах
+            int targetHotbarSlot = originalSlot + 36; // хотбар слот цели
 
-            // 3 клика PICKUP для свапа
-            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);     // взяли топор
-            InventoryUtils.click(targetHotbarSlot, 0, SlotActionType.PICKUP); // положили в хотбар
-            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);     // вернули остаток
+            // 3 клика свап
+            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);     // взяли
+            InventoryUtils.click(targetHotbarSlot, 0, SlotActionType.PICKUP); // кинули в хотбар
+            InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);     // остаток назад
 
             InventoryUtils.closeScreen();
 
-            // Теперь свитчим на этот слот
+            // свитч на слот
             mc.player.getInventory().setSelectedSlot(originalSlot);
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
         }
@@ -170,50 +161,50 @@ public class ShieldBreakerHandler {
     }
 
     /**
-     * Состояние ATTACKING: атакуем топором
+     * бьем топором
      */
     private void handleAttacking() {
-        // Ждём 1 тик (50ms) чтобы свап успел примениться
+        // ждем тик свап встанет
         long elapsed = System.currentTimeMillis() - stateStartTime;
         if (elapsed < 50) {
             return;
         }
 
         if (mc.player == null || target == null || !target.isAlive()) {
-            // Цель пропала — возвращаем предмет
+            // цель слилась возврат шмота
             state = ShieldBreakerState.RESTORING;
             stateStartTime = System.currentTimeMillis();
             return;
         }
 
-        // Атакуем топором
+        // лупим топором
         performAxeAttack(target);
 
-        // Переходим к возврату
+        // го возврат
         state = ShieldBreakerState.RESTORING;
         stateStartTime = System.currentTimeMillis();
     }
 
     /**
-     * Выполняет атаку топором
+     * удар топором
      */
     private void performAxeAttack(LivingEntity target) {
         if (mc.player == null || mc.getNetworkHandler() == null) return;
 
-        // Отправляем пакет атаки
+        // шлем пакет удара
         mc.getNetworkHandler().sendPacket(
                 PlayerInteractEntityC2SPacket.attack((Entity) target, mc.player.isSneaking())
         );
 
-        // Анимация руки
+        // мах рукой
         mc.player.swingHand(Hand.MAIN_HAND);
     }
 
     /**
-     * Состояние RESTORING: возвращаем оригинальный предмет обратно
+     * возврат шмота назад
      */
     private void handleRestoring() {
-        // Ждём 1 тик (50ms) чтобы атака ушла на сервер
+        // ждем тик удар долетит
         long elapsed = System.currentTimeMillis() - stateStartTime;
         if (elapsed < 50) {
             return;
@@ -224,12 +215,12 @@ public class ShieldBreakerHandler {
             return;
         }
 
-        // Если топор был в инвентаре — нужно вернуть всё обратно
+        // топор был в инте вернуть все
         if (axeInventorySlot != -1) {
             int wrappedSlot = InventoryUtils.wrapSlot(axeInventorySlot);
             int sourceHotbarSlot = originalSlot + 36;
 
-            // Обратный свап
+            // обратный свап
             InventoryUtils.click(sourceHotbarSlot, 0, SlotActionType.PICKUP);
             InventoryUtils.click(wrappedSlot, 0, SlotActionType.PICKUP);
             InventoryUtils.click(sourceHotbarSlot, 0, SlotActionType.PICKUP);
@@ -241,12 +232,12 @@ public class ShieldBreakerHandler {
         mc.player.getInventory().setSelectedSlot(originalSlot);
         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
 
-        // Сброс
+        // сброс
         reset();
     }
 
     /**
-     * Проверяет является ли предмет топором
+     * чек топор или нет
      */
     private boolean isAxe(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return false;
@@ -259,7 +250,7 @@ public class ShieldBreakerHandler {
     }
 
     /**
-     * Ищет топор в хотбаре
+     * топор в хотбаре ищем
      */
     private int findHotbarAxe() {
         for (int i = 0; i < 9; i++) {
@@ -272,7 +263,7 @@ public class ShieldBreakerHandler {
     }
 
     /**
-     * Сброс состояния
+     * сброс стейта
      */
     public void reset() {
         state = ShieldBreakerState.IDLE;
@@ -284,24 +275,24 @@ public class ShieldBreakerHandler {
     }
 
     /**
-     * Возвращает true если сейчас активен процесс свапа топора
+     * щас свапаем или нет
      */
     public boolean isActive() {
         return state != ShieldBreakerState.IDLE;
     }
 
     /**
-     * Принудительный сброс (при деактивации Aura)
+     * жесткий сброс при офф ауры
      */
     public void forceReset() {
         if (state != ShieldBreakerState.IDLE && mc.player != null) {
-            // Возвращаем оригинальный слот
+            // слот назад верни
             if (originalSlot != -1) {
                 mc.player.getInventory().setSelectedSlot(originalSlot);
                 mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
             }
 
-            // Закрываем инвентарь если открыт
+            // инт закрываем если открыт
             if (InventoryUtils.isScreenOpen()) {
                 InventoryUtils.closeScreen();
             }

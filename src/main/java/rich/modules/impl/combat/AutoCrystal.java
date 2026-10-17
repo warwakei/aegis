@@ -155,7 +155,7 @@ public class AutoCrystal extends ModuleStructure {
     }
 
     private void scheduleReset() {
-        // Сбрасываем через 6 тиков если кристалл не появился
+        // сброс если крис не вылез
         resetTicks = 6;
     }
 

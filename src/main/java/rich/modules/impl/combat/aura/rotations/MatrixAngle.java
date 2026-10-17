@@ -47,20 +47,20 @@ public class MatrixAngle extends RotateConstructor {
         boolean isTargetFar = entity != null && entity.distanceTo(mc.player) > 3.5f;
         
         if (entity != null) {
-            // Целимся в центр хитбокса с небольшим смещением вниз
+            // целим в центр чутка вниз
             float distance = entity.distanceTo(mc.player);
             
-            // Центр хитбокса = Y + половина высоты
+            // центр хитбокса
             double centerY = entity.getY() + (entity.getHeight() / 2.0);
             
-            // Небольшое смещение вниз для более стабильного попадания
+            // чутка вниз чтоб залетало
             double offset;
             if (distance < 2.0f) {
-                offset = -0.1; // Близко - чуть ниже центра
+                offset = -0.1; // близко ниже центра
             } else if (distance < 4.0f) {
-                offset = 0.0; // Средняя дистанция - точно в центр
+                offset = 0.0; // средне ровно в центр
             } else {
-                offset = 0.05; // Далеко - чуть выше центра
+                offset = 0.05; // далеко чутка выше
             }
             
             Vec3d aimPoint = new Vec3d(
@@ -85,14 +85,14 @@ public class MatrixAngle extends RotateConstructor {
             lookingAtHitbox = true;
         }
         
-        // Детект смены цели для burst режима
+        // палим смену цели под берст
         boolean targetChanged = !wasLookingAtTarget && lookingAtHitbox;
         if (targetChanged) {
             targetSwitchCooldown = 1.0f;
         }
         wasLookingAtTarget = lookingAtHitbox;
         
-        // Сброс счетчика при атаке
+        // сброс счетчика при ударе
         if (canAttack) {
             framesSinceLastAttack = 0;
         }
@@ -100,7 +100,7 @@ public class MatrixAngle extends RotateConstructor {
         float baseSpeed = calculateAdaptiveSpeed(canAttack, lookingAtHitbox, isTargetFar, isRotationSuspicious);
         float speed = applyAntiCheatBypass(baseSpeed, rotationDifference, currentTime);
         
-        // Защита от деления на ноль
+        // чтоб не делить на ноль
         if (rotationDifference < 0.01f) {
             return currentAngle;
         }
@@ -127,11 +127,11 @@ public class MatrixAngle extends RotateConstructor {
         float moveYaw = MathHelper.clamp(yawDelta, -lineYaw, lineYaw) + resolve1;
         float movePitch = MathHelper.clamp(pitchDelta, -linePitch, linePitch) + resolve2;
         
-        // Нормализация yaw ПЕРЕД добавлением ошибки
+        // нормалим яв до тряски
         while (moveYaw > 180) moveYaw -= 360;
         while (moveYaw < -180) moveYaw += 360;
         
-        // Накопленная ошибка с затуханием
+        // ошибка копитса затухает
         moveYaw += accumulatedError * 0.2f;
         accumulatedError += fastRandom(-0.15f, 0.15f);
         accumulatedError *= 0.95f;
@@ -156,7 +156,7 @@ public class MatrixAngle extends RotateConstructor {
             consistentRotations = 0;
         }
         
-        return consistentRotations > 8 || (currentTime - lastRotationTime) < 16; // ~60fps = 16ms
+        return consistentRotations > 8 || (currentTime - lastRotationTime) < 16; // 60фпс типа 16мс
     }
     
     private void updateCombatState(boolean canAttack, long currentTime) {
@@ -172,7 +172,7 @@ public class MatrixAngle extends RotateConstructor {
         float preAttackSpeed = fastRandom(2.0F, 3.0F) * RAGE_MULTIPLIER;
         float postAttackSpeed = lookingAtHitbox ? fastRandom(1.2F, 1.6F) : fastRandom(1.5F, 2.0F);
         
-        // Burst speed при смене цели
+        // берст при смене цели
         if (targetSwitchCooldown > 0) {
             preAttackSpeed *= 1.9f;
             targetSwitchCooldown -= 0.1f;
@@ -182,25 +182,25 @@ public class MatrixAngle extends RotateConstructor {
     }
     
     private float applyAntiCheatBypass(float baseSpeed, float rotationDifference, long currentTime) {
-        // Упрощаем логику для более быстрого наведения
+        // проще чтоб быстрее наводило
         float humanFactor = (float) (0.98f + 0.05f * Math.sin(currentTime / 1000.0));
         
-        // Убираем имитацию усталости мыши - всегда быстро
+        // усталости мыши нет всегда быстро
         float mouseFatigue = 1.0f;
         
-        // Убираем замедление для больших углов - быстро поворачиваемся
+        // углы не тормозим крутим быстро
         // if (rotationDifference > 90) {
         //     humanFactor *= 0.82f;
         // } else if (rotationDifference > 45) {
         //     humanFactor *= 0.92f;
         // }
         
-        // Убираем случайные микро-лаги
+        // без микро лагов
         // if (RANDOM.nextFloat() < 0.08f) {
         //     humanFactor *= 0.65f;
         // }
         
-        // Более быстрое изменение скорости
+        // скорость меняем шустрее
         float targetSpeed = baseSpeed * humanFactor * mouseFatigue;
         lastSpeed = MathHelper.lerp(0.7f, lastSpeed, targetSpeed);
         
@@ -228,7 +228,7 @@ public class MatrixAngle extends RotateConstructor {
             fastRandom(-0.6f, 0.6f) + baseJitterPitch + microJitterPitch : 
             fastRandom(-1.0f, 1.0f) + baseJitterPitch + humanJitterPitch;
             
-        // Стресс и адреналин в бою
+        // стресс в бою трясет
         if (isInCombat) {
             long combatDuration = currentTime - combatStartTime;
             float combatStress = Math.min(combatDuration / 5000.0f, 0.6f);
@@ -238,7 +238,7 @@ public class MatrixAngle extends RotateConstructor {
             jitterPitch += (fastRandom(-0.4f, 0.4f) + adrenaline * 0.5f) * combatStress;
         }
         
-        // Имитация дрожания рук при долгой игре
+        // руки дрожат от катки
         if (framesSinceLastAttack > 300) {
             float handShake = Math.min(framesSinceLastAttack / 1500.0f, 0.4f);
             jitterYaw += fastRandom(-handShake, handShake);

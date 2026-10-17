@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * VMProtectBeginVirtualization - Кушает фпс так намана
- * VMProtectBeginMutation - Ваще не кушаэ но плохо защищает
- * VMProtectBeginUltra - Золотой стандарт
+ * VMProtectBeginVirtualization жрёт фпс сильно
+ * VMProtectBeginMutation почти не жрёт защищает слабо
+ * VMProtectBeginUltra золотой стандарт тут
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.METHOD, ElementType.TYPE})

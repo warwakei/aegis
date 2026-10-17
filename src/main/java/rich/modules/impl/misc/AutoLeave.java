@@ -38,7 +38,7 @@ public class AutoLeave extends ModuleStructure {
         if (e.getType() != PacketEvent.Type.RECEIVE) return;
         if (!(e.getPacket() instanceof GameMessageS2CPacket)) return;
         
-        // Проверяем Staff триггер
+        // чекаем стафф триггер
         if (triggerSetting.isSelected("Staff")) {
             String message = ((GameMessageS2CPacket) e.getPacket()).content().getString();
             if (isStaffDetected(message)) {
@@ -51,7 +51,7 @@ public class AutoLeave extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private boolean isStaffDetected(String message) {
         String lower = message.toLowerCase();
-        // Проверяем сообщение о входе стаффера
+        // чекаем заход стаффера
         if (lower.contains("вошёл") || lower.contains("joined") || lower.contains("присоединился")) {
             for (String staff : rich.util.repository.staff.StaffUtils.getStaffNames()) {
                 if (lower.contains(staff.toLowerCase())) {

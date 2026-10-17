@@ -24,12 +24,12 @@ public class ConfigAnimationHandler {
 
     private long lastUpdateTime = System.currentTimeMillis();
 
-    // Улучшенные скорости анимаций
-    private static final float PANEL_ALPHA_SPEED = 18f; // Быстрее
-    private static final float PANEL_SLIDE_SPEED = 22f; // Быстрее
+    // скорости анимаций подкручены тут
+    private static final float PANEL_ALPHA_SPEED = 18f; // так побыстрее будет
+    private static final float PANEL_SLIDE_SPEED = 22f; // так побыстрее будет
     private static final float CREATE_BOX_SPEED = 16f;
-    private static final float ITEM_APPEAR_SPEED = 24f; // Быстрее появление
-    private static final float HOVER_SPEED = 10f; // Быстрее hover
+    private static final float ITEM_APPEAR_SPEED = 24f; // появление стало побыстрее
+    private static final float HOVER_SPEED = 10f; // ховер стал побыстрее
 
     public void reset() {
         panelAlpha = 0f;
@@ -91,7 +91,7 @@ public class ConfigAnimationHandler {
             float targetAppear;
 
             if (isActive) {
-                float delay = index * 0.015f; // Чуть быстрее задержка
+                float delay = index * 0.015f; // задержка чуть побыстрее стала
                 if (panelAlpha > delay) {
                     targetAppear = 1f;
                 } else {
@@ -126,7 +126,7 @@ public class ConfigAnimationHandler {
     }
 
     /**
-     * Применяет SPRING easing к прогрессу анимации
+     * пружинная плавность для анимации
      */
     private float applySpring(float rawProgress) {
         return (float) Easings.SPRING.ease(Math.min(1.0, rawProgress));

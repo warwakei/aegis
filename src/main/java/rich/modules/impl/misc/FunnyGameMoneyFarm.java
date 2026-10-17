@@ -32,21 +32,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Автоматический фарм денег на FunnyGame через NPC + авто-перевод на основной аккаунт
+ * фарм бабок с нпц и перевод
  */
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FunnyGameMoneyFarm extends ModuleStructure {
 
-    // Координаты NPC
+    // корды нпц
     private static final String TP_NPC1 = "tp -271 52 -1030";
     private static final String TP_NPC2 = "tp -149 69 -1022";
 
-    // Задержки
+    // дилэи
     private static final int TP_DELAY_MS = 890;
     private static final int PAY_CONFIRM_DELAY_MS = 200;
 
-    // Паттерн для парсинга баланса: [$] Ваш баланс: 1,186,805,078$
+    // парсим баланс такой
     private static final Pattern BALANCE_PATTERN = Pattern.compile(
             "Ваш баланс:\\s*([\\d,]+)\\s*\\$",
             Pattern.CASE_INSENSITIVE
@@ -155,7 +155,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         if (text == null) return;
 
         try {
-            // Парсим баланс
+            // ловим баланс
             Matcher matcher = BALANCE_PATTERN.matcher(text);
             if (matcher.find()) {
                 String balanceStr = matcher.group(1).replace(",", "");
@@ -180,7 +180,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             phaseStartTime = System.currentTimeMillis();
 
             if (countdownValue <= 0) {
-                // Включаем JenroChatGame если нужно
+                // врубаем чатгейм если нада
                 if (autoEnableChatGame.isValue()) {
                     try {
                         JenroChatGame chatGame = Instance.get(JenroChatGame.class);
@@ -262,7 +262,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc2() {
-        // Телепорт домой
+        // тп домой
         mc.player.networkHandler.sendChatCommand("home");
         phase = FarmPhase.TELEPORT_HOME;
         phaseStartTime = System.currentTimeMillis();
@@ -278,7 +278,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void handleWaitHome() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= TP_DELAY_MS) {
-            // Задержка прошла — проверяем баланс
+            // дилэй прошол чекаем баланс
             mc.player.networkHandler.sendChatCommand("balance");
             phase = FarmPhase.WAITING_BALANCE_RESPONSE;
             phaseStartTime = System.currentTimeMillis();
@@ -287,11 +287,11 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleWaitingBalanceResponse() {
-        // Ждём пока PacketEvent не распарсит баланс
-        // Таймаут 5 секунд
+        // ждем баланс в пакете
+        // таймут 5 сек
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= 5000) {
-            // Таймаут — идём дальше без перевода
+            // таймут дальше без перевода
             ChatMessage.brandmessage("Таймаут получения баланса, пропускаем перевод");
             startWaitingPhase();
         }
@@ -309,7 +309,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         payTarget = target;
         ChatMessage.brandmessage("Переводим " + parsedBalance + "$ на аккаунт " + payTarget);
 
-        // Отправляем первый /pay
+        // шлем первый pay
         phase = FarmPhase.SENDING_PAY_1;
         phaseStartTime = System.currentTimeMillis();
         mc.player.networkHandler.sendChatMessage("pay " + payTarget + " " + parsedBalance);
@@ -317,7 +317,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleSendingPay1() {
-        // Ждём подтверждение от сервера
+        // ждем падтверждение серва
         phase = FarmPhase.WAITING_PAY_CONFIRM;
         phaseStartTime = System.currentTimeMillis();
     }
@@ -326,7 +326,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void handleWaitingPayConfirm() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= PAY_CONFIRM_DELAY_MS) {
-            // Отправляем подтверждение — тот же pay повторно
+            // шлем падтверждение тот же pay
             phase = FarmPhase.SENDING_PAY_2;
             phaseStartTime = System.currentTimeMillis();
             mc.player.networkHandler.sendChatMessage("pay " + payTarget + " " + parsedBalance);
@@ -336,7 +336,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleSendingPay2() {
-        // Второй pay отправлен, ждём немного и идём в ожидание
+        // второй pay ушол ждем
         ChatMessage.brandmessage("Перевод выполнен: " + parsedBalance + "$ → " + payTarget);
         startWaitingPhase();
     }
@@ -362,7 +362,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void interactWithNpc() {
         if (mc.player == null || mc.world == null || mc.getNetworkHandler() == null) return;
 
-        // Ищем ближайшего NPC (AntiBot распознаёт NPC как бота)
+        // ищем нпц рядом
+        // антибот палит нпц как ботов
         PlayerEntity nearestNpc = null;
         double nearestDistance = Double.MAX_VALUE;
 
@@ -371,10 +372,10 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         for (PlayerEntity entity : mc.world.getPlayers()) {
             if (entity == mc.player) continue;
 
-            // Проверяем через AntiBot — NPC распознаются как боты
+            // чек через антибот
             boolean isBot = (antiBot != null) && antiBot.isBot(entity);
             
-            // Если AntiBot недоступен, используем дистанцию как fallback
+            // антибота нет юзаем дистанцию
             if (isBot || antiBot == null) {
                 double distance = mc.player.distanceTo(entity);
                 if (distance < nearestDistance && distance < 10.0) {
@@ -385,12 +386,12 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         }
 
         if (nearestNpc != null) {
-            // Взаимодействуем с NPC через пакет
+            // тыкаем нпц пакетом
             mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.interact(nearestNpc, mc.player.isSneaking(), Hand.MAIN_HAND));
             mc.player.swingHand(Hand.MAIN_HAND);
             ChatMessage.brandmessage("Взаимодействие с NPC: " + nearestNpc.getName().getString());
         } else {
-            // Fallback — если NPC не найден, пробуем кликать вперёд
+            // нпц нет тыкаем вперед
             Vec3d lookVec = mc.player.getRotationVec(1.0f);
             Vec3d hitVec = mc.player.getEyePos().add(lookVec.multiply(2.0));
             BlockPos interactPos = mc.player.getBlockPos().offset(mc.player.getHorizontalFacing());

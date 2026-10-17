@@ -24,7 +24,7 @@ public class AvatarRenderer {
             username = mc.getSession().getUsername();
         }
 
-        // Фон с GIF
+        // фон с гифкой тут
         context.getMatrices().pushMatrix();
         GifRender.drawBackground(bgX + 12.5f, bgY + 12.5f, 70, 30, 7, applyAlpha(-1, alpha));
         Render2D.rect(bgX + 15f, bgY + 15f, 25, 25, new Color(22, 24, 32, alpha).getRGB(), 15);
@@ -34,12 +34,12 @@ public class AvatarRenderer {
 
         Render2D.rect(bgX + 12.5f, bgY + 12.5f, 70, 30, new Color(8, 10, 16, alphaFon).getRGB(), 7);
 
-        // Никнейм - рендерим без scissor (он вызывал мерцание)
+        // ник без ножниц а то мерцает
         float textX = bgX + 44;
         float textY = bgY + 22;
         float maxTextWidth = 35f;
 
-        // Обрезаем никнейм если слишком длинный
+        // длинный ник режем тут
         String displayName = username;
         float nameWidth = Fonts.BOLD.getWidth(displayName, 6);
         if (nameWidth > maxTextWidth) {

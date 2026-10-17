@@ -12,12 +12,12 @@ public class Info extends AbstractHudElement {
 
     @Override
     public boolean visible() {
-        // Legacy element kept for config compatibility; functionality moved to `Coords` and `BPS`.
+        // старый элемент ради совместимости конфигов
         return false;
     }
 
     @Override
     public void drawDraggable(DrawContext context, int alpha) {
-        // no-op
+        // тут пусто ничего не делаем
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Система трейлов для частиц - хранит историю позиций для визуального следа
+ * трейлы хранят след позиций
  */
 public class ParticleTrail {
     
@@ -24,14 +24,14 @@ public class ParticleTrail {
     public void addPoint(double x, double y, double z, float alpha) {
         trailPoints.add(new TrailPoint(x, y, z, alpha, System.currentTimeMillis()));
         
-        // Ограничиваем длину трейла
+        // режем длину трейла
         while (trailPoints.size() > maxTrailLength) {
             trailPoints.remove(0);
         }
     }
     
     /**
-     * Обновляет трейл - удаляет старые точки
+     * апдейт трейла чистим старье
      */
     public void update() {
         long currentTime = System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class ParticleTrail {
     }
     
     /**
-     * Возвращает точки трейла для рендера
+     * точки для рендера
      */
     public List<TrailPoint> getTrailPoints() {
         return trailPoints;

@@ -7,14 +7,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Утилита для плавного понижения/повышения FPS при таргете на разработчиков
+ * душилка фпс для разрабов
  */
 public class FpsThrottler {
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();
     private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    // Никнеймы разработчиков (нижний регистр для сравнения)
+    // ники разрабов
     private static final String[] DEVELOPER_NICKS = {
             "popotcha",
             "confession",
@@ -23,29 +23,29 @@ public class FpsThrottler {
             "hate2love"
     };
 
-    // Сохранённый оригинальный FPS
+    // родной фпс
     private static int savedFps = -1;
 
-    // Текущий таргет ник
+    // щас чей таргет
     private static String currentTargetNick = null;
 
-    // Текущий этап (0 = 40 FPS, 4 = 8 FPS)
+    // какой этап душим
     private static int currentStage = 0;
 
-    // Этапы понижения FPS: [40, 30, 20, 10, 8]
+    // лесенка фпс вниз
     private static final int[] FPS_STAGES = {40, 30, 20, 10, 8};
 
-    // Флаг что FPS понижен (для таргета на разработчика)
+    // фпс уже задушен
     private static boolean fpsReduced = false;
 
-    // Флаг режима восстановления FPS
+    // щас возвращаем фпс
     private static boolean restoringFps = false;
 
-    // Интервал между этапами (1 секунда)
+    // пауза между этапами
     private static final long STAGE_INTERVAL = 1000;
 
     /**
-     * Проверяет является ли ник ником разработчика
+     * это разраб или нет
      */
     public static boolean isDeveloperNick(String nick) {
         if (nick == null) return false;
@@ -59,45 +59,44 @@ public class FpsThrottler {
     }
 
     /**
-     * Обновляет FPS при смене таргета
-     * Вызывать каждый тик с текущим ником таргета
+     * душим фпс по таргету
      */
     public static void updateTarget(String targetNick) {
         if (mc == null || mc.options == null) return;
 
-        // Если в режиме восстановления - игнорируем новые таргеты
+        // чинимся таргеты пофиг
         if (restoringFps) return;
 
-        // Если таргет сменился
+        // таргет поменялся
         if (targetNick == null || !targetNick.equals(currentTargetNick)) {
-            // Если таргет убран или сменился - начинаем восстановление
+            // таргет ушёл чинимся
             if (targetNick == null || !isDeveloperNick(targetNick)) {
                 startRestore();
                 currentTargetNick = null;
                 return;
             }
 
-            // Новый таргет - разработчик
+            // опа разраб
             currentTargetNick = targetNick;
             currentStage = 0;
             fpsReduced = true;
             restoringFps = false;
 
-            // Сохраняем оригинальный FPS
+            // запоминаем родной фпс
             if (savedFps == -1) {
                 savedFps = mc.options.getMaxFps().getValue();
             }
 
-            // Понижаем FPS до 40
+            // режем до сорока
             setFps(FPS_STAGES[0]);
 
-            // Планируем дальнейшее понижение
+            // дальше душим по плану
             scheduleFpsReduction();
         }
     }
 
     /**
-     * Планирует поэтапное понижение FPS
+     * душим лесенкой вниз
      */
     private static void scheduleFpsReduction() {
         for (int i = 1; i < FPS_STAGES.length; i++) {
@@ -112,21 +111,21 @@ public class FpsThrottler {
     }
 
     /**
-     * Начинает плавное восстановление FPS
+     * потихоньку возвращаем фпс
      */
     private static void startRestore() {
-        if (!fpsReduced && savedFps == -1) return; // FPS не менялся
-        if (restoringFps) return; // Уже восстанавливается
+        if (!fpsReduced && savedFps == -1) return; // фпс не трогали
+        if (restoringFps) return; // уже чинимся
 
         restoringFps = true;
         fpsReduced = false;
 
-        // Сохраняем текущий stage для обратного отсчёта
+        // запоминаем этап
         final int startStage = currentStage;
         final int originalFps = savedFps;
 
-        // Планируем поэтапное восстановление
-        // Начинаем с предыдущего этапа (текущий уже установлен)
+        // чинимся лесенкой
+        // стартуем с прошлого этапа
         for (int i = startStage - 1; i >= 0; i--) {
             final int stageIndex = i;
             final long delay = (startStage - 1 - i + 1) * STAGE_INTERVAL;
@@ -137,7 +136,7 @@ public class FpsThrottler {
             }, delay, TimeUnit.MILLISECONDS);
         }
 
-        // Финальный этап - восстановление оригинального FPS
+        // в конце родной фпс
         final long finalDelay = (startStage + 1) * STAGE_INTERVAL;
         scheduler.schedule(() -> {
             if (mc == null || mc.options == null) return;
@@ -151,7 +150,7 @@ public class FpsThrottler {
     }
 
     /**
-     * Устанавливает лимит FPS
+     * ставим лимит фпс
      */
     private static void setFps(int fps) {
         if (mc == null || mc.options == null) return;
@@ -159,8 +158,7 @@ public class FpsThrottler {
     }
 
     /**
-     * Сбрасывает состояние (при деактивации модуля)
-     * Начинает плавное восстановление FPS
+     * сброс чиним фпс
      */
     public static void reset() {
         startRestore();

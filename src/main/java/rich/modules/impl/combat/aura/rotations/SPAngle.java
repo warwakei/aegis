@@ -95,7 +95,7 @@ public class SPAngle extends RotateConstructor {
             default -> new Angle((float) -Math.cos(timeRandom * 0.5f), (float) Math.sin(timeRandom * 2.1f));
         };
 
-        // Детект полета на элитре
+        // чек полет на элитре
         boolean isElytraFlying = mc.player.isGliding();
         float elytraSpeedBoost = isElytraFlying ? 0.8f : 0;
         float elytraJitterMultiplier = isElytraFlying ? 0.4f : 1.0f;
@@ -110,7 +110,7 @@ public class SPAngle extends RotateConstructor {
         currentJitterYaw += (targetJitterYaw - currentJitterYaw) * jitterSmoothSpeed;
         currentJitterPitch += (targetJitterPitch - currentJitterPitch) * jitterSmoothSpeed;
 
-        // Обновляем буст после атаки
+        // буст после удара
         long currentTime = System.currentTimeMillis();
         if (canAttack) {
             lastAttackTime = currentTime;
@@ -122,7 +122,7 @@ public class SPAngle extends RotateConstructor {
             if (postAttackSpeedBoost < 0) postAttackSpeedBoost = 0;
         }
 
-        // Детект движения игрока
+        // чек двиг игрока
         Vec3d currentPlayerPos = mc.player.getEyePos();
         double playerMovement = currentPlayerPos.distanceTo(lastPlayerPos);
         lastPlayerPos = currentPlayerPos;
@@ -139,7 +139,7 @@ public class SPAngle extends RotateConstructor {
 
         float targetSpeed;
         if (canAttack) {
-            targetSpeed = randomLerp(1.2f, 1.2f) + elytraSpeedBoost; // Увеличиваем скорость при ударе
+            targetSpeed = randomLerp(1.2f, 1.2f) + elytraSpeedBoost; // при ударе быстрее
         } else if (lookingAtHitbox) {
             targetSpeed = randomLerp(0.8f, 0.6f) + postAttackSpeedBoost + movementSpeedBoost + elytraSpeedBoost;
         } else if (entity != null) {
@@ -150,7 +150,7 @@ public class SPAngle extends RotateConstructor {
             targetSpeed = !attackTimer.finished(600) ? 0.8f : randomLerp(0.5f, 0.6f);
         }
 
-        // Более быстрая реакция на элитре, при атаке или при беге/прыжках
+        // на элитре реакция быстрее
         float speedLerpFactor = isElytraFlying ? 0.98f : (canAttack ? 0.98f : (isMovingAndJumping ? 0.96f : 0.92f));
         currentSpeed += (targetSpeed - currentSpeed) * speedLerpFactor;
 

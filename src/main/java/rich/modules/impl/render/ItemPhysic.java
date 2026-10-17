@@ -114,10 +114,10 @@ public class ItemPhysic extends ModuleStructure {
         float alpha = (float) Math.max(0.1, 1.0 - distance / 30.0);
         int color = ColorUtil.setAlpha(glowColor.getColor(), (int) (alpha * 255));
         
-        // Рендерим свечение вокруг предмета (используем простой куб вместо сферы)
+        // светим кубик вместо сферы
         Render3D.drawBox(item.getBoundingBox().expand(0.3), color, 1.0f, true, true, true);
         
-        // Добавляем пульсирующий эффект
+        // пульс добавляем
         double time = System.currentTimeMillis() * 0.003;
         float pulse = 1.0f + (float) Math.sin(time + item.getId()) * 0.3f;
         int pulseColor = ColorUtil.setAlpha(glowColor.getColor(), (int) (alpha * 100));

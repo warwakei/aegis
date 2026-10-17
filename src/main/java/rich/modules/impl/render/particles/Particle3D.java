@@ -102,11 +102,11 @@ public class Particle3D implements IMinecraft {
     private GlowMode glowMode = GlowMode.BOTH;
     private boolean spinning = true;
 
-    // Для кометы
+    // для кометы
     private final List<Vec3d> trailPositions = new ArrayList<>();
     private static final int MAX_TRAIL_LENGTH = 12;
 
-    // Для пульсации размера
+    // для пульса размера
     private float baseScale;
 
     public Particle3D(Vec3d pos, Vec3d velocity, int color, float scale, float maxAgeSeconds) {
@@ -208,7 +208,7 @@ public class Particle3D implements IMinecraft {
             this.rotation += 2.0f;
         }
 
-        // Обновление хвоста кометы
+        // хвост кометы апдейтим
         if (actualMode == ParticleMode.COMET) {
             trailPositions.add(new Vec3d(this.x, this.y, this.z));
             if (trailPositions.size() > MAX_TRAIL_LENGTH) {
@@ -216,7 +216,7 @@ public class Particle3D implements IMinecraft {
             }
         }
 
-        // Пульсация размера
+        // пульс размера
         float lifeRatio = 1.0f - (float) (now - this.start) / lifeTimeMs;
         if (lifeRatio > 0) {
             float pulse = (float) Math.sin(now * 0.008) * 0.15f + 1.0f;
@@ -376,7 +376,7 @@ public class Particle3D implements IMinecraft {
 
         matrices.pop();
 
-        // Рендер хвоста кометы
+        // хвост кометы рисуем
         if (actualMode == ParticleMode.COMET && !trailPositions.isEmpty()) {
             renderCometTrail(matrices, immediate, cameraYaw, cameraPitch, cameraPos, partialTicks);
         }

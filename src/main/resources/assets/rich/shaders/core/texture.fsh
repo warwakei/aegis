@@ -20,6 +20,7 @@ float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
 }
 
+// four corner colours interpolated into a quad
 vec4 sampleGradient(vec2 uv) {
     vec4 top = mix(fragColors[0], fragColors[3], uv.x);
     vec4 bottom = mix(fragColors[1], fragColors[2], uv.x);
@@ -39,6 +40,8 @@ void main() {
     if (alpha <= 0.0) {
         discard;
     }
+
+    // pixel-snapped lookup keeps icons crisp, smoothness blends back to linear
     vec2 texSize = vec2(textureSize(Sampler0, 0));
     vec2 sharpTexCoord = (floor(texCoord * texSize) + 0.5) / texSize;
     vec4 texColor = mix(texture(Sampler0, sharpTexCoord), texture(Sampler0, texCoord), clamp(fragSmoothness, 0.0, 1.0));

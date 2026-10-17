@@ -171,13 +171,13 @@ public class SystemRequirementsChecker {
     }
     
     private static RequirementResult checkHyperV() {
-        // Hyper-V больше не требуется
+        // гиперви не нужен больше
         return new RequirementResult(true, "Hyper-V: Не требуется");
     }
     
     private static boolean isHyperVEnabled() {
         try {
-            // Сначала проверяем что гипервизор активен на системном уровне
+            // сначала гипервизор в системе чекаем
             if (!isHypervisorPresent()) {
                 return false;
             }

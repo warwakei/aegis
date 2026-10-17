@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Hitreg logger — logs all attack attempts with detailed info:
- * target, distance, hit result, damage, miss reasons.
- * Supports multiline detailed entries (\n rendered by NetPanel frontend).
+ * хитрег удары тут логаем
  */
 public class HitregLogger {
 
@@ -44,8 +42,7 @@ public class HitregLogger {
     }
 
     /**
-     * Logs a detailed multiline attack entry for the Hitreg panel.
-     * Each line is rendered separately thanks to \n support.
+     * детальный удар в панельку пишем
      */
     public static void logDetailedAttack(String source, LivingEntity target, double distance,
                                          boolean hit, String reason, double damage, String extra) {
@@ -53,7 +50,7 @@ public class HitregLogger {
     }
 
     /**
-     * Full version with "While" condition display (player state at attack moment).
+     * состояние игрока строкой собираем
      */
     public static void logDetailedAttack(String source, LivingEntity target, double distance,
                                          boolean hit, String reason, double damage, String extra, String whileCondition) {
@@ -78,8 +75,7 @@ public class HitregLogger {
     }
 
     /**
-     * Builds a "While" condition string from the player's current state.
-     * Example: "Sprint, Fall (d=2.3)" or "Jump, ElytraFlying"
+     * состояние игрока для хитрега собираем
      */
     public static String buildWhileCondition(net.minecraft.entity.player.PlayerEntity player) {
         if (player == null) return "null";
@@ -110,8 +106,7 @@ public class HitregLogger {
     }
 
     /**
-     * Returns the last N entries formatted for clipboard copy.
-     * Each entry is separated by a blank line.
+     * последние удары для копипаста отдаём
      */
     public static String getFormattedEntries(int count) {
         List<LogBuffer.LogEntry> entries = BUFFER.getLatest(count);

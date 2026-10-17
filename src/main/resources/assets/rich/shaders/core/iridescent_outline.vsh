@@ -52,4 +52,3 @@ void main() {
     value = params0.w;
     alphaMul = params1.x;
 }
-

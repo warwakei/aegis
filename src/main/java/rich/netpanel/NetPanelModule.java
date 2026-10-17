@@ -5,8 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
- * Modular system for NetPanel. Each module can be enabled/disabled and has its own settings.
- * Architecture inspired by Docker — independent, configurable, toggleable components.
+ * панелька модуль пашет тут
  */
 public class NetPanelModule {
 

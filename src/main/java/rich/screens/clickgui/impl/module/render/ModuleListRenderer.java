@@ -21,15 +21,15 @@ public class ModuleListRenderer {
     private static final float MODULE_ITEM_HEIGHT = 24f;
     private static final float MODULE_LIST_CORNER_RADIUS = 7f;
     private static final float CORNER_INSET = 3f;
-    private static final float STATE_BALL_SIZE = 4.0f; // Чуть больше для видимости
+    private static final float STATE_BALL_SIZE = 4.0f; // чуть больше чтоб видно
     private static final float STATE_TEXT_OFFSET = 6f;
-    private static final float BIND_BOX_HEIGHT = 11f; // Чуть выше
+    private static final float BIND_BOX_HEIGHT = 11f; // чуть выше подняли тут
     private static final float BIND_BOX_MIN_WIDTH = 20f;
     private static final float BIND_BOX_PADDING = 7f;
-    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // Быстрее
+    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // так побыстрее будет
     private static final float BIND_ALPHA_ANIM_SPEED = 12f;
     private static final float OUTLINE_THICKNESS = 0.5f;
-    private static final float SCROLL_FADE_SIZE = 12f; // Плавнее
+    private static final float SCROLL_FADE_SIZE = 12f; // так плавнее будет
 
     private final ModuleAnimationHandler animationHandler;
     private final ModuleBindHandler bindHandler;
@@ -157,7 +157,7 @@ public class ModuleListRenderer {
 
             float scaledWidth = (width - 6) * scale;
 
-            // Pixel-perfect alignment - округляем координаты
+            // координаты ровняем под пиксели
             float alignedX = Math.round(animX * 10f) / 10f;
             float alignedY = Math.round(scaledModY * 10f) / 10f;
             float alignedW = Math.round(scaledWidth * 10f) / 10f;
@@ -187,7 +187,7 @@ public class ModuleListRenderer {
             float stateTextOffset = stateAnim * STATE_TEXT_OFFSET;
 
             if (stateAnim > 0.01f) {
-                // Индикатор состояния с акцентным цветом
+                // кружок статуса с акцентом
                 float ballAlpha = stateAnim * 230 * combinedAlpha;
                 float ballX = alignedX + 4;
                 float ballY = alignedY + (alignedH - STATE_BALL_SIZE * scale) / 2f + 1F;
@@ -200,7 +200,7 @@ public class ModuleListRenderer {
                         new Color(ballR, ballG, ballB, (int) ballAlpha).getRGB(),
                         STATE_BALL_SIZE * scale / 2f);
 
-                // Внешнее свечение индикатора
+                // свечение кружка снаружи
                 if (stateAnim > 0.5f) {
                     float glowAlpha = stateAnim * 60 * combinedAlpha;
                     Render2D.outline(ballX - 1.5f, ballY - 1.5f,

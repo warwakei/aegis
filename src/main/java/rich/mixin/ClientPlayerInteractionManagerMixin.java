@@ -8,6 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,6 +21,7 @@ import rich.events.impl.UsingItemEvent;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {
+    @Shadow private float currentBreakingProgress;
 
     @Inject(method = "interactItem", at = @At(value = "RETURN"))
     public void interactItemHook(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
@@ -44,7 +46,7 @@ public class ClientPlayerInteractionManagerMixin {
 
     @Inject(method = "updateBlockBreakingProgress", at = @At(value = "HEAD"))
     private void injectBlockBreaking(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        EventManager.callEvent(new BlockBreakingEvent(pos, direction));
+        EventManager.callEvent(new BlockBreakingEvent(pos, direction, currentBreakingProgress));
     }
 
     @Inject(method = "clickSlot", at = @At("HEAD"), cancellable = true)

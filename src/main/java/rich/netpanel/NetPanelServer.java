@@ -24,110 +24,202 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import com.sun.management.OperatingSystemMXBean;
 import java.net.InetSocketAddress;
+import net.minecraft.client.network.ServerAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 /**
- * Embedded HTTP server for the NetPanel web interface.
- * Serves static files from /netpanel/ and provides REST + SSE APIs.
+ * панелька сервер пашет тут
  */
 public class NetPanelServer {
 
     private static final int DEFAULT_PORT = 5890;
     private static final Gson GSON = new Gson();
+    private static final int MAX_REQUEST_BYTES = 16_384;
 
     private HttpServer server;
     private ExecutorService executor;
     private int port;
-    private static int currentPort = 0;
-    private static ModuleManager staticModuleManager;
+    private static volatile int currentPort = 0;
+    private static volatile ModuleManager staticModuleManager;
     private final ModuleManager moduleManager = new ModuleManager();
+    private final Semaphore streams = new Semaphore(8);
+    private volatile boolean running;
+    private final IntSupplier currentFps;
+
+    public NetPanelServer() {
+        this(() -> MinecraftClient.getInstance().getCurrentFps());
+    }
+
+    NetPanelServer(IntSupplier currentFps) {
+        this.currentFps = currentFps;
+    }
 
     public static ModuleManager getModuleManager() { return staticModuleManager; }
 
-    // FPS tracking
-    private int lastFps = 0;
+    // фпс считаем тут
+    private volatile int lastFps = 0;
     private int fpsAccum = 0;
     private int fpsCount = 0;
     private long fpsLastUpdate = 0;
 
-    // TPS tracking
+    // тпс считаем тут
     private final AtomicLong tickCount = new AtomicLong(0);
     private final AtomicLong lastTickTime = new AtomicLong(System.currentTimeMillis());
-    private double tps = 20.0;
-    private final long[] tickSamples = new long[600]; // 30 seconds at 20tps
+    private volatile double tps = 20.0;
+    private final long[] tickSamples = new long[600]; // тики за полминуты копим
     private int tickSampleIndex = 0;
 
-    public void start() {
+    public synchronized boolean start() {
+        if (running) return true;
         try {
-            port = findFreePort(DEFAULT_PORT);
-            currentPort = port;
+            server = bindServer(DEFAULT_PORT);
+            port = server.getAddress().getPort();
 
-            // Initialize modules
+            // модули панельки стартуем
             moduleManager.init();
             staticModuleManager = moduleManager;
 
-            server = HttpServer.create(new InetSocketAddress("127.0.0.1", port), 0);
-            executor = Executors.newFixedThreadPool(4);
+            executor = Executors.newVirtualThreadPerTaskExecutor();
             server.setExecutor(executor);
 
-            // Static files
-            server.createContext("/", new StaticFileHandler());
+            // статику панельки раздаём
+            createContext("/", new StaticFileHandler());
 
-            // API endpoints
-            server.createContext("/api/status", new StatusHandler());
-            server.createContext("/api/console", new ConsoleHandler());
-            server.createContext("/api/chat", new ChatHandler());
-            server.createContext("/api/chat/send", new ChatSendHandler());
-            server.createContext("/api/world", new WorldHandler());
-            server.createContext("/api/potions", new PotionsHandler());
-            server.createContext("/api/server", new ServerHandler());
-            server.createContext("/api/modules", new ModulesHandler());
-            server.createContext("/api/moderation", new ModerationHandler());
-            server.createContext("/api/anticheat", new AnticheatHandler());
-            server.createContext("/api/hitreg", new HitregHandler());
-            server.createContext("/api/hitreg/export", new HitregExportHandler());
-            server.createContext("/api/performance", new PerformanceHandler());
-            server.createContext("/api/network", new NetworkHandler());
-            server.createContext("/api/sessions", new SessionsHandler());
-            server.createContext("/api/stream", new SSEHandler());
+            // апишки панельки вешаем
+            createContext("/api/status", new StatusHandler());
+            createContext("/api/console", new ConsoleHandler());
+            createContext("/api/chat", new ChatHandler());
+            createContext("/api/chat/send", new ChatSendHandler());
+            createContext("/api/world", new WorldHandler());
+            createContext("/api/potions", new PotionsHandler());
+            createContext("/api/server", new ServerHandler());
+            createContext("/api/modules", new ModulesHandler());
+            createContext("/api/moderation", new ModerationHandler());
+            createContext("/api/anticheat", new AnticheatHandler());
+            createContext("/api/hitreg", new HitregHandler());
+            createContext("/api/hitreg/export", new HitregExportHandler());
+            createContext("/api/performance", new PerformanceHandler());
+            createContext("/api/network", new NetworkHandler());
+            createContext("/api/sessions", new SessionsHandler());
+            createContext("/api/stream", new SSEHandler());
 
             server.start();
+            running = true;
+            currentPort = port;
 
             System.out.println("[NetPanel] Server started on http://127.0.0.1:" + port);
+            return true;
         } catch (IOException e) {
+            stop();
             System.err.println("[NetPanel] Failed to start server: " + e.getMessage());
+            return false;
         }
     }
 
-    public void stop() {
+    public synchronized void stop() {
+        running = false;
         if (server != null) {
             server.stop(0);
+            server = null;
             if (executor != null) executor.shutdownNow();
             ConsoleCapture.detach();
             System.out.println("[NetPanel] Server stopped");
         }
+        if (staticModuleManager == moduleManager) {
+            currentPort = 0;
+            staticModuleManager = null;
+        }
+        port = 0;
     }
 
     public int getPort() {
         return port;
     }
 
-    private int findFreePort(int startPort) {
+    private HttpServer bindServer(int startPort) throws IOException {
+        IOException lastFailure = null;
         for (int p = startPort; p < startPort + 100; p++) {
             try {
-                var socket = new java.net.ServerSocket(p);
-                socket.close();
-                return p;
-            } catch (IOException ignored) {}
+                return HttpServer.create(new InetSocketAddress("127.0.0.1", p), 0);
+            } catch (IOException e) {
+                lastFailure = e;
+            }
         }
-        return startPort;
+        throw new IOException("No available NetPanel port", lastFailure);
     }
 
-    // ===== TPS Tracking =====
+    private void createContext(String path, HttpHandler handler) {
+        server.createContext(path, exchange -> {
+            try {
+                if (!NetPanelAccessPolicy.allows(exchange)) {
+                    sendText(exchange, 403, "Forbidden origin or host", "text/plain");
+                    return;
+                }
+                String method = exchange.getRequestMethod();
+                if ("OPTIONS".equals(method)) {
+                    exchange.sendResponseHeaders(204, -1);
+                    return;
+                }
+                if (!"GET".equals(method) && !"POST".equals(method)) {
+                    sendText(exchange, 405, "Method not allowed", "text/plain");
+                    return;
+                }
+                if ("POST".equals(method)) {
+                    String contentType = exchange.getRequestHeaders().getFirst("Content-Type");
+                    if (!(path.equals("/api/chat/send") || path.equals("/api/modules"))) {
+                        sendText(exchange, 405, "Method not allowed", "text/plain");
+                        return;
+                    }
+                    if (contentType == null || !contentType.split(";", 2)[0].trim().equalsIgnoreCase("application/json")) {
+                        sendText(exchange, 415, "Expected application/json", "text/plain");
+                        return;
+                    }
+                }
+                handler.handle(exchange);
+            } catch (IllegalArgumentException e) {
+                sendText(exchange, 400, "Invalid request", "text/plain");
+            } catch (IOException e) {
+                if (exchange.getResponseCode() < 0) {
+                    sendText(exchange, 503, "Client temporarily unavailable", "text/plain");
+                }
+            } finally {
+                exchange.close();
+            }
+        });
+    }
+
+    private static JsonObject readJsonBody(HttpExchange exchange) throws IOException {
+        byte[] bytes = exchange.getRequestBody().readNBytes(MAX_REQUEST_BYTES + 1);
+        if (bytes.length > MAX_REQUEST_BYTES) throw new IllegalArgumentException("Request body too large");
+        return GSON.fromJson(new String(bytes, StandardCharsets.UTF_8), JsonObject.class);
+    }
+
+    private static <T> T onClientThread(Supplier<T> snapshot) throws IOException {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.isOnThread()) return snapshot.get();
+        var future = client.submit(snapshot);
+        try {
+            return future.get(3, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while waiting for the client", e);
+        } catch (ExecutionException | TimeoutException e) {
+            future.cancel(false);
+            throw new IOException("Client snapshot unavailable", e);
+        }
+    }
+
+    // тпс трекаем тут
     public void onTick() {
         tickCount.incrementAndGet();
         long now = System.currentTimeMillis();
@@ -137,7 +229,7 @@ public class NetPanelServer {
         tickSamples[tickSampleIndex % tickSamples.length] = delta;
         tickSampleIndex++;
 
-        // Calculate TPS from last 100 samples
+        // тпс по сотке семплов считаем
         int samples = Math.min(100, tickSampleIndex);
         long totalDelta = 0;
         for (int i = 0; i < samples; i++) {
@@ -149,7 +241,7 @@ public class NetPanelServer {
         }
     }
 
-    // FPS tracking called from tick
+    // фпс из тика обновляем
     public void updateFps(int currentFps) {
         fpsAccum += currentFps;
         fpsCount++;
@@ -170,13 +262,13 @@ public class NetPanelServer {
         return tps;
     }
 
-    // ==================== Handlers ====================
+    // хендлеры панельки ниже
 
     private static void sendJson(HttpExchange exchange, int code, Object obj) throws IOException {
         String json = GSON.toJson(obj);
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().set("X-Content-Type-Options", "nosniff");
         exchange.sendResponseHeaders(code, bytes.length);
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(bytes);
@@ -186,7 +278,7 @@ public class NetPanelServer {
     private static void sendText(HttpExchange exchange, int code, String text, String contentType) throws IOException {
         byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", contentType + "; charset=utf-8");
-        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().set("X-Content-Type-Options", "nosniff");
         exchange.sendResponseHeaders(code, bytes.length);
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(bytes);
@@ -201,7 +293,7 @@ public class NetPanelServer {
 
         JsonObject sys = new JsonObject();
 
-        // Memory
+        // память смотрим
         long usedMem = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
         long totalMem = runtime.totalMemory() / 1024 / 1024;
         long maxMem = runtime.maxMemory() / 1024 / 1024;
@@ -210,7 +302,7 @@ public class NetPanelServer {
         sys.addProperty("maxMemory", maxMem);
         sys.addProperty("memoryPercent", (double) usedMem / maxMem * 100);
 
-        // Heap details
+        // кучу детально смотрим
         long heapUsed = memBean.getHeapMemoryUsage().getUsed() / 1024 / 1024;
         long heapMax = memBean.getHeapMemoryUsage().getMax() / 1024 / 1024;
         long heapCommitted = memBean.getHeapMemoryUsage().getCommitted() / 1024 / 1024;
@@ -218,13 +310,13 @@ public class NetPanelServer {
         sys.addProperty("heapMax", heapMax);
         sys.addProperty("heapCommitted", heapCommitted);
 
-        // Non-heap memory
+        // не кучу смотрим
         long nonHeapUsed = memBean.getNonHeapMemoryUsage().getUsed() / 1024 / 1024;
         long nonHeapMax = memBean.getNonHeapMemoryUsage().getMax() / 1024 / 1024;
         sys.addProperty("nonHeapUsed", nonHeapUsed);
         sys.addProperty("nonHeapMax", nonHeapMax > 0 ? nonHeapMax : -1);
 
-        // CPU
+        // проц смотрим
         try {
             OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
             double cpuLoad = osBean.getProcessCpuLoad();
@@ -235,7 +327,7 @@ public class NetPanelServer {
             }
             sys.addProperty("availableProcessors", osBean.getAvailableProcessors());
 
-            // System CPU load
+            // нагрузку системы смотрим
             double systemCpuLoad = osBean.getSystemCpuLoad();
             if (systemCpuLoad >= 0) {
                 sys.addProperty("systemCpuPercent", Math.round(systemCpuLoad * 100));
@@ -248,7 +340,7 @@ public class NetPanelServer {
             sys.addProperty("availableProcessors", runtime.availableProcessors());
         }
 
-        // Uptime
+        // аптайм считаем
         long uptimeMs = System.currentTimeMillis() - START_TIME;
         long uptimeSec = uptimeMs / 1000;
         long hours = uptimeSec / 3600;
@@ -257,14 +349,14 @@ public class NetPanelServer {
         sys.addProperty("uptime", String.format("%02d:%02d:%02d", hours, minutes, seconds));
         sys.addProperty("uptimeSeconds", uptimeSec);
 
-        // Thread count
+        // потоки считаем
         ThreadGroup rootGroup = Thread.currentThread().getThreadGroup();
         while (rootGroup.getParent() != null) {
             rootGroup = rootGroup.getParent();
         }
         sys.addProperty("threadCount", rootGroup.activeCount());
 
-        // Disk space (game directory)
+        // место на диске смотрим
         try {
             java.nio.file.Path gameDir = net.fabricmc.loader.api.FabricLoader.getInstance().getGameDir();
             java.nio.file.FileStore fileStore = java.nio.file.Files.getFileStore(gameDir);
@@ -282,11 +374,11 @@ public class NetPanelServer {
             sys.addProperty("diskPercent", -1);
         }
 
-        // Java version
+        // джаву показываем
         sys.addProperty("javaVersion", System.getProperty("java.version"));
         sys.addProperty("javaVendor", System.getProperty("java.vendor"));
 
-        // OS info
+        // ось показываем
         sys.addProperty("osName", System.getProperty("os.name"));
         sys.addProperty("osArch", System.getProperty("os.arch"));
         sys.addProperty("osVersion", System.getProperty("os.version"));
@@ -294,18 +386,17 @@ public class NetPanelServer {
         return sys;
     }
 
-    private static class StatusHandler implements HttpHandler {
+    private class StatusHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
-            MinecraftClient mc = MinecraftClient.getInstance();
             JsonObject status = new JsonObject();
             status.addProperty("running", true);
-            status.addProperty("fps", mc.getCurrentFps());
-            status.addProperty("smoothedFps", currentPort > 0 ? 0 : 0);
+            status.addProperty("fps", currentFps.getAsInt());
+            status.addProperty("smoothedFps", lastFps);
             status.addProperty("port", currentPort);
             status.addProperty("consoleCount", ConsoleCapture.getBuffer().size());
             status.addProperty("chatCount", ChatBridge.getBuffer().size());
@@ -335,6 +426,7 @@ public class NetPanelServer {
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
+                obj.addProperty("id", e.id());
                 obj.addProperty("timestamp", e.timestamp());
                 obj.addProperty("level", e.level());
                 obj.addProperty("message", e.message());
@@ -360,6 +452,7 @@ public class NetPanelServer {
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
+                obj.addProperty("id", e.id());
                 obj.addProperty("timestamp", e.timestamp());
                 obj.addProperty("level", e.level());
                 obj.addProperty("message", e.message());
@@ -383,33 +476,36 @@ public class NetPanelServer {
                 sendJson(exchange, 405, err);
                 return;
             }
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))) {
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) sb.append(line);
-                JsonObject body = GSON.fromJson(sb.toString(), JsonObject.class);
+            try {
+                JsonObject body = readJsonBody(exchange);
                 String message = body != null && body.has("message") ? body.get("message").getAsString() : "";
-                if (message != null && !message.isEmpty()) {
-                    ChatBridge.sendChatMessage(message);
+                if (message != null && !message.isBlank() && message.length() <= 256
+                        && message.chars().noneMatch(c -> Character.isISOControl(c) || c == 0xA7)) {
+                    boolean sent = onClientThread(() -> {
+                        MinecraftClient mc = MinecraftClient.getInstance();
+                        if (mc.player == null || mc.getNetworkHandler() == null) return false;
+                        ChatBridge.sendChatMessage(message);
+                        return true;
+                    });
                     JsonObject resp = new JsonObject();
-                    resp.addProperty("success", true);
-                    sendJson(exchange, 200, resp);
+                    resp.addProperty("success", sent);
+                    sendJson(exchange, sent ? 200 : 409, resp);
                 } else {
                     JsonObject resp = new JsonObject();
                     resp.addProperty("success", false);
-                    resp.addProperty("error", "Empty message");
+                    resp.addProperty("error", "Invalid or empty message (maximum 256 characters)");
                     sendJson(exchange, 400, resp);
                 }
             } catch (Exception e) {
                 JsonObject resp = new JsonObject();
                 resp.addProperty("success", false);
                 resp.addProperty("error", e.getMessage());
-                sendJson(exchange, 500, resp);
+                sendJson(exchange, 400, resp);
             }
         }
     }
 
-    // ===== World Info Handler =====
+    // мир панельке отдаём
     private static class WorldHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -417,71 +513,74 @@ public class NetPanelServer {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
-            MinecraftClient mc = MinecraftClient.getInstance();
-            JsonObject world = new JsonObject();
+            var snapshot = onClientThread(() -> {
+                MinecraftClient mc = MinecraftClient.getInstance();
+                JsonObject world = new JsonObject();
 
-            if (mc.player != null && mc.world != null) {
-                // Coordinates
-                JsonObject pos = new JsonObject();
-                pos.addProperty("x", Math.round(mc.player.getX() * 100.0) / 100.0);
-                pos.addProperty("y", Math.round(mc.player.getY() * 100.0) / 100.0);
-                pos.addProperty("z", Math.round(mc.player.getZ() * 100.0) / 100.0);
-                pos.addProperty("yaw", Math.round(mc.player.getYaw() * 10.0) / 10.0);
-                pos.addProperty("pitch", Math.round(mc.player.getPitch() * 10.0) / 10.0);
-                world.add("position", pos);
+                if (mc.player != null && mc.world != null) {
+                    // корды игрока тащим
+                    JsonObject pos = new JsonObject();
+                    pos.addProperty("x", Math.round(mc.player.getX() * 100.0) / 100.0);
+                    pos.addProperty("y", Math.round(mc.player.getY() * 100.0) / 100.0);
+                    pos.addProperty("z", Math.round(mc.player.getZ() * 100.0) / 100.0);
+                    pos.addProperty("yaw", Math.round(mc.player.getYaw() * 10.0) / 10.0);
+                    pos.addProperty("pitch", Math.round(mc.player.getPitch() * 10.0) / 10.0);
+                    world.add("position", pos);
 
-                // Dimension
-                world.addProperty("dimension", mc.world.getRegistryKey().getValue().toString());
+                    // измерение смотрим
+                    world.addProperty("dimension", mc.world.getRegistryKey().getValue().toString());
 
-                // Biome
-                var biomePos = mc.player.getBlockPos();
-                var biomeEntry = mc.world.getBiome(biomePos);
-                String biomeName = biomeEntry.getKey()
-                        .map(RegistryKey::getValue)
-                        .map(id -> id.getPath().replace('_', ' '))
-                        .orElse("Unknown");
-                world.addProperty("biome", capitalize(biomeName));
+                    // биом смотрим
+                    var biomePos = mc.player.getBlockPos();
+                    var biomeEntry = mc.world.getBiome(biomePos);
+                    String biomeName = biomeEntry.getKey()
+                            .map(RegistryKey::getValue)
+                            .map(id -> id.getPath().replace('_', ' '))
+                            .orElse("Unknown");
+                    world.addProperty("biome", capitalize(biomeName));
 
-                // Time of day
-                long worldTime = mc.world.getTimeOfDay();
-                long dayTime = worldTime % 24000;
-                String timeOfDay;
-                if (dayTime < 1000) timeOfDay = "Sunrise";
-                else if (dayTime < 12000) timeOfDay = "Day";
-                else if (dayTime < 13000) timeOfDay = "Sunset";
-                else if (dayTime < 23000) timeOfDay = "Night";
-                else timeOfDay = "Midnight";
-                world.addProperty("timeOfDay", timeOfDay);
-                world.addProperty("dayTime", dayTime);
+                    // время суток смотрим
+                    long worldTime = mc.world.getTimeOfDay();
+                    long dayTime = worldTime % 24000;
+                    String timeOfDay;
+                    if (dayTime < 1000) timeOfDay = "Sunrise";
+                    else if (dayTime < 12000) timeOfDay = "Day";
+                    else if (dayTime < 13000) timeOfDay = "Sunset";
+                    else if (dayTime < 23000) timeOfDay = "Night";
+                    else timeOfDay = "Midnight";
+                    world.addProperty("timeOfDay", timeOfDay);
+                    world.addProperty("dayTime", dayTime);
 
-                // Weather
-                boolean raining = mc.world.isRaining();
-                boolean thundering = mc.world.isThundering();
-                String weather;
-                if (thundering) weather = "Thunderstorm";
-                else if (raining) weather = "Rain";
-                else weather = "Clear";
-                world.addProperty("weather", weather);
+                    // погоду смотрим
+                    boolean raining = mc.world.isRaining();
+                    boolean thundering = mc.world.isThundering();
+                    String weather;
+                    if (thundering) weather = "Thunderstorm";
+                    else if (raining) weather = "Rain";
+                    else weather = "Clear";
+                    world.addProperty("weather", weather);
 
-                // Seed (access via reflection since ClientWorld.Properties is private)
-                try {
-                    java.lang.reflect.Field propsField = mc.world.getClass().getDeclaredField("clientWorldProperties");
-                    propsField.setAccessible(true);
-                    Object props = propsField.get(mc.world);
-                    java.lang.reflect.Method getSeedMethod = props.getClass().getMethod("getSeed");
-                    world.addProperty("seed", (long) getSeedMethod.invoke(props));
-                } catch (Exception e) {
-                    world.addProperty("seed", "N/A");
+                    // сид через рефлексию дёргаем
+                    try {
+                        java.lang.reflect.Field propsField = mc.world.getClass().getDeclaredField("clientWorldProperties");
+                        propsField.setAccessible(true);
+                        Object props = propsField.get(mc.world);
+                        java.lang.reflect.Method getSeedMethod = props.getClass().getMethod("getSeed");
+                        world.addProperty("seed", (long) getSeedMethod.invoke(props));
+                    } catch (Exception e) {
+                        world.addProperty("seed", "N/A");
+                    }
+                } else {
+                    world.addProperty("connected", false);
                 }
-            } else {
-                world.addProperty("connected", false);
-            }
 
-            sendJson(exchange, 200, world);
+                return world;
+            });
+            sendJson(exchange, 200, snapshot);
         }
     }
 
-    // ===== Potions Handler =====
+    // зельки панельке отдаём
     private static class PotionsHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -489,30 +588,33 @@ public class NetPanelServer {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
-            MinecraftClient mc = MinecraftClient.getInstance();
-            JsonArray potions = new JsonArray();
+            var snapshot = onClientThread(() -> {
+                MinecraftClient mc = MinecraftClient.getInstance();
+                JsonArray potions = new JsonArray();
 
-            if (mc.player != null) {
-                Collection<StatusEffectInstance> effects = mc.player.getStatusEffects();
-                for (StatusEffectInstance effect : effects) {
-                    if (!effect.shouldShowIcon()) continue;
-                    JsonObject potion = new JsonObject();
-                    potion.addProperty("name", effect.getEffectType().value().getName().getString());
-                    potion.addProperty("amplifier", effect.getAmplifier());
-                    potion.addProperty("level", effect.getAmplifier() + 1);
-                    potion.addProperty("durationTicks", effect.getDuration());
-                    potion.addProperty("durationFormatted", formatDuration(effect.getDuration()));
-                    potion.addProperty("ambient", effect.isAmbient());
-                    potion.addProperty("visible", effect.shouldShowIcon());
-                    potions.add(potion);
+                if (mc.player != null) {
+                    Collection<StatusEffectInstance> effects = mc.player.getStatusEffects();
+                    for (StatusEffectInstance effect : effects) {
+                        if (!effect.shouldShowIcon()) continue;
+                        JsonObject potion = new JsonObject();
+                        potion.addProperty("name", effect.getEffectType().value().getName().getString());
+                        potion.addProperty("amplifier", effect.getAmplifier());
+                        potion.addProperty("level", effect.getAmplifier() + 1);
+                        potion.addProperty("durationTicks", effect.getDuration());
+                        potion.addProperty("durationFormatted", formatDuration(effect.getDuration()));
+                        potion.addProperty("ambient", effect.isAmbient());
+                        potion.addProperty("visible", effect.shouldShowIcon());
+                        potions.add(potion);
+                    }
                 }
-            }
 
-            sendJson(exchange, 200, potions);
+                return potions;
+            });
+            sendJson(exchange, 200, snapshot);
         }
     }
 
-    // ===== Server Info Handler =====
+    // сервак панельке отдаём
     private class ServerHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -520,122 +622,122 @@ public class NetPanelServer {
                 exchange.sendResponseHeaders(200, -1);
                 return;
             }
-            MinecraftClient mc = MinecraftClient.getInstance();
-            JsonObject serverInfo = new JsonObject();
+            var snapshot = onClientThread(() -> {
+                MinecraftClient mc = MinecraftClient.getInstance();
+                JsonObject serverInfo = new JsonObject();
 
-            if (mc.getNetworkHandler() != null) {
-                // TPS
-                serverInfo.addProperty("tps", Math.round(tps * 100.0) / 100.0);
+                if (mc.getNetworkHandler() != null) {
+                    // тпс суём
+                    serverInfo.addProperty("tps", Math.round(tps * 100.0) / 100.0);
 
-                // Ping
-                if (mc.player != null) {
-                    var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
-                    if (entry != null) {
-                        serverInfo.addProperty("ping", entry.getLatency());
-                    }
-                }
-
-                // Server address
-                ServerInfo si = mc.getNetworkHandler().getServerInfo();
-                if (si != null) {
-                    String address = si.address;
-                    if (address.contains(":")) {
-                        String[] parts = address.split(":");
-                        serverInfo.addProperty("ip", parts[0]);
-                        try {
-                            serverInfo.addProperty("port", Integer.parseInt(parts[1]));
-                        } catch (NumberFormatException e) {
-                            serverInfo.addProperty("port", 25565);
+                    // пинг суём
+                    if (mc.player != null) {
+                        var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
+                        if (entry != null) {
+                            serverInfo.addProperty("ping", entry.getLatency());
                         }
-                    } else {
-                        serverInfo.addProperty("ip", address);
-                        serverInfo.addProperty("port", 25565);
                     }
+
+                    // адрес серва суём
+                    ServerInfo si = mc.getNetworkHandler().getServerInfo();
+                    if (si != null) {
+                        ServerAddress address = ServerAddress.parse(si.address);
+                        serverInfo.addProperty("ip", address.getAddress());
+                        serverInfo.addProperty("port", address.getPort());
+                    }
+
+                    // онлайн суём
+                    int playerCount = mc.getNetworkHandler().getPlayerList().size();
+                    serverInfo.addProperty("players", playerCount);
+
+                    // бренд серва суём
+                    String brand = mc.getNetworkHandler().getBrand();
+                    if (brand != null) {
+                        serverInfo.addProperty("brand", brand);
+                    }
+
+                    serverInfo.addProperty("connected", true);
+                } else {
+                    serverInfo.addProperty("connected", false);
                 }
 
-                // Player count
-                int playerCount = mc.getNetworkHandler().getPlayerList().size();
-                serverInfo.addProperty("players", playerCount);
-
-                // Server brand
-                String brand = mc.getNetworkHandler().getBrand();
-                if (brand != null) {
-                    serverInfo.addProperty("brand", brand);
-                }
-
-                serverInfo.addProperty("connected", true);
-            } else {
-                serverInfo.addProperty("connected", false);
-            }
-
-            sendJson(exchange, 200, serverInfo);
+                return serverInfo;
+            });
+            sendJson(exchange, 200, snapshot);
         }
     }
 
     /**
-     * Server-Sent Events endpoint for real-time log streaming.
+     * ссе стрим панельке гоним
      */
     private class SSEHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
+            if (!streams.tryAcquire()) {
+                sendText(exchange, 503, "Too many event streams", "text/plain");
+                return;
+            }
+            try {
+                stream(exchange);
+            } finally {
+                streams.release();
+            }
+        }
+
+        private void stream(HttpExchange exchange) throws IOException {
             exchange.getResponseHeaders().set("Content-Type", "text/event-stream; charset=utf-8");
             exchange.getResponseHeaders().set("Cache-Control", "no-cache");
             exchange.getResponseHeaders().set("Connection", "keep-alive");
-            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
             exchange.sendResponseHeaders(200, 0);
 
             OutputStream os = exchange.getResponseBody();
-            long lastConsoleSize = 0;
-            long lastChatSize = 0;
-            long lastModSize = 0;
-            long lastACSize = 0;
+            long lastConsoleSize = -1;
+            long lastChatSize = -1;
+            long lastModSize = -1;
+            long lastACSize = -1;
 
             try {
-                while (true) {
+                while (running && !Thread.currentThread().isInterrupted()) {
                     Thread.sleep(300);
 
-                    long cSize = ConsoleCapture.getBuffer().size();
-                    long chSize = ChatBridge.getBuffer().size();
-                    long mSize = ModerationLogger.getBuffer().size();
-                    long acSize = AnticheatMonitor.getBuffer().size();
-
-                    if (cSize != lastConsoleSize) {
-                        sendSSEEvent(os, "console", ConsoleCapture.getBuffer().getLatest(20));
-                        lastConsoleSize = cSize;
-                    }
-                    if (chSize != lastChatSize) {
-                        sendSSEEvent(os, "chat", ChatBridge.getBuffer().getLatest(200));
-                        lastChatSize = chSize;
-                    }
-                    if (mSize != lastModSize) {
-                        sendSSEEvent(os, "moderation", ModerationLogger.getBuffer().getLatest(20));
-                        lastModSize = mSize;
-                    }
-                    if (acSize != lastACSize) {
-                        sendSSEEvent(os, "anticheat", AnticheatMonitor.getBuffer().getLatest(20));
-                        lastACSize = acSize;
-                    }
+                    lastConsoleSize = streamLog(os, "console", ConsoleCapture.getBuffer(), lastConsoleSize);
+                    lastChatSize = streamLog(os, "chat", ChatBridge.getBuffer(), lastChatSize);
+                    lastModSize = streamLog(os, "moderation", ModerationLogger.getBuffer(), lastModSize);
+                    lastACSize = streamLog(os, "anticheat", AnticheatMonitor.getBuffer(), lastACSize);
 
                     JsonObject sysInfo = new JsonObject();
-                    MinecraftClient mc = MinecraftClient.getInstance();
-                    sysInfo.addProperty("fps", mc.getCurrentFps());
+                    sysInfo.addProperty("fps", currentFps.getAsInt());
                     sysInfo.addProperty("tps", Math.round(tps * 100.0) / 100.0);
                     sysInfo.addProperty("timestamp", System.currentTimeMillis());
                     sysInfo.add("system", getSystemInfo());
                     String data = GSON.toJson(sysInfo);
                     os.write(("event: system\ndata: " + data + "\n\n").getBytes(StandardCharsets.UTF_8));
+                    os.write("event: heartbeat\ndata: {}\n\n".getBytes(StandardCharsets.UTF_8));
 
                     os.flush();
                 }
-            } catch (InterruptedException | IOException e) {
-                // Client disconnected
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } catch (IOException e) {
+                // клиент отвалился бывает
+            } finally {
+                os.close();
             }
+        }
+
+        private long streamLog(OutputStream os, String event, LogBuffer buffer, long previousRevision) throws IOException {
+            LogBuffer.Snapshot snapshot = buffer.snapshotSince(previousRevision);
+            if (snapshot.revision() != previousRevision) {
+                sendSSEEvent(os, event, moduleManager.isModuleEnabled(event) ? snapshot.entries() : List.of());
+            }
+            return snapshot.revision();
         }
 
         private void sendSSEEvent(OutputStream os, String event, List<LogBuffer.LogEntry> entries) throws IOException {
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
+                obj.addProperty("id", e.id());
                 obj.addProperty("timestamp", e.timestamp());
                 obj.addProperty("level", e.level());
                 obj.addProperty("message", e.message());
@@ -647,7 +749,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Modules Handler =====
+    // модули панельке отдаём
     private class ModulesHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -664,11 +766,8 @@ public class NetPanelServer {
             }
 
             if ("POST".equals(method)) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))) {
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) sb.append(line);
-                    JsonObject body = GSON.fromJson(sb.toString(), JsonObject.class);
+                try {
+                    JsonObject body = readJsonBody(exchange);
 
                     String action = body != null && body.has("action") ? body.get("action").getAsString() : "";
                     String moduleId = body != null && body.has("id") ? body.get("id").getAsString() : "";
@@ -699,13 +798,13 @@ public class NetPanelServer {
                     JsonObject resp = new JsonObject();
                     resp.addProperty("success", false);
                     resp.addProperty("error", e.getMessage());
-                    sendJson(exchange, 500, resp);
+                    sendJson(exchange, 400, resp);
                 }
             }
         }
     }
 
-    // ===== Moderation Handler =====
+    // модерку панельке отдаём
     private static class ModerationHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -716,6 +815,7 @@ public class NetPanelServer {
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
+                obj.addProperty("id", e.id());
                 obj.addProperty("timestamp", e.timestamp());
                 obj.addProperty("level", e.level());
                 obj.addProperty("message", e.message());
@@ -725,7 +825,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Anticheat Handler =====
+    // античит панельке отдаём
     private static class AnticheatHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -736,6 +836,7 @@ public class NetPanelServer {
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
+                obj.addProperty("id", e.id());
                 obj.addProperty("timestamp", e.timestamp());
                 obj.addProperty("level", e.level());
                 obj.addProperty("message", e.message());
@@ -749,7 +850,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Hitreg Handler =====
+    // хитрег панельке отдаём
     private static class HitregHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -760,6 +861,7 @@ public class NetPanelServer {
             JsonArray arr = new JsonArray();
             for (LogBuffer.LogEntry e : entries) {
                 JsonObject obj = new JsonObject();
+                obj.addProperty("id", e.id());
                 obj.addProperty("timestamp", e.timestamp());
                 obj.addProperty("level", e.level());
                 obj.addProperty("message", e.message());
@@ -769,14 +871,14 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Hitreg Export Handler (for clipboard copy) =====
+    // хитрег для копипаста отдаём
     private static class HitregExportHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
 
             String query = exchange.getRequestURI().getQuery();
-            int count = 30; // default
+            int count = 30; // по дефолту тридцатку даём
             if (query != null && query.startsWith("count=")) {
                 try { count = Integer.parseInt(query.substring(6)); } catch (NumberFormatException ignored) {}
             }
@@ -793,50 +895,56 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Performance Handler =====
+    // перфоманс панельке отдаём
     private class PerformanceHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
-            MinecraftClient mc = MinecraftClient.getInstance();
-            JsonObject perf = new JsonObject();
-            perf.addProperty("tps", Math.round(NetPanelServer.this.tps * 100.0) / 100.0);
-            perf.addProperty("fps", mc.getCurrentFps());
-            int entityCount = 0;
-            if (mc.world != null) {
-                int count = 0;
-                for (var e : mc.world.getEntities()) count++;
-                entityCount = count;
-            }
-            perf.addProperty("entityCount", entityCount);
-            perf.addProperty("chunkCount", mc.world != null ? mc.world.getChunkManager().getLoadedChunkCount() : 0);
-            sendJson(exchange, 200, perf);
+            var snapshot = onClientThread(() -> {
+                MinecraftClient mc = MinecraftClient.getInstance();
+                JsonObject perf = new JsonObject();
+                perf.addProperty("tps", Math.round(NetPanelServer.this.tps * 100.0) / 100.0);
+                perf.addProperty("fps", mc.getCurrentFps());
+                int entityCount = 0;
+                if (mc.world != null) {
+                    int count = 0;
+                    for (var e : mc.world.getEntities()) count++;
+                    entityCount = count;
+                }
+                perf.addProperty("entityCount", entityCount);
+                perf.addProperty("chunkCount", mc.world != null ? mc.world.getChunkManager().getLoadedChunkCount() : 0);
+                return perf;
+            });
+            sendJson(exchange, 200, snapshot);
         }
     }
 
-    // ===== Network Handler =====
+    // сеть панельке отдаём
     private static class NetworkHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
-            MinecraftClient mc = MinecraftClient.getInstance();
-            JsonObject net = new JsonObject();
-            if (mc.getNetworkHandler() != null && mc.player != null) {
-                var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
-                if (entry != null) net.addProperty("ping", entry.getLatency());
-                else net.addProperty("ping", -1);
-            } else net.addProperty("ping", -1);
-            net.addProperty("connected", mc.getNetworkHandler() != null);
-            sendJson(exchange, 200, net);
+            var snapshot = onClientThread(() -> {
+                MinecraftClient mc = MinecraftClient.getInstance();
+                JsonObject net = new JsonObject();
+                if (mc.getNetworkHandler() != null && mc.player != null) {
+                    var entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
+                    if (entry != null) net.addProperty("ping", entry.getLatency());
+                    else net.addProperty("ping", -1);
+                } else net.addProperty("ping", -1);
+                net.addProperty("connected", mc.getNetworkHandler() != null);
+                return net;
+            });
+            sendJson(exchange, 200, snapshot);
         }
     }
 
-    // ===== Sessions Handler =====
+    // сессии панельке отдаём
     private static class SessionsHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("OPTIONS".equals(exchange.getRequestMethod())) { exchange.sendResponseHeaders(200, -1); return; }
-            // Sessions are tracked via console parsing for now
+            // сессии пока через консоль палим
             JsonObject sessions = new JsonObject();
             sessions.addProperty("note", "Session tracking via console");
             sendJson(exchange, 200, sessions);
@@ -849,7 +957,7 @@ public class NetPanelServer {
             String path = exchange.getRequestURI().getPath();
             if (path.equals("/")) path = "/index.html";
 
-            // Security: prevent path traversal
+            // точки в пути режем от хака
             path = path.replace("..", "");
 
             String resourcePath = "netpanel" + path;
@@ -871,7 +979,7 @@ public class NetPanelServer {
             is.close();
 
             exchange.getResponseHeaders().set("Content-Type", contentType);
-            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+            exchange.getResponseHeaders().set("X-Content-Type-Options", "nosniff");
             exchange.sendResponseHeaders(200, content.length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(content);
@@ -889,7 +997,7 @@ public class NetPanelServer {
         }
     }
 
-    // ===== Utility methods =====
+    // мелкие хелперы ниже
 
     private static String capitalize(String str) {
         if (str == null || str.isEmpty()) return str;

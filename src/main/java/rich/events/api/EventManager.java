@@ -6,17 +6,18 @@ import rich.events.api.types.Priority;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class EventManager {
-    private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
+    private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new ConcurrentHashMap<>();
 
     public EventManager() {}
 
-    public static void register(Object object) {
+    public static synchronized void register(Object object) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
             if (isMethodBad(method)) {
                 continue;
@@ -26,7 +27,7 @@ public final class EventManager {
         }
     }
 
-    public static void register(Object object, Class<? extends Event> eventClass) {
+    public static synchronized void register(Object object, Class<? extends Event> eventClass) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
             if (isMethodBad(method, eventClass)) {
                 continue;
@@ -36,7 +37,7 @@ public final class EventManager {
         }
     }
 
-    public static void unregister(Object object) {
+    public static synchronized void unregister(Object object) {
         for (final List<MethodData> dataList : REGISTRY_MAP.values()) {
             dataList.removeIf(data -> data.source().equals(object));
         }
@@ -44,7 +45,7 @@ public final class EventManager {
         cleanMap(true);
     }
 
-    public static void unregister(Object object, Class<? extends Event> eventClass) {
+    public static synchronized void unregister(Object object, Class<? extends Event> eventClass) {
         if (REGISTRY_MAP.containsKey(eventClass)) {
             REGISTRY_MAP.get(eventClass).removeIf(data -> data.source().equals(object));
             cleanMap(true);
@@ -56,7 +57,7 @@ public final class EventManager {
         Class<? extends Event> indexClass = (Class<? extends Event>) method.getParameterTypes()[0];
         final MethodData data = new MethodData(object, method, method.getAnnotation(EventHandler.class).value());
 
-        if (!data.target().canAccess(data.source())) {
+        if (!data.target().canAccess(Modifier.isStatic(method.getModifiers()) ? null : data.source())) {
             data.target().setAccessible(true);
         }
 
@@ -71,11 +72,11 @@ public final class EventManager {
         }
     }
 
-    public static void removeEntry(Class<? extends Event> indexClass) {
+    public static synchronized void removeEntry(Class<? extends Event> indexClass) {
         REGISTRY_MAP.entrySet().removeIf(entry -> entry.getKey().equals(indexClass));
     }
 
-    public static void cleanMap(boolean onlyEmptyEntries) {
+    public static synchronized void cleanMap(boolean onlyEmptyEntries) {
         if (onlyEmptyEntries) {
             REGISTRY_MAP.entrySet().removeIf(entry -> entry.getValue().isEmpty());
         } else {
@@ -98,7 +99,8 @@ public final class EventManager {
     }
 
     private static boolean isMethodBad(Method method) {
-        return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventHandler.class);
+        return method.getParameterCount() != 1 || !method.isAnnotationPresent(EventHandler.class)
+                || !Event.class.isAssignableFrom(method.getParameterTypes()[0]);
     }
 
     private static boolean isMethodBad(Method method, Class<? extends Event> eventClass) {

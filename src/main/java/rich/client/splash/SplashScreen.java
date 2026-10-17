@@ -65,7 +65,7 @@ public class SplashScreen extends JFrame {
         setAlwaysOnTop(true);
         setBackground(new Color(0, 0, 0, 0));
 
-        // Таймер для плавной анимации
+        // таймер плавной анимации
         animationTimer = new Timer(16, e -> {
             animationTime += 0.016f;
             if (readyVisible && readyAnim < 1f) {
@@ -81,14 +81,14 @@ public class SplashScreen extends JFrame {
             }
             updateParticles();
 
-            // Пульсация процентов (только после инициализации)
+            // проценты пульсируют после инита
             if (!readyVisible && percentLabel != null) {
                 float pp = 0.85f + 0.15f * (float)Math.sin(animationTime * 2.5f);
                 int pv = Math.max(0, Math.min(255, (int)(255 * pp)));
                 percentLabel.setForeground(new Color(pv, pv, pv));
             }
 
-            // Дыхание статуса (только после инициализации)
+            // статус дышит после инита
             if (!readyVisible && statusLabel != null) {
                 float sb = 0.7f + 0.3f * (float)Math.sin(animationTime * 1.8f);
                 int sa = Math.max(0, Math.min(255, (int)(180 + 75 * sb)));
@@ -120,7 +120,7 @@ public class SplashScreen extends JFrame {
                 long time = System.currentTimeMillis();
                 float t = time / 1000.0f;
 
-                // Плавная циклическая анимация цвета фона через HSB
+                // фон переливается по кругу
                 float hueBase = 0.72f + 0.06f * (float)Math.sin(t * 0.08f)
                                       + 0.04f * (float)Math.sin(t * 0.13f + 1.2f)
                                       + 0.02f * (float)Math.cos(t * 0.045f + 2.5f);
@@ -148,7 +148,7 @@ public class SplashScreen extends JFrame {
                 g2.setPaint(bg);
                 g2.fillRoundRect(0, 0, w, h, 28, 28);
 
-                // Плавающие неоновые орбы с циклической сменой цвета
+                // неоновые шары плавают меняются
                 float pulse1 = (float) ((Math.sin(t * 1.2f) + 1.0) * 0.5);
                 float pulse2 = (float) ((Math.cos(t * 0.8f) + 1.0) * 0.5);
 
@@ -159,7 +159,7 @@ public class SplashScreen extends JFrame {
                 int orbCX = (int) (w * 0.5f + Math.sin(t * 0.7f) * 40f);
                 int orbCY = (int) (h * 0.1f + Math.cos(t * 0.6f) * 15f);
 
-                // Орб A — плавное циклирование оттенка (фиолетовый → синий → бирюзовый)
+                // шар а плывёт фиолет синь бирюза
                 float orbHueA = (0.72f + 0.10f * (float)Math.sin(t * 0.065f) + 0.06f * (float)Math.cos(t * 0.11f + 1.5f)) % 1.0f;
                 Color orbColorA = Color.getHSBColor(Math.max(0f, Math.min(1f, orbHueA)), 0.55f, 0.70f);
 
@@ -176,7 +176,7 @@ public class SplashScreen extends JFrame {
                 g2.setPaint(orbA);
                 g2.fillOval(orbAX - 250, orbAY - 250, 500, 500);
 
-                // Орб B — плавное циклирование (синий → голубой → сиреневый)
+                // шар б плывёт синь голубь сирень
                 float orbHueB = (0.58f + 0.10f * (float)Math.sin(t * 0.05f + 1.0f) + 0.06f * (float)Math.cos(t * 0.09f + 3.2f)) % 1.0f;
                 Color orbColorB = Color.getHSBColor(Math.max(0f, Math.min(1f, orbHueB)), 0.50f, 0.75f);
 
@@ -193,7 +193,7 @@ public class SplashScreen extends JFrame {
                 g2.setPaint(orbB);
                 g2.fillOval(orbBX - 280, orbBY - 280, 560, 560);
 
-                // Орб C — плавное циклирование (розовый → фиолетовый → Coral)
+                // шар ц плывёт розовый фиолет корал
                 float orbHueC = (0.88f + 0.10f * (float)Math.sin(t * 0.085f + 2.0f) + 0.06f * (float)Math.cos(t * 0.12f + 0.8f)) % 1.0f;
                 Color orbColorC = Color.getHSBColor(Math.max(0f, Math.min(1f, orbHueC)), 0.55f, 0.70f);
 
@@ -210,7 +210,7 @@ public class SplashScreen extends JFrame {
                 g2.setPaint(orbC);
                 g2.fillOval(orbCX - 200, orbCY - 200, 400, 400);
 
-                // Рамка контейнера с неоновым свечением, реагирующим на общий оттенок
+                // рамка светится под оттенок
                 int cx = 26;
                 int cy = 24;
                 int cw = w - 52;
@@ -232,7 +232,7 @@ public class SplashScreen extends JFrame {
                     g2.fillRoundRect(cx - i, cy - i, cw + i * 2, ch + i * 2, 26 + i, 26 + i);
                 }
 
-                // Анимированные световые акценты по углам
+                // светлячки по углам анимированы
                 float dotHue = (hueBase + 0.5f) % 1.0f;
                 Color dotColor = Color.getHSBColor(dotHue, 0.30f, 0.90f);
                 g2.setColor(new Color(dotColor.getRed(), dotColor.getGreen(), dotColor.getBlue(), (int)(30 + pulse1 * 20)));
@@ -256,7 +256,7 @@ public class SplashScreen extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                // Subtle outer glow pulse
+                // лёгкая пульсация свечения снаружи
                 float glow = 0.5f + 0.5f * (float)Math.sin(animationTime * 2.0f);
                 g2.setColor(new Color(110, 75, 240, (int)(15 * glow)));
                 g2.fillRoundRect(-3, -3, getWidth() + 6, getHeight() + 6, 18, 18);
@@ -464,7 +464,7 @@ public class SplashScreen extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 float eased = readyAnim * readyAnim * (3f - 2f * readyAnim);
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.max(0f, Math.min(1f, eased))));
-                // Paint particles behind content
+                // частицы за контентом рисуем
                 synchronized (readyParticles) {
                     for (Particle p : readyParticles) {
                         int pa = Math.max(0, Math.min(255, (int)(p.alpha * 255f * eased)));
@@ -641,8 +641,8 @@ public class SplashScreen extends JFrame {
     }
 
     /**
-     * Shows a minimal finishing screen and animates dots ("Finishing...") until {@link #close()} is called.
-     * Must be safe to call from any thread.
+     * добивалка с точками ждёт {@link #close()}
+     * потокобезопасно вызывай откуда хочешь
      */
     public void showFinishing() {
         switchToFinishingCard();
@@ -785,12 +785,12 @@ public class SplashScreen extends JFrame {
             float circleProgress = Math.min(1f, readyAnim * 2f);
             float checkProgress = Math.max(0f, Math.min(1f, (readyAnim - 0.4f) * 2.5f));
 
-            // Circle
+            // кружок рисуем тут
             g2.setStroke(new BasicStroke(2.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
             g2.setColor(new Color(120, 215, 160, (int)(200 * circleProgress)));
             g2.drawArc(cx - r, cy - r, r * 2, r * 2, 90, (int)(-360 * circleProgress));
 
-            // Checkmark
+            // галочка рисуем тут
             if (checkProgress > 0f) {
                 java.awt.geom.Path2D.Float path = new java.awt.geom.Path2D.Float();
                 path.moveTo(cx - r * 0.38f, cy + r * 0.02f);
@@ -803,7 +803,7 @@ public class SplashScreen extends JFrame {
                 g2.setColor(new Color(120, 215, 160, (int)(220 * checkProgress)));
                 g2.draw(path);
 
-                // Pulsing glow when fully drawn
+                // свечение пульсирует когда готово
                 if (checkProgress >= 1f) {
                     float glow = (float)(0.15 + 0.12 * Math.sin(System.currentTimeMillis() / 600.0));
                     g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -834,11 +834,11 @@ public class SplashScreen extends JFrame {
             int w = getWidth();
             int h = getHeight();
 
-            // Анимированный неоновый блюр
+            // неоновый блюр анимируем
             long time = System.currentTimeMillis();
             float pulse = (float)(0.5 + 0.5 * Math.sin(time / 800.0));
             
-            // Многослойный блюр с неоновым свечением
+            // многослойный блюр со свечением
             for (int i = 0; i < 20; i++) {
                 int a = Math.max(0, Math.min(255, (int)(45 - i * 2 + pulse * 15)));
                 Color glowColor = new Color(
@@ -851,7 +851,7 @@ public class SplashScreen extends JFrame {
                 g2.fillRoundRect(i, i, w - i * 2, h - i * 2, radius + i * 2, radius + i * 2);
             }
 
-            // Дополнительный внешний неоновый ореол
+            // лишний ореол снаружи светится
             for (int i = 20; i < 32; i++) {
                 int a = Math.max(0, Math.min(255, (int)(18 - (i - 20) + pulse * 8)));
                 Color outerGlow = new Color(
@@ -864,7 +864,7 @@ public class SplashScreen extends JFrame {
                 g2.fillRoundRect(i, i, w - i * 2, h - i * 2, radius + i * 3, radius + i * 3);
             }
 
-            // Основная карточка с динамическим градиентом (усиленная анимация)
+            // карточка главная с живым градиентом
             float gradientShift = (float)(Math.sin(time / 1500.0) * 0.4 + Math.sin(time / 2200.0) * 0.2);
             GradientPaint card = new GradientPaint(
                     0, 0, new Color(
@@ -883,16 +883,16 @@ public class SplashScreen extends JFrame {
             g2.setPaint(card);
             g2.fillRoundRect(0, 0, w, h, radius, radius);
 
-            // Анимированный внутренний свет
+            // свет внутри анимируем
             float innerGlow = (float)(0.3 + 0.4 * Math.sin(time / 600.0));
             g2.setColor(new Color(255, 255, 255, Math.max(0, Math.min(255, (int)(45 * innerGlow)))));
             g2.drawRoundRect(1, 1, w - 3, h - 3, radius - 1, radius - 1);
             
-            // Тонкая внешняя граница с пульсацией
+            // тонкая рамка пульсирует снаружи
             g2.setColor(new Color(255, 255, 255, Math.max(0, Math.min(255, (int)(25 + pulse * 15)))));
             g2.drawRoundRect(0, 0, w - 1, h - 1, radius, radius);
             
-            // Добавляем тонкие световые акценты по углам
+            // светлые уголки добавляем
             g2.setColor(new Color(150, 120, 255, Math.max(0, Math.min(255, (int)(30 + pulse * 20)))));
             g2.fillOval(5, 5, 8, 8);
             g2.fillOval(w - 13, 5, 8, 8);
@@ -940,7 +940,7 @@ public class SplashScreen extends JFrame {
             long time = System.currentTimeMillis();
             float pulse = (float)(0.5 + 0.5 * Math.sin(time / 1000.0));
 
-            // Неоновый блюр для кнопки с анимацией
+            // блюр неоновый кнопке анимируем
             for (int i = 0; i < 12; i++) {
                 int a = Math.max(0, (int)(35 - i * 3 + pulse * 10));
                 Color glowColor = getModel().isRollover() ? 
@@ -958,7 +958,7 @@ public class SplashScreen extends JFrame {
             int gr = Math.max(0, Math.min(255, (int) (baseColor.getGreen() * (1f + brighten + pressed + animation))));
             int b = Math.max(0, Math.min(255, (int) (baseColor.getBlue() * (1f + brighten + pressed + animation))));
 
-            // Многослойный градиент кнопки с идеальными границами
+            // градиент кнопки многослойный ровный
             GradientPaint buttonGradient = new GradientPaint(
                     0, 0, new Color(
                         Math.min(255, r + 10), 
@@ -976,13 +976,13 @@ public class SplashScreen extends JFrame {
             g2.setPaint(buttonGradient);
             g2.fillRoundRect(0, 0, w, h, 15, 15);
 
-            // Внутренний неоновый свет при hover
+            // внутри светится при ховере
             if (getModel().isRollover()) {
                 g2.setColor(new Color(255, 255, 255, Math.max(0, Math.min(255, (int)(35 + pulse * 15)))));
                 g2.drawRoundRect(1, 1, w - 3, h - 3, 13, 13);
             }
 
-            // Идеально ровная граница кнопки
+            // рамка кнопки идеально ровная
             int sr = Math.min(255, (int) (strokeColor.getRed() * visualAlpha + pulse * 20));
             int sg = Math.min(255, (int) (strokeColor.getGreen() * visualAlpha + pulse * 15));
             int sb = Math.min(255, (int) (strokeColor.getBlue() * visualAlpha + pulse * 25));
@@ -993,7 +993,7 @@ public class SplashScreen extends JFrame {
             g2.drawRoundRect(0, 0, w - 1, h - 1, 15, 15);
             g2.drawRoundRect(0, 0, w - 1, h - 1, 15, 15);
 
-            // Добавляем световые точки по углам при hover
+            // точки по углам при ховере
             if (getModel().isRollover()) {
                 g2.setColor(new Color(255, 255, 255, (int)(50 + pulse * 30)));
                 g2.fillOval(3, 3, 4, 4);

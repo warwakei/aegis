@@ -160,8 +160,8 @@ public class OutlinePipeline {
 
         dataBuffer.putFloat(glowRadius);
         dataBuffer.putFloat(glowIntensity);
-        dataBuffer.putFloat(0f); // Padding
-        dataBuffer.putFloat(0f); // Padding
+        dataBuffer.putFloat(0f); // добивка
+        dataBuffer.putFloat(0f); // добивка
 
         dataBuffer.flip();
     }

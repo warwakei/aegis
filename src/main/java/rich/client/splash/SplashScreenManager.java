@@ -144,8 +144,8 @@ public class SplashScreenManager {
     }
 
     /**
-     * Shows a "Finishing..." screen (with animated dots) intended for client shutdown.
-     * Independent from the startup splash instance and does not run requirement checks.
+     * добивалка на выход с точками
+     * отдельно от старта без проверок
      */
     public static SplashScreen showFinishingScreen() {
         SplashScreen existing = finishingInstance.get();

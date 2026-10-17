@@ -1,4 +1,4 @@
-// ===== NetPanel Frontend =====
+// панелька фронта тут пашет
 (function () {
     'use strict';
 
@@ -9,20 +9,20 @@
         panels: { console: false, chat: true, status: true, world: false, potions: false, server: false, modules: false, moderation: false, anticheat: false, hitreg: false, performance: false, network: false, sessions: false, pluginDebug: false, logFilter: false },
         panelsLocked: false,
         globalChat: false,
-        // Chat history
+        // историю чата помним
         chatHistory: [],
         chatHistoryIndex: -1,
-        // Nickname autocomplete
+        // ники подсказываем тут
         knownNicks: [],
         nickMatchIndex: -1,
         nickMatchPrefix: '',
-        // View settings
+        // вид панельки настраиваем
         stripChatTag: false,
         shortTime: false,
         stripRecv: false,
-        // Context menu
+        // менюшка правая тут
         contextMenuTarget: null,
-        // Config system
+        // конфиг панельки храним
         currentProfile: 'default',
         panelPositions: {},
         autoSave: true
@@ -93,26 +93,26 @@
     function bindEvents() {
         dom.chatSendBtn.addEventListener('click', sendChat);
 
-        // Chat input: history navigation, autocomplete, send
+        // ввод чата история ники
         dom.chatInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 sendChat();
                 return;
             }
-            // Arrow Up - previous message from history
+            // стрелка вверх старое кажем
             if (e.key === 'ArrowUp' && !e.shiftKey) {
                 e.preventDefault();
                 navigateHistory(-1);
                 return;
             }
-            // Arrow Down - next message from history
+            // стрелка вниз новое кажем
             if (e.key === 'ArrowDown' && !e.shiftKey) {
                 e.preventDefault();
                 navigateHistory(1);
                 return;
             }
-            // Tab - nickname autocomplete
+            // таб ник подставляем
             if (e.key === 'Tab') {
                 e.preventDefault();
                 autocompleteNick();
@@ -120,7 +120,7 @@
             }
         });
 
-        // Keyboard shortcuts
+        // хоткеи клавы тут
         document.addEventListener('keydown', function (e) {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             switch (e.key) {
@@ -131,7 +131,7 @@
             }
         });
 
-        // View menu toggle
+        // меню вида клацаем
         dom.menuViewBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             dom.menuView.classList.toggle('active');
@@ -139,14 +139,14 @@
             updateMenuCheckmarks();
         });
 
-        // Config menu toggle
+        // меню конфига клацаем
         dom.menuConfigBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             dom.menuConfig.classList.toggle('active');
             dom.menuView.classList.remove('active');
         });
 
-        // Menu actions
+        // экшены менюхи тут
         document.querySelectorAll('.dropdown-item').forEach(function (item) {
             item.addEventListener('click', function () {
                 handleMenuAction(item.getAttribute('data-action'));
@@ -161,7 +161,7 @@
             hideContextMenu();
         });
 
-        // Panel controls
+        // кнопки панелек тут
         document.querySelectorAll('.panel-ctrl-btn').forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -171,7 +171,7 @@
             });
         });
 
-        // Hitreg copy button
+        // кнопка копипасты хитрега
         var hitregCopyBtn = document.getElementById('hitreg-copy-btn');
         if (hitregCopyBtn) {
             hitregCopyBtn.addEventListener('click', function (e) {
@@ -180,7 +180,7 @@
             });
         }
 
-        // Context menu on all log entries
+        // менюшка на логах висит
         document.addEventListener('contextmenu', function (e) {
             var logEntry = e.target.closest('.log-entry');
             if (logEntry) {
@@ -191,14 +191,14 @@
             }
         });
 
-        // Global chat toggle button
+        // кнопка глобал чата тут
         dom.chatGlobalBtn.addEventListener('click', function () {
             state.globalChat = !state.globalChat;
             dom.chatGlobalBtn.classList.toggle('active', state.globalChat);
         });
     }
 
-    // ===== MENU ACTIONS =====
+    // экшены менюхи ниже
     function handleMenuAction(action) {
         switch (action) {
             case 'toggle-console': togglePanel('console'); break;
@@ -231,7 +231,7 @@
                 state.stripRecv = !state.stripRecv;
                 renderAll();
                 break;
-            // Config actions
+            // экшены конфига тут
             case 'config-save':
                 saveConfig(state.currentProfile);
                 break;
@@ -276,14 +276,14 @@
         }
     }
 
-    // ===== CONTEXT MENU =====
+    // менюшка правая ниже
     function showContextMenu(x, y, element) {
         hideContextMenu();
         var menu = document.createElement('div');
         menu.className = 'context-menu';
         menu.id = 'context-menu';
 
-        // Get raw message from data attribute
+        // сырой текст из даты тащим
         var rawMsg = element.getAttribute('data-raw') || element.textContent || '';
         var cleanMsg = element.textContent || '';
 
@@ -340,7 +340,7 @@
         });
     }
 
-    // ===== PANEL DRAG & RESIZE =====
+    // таскание панелек ниже
     function initPanelDragAndResize() {
         document.querySelectorAll('.panel-draggable').forEach(function (panel) {
             var dragHandle = panel.querySelector('.panel-drag-handle');
@@ -415,7 +415,7 @@
         });
     }
 
-    // ===== PANELS =====
+    // панельки ниже лежат
     function togglePanel(name) {
         state.panels[name] = !state.panels[name];
         var panelMap = {
@@ -439,28 +439,31 @@
         renderAll();
     }
 
-    // Merge existing logs with new entries, avoiding duplicates by timestamp
+    // логи мержим дубли режем
     function mergeLogs(existing, newEntries) {
         if (!newEntries || newEntries.length === 0) return existing;
-        // Build a set of existing timestamps for fast lookup
-        var seen = {};
+        function entryKey(e) {
+            return e.id || JSON.stringify([e.timestamp, e.level, e.message]);
+        }
+        var seen = new Set();
         existing.forEach(function (e) {
-            seen[e.timestamp] = true;
+            seen.add(entryKey(e));
         });
-        // Add only new entries
+        // только новое добавляем
         var result = existing.slice();
         newEntries.forEach(function (e) {
-            if (!seen[e.timestamp]) {
+            var key = entryKey(e);
+            if (!seen.has(key)) {
                 result.push(e);
-                seen[e.timestamp] = true;
+                seen.add(key);
             }
         });
-        // Sort by timestamp just in case
+        // по времени сортим на всякий
         result.sort(function (a, b) { return a.timestamp - b.timestamp; });
-        return result;
+        return result.slice(-10000);
     }
 
-    // ===== CLOCK =====
+    // часики тикают тут
     function startClock() {
         function update() {
             var now = new Date();
@@ -470,7 +473,7 @@
         setInterval(update, 1000);
     }
 
-    // ===== SSE =====
+    // ссе стрим тут
     function connectSSE() {
         if (state.eventSource) state.eventSource.close();
         state.eventSource = new EventSource('/api/stream');
@@ -478,7 +481,7 @@
         state.eventSource.addEventListener('console', function (e) {
             try {
                 var newEntries = JSON.parse(e.data);
-                // Merge: keep existing, add only new ones (by timestamp)
+                // мержим только свежак
                 state.logs.console = mergeLogs(state.logs.console, newEntries);
                 renderLog(dom.consoleLog, state.logs.console);
                 dom.consoleCount.textContent = state.logs.console.length;
@@ -542,7 +545,7 @@
         };
     }
 
-    // ===== INITIAL DATA =====
+    // стартовые данные тянем
     async function loadInitialData() {
         try {
             var results = await Promise.all([
@@ -569,7 +572,7 @@
         return res.json();
     }
 
-    // ===== SYSTEM INFO =====
+    // система инфа ниже
     function updateSystemInfo(data) {
         var fps = data.fps || 0;
         var tps = data.tps || 0;
@@ -604,7 +607,7 @@
         dom.systemInfo.innerHTML = html;
     }
 
-    // ===== WORLD INFO =====
+    // мир инфа ниже
     async function loadWorldInfo() {
         try {
             var data = await fetchJSON('/api/world');
@@ -635,7 +638,7 @@
         dom.worldInfo.innerHTML = html;
     }
 
-    // ===== POTIONS INFO =====
+    // зельки инфа ниже
     async function loadPotionsInfo() {
         try {
             var data = await fetchJSON('/api/potions');
@@ -667,7 +670,7 @@
         return numerals[n] || n;
     }
 
-    // ===== SERVER INFO =====
+    // сервак инфа ниже
     async function loadServerInfo() {
         try {
             var data = await fetchJSON('/api/server');
@@ -696,7 +699,7 @@
         dom.serverInfo.innerHTML = html;
     }
 
-    // ===== MODERATION =====
+    // модерка ниже живёт
     async function loadModerationInfo() {
         try {
             var data = await fetchJSON('/api/moderation');
@@ -706,7 +709,7 @@
         } catch (err) { dom.moderationLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
     }
 
-    // ===== ANTICHEAT =====
+    // античит ниже живёт
     async function loadAnticheatInfo() {
         try {
             var data = await fetchJSON('/api/anticheat');
@@ -718,7 +721,7 @@
         } catch (err) { dom.anticheatLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
     }
 
-    // ===== HITREG =====
+    // хитрег ниже живёт
     var lastHitregCount = 0;
 
     async function copyHitregLog() {
@@ -732,7 +735,7 @@
             navigator.clipboard.writeText(text).then(function () {
                 showHitregCopyFeedback('Copied ' + text.split('\n').filter(function (l) { return l.startsWith('✔') || l.startsWith('✘'); }).length + ' hits to clipboard', true);
             }).catch(function () {
-                // Fallback for non-clipboard API
+                // без апи буфера костылим
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta);
                 ta.select(); document.execCommand('copy');
@@ -763,7 +766,7 @@
             var data = await fetchJSON('/api/hitreg');
             if (!data || data.length === 0) return;
 
-            // Only update if there are new entries (don't re-render same data)
+            // без новинок не ререндерим
             if (data.length !== lastHitregCount) {
                 state.logs.hitreg = data;
                 lastHitregCount = data.length;
@@ -773,7 +776,7 @@
         } catch (err) { dom.hitregLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed to load</div>'; }
     }
 
-    // ===== PERFORMANCE =====
+    // перфоманс ниже живёт
     async function loadPerformanceInfo() {
         try { renderPerformanceInfo(await fetchJSON('/api/performance')); } catch (err) { dom.performanceInfo.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed</div>'; }
     }
@@ -787,7 +790,7 @@
         dom.performanceInfo.innerHTML = h;
     }
 
-    // ===== NETWORK =====
+    // сеть ниже живёт
     async function loadNetworkInfo() {
         try { renderNetworkInfo(await fetchJSON('/api/network')); } catch (err) { dom.networkInfo.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;">Failed</div>'; }
     }
@@ -799,11 +802,11 @@
         dom.networkInfo.innerHTML = h;
     }
 
-    // ===== SESSIONS / PLUGIN DEBUG =====
+    // сессии плагины ниже
     async function loadSessionsInfo() { try { var d = await fetchJSON('/api/sessions'); dom.sessionsLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;font-size:11px;">' + escapeHtml(d.note || 'No data') + '</div>'; } catch (err) {} }
     async function loadPluginDebugInfo() { dom.pluginDebugLog.innerHTML = '<div style="padding:20px;color:var(--text-dim);text-align:center;font-size:11px;">Plugin events will appear here</div>'; }
 
-    // ===== MODULES INFO =====
+    // модули инфа ниже
     async function loadModulesInfo() {
         try {
             var data = await fetchJSON('/api/modules');
@@ -884,17 +887,17 @@
         } catch (err) { console.error('Update setting failed:', err); }
     }
 
-    // ===== RENDERING =====
+    // рендер логов ниже
     function renderAll() {
         renderLog(dom.consoleLog, state.logs.console);
         renderLog(dom.chatLog, state.logs.chat);
         dom.consoleCount.textContent = state.logs.console.length;
         dom.chatCount.textContent = state.logs.chat.length;
-        // Re-extract nicknames when chat updates
+        // ники из чата дёргаем
         extractNicksFromChat();
     }
 
-    // Track scroll positions to preserve user scroll when updating
+    // скролл юзера бережём
     var scrollPositions = {};
 
     function renderLog(container, entries) {
@@ -903,7 +906,7 @@
             return;
         }
 
-        // Check if user is near bottom (within 50px)
+        // низ рядом чекаем
         var isNearBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 50;
         var containerId = container.id;
 
@@ -916,9 +919,9 @@
             var rawMsg = entry.message || '';
             var msg = processMessage(rawMsg, level);
 
-            // Skip RECV entries if stripRecv is enabled
+            // входящие режем если включено
             if (state.stripRecv && level === 'RECV') continue;
-            // Strip [CHAT] tag
+            // тег чата режем
             if (state.stripChatTag && level === 'CHAT') {
                 level = 'INFO';
             }
@@ -927,11 +930,11 @@
         }
         container.innerHTML = html;
 
-        // Only auto-scroll if user was at bottom, otherwise preserve position
+        // скроллим только если внизу
         if (isNearBottom) {
             container.scrollTop = container.scrollHeight;
         } else {
-            // User scrolled up - preserve their position
+            // вверх ушёл позицию держим
             var savedScroll = scrollPositions[containerId];
             if (savedScroll !== undefined) {
                 container.scrollTop = savedScroll;
@@ -941,14 +944,14 @@
     }
 
     function processMessage(msg, level) {
-        // Strip [CHAT] prefix if setting is on (for both RECV and CHAT levels)
+        // префикс чата режем
         if (state.stripChatTag && (level === 'CHAT' || level === 'RECV')) {
             msg = msg.replace(/^\[CHAT\]\s*/i, '');
         }
         msg = formatMinecraftColors(escapeHtml(msg));
-        // Convert literal \n to real newlines (displayed via white-space: pre)
+        // слэшин переносами меняем
         msg = msg.replace(/\\n/g, '\n');
-        // Highlight rank symbols: Ⓖ bright yellow bold, Ⓛ bright green bold
+        // ранги цветом красим
         msg = msg.replace(/Ⓖ/g, '<span class="rank-G">Ⓖ</span>');
         msg = msg.replace(/Ⓛ/g, '<span class="rank-L">Ⓛ</span>');
         return msg;
@@ -991,53 +994,53 @@
         return result;
     }
 
-    // ===== CHAT HISTORY =====
+    // история чата ниже
     function navigateHistory(direction) {
         if (state.chatHistory.length === 0) return;
 
-        // direction: -1 = up (older), 1 = down (newer)
-        // Start from the END of history (newest = last index)
+        // вверх старое вниз новое
+        // с конца истории стартуем
         state.chatHistoryIndex += direction;
 
-        // Clamp: -1 = back to empty input, max = last index (newest message)
+        // индекс в границы жмём
         if (state.chatHistoryIndex < -1) state.chatHistoryIndex = -1;
         if (state.chatHistoryIndex >= state.chatHistory.length) {
             state.chatHistoryIndex = state.chatHistory.length - 1;
         }
 
-        // -1 means empty input (draft / new message)
+        // минус один пустой ввод
         if (state.chatHistoryIndex === -1) {
             dom.chatInput.value = '';
         } else {
-            // Access from END: index 0 in our navigation = last element = newest
+            // с конца доступ даём
             var actualIndex = state.chatHistory.length - 1 - state.chatHistoryIndex;
             dom.chatInput.value = state.chatHistory[actualIndex];
-            // Move cursor to end
+            // курсор в конец ставим
             dom.chatInput.setSelectionRange(dom.chatInput.value.length, dom.chatInput.value.length);
         }
     }
 
-    // ===== NICKNAME AUTOCOMPLETE =====
+    // автоподстановка ников ниже
     function autocompleteNick() {
         var val = dom.chatInput.value;
         var cursorPos = dom.chatInput.selectionStart;
         var textBeforeCursor = val.substring(0, cursorPos);
 
-        // Find the last word being typed (before cursor)
+        // последнее слово ищем
         var lastSpace = textBeforeCursor.lastIndexOf(' ');
         var currentWord = textBeforeCursor.substring(lastSpace + 1);
 
-        // Extract nicknames from chat logs
+        // ники из чата тащим
         if (state.knownNicks.length === 0) {
             extractNicksFromChat();
         }
 
-        // Filter nicks that start with current word (case-insensitive)
+        // ники по префиксу фильтруем
         var matches = state.knownNicks.filter(function (nick) {
             return nick.toLowerCase().indexOf(currentWord.toLowerCase()) === 0 && nick.toLowerCase() !== currentWord.toLowerCase();
         });
 
-        // Remove duplicates
+        // дубли ников режем
         var unique = [];
         var seen = {};
         matches.forEach(function (n) {
@@ -1054,10 +1057,10 @@
             return;
         }
 
-        // Cycle through matches
+        // совпадения по кругу листаем
         state.nickMatchIndex = (state.nickMatchIndex + 1) % matches.length;
 
-        // If prefix changed, reset index
+        // префикс сменён индекс сносим
         if (state.nickMatchPrefix !== currentWord.toLowerCase()) {
             state.nickMatchPrefix = currentWord.toLowerCase();
             state.nickMatchIndex = 0;
@@ -1065,37 +1068,37 @@
 
         var selectedNick = matches[state.nickMatchIndex];
 
-        // Auto-capitalize: if original word was all uppercase, make nick uppercase
+        // капс ник капсом даём
         if (currentWord === currentWord.toUpperCase() && currentWord.length > 1) {
             selectedNick = selectedNick.toUpperCase();
         }
 
-        // Replace the word with the selected nick
+        // слово ником меняем
         var newText = textBeforeCursor.substring(0, lastSpace + 1) + selectedNick + val.substring(cursorPos);
         dom.chatInput.value = newText;
 
-        // Visual feedback
+        // подсветку мигаем
         dom.chatInput.classList.add('autocomplete-active');
         setTimeout(function () { dom.chatInput.classList.remove('autocomplete-active'); }, 300);
 
-        // Move cursor after the inserted nick
+        // курсор за ник ставим
         var newPos = lastSpace + 1 + selectedNick.length;
         dom.chatInput.setSelectionRange(newPos, newPos);
     }
 
     function extractNicksFromChat() {
         var nickSet = {};
-        // Extract from RECV entries: [nickname] message
+        // ники из входящих тащим
         state.logs.chat.forEach(function (entry) {
             var msg = entry.message || '';
-            // Match pattern: [nickname] followed by arrow/space
-            // Handles: [Nick] ➯ msg, [Nick] → msg, [Nick] msg
+            // паттерн ника со стрелкой
+            // стрелки разные бывают
             var regex = /\]([^\]]+)\s*[\u2794\u2192\u203A\u00BB]/;
             var matches = msg.match(regex);
             if (matches) {
                 var nick = matches[1].trim();
                 if (nick.length > 1 && nick.length < 20) {
-                    // Store original case version
+                    // регистр ника помним
                     nickSet[nick.toLowerCase()] = nick;
                 }
             }
@@ -1103,24 +1106,24 @@
         state.knownNicks = Object.values(nickSet).sort();
     }
 
-    // ===== CHAT =====
+    // чат ниже живёт
     async function sendChat() {
         var msg = dom.chatInput.value.trim();
         if (!msg) return;
 
-        // Save to history (avoid duplicates of last message)
+        // в историю пишем без дублей
         if (state.chatHistory.length === 0 || state.chatHistory[state.chatHistory.length - 1] !== msg) {
             state.chatHistory.push(msg);
-            // Keep last 50 messages
+            // полтос сообщений храним
             if (state.chatHistory.length > 50) state.chatHistory.shift();
         }
         state.chatHistoryIndex = -1;
 
-        // Reset autocomplete state
+        // автокомплит сбрасываем
         state.nickMatchIndex = -1;
         state.nickMatchPrefix = '';
 
-        // Prepend "!" for global chat if toggle is on
+        // глобал через восклицалку шлём
         if (state.globalChat && !msg.startsWith('!')) {
             msg = '!' + msg;
         }
@@ -1131,7 +1134,7 @@
         } catch (err) { console.error('Failed to send chat:', err); }
     }
 
-    // ===== CONFIG SYSTEM =====
+    // конфиг система ниже
     var PANEL_KEYS = ['console', 'chat', 'status', 'world', 'potions', 'server', 'modules', 'moderation', 'anticheat', 'hitreg', 'performance', 'network', 'sessions', 'pluginDebug', 'logFilter'];
 
     function getPanelState() {
@@ -1180,7 +1183,7 @@
             sessions: dom.panelSessions, pluginDebug: dom.panelPluginDebug, logFilter: dom.panelLogFilter
         };
 
-        // Apply view settings
+        // вид из конфига мажем
         if (config.stripChatTag !== undefined) state.stripChatTag = config.stripChatTag;
         if (config.shortTime !== undefined) state.shortTime = config.shortTime;
         if (config.stripRecv !== undefined) state.stripRecv = config.stripRecv;
@@ -1196,11 +1199,11 @@
             var panel = panelMap[key];
             if (!panel) return;
 
-            // Visibility
+            // видимость мажем
             state.panels[key] = panelState.visible;
             panel.classList.toggle('hidden', !panelState.visible);
 
-            // Position & size
+            // позицию размер мажем
             if (panelState.position === 'fixed' && panelState.left !== null && panelState.top !== null) {
                 panel.style.position = 'fixed';
                 panel.style.left = panelState.left + 'px';
@@ -1217,7 +1220,7 @@
                 panel.style.zIndex = '';
             }
 
-            // Lock state
+            // замок мажем
             if (panelState.locked) {
                 panel.classList.add('locked');
                 var lockBtn = panel.querySelector('[data-action="lock"]');
@@ -1260,7 +1263,7 @@
         localStorage.removeItem('netpanel_active_profile');
         state.currentProfile = 'default';
 
-        // Reset to defaults
+        // дефолты возвращаем
         var defaults = { console: false, chat: true, status: true, world: false, potions: false, server: false, modules: false, moderation: false, anticheat: false, hitreg: false, performance: false, network: false, sessions: false, pluginDebug: false, logFilter: false };
         PANEL_KEYS.forEach(function (key) {
             state.panels[key] = defaults[key];
@@ -1388,7 +1391,7 @@
         overlay.addEventListener('click', function (e) { if (e.target === overlay) document.body.removeChild(overlay); });
     }
 
-    // Toast notification
+    // тостик показываем
     var toastTimeout = null;
     function showToast(msg, success) {
         var toast = document.getElementById('netpanel-toast');
@@ -1406,7 +1409,7 @@
         toastTimeout = setTimeout(function () { toast.style.opacity = '0'; }, 2000);
     }
 
-    // Auto-save panel state on drag/resize end
+    // после таскания автосейвим
     function initPanelAutoSave() {
         var saveTimer = null;
         document.addEventListener('mouseup', function () {
@@ -1419,7 +1422,7 @@
         });
     }
 
-    // ===== START =====
+    // старт панельки тут
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

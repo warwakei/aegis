@@ -41,11 +41,11 @@ public class NetworkManager {
         }
 
         void close() {
-            if (closed) return;
             closed = true;
+            // Closing the socket first unblocks readLine() before taking the reader's lock.
+            try { socket.close(); } catch (Exception ignored) {}
             try { in.close(); } catch (Exception ignored) {}
             try { out.close(); } catch (Exception ignored) {}
-            try { socket.close(); } catch (Exception ignored) {}
         }
 
         void send(String message) {
@@ -76,7 +76,7 @@ public class NetworkManager {
                 try {
                     ServerSocket ss = new ServerSocket();
                     ss.setReuseAddress(true);
-                    ss.bind(new InetSocketAddress(PORT));
+                    ss.bind(new InetSocketAddress("127.0.0.1", PORT));
                     ss.setSoTimeout(1000);
                     serverSocket = ss;
                     msg("§a[ПОКУПАТЕЛЬ] Сервер запущен на порту " + PORT);
@@ -161,7 +161,7 @@ public class NetworkManager {
                 if (!connected.get()) {
                     try {
                         Socket socket = new Socket();
-                        socket.connect(new InetSocketAddress("localhost", PORT), 2000);
+                        socket.connect(new InetSocketAddress("127.0.0.1", PORT), 2000);
                         socket.setTcpNoDelay(true);
                         socket.setKeepAlive(true);
                         socket.setSoTimeout(5000);
@@ -358,9 +358,9 @@ public class NetworkManager {
         in = null;
         clientSocket = null;
 
+        try { if (tempClient != null) tempClient.close(); } catch (Exception ignored) {}
         try { if (tempIn != null) tempIn.close(); } catch (Exception ignored) {}
         try { if (tempOut != null) tempOut.close(); } catch (Exception ignored) {}
-        try { if (tempClient != null) tempClient.close(); } catch (Exception ignored) {}
     }
 
     private void closeServerSocket() {

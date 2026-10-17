@@ -1,8 +1,7 @@
 package rich.util.config.impl.consolelogger;
 
 /**
- *  © 2026 Copyright Aegis Neo 063 - Dev Build 2026 14:03 21.04
- *        All Rights Reserved ®
+ * копирайт эгиса не трогаем
  */
 
 public class Logger {

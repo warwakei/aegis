@@ -11,8 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Log4j appender that captures Minecraft console output into a LogBuffer.
- * Also parses [CHAT] lines and forwards them to ChatBridge.
+ * консоль в панельку тащим
  */
 public class ConsoleCapture {
 
@@ -20,7 +19,7 @@ public class ConsoleCapture {
     private static boolean attached = false;
     private static Appender appenderInstance;
 
-    // Pattern to match chat messages like: [CHAT] <player> message or [CHAT] message
+    // паттерн чата в консоли ловим
     private static final Pattern CHAT_PATTERN = Pattern.compile("\\[CHAT\\]\\s+(.*)");
 
     public static void attach() {
@@ -71,11 +70,11 @@ public class ConsoleCapture {
             String level = event.getLevel().toString();
             String message = new String(getLayout().toByteArray(event));
 
-            // Check if this is a [CHAT] message
+            // чат ли это чекаем
             Matcher chatMatcher = CHAT_PATTERN.matcher(message);
             if (chatMatcher.find()) {
                 String chatContent = chatMatcher.group(1);
-                // Forward to chat bridge as a received message
+                // чат в бридж кидаем
                 ChatBridge.logReceived("CHAT", chatContent);
             }
 

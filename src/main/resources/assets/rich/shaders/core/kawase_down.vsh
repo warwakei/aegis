@@ -1,7 +1,7 @@
 #version 150
 
 layout(std140) uniform KawaseData {
-    vec4 params;
+    vec4 params; // xy = target size, z = sample offset
 };
 
 out vec2 texCoord;

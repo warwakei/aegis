@@ -3,8 +3,7 @@ package rich.netpanel.loggers;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Anticheat monitor — tracks violation flags from console and logs them
- * in a structured format for admins to review.
+ * античит флаги тут палим
  */
 public class AnticheatMonitor {
 

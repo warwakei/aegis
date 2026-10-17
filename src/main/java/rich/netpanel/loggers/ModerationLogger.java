@@ -1,8 +1,7 @@
 package rich.netpanel.loggers;
 
 /**
- * Moderation logger — tracks chat moderation events, player warnings, mutes, kicks.
- * Designed for server moderators who need a clean audit trail.
+ * модерку нарушителей тут пишем
  */
 public class ModerationLogger {
 

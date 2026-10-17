@@ -8,13 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Миксин для удаления лишних кнопок из настроек
- * Удаляет: "Титры и атрибуции", "Специальные возможности", "Внешний вид"
- * 
- * В 1.21.11 кнопки в OptionsScreen привязаны к конкретным экранам:
- * - SkinOptionsScreen (Внешний вид/Скины)
- * - AccessibilityOptionsScreen (Специальные возможности)
- * - CreditsAndAttributionScreen (Титры и атрибуции)
+ * миксин чтоб настройки почистить
  */
 @Mixin(OptionsScreen.class)
 public class OptionsScreenMixin {
@@ -23,12 +17,12 @@ public class OptionsScreenMixin {
     private void onInit(CallbackInfo ci) {
         OptionsScreen screen = (OptionsScreen) (Object) this;
         
-        // Получаем список детей и удаляем нежелательные кнопки
+        // сносим лишние кнопки настроек
         screen.children().removeIf(element -> {
             if (element instanceof ButtonWidget button) {
                 String message = button.getMessage().getString();
                 
-                // Проверяем по ключевым словам на русском и английском
+                // чекаем кнопки по словам
                 boolean isCredits = message.contains("Credits") || message.contains("Attribution") ||
                                    message.contains("Титры") || message.contains("Атрибуции");
                 

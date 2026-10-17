@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
@@ -70,6 +69,7 @@ public class AutoTool extends ModuleStructure {
 
     @Override
     public void deactivate() {
+        restoreTool();
         resetState();
     }
 
@@ -104,7 +104,7 @@ public class AutoTool extends ModuleStructure {
         if (originalStack == null || mc.player == null) return;
 
         if (mc.player.getInventory().getSelectedSlot() != originalSlotIndex) {
-            clearRenderState();
+            forceReset();
             return;
         }
 
@@ -120,7 +120,7 @@ public class AutoTool extends ModuleStructure {
         if (!Objects.equals(mc.player, e.getPlayer())) return;
 
         if (mc.player.getInventory().getSelectedSlot() != originalSlotIndex) {
-            clearRenderState();
+            forceReset();
             return;
         }
 
@@ -136,7 +136,7 @@ public class AutoTool extends ModuleStructure {
         int currentSelectedSlot = mc.player.getInventory().getSelectedSlot();
 
         if (currentSelectedSlot != originalSlotIndex) {
-            clearRenderState();
+            forceReset();
             return;
         }
 
@@ -166,8 +166,10 @@ public class AutoTool extends ModuleStructure {
     @EventHandler
     @Native(type = Native.Type.VMProtectBeginMutation)
     public void onBlockBreaking(BlockBreakingEvent e) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null || mc.interactionManager == null
+                || mc.player.currentScreenHandler != mc.player.playerScreenHandler) return;
 
+        boolean sameBlock = e.blockPos().equals(lastBreakPos);
         lastBreakTime = System.currentTimeMillis();
         lastBreakPos = e.blockPos();
 
@@ -175,8 +177,8 @@ public class AutoTool extends ModuleStructure {
         if (isActive) return;
         if (!hasSwapCooldownPassed()) return;
 
-        // Анти-ломка: не меняем инструмент если блок почти сломан
-        if (antiBreak.isValue()) {
+        // блок почти сломан не трогаем
+        if (antiBreak.isValue() && sameBlock && e.progress() >= 0.9f) {
             return;
         }
 
@@ -188,11 +190,11 @@ public class AutoTool extends ModuleStructure {
 
         int selectedSlot = mc.player.getInventory().getSelectedSlot();
         int bestToolHotbarIndex = bestSlot.id - 36;
+        originalSlotIndex = selectedSlot;
 
         if (isSilentMode()) {
             originalStack = mc.player.getInventory().getStack(selectedSlot).copy();
-            toolStack = mc.player.getInventory().getStack(bestToolHotbarIndex).copy();
-            originalSlotIndex = selectedSlot;
+            toolStack = bestSlot.getStack().copy();
             toolSlotIndex = bestToolHotbarIndex;
         }
 
@@ -210,7 +212,11 @@ public class AutoTool extends ModuleStructure {
 
     @EventHandler
     public void onTick(TickEvent e) {
-        if (mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null) {
+            resetState();
+            return;
+        }
+        if (mc.player.currentScreenHandler != mc.player.playerScreenHandler) return;
 
         if (!isActive) {
             if (originalStack != null) {
@@ -232,13 +238,7 @@ public class AutoTool extends ModuleStructure {
         boolean breakingStopped = hasBreakingCooldownPassed();
 
         if (breakingStopped) {
-            if (swapBackSlot != null && swapBack.isValue()) {
-                if (isSilentMode()) {
-                    swapToHandSilent(swapBackSlot);
-                } else {
-                    swapToHand(swapBackSlot);
-                }
-            }
+            restoreTool();
 
             clearRenderState();
             isActive = false;
@@ -248,6 +248,7 @@ public class AutoTool extends ModuleStructure {
     }
 
     private void forceReset() {
+        restoreTool();
         clearRenderState();
         isActive = false;
         swapBackSlot = null;
@@ -269,10 +270,21 @@ public class AutoTool extends ModuleStructure {
 
     private void swapToHand(Slot slot) {
         if (mc.player == null || mc.interactionManager == null || slot == null) return;
-        int hotbarSlot = mc.player.getInventory().getSelectedSlot();
+        swapToHand(slot, mc.player.getInventory().getSelectedSlot());
+    }
+
+    private void restoreTool() {
+        if (isActive && swapBack.isValue() && swapBackSlot != null && originalSlotIndex >= 0) {
+            swapToHand(swapBackSlot, originalSlotIndex);
+        }
+    }
+
+    private void swapToHand(Slot slot, int hotbarSlot) {
+        if (mc.player == null || mc.interactionManager == null || slot == null
+                || mc.player.currentScreenHandler != mc.player.playerScreenHandler) return;
         
-        // Останавливаем спринт если нужно
-        if (stopSprint.isValue() && mc.player.isSprinting()) {
+        // стопаем спринт если надо
+        if (!isSilentMode() && stopSprint.isValue() && mc.player.isSprinting()) {
             mc.player.setSprinting(false);
             mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
         }
@@ -287,19 +299,9 @@ public class AutoTool extends ModuleStructure {
     }
 
     private void swapToHandSilent(Slot slot) {
-        if (mc.player == null || slot == null) return;
-
-        int currentSlot = mc.player.getInventory().getSelectedSlot();
-        int targetSlot = slot.id - 36;
-
-        if (targetSlot < 0 || targetSlot > 8) return;
-        if (targetSlot == currentSlot) return;
-
-        // Отправляем пакет смены слота
-        mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(targetSlot));
-        
-        // Обновляем selectedSlot локально через setSelectedSlot для корректной работы
-        mc.player.getInventory().setSelectedSlot(targetSlot);
+        // Swap stacks while keeping the selected hotbar slot and rendered hand stable.
+        // The same SWAP restores both hotbar and main-inventory tools afterwards.
+        swapToHand(slot);
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)

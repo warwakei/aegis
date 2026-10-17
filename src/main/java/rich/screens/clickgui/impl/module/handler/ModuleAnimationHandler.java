@@ -50,18 +50,18 @@ public class ModuleAnimationHandler {
     private float categoryTransitionProgress = 1f;
     private long categoryTransitionStartTime = 0;
 
-    private static final float MODULE_ANIM_DURATION = 320f; // Чуть дольше для плавности
+    private static final float MODULE_ANIM_DURATION = 320f; // чуть дольше ради плавности
     private static final float SETTING_ANIM_DURATION = 400f;
-    private static final float CATEGORY_TRANSITION_DURATION = 300f; // Плавнее переход
+    private static final float CATEGORY_TRANSITION_DURATION = 300f; // переход стал плавнее тут
     private static final float HIGHLIGHT_DURATION = 2000f;
-    private static final float HOVER_ANIM_SPEED = 10f; // Быстрее реакция на hover
-    private static final float STATE_ANIM_SPEED = 12f; // Быстрее смена состояния
+    private static final float HOVER_ANIM_SPEED = 10f; // ховер отвечает побыстрее
+    private static final float STATE_ANIM_SPEED = 12f; // состояние меняется побыстрее
     private static final float ICON_ANIM_SPEED = 12f;
     private static final float FAVORITE_ANIM_SPEED = 10f;
-    private static final float POSITION_ANIM_SPEED = 8f; // Плавнее позиционирование
-    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // Быстрее bind box
+    private static final float POSITION_ANIM_SPEED = 8f; // позиция едет плавнее тут
+    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // бинд бокс шустрее стал
     private static final float BIND_ALPHA_ANIM_SPEED = 10f;
-    private static final float PULSE_SPEED = 4.0f; // Медленнее пульсация (естественнее)
+    private static final float PULSE_SPEED = 4.0f; // пульсация медленней и живей
     private static final float VISIBILITY_ANIM_SPEED = 10f;
     private static final float HEIGHT_ANIM_SPEED = 12f;
     private static final float CORNER_INSET = 3f;
@@ -139,7 +139,7 @@ public class ModuleAnimationHandler {
 
         long elapsed = System.currentTimeMillis() - categoryTransitionStartTime;
         float progress = Math.min(1f, elapsed / CATEGORY_TRANSITION_DURATION);
-        // QuartInOut для очень плавного перехода
+        // плавный переход на квартике
         categoryTransitionProgress = easeInOutQuart(progress);
 
         if (progress >= 1f) {
@@ -335,8 +335,8 @@ public class ModuleAnimationHandler {
         float diff = target - current;
         if (Math.abs(diff) < 0.001f) return target;
         
-        // Используем SPRING-like анимацию для более естественного движения
-        // springCurve даёт быстрый старт и плавное замедление
+        // пружинка для живого движения
+        // пружина стартует быстро тормозит мягко
         float rawProgress = Math.min(1f, speed * deltaTime);
         float springProgress = (float) rich.util.animations.Easings.SPRING.ease(rawProgress);
         

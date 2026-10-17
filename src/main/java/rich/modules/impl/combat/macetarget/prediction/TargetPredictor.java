@@ -11,16 +11,16 @@ public class TargetPredictor {
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
-    // Позиция и скорость
+    // позы и скорость
     private Vec3d lastPosition = null;
     private Vec3d velocity = Vec3d.ZERO;
     private Vec3d smoothedVelocity = Vec3d.ZERO;
     
-    // Ускорение для предсказания изменений скорости
+    // ускора чтоб палить смену скорости
     private Vec3d acceleration = Vec3d.ZERO;
     private Vec3d smoothedAcceleration = Vec3d.ZERO;
     
-    // История позиций для определения паттернов
+    // история поз для паттернов
     private Vec3d[] positionHistory = new Vec3d[10];
     private Vec3d[] velocityHistory = new Vec3d[10];
     private int historyIndex = 0;
@@ -34,20 +34,20 @@ public class TargetPredictor {
     private static final double ACCELERATION_SMOOTHING = 0.5;
     private static final int MAX_HISTORY = 10;
 
-    // Параметры для определения паттернов движения
+    // паттерны двиги чекаем
     private boolean isStrafing = false;
     private boolean isJumping = false;
     private boolean isSprinting = false;
     private double strafeAngle = 0;
-    private double movementConsistency = 1.0; // 0 = хаотичное, 1 = стабильное
+    private double movementConsistency = 1.0; // 0 хаос 1 стабильно
 
-    // Jitter параметры для режима предугадывания
+    // джиттер для предикта
     private double jitterOffsetX = 0;
     private double jitterOffsetZ = 0;
     private double jitterOffsetY = 0;
     private long lastJitterUpdate = 0;
-    private static final double JITTER_AMPLITUDE = 0.15; // Амплитуда джиттера
-    private static final long JITTER_UPDATE_INTERVAL = 75; // Обновление каждые 75ms
+    private static final double JITTER_AMPLITUDE = 0.15; // тряска сила
+    private static final long JITTER_UPDATE_INTERVAL = 75; // тряска каждые 75мс
 
     public void update(LivingEntity target) {
         if (target == null) {
@@ -63,25 +63,25 @@ public class TargetPredictor {
             if (deltaTime > 0 && deltaTime < 500) {
                 double deltaSeconds = deltaTime / 1000.0;
                 
-                // Вычисляем скорость
+                // скорость считаем
                 Vec3d newVelocity = currentPos.subtract(lastPosition);
                 velocity = newVelocity;
                 
-                // Вычисляем ускорение
+                // ускору считаем
                 if (sampleCount > 0) {
                     acceleration = newVelocity.subtract(smoothedVelocity).multiply(1.0 / deltaSeconds);
                     smoothedAcceleration = smoothedAcceleration.multiply(ACCELERATION_SMOOTHING)
                             .add(acceleration.multiply(1 - ACCELERATION_SMOOTHING));
                 }
                 
-                // Сглаживание скорости
+                // скорость гладим
                 smoothedVelocity = smoothedVelocity.multiply(VELOCITY_SMOOTHING)
                         .add(newVelocity.multiply(1 - VELOCITY_SMOOTHING));
                 
-                // Обновляем историю
+                // историю пишем
                 addToHistory(currentPos, newVelocity);
                 
-                // Определяем паттерны движения
+                // паттерны палим
                 analyzeMovementPattern();
                 
                 sampleCount++;
@@ -91,7 +91,7 @@ public class TargetPredictor {
         lastPosition = currentPos;
         lastUpdateTime = currentTime;
         
-        // Обновляем jitter
+        // джиттер обновили
         updateJitter();
     }
 
@@ -107,7 +107,7 @@ public class TargetPredictor {
     private void analyzeMovementPattern() {
         if (historySize < 3) return;
 
-        // Определяем стрейфы по изменению направления горизонтальной скорости
+        // стрейфы по смене угла
         double recentHorizontalAngle = Math.atan2(velocity.z, velocity.x);
         double prevHorizontalAngle = Math.atan2(velocityHistory[(historyIndex - 2 + MAX_HISTORY) % MAX_HISTORY].z,
                                                  velocityHistory[(historyIndex - 2 + MAX_HISTORY) % MAX_HISTORY].x);
@@ -116,10 +116,10 @@ public class TargetPredictor {
         isStrafing = angleDiff > Math.PI / 4 && angleDiff < Math.PI * 0.75;
         strafeAngle = angleDiff;
 
-        // Определяем прыжки по вертикальной скорости
+        // прыжки по Y скорости
         isJumping = velocity.y > 0.2;
 
-        // Определяем стабильность движения
+        // стабильность двиги
         if (historySize >= 5) {
             double variance = 0;
             Vec3d avgVelocity = Vec3d.ZERO;
@@ -145,24 +145,24 @@ public class TargetPredictor {
         
         lastJitterUpdate = currentTime;
         
-        // Используем текущие параметры движения для адаптивного джиттера
+        // двиг щас для адаптив тряски
         double baseAmplitude = JITTER_AMPLITUDE;
         
-        // Увеличиваем джиттер при стрейфах
+        // стрейф тряска больше
         if (isStrafing) {
             baseAmplitude *= 1.5;
         }
         
-        // Уменьшаем при стабильном движении
+        // стабильно тряска меньше
         baseAmplitude *= (2.0 - movementConsistency);
         
-        // Создаём псевдослучайный джиттер на основе времени и позиции
+        // тряска рандом по времени позе
         double time = currentTime / 1000.0;
         double posX = positionHistory[0] != null ? positionHistory[0].x : 0;
         double posZ = positionHistory[0] != null ? positionHistory[0].z : 0;
         jitterOffsetX = Math.sin(time * 13.7 + posX) * baseAmplitude;
         jitterOffsetZ = Math.cos(time * 17.3 + posZ) * baseAmplitude;
-        jitterOffsetY = Math.sin(time * 9.1) * baseAmplitude * 0.3; // Меньше по Y
+        jitterOffsetY = Math.sin(time * 9.1) * baseAmplitude * 0.3; // по Y меньше
     }
 
     public Vec3d getPredictedPosition(LivingEntity target, Stage stage) {
@@ -180,13 +180,13 @@ public class TargetPredictor {
         double playerSpeed = mc.player.getVelocity().length();
         double targetSpeed = smoothedVelocity.horizontalLength();
 
-        // Рассчитываем время достижения цели более точно
+        // время долета считаем точнее
         double ticksToReach = calculateTicksToReach(stage, distance, playerSpeed, targetSpeed);
 
-        // Применяем ускорение для более точного предсказания
+        // предикт с ускорой
         Vec3d prediction = calculatePredictionWithAcceleration(ticksToReach);
 
-        // Добавляем джиттер для рандомизации точки реакции
+        // джиттер для рандома точки
         Vec3d jitteredPrediction = prediction.add(jitterOffsetX, jitterOffsetY, jitterOffsetZ);
 
         return jitteredPrediction;
@@ -212,13 +212,13 @@ public class TargetPredictor {
             }
         }
 
-        // Корректируем на основе ускорения цели
+        // правка по ускоре цели
         if (smoothedAcceleration.horizontalLengthSquared() > 0.001) {
             double accelFactor = 1.0 + smoothedAcceleration.horizontalLength() * 0.1;
             ticksToReach *= accelFactor;
         }
 
-        // Корректируем на основе стабильности движения
+        // правка по стабильности
         ticksToReach *= (2.0 - movementConsistency) * 0.5 + 0.5;
 
         ticksToReach = Math.min(ticksToReach, 40);
@@ -230,19 +230,19 @@ public class TargetPredictor {
     private Vec3d calculatePredictionWithAcceleration(double ticksToReach) {
         Vec3d currentPos = lastPosition != null ? lastPosition : Vec3d.ZERO;
         
-        // Базовое предсказание по скорости
+        // база по скорости
         Vec3d velocityPrediction = smoothedVelocity.multiply(ticksToReach);
         
-        // Добавляем предсказание по ускорению (квадратичное)
+        // ускора квадрат формула
         Vec3d accelerationPrediction = smoothedAcceleration.multiply(0.5 * ticksToReach * ticksToReach / 400.0);
         
         Vec3d prediction = velocityPrediction.add(accelerationPrediction);
 
-        // Применяем адаптивный lead multiplier
+        // лид адаптив
         double targetSpeed = smoothedVelocity.horizontalLength();
         double leadMultiplier = calculateLeadMultiplier(targetSpeed);
 
-        // Для стрейфов увеличиваем предсказание
+        // стрейф предикт больше
         if (isStrafing) {
             leadMultiplier *= 1.2;
         }

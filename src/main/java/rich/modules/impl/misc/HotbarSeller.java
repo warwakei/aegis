@@ -46,7 +46,7 @@ public class HotbarSeller extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     public void deactivate() {
         super.deactivate();
-        // Возвращаем слот обратно
+        // слот взад возвращаем
         if (mc.player != null && mc.getNetworkHandler() != null) {
             mc.player.getInventory().setSelectedSlot(0);
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(0));
@@ -61,9 +61,9 @@ public class HotbarSeller extends ModuleStructure {
             return;
         }
 
-        // Проверяем что все слоты проданы (0-8 = 9 слотов)
+        // чек все слоты проданы
         if (currentSlot > 8) {
-            // Закончили все слоты хотбара
+            // все слоты продали
             finishSelling();
             return;
         }
@@ -72,21 +72,21 @@ public class HotbarSeller extends ModuleStructure {
             return;
         }
 
-        // Устанавливаем текущий слот (0-8)
+        // ставим текущий слот
         mc.player.getInventory().setSelectedSlot(currentSlot);
         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(currentSlot));
 
-        // Отправляем команду /ah sell
+        // шлем команду sell
         String price = priceSetting.getText();
         mc.player.networkHandler.sendChatCommand("ah sell " + price);
 
-        // Переходим к следующему слоту
+        // дальше слот
         currentSlot++;
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void finishSelling() {
-        // Если включена авто-активация сортера
+        // если вкл врубаем сортер
         if (autoSorterSetting.isValue()) {
             HotbarSorter hotbarSorter = getHotbarSorter();
             if (hotbarSorter != null && !hotbarSorter.isState()) {
@@ -94,13 +94,13 @@ public class HotbarSeller extends ModuleStructure {
             }
         }
 
-        // Выключаем селлер
+        // гасим селлер
         setState(false);
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
     private HotbarSorter getHotbarSorter() {
-        // Ищем модуль HotbarSorter через ModuleProvider
+        // ищем сортер модуль
         var initialization = Initialization.getInstance();
         if (initialization == null) return null;
 

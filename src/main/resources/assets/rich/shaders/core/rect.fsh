@@ -1,18 +1,22 @@
 #version 150
 
-in vec2 fragCoord;
-in vec2 pixelCoord;
-
 layout(std140) uniform RectData {
     vec4 rect;
     vec4 screen;
     vec4 radii;
     vec4 colors[9];
     vec4 shadowColor;
-    vec4 shadowOffsetAndRadius;
+    vec4 shadowOffsetAndRadius; // xy = offset, z = radius, w = padding
 };
 
+in vec2 fragCoord;
+in vec2 pixelCoord;
+
 out vec4 fragColor;
+
+// ---------------------------------------------------------------------------
+// helpers
+// ---------------------------------------------------------------------------
 
 float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
     r.xy = (p.x > 0.0) ? r.yz : r.xw;
@@ -22,11 +26,11 @@ float roundedBoxSDF(vec2 p, vec2 b, vec4 r) {
 }
 
 vec3 toLinear(vec3 srgb) {
-    return pow(srgb, vec3(2.2));
+    return srgb * srgb;
 }
 
 vec3 toSRGB(vec3 linear) {
-    return pow(linear, vec3(1.0 / 2.2));
+    return sqrt(linear);
 }
 
 vec4 toLinear(vec4 srgb) {
@@ -43,16 +47,17 @@ float hash12(vec2 p) {
     return fract((p3.x + p3.y) * p3.z);
 }
 
-float smoothInterpolate(float t) {
+float smootherstep(float t) {
     return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
 }
 
-vec4 sampleGradientAt(vec2 uv) {
-    float x = clamp(uv.x, 0.0, 1.0);
-    float y = clamp(uv.y, 0.0, 1.0);
+// ---------------------------------------------------------------------------
+// gradient
+// ---------------------------------------------------------------------------
 
-    x = smoothInterpolate(x);
-    y = smoothInterpolate(y);
+vec4 sampleGradientAt(vec2 uv) {
+    vec2 coord = clamp(uv, 0.0, 1.0);
+    coord = vec2(smootherstep(coord.x), smootherstep(coord.y));
 
     vec4 c0 = toLinear(colors[0]);
     vec4 c1 = toLinear(colors[1]);
@@ -64,11 +69,11 @@ vec4 sampleGradientAt(vec2 uv) {
     vec4 c7 = toLinear(colors[7]);
     vec4 c8 = toLinear(colors[8]);
 
-    vec4 top = mix(mix(c0, c1, x), mix(c1, c2, x), x);
-    vec4 middle = mix(mix(c3, c4, x), mix(c4, c5, x), x);
-    vec4 bottom = mix(mix(c6, c7, x), mix(c7, c8, x), x);
+    vec4 top = mix(mix(c0, c1, coord.x), mix(c1, c2, coord.x), coord.x);
+    vec4 middle = mix(mix(c3, c4, coord.x), mix(c4, c5, coord.x), coord.x);
+    vec4 bottom = mix(mix(c6, c7, coord.x), mix(c7, c8, coord.x), coord.x);
 
-    return mix(mix(top, middle, y), mix(middle, bottom, y), y);
+    return mix(mix(top, middle, coord.y), mix(middle, bottom, coord.y), coord.y);
 }
 
 vec4 sampleGradient(vec2 uv) {
@@ -95,24 +100,26 @@ vec4 sampleGradient(vec2 uv) {
     sum += sampleGradientAt(uv + vec2(blur, blur));
     weightSum += 4.0;
 
-    float blur2 = blur * 2.0;
-    sum += sampleGradientAt(uv + vec2(-blur2, 0.0)) * 0.5;
-    sum += sampleGradientAt(uv + vec2(blur2, 0.0)) * 0.5;
-    sum += sampleGradientAt(uv + vec2(0.0, -blur2)) * 0.5;
-    sum += sampleGradientAt(uv + vec2(0.0, blur2)) * 0.5;
+    float wideBlur = blur * 2.0;
+    sum += sampleGradientAt(uv + vec2(-wideBlur, 0.0)) * 0.5;
+    sum += sampleGradientAt(uv + vec2(wideBlur, 0.0)) * 0.5;
+    sum += sampleGradientAt(uv + vec2(0.0, -wideBlur)) * 0.5;
+    sum += sampleGradientAt(uv + vec2(0.0, wideBlur)) * 0.5;
     weightSum += 2.0;
 
     return toSRGB(sum / weightSum);
 }
 
+// ---------------------------------------------------------------------------
+
 void main() {
     vec2 uv = fragCoord * 0.5 + 0.5;
     vec2 halfRectSize = rect.zw * 0.5;
     vec2 center = pixelCoord - halfRectSize;
-    
+
     float maxRadius = min(halfRectSize.x, halfRectSize.y);
     vec4 currentRadii = min(radii, vec4(maxRadius));
-    
+
     float rectSDF = roundedBoxSDF(center, halfRectSize, currentRadii);
     float pixelWidth = fwidth(rectSDF);
     float smoothing = max(pixelWidth, 0.5 / screen.z);
@@ -120,19 +127,24 @@ void main() {
 
     vec4 rectColor = sampleGradient(uv);
 
-    // Soft inner light for richer depth.
+    // soft inner light keeps flat panels from looking like plastic
     vec2 edgeUv = abs(uv * 2.0 - 1.0);
     float edgeFactor = 1.0 - clamp(max(edgeUv.x, edgeUv.y), 0.0, 1.0);
     float innerLight = pow(edgeFactor, 1.6) * 0.22;
     rectColor.rgb += innerLight * vec3(0.80, 0.88, 1.0);
 
-    // Subtle animated micro-grain for premium depth (barely visible)
+    // top sheen line, barely there
+    float rim = smoothstep(0.0, 1.6, pixelCoord.y) * (1.0 - smoothstep(1.6, 5.0, pixelCoord.y));
+    rectColor.rgb += rim * 0.035 * vec3(0.9, 0.95, 1.0);
+
+    // ditherified grain so wide gradients never band
     float grainTime = screen.x * 0.001;
-    float grain = hash12(pixelCoord + vec2(grainTime * 3.0, grainTime * 1.7)) * 0.022 - 0.011;
-    rectColor.rgb += grain * rectColor.a;
+    float grain = hash12(pixelCoord + vec2(grainTime * 3.0, grainTime * 1.7)) - 0.5;
+    rectColor.rgb += grain * (0.9 / 255.0) * rectColor.a;
 
     rectColor.a *= rectAlpha;
 
+    // shadow: broadened penumbra for a softer, premium falloff
     vec2 shadowFragCoord = pixelCoord - shadowOffsetAndRadius.xy - halfRectSize;
     float shadowSDF = roundedBoxSDF(shadowFragCoord, halfRectSize, currentRadii);
     float shadowAlpha = 1.0 - smoothstep(-shadowOffsetAndRadius.z, shadowOffsetAndRadius.z, shadowSDF);
@@ -140,7 +152,6 @@ void main() {
     vec4 finalShadowColor = shadowColor;
     finalShadowColor.a *= shadowAlpha;
 
-    // Slightly broadened penumbra for softer premium shadow feel.
     float penumbra = smoothstep(shadowOffsetAndRadius.z * 0.3, shadowOffsetAndRadius.z * 2.0, abs(shadowSDF));
     finalShadowColor.a *= (1.0 - penumbra * 0.50);
 

@@ -14,17 +14,17 @@ public class JenroDonText extends ModuleStructure {
     private static final Map<Pattern, String> REPLACEMENTS = new HashMap<>();
     
     static {
-        // Инициализация замен (регистронезависимые кроме указанных)
+        // замены слов тут
         addReplacement("бог", "&5&l[&e&lБОГ&5&l]&r", false);
         addReplacement("цезарь", "&2&l[&4&lЦезарь&2&l]&r", false);
         addReplacement("вип", "&2&l[&a&lВип&2&l]&r", false);
         addReplacement("премиум", "&3&l[&b&lПремиум&3&l]&r", false);
-        addReplacement("Креатив", "&a&l[&2&lКреатив&a&l]&r", true); // Только с большой буквы
-        addReplacement("Админ", "&d&l[&5&lАдмин&d&l]&r", true); // Только с большой буквы
+        addReplacement("Креатив", "&a&l[&2&lКреатив&a&l]&r", true); // тока с большой
+        addReplacement("Админ", "&d&l[&5&lАдмин&d&l]&r", true); // тока с большой
         addReplacement("лорд", "&6&l[&e&lЛорд&6&l]&r", false);
         addReplacement("гл\\.админ", "&b&l[&3&lГл.Админ&b&l]&r", false);
         
-        // Множественные варианты через |
+        // куча вариантов через палочку
         addReplacement("(?:Создатель|созд)", "&e&l[&6&lСоздатель&e&l]&r", false);
         addReplacement("(?:основател[ья])", "&5&l[&d&lОснователь&5&l]&r", false);
         addReplacement("(?:Владелец|владельца)", "&4&l[&c&lВладелец&4&l]&r", false);
@@ -72,14 +72,14 @@ public class JenroDonText extends ModuleStructure {
         String originalMessage = event.getMessage();
         String modifiedMessage = originalMessage;
         
-        // Отладка - выводим исходное сообщение
+        // дебаг че пришло
         System.out.println("[JenroDonText] Исходное сообщение: '" + originalMessage + "'");
         
-        // Убираем все цветовые коды для поиска слов
+        // режем цвета для поиска
         String cleanMessage = originalMessage.replaceAll("§[0-9a-fk-or]", "").replaceAll("&[0-9a-fk-or]", "");
         System.out.println("[JenroDonText] Очищенное сообщение: '" + cleanMessage + "'");
         
-        // Применяем все замены к очищенному тексту
+        // гоняем замены по тексту
         String replacedClean = cleanMessage;
         for (Map.Entry<Pattern, String> entry : REPLACEMENTS.entrySet()) {
             String before = replacedClean;
@@ -89,7 +89,7 @@ public class JenroDonText extends ModuleStructure {
             }
         }
         
-        // Если произошли замены, используем новый текст
+        // че то поменялось юзаем новое
         if (!cleanMessage.equals(replacedClean)) {
             modifiedMessage = replacedClean;
             System.out.println("[JenroDonText] Финальное сообщение: '" + modifiedMessage + "'");

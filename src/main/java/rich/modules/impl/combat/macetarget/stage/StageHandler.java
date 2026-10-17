@@ -73,11 +73,11 @@ public class StageHandler {
     public void handleTargetting(LivingEntity target) {
         double distance = mc.player.distanceTo(target);
 
-        // Динамическая дистанция свапа на основе скорости цели
+        // свап дистанция по скорости
         double targetVelocity = Math.abs(target.getVelocity().y) + target.getVelocity().horizontalLength();
         double dynamicSwapDistance = swapDistance + (targetVelocity * 1.5);
 
-        // Свап элитры на нагрудник
+        // элитру в честик
         if (InventoryUtils.hasElytra() && distance < dynamicSwapDistance && !armorSwapHandler.isActive()) {
             int slot = InventoryUtils.findChestArmorSlot();
             if (slot != -1) {
@@ -85,7 +85,7 @@ public class StageHandler {
             }
         }
 
-        // Переход к атаке сразу как свап завершён и мы близко к цели
+        // свап done бьем
         if (!armorSwapHandler.isActive() && distance < attackRange) {
             stage = Stage.ATTACKING;
         }
@@ -94,17 +94,17 @@ public class StageHandler {
     public void handleAttacking(LivingEntity target, boolean hasElytra) {
         double distance = mc.player.distanceTo(target);
 
-        // Атакуем сразу как свап завершён и мы в радиусе атаки
+        // свап done рядом бьем
         if (!hasElytra && !armorSwapHandler.isActive() && distance < attackRange) {
             if (!attackHandler.isPendingAttack()) {
                 attackHandler.setPendingAttack(true);
             }
-            // После атаки — СРАЗУ свапаемся на элитру и летим за врагом
+            // ударил сразу в элитру
             if (attackHandler.getLastAttackTime() > 0) {
                 if (reallyWorldMode) {
                     attackHandler.setShouldDisableAfterAttack(true);
                 } else {
-                    // Всегда запускаем свап на элитру после удара
+                    // всегда элитра после удара
                     int elytraSlot = InventoryUtils.findElytraSlot();
                     if (elytraSlot != -1) {
                         armorSwapHandler.startSwap(elytraSlot, silentMode);

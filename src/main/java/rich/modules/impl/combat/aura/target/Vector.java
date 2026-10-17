@@ -22,18 +22,18 @@ public class Vector {
     public static Vec3d hitbox(Entity entity, float X, float Y, float Z, float WIDTH) {
         double wHalf = entity.getWidth() / WIDTH;
         
-        // Адаптивная высота в зависимости от расстояния
+        // высота по дистанции
         double distance = mc.player.distanceTo(entity);
         double targetHeight;
         
         if (distance < 2.0) {
-            // Близко - целимся в центр масс (грудь)
+            // близко бьем в грудь
             targetHeight = entity.getHeight() * 0.6;
         } else if (distance < 4.0) {
-            // Средняя дистанция - чуть выше центра
+            // средне чуть выше
             targetHeight = entity.getHeight() * 0.7;
         } else {
-            // Далеко - голова/верх торса
+            // далеко в голову
             targetHeight = entity.getHeight() * 0.85;
         }
         

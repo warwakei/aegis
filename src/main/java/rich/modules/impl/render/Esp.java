@@ -304,7 +304,7 @@ public class Esp extends ModuleStructure {
             Fonts.TEST.draw(spherePart, drawX, posY, size, GRAY_COLOR);
         }
 
-        // Health bar
+        // полоска хп
         float hp = getHealth(player);
         float maxHp = player.getMaxHealth() + player.getAbsorptionAmount();
         float hpRatio = Math.max(0, Math.min(1, hp / Math.max(1, maxHp)));
@@ -365,13 +365,13 @@ public class Esp extends ModuleStructure {
         float endPosY = (float) vec.w;
         float size = (endPosX - posX) / 3;
 
-        // Distance-based alpha fade
+        // фэйд по дистанции
         int clientDist = (client & 0x00FFFFFF) | (Math.min(255, (int)(((client >> 24) & 0xFF) * distFade)) << 24);
         int clientBrightDist = (clientBright & 0x00FFFFFF) | (Math.min(255, (int)(((clientBright >> 24) & 0xFF) * distFade)) << 24);
         int blackDist = (black & 0x00FFFFFF) | (Math.min(255, (int)(((black >> 24) & 0xFF) * distFade)) << 24);
 
         if (boxType.isSelected("Corner")) {
-            // Gradient corners — bright inner, dim outer
+            // углы яркие внутри
             Render2D.rect(posX - 0.5F, posY - 0.5F, size, 0.5F, clientBrightDist);
             Render2D.rect(posX - 0.5F, posY, 0.5F, size + 0.5F, clientDist);
             Render2D.rect(posX - 0.5F, endPosY - size - 0.5F, 0.5F, size, clientDist);
@@ -440,7 +440,7 @@ public class Esp extends ModuleStructure {
         float drawY = (float) vec.y - scaledHeight - 2;
 
         Render2D.texture(TEXTURE, drawX, drawY, scaledWidth, scaledHeight, color);
-        // Removed useless blur call (0 radius does nothing)
+        // блур был бесполезный убрал
 
         float itemScale = scale;
         float itemStartX = drawX + 7 * scale;
