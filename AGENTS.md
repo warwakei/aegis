@@ -9,7 +9,8 @@
 - Gradle home uses the default user cache; set `GRADLE_USER_HOME` externally for a machine-specific location
 - Launcher sub-project at `launcher/` — builds separately, jar name is `AegisUpdater03.jar` (no version in archive name: `archiveVersion = ""`, `archiveClassifier = ""`)
 - Mod main jar: `AegisNeo-<version>.jar` (archivesBaseName = `AegisNeo`)
-- No CI, no pre-commit hooks, no code formatter or linter config found
+- CI: GitHub Actions workflow at `.github/workflows/build.yml` — on push/PR it builds the main mod and `launcher/`, then runs the JUnit + node tests. Uses a `windows-latest` runner because the Cyrillic `сliemtpipeline` directory is not guaranteed to compile elsewhere.
+- No pre-commit hooks, no code formatter or linter config found
 
 ## Project structure
 
