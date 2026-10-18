@@ -12,6 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
@@ -25,8 +26,11 @@ import rich.mixin.ClientWorldAccessor;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
 import rich.modules.module.setting.implement.BooleanSetting;
+import rich.modules.module.setting.implement.ColorSetting;
 import rich.modules.module.setting.implement.SliderSettings;
+import rich.events.impl.WorldRenderEvent;
 import rich.util.Instance;
+import rich.util.render.Render3D;
 import rich.util.string.chat.ChatMessage;
 
 @Getter
@@ -43,6 +47,15 @@ public class JenroCasino extends ModuleStructure {
     final SliderSettings interactReach = new SliderSettings("Дальность интеракта (блоки)", "Через сколько блоков можно слать Interact рычагу")
             .range(1, 35)
             .setValue(8);
+
+    final BooleanSetting noVisibilityCheck = new BooleanSetting("Тык сквозь стены", "Тест-режим: не проверять видимость рычага")
+            .setValue(false);
+
+    final ColorSetting leverColor = new ColorSetting("Цвет рычага", "Подсветка блока рычага")
+            .value(0x33FF3C3C);
+
+    // текущий рычаг-цель (подсветка блока)
+    BlockPos leverHighlightPos = null;
 
     long lastClickTime = 0;
     boolean sat = false;
@@ -62,7 +75,7 @@ public class JenroCasino extends ModuleStructure {
 
     public JenroCasino() {
         super("Jenro Casino", "Jenro Casino AFK", ModuleCategory.JENRO);
-        settings(clickDelay, rotate, interactReach);
+        settings(clickDelay, rotate, interactReach, noVisibilityCheck, leverColor);
     }
 
     @Override
@@ -92,6 +105,7 @@ public class JenroCasino extends ModuleStructure {
         waitedForFarmCycle = false;
         sitScheduleTime = 0;
         sitStage = 0;
+        leverHighlightPos = null;
         ChatMessage.brandmessage("Jenro Casino: остановлено");
     }
 
@@ -174,6 +188,20 @@ public class JenroCasino extends ModuleStructure {
         // жмем рычаг
         clickLever(leverPos);
         lastClickTime = currentTime;
+    }
+
+    @EventHandler
+    public void onRender3D(WorldRenderEvent event) {
+        // подсветка блока рычага-цели (как BlockESP, но в рамках казика)
+        if (mc.world == null || mc.player == null || leverHighlightPos == null) return;
+
+        // блок ещё рычаг? если сервер за нас его заменил — даём подрисовку
+        if (mc.world.getBlockState(leverHighlightPos).getBlock() != Blocks.LEVER) {
+            leverHighlightPos = null;
+            return;
+        }
+
+        Render3D.drawBox(new Box(leverHighlightPos), leverColor.getColor(), 2.5f);
     }
 
     @EventHandler
@@ -264,7 +292,7 @@ public class JenroCasino extends ModuleStructure {
                         double distance = mc.player.getEyePos().distanceTo(Vec3d.ofCenter(pos));
                         if (distance <= maxReach && distance < nearestDistance) {
                             // рычаг должен быть виден от глаз: если перед ним стена — не наш клиент
-                            if (isLeverVisible(pos)) {
+                            if (noVisibilityCheck.isValue() || isLeverVisible(pos)) {
                                 nearestDistance = distance;
                                 nearestLever = pos;
                             }
@@ -273,6 +301,9 @@ public class JenroCasino extends ModuleStructure {
                 }
             }
         }
+
+        // запоминаем цель для подсветки блока (Render3D)
+        leverHighlightPos = nearestLever != null ? nearestLever.toImmutable() : null;
 
         return nearestLever;
     }
