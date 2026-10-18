@@ -1,0 +1,21 @@
+filename = 'sodium-shadowy-path-blocks-fabric-6.0.0.jar'
+name = 'Sodium Shadowy Path Blocks (SSPB)'
+side = 'client'
+x-prismlauncher-loaders = [ 'quilt', 'fabric' ]
+x-prismlauncher-mc-versions = [ '1.21.11' ]
+x-prismlauncher-release-type = 'release'
+x-prismlauncher-version-number = '6.0.0-fabric'
+
+[download]
+hash = 'a8a5dea1593e15052c671e477b04c36b91ceac9dc6f590792aa70ac591b1ba37fe49f1dbec94e8836a2010d476dcbc689d929fee520c75961901e799ae8c05b8'
+hash-format = 'sha512'
+mode = 'url'
+url = 'https://cdn.modrinth.com/data/EIa1eiMm/versions/LpF3DIUM/sodium-shadowy-path-blocks-fabric-6.0.0.jar'
+
+[update.modrinth]
+mod-id = 'EIa1eiMm'
+version = 'LpF3DIUM'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'AANobbMI'
+type = 'REQUIRED'

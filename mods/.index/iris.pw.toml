@@ -1,0 +1,22 @@
+filename = 'iris-fabric-1.10.7+mc1.21.11.jar'
+name = 'Iris Shaders'
+side = 'client'
+x-prismlauncher-loaders = [ 'fabric' ]
+x-prismlauncher-mc-versions = [ '1.21.11' ]
+x-prismlauncher-release-type = 'release'
+x-prismlauncher-version-number = '1.10.7+1.21.11-fabric'
+
+[download]
+hash = 'b009a07ecbdf3eb510b4acacbb435e058406ddbabcc4f1a5efeacad154cd26777474dcf4a2b5a3a92644b150f047977ada5687a9d9172132fbe6d3d036961b7e'
+hash-format = 'sha512'
+mode = 'url'
+url = 'https://cdn.modrinth.com/data/YL57xq9U/versions/fDpuVzVr/iris-fabric-1.10.7%2Bmc1.21.11.jar'
+
+[update.modrinth]
+mod-id = 'YL57xq9U'
+version = 'fDpuVzVr'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'AANobbMI'
+type = 'REQUIRED'
+version = 'UddlN6L4'
