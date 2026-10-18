@@ -18,12 +18,12 @@ public class BackgroundRenderer {
         int c2 = new Color(3, 4, 10, baseAlpha).getRGB();
         int c3 = new Color(5, 6, 13, baseAlpha).getRGB();
 
-        Render2D.gradientRect(bgX, bgY, 400, 250,
+        Render2D.gradientRect(bgX, bgY, 420, 260,
                 new int[]{c0, c1, c2, c3}, 12);
 
         // лёгкий блик для глубины
         Render2D.holoSheen(
-                bgX, bgY, 400, 250,
+                bgX, bgY, 420, 260,
                 12,
                 new Color(100, 156, 255, Math.max(0, Math.min(255, (int) (180 * alphaMultiplier)))).getRGB(),
                 0.06f * alphaMultiplier,
@@ -33,11 +33,11 @@ public class BackgroundRenderer {
         );
 
         // тонкий контур вместо чёрного
-        Render2D.outline(bgX, bgY, 400, 250, 0.8f,
+        Render2D.outline(bgX, bgY, 420, 260, 0.8f,
                 new Color(28, 38, 60, (int)(180 * alphaMultiplier)).getRGB(), 12);
 
         // едва заметное свечение снаружи
-        Render2D.outline(bgX - 1, bgY - 1, 402, 252, 2f,
+        Render2D.outline(bgX - 1, bgY - 1, 422, 262, 2f,
                 new Color(40, 70, 120, (int)(25 * alphaMultiplier)).getRGB(), 13);
     }
 
