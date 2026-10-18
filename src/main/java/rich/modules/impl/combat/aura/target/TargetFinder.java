@@ -19,11 +19,13 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.Vec3d;
 import rich.IMinecraft;
 import rich.modules.impl.combat.AntiBot;
+import rich.modules.impl.combat.Aura;
 import rich.modules.impl.combat.aura.AngleConnection;
 import rich.modules.impl.combat.aura.MathAngle;
 import rich.modules.impl.combat.aura.impl.LinearConstructor;
 import rich.util.repository.friend.FriendUtils;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -82,11 +84,24 @@ public class TargetFinder implements IMinecraft {
     }
 
     private Stream<LivingEntity> createStreamFromEntities(Iterable<Entity> entities, float maxDistance, float maxFov, boolean ignoreWalls) {
-        return StreamSupport.stream(entities.spliterator(), false)
+        // дешёвая фаза: сортируем кандидатов по дистанции (без рейкастов)
+        List<LivingEntity> candidates = new ArrayList<>();
+        StreamSupport.stream(entities.spliterator(), false)
                 .filter(LivingEntity.class::isInstance)
                 .map(LivingEntity.class::cast)
-                .filter(entity -> pointFinder.hasValidPoint(entity, maxDistance, ignoreWalls) && getFov(entity, maxDistance, ignoreWalls) < maxFov)
-                .sorted(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
+                .forEach(candidates::add);
+        candidates.sort(Comparator.comparingDouble(entity -> entity.distanceTo(mc.player)));
+
+        // бюджет: раньше каждый рейкаст жёстко валидировал ВСЕ сущности мира за тик.
+        // теперь сначала проверяем ближние (по сортировке), потратив не более
+        // budget × 10 проверок; поток ленивый — если валидная цель есть,
+        // она будет найдена тем же resultом, что и раньше (первая по дистанции).
+        int limit = Math.max(1, Aura.getInstance().getTargetBudget().getInt()) * 10;
+        int[] spent = {0};
+
+        return candidates.stream()
+                .filter(entity -> spent[0] < limit && (spent[0]++) >= 0)
+                .filter(entity -> pointFinder.hasValidPoint(entity, maxDistance, ignoreWalls) && getFov(entity, maxDistance, ignoreWalls) < maxFov);
     }
 
     private Stream<LivingEntity> createStreamFromEntitiesWithPriority(Iterable<Entity> entities, float maxDistance, float maxFov, boolean ignoreWalls, String priority) {

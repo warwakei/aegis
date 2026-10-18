@@ -379,6 +379,40 @@ public class StrikeManager implements IMinecraft {
 
         PlayerSimulation sim = PlayerSimulation.simulateLocalPlayer(ticks);
 
+        return simCritState(sim);
+    }
+
+    /**
+     * Плоская (по аллокациям) проверка «будет ли крит в ближайшие horizon тиков»:
+     * один прогон симуляции с проверкой состояния после каждого тика.
+     * Раньше здесь создавалось до horizon клонов симуляции на каждый вызов.
+     */
+    private boolean futureCritCheck(int horizon, boolean smartCrits) {
+        if (mc.player == null) return false;
+
+        if (isPerfectCrit()) {
+            return true;
+        }
+        if (smartCrits && !mc.player.isOnGround()
+                && mc.player.getVelocity().y <= 0.0
+                && mc.player.fallDistance > 0.0F) {
+            return true;
+        }
+
+        PlayerSimulation sim = PlayerSimulation.simulateLocalPlayer(0);
+        for (int i = 1; i <= horizon; i++) {
+            sim.tick();
+            if (simCritState(sim)) {
+                return true;
+            }
+            if (smartCrits && !sim.onGround && sim.velocity.y <= 0.0 && sim.fallDistance > 0.0F) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean simCritState(PlayerSimulation sim) {
         return sim.fallDistance > 0.0F
                 && !sim.onGround
                 && sim.velocity.y <= 0.0
@@ -464,11 +498,9 @@ public class StrikeManager implements IMinecraft {
                 return true;
             }
 
-            // чек симуляцией: будет ли крит в
-            for (int i = 1; i <= 3; i++) {
-                if (willBeCritInTicks(i)) {
-                    return true;
-                }
+            // чек симуляцией: будет ли крит в ближайшие тики (глубина по слайдеру)
+            if (futureCritCheck(Aura.getInstance().getSimDepth().getInt(), smartCritsEnabled)) {
+                return true;
             }
 
             // если только начали падение (velocityy ~0)
@@ -916,18 +948,8 @@ public class StrikeManager implements IMinecraft {
             if (isInWater() || hasLowCeiling() || hasMovementRestrictions())
                 return true;
 
-            for (int i = 0; i <= ticks; i++) {
-                if (willBeCritInTicks(i))
-                    return true;
-                if (smartCritsEnabled) {
-                    PlayerSimulation sim = PlayerSimulation.simulateLocalPlayer(i);
-                    // не чек onground — это вызывает
-                    // вместо этого чек что sim не
-                    if (!sim.onGround && sim.velocity.y <= 0.0 && sim.fallDistance > 0.0F)
-                        return true;
-                }
-            }
-            return false;
+            // горизонт: максимум из запроса и глубины симуляции (упреждение ротации)
+            return futureCritCheck(Math.max(ticks, aura.getSimDepth().getInt()), smartCritsEnabled);
         }
 
         return clickScheduler.isCooldownComplete(0) && canCritNow();
@@ -955,17 +977,8 @@ public class StrikeManager implements IMinecraft {
             return true;
 
         if (ticks > 0) {
-            for (int i = 0; i <= ticks; i++) {
-                if (willBeCritInTicks(i))
-                    return true;
-                if (smartCritsEnabled) {
-                    PlayerSimulation sim = PlayerSimulation.simulateLocalPlayer(i);
-                    // не чек onground — это вызывает
-                    if (!sim.onGround && sim.velocity.y <= 0.0 && sim.fallDistance > 0.0F)
-                        return true;
-                }
-            }
-            return false;
+            // горизонт: максимум из запроса и глубины симуляции
+            return futureCritCheck(Math.max(ticks, aura.getSimDepth().getInt()), smartCritsEnabled);
         }
 
         return canCritNow();

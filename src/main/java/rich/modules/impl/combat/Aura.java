@@ -4,6 +4,7 @@ import antidaunleak.api.annotation.Native;
 import lombok.Getter;
 import lombok.experimental.NonFinal;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Pair;
 import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.Box;
@@ -34,8 +35,11 @@ import rich.modules.module.category.ModuleCategory;
 import rich.modules.module.setting.implement.*;
 import rich.util.Instance;
 import rich.util.FpsThrottler;
+import rich.util.player.PlayerSimulation;
 import rich.util.math.TaskPriority;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Aura extends ModuleStructure {
@@ -138,12 +142,40 @@ public class Aura extends ModuleStructure {
     private final BooleanSetting multiTarget = new BooleanSetting("Multi-Target", "Автоматически переключается между целями после каждого удара")
             .setValue(false);
 
+    /**
+     * Глубина симуляции: на сколько тиков вперёд симулируем движение
+     * (свой крит и предикт цели). Больше = умнее, но дороже для CPU.
+     */
+    @Getter
+    public final SliderSettings simDepth = new SliderSettings("Глубина симуляции", "На сколько тиков вперёд симулировать (умнее при большом значении, но грузит ПК)")
+            .range(2, 9)
+            .setValue(4)
+            .visible(() -> checkCrit.isValue());
+
+    /** Сколько кандидатов точек прицела искать по хитбоксу (было захардкожено 11). */
+    @Getter
+    public final SliderSettings aimPoints = new SliderSettings("Точки прицела", "Сколько кандидатов точек наводки искать по хитбоксу")
+            .range(9, 47)
+            .setValue(11);
+
+    /** Максимальное число дорогих валидаций целей за тик (было: все сущности мира). */
+    @Getter
+    public final SliderSettings targetBudget = new SliderSettings("Бюджет поиска", "Сколько ближайших целей проверять дорогим рейкастом за тик (×10)")
+            .range(1, 4)
+            .setValue(2);
+
+    /** K вариантов движения цели для упреждающего прицела (0 = выкл). */
+    @Getter
+    public final SliderSettings moveVariants = new SliderSettings("Предикт цели", "Сколько вариантов движения цели симулировать для упреждения (0 = выкл)")
+            .range(0, 8)
+            .setValue(5);
+
     private final SilentMaceHandler silentMaceHandler = new SilentMaceHandler();
     private final ShieldBreakerHandler shieldBreakerHandler = new ShieldBreakerHandler();
 
     public Aura() {
         super("Aura", ModuleCategory.COMBAT);
-        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly, shieldBreaker, multiTarget);
+        settings(mode, attackrange, lookrange, options, targetType, moveFix, resetSprintMode, checkCrit, smartCrits, mode1_8, cpsSetting, silentMace, elytraRotationMode, heightRandom, fakeRotation, fakeRotationAmount, autoFlyme, moveFixInFly, shieldBreaker, multiTarget, simDepth, aimPoints, targetBudget, moveVariants);
     }
 
     @NonFinal
@@ -171,6 +203,16 @@ public class Aura extends ModuleStructure {
     TargetFinder targetSelector = new TargetFinder();
     MultiPoint pointFinder = new MultiPoint();
 
+    /**
+     * Кэш тяжёлой части конфига (computeVector + предикт цели): getConfig()
+     * дергается несколько раз за тик (PRE, POST, rotation-конструкторы) —
+     * считаем один раз, остальным раздаём кэш. Инвалидация — в начале каждого PRE.
+     */
+    @NonFinal
+    private Pair<Vec3d, Box> cachedPointData = null;
+    @NonFinal
+    private boolean pointCacheValid = false;
+
     @Override
     public void deactivate() {
         AngleConnection.INSTANCE.clear();
@@ -193,6 +235,10 @@ public class Aura extends ModuleStructure {
         currentTargetIndex = 0;
         lastAttackTime = 0;
         lastTargetSwitchTime = 0;
+
+        // сброс кэша конфига
+        cachedPointData = null;
+        pointCacheValid = false;
     }
 
     @EventHandler
@@ -225,6 +271,9 @@ public class Aura extends ModuleStructure {
         
         switch (e.getType()) {
             case EventType.PRE -> {
+                // конфиг пересчитываем один раз за тик (на PRE)
+                pointCacheValid = false;
+
                 LivingEntity previousTarget = target;
                 target = updateTarget();
 
@@ -291,12 +340,7 @@ public class Aura extends ModuleStructure {
     public StrikerConstructor.AttackPerpetratorConfigurable getConfig() {
         float baseRange = attackrange.getValue();
 
-        Pair<Vec3d, Box> pointData = pointFinder.computeVector(
-                target,
-                baseRange,
-                AngleConnection.INSTANCE.getRotation(),
-                getSmoothMode().randomValue(),
-                options.isSelected("Бить сквозь стены"));
+        Pair<Vec3d, Box> pointData = acquirePointData(baseRange);
 
         Vec3d computedPoint = pointData.getLeft();
         Box hitbox = pointData.getRight();
@@ -384,6 +428,109 @@ public class Aura extends ModuleStructure {
                 options.getSelected(),
                 mode,
                 hitbox);
+    }
+
+    /**
+     * Тяжёлая точка прицела — раз за тик.
+     * Упреждающий режим (computeVectorSmart): кандидаты по хитбоксу + предсказанные
+     * позиции цели (K вариантов симуляции движения). Для элитры — дешёвый классический.
+     */
+    private Pair<Vec3d, Box> acquirePointData(float baseRange) {
+        if (pointCacheValid && cachedPointData != null) {
+            return cachedPointData;
+        }
+
+        Vec3d targetVelocity = measureTargetVelocity(target);
+
+        pointFinder.updateOffset(isElytraAim() ? Vec3d.ZERO : targetVelocity);
+
+        if (isElytraAim()) {
+            // элитра: точное позиционирование по орбите, упреждение считается отдельно
+            cachedPointData = pointFinder.computeVector(
+                    target,
+                    baseRange,
+                    AngleConnection.INSTANCE.getRotation(),
+                    targetVelocity,
+                    options.isSelected("Бить сквозь стены"),
+                    11);
+        } else {
+            cachedPointData = pointFinder.computeVectorSmart(
+                    target,
+                    baseRange,
+                    AngleConnection.INSTANCE.getRotation(),
+                    targetVelocity,
+                    options.isSelected("Бить сквозь стены"),
+                    aimPoints.getInt(),
+                    computePredictedCenters(target));
+        }
+
+        pointCacheValid = true;
+        return cachedPointData;
+    }
+
+    private static boolean isElytraAim() {
+        return mc.player != null && target != null && mc.player.isGliding() && target.isGliding();
+    }
+
+    private static Vec3d measureTargetVelocity(LivingEntity entity) {
+        if (entity == null) return Vec3d.ZERO;
+        return entity.getEntityPos().subtract(new Vec3d(entity.lastX, entity.lastY, entity.lastZ));
+    }
+
+    /**
+     * K симуляций движения цели (варианты: по инерции / вперёд / назад / стрейфы / стоп)
+     * на глубину по слайдеру «Глубина симуляции». Возвращает центральные точки
+     * предсказанных позиций с весами (инерционный сценарий весомее).
+     */
+    private List<Pair<Vec3d, Double>> computePredictedCenters(LivingEntity aimTarget) {
+        if (aimTarget == null || moveVariants.getInt() == 0 || !(aimTarget instanceof PlayerEntity player)) {
+            return List.of();
+        }
+
+        int horizon = simDepth.getInt();
+        if (horizon < 2 || player == mc.player) {
+            return List.of();
+        }
+
+        List<Pair<Vec3d, Double>> centers = new ArrayList<>();
+        int count = Math.min(moveVariants.getInt(), 8);
+        double halfHeight = player.getHeight() / 2.0;
+
+        for (int k = 0; k < count; k++) {
+            try {
+                PlayerSimulation sim = PlayerSimulation.fromOtherPlayer(
+                        player,
+                        k == 0
+                                ? PlayerSimulation.SimulatedPlayerInput.guessInput(player)
+                                : new PlayerSimulation.SimulatedPlayerInput(variantInput(k, player)));
+
+                for (int i = 0; i < horizon; i++) {
+                    sim.tick();
+                }
+
+                centers.add(new Pair<>(sim.pos.add(0, halfHeight, 0), k == 0 ? 1.5 : 1.0));
+            } catch (Exception ignored) {
+                // симуляция опциональна — не роняем прицел
+            }
+        }
+
+        return centers;
+    }
+
+    /** Вариант движения противника относительно его текущего взгляда. */
+    private static PlayerInput variantInput(int variant, PlayerEntity player) {
+        boolean jump = !player.isOnGround();
+        boolean sneak = player.isSneaking();
+        return switch (variant) {
+            case 1 -> new PlayerInput(true, false, false, false, jump, sneak, true);     // вперёд
+            case 2 -> new PlayerInput(false, true, false, false, false, sneak, false);   // назад
+            case 3 -> new PlayerInput(false, false, true, false, false, sneak, true);    // лево
+            case 4 -> new PlayerInput(false, false, false, true, false, sneak, true);    // право
+            case 5 -> new PlayerInput(true, false, true, false, jump, sneak, true);      // вперёд-лево
+            case 6 -> new PlayerInput(true, false, false, true, jump, sneak, true);      // вперёд-право
+            case 7 -> new PlayerInput(false, false, false, false, false, sneak, false);  // стоп
+            default -> new PlayerInput(false, false, false, false, jump, sneak, false);
+        };
     }
 
     public AngleConfig getRotationConfig() {
