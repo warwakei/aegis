@@ -1,0 +1,8 @@
+{
+	"enabled": true,
+	"renderSky": true,
+	"renderSunMoon": true,
+	"renderStars": false,
+	"showOverworldForUnknownDimension": true,
+	"debug": false
+}

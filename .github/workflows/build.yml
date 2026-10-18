@@ -30,16 +30,17 @@ jobs:
 
       - name: Build main mod
         shell: pwsh
+        working-directory: source
         run: .\gradlew.bat build --no-daemon --console=plain
 
       - name: Build launcher (updater)
         shell: pwsh
-        working-directory: launcher
+        working-directory: source/launcher
         run: ..\gradlew.bat build --no-daemon --console=plain
 
       - name: NetPanel JS tests
         shell: pwsh
-        run: node --test tests/netpanel-logs.test.cjs
+        run: node --test source/tests/netpanel-logs.test.cjs
 
       - name: Upload jars
         if: always()
@@ -48,5 +49,5 @@ jobs:
           name: aegis-jars
           if-no-files-found: warn
           path: |
-            build/libs/*.jar
-            launcher/build/libs/*.jar
+            source/build/libs/*.jar
+            source/launcher/build/libs/*.jar

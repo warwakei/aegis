@@ -39,3 +39,9 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# aegis-runclient runtime ( рядом со скриптом )
+mods/
+resourcepacks/
+shaders/
+

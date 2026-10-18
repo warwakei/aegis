@@ -1,0 +1,2 @@
+/prefix &k\<obf>\<obf>
+/warp casino

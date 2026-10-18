@@ -1,0 +1,86 @@
+Detected that Windows reported recent critical or error events in the Application log,
+which can indicate that a process (including the Minecraft JVM) terminated unexpectedly.
+Scope: Application log; Levels: Error & Critical; Window: last ~15 seconds.
+
+If no java.exe (or related JVM processes) are listed below, you can disregard this message.
+To inspect these events manually:
+  1) Press Win+R, type "eventvwr.msc", press Enter.
+  2) Open "Windows Logs" → "Application".
+  3) Sort by Date and look for entries with Level = Error or Critical near the crash time.
+
+-----------------------
+Time: 2026-09-08 07:03:36.684 MSK
+Source: Application Error
+Event ID: 1000
+Level: Error
+
+Message:
+  Имя сбойного приложения: GameBar.exe, версия: 7.326.8061.0, метка времени: 0x6a74e8ec
+  Имя сбойного модуля: InputHost.dll, версия: 10.0.19041.5794, метка времени: 0x661b1ff1
+  Код исключения: 0xc0000005
+  Смещение ошибки: 0x000000000000e5f7
+  Идентификатор сбойного процесса: 0x3aec
+  Время запуска сбойного приложения: 0x01dd3f4704682e5b
+  Путь сбойного приложения: C:\Program Files\WindowsApps\Microsoft.XboxGamingOverlay_7.326.8061.0_x64__8wekyb3d8bbwe\GameBar.exe
+  Путь сбойного модуля: C:\Windows\SYSTEM32\InputHost.dll
+  Идентификатор отчета: 4cbdf19f-5e15-4cfc-a73e-eedb22bdcb6f
+  Полное имя сбойного пакета: Microsoft.XboxGamingOverlay_7.326.8061.0_x64__8wekyb3d8bbwe
+  Код приложения, связанного со сбойным пакетом: App
+
+
+Details:
+  - Data[1]: GameBar.exe
+  - Data[2]: 7.326.8061.0
+  - Data[3]: 6a74e8ec
+  - Data[4]: InputHost.dll
+  - Data[5]: 10.0.19041.5794
+  - Data[6]: 661b1ff1
+  - Data[7]: c0000005
+  - Data[8]: 000000000000e5f7
+  - Data[9]: 3aec
+  - Data[10]: 01dd3f4704682e5b
+  - Data[11]: C:\Program Files\WindowsApps\Microsoft.XboxGamingOverlay_7.326.8061.0_x64__8wekyb3d8bbwe\GameBar.exe
+  - Data[12]: C:\Windows\SYSTEM32\InputHost.dll
+  - Data[13]: 4cbdf19f-5e15-4cfc-a73e-eedb22bdcb6f
+  - Data[14]: Microsoft.XboxGamingOverlay_7.326.8061.0_x64__8wekyb3d8bbwe
+  - Data[15]: App
+-----------------------
+
+-----------------------
+Time: 2026-09-08 07:03:39.658 MSK
+Source: Application Error
+Event ID: 1000
+Level: Error
+
+Message:
+  Имя сбойного приложения: XboxGameBarWidgets.exe, версия: 2608.1001.17.0, метка времени: 0x6a6aab9f
+  Имя сбойного модуля: ucrtbase.dll, версия: 10.0.19041.3636, метка времени: 0x81cf5d89
+  Код исключения: 0xc0000409
+  Смещение ошибки: 0x0000000000071208
+  Идентификатор сбойного процесса: 0x533c
+  Время запуска сбойного приложения: 0x01dd3f47056372c0
+  Путь сбойного приложения: C:\Program Files\WindowsApps\Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe
+  Путь сбойного модуля: C:\Windows\System32\ucrtbase.dll
+  Идентификатор отчета: e56348fb-3de1-4246-b9b8-07d6b8318c09
+  Полное имя сбойного пакета: Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe
+  Код приложения, связанного со сбойным пакетом: Microsoft.Xbox.WidgetsApp
+
+
+Details:
+  - Data[1]: XboxGameBarWidgets.exe
+  - Data[2]: 2608.1001.17.0
+  - Data[3]: 6a6aab9f
+  - Data[4]: ucrtbase.dll
+  - Data[5]: 10.0.19041.3636
+  - Data[6]: 81cf5d89
+  - Data[7]: c0000409
+  - Data[8]: 0000000000071208
+  - Data[9]: 533c
+  - Data[10]: 01dd3f47056372c0
+  - Data[11]: C:\Program Files\WindowsApps\Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe\XboxGameBarWidgets.exe
+  - Data[12]: C:\Windows\System32\ucrtbase.dll
+  - Data[13]: e56348fb-3de1-4246-b9b8-07d6b8318c09
+  - Data[14]: Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe
+  - Data[15]: Microsoft.Xbox.WidgetsApp
+-----------------------
+

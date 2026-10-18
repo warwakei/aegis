@@ -1,0 +1,30 @@
+{
+  "accounts": [
+    {
+      "name": "confession",
+      "date": "15.10.2026 20:04",
+      "skin": "minecraft:textures/entity/player/slim/sunny.png",
+      "pinned": false,
+      "originalIndex": 0
+    },
+    {
+      "name": "gsggrgr",
+      "date": "15.10.2026 20:05",
+      "skin": "minecraft:textures/entity/player/wide/alex.png",
+      "pinned": false,
+      "originalIndex": 1
+    },
+    {
+      "name": "sequioa",
+      "date": "15.10.2026 20:06",
+      "skin": "minecraft:textures/entity/player/wide/zuri.png",
+      "pinned": false,
+      "originalIndex": 2
+    }
+  ],
+  "active": {
+    "name": "confession",
+    "date": "15.10.2026 20:04",
+    "skin": "minecraft:textures/entity/player/slim/sunny.png"
+  }
+}

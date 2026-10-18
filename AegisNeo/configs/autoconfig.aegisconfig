@@ -1,0 +1,2014 @@
+{
+  "modules": {
+    "Hud": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "ÃƒÂÃ‚Â­ÃƒÂÃ‚Â»ÃƒÂÃ‚ÂµÃƒÂÃ‚Â¼ÃƒÂÃ‚ÂµÃƒÂÃ‚Â½Ãƒâ€˜Ã¢â‚¬Å¡Ãƒâ€˜Ã¢â‚¬Â¹": [
+          "Watermark",
+          "TPS",
+          "Potions",
+          "Staff",
+          "TargetHud",
+          "Coords",
+          "BPS",
+          "Notifications",
+          "HotKeys"
+        ],
+        "Show BPS": true,
+        "Show TPS": true
+      }
+    },
+    "Aura": {
+      "enabled": false,
+      "key": 82,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим наводки": "Matrix",
+        "Дистанция удара": 2.9870129,
+        "Дистанция поиска": 4.155844,
+        "Настройки": [
+          "Рандомизация крита",
+          "Не бить если ешь",
+          "Рандомизация высоты"
+        ],
+        "Настройка целей": [
+          "Игроки",
+          "Мобы",
+          "Животные",
+          "Инвизы",
+          "Голые инвизы",
+          "Фаерболлы"
+        ],
+        "Коррекция движения": "Сфокусированная",
+        "Сброс спринта": "Легитный",
+        "Только криты": true,
+        "Умные криты": true,
+        "1.8 Режим": false,
+        "CPS": 2.0,
+        "Silent Mace": true,
+        "Ротация для ElytraTarget": "Matrix",
+        "Рандомизация высоты": 0.10714286,
+        "Фейковая ротация": false,
+        "Сила фейка": 5.0,
+        "AutoFlyme": false,
+        "Коррекция в полёте": false,
+        "ShieldBreaker": true,
+        "Multi-Target": false,
+        "Глубина симуляции": 4.0,
+        "Точки прицела": 24.0,
+        "Бюджет поиска": 3.0,
+        "Предикт цели": 5.0
+      }
+    },
+    "Criticals": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Packet",
+        "Задержка": 50.0,
+        "Только на земле": false,
+        "Умный Matrix": true,
+        "Fly режим": true
+      }
+    },
+    "HitEffect": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Основной цвет": {
+          "hue": 1.0,
+          "saturation": 1.0,
+          "brightness": 0.8504673,
+          "alpha": 1.0
+        },
+        "Вторичный цвет": {
+          "hue": 1.0,
+          "saturation": 1.0,
+          "brightness": 0.3218959,
+          "alpha": 1.0
+        },
+        "Градиент волны": true,
+        "Слои волны": 5.0,
+        "Частицы волны": true,
+        "Плотность частиц": 2.0,
+        "Эффект свечения": true,
+        "Скорость волны": 1.9772726
+      }
+    },
+    "Esp": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип сущности": [
+          "Player",
+          "Item"
+        ],
+        "Настройки игрока": [
+          "Box",
+          "Armor",
+          "NameTags",
+          "Hand Items"
+        ],
+        "Тип": "Corner",
+        "Цвет бокса": {
+          "hue": 0.111111104,
+          "saturation": 1.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Цвет друга": {
+          "hue": 0.33333334,
+          "saturation": 1.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Контур": true,
+        "Прозрачность": 1.0,
+        "Анимация цвета": "Ping-Pong",
+        "Скорость анимации": 4.824675,
+        "Второй цвет": {
+          "hue": 0.75757575,
+          "saturation": 0.73333335,
+          "brightness": 1.0,
+          "alpha": 1.0
+        }
+      }
+    },
+    "BlockESP": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Цвет": {
+          "hue": 0.0,
+          "saturation": 1.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Радиус": 128.0,
+        "Уведомления": false
+      }
+    },
+    "BedESP": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Цвет": {
+          "hue": 0.0,
+          "saturation": 1.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Радиус": 64.0,
+        "Дистанция": true
+      }
+    },
+    "AutoTool": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Silent",
+        "Возврат": true,
+        "Вне хотбара": false,
+        "Стоп спринт": true,
+        "Анти ломка": true,
+        "По долговечности": true
+      }
+    },
+    "Region Exploit": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Приниматель",
+        "Радиус региона": 10.0,
+        "Кнопка отправки": {
+          "key": -1,
+          "type": 1
+        }
+      }
+    },
+    "WorldParticles": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Рандом",
+        "Количество": 500.0,
+        "Время жизни": 60.0,
+        "Размер": 1.5,
+        "Свечение": 2.8363638,
+        "Физика": false,
+        "Рандомный цвет": false,
+        "Белые при спавне": false,
+        "Белый центр": true,
+        "Цвет": {
+          "hue": 1.0,
+          "saturation": 0.92741936,
+          "brightness": 0.7736197,
+          "alpha": 1.0
+        }
+      }
+    },
+    "Arrows": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Дистанция": 1.0,
+        "Цвет": {
+          "hue": 1.0,
+          "saturation": 1.0,
+          "brightness": 0.83618164,
+          "alpha": 1.0
+        }
+      }
+    },
+    "Particles": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Звезда",
+        "Свечение": "Bloom Sample",
+        "Триггеры": [
+          "Удар",
+          "Тотем",
+          "Ходьба",
+          "Бросаемый предмет"
+        ],
+        "Количество": 10.0,
+        "Кол-во при ходьбе": 41.0,
+        "Разброс": 1.1428572,
+        "Скорость": 2.4545453,
+        "Время жизни": 1.62987,
+        "Размер": 1.1240261,
+        "Физика": true,
+        "Турбулентность": 0.74025977,
+        "Притяжение": 0.7662338,
+        "Трейлы": true,
+        "Длина трейла": 49.0,
+        "Цветовой режим": "Градиент",
+        "Рандомный цвет": false,
+        "Цвет": {
+          "hue": 0.06410256,
+          "saturation": 0.47445256,
+          "brightness": 0.5372549,
+          "alpha": 1.0
+        },
+        "Градиент - Начало": {
+          "hue": 1.0,
+          "saturation": 1.0,
+          "brightness": 0.90761024,
+          "alpha": 1.0
+        },
+        "Градиент - Конец": {
+          "hue": 1.0,
+          "saturation": 1.0,
+          "brightness": 0.22189593,
+          "alpha": 1.0
+        },
+        "Скорость радуги": 5.0,
+        "Пульсация размера": true,
+        "Интенсивность пульсации": 1.0,
+        "Искры при ударе": true,
+        "Кол-во искр": 3.0,
+        "Яркость свечения": 0.50974023
+      }
+    },
+    "AuctionHelper": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Фильтр шипов": true,
+        "Цена за штуку": false
+      }
+    },
+    "GlassHands": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Сила размытия": 3.2272727,
+        "Качество": 2.0,
+        "Насыщенность": 1.7922078,
+        "Reflection": false,
+        "Dynamic Blur": true,
+        "Motion Boost": 3.0,
+        "Pulse": false,
+        "Pulse Speed": 3.0,
+        "Pulse Strength": 0.17142859,
+        "Оттенок": true,
+        "Сила оттенка": 0.05909091,
+        "Цвет оттенка": {
+          "hue": 0.0,
+          "saturation": 1.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Свечение краёв": true,
+        "Сила свечения": 0.2792208
+      }
+    },
+    "MaceTarget": {
+      "enabled": false,
+      "key": 88,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Сервер": "Default",
+        "Режим": "Legit",
+        "Высота": 25.714285,
+        "Приоритет": "Ближе всего",
+        "Умный путь": true,
+        "Цели": [
+          "Игроки"
+        ],
+        "Авто-нагрудник": true,
+        "Предугадывание": true,
+        "Дистанция свапа": 12.662337,
+        "Дистанция атаки": 4.168831,
+        "Строгая валидация": false,
+        "Wind Burst III": true
+      }
+    },
+    "TriggerBot": {
+      "enabled": false,
+      "key": 266,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Дистанция удара": 2.9155843,
+        "Тип таргета": [
+          "Игроки",
+          "Мобы",
+          "Животные"
+        ],
+        "Настройки": [
+          "Только криты"
+        ],
+        "Сброс спринта": "Легитный",
+        "Умные криты": true
+      }
+    },
+    "BowSpammer": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Задержка": 2.5
+      }
+    },
+    "Ambience": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Время": 22442.0
+      }
+    },
+    "AutoTotem": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим свапа": "Legit",
+        "Порог здоровья": 6.0,
+        "Триггеры": [
+          "Кристалл",
+          "Падение",
+          "Анти ваншот"
+        ],
+        "Опции": [
+          "Не брать если шар",
+          "Возврат предмета",
+          "Сохранять талисманы"
+        ],
+        "Дистанция кристалла": 6.0,
+        "Высота падения": 15.0,
+        "Дистанция динамита": 6.0,
+        "Дистанция вагонетки": 6.0,
+        "Здоровье элитры": 10.0
+      }
+    },
+    "TapeMouse": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип": "Правая кнопка",
+        "Задержка": 1.0
+      }
+    },
+    "ElytraHelper": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Instant",
+        "Кнопка свапа": {
+          "key": 3,
+          "type": 0
+        },
+        "Кнопка фейерверка": {
+          "key": 4,
+          "type": 0
+        },
+        "Авто взлёт": false,
+        "Авто фейерверк": false
+      }
+    },
+    "ChinaHat": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Color 1": {
+          "hue": 0.9593496,
+          "saturation": 0.8039216,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Color 2": {
+          "hue": 0.70731705,
+          "saturation": 0.8039216,
+          "brightness": 1.0,
+          "alpha": 1.0
+        }
+      }
+    },
+    "AutoPotion": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Бросать": [
+          "Силу",
+          "Скорость"
+        ],
+        "Авто отключение": false
+      }
+    },
+    "Jesus": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "FunTime New",
+        "Скорость FT": 0.2
+      }
+    },
+    "ClientSounds": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип звука": "Old",
+        "Громкость": 0.9512987
+      }
+    },
+    "AutoGApple": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Здоровье": 20.0,
+        "Умный": true,
+        "Золотые сердца": false,
+        "Возвращать слот": true
+      }
+    },
+    "Server Assist": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип сервера": "FunTime",
+        "Режим свапа": "Legit",
+        "Цвет заливки": {
+          "hue": 0.023391813,
+          "saturation": 0.8769231,
+          "brightness": 0.50980395,
+          "alpha": 0.15686275
+        },
+        "Цвет линий": {
+          "hue": 0.023391813,
+          "saturation": 0.8769231,
+          "brightness": 0.50980395,
+          "alpha": 1.0
+        },
+        "Анти полет": {
+          "key": -1,
+          "type": 1
+        },
+        "Свиток опыта": {
+          "key": -1,
+          "type": 1
+        },
+        "Взрывная трапка": {
+          "key": -1,
+          "type": 1
+        },
+        "Обычная трапка": {
+          "key": -1,
+          "type": 1
+        },
+        "Стан": {
+          "key": -1,
+          "type": 1
+        },
+        "Взрывная штучка": {
+          "key": -1,
+          "type": 1
+        },
+        "Снежок заморозка": {
+          "key": -1,
+          "type": 1
+        },
+        "Божья аура": {
+          "key": -1,
+          "type": 1
+        },
+        "Трапка": {
+          "key": -1,
+          "type": 1
+        },
+        "Пласт": {
+          "key": -1,
+          "type": 1
+        },
+        "Явная пыль": {
+          "key": -1,
+          "type": 1
+        },
+        "Огненный смерч": {
+          "key": -1,
+          "type": 1
+        },
+        "Дезориентация": {
+          "key": -1,
+          "type": 1
+        },
+        "Светильник Джека": {
+          "key": -1,
+          "type": 1
+        },
+        "Пузырь опыта": {
+          "key": -1,
+          "type": 1
+        },
+        "Рюкзак 1 уровня": {
+          "key": -1,
+          "type": 1
+        },
+        "Рюкзак 2 уровня": {
+          "key": -1,
+          "type": 1
+        },
+        "Рюкзак 3 уровня": {
+          "key": -1,
+          "type": 1
+        },
+        "Рюкзак 4 уровня": {
+          "key": -1,
+          "type": 1
+        },
+        "Хлопушка": {
+          "key": -1,
+          "type": 1
+        },
+        "Святая вода": {
+          "key": -1,
+          "type": 1
+        },
+        "Зелье Гнева": {
+          "key": -1,
+          "type": 1
+        },
+        "Зелье Палладина": {
+          "key": -1,
+          "type": 1
+        },
+        "Зелье Ассасина": {
+          "key": -1,
+          "type": 1
+        },
+        "Зелье Радиации": {
+          "key": -1,
+          "type": 1
+        },
+        "Снотворное": {
+          "key": -1,
+          "type": 1
+        }
+      }
+    },
+    "WindJump": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Legit",
+        "Кнопка": {
+          "key": -1,
+          "type": 1
+        }
+      }
+    },
+    "TargetEsp": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Crystals",
+        "Скорость вращения кристаллов": 2.0,
+        "Цвет 1": {
+          "hue": 0.03524693,
+          "saturation": 0.6854839,
+          "brightness": 0.0790388,
+          "alpha": 1.0
+        },
+        "Цвет 2": {
+          "hue": 1.0,
+          "saturation": 0.983871,
+          "brightness": 0.26475304,
+          "alpha": 1.0
+        },
+        "Цвет 3": {
+          "hue": 0.7479675,
+          "saturation": 0.8039216,
+          "brightness": 1.0,
+          "alpha": 1.0
+        }
+      }
+    },
+    "Tracers": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим цвета": "Один цвет",
+        "Цвет": {
+          "hue": 0.0,
+          "saturation": 0.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Градиент - Начало": {
+          "hue": 0.60606056,
+          "saturation": 0.73333335,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Градиент - Конец": {
+          "hue": 0.72727275,
+          "saturation": 0.73333335,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Анимация": "Нет",
+        "Скорость анимации": 2.0,
+        "Толщина линии": 1.5,
+        "Прозрачность": 0.8,
+        "Друзья": true,
+        "Невидимые": false,
+        "Режим цели": "Все игроки",
+        "Glow эффект": true,
+        "Размер свечения": 4.0,
+        "Fade дистанция": 150.0,
+        "От прицела": false
+      }
+    },
+    "BlockOverlay": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Цвет": {
+          "hue": 1.0,
+          "saturation": 1.0,
+          "brightness": 0.6504674,
+          "alpha": 0.9019608
+        },
+        "Магнитные линии": false,
+        "Количество линий": 100.0,
+        "Скорость анимации": 5.0
+      }
+    },
+    "HitSound": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип звука": "Metallic",
+        "Громкость": 2.0
+      }
+    },
+    "ClickPearl": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Legit",
+        "Кнопка": {
+          "key": 1002,
+          "type": 2
+        }
+      }
+    },
+    "JumpCircle": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Max Size": 2.0,
+        "Speed": 2000.0,
+        "Двойное кольцо": true,
+        "Смещение кольца": 0.15,
+        "Вращающиеся сегменты": true,
+        "Glow": true,
+        "Интенсивность свечения": 1.2,
+        "Цвет 1": {
+          "hue": 0.06410256,
+          "saturation": 0.47445256,
+          "brightness": 0.5372549,
+          "alpha": 1.0
+        },
+        "Цвет 2": {
+          "hue": 0.0,
+          "saturation": 0.0,
+          "brightness": 1.0,
+          "alpha": 1.0
+        },
+        "Цвет свечения": {
+          "hue": 0.62222224,
+          "saturation": 0.29411766,
+          "brightness": 1.0,
+          "alpha": 0.39215687
+        }
+      }
+    },
+    "ItemScroller": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Задержка прокрутки предметов": 22.0
+      }
+    },
+    "TargetStrafe": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Matrix",
+        "Точка ходьбы": "Cube",
+        "Точка для обхода": "Circle",
+        "Радиус обхода": 0.87,
+        "Радиус": 2.5,
+        "Скорость": 0.3,
+        "Настройки": [
+          "Auto Jump"
+        ],
+        "Направление": "Clockwise"
+      }
+    },
+    "AutoLeave": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип выхода": "Main Menu",
+        "Триггеры": [
+          "Players",
+          "Staff"
+        ],
+        "Максимальная дистанция": 10.0
+      }
+    },
+    "Strafe": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Matrix",
+        "Скорость": 0.42
+      }
+    },
+    "45SP": {
+      "enabled": false,
+      "key": 266,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Стрейфов за прыжок": 5.0,
+        "Timer Boost": true,
+        "Сила буста": 1.3,
+        "Chain Boost": true
+      }
+    },
+    "AutoDuel": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Шары",
+        "Скорость отправки": 500.0,
+        "Играть на деньги": false,
+        "Монет": "10000"
+      }
+    },
+    "NoWeb": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Grim"
+      }
+    },
+    "AutoTpAccept": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Только друзья": true
+      }
+    },
+    "Spider": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Slime Block"
+      }
+    },
+    "ClickFriend": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Добавить друга": {
+          "key": -1,
+          "type": 1
+        }
+      }
+    },
+    "FreeLook": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Свободный обзор": {
+          "key": -1,
+          "type": 1
+        }
+      }
+    },
+    "Fly": {
+      "enabled": false,
+      "key": 75,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Normal",
+        "Скорость XZ": 10.085715,
+        "Скорость Y": 0.5538961,
+        "Не дать приземлиться": false
+      }
+    },
+    "ElytraMotion": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Высота зависания": 2.5,
+        "Скорость приближения": 0.3,
+        "Плавное движение": true,
+        "Коэффициент сглаживания": 0.3,
+        "Авто зависание": true
+      }
+    },
+    "FullBright": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "CameraSettings": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Проход камеры": true,
+        "Дистанция камеры": 3.0,
+        "Зум": {
+          "key": -1,
+          "type": 1
+        }
+      }
+    },
+    "ItemPhysic": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Физика": "Обычная",
+        "Свечение": true,
+        "Цвет свечения": {
+          "hue": 0.16666667,
+          "saturation": 0.60784316,
+          "brightness": 1.0,
+          "alpha": 0.5882353
+        },
+        "Высота плавания": 0.5,
+        "Радиус магнита": 3.0
+      }
+    },
+    "NoDelay": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип": [
+          "Прыжок",
+          "Правый клик"
+        ]
+      }
+    },
+    "ServerRPSpoof": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "SeeInvisible": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Прозрачность": 0.5
+      }
+    },
+    "AutoPilot": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "NoFallDamage": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "SpookyTime"
+      }
+    },
+    "NoRender": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Элементы": [
+          "Fire",
+          "Bad Effects",
+          "Block Overlay",
+          "Darkness",
+          "Damage",
+          "Nausea",
+          "BossBar"
+        ]
+      }
+    },
+    "Instant180": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Скорость": 180.0,
+        "Тихо": false
+      }
+    },
+    "ShiftTap": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "HitBox": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Расширение XZ": 0.40909094,
+        "Расширение Y": 0.35064936
+      }
+    },
+    "WaterSpeed": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "FunTime",
+        "Ускорение под льдом": true,
+        "Скорость под льдом": 3.0
+      }
+    },
+    "NameProtect": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Друзья": true
+      }
+    },
+    "NoFriendDamage": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "ProjectileHelper": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Дистанция поиска": 16.0,
+        "FOV": 35.0,
+        "Авто-выстрел": false,
+        "Тип таргета": [
+          "Players",
+          "Mobs",
+          "Animals"
+        ]
+      }
+    },
+    "InventoryMove": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Legit",
+        "Grim Bypass": true
+      }
+    },
+    "ChestStealer": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип": "FunTime",
+        "Задержка": 100.0,
+        "Предметы": []
+      }
+    },
+    "NoInteract": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "AntiBot": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "ReallyWorld"
+      }
+    },
+    "ViewModel": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Основная рука X": 1.0,
+        "Основная рука Y": -0.2987013,
+        "Основная рука Z": -1.461039,
+        "Второстепенная рука X": -1.0,
+        "Второстепенная рука Y": -0.41558444,
+        "Второстепенная рука Z": -1.4285715
+      }
+    },
+    "SuperFireWork": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "BravoHvH",
+        "Скорость": 1.963,
+        "Скорость Y": 1.5,
+        "Плавность": 0.6,
+        "Буст рядом": true,
+        "Плавная скорость": true,
+        "Адаптивная скорость": true
+      }
+    },
+    "LongJump": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Boat"
+      }
+    },
+    "ElytraTarget": {
+      "enabled": false,
+      "key": 90,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Дистанция наводки": 25.961039,
+        "Значение перегона": 2.2207794,
+        "Кнопка вкл/выкл перегона": {
+          "key": -1,
+          "type": 1
+        },
+        "Двойной шифт": true,
+        "Дистанция шифта": 4.987013,
+        "Мин. хиты": 4.0,
+        "Анти-предсказание": true,
+        "Сила анти-предсказания": 0.15,
+        "Плавность": 0.2038961
+      }
+    },
+    "FreeCam": {
+      "enabled": false,
+      "key": 71,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Скорость": 0.79220784,
+        "Заморозка": false,
+        "Reload Chunks": true,
+        "Toggle On Log": true
+      }
+    },
+    "Speed": {
+      "enabled": false,
+      "key": 266,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Grim",
+        "Скорость": 4.6103897
+      }
+    },
+    "NoEntityTrace": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Выключать с мечом": true
+      }
+    },
+    "AutoRespawn": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Default"
+      }
+    },
+    "AutoSwap": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Legit",
+        "Кнопка свапа": {
+          "key": -1,
+          "type": 1
+        },
+        "Основной предмет": "Totem of Undying",
+        "Вторичный предмет": "Totem of Undying",
+        "Стоп движение": true,
+        "Стоп спринт": true,
+        "Закрыть инвентарь": true,
+        "До стопа (мин)": 0.0,
+        "До стопа (макс)": 50.0,
+        "Ожидание стопа (мин)": 50.0,
+        "Ожидание стопа (макс)": 150.0,
+        "До свапа (мин)": 20.0,
+        "До свапа (макс)": 100.0,
+        "После свапа (мин)": 20.0,
+        "После свапа (макс)": 80.0,
+        "Восстановление (мин)": 50.0,
+        "Восстановление (макс)": 150.0,
+        "Порог скорости": 0.001
+      }
+    },
+    "AntiPush": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Игнорировать": [
+          "Коллизию сущностей"
+        ]
+      }
+    },
+    "NoSlow": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим предмета": "Grim Old"
+      }
+    },
+    "Velocity": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "NewGrim"
+      }
+    },
+    "SwingAnimation": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Тип взмаха": "Chop",
+        "Сила взмаха": 1.0,
+        "Длительность взмаха": 1.0,
+        "Только при взмахе": false,
+        "Только при включенной КиллАуре": false
+      }
+    },
+    "AutoSprint": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Не сбрасывать спринт": false
+      }
+    },
+    "ShiftSpam": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Delay (ms)": 10.0,
+        "Hold Key": {
+          "key": 342,
+          "type": 1
+        }
+      }
+    },
+    "NetPanel": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "Jenro Casino": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Задержка (мс)": 10.0,
+        "Ротация": false
+      }
+    },
+    "Jenro ChatGame": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Приоритет": 0.0,
+        "Глобальный чат": false,
+        "Дебаг": true
+      }
+    },
+    "Jenro ClanFarm": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Пакет": 3.0,
+        "Задержка (мс)": 1000.0,
+        "Пауза (мс)": 2227.0
+      }
+    },
+    "Jenro Trasher": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "Jenro DonText": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {}
+    },
+    "HotbarSeller": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Цена": "3200000",
+        "Задержка": 400.0,
+        "Авто-сортер": true
+      }
+    },
+    "HotbarSorter": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Задержка": 100.0,
+        "Авто-селлер": false
+      }
+    },
+    "FunnyGame MoneyFarm": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Интервал (мин)": 30.0,
+        "Авто-ChatGame": true,
+        "Переводить баланс:": ""
+      }
+    },
+    "Auto Buy": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Режим": "Проверяющий",
+        "Сервера": "Выкл",
+        "Задержка обновления": 500.0,
+        "Время смены сервера": 30.0,
+        "Задержка покупки (мс)": 0.0,
+        "Уведомления": true
+      }
+    },
+    "BSOD": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Обратный отсчет": 10.0,
+        "Создать дамп": true,
+        "Показать предупреждение": true
+      }
+    }
+  },
+  "autobuy": {
+    "globalEnabled": false,
+    "items": {
+      "[★] Зелье Радиации": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Зловещий ключ испытаний": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Алмаз": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Пузырек опыта [15 ур]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Незеритовый блок": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Божья аура": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Хлопушка": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Незеритовое улучшение": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Алмазный блок": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Яйцо зомби-жителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Ключ испытаний": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Пузырёк опыта [30 Ур.]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Меч Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Динамит": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Булава Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Незеритовый слиток": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Мешок": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Зачарованное золотое яблоко": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Божье касание": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Эндер жемчуг": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Яйцо жителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Икара": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Сигнальный огонь [Легендарный]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Гидры": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Сигнальный огонь [Обычный]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Эрида": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[❄] Сфера Мороза": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Тотем бессмертия": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Железный блок": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Палка ифрита": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Шалкеровый ящик": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Серебро": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Блок дамагер": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Пузырёк опыта": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Явная пыль": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Голова зомби": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Карателя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Кирка Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Драконий скин": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Голова пиглина": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Арбалет Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Демона": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Мощный удар": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Титана": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Блок золота": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Яблоко": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Тирана": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Яйцо вихря": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Обсидиан": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Пузырек опыта [50 ур]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Элитры Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[⚒] Нерушимые элитры": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Голова визер-скелета": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Сигнальный огонь [Случайный]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Голова дракона": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Элитры": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Бирка": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Сигнальный огонь [Богатый]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Проклятая душа": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Зелье Палладина": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Ботинки Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] TNT - TIER WHITE": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Железный слиток": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Спавнер": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] TNT - TIER BLACK": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Отмычка к Сферам": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Заряд ветра": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Шлем Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Нагрудник Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Ареса": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Лук Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Золотое яблоко": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Звезда Незера": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Бестии": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Дезориентация": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Золотой слиток": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Снотворное": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Торт": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Мрака": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Трезубец": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Маяк": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Пласт": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Порох": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Стержень вихря": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Изумрудная руда": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Кирка мега-бульдозер": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Загадочный маяк": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Хаоса": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Снежок заморозка": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Булава": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Святая вода": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Вихря": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Трезубец Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Огненный смерч": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Трапка": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Поножи Крушителя": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Гринча": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Голова крипера": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Зелье Ассасина": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Зелье Гнева": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Прогрузчик чанков [3x3]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Голова скелета": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Алмазная руда": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Прогрузчик чанков [5x5]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Раздора": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Прогрузчик чанков [1x1]": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[🍹] Мандариновый сок": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Сфера Сатира": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "[★] Талисман Ярости": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      },
+      "Фейерверк": {
+        "enabled": false,
+        "buyBelow": 1000,
+        "minQuantity": 1
+      }
+    }
+  },
+  "version": "2.0",
+  "timestamp": 1792289838467,
+  "client": "Aegis"
+}
