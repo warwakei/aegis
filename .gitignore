@@ -56,3 +56,6 @@ registry_dump.txt
 /debug/
 /downloads/
 /local/
+
+# личный зип (не в репу)
+/source/src/main/java/rich/util.zip
