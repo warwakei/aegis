@@ -10,9 +10,11 @@ import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.Text;
@@ -214,6 +216,29 @@ public class JenroCasino extends ModuleStructure {
         return text.replaceAll("(?i)[§&][0-9a-fk-or]", "").trim();
     }
 
+    /**
+     * Рычаг реально виден от глаз игрока (не закрыт стеной).
+     */
+    private boolean isLeverVisible(BlockPos leverPos) {
+        if (mc.player == null || mc.world == null) return false;
+        try {
+            BlockHitResult rayHit = mc.world.raycast(new RaycastContext(
+                    mc.player.getEyePos(),
+                    Vec3d.ofCenter(leverPos),
+                    RaycastContext.ShapeType.OUTLINE,
+                    RaycastContext.FluidHandling.NONE,
+                    mc.player
+            ));
+            // луч должен упереться ровно в этот рычаг (или в воздух в его зоне)
+            if (rayHit == null) return false;
+            if (rayHit.getType() == HitResult.Type.MISS) return true;
+            return mc.world.getBlockState(rayHit.getBlockPos()).getBlock() == Blocks.LEVER;
+        } catch (Exception e) {
+            // не смогли протрейсить — считаем видимым, поведение как раньше
+            return true;
+        }
+    }
+
     @Native(type = Native.Type.VMProtectBeginMutation)
     private BlockPos findNearestLever() {
         if (mc.player == null || mc.world == null) return null;
@@ -238,8 +263,11 @@ public class JenroCasino extends ModuleStructure {
                     if (block == Blocks.LEVER) {
                         double distance = mc.player.getEyePos().distanceTo(Vec3d.ofCenter(pos));
                         if (distance <= maxReach && distance < nearestDistance) {
-                            nearestDistance = distance;
-                            nearestLever = pos;
+                            // рычаг должен быть виден от глаз: если перед ним стена — не наш клиент
+                            if (isLeverVisible(pos)) {
+                                nearestDistance = distance;
+                                nearestLever = pos;
+                            }
                         }
                     }
                 }
@@ -280,7 +308,10 @@ public class JenroCasino extends ModuleStructure {
         // наоборот для клика
         Direction clickDirection = direction.getOpposite();
 
-        Vec3d hitVec = Vec3d.ofCenter(leverPos);
+        // точка клика — на грани блока (той, что валидится сервером), а не в центре куба
+        org.joml.Vector3f faceVec = clickDirection.getUnitVector();
+        Vec3d faceNormal = new Vec3d(faceVec.x, faceVec.y, faceVec.z);
+        Vec3d hitVec = Vec3d.ofCenter(leverPos).add(faceNormal.multiply(0.5));
 
         BlockHitResult hitResult = new BlockHitResult(
                 hitVec,
