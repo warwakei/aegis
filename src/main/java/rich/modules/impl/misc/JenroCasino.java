@@ -24,6 +24,7 @@ import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
 import rich.modules.module.setting.implement.BooleanSetting;
 import rich.modules.module.setting.implement.SliderSettings;
+import rich.util.Instance;
 import rich.util.string.chat.ChatMessage;
 
 @Getter
@@ -40,6 +41,9 @@ public class JenroCasino extends ModuleStructure {
     long lastClickTime = 0;
     boolean sat = false;
 
+    // ждали завершения цикла FunnyGame MoneyFarm (чтобы ре-/sit отправить один раз)
+    boolean waitedForFarmCycle = false;
+
     public JenroCasino() {
         super("Jenro Casino", "Jenro Casino AFK", ModuleCategory.MISC);
         settings(clickDelay, rotate);
@@ -55,6 +59,7 @@ public class JenroCasino extends ModuleStructure {
 
         sat = false;
         lastClickTime = 0;
+        waitedForFarmCycle = false;
 
         // пишем sit при вкл
         if (mc.player != null) {
@@ -69,6 +74,7 @@ public class JenroCasino extends ModuleStructure {
     public void deactivate() {
         sat = false;
         lastClickTime = 0;
+        waitedForFarmCycle = false;
         ChatMessage.brandmessage("Jenro Casino: остановлено");
     }
 
@@ -78,6 +84,26 @@ public class JenroCasino extends ModuleStructure {
         if (mc.player == null || mc.world == null) {
             setState(false);
             return;
+        }
+
+        // FunnyGame MoneyFarm запустил цикл (tp → NPC → back → pay):
+        // прячем тык рычага, ждём пока цикл уйдёт на кулдаун,
+        // и как только ушёл (WAITING) — один раз пишем /sit опять
+        FunnyGameMoneyFarm moneyFarm = Instance.get(FunnyGameMoneyFarm.class);
+        if (moneyFarm != null && moneyFarm.isState()) {
+            if (moneyFarm.isFarmingCycle()) {
+                if (!waitedForFarmCycle) {
+                    waitedForFarmCycle = true;
+                    ChatMessage.brandmessage("Jenro Casino: фарм-цикл активен, ждём кулдауна...");
+                }
+                return;
+            }
+            if (waitedForFarmCycle) {
+                waitedForFarmCycle = false;
+                mc.player.networkHandler.sendChatCommand("sit");
+                sat = true;
+                ChatMessage.brandmessage("Jenro Casino: фарм завершён, /sit отправлен");
+            }
         }
 
         long delay = (long) clickDelay.getValue();

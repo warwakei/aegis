@@ -43,7 +43,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private static final String TP_NPC2 = "tp -149 69 -1022";
 
     // дилэи
-    private static final int TP_DELAY_MS = 890;
+    private static final int TP_DELAY_MS = 340;
+    private static final int BACK_DELAY_MS = 80;
     private static final int PAY_CONFIRM_DELAY_MS = 200;
 
     // парсим баланс такой
@@ -68,11 +69,11 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         TELEPORT_TO_NPC1,
         WAIT_TP1,
         INTERACT_NPC1,
+        BACK_WAIT_1,
         TELEPORT_TO_NPC2,
         WAIT_TP2,
         INTERACT_NPC2,
-        TELEPORT_HOME,
-        WAIT_HOME,
+        BACK_WAIT_2,
         WAITING_BALANCE_RESPONSE,
         SENDING_PAY_1,
         WAITING_PAY_CONFIRM,
@@ -109,6 +110,15 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         sendCountdownMessage();
     }
 
+    /**
+     * Цикл фарма идёт (не IDLE/COUNTDOWN/WAITING) —
+     * внешние модули (JenroCasino) должны подождать.
+     */
+    public boolean isFarmingCycle() {
+        FarmPhase p = phase;
+        return p != FarmPhase.IDLE && p != FarmPhase.COUNTDOWN && p != FarmPhase.WAITING;
+    }
+
     @Override
     @Native(type = Native.Type.VMProtectBeginMutation)
     public void deactivate() {
@@ -132,11 +142,11 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
             case TELEPORT_TO_NPC1 -> handleTeleportToNpc1();
             case WAIT_TP1 -> handleWaitTp1();
             case INTERACT_NPC1 -> handleInteractNpc1();
+            case BACK_WAIT_1 -> handleBackWait1();
             case TELEPORT_TO_NPC2 -> handleTeleportToNpc2();
             case WAIT_TP2 -> handleWaitTp2();
             case INTERACT_NPC2 -> handleInteractNpc2();
-            case TELEPORT_HOME -> handleTeleportHome();
-            case WAIT_HOME -> handleWaitHome();
+            case BACK_WAIT_2 -> handleBackWait2();
             case WAITING_BALANCE_RESPONSE -> handleWaitingBalanceResponse();
             case SENDING_PAY_1 -> handleSendingPay1();
             case WAITING_PAY_CONFIRM -> handleWaitingPayConfirm();
@@ -239,9 +249,20 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc1() {
-        phase = FarmPhase.TELEPORT_TO_NPC2;
+        // откатываемся /back и кладываем 80 мс
+        mc.player.networkHandler.sendChatCommand("back");
+        phase = FarmPhase.BACK_WAIT_1;
         phaseStartTime = System.currentTimeMillis();
-        mc.player.networkHandler.sendChatCommand(TP_NPC2);
+    }
+
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    private void handleBackWait1() {
+        long elapsed = System.currentTimeMillis() - phaseStartTime;
+        if (elapsed >= BACK_DELAY_MS) {
+            phase = FarmPhase.TELEPORT_TO_NPC2;
+            phaseStartTime = System.currentTimeMillis();
+            mc.player.networkHandler.sendChatCommand(TP_NPC2);
+        }
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -262,23 +283,17 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc2() {
-        // тп домой
-        mc.player.networkHandler.sendChatCommand("home");
-        phase = FarmPhase.TELEPORT_HOME;
+        // откатываемся /back и кладываем 80 мс
+        mc.player.networkHandler.sendChatCommand("back");
+        phase = FarmPhase.BACK_WAIT_2;
         phaseStartTime = System.currentTimeMillis();
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
-    private void handleTeleportHome() {
-        phase = FarmPhase.WAIT_HOME;
-        phaseStartTime = System.currentTimeMillis();
-    }
-
-    @Native(type = Native.Type.VMProtectBeginUltra)
-    private void handleWaitHome() {
+    private void handleBackWait2() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
-        if (elapsed >= TP_DELAY_MS) {
-            // дилэй прошол чекаем баланс
+        if (elapsed >= BACK_DELAY_MS) {
+            // чекаем баланс
             mc.player.networkHandler.sendChatCommand("balance");
             phase = FarmPhase.WAITING_BALANCE_RESPONSE;
             phaseStartTime = System.currentTimeMillis();
