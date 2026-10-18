@@ -26,7 +26,16 @@ public class SettingsPanelRenderer {
     private static final float SEPARATOR_THICKNESS = 1.5f;
     private static final float SCROLL_FADE_SIZE = 10f; // так плавнее будет
 
+    private static final long DESC_SCROLL_PAUSE_DURATION = 2000;
+    private static final float DESC_SCROLL_PIXELS_PER_SECOND = 20f;
+
     private final ModuleAnimationHandler animationHandler;
+
+    // скролл длинного описания модуля в шапке панели
+    private float descScrollOffset = 0f;
+    private boolean descScrollingRight = true;
+    private long descScrollPauseTime = 0;
+    private ModuleStructure lastDescModule = null;
 
     public SettingsPanelRenderer(ModuleAnimationHandler animationHandler) {
         this.animationHandler = animationHandler;
@@ -62,9 +71,7 @@ public class SettingsPanelRenderer {
         Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, ClickGuiPalette.textPrimary(alphaMultiplier));
         String desc = selectedModule.getDescription();
         if (desc != null && !desc.isEmpty()) {
-            String displayDesc = desc.length() > 50 ? desc.substring(0, 50) + "..." : desc;
-            Fonts.BOLD.draw(displayDesc, x + 15, y + 20, 5, ClickGuiPalette.textMuted(alphaMultiplier));
-            Fonts.GUI_ICONS.draw("C", x + 8, y + 20, 6, ClickGuiPalette.textMuted(alphaMultiplier));
+            renderHeaderDescription(selectedModule, desc, x, y, width, alphaMultiplier, delta);
         }
         // полоска разделитель с акцентом
         float sepPulse = (float) (Math.sin(System.currentTimeMillis() / 2000.0) * 0.5 + 0.5);
@@ -185,6 +192,73 @@ public class SettingsPanelRenderer {
         if (c instanceof MultiSelectComponent) return ((MultiSelectComponent) c).getTotalHeight();
         if (c instanceof ColorComponent) return ((ColorComponent) c).getTotalHeight();
         return SETTING_HEIGHT;
+    }
+
+    /**
+     * Описание модуля в шапке: если текст влезает — рисуем статично,
+     * если нет — прокрутка туда-обратно (как в настройках модулей).
+     */
+    private void renderHeaderDescription(ModuleStructure module, String desc, float x, float y, float width, float alphaMultiplier, float deltaTime) {
+        float iconX = x + 8;
+        float descX = x + 15;
+        float descY = y + 20;
+
+        float availableWidth = (x + width - 8) - descX;
+        float descWidth = Fonts.BOLD.getWidth(desc, 5);
+
+        if (module != lastDescModule) {
+            descScrollOffset = 0f;
+            descScrollingRight = true;
+            descScrollPauseTime = 0;
+            lastDescModule = module;
+        }
+
+        Fonts.GUI_ICONS.draw("C", iconX, descY, 6, ClickGuiPalette.textMuted(alphaMultiplier));
+
+        if (descWidth <= availableWidth) {
+            descScrollOffset = 0f;
+            Fonts.BOLD.draw(desc, descX, descY, 5, ClickGuiPalette.textMuted(alphaMultiplier));
+            return;
+        }
+
+        updateDescScroll(deltaTime, descWidth, availableWidth);
+
+        float maxScroll = descWidth - availableWidth + 5;
+        float currentScroll = descScrollOffset * maxScroll;
+
+        Scissor.enable(descX - 1, descY - 2, availableWidth + 3, 10, 2);
+        Fonts.BOLD.draw(desc, descX - currentScroll, descY, 5, ClickGuiPalette.textMuted(alphaMultiplier));
+        Scissor.disable();
+    }
+
+    private void updateDescScroll(float deltaTime, float textWidth, float availableWidth) {
+        long currentTime = System.currentTimeMillis();
+
+        if (descScrollPauseTime > 0) {
+            if (currentTime - descScrollPauseTime < DESC_SCROLL_PAUSE_DURATION) {
+                return;
+            }
+            descScrollPauseTime = 0;
+        }
+
+        float scrollDistance = textWidth - availableWidth + 5;
+        float scrollSpeed = DESC_SCROLL_PIXELS_PER_SECOND / scrollDistance;
+
+        if (descScrollingRight) {
+            descScrollOffset += deltaTime * scrollSpeed;
+            if (descScrollOffset >= 1f) {
+                descScrollOffset = 1f;
+                descScrollingRight = false;
+                descScrollPauseTime = currentTime;
+            }
+        } else {
+            descScrollOffset -= deltaTime * scrollSpeed;
+            if (descScrollOffset <= 0f) {
+                descScrollOffset = 0f;
+                descScrollingRight = true;
+                descScrollPauseTime = currentTime;
+            }
+        }
     }
 
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade, int alpha, int size) {
