@@ -43,12 +43,16 @@ public class JenroCasino extends ModuleStructure {
 
     // задержка перед отправкой /sit
     private static final long SIT_DELAY_MS = 800;
+    private static final long POST_JUMP_DELAY_1 = 350;
+    private static final long POST_JUMP_DELAY_2 = 440;
 
     // ждали завершения цикла FunnyGame MoneyFarm (чтобы ре-/sit отправить один раз)
     boolean waitedForFarmCycle = false;
 
-    // /sit отправляется не сразу, а с задержкой SIT_DELAY_MS
+    // /sit отправляется не сразу, а через seqвенцию: 800мс → прыжок → 350 → прыжок → 440 → /sit
+    // sitStage: 0 = нет ожидания, 1 = ждём 800, 2 = ждём 350 после 1-го прыжка, 3 = ждём 440 после 2-го прыжка
     long sitScheduleTime = 0;
+    int sitStage = 0;
 
     public JenroCasino() {
         super("Jenro Casino", "Jenro Casino AFK", ModuleCategory.JENRO);
@@ -67,10 +71,10 @@ public class JenroCasino extends ModuleStructure {
         lastClickTime = 0;
         waitedForFarmCycle = false;
 
-        // пишем sit при вкл, но с задержкой 800 мс
+        // пишем sit при вкл, но через секвенцию с прыжками
         if (mc.player != null) {
             sitScheduleTime = System.currentTimeMillis() + SIT_DELAY_MS;
-            ChatMessage.brandmessage("Jenro Casino: /sit через 800 мс...");
+            ChatMessage.brandmessage("Jenro Casino: /sit через 800 мс (с прыжками)...");
         }
     }
 
@@ -81,6 +85,7 @@ public class JenroCasino extends ModuleStructure {
         lastClickTime = 0;
         waitedForFarmCycle = false;
         sitScheduleTime = 0;
+        sitStage = 0;
         ChatMessage.brandmessage("Jenro Casino: остановлено");
     }
 
@@ -94,20 +99,35 @@ public class JenroCasino extends ModuleStructure {
 
         long currentTime = System.currentTimeMillis();
 
-        // ожидание отложенного /sit (800 мс)
-        if (sitScheduleTime != 0) {
+        // секвенция: 800мс → прыжок → 350мс → прыжок → 440мс → /sit
+        if (sitStage > 0) {
             if (currentTime >= sitScheduleTime) {
-                sitScheduleTime = 0;
-                mc.player.networkHandler.sendChatCommand("sit");
-                sat = true;
-                ChatMessage.brandmessage("Jenro Casino: /sit отправлен");
+                switch (sitStage) {
+                    case 1 -> {
+                        sitStage = 2;
+                        sitScheduleTime = currentTime + POST_JUMP_DELAY_1;
+                        jump();
+                    }
+                    case 2 -> {
+                        sitStage = 3;
+                        sitScheduleTime = currentTime + POST_JUMP_DELAY_2;
+                        jump();
+                    }
+                    default -> {
+                        sitStage = 0;
+                        sitScheduleTime = 0;
+                        mc.player.networkHandler.sendChatCommand("sit");
+                        sat = true;
+                        ChatMessage.brandmessage("Jenro Casino: /sit отправлен");
+                    }
+                }
             }
-            return; // пока /sit не улетел — рычаг не тыкаем
+            return; // пока секвенция не доиграла — рычаг не тыкаем
         }
 
         // FunnyGame MoneyFarm запустил цикл (tp → NPC → back → pay):
         // прячем тык рычага, ждём пока цикл уйдёт на кулдаун,
-        // и как только ушёл (WAITING) — один раз пишем /sit опять (тоже с задержкой 800 мс)
+        // и как только ушёл (WAITING) — один раз секвенцию sit-а запускаем опять
         FunnyGameMoneyFarm moneyFarm = Instance.get(FunnyGameMoneyFarm.class);
         if (moneyFarm != null && moneyFarm.isState()) {
             if (moneyFarm.isFarmingCycle()) {
@@ -119,6 +139,7 @@ public class JenroCasino extends ModuleStructure {
             }
             if (waitedForFarmCycle) {
                 waitedForFarmCycle = false;
+                sitStage = 1;
                 sitScheduleTime = currentTime + SIT_DELAY_MS;
                 ChatMessage.brandmessage("Jenro Casino: фарм завершён, /sit через 800 мс...");
             }
@@ -315,5 +336,12 @@ public class JenroCasino extends ModuleStructure {
         } catch (Exception e) {
             mc.getNetworkHandler().sendPacket(packetCreator.apply(0));
         }
+    }
+
+    /** прыжок для секвенции /sit (подняться с места перед повторной посадкой) */
+    @Native(type = Native.Type.VMProtectBeginMutation)
+    private void jump() {
+        if (mc.player == null) return;
+        mc.player.jump();
     }
 }

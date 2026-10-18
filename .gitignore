@@ -1,4 +1,4 @@
-# gradle
+п»ї# gradle
 
 .gradle/
 build/
@@ -40,8 +40,11 @@ replay_*.log
 *.hprof
 *.jfr
 
-# aegis-runclient runtime ( рядом со скриптом )
-mods/
+# aegis-runclient runtime ( СЂСЏРґРѕРј СЃРѕ СЃРєСЂРёРїС‚РѕРј )
 resourcepacks/
 shaders/
 
+# loom run cache in run dir (repo root)
+.fabric/
+logs/
+registry_dump.txt

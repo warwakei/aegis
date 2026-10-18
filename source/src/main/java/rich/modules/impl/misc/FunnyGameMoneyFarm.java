@@ -43,9 +43,12 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private static final String TP_NPC2 = "tp -149 69 -1022";
 
     // дилэи
-    private static final int TP_DELAY_MS = 340;
+    private static final int TP_DELAY_MS = 700;
     private static final int PRE_BACK_DELAY_MS = 558;
     private static final int BACK_DELAY_MS = 80;
+    // спам-интеракт по NPC: тап каждые 88 мс, всего тапов за цикл
+    private static final int NPC_TAP_INTERVAL_MS = 88;
+    private static final int NPC_TAP_COUNT = 12;
     private static final int PAY_CONFIRM_DELAY_MS = 200;
 
     // парсим баланс такой
@@ -89,6 +92,10 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     int countdownValue = 10;
     boolean chatGameWasEnabled = false;
     long parsedBalance = 0;
+
+    // спам-интеракт по NPC (12 тапов каждые 88 мс)
+    int npcTapCount = 0;
+    long lastNpcTapTime = 0;
     String payTarget = "";
 
     public FunnyGameMoneyFarm() {
@@ -232,6 +239,7 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
         phase = FarmPhase.TELEPORT_TO_NPC1;
         phaseStartTime = System.currentTimeMillis();
         parsedBalance = 0;
+        npcTapCount = 0;
 
         mc.player.networkHandler.sendChatCommand(TP_NPC1);
     }
@@ -246,7 +254,10 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void handleWaitTp1() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= TP_DELAY_MS) {
+            // первый тап по NPC, дальше спам-цикл
             interactWithNpc();
+            lastNpcTapTime = System.currentTimeMillis();
+            npcTapCount = 1;
             phase = FarmPhase.INTERACT_NPC1;
             phaseStartTime = System.currentTimeMillis();
         }
@@ -254,9 +265,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc1() {
-        // пауза перед /back
-        phase = FarmPhase.PRE_BACK_1;
-        phaseStartTime = System.currentTimeMillis();
+        // спам-интеракт по NPC каждые 88 мс, потом пауза перед /back
+        handleNpcTapLoop(FarmPhase.PRE_BACK_1);
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -290,7 +300,10 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
     private void handleWaitTp2() {
         long elapsed = System.currentTimeMillis() - phaseStartTime;
         if (elapsed >= TP_DELAY_MS) {
+            // первый тап по NPC, дальше спам-цикл
             interactWithNpc();
+            lastNpcTapTime = System.currentTimeMillis();
+            npcTapCount = 1;
             phase = FarmPhase.INTERACT_NPC2;
             phaseStartTime = System.currentTimeMillis();
         }
@@ -298,9 +311,8 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
     @Native(type = Native.Type.VMProtectBeginUltra)
     private void handleInteractNpc2() {
-        // пауза перед /back
-        phase = FarmPhase.PRE_BACK_2;
-        phaseStartTime = System.currentTimeMillis();
+        // спам-интеракт по NPC каждые 88 мс, потом пауза перед /back
+        handleNpcTapLoop(FarmPhase.PRE_BACK_2);
     }
 
     @Native(type = Native.Type.VMProtectBeginUltra)
@@ -395,6 +407,21 @@ public class FunnyGameMoneyFarm extends ModuleStructure {
 
         if (elapsed >= intervalMs) {
             startFarmCycle();
+        }
+    }
+
+    private void handleNpcTapLoop(FarmPhase preBackPhase) {
+        long now = System.currentTimeMillis();
+        // докидываем тапы каждые 88 мс
+        if (now - lastNpcTapTime >= NPC_TAP_INTERVAL_MS) {
+            interactWithNpc();
+            lastNpcTapTime = now;
+            npcTapCount++;
+        }
+        // набрали нужное количество — идём дальше
+        if (npcTapCount >= NPC_TAP_COUNT) {
+            phase = preBackPhase;
+            phaseStartTime = now;
         }
     }
 
