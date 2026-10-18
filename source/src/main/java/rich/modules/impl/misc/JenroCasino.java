@@ -38,6 +38,10 @@ public class JenroCasino extends ModuleStructure {
     final BooleanSetting rotate = new BooleanSetting("Ротация", "Поворачиваться к рычагу")
             .setValue(true);
 
+    final SliderSettings interactReach = new SliderSettings("Дальность интеракта (блоки)", "Через сколько блоков можно слать Interact рычагу")
+            .range(1, 35)
+            .setValue(8);
+
     long lastClickTime = 0;
     boolean sat = false;
 
@@ -56,7 +60,7 @@ public class JenroCasino extends ModuleStructure {
 
     public JenroCasino() {
         super("Jenro Casino", "Jenro Casino AFK", ModuleCategory.JENRO);
-        settings(clickDelay, rotate);
+        settings(clickDelay, rotate, interactReach);
     }
 
     @Override
@@ -151,13 +155,12 @@ public class JenroCasino extends ModuleStructure {
             return;
         }
 
-        // ищем рычаг рядом
+        // ищем рычаг рядом (в пределах дальности интеракта с сервера)
         BlockPos leverPos = findNearestLever();
 
         if (leverPos == null) {
-            // рычага нет тыкаем воздух
-            clickInAir();
-            lastClickTime = currentTime;
+            // рычага в дальности нет — никаких интеракт-пакетов,
+            // античит с урезанным reach-конфигом такое флагает
             return;
         }
 
@@ -216,7 +219,10 @@ public class JenroCasino extends ModuleStructure {
         if (mc.player == null || mc.world == null) return null;
 
         BlockPos playerPos = mc.player.getBlockPos();
-        int searchRadius = 8; // радик поболе для поиска
+
+        // дальность интеракта с сервера — за пределами не шлём Interact вообще
+        int searchRadius = Math.min(35, (int) interactReach.getValue());
+        double maxReach = interactReach.getValue();
 
         BlockPos nearestLever = null;
         double nearestDistance = Double.MAX_VALUE;
@@ -231,7 +237,7 @@ public class JenroCasino extends ModuleStructure {
 
                     if (block == Blocks.LEVER) {
                         double distance = mc.player.getEyePos().distanceTo(Vec3d.ofCenter(pos));
-                        if (distance < nearestDistance) {
+                        if (distance <= maxReach && distance < nearestDistance) {
                             nearestDistance = distance;
                             nearestLever = pos;
                         }
