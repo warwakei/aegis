@@ -33,6 +33,9 @@ import rich.util.Instance;
 import rich.util.render.Render3D;
 import rich.util.string.chat.ChatMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class JenroCasino extends ModuleStructure {
@@ -54,8 +57,8 @@ public class JenroCasino extends ModuleStructure {
     final ColorSetting leverColor = new ColorSetting("Цвет рычага", "Подсветка блока рычага")
             .value(0x33FF3C3C);
 
-    // текущий рычаг-цель (подсветка блока)
-    BlockPos leverHighlightPos = null;
+    // текущие рычаги-цели (подсветка блоков)
+    List<BlockPos> leverHighlightPositions = new ArrayList<>();
 
     long lastClickTime = 0;
     boolean sat = false;
@@ -105,7 +108,7 @@ public class JenroCasino extends ModuleStructure {
         waitedForFarmCycle = false;
         sitScheduleTime = 0;
         sitStage = 0;
-        leverHighlightPos = null;
+        leverHighlightPositions.clear();
         ChatMessage.brandmessage("Jenro Casino: остановлено");
     }
 
@@ -171,37 +174,36 @@ public class JenroCasino extends ModuleStructure {
             return;
         }
 
-        // ищем рычаг рядом (в пределах дальности интеракта с сервера)
-        BlockPos leverPos = findNearestLever();
+        // ищем рычаги в дальности (не только ближайший — триггерим ВСЕ)
+        List<BlockPos> leverPositions = findLeversInReach();
 
-        if (leverPos == null) {
-            // рычага в дальности нет — никаких интеракт-пакетов,
+        if (leverPositions.isEmpty()) {
+            // рычагов в дальности нет — никаких интеракт-пакетов,
             // античит с урезанным reach-конфигом такое флагает
             return;
         }
 
-        // крутимся к рычагу
-        if (rotate.isValue()) {
-            rotateToLever(leverPos);
+        // щёлкаем по каждому рычагу в радиусе (с поворотом к каждому, если Ротация)
+        for (BlockPos leverPos : leverPositions) {
+            if (rotate.isValue()) {
+                rotateToLever(leverPos);
+            }
+            clickLever(leverPos);
         }
-
-        // жмем рычаг
-        clickLever(leverPos);
         lastClickTime = currentTime;
     }
 
     @EventHandler
     public void onRender3D(WorldRenderEvent event) {
-        // подсветка блока рычага-цели (как BlockESP, но в рамках казика)
-        if (mc.world == null || mc.player == null || leverHighlightPos == null) return;
+        // подсветка всех блоков рычагов-целей (как BlockESP, но в рамках казика)
+        if (mc.world == null || mc.player == null || leverHighlightPositions.isEmpty()) return;
 
-        // блок ещё рычаг? если сервер за нас его заменил — даём подрисовку
-        if (mc.world.getBlockState(leverHighlightPos).getBlock() != Blocks.LEVER) {
-            leverHighlightPos = null;
-            return;
+        // чищем тех, кто уже не рычаг (сервер заменил блок)
+        leverHighlightPositions.removeIf(pos -> mc.world.getBlockState(pos).getBlock() != Blocks.LEVER);
+
+        for (BlockPos pos : leverHighlightPositions) {
+            Render3D.drawBox(new Box(pos), leverColor.getColor(), 2.5f);
         }
-
-        Render3D.drawBox(new Box(leverHighlightPos), leverColor.getColor(), 2.5f);
     }
 
     @EventHandler
@@ -268,17 +270,18 @@ public class JenroCasino extends ModuleStructure {
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
-    private BlockPos findNearestLever() {
-        if (mc.player == null || mc.world == null) return null;
+    private List<BlockPos> findLeversInReach() {
+        List<BlockPos> levers = new ArrayList<>();
+        if (mc.player == null || mc.world == null) {
+            leverHighlightPositions.clear();
+            return levers;
+        }
 
         BlockPos playerPos = mc.player.getBlockPos();
 
         // дальность интеракта с сервера — за пределами не шлём Interact вообще
         int searchRadius = Math.min(35, (int) interactReach.getValue());
         double maxReach = interactReach.getValue();
-
-        BlockPos nearestLever = null;
-        double nearestDistance = Double.MAX_VALUE;
 
         // рычаги рядом ищем
         for (int x = -searchRadius; x <= searchRadius; x++) {
@@ -290,11 +293,10 @@ public class JenroCasino extends ModuleStructure {
 
                     if (block == Blocks.LEVER) {
                         double distance = mc.player.getEyePos().distanceTo(Vec3d.ofCenter(pos));
-                        if (distance <= maxReach && distance < nearestDistance) {
+                        if (distance <= maxReach) {
                             // рычаг должен быть виден от глаз: если перед ним стена — не наш клиент
                             if (noVisibilityCheck.isValue() || isLeverVisible(pos)) {
-                                nearestDistance = distance;
-                                nearestLever = pos;
+                                levers.add(pos.toImmutable());
                             }
                         }
                     }
@@ -302,10 +304,11 @@ public class JenroCasino extends ModuleStructure {
             }
         }
 
-        // запоминаем цель для подсветки блока (Render3D)
-        leverHighlightPos = nearestLever != null ? nearestLever.toImmutable() : null;
+        // запоминаем цели для подсветки блоков (Render3D)
+        leverHighlightPositions.clear();
+        leverHighlightPositions.addAll(levers);
 
-        return nearestLever;
+        return levers;
     }
 
     @Native(type = Native.Type.VMProtectBeginMutation)
