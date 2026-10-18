@@ -50,9 +50,9 @@ logs/
 registry_dump.txt
 
 # client runtime dirs (repo-root run)
-.mods/
-Rich/
-data/
-debug/
-downloads/
-local/
+/.mods/
+/Rich/
+/data/
+/debug/
+/downloads/
+/local/
