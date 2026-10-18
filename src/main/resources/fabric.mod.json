@@ -9,6 +9,7 @@
   "license": "MIT",
   "icon": "assets/rich/textures/capes/cape.png",
   "environment": "client",
+  "accessWidener": "accesswidener",
   "entrypoints": {
     "preLaunch": [
       "rich.util.mods.config.wave.ResourceManager",
