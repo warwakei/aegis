@@ -13,8 +13,26 @@ public class SplashScreenManager {
     private static volatile boolean keepMinecraftWindowHidden = true;
     private static volatile boolean visibilityGuardStarted = false;
 
+    private static volatile boolean useTerminalSplash = false;
+
     public static void initialize() {
         if (instance.get() != null) {
+            return;
+        }
+
+        if (AegisTerminalSplash.available()) {
+            useTerminalSplash = true;
+            AegisTerminalSplash.initialize();
+            keepMinecraftWindowHidden = true;
+            startWindowVisibilityGuard();
+            if (!requirementsChecked) {
+                boolean allowed = checkSystemRequirementsBlockingTerminal();
+                requirementsChecked = true;
+                if (!allowed) {
+                    AegisTerminalSplash.completeAndWait();
+                    System.exit(1);
+                }
+            }
             return;
         }
 
@@ -34,8 +52,22 @@ public class SplashScreenManager {
         }
     }
 
+    private static boolean checkSystemRequirementsBlockingTerminal() {
+        updateProgress(1, "Checking system requirements...");
+        try {
+            List<SystemRequirementsChecker.RequirementResult> results = SystemRequirementsChecker.checkSystemRequirements();
+            List<SystemRequirementsChecker.RequirementResult> failed = results.stream().filter(r -> !r.isPassed()).toList();
+            if (!failed.isEmpty()) {
+                for (SystemRequirementsChecker.RequirementResult r : failed) updateProgress(1, "WARN: " + r.getMessage());
+                try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
+            }
+        } catch (Throwable ignored) {}
+        updateProgress(3, "System requirements confirmed.");
+        return true;
+    }
+
     private static boolean checkSystemRequirementsBlocking() {
-        updateProgress(1, "Проверка системных требований...");
+        updateProgress(1, "Checking system requirements...");
 
         List<SystemRequirementsChecker.RequirementResult> results =
                 SystemRequirementsChecker.checkSystemRequirements();
@@ -53,9 +85,9 @@ public class SplashScreenManager {
         }
 
         if (passed) {
-            updateProgress(3, "Системные требования подтверждены.");
+            updateProgress(3, "System requirements confirmed.");
         } else {
-            updateProgress(3, "Ожидание решения по системным требованиям...");
+            updateProgress(3, "Waiting for a system requirements decision...");
         }
 
         return passed;
@@ -109,6 +141,10 @@ public class SplashScreenManager {
     }
 
     public static void updateProgress(int progress, String status) {
+        if (useTerminalSplash) {
+            AegisTerminalSplash.updateProgress(progress, status);
+            return;
+        }
         SplashScreen splash = instance.get();
         if (splash != null) {
             splash.updateProgress(progress, status);
@@ -130,9 +166,40 @@ public class SplashScreenManager {
     }
 
     public static void complete() {
+        if (useTerminalSplash) {
+            AegisTerminalSplash.completeAndWait();
+            keepMinecraftWindowHidden = false;
+            showMinecraftWindow();
+            // fullscreen + focus
+            try {
+                MinecraftClient client = MinecraftClient.getInstance();
+                if (client != null && client.getWindow() != null) {
+                    Object window = client.getWindow();
+                    // try to enable fullscreen via reflection (method name varies by version)
+                    for (java.lang.reflect.Method m : window.getClass().getDeclaredMethods()) {
+                        String name = m.getName().toLowerCase();
+                        if (name.contains("fullscreen")) {
+                            m.setAccessible(true);
+                            if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == boolean.class) {
+                                m.invoke(window, true);
+                            } else if (m.getParameterCount() == 0) {
+                                m.invoke(window);
+                            }
+                            break;
+                        }
+                    }
+                    long handle = client.getWindow().getHandle();
+                    if (handle != 0L) {
+                        org.lwjgl.glfw.GLFW.glfwMaximizeWindow(handle);
+                        org.lwjgl.glfw.GLFW.glfwFocusWindow(handle);
+                    }
+                }
+            } catch (Throwable ignored) {}
+            return;
+        }
         SplashScreen splash = instance.get();
         if (splash != null) {
-            splash.updateProgress(100, "Готово!");
+            splash.updateProgress(100, "Done!");
             new Thread(() -> {
                 splash.showReadyAndWaitForLaunch();
                 keepMinecraftWindowHidden = false;
@@ -148,6 +215,10 @@ public class SplashScreenManager {
      * отдельно от старта без проверок
      */
     public static SplashScreen showFinishingScreen() {
+        if (useTerminalSplash) {
+            AegisTerminalSplash.showGoodbye();
+            return null;
+        }
         SplashScreen existing = finishingInstance.get();
         if (existing != null) {
             return existing;

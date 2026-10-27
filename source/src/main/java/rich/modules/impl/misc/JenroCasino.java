@@ -40,21 +40,21 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class JenroCasino extends ModuleStructure {
 
-    final SliderSettings clickDelay = new SliderSettings("Задержка (мс)", "Задержка между кликами")
+    final SliderSettings clickDelay = new SliderSettings("Delay (ms)", "Click Delay")
             .range(10, 100)
             .setValue(20);
 
-    final BooleanSetting rotate = new BooleanSetting("Ротация", "Поворачиваться к рычагу")
+    final BooleanSetting rotate = new BooleanSetting("Rotation", "Rotate toward the lever")
             .setValue(true);
 
-    final SliderSettings interactReach = new SliderSettings("Дальность интеракта (блоки)", "Через сколько блоков можно слать Interact рычагу")
+    final SliderSettings interactReach = new SliderSettings("Interact Range (blocks)", "Distance at which an Interact packet can be sent to the lever")
             .range(1, 35)
             .setValue(8);
 
-    final BooleanSetting noVisibilityCheck = new BooleanSetting("Тык сквозь стены", "Тест-режим: не проверять видимость рычага")
+    final BooleanSetting noVisibilityCheck = new BooleanSetting("Through Walls", "Test mode: skip lever visibility check")
             .setValue(false);
 
-    final ColorSetting leverColor = new ColorSetting("Цвет рычага", "Подсветка блока рычага")
+    final ColorSetting leverColor = new ColorSetting("Lever Color", "Highlight the lever block")
             .value(0x33FF3C3C);
 
     // текущие рычаги-цели (подсветка блоков)
@@ -96,7 +96,7 @@ public class JenroCasino extends ModuleStructure {
         // пишем sit при вкл, но через секвенцию с прыжками
         if (mc.player != null) {
             sitScheduleTime = System.currentTimeMillis() + SIT_DELAY_MS;
-            ChatMessage.brandmessage("Jenro Casino: /sit через 800 мс (с прыжками)...");
+            ChatMessage.brandmessage("Jenro Casino: /sit in 800 ms (with jumps)...");
         }
     }
 
@@ -109,7 +109,7 @@ public class JenroCasino extends ModuleStructure {
         sitScheduleTime = 0;
         sitStage = 0;
         leverHighlightPositions.clear();
-        ChatMessage.brandmessage("Jenro Casino: остановлено");
+        ChatMessage.brandmessage("Jenro Casino: stopped");
     }
 
     @EventHandler
@@ -141,7 +141,7 @@ public class JenroCasino extends ModuleStructure {
                         sitScheduleTime = 0;
                         mc.player.networkHandler.sendChatCommand("sit");
                         sat = true;
-                        ChatMessage.brandmessage("Jenro Casino: /sit отправлен");
+                        ChatMessage.brandmessage("Jenro Casino: /sit sent");
                     }
                 }
             }
@@ -156,7 +156,7 @@ public class JenroCasino extends ModuleStructure {
             if (moneyFarm.isFarmingCycle()) {
                 if (!waitedForFarmCycle) {
                     waitedForFarmCycle = true;
-                    ChatMessage.brandmessage("Jenro Casino: фарм-цикл активен, ждём кулдауна...");
+                    ChatMessage.brandmessage("Jenro Casino: farm cycle active, waiting for cooldown...");
                 }
                 return;
             }
@@ -164,7 +164,7 @@ public class JenroCasino extends ModuleStructure {
                 waitedForFarmCycle = false;
                 sitStage = 1;
                 sitScheduleTime = currentTime + SIT_DELAY_MS;
-                ChatMessage.brandmessage("Jenro Casino: фарм завершён, /sit через 800 мс...");
+                ChatMessage.brandmessage("Jenro Casino: farm finished, /sit in 800 ms...");
             }
         }
 
@@ -239,7 +239,7 @@ public class JenroCasino extends ModuleStructure {
 
     private boolean isCasinoSpam(String text) {
         if (text == null || text.isEmpty()) return false;
-        return stripColorCodes(text).contains("Машина занята");
+        return stripColorCodes(text).contains("Машина занята") || stripColorCodes(text).contains("Machine busy");
     }
 
     private String stripColorCodes(String text) {
@@ -413,6 +413,8 @@ public class JenroCasino extends ModuleStructure {
     @Native(type = Native.Type.VMProtectBeginMutation)
     private void jump() {
         if (mc.player == null) return;
+        try { mc.options.jumpKey.setPressed(true); } catch (Throwable ignored) {}
+        try { mc.player.setOnGround(true); } catch (Throwable ignored) {}
         mc.player.jump();
     }
 }

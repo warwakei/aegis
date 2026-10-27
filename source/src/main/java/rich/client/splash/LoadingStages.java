@@ -1,25 +1,25 @@
 package rich.client.splash;
 
 public enum LoadingStages {
-    INITIALIZING(0, "Инициализация..."),
-    LOADING_CONFIG(5, "Загрузка конфигурации..."),
-    LOADING_REPOSITORIES(10, "Загрузка репозиториев..."),
-    LOADING_FRIENDS_CONFIG(15, "Загрузка списка друзей..."),
-    LOADING_STAFF_CONFIG(18, "Загрузка конфигурации персонала..."),
-    COMPILING_CORE_SHADERS(20, "Компиляция основных шейдеров..."),
-    COMPILING_RENDER_SHADERS(30, "Компиляция шейдеров рендера..."),
-    COMPILING_EFFECT_SHADERS(40, "Компиляция шейдеров эффектов..."),
-    COMPILING_UI_SHADERS(50, "Компиляция UI шейдеров..."),
-    LOADING_FONTS(55, "Загрузка шрифтов..."),
-    LOADING_TEXTURES(60, "Загрузка текстур..."),
-    LOADING_MODELS(65, "Загрузка моделей..."),
-    INITIALIZING_EVENT_SYSTEM(70, "Инициализация системы событий..."),
-    INITIALIZING_HUD_ELEMENTS(75, "Инициализация HUD элементов..."),
-    LOADING_MODULES(80, "Загрузка модулей..."),
-    INITIALIZING_COMMANDS(85, "Инициализация команд..."),
-    FINALIZING_CONFIGS(90, "Завершение конфигурации..."),
-    FINALIZING(95, "Завершение загрузки..."),
-    COMPLETE(100, "Готово!");
+    INITIALIZING(0, "Initializing..."),
+    LOADING_CONFIG(5, "Loading configuration..."),
+    LOADING_REPOSITORIES(10, "Loading repositories..."),
+    LOADING_FRIENDS_CONFIG(15, "Loading friend list..."),
+    LOADING_STAFF_CONFIG(18, "Loading staff configuration..."),
+    COMPILING_CORE_SHADERS(20, "Compiling core shaders..."),
+    COMPILING_RENDER_SHADERS(30, "Compiling render shaders..."),
+    COMPILING_EFFECT_SHADERS(40, "Compiling effect shaders..."),
+    COMPILING_UI_SHADERS(50, "Compiling UI shaders..."),
+    LOADING_FONTS(55, "Loading fonts..."),
+    LOADING_TEXTURES(60, "Loading textures..."),
+    LOADING_MODELS(65, "Loading models..."),
+    INITIALIZING_EVENT_SYSTEM(70, "Initializing event system..."),
+    INITIALIZING_HUD_ELEMENTS(75, "Initializing HUD elements..."),
+    LOADING_MODULES(80, "Loading modules..."),
+    INITIALIZING_COMMANDS(85, "Initializing commands..."),
+    FINALIZING_CONFIGS(90, "Finalizing configuration..."),
+    FINALIZING(95, "Finalizing startup..."),
+    COMPLETE(100, "Done!");
 
     private final int progress;
     private final String message;
@@ -39,6 +39,12 @@ public enum LoadingStages {
 
     public void update() {
         SplashScreenManager.updateProgress(progress, message);
+        // dramatic pacing for the splash (18-44s total across all stages)
+        try {
+            Thread.sleep(800 + (int)(Math.random() * 1400));
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         if (this == COMPLETE) {
             SplashScreenManager.complete();
         }
