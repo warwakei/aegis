@@ -29,12 +29,12 @@ public final class ClickGuiPalette {
 
     public static int border(float alphaMul) {
         int a = (int) (180 * alphaMul);
-        return new Color(28, 32, 46, a).getRGB();
+        return new Color(40, 44, 58, a).getRGB();
     }
 
     public static int borderSubtle(float alphaMul) {
         int a = (int) (110 * alphaMul);
-        return new Color(20, 24, 38, a).getRGB();
+        return new Color(30, 34, 48, a).getRGB();
     }
 
     public static int panelInset(float alphaMul) {
