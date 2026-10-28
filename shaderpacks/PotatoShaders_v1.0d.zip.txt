@@ -1,0 +1,23 @@
+#Thu Oct 15 23:03:59 MSK 2026
+DoFQuality=2
+VIEWPORT_GAMUT=1
+bloomIntensity=0.1
+camSensorWidth=50
+directionalSSAO=false
+filmGrainStrength=0.4
+fogEnabled=false
+imageSharpenEnabled=false
+motionblurSamples=18
+motionblurScale=0.2
+normalmapEnabled=true
+normalmapFormat=1
+outlineShimmerToggle=true
+refractionEnabled=false
+sunPathRotation=-5.0
+sunlightSunriseB=0.22
+sunlightSunriseG=0.30
+sunlightSunriseL=0.32
+sunlightSunriseR=0.16
+vignetteEnabled=false
+waterFogEnabled=false
+windEffectsEnabled=false

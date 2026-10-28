@@ -1,0 +1,25 @@
+filename = 'modmenu-17.0.0.jar'
+name = 'Mod Menu'
+side = 'client'
+x-prismlauncher-loaders = [ 'quilt', 'fabric' ]
+x-prismlauncher-mc-versions = [ '1.21.11' ]
+x-prismlauncher-release-type = 'release'
+x-prismlauncher-version-number = '17.0.0'
+
+[download]
+hash = '146f8c356f86c32e5aab76598e021ac123779c89fc7a51a486fccd2871d2751b02046b4eea3194e52f2e7f38abbb5f78301c8f49bde6e60e1839677db9c84e33'
+hash-format = 'sha512'
+mode = 'url'
+url = 'https://cdn.modrinth.com/data/mOgUt4GM/versions/Tyk71iSw/modmenu-17.0.0.jar'
+
+[update.modrinth]
+mod-id = 'mOgUt4GM'
+version = 'Tyk71iSw'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'eXts2L7r'
+type = 'REQUIRED'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'P7dR8mSH'
+type = 'REQUIRED'

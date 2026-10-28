@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "copyright",
+  "version": "${version}",
+  "name": "copyright client",
+  "description": "Custom Minecraft client with shader-based rendering",
+  "authors": ["You"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/rich/textures/capes/cape.png",
+  "environment": "client",
+  "accessWidener": "accesswidener",
+  "entrypoints": {
+    "preLaunch": [
+      "rich.util.mods.config.wave.ResourceManager",
+      "rich.util.mods.config.wave.WaveCapesConfigOverride"
+    ],
+    "client": [
+      "rich.Initialization"
+    ]
+  },
+  "mixins": [
+    "mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  }
+}

@@ -1,0 +1,29 @@
+filename = 'skyboxify-3.3.1+1.21.11-fabric.jar'
+name = 'Skyboxify'
+side = 'client'
+x-prismlauncher-loaders = [ 'fabric' ]
+x-prismlauncher-mc-versions = [ '1.21.11' ]
+x-prismlauncher-release-type = 'release'
+x-prismlauncher-version-number = '3.3.1'
+
+[download]
+hash = '4ae90c83f47d67c870e03c62bc49f41eba80539f3b328e8e215ba4300d0a9eb8ff1af8d2b00d90a07d1a7660b6d4145e9d23bc70d1f68fd7fd3834cc750d8e07'
+hash-format = 'sha512'
+mode = 'url'
+url = 'https://cdn.modrinth.com/data/DWuwk8aA/versions/LD1veliv/skyboxify-3.3.1%2B1.21.11-fabric.jar'
+
+[update.modrinth]
+mod-id = 'DWuwk8aA'
+version = 'LD1veliv'
+
+[[x-prismlauncher-dependencies]]
+addonId = '1eAoo2KR'
+type = 'REQUIRED'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'P7dR8mSH'
+type = 'REQUIRED'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'mOgUt4GM'
+type = 'OPTIONAL'

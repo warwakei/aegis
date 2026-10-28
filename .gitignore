@@ -1,4 +1,4 @@
-# gradle
+﻿# gradle
 
 .gradle/
 build/
@@ -39,3 +39,23 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# aegis-runclient runtime ( рядом со скриптом )
+resourcepacks/
+shaders/
+
+# loom run cache in run dir (repo root)
+.fabric/
+logs/
+registry_dump.txt
+
+# client runtime dirs (repo-root run)
+/.mods/
+/Rich/
+/data/
+/debug/
+/downloads/
+/local/
+
+# личный зип (не в репу)
+/source/src/main/java/rich/util.zip

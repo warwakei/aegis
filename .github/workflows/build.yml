@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, dev064 ]
+  pull_request:
+
+jobs:
+  build:
+    name: Build (Windows)
+    # The project has a Cyrillic directory name (rich/util/render/<cyrillic 'c'>liemtpipeline)
+    # that AGENTS.md warns may not compile on non-Windows systems, so we build on Windows.
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build main mod
+        shell: pwsh
+        working-directory: source
+        run: .\gradlew.bat build --no-daemon --console=plain
+
+      - name: Build launcher (updater)
+        shell: pwsh
+        working-directory: source/launcher
+        run: ..\gradlew.bat build --no-daemon --console=plain
+
+      - name: NetPanel JS tests
+        shell: pwsh
+        run: node --test source/tests/netpanel-logs.test.cjs
+
+      - name: Upload jars
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-jars
+          if-no-files-found: warn
+          path: |
+            source/build/libs/*.jar
+            source/launcher/build/libs/*.jar

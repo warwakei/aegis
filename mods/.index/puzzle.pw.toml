@@ -1,0 +1,25 @@
+filename = 'puzzle-fabric-2.3.0+1.21.11.jar'
+name = 'Puzzle'
+side = 'client'
+x-prismlauncher-loaders = [ 'quilt', 'fabric' ]
+x-prismlauncher-mc-versions = [ '1.21.11' ]
+x-prismlauncher-release-type = 'release'
+x-prismlauncher-version-number = '2.3.0+1.21.11-fabric'
+
+[download]
+hash = 'f8b55899f1c29f8c3387b009d7a80cdbb57d51184da4b7c680172102f1958bc5f86a501ca9987ea20ffc48222afcfa8a0d8db9042d3d4c0ae682e598441c6068'
+hash-format = 'sha512'
+mode = 'url'
+url = 'https://cdn.modrinth.com/data/3IuO68q1/versions/Y9KybGCk/puzzle-fabric-2.3.0%2B1.21.11.jar'
+
+[update.modrinth]
+mod-id = '3IuO68q1'
+version = 'Y9KybGCk'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'codAaoxh'
+type = 'REQUIRED'
+
+[[x-prismlauncher-dependencies]]
+addonId = 'P7dR8mSH'
+type = 'REQUIRED'
