@@ -4,7 +4,7 @@
 **Codename:** Neo  
 **Version:** 0.6.3 Beta  
 **Tag:** v0.6.3  
-**Full name:** Aegis Neo063
+**Full name:** Aegis Neo 063
 
 ## Minecraft Info
 
@@ -19,20 +19,16 @@ Ported Aegis Beta project to 1.21.11. Improved visuals and other stuff.
 ## Installation
 
 1. Install Fabric for Minecraft 1.21.11
-2. Install Fabric API
+2. Install Fabric API mod
+3. Put Aegis Updater jar to mods folder
 3. Put Aegis Neo jar to mods folder
 4. Run game
 
-
-
 Or use client from source:
-
 
 git clone https://github.com/warwakei/aegis
 cd aegis
-
 aegis-run
-
 
 
 (All next runs you just need go to aegis folder and send aegis-run command)
@@ -46,6 +42,8 @@ aegis-run
 * Render modules
 * Player modules
 * Misc features
+* Jenro features
+
 
 ## Build
 
@@ -54,6 +52,7 @@ aegis-run
 ```
 
 ## Credits
-
 Original Aegis Beta project
-
+warwakei
+nx3n(nx33n)
+Rich project
