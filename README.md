@@ -27,7 +27,9 @@ Ported Aegis Beta project to 1.21.11. Improved visuals and other stuff.
 Or use client from source:
 
 git clone https://github.com/warwakei/aegis
+
 cd aegis
+
 aegis-run
 
 
