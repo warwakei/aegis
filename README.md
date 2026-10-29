@@ -25,13 +25,11 @@ Ported Aegis Beta project to 1.21.11. Improved visuals and other stuff.
 4. Run game
 
 Or use client from source:
-
+```bash
 git clone https://github.com/warwakei/aegis
-
 cd aegis
-
 aegis-run
-
+```
 
 (All next runs you just need go to aegis folder and send aegis-run command)
 
