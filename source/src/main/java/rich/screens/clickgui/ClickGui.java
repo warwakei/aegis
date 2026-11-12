@@ -15,6 +15,8 @@ import rich.modules.module.ModuleStructure;
 import rich.screens.clickgui.impl.DragHandler;
 import rich.screens.clickgui.impl.autobuy.autobuyui.AutoBuyRenderer;
 import rich.screens.clickgui.impl.background.BackgroundComponent;
+import rich.screens.clickgui.impl.background.render.AvatarRenderer;
+import rich.screens.clickgui.profile.ProfileAppearanceScreen;
 import rich.screens.clickgui.impl.configs.ConfigsRenderer;
 import rich.screens.clickgui.impl.module.ModuleComponent;
 import rich.screens.clickgui.impl.settingsrender.BindComponent;
@@ -302,6 +304,12 @@ public class ClickGui extends Screen implements IMinecraft {
 
         float[] bg = calculateBackground(scale);
         float bgX = bg[0], bgY = bg[1];
+
+        if (click.button() == 0 && mx >= bgX + AvatarRenderer.X && mx < bgX + AvatarRenderer.X + AvatarRenderer.WIDTH
+                && my >= bgY + AvatarRenderer.Y && my < bgY + AvatarRenderer.Y + AvatarRenderer.HEIGHT) {
+            mc.setScreen(new ProfileAppearanceScreen(this));
+            return true;
+        }
 
         if (background.isSearchBoxHovered(mx, my, bgX, bgY) && click.button() == 0) {
             background.setSearchActive(true);
