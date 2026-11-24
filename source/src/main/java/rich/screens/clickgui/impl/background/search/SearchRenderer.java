@@ -2,7 +2,9 @@ package rich.screens.clickgui.impl.background.search;
 
 import net.minecraft.client.gui.DrawContext;
 import rich.modules.module.ModuleStructure;
+import rich.screens.clickgui.ClickGuiLayout;
 import rich.util.render.Render2D;
+import rich.util.render.layout.Bounds;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
 
@@ -22,10 +24,11 @@ public class SearchRenderer {
 
         if (searchHandler.getSearchPanelAlpha() <= 0.01f) return;
 
-        float panelX = bgX + 92f;
-        float panelY = bgY + 38f;
-        float panelW = bgWidth - 100f;
-        float panelH = bgHeight - 46f;
+        Bounds panel = ClickGuiLayout.contentPanel(bgX, bgY);
+        float panelX = panel.x();
+        float panelY = panel.y();
+        float panelW = panel.w();
+        float panelH = panel.h();
 
         float resultAlpha = searchHandler.getSearchPanelAlpha() * alphaMultiplier;
 
@@ -37,7 +40,7 @@ public class SearchRenderer {
             return;
         }
 
-        Scissor.enable(panelX + 3, panelY + 3, panelW - 6, panelH - 6, 2);
+        Scissor.enable(panelX + 3, panelY + 3, panelW - 6, panelH - 6, guiScale);
         renderResults(panelX, panelY, panelW, panelH, mouseX, mouseY, resultAlpha);
         Scissor.disable();
 
@@ -169,10 +172,11 @@ public class SearchRenderer {
 
         if (!handler.isSearchActive() || handler.getSearchResults().isEmpty()) return null;
 
-        float panelX = bgX + 92f;
-        float panelY = bgY + 38f;
-        float panelW = bgWidth - 100f;
-        float panelH = bgHeight - 46f;
+        Bounds panel = ClickGuiLayout.contentPanel(bgX, bgY);
+        float panelX = panel.x();
+        float panelY = panel.y();
+        float panelW = panel.w();
+        float panelH = panel.h();
 
         if (mouseX < panelX + 5 || mouseX > panelX + panelW - 5 ||
                 mouseY < panelY || mouseY > panelY + panelH) return null;

@@ -33,10 +33,10 @@ echo.
 REM 3 -- Create DonePacks
 if not exist "%DONE_DIR%" mkdir "%DONE_DIR%"
 
-REM 4 -- Copy main jar (skip -sources)
+REM 4 -- Copy main jar (skip -sources and -nosplash)
 echo [3/5] Copy main jar...
 for %%f in ("%ROOT_DIR%build\libs\AegisNeo-*.jar") do (
-    echo %%f | findstr /C:"-sources" >nul
+    echo %%f | findstr /C:"-sources" /C:"-nosplash" >nul
     if errorlevel 1 (
         copy /Y "%%f" "%DONE_DIR%" >nul
         echo      %%~nxf

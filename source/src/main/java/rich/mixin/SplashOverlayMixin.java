@@ -14,7 +14,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import rich.Initialization;
 import rich.screens.loading.Loading;
+import rich.util.Version;
 
 @Mixin(SplashOverlay.class)
 public abstract class SplashOverlayMixin {
@@ -35,6 +37,22 @@ public abstract class SplashOverlayMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
         if (this.reloading) {
+            return;
+        }
+
+        if (!this.reload.isComplete()) {
+            return;
+        }
+
+        Initialization initialization = Initialization.getInstance();
+        if (initialization != null && initialization.getManager() != null
+                && initialization.getManager().getRenderCore() != null) {
+            initialization.getManager().getRenderCore().warmup();
+        }
+
+        // В сборке без сплешскрина (-Pnosplash) не подменяем ванильный оверлей:
+        // показываем обычный экран загрузки Minecraft, без нашей графики.
+        if (!Version.SPLASH_ENABLED) {
             return;
         }
 

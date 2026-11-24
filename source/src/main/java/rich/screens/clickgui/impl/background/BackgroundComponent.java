@@ -4,6 +4,7 @@ import net.minecraft.client.gui.DrawContext;
 import rich.IMinecraft;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
+import rich.screens.clickgui.ClickGuiLayout;
 import rich.screens.clickgui.impl.background.render.AvatarRenderer;
 import rich.screens.clickgui.impl.background.render.BackgroundRenderer;
 import rich.screens.clickgui.impl.background.render.CategoryRenderer;
@@ -14,8 +15,8 @@ import rich.screens.clickgui.impl.background.search.SearchRenderer;
 import java.util.List;
 
 public class BackgroundComponent implements IMinecraft {
-    public static final int BG_WIDTH = 420;
-    public static final int BG_HEIGHT = 260;
+    public static final int BG_WIDTH = (int) ClickGuiLayout.BG_WIDTH;
+    public static final int BG_HEIGHT = (int) ClickGuiLayout.BG_HEIGHT;
 
     private final BackgroundRenderer backgroundRenderer;
     private final CategoryRenderer categoryRenderer;
@@ -93,6 +94,10 @@ public class BackgroundComponent implements IMinecraft {
     public void render(DrawContext context, float bgX, float bgY, ModuleCategory selectedCategory, float delta, float alphaMultiplier) {
         updateAnimations(selectedCategory, delta);
         backgroundRenderer.render(context, bgX, bgY, alphaMultiplier);
+    }
+
+    /** Карточка профиля (фон + аватарка). Рисуется последней, поверх всего ClickGui. */
+    public void renderAvatar(DrawContext context, float bgX, float bgY, float alphaMultiplier) {
         avatarRenderer.render(context, bgX, bgY, alphaMultiplier);
     }
 
@@ -100,9 +105,9 @@ public class BackgroundComponent implements IMinecraft {
         backgroundRenderer.renderCategoryPanel(bgX, bgY, BG_HEIGHT, alphaMultiplier);
     }
 
-    public void renderHeader(float bgX, float bgY, ModuleCategory selectedCategory, float alphaMultiplier) {
+    public void renderHeader(float bgX, float bgY, ModuleCategory selectedCategory, float alphaMultiplier, int guiScale) {
         headerRenderer.render(bgX, bgY, BG_WIDTH, selectedCategory, previousCategory, currentCategory,
-                headerTransition, searchHandler, alphaMultiplier);
+                headerTransition, searchHandler, alphaMultiplier, guiScale);
     }
 
     public void renderCategoryNames(float bgX, float bgY, ModuleCategory selectedCategory, float alphaMultiplier) {

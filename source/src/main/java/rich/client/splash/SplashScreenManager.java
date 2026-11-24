@@ -2,6 +2,7 @@ package rich.client.splash;
 
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
+import rich.util.Version;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -15,7 +16,16 @@ public class SplashScreenManager {
 
     private static volatile boolean useTerminalSplash = false;
 
+    /** false в сборке без сплешскрина (-Pnosplash): все вызовы сплеша становятся no-op. */
+    public static boolean isEnabled() {
+        return Version.SPLASH_ENABLED;
+    }
+
     public static void initialize() {
+        if (!Version.SPLASH_ENABLED) {
+            return;
+        }
+
         if (instance.get() != null) {
             return;
         }
@@ -166,6 +176,9 @@ public class SplashScreenManager {
     }
 
     public static void complete() {
+        if (!Version.SPLASH_ENABLED) {
+            return;
+        }
         if (useTerminalSplash) {
             AegisTerminalSplash.completeAndWait();
             keepMinecraftWindowHidden = false;
@@ -215,6 +228,9 @@ public class SplashScreenManager {
      * отдельно от старта без проверок
      */
     public static SplashScreen showFinishingScreen() {
+        if (!Version.SPLASH_ENABLED) {
+            return null;
+        }
         if (useTerminalSplash) {
             AegisTerminalSplash.showGoodbye();
             return null;

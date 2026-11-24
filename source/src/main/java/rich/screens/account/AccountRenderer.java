@@ -12,7 +12,7 @@ import java.util.List;
 public class AccountRenderer {
 
     private static final float BLUR_RADIUS = 15f;
-    private static final float OUTLINE_THICKNESS = 1f;
+    private static final float OUTLINE_THICKNESS = 0.5f;
 
     public void renderLeftPanelTop(float x, float y, float width, float height, float contentAlpha,
                                    String nicknameText, boolean nicknameFieldFocused,

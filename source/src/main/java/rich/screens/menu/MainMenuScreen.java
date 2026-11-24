@@ -462,7 +462,7 @@ public class MainMenuScreen extends Screen {
             iconColor = withAlpha(0xFFFFFF, (int) (opacity * iconBright * pulse));
         }
         Render2D.gradientRect(drawX, drawY, size, size, new int[]{bgTopLeft, bgTopRight, bgBottomRight, bgBottomLeft}, radius);
-        Render2D.outline(drawX, drawY, size, size, 1f + hoverProgress * 0.5f, outlineColor, radius);
+        Render2D.outline(drawX, drawY, size, size, 0.5f + hoverProgress * 0.25f, outlineColor, radius);
         float iconSize = 17f * scaleVal;
         String icon = BUTTON_ICONS[index];
         float iconWidth = Fonts.MAINMENUSCREEN.getWidth(icon, iconSize);

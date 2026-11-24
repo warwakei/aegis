@@ -87,7 +87,7 @@ public class ModuleListRenderer {
 
         Scissor.disable();
 
-        renderScrollFade(x, y + topInset, width, height - topInset - bottomInset,
+        renderScrollFade(x + sideInset, y + topInset, width - sideInset * 2, height - topInset - bottomInset,
                 scrollHandler.getModuleScrollTopFade() * alphaMultiplier,
                 scrollHandler.getModuleScrollBottomFade() * alphaMultiplier, 80, 15);
     }
@@ -273,10 +273,10 @@ public class ModuleListRenderer {
                                float stateTextOffset, ModuleAnimationHandler animHandler) {
         boolean isBinding = module == bindingModule;
         int key = module.getKey();
+        boolean hasBind = key != GLFW.GLFW_KEY_UNKNOWN && key != -1;
 
-        float bindAlpha = animHandler.getBindBoxAlphaAnimations().getOrDefault(module, 0f);
-
-        if (bindAlpha <= 0.01f && !isBinding && (key == GLFW.GLFW_KEY_UNKNOWN || key == -1)) {
+        // назначенный бинд виден всегда, а не только при ховере
+        if (!hasBind && !isBinding) {
             return;
         }
 
@@ -302,38 +302,52 @@ public class ModuleListRenderer {
         }
 
         float boxHeight = BIND_BOX_HEIGHT * scale;
-        float boxWidth = currentWidth * scale * bindAlpha;
+        float boxWidth = currentWidth * scale;
 
         float nameWidth = Fonts.BOLD.getWidth(module.getName(), 6 * scale);
         float boxX = moduleX + 5 + stateTextOffset + nameWidth;
         float boxY = moduleY + (moduleHeight - boxHeight) / 2f + 0.5f;
 
-        float finalAlpha = combinedAlpha * bindAlpha;
+        // не наезжаем на звезду/шестерёнку справа
+        float iconsLeft = moduleX + moduleWidth - 30;
+        float maxBoxWidth = iconsLeft - boxX - 6;
+        if (maxBoxWidth < BIND_BOX_MIN_WIDTH * scale) {
+            return;
+        }
+        boolean clipped = boxWidth - 6 > maxBoxWidth;
+        float drawnWidth = Math.min(boxWidth - 6, maxBoxWidth);
+
+        float finalAlpha = combinedAlpha;
 
         int bgAlpha = (int) (25 * finalAlpha);
         Color bgColor = new Color(30, 34, 50, bgAlpha);
 
-        Render2D.rect(boxX + 3, boxY + 0.5f, boxWidth - 6, boxHeight, bgColor.getRGB(), 3f * scale);
+        Render2D.rect(boxX + 3, boxY + 0.5f, drawnWidth, boxHeight, bgColor.getRGB(), 3f * scale);
 
         int outlineAlpha = (int) (45 * finalAlpha);
         Color outlineColor = new Color(55, 80, 120, outlineAlpha);
 
-        Render2D.outline(boxX + 3, boxY + 0.5f, boxWidth - 6, boxHeight, 0.5f, outlineColor.getRGB(), 3f * scale);
+        Render2D.outline(boxX + 3, boxY + 0.5f, drawnWidth, boxHeight, 0.5f, outlineColor.getRGB(), 3f * scale);
 
-        if (bindAlpha > 0.5f) {
-            int textAlpha = (int) (150 * finalAlpha);
-            Color textColor = new Color(130, 145, 170, textAlpha);
+        int textAlpha = (int) (150 * finalAlpha);
+        Color textColor = new Color(130, 145, 170, textAlpha);
 
+        if (clipped) {
+            Scissor.enable(boxX + 4, boxY, drawnWidth - 2, boxHeight + 1, 2);
+            Fonts.BOLD.draw(bindText, boxX + 6, boxY + (boxHeight - 5f * scale) / 2f + 0.5f, 5 * scale, textColor.getRGB());
+            Scissor.disable();
+        } else {
             float textX = boxX + (boxWidth - textWidth) / 2f;
-            float textY = boxY + (boxHeight - 5f * scale) / 2f;
+            float textY = boxY + (boxHeight - 5f * scale) / 2f + 0.5f;
             Fonts.BOLD.draw(bindText, textX, textY, 5 * scale, textColor.getRGB());
         }
     }
 
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade, int alpha, int size) {
+        // верхний фейд: максимум у верхней кромки, сходит на нет вниз
         if (topFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float smoothProgress = (float) Math.cos((i / (float) size) * Math.PI / 2);
                 float fadeAlpha = alpha * topFade * smoothProgress;
                 Render2D.rect(x, y + i, w, 1, new Color(0, 0, 0, (int) fadeAlpha).getRGB(), 0);
             }

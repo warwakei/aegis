@@ -10,7 +10,6 @@
           "Watermark",
           "TPS",
           "Potions",
-          "Staff",
           "TargetHud",
           "Coords",
           "BPS",
@@ -28,8 +27,8 @@
       "favorite": false,
       "settings": {
         "Режим наводки": "Matrix",
-        "Дистанция удара": 2.9870129,
-        "Дистанция поиска": 4.155844,
+        "Дистанция удара": 2.6625767,
+        "Дистанция поиска": 3.6196318,
         "Настройки": [
           "Рандомизация крита",
           "Не бить если ешь",
@@ -37,18 +36,14 @@
         ],
         "Настройка целей": [
           "Игроки",
-          "Мобы",
-          "Животные",
-          "Инвизы",
-          "Голые инвизы",
           "Фаерболлы"
         ],
         "Коррекция движения": "Сфокусированная",
         "Сброс спринта": "Легитный",
         "Только криты": true,
-        "Умные криты": true,
+        "Умные криты": false,
         "1.8 Режим": false,
-        "CPS": 2.0,
+        "CPS": 11.0,
         "Silent Mace": true,
         "Ротация для ElytraTarget": "Matrix",
         "Рандомизация высоты": 0.10714286,
@@ -58,10 +53,10 @@
         "Коррекция в полёте": false,
         "ShieldBreaker": true,
         "Multi-Target": false,
-        "Глубина симуляции": 4.0,
-        "Точки прицела": 24.0,
-        "Бюджет поиска": 3.0,
-        "Предикт цели": 5.0
+        "Глубина симуляции": 9.0,
+        "Точки прицела": 47.0,
+        "Бюджет поиска": 4.0,
+        "Предикт цели": 8.0
       }
     },
     "Criticals": {
@@ -177,7 +172,7 @@
       }
     },
     "AutoTool": {
-      "enabled": true,
+      "enabled": false,
       "key": -1,
       "type": 1,
       "favorite": false,
@@ -418,11 +413,11 @@
     },
     "TapeMouse": {
       "enabled": false,
-      "key": -1,
+      "key": 88,
       "type": 1,
       "favorite": false,
       "settings": {
-        "Тип": "Правая кнопка",
+        "Тип": "Левая кнопка",
         "Задержка": 1.0
       }
     },
@@ -755,6 +750,25 @@
         }
       }
     },
+    "PearlFollow": {
+      "enabled": true,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Дистанция": 8.0
+      }
+    },
+    "SchematicPrinter": {
+      "enabled": false,
+      "key": -1,
+      "type": 1,
+      "favorite": false,
+      "settings": {
+        "Задержка": 16.0,
+        "Подходить к блокам": false
+      }
+    },
     "JumpCircle": {
       "enabled": false,
       "key": -1,
@@ -794,7 +808,7 @@
       "type": 1,
       "favorite": false,
       "settings": {
-        "Задержка прокрутки предметов": 22.0
+        "Задержка прокрутки предметов": 61.0
       }
     },
     "TargetStrafe": {
@@ -921,7 +935,7 @@
       "favorite": false,
       "settings": {
         "Режим": "Normal",
-        "Скорость XZ": 10.085715,
+        "Скорость XZ": 13.559008,
         "Скорость Y": 0.5538961,
         "Не дать приземлиться": false
       }
@@ -985,8 +999,7 @@
       "favorite": false,
       "settings": {
         "Тип": [
-          "Прыжок",
-          "Правый клик"
+          "Прыжок"
         ]
       }
     },
@@ -1094,18 +1107,16 @@
       "settings": {}
     },
     "ProjectileHelper": {
-      "enabled": false,
+      "enabled": true,
       "key": -1,
       "type": 1,
       "favorite": false,
       "settings": {
-        "Дистанция поиска": 16.0,
-        "FOV": 35.0,
-        "Авто-выстрел": false,
+        "Дистанция поиска": 38.66258,
+        "FOV": 22.693253,
+        "Авто-выстрел": true,
         "Тип таргета": [
-          "Players",
-          "Mobs",
-          "Animals"
+          "Players"
         ]
       }
     },
@@ -1138,7 +1149,7 @@
       "settings": {}
     },
     "AntiBot": {
-      "enabled": true,
+      "enabled": false,
       "key": -1,
       "type": 1,
       "favorite": false,
@@ -1350,8 +1361,16 @@
       "type": 1,
       "favorite": false,
       "settings": {
-        "Задержка (мс)": 10.0,
-        "Ротация": false
+        "Delay (ms)": 87.0,
+        "Rotation": false,
+        "Interact Range (blocks)": 10.0,
+        "Through Walls": true,
+        "Lever Color": {
+          "hue": 0.0,
+          "saturation": 0.7647059,
+          "brightness": 1.0,
+          "alpha": 0.2
+        }
       }
     },
     "Jenro ChatGame": {
@@ -1381,7 +1400,12 @@
       "key": -1,
       "type": 1,
       "favorite": false,
-      "settings": {}
+      "settings": {
+        "Компас": true,
+        "Книга": true,
+        "Другой мусор": "minecraft:enchanted_book",
+        "Серверы Jenro": "funnymc.su"
+      }
     },
     "Jenro DonText": {
       "enabled": false,
@@ -1412,7 +1436,7 @@
       }
     },
     "FunnyGame MoneyFarm": {
-      "enabled": true,
+      "enabled": false,
       "key": -1,
       "type": 1,
       "favorite": false,
@@ -2009,6 +2033,6 @@
     }
   },
   "version": "2.0",
-  "timestamp": 1792289838467,
+  "timestamp": 1795131129923,
   "client": "Aegis"
 }

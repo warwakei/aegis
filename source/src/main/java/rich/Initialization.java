@@ -8,6 +8,7 @@ import rich.client.splash.MinecraftWindowListener;
 import rich.client.splash.SplashScreenManager;
 import rich.manager.Manager;
 import rich.util.DiscordWebhookNotifier;
+import rich.util.Version;
 import rich.util.mods.config.wave.HeartbeatManager;
 import rich.util.mods.config.wave.ResourceManager;
 import antidaunleak.api.UserProfile;
@@ -23,14 +24,16 @@ public class Initialization implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        if (!FabricLoader.getInstance().isModLoaded("aegis_updater")) {
+        if (Version.UPDATER_REQUIRED && !FabricLoader.getInstance().isModLoaded("aegis_updater")) {
             throw new RuntimeException("[AegisNeo] AegisUpdater01 mod is required to run AegisNeo! " +
                     "Please install AegisUpdater01.jar in your mods folder.");
         }
-        
-        SplashScreenManager.initialize();
+
+        if (Version.SPLASH_ENABLED) {
+            SplashScreenManager.initialize();
+            MinecraftWindowListener.register();
+        }
         LoadingStages.INITIALIZING.update();
-        MinecraftWindowListener.register();
     }
 
     public void init() {

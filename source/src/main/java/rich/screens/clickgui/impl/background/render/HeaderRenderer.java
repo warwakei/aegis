@@ -1,9 +1,11 @@
 package rich.screens.clickgui.impl.background.render;
 
 import rich.modules.module.category.ModuleCategory;
+import rich.screens.clickgui.ClickGuiLayout;
 import rich.screens.clickgui.impl.background.search.SearchHandler;
 import rich.screens.clickgui.theme.ClickGuiPalette;
 import rich.util.render.Render2D;
+import rich.util.render.layout.Bounds;
 import rich.util.render.shader.Scissor;
 import rich.util.render.font.Fonts;
 
@@ -15,10 +17,10 @@ public class HeaderRenderer {
 
     public void render(float bgX, float bgY, float bgWidth, ModuleCategory selectedCategory,
                        ModuleCategory previousCategory, ModuleCategory currentCategory,
-                       float headerTransition, SearchHandler searchHandler, float alphaMultiplier) {
+                       float headerTransition, SearchHandler searchHandler, float alphaMultiplier, int guiScale) {
 
         renderHeaderPanel(bgX, bgY, bgWidth, alphaMultiplier);
-        renderSearchBox(bgX, bgY, searchHandler, alphaMultiplier);
+        renderSearchBox(bgX, bgY, searchHandler, alphaMultiplier, guiScale);
         renderCategoryLabel(bgX, bgY, previousCategory, currentCategory, headerTransition, searchHandler, alphaMultiplier);
     }
 
@@ -26,20 +28,22 @@ public class HeaderRenderer {
         int panelAlpha = (int) (40 * alphaMultiplier);
         int outlineAlpha = (int) (180 * alphaMultiplier);
 
+        Bounds header = ClickGuiLayout.header(bgX, bgY);
         int top = new Color(10, 11, 20, panelAlpha).getRGB();
         int bot = new Color(7, 8, 16, panelAlpha).getRGB();
-        Render2D.gradientRect(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25,
+        Render2D.gradientRect(header.x(), header.y(), header.w(), header.h(),
                 new int[]{top, top, bot, bot}, 6);
 
-        Render2D.outline(bgX + 92f, bgY + 7.5f, bgWidth - 100f, 25, 0.5f,
+        Render2D.outline(header.x(), header.y(), header.w(), header.h(), 0.5f,
                 new Color(26, 34, 52, outlineAlpha).getRGB(), 6);
     }
 
-    private void renderSearchBox(float bgX, float bgY, SearchHandler searchHandler, float alphaMultiplier) {
-        float searchBoxX = bgX + 315f;
-        float searchBoxY = bgY + 12.5f;
-        float searchBoxW = 70f;
-        float searchBoxH = 15f;
+    private void renderSearchBox(float bgX, float bgY, SearchHandler searchHandler, float alphaMultiplier, int guiScale) {
+        Bounds box = ClickGuiLayout.searchBox(bgX, bgY);
+        float searchBoxX = box.x();
+        float searchBoxY = box.y();
+        float searchBoxW = box.w();
+        float searchBoxH = box.h();
 
         int outlineAlpha = (int) (255 * alphaMultiplier);
         int panelAlpha = (int) (30 * alphaMultiplier);
@@ -74,7 +78,7 @@ public class HeaderRenderer {
         float textAreaX = searchBoxX + 5;
 
         if (searchHandler.isSearchActive() && !searchHandler.getSearchText().isEmpty()) {
-            renderSearchText(searchBoxX, searchBoxY, searchBoxW, searchBoxH, textAreaX, searchHandler, alphaMultiplier);
+            renderSearchText(searchBoxX, searchBoxY, searchBoxW, searchBoxH, textAreaX, searchHandler, alphaMultiplier, guiScale);
         } else if (searchHandler.isSearchActive()) {
             renderSearchPlaceholder(searchBoxX, searchBoxY, searchBoxH, textAreaX, searchHandler, alphaMultiplier, true);
         } else {
@@ -86,8 +90,8 @@ public class HeaderRenderer {
     }
 
     private void renderSearchText(float searchBoxX, float searchBoxY, float searchBoxW, float searchBoxH,
-                                  float textAreaX, SearchHandler searchHandler, float alphaMultiplier) {
-        Scissor.enable(searchBoxX + 3, searchBoxY, searchBoxW - 20, searchBoxH, 2);
+                                  float textAreaX, SearchHandler searchHandler, float alphaMultiplier, int guiScale) {
+        Scissor.enable(searchBoxX + 3, searchBoxY, searchBoxW - 20, searchBoxH, guiScale);
 
         if (searchHandler.hasSearchSelection() && searchHandler.getSearchSelectionAnimation() > 0.01f) {
             renderSearchSelection(textAreaX, searchBoxY, searchBoxH, searchHandler, alphaMultiplier);
@@ -195,12 +199,6 @@ public class HeaderRenderer {
     }
 
     public boolean isSearchBoxHovered(double mouseX, double mouseY, float bgX, float bgY) {
-        float searchBoxX = bgX + 315f;
-        float searchBoxY = bgY + 12.5f;
-        float searchBoxW = 70f;
-        float searchBoxH = 15f;
-
-        return mouseX >= searchBoxX && mouseX <= searchBoxX + searchBoxW &&
-                mouseY >= searchBoxY && mouseY <= searchBoxY + searchBoxH;
+        return ClickGuiLayout.searchBox(bgX, bgY).contains(mouseX, mouseY);
     }
 }

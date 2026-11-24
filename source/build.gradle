@@ -6,6 +6,12 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
+// Сборка "nosplash": сплешскрин выключен намертво, апдейтер не требуется.
+//   .\gradlew.bat remapJar -Pnosplash      (или -Pvariant=nosplash)
+def noSplash = hasProperty('nosplash') || (findProperty('variant') ?: '').toString().equalsIgnoreCase('nosplash')
+def splashEnabled = !noSplash
+def updaterRequired = !noSplash
+
 base {
     archivesName = project.archives_base_name
 }
@@ -51,7 +57,7 @@ loom {
             // ран-директория = корень репозитория (mods/, resourcepacks/, shaders/ рядом со скриптами)
             runDir ".."
             // память под клиент (дефолт лума 2Г — мало для модпака)
-            vmArgs "-Xms2048m", "-Xmx4800m"
+            vmArgs "-Xms2048m", "-Xmx3G"
         }
     }
 }
@@ -72,11 +78,18 @@ dependencies {
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     inputs.property "version", project.version
+    inputs.property "splashEnabled", splashEnabled
+    inputs.property "updaterRequired", updaterRequired
+    if (noSplash) {
+        exclude 'natives/aegis-splash.exe', 'natives/art.txt'
+    }
     filesMatching("fabric.mod.json") {
         expand "version": inputs.properties.version
     }
     filesMatching("rich/util/Version.java.template") {
-        expand "version": project.mod_version
+        expand "version": project.mod_version,
+               "splashEnabled": splashEnabled,
+               "updaterRequired": updaterRequired
         rename { "Version.java" }
     }
 }
@@ -86,7 +99,12 @@ sourceSets.main.java.srcDirs += "build/generated-src"
 tasks.register('generateVersion', Copy) {
     from 'src/main/resources/rich/util/Version.java.template'
     into 'build/generated-src/rich/util'
-    expand 'version': project.mod_version
+    inputs.property 'version', project.mod_version
+    inputs.property 'splashEnabled', splashEnabled
+    inputs.property 'updaterRequired', updaterRequired
+    expand 'version': project.mod_version,
+           'splashEnabled': splashEnabled,
+           'updaterRequired': updaterRequired
     rename { 'Version.java' }
 }
 
@@ -113,6 +131,17 @@ jar {
     }
 
     exclude 'META-INF/', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+
+    if (noSplash) {
+        archiveClassifier = 'nosplash'
+        exclude 'natives/aegis-splash.exe', 'natives/art.txt'
+    }
+}
+
+tasks.named('remapJar') {
+    if (noSplash) {
+        archiveClassifier = 'nosplash'
+    }
 }
 
 publishing {

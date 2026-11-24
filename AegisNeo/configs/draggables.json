@@ -2,12 +2,12 @@
   "Watermark": {
     "x": 142,
     "y": 196,
-    "width": 173,
+    "width": 169,
     "height": 22
   },
   "TPS": {
-    "x": 336,
-    "y": 256,
+    "x": 281,
+    "y": 221,
     "width": 65,
     "height": 22
   },
@@ -50,12 +50,12 @@
   "Coords": {
     "x": 180,
     "y": 169,
-    "width": 135,
+    "width": 123,
     "height": 22
   },
   "BPS": {
-    "x": 336,
-    "y": 279,
+    "x": 281,
+    "y": 242,
     "width": 65,
     "height": 22
   },
@@ -66,10 +66,10 @@
     "height": 24
   },
   "Staff": {
-    "x": 305,
-    "y": 87,
-    "width": 92,
-    "height": 36
+    "x": 268,
+    "y": -1264,
+    "width": 114,
+    "height": 2665
   },
   "Inventory": {
     "x": 20,

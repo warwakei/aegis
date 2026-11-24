@@ -76,17 +76,20 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "stop", at = @At("HEAD"))
     private void onStop(CallbackInfo ci) {
         long startMs = System.currentTimeMillis();
+        boolean splashEnabled = SplashScreenManager.isEnabled();
 
         // прячем окно кажем сплеш выхода
-        try {
-            MinecraftClient client = (MinecraftClient) (Object) this;
-            if (client.getWindow() != null) {
-                long handle = client.getWindow().getHandle();
-                if (handle != 0L) {
-                    GLFW.glfwHideWindow(handle);
+        if (splashEnabled) {
+            try {
+                MinecraftClient client = (MinecraftClient) (Object) this;
+                if (client.getWindow() != null) {
+                    long handle = client.getWindow().getHandle();
+                    if (handle != 0L) {
+                        GLFW.glfwHideWindow(handle);
+                    }
                 }
-            }
-        } catch (Throwable ignored) {}
+            } catch (Throwable ignored) {}
+        }
 
         SplashScreen finishingSplash = null;
         try {
@@ -99,13 +102,15 @@ public abstract class MinecraftClientMixin {
         }
 
         // держим сплеш чтоб красиво выйти
-        long elapsed = System.currentTimeMillis() - startMs;
-        long remaining = 3000L - elapsed;
-        if (remaining > 0L) {
-            try {
-                Thread.sleep(remaining);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        if (splashEnabled) {
+            long elapsed = System.currentTimeMillis() - startMs;
+            long remaining = 3000L - elapsed;
+            if (remaining > 0L) {
+                try {
+                    Thread.sleep(remaining);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 

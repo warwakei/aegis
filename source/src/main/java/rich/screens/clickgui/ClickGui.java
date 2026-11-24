@@ -15,8 +15,13 @@ import rich.modules.module.ModuleStructure;
 import rich.screens.clickgui.impl.DragHandler;
 import rich.screens.clickgui.impl.autobuy.autobuyui.AutoBuyRenderer;
 import rich.screens.clickgui.impl.background.BackgroundComponent;
+import rich.screens.clickgui.impl.background.render.AvatarRenderer;
+import rich.screens.clickgui.profile.ProfileAppearanceScreen;
 import rich.screens.clickgui.impl.configs.ConfigsRenderer;
+import rich.screens.clickgui.impl.feedback.GuiToastManager;
+import rich.screens.clickgui.impl.feedback.GuiTooltip;
 import rich.screens.clickgui.impl.module.ModuleComponent;
+import rich.screens.clickgui.impl.module.handler.ModuleBindHandler;
 import rich.screens.clickgui.impl.settingsrender.BindComponent;
 import rich.screens.clickgui.impl.settingsrender.TextComponent;
 import rich.util.animations.Direction;
@@ -24,6 +29,7 @@ import rich.util.animations.GuiAnimation;
 import rich.util.interfaces.AbstractSettingComponent;
 import rich.util.math.FrameRateCounter;
 import rich.util.render.Render2D;
+import rich.util.render.layout.Bounds;
 import rich.util.render.shader.Scissor;
 import rich.util.render.gif.GifRender;
 
@@ -40,6 +46,8 @@ public class ClickGui extends Screen implements IMinecraft {
     private final AutoBuyRenderer autoBuyRenderer = new AutoBuyRenderer();
     private final ConfigsRenderer configsRenderer = new ConfigsRenderer();
     private final DragHandler dragHandler = new DragHandler();
+    private final GuiTooltip tooltip = new GuiTooltip();
+    private final ModuleBindHandler bindNames = new ModuleBindHandler();
     private ModuleCategory selectedCategory = ModuleCategory.COMBAT;
 
     private final GuiAnimation openAnimation = new GuiAnimation();
@@ -81,6 +89,8 @@ public class ClickGui extends Screen implements IMinecraft {
 
         background.setSearchActive(false);
         autoBuyRenderer.resetForClose();
+        tooltip.reset();
+        GuiToastManager.clear();
         updateModules();
     }
 
@@ -247,11 +257,11 @@ public class ClickGui extends Screen implements IMinecraft {
 
         background.render(context, bgX, bgY, selectedCategory, delta, alphaMultiplier);
         background.renderCategoryPanel(bgX, bgY, alphaMultiplier);
-        background.renderHeader(bgX, bgY, selectedCategory, alphaMultiplier);
+        background.renderHeader(bgX, bgY, selectedCategory, alphaMultiplier, FIXED_GUI_SCALE);
         background.renderCategoryNames(bgX, bgY, selectedCategory, alphaMultiplier);
 
-        float mlX = bgX + 92f, mlY = bgY + 38f, mlW = 126f, mlH = BackgroundComponent.BG_HEIGHT - 46f;
-        float spX = bgX + 231f, spY = bgY + 38f, spW = 179f, spH = BackgroundComponent.BG_HEIGHT - 46f;
+        Bounds moduleList = ClickGuiLayout.moduleList(bgX, bgY);
+        Bounds settingsPanel = ClickGuiLayout.settingsPanel(bgX, bgY);
 
         float normalAlpha = background.getNormalPanelAlpha();
         float searchAlpha = background.getSearchPanelAlpha();
@@ -265,9 +275,9 @@ public class ClickGui extends Screen implements IMinecraft {
 
             if (shouldRenderModules || slidingToModuleCategory) {
                 moduleComponent.updateScroll(delta, scrollSpeed);
-                moduleComponent.updateScrollFades(delta, scrollSpeed, mlH, spH);
-                moduleComponent.renderModuleList(context, mlX, mlY, mlW, mlH, mx, my, FIXED_GUI_SCALE, alphaMultiplier * normalAlpha);
-                moduleComponent.renderSettingsPanel(context, spX, spY, spW, spH, mx, my, delta, FIXED_GUI_SCALE, alphaMultiplier * normalAlpha);
+                moduleComponent.updateScrollFades(delta, scrollSpeed, moduleList.h(), settingsPanel.h());
+                moduleComponent.renderModuleList(context, moduleList.x(), moduleList.y(), moduleList.w(), moduleList.h(), mx, my, FIXED_GUI_SCALE, alphaMultiplier * normalAlpha);
+                moduleComponent.renderSettingsPanel(context, settingsPanel.x(), settingsPanel.y(), settingsPanel.w(), settingsPanel.h(), mx, my, delta, FIXED_GUI_SCALE, alphaMultiplier * normalAlpha);
             }
 
             autoBuyRenderer.render(context, bgX, bgY, mx, my, delta, FIXED_GUI_SCALE, alphaMultiplier * normalAlpha, selectedCategory);
@@ -276,6 +286,28 @@ public class ClickGui extends Screen implements IMinecraft {
         if (searchAlpha > 0.01f) {
             background.renderSearchResults(context, bgX, bgY, mx, my, FIXED_GUI_SCALE, alphaMultiplier);
         }
+
+        // Тосты и тултип — поверх панелей, под карточкой профиля
+        Bounds settingsPanelBounds = ClickGuiLayout.settingsPanel(bgX, bgY);
+        GuiToastManager.render(context, bgX + ClickGuiLayout.BG_WIDTH / 2f,
+                bgY + ClickGuiLayout.BG_HEIGHT - 8f, alphaMultiplier);
+
+        String tooltipText = null;
+        float tooltipRowY = my;
+        if (!closing && normalAlpha > 0.9f && isModuleCategory(selectedCategory)
+                && !background.isSearchActive() && !dragHandler.isDragging()
+                && moduleComponent.getBindingModule() == null
+                && settingsPanelBounds.contains(mx, my)) {
+            var target = moduleComponent.getTooltipTargetAt(mx, my);
+            if (target != null) {
+                tooltipText = target.getSetting().getDescription();
+                tooltipRowY = target.y;
+            }
+        }
+        tooltip.render(context, tooltipText, settingsPanelBounds.right(), tooltipRowY, mx, my, alphaMultiplier * normalAlpha);
+
+        // Карточка профиля — оверрайд поверх всех элементов ClickGui со своей альфой
+        background.renderAvatar(context, bgX, bgY, alphaMultiplier);
 
         Scissor.reset();
 
@@ -303,6 +335,12 @@ public class ClickGui extends Screen implements IMinecraft {
         float[] bg = calculateBackground(scale);
         float bgX = bg[0], bgY = bg[1];
 
+        if (click.button() == 0 && mx >= bgX + AvatarRenderer.X && mx < bgX + AvatarRenderer.X + AvatarRenderer.WIDTH
+                && my >= bgY + AvatarRenderer.Y && my < bgY + AvatarRenderer.Y + AvatarRenderer.HEIGHT) {
+            mc.setScreen(new ProfileAppearanceScreen(this));
+            return true;
+        }
+
         if (background.isSearchBoxHovered(mx, my, bgX, bgY) && click.button() == 0) {
             background.setSearchActive(true);
             return true;
@@ -312,16 +350,11 @@ public class ClickGui extends Screen implements IMinecraft {
             if (click.button() == 0) {
                 ModuleStructure searchModule = background.getSearchModuleAtPosition(mx, my, bgX, bgY);
                 if (searchModule != null) {
-                    searchModule.switchState();
+                    moduleComponent.switchModuleWithFeedback(searchModule);
                     return true;
                 }
 
-                float panelX = bgX + 92f;
-                float panelY = bgY + 38f;
-                float panelW = BackgroundComponent.BG_WIDTH - 100f;
-                float panelH = BackgroundComponent.BG_HEIGHT - 46f;
-
-                if (mx >= panelX && mx <= panelX + panelW && my >= panelY && my <= panelY + panelH) {
+                if (ClickGuiLayout.contentPanel(bgX, bgY).contains(mx, my)) {
                     return true;
                 }
 
@@ -353,13 +386,14 @@ public class ClickGui extends Screen implements IMinecraft {
 //            }
 //        }
 
-        float mlX = bgX + 92f, mlY = bgY + 38f, mlW = 126f, mlH = BackgroundComponent.BG_HEIGHT - 48f;
+        Bounds moduleList = ClickGuiLayout.moduleList(bgX, bgY);
 
         if (click.button() == 2) {
             if (isAnyBindListening()) {
                 for (AbstractSettingComponent c : moduleComponent.getSettingComponents()) {
                     if (c instanceof BindComponent bindComponent && bindComponent.isListening()) {
                         bindComponent.handleMiddleMouseBind();
+                        showSettingBindToast(bindComponent);
                         return true;
                     }
                 }
@@ -369,7 +403,7 @@ public class ClickGui extends Screen implements IMinecraft {
                 return true;
             }
 
-            ModuleStructure module = moduleComponent.getModuleAtPosition(mx, my, mlX, mlY, mlW, mlH);
+            ModuleStructure module = moduleComponent.getModuleAtPosition(mx, my, moduleList.x(), moduleList.y(), moduleList.w(), moduleList.h());
             if (module != null) {
                 moduleComponent.setBindingModule(module);
                 return true;
@@ -388,23 +422,28 @@ public class ClickGui extends Screen implements IMinecraft {
         }
 
         if (isModuleCategory(selectedCategory)) {
-            ModuleStructure starModule = moduleComponent.getModuleForStarClick(mx, my, mlX, mlY, mlW, mlH);
+            ModuleStructure starModule = moduleComponent.getModuleForStarClick(mx, my, moduleList.x(), moduleList.y(), moduleList.w(), moduleList.h());
             if (starModule != null && click.button() == 0) {
                 moduleComponent.toggleFavorite(starModule);
                 return true;
             }
 
-            ModuleStructure module = moduleComponent.getModuleAtPosition(mx, my, mlX, mlY, mlW, mlH);
+            ModuleStructure module = moduleComponent.getModuleAtPosition(mx, my, moduleList.x(), moduleList.y(), moduleList.w(), moduleList.h());
             if (module != null) {
-                if (click.button() == 0) module.switchState();
+                if (click.button() == 0) moduleComponent.switchModuleWithFeedback(module);
                 else if (click.button() == 1) moduleComponent.selectModule(module);
                 return true;
             }
 
-            float spX = bgX + 231f, spY = bgY + 38f, spW = 179f, spH = BackgroundComponent.BG_HEIGHT - 48f;
-            if (mx >= spX && mx <= spX + spW && my >= spY && my <= spY + spH) {
+            Bounds settingsPanel = ClickGuiLayout.settingsPanel(bgX, bgY);
+            if (settingsPanel.contains(mx, my)) {
                 for (AbstractSettingComponent c : moduleComponent.getSettingComponents()) {
-                    if (c.getSetting().isVisible() && c.mouseClicked(mx, my, click.button())) return true;
+                    if (!c.getSetting().isVisible()) continue;
+                    boolean wasListening = c instanceof BindComponent bind && bind.isListening();
+                    if (c.mouseClicked(mx, my, click.button())) {
+                        if (wasListening) showSettingBindToast((BindComponent) c);
+                        return true;
+                    }
                 }
             }
         }
@@ -461,6 +500,7 @@ public class ClickGui extends Screen implements IMinecraft {
             for (AbstractSettingComponent c : moduleComponent.getSettingComponents()) {
                 if (c instanceof BindComponent bindComponent && bindComponent.isListening()) {
                     bindComponent.handleScrollBind(vertical);
+                    showSettingBindToast(bindComponent);
                     return true;
                 }
             }
@@ -477,13 +517,9 @@ public class ClickGui extends Screen implements IMinecraft {
         float bgX = bg[0], bgY = bg[1];
 
         if (background.isSearchActive()) {
-            float panelX = bgX + 92f;
-            float panelY = bgY + 38f;
-            float panelW = BackgroundComponent.BG_WIDTH - 100f;
-            float panelH = BackgroundComponent.BG_HEIGHT - 46f;
-
-            if (mx >= panelX && mx <= panelX + panelW && my >= panelY && my <= panelY + panelH) {
-                background.handleSearchScroll(vertical, panelH);
+            Bounds contentPanel = ClickGuiLayout.contentPanel(bgX, bgY);
+            if (contentPanel.contains(mx, my)) {
+                background.handleSearchScroll(vertical, contentPanel.h());
                 return true;
             }
         }
@@ -500,15 +536,15 @@ public class ClickGui extends Screen implements IMinecraft {
 //            }
 //        }
 
-        float mlX = bgX + 92f, mlY = bgY + 38f, mlW = 126f, mlH = BackgroundComponent.BG_HEIGHT - 48f;
-        if (mx >= mlX && mx <= mlX + mlW && my >= mlY && my <= mlY + mlH) {
-            moduleComponent.handleModuleScroll(vertical, mlH);
+        Bounds moduleList = ClickGuiLayout.moduleList(bgX, bgY);
+        if (moduleList.contains(mx, my)) {
+            moduleComponent.handleModuleScroll(vertical, moduleList.h());
             return true;
         }
 
-        float spX = bgX + 231f, spY = bgY + 38f, spW = 179f, spH = BackgroundComponent.BG_HEIGHT - 48f;
-        if (mx >= spX && mx <= spX + spW && my >= spY && my <= spY + spH) {
-            moduleComponent.handleSettingScroll(vertical, spH);
+        Bounds settingsPanel = ClickGuiLayout.settingsPanel(bgX, bgY);
+        if (settingsPanel.contains(mx, my)) {
+            moduleComponent.handleSettingScroll(vertical, settingsPanel.h());
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, horizontal, vertical);
@@ -558,16 +594,49 @@ public class ClickGui extends Screen implements IMinecraft {
 
         ModuleStructure binding = moduleComponent.getBindingModule();
         if (binding != null) {
-            binding.setKey(input.key() == GLFW.GLFW_KEY_DELETE ? GLFW.GLFW_KEY_UNKNOWN : input.key());
+            boolean cleared = input.key() == GLFW.GLFW_KEY_DELETE;
+            binding.setKey(cleared ? GLFW.GLFW_KEY_UNKNOWN : input.key());
             moduleComponent.setBindingModule(null);
+            if (cleared) {
+                GuiToastManager.show("Бинд " + binding.getName() + " сброшен", GuiToastManager.Kind.INFO);
+            } else {
+                String keyName = bindNames.getBindDisplayName(input.key());
+                GuiToastManager.show(binding.getName() + " → " + keyName, GuiToastManager.Kind.BIND);
+            }
             return true;
         }
 
         for (AbstractSettingComponent c : moduleComponent.getSettingComponents()) {
-            if (c.getSetting().isVisible() && c.keyPressed(input.key(), input.scancode(), input.modifiers())) return true;
+            if (!c.getSetting().isVisible()) continue;
+            boolean wasListening = c instanceof BindComponent bind && bind.isListening();
+            if (c.keyPressed(input.key(), input.scancode(), input.modifiers())) {
+                if (wasListening) showSettingBindToast((BindComponent) c);
+                return true;
+            }
         }
 
         return super.keyPressed(input);
+    }
+
+    private void showSettingBindToast(BindComponent component) {
+        if (component.isListening()) return; // отмена через ESC — без тоста
+        var setting = (rich.modules.module.setting.implement.BindSetting) component.getSetting();
+        int key = setting.getKey();
+        if (key == GLFW.GLFW_KEY_UNKNOWN || key == -1) {
+            GuiToastManager.show("Бинд «" + setting.getName() + "» сброшен", GuiToastManager.Kind.INFO);
+        } else {
+            String name = setting.getType() == 0 ? mouseBindName(key) : bindNames.getBindDisplayName(key);
+            GuiToastManager.show(setting.getName() + " → " + name, GuiToastManager.Kind.BIND);
+        }
+    }
+
+    private String mouseBindName(int button) {
+        return switch (button) {
+            case GLFW.GLFW_MOUSE_BUTTON_LEFT -> "LMB";
+            case GLFW.GLFW_MOUSE_BUTTON_RIGHT -> "RMB";
+            case GLFW.GLFW_MOUSE_BUTTON_MIDDLE -> "MMB";
+            default -> "M" + (button + 1);
+        };
     }
 
     @Override

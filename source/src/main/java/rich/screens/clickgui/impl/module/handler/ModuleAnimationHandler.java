@@ -26,7 +26,6 @@ public class ModuleAnimationHandler {
     private Map<ModuleStructure, Float> positionAnimations = new HashMap<>();
     private Map<ModuleStructure, Float> moduleAlphaAnimations = new HashMap<>();
     private Map<ModuleStructure, Float> bindBoxWidthAnimations = new HashMap<>();
-    private Map<ModuleStructure, Float> bindBoxAlphaAnimations = new HashMap<>();
 
     private List<ModuleStructure> oldModules = new ArrayList<>();
     private double oldModuleDisplayScroll = 0;
@@ -36,7 +35,6 @@ public class ModuleAnimationHandler {
     private long lastStateUpdateTime = System.currentTimeMillis();
     private long lastIconUpdateTime = System.currentTimeMillis();
     private long lastFavoriteUpdateTime = System.currentTimeMillis();
-    private long lastBindUpdateTime = System.currentTimeMillis();
     private long lastVisibilityUpdateTime = System.currentTimeMillis();
 
     private ModuleStructure highlightedModule = null;
@@ -59,13 +57,11 @@ public class ModuleAnimationHandler {
     private static final float ICON_ANIM_SPEED = 12f;
     private static final float FAVORITE_ANIM_SPEED = 10f;
     private static final float POSITION_ANIM_SPEED = 8f; // позиция едет плавнее тут
-    private static final float BIND_WIDTH_ANIM_SPEED = 14f; // бинд бокс шустрее стал
-    private static final float BIND_ALPHA_ANIM_SPEED = 10f;
     private static final float PULSE_SPEED = 4.0f; // пульсация медленней и живей
     private static final float VISIBILITY_ANIM_SPEED = 10f;
     private static final float HEIGHT_ANIM_SPEED = 12f;
     private static final float CORNER_INSET = 3f;
-    private static final float MODULE_ITEM_HEIGHT = 22f;
+    private static final float MODULE_ITEM_HEIGHT = 24f;
 
     public void prepareTransition(List<ModuleStructure> modules, List<ModuleStructure> displayModules) {
         if (!modules.isEmpty()) {
@@ -84,7 +80,6 @@ public class ModuleAnimationHandler {
         stateAnimations.clear();
         selectedIconAnimations.clear();
         bindBoxWidthAnimations.clear();
-        bindBoxAlphaAnimations.clear();
 
         long currentTime = System.currentTimeMillis();
         long delayBase = (long) (CATEGORY_TRANSITION_DURATION * 0.3f);
@@ -129,7 +124,6 @@ public class ModuleAnimationHandler {
         updateStateAnimations(displayModules);
         updateSelectedIconAnimations(displayModules, selectedModule);
         updateFavoriteAnimations(displayModules);
-        updateBindAnimations(displayModules);
         updateHighlightAnimation();
         updateHoverAnimations(displayModules, mouseX, mouseY, listX, listY, listWidth, listHeight, scrollOffset);
     }
@@ -206,20 +200,6 @@ public class ModuleAnimationHandler {
             if (currentAlphaAnim < 1f) {
                 moduleAlphaAnimations.put(module, Math.min(1f, currentAlphaAnim + POSITION_ANIM_SPEED * deltaTime));
             }
-        }
-    }
-
-    private void updateBindAnimations(List<ModuleStructure> displayModules) {
-        long currentTime = System.currentTimeMillis();
-        float deltaTime = Math.min((currentTime - lastBindUpdateTime) / 1000f, 0.1f);
-        lastBindUpdateTime = currentTime;
-
-        for (ModuleStructure module : displayModules) {
-            int key = module.getKey();
-            boolean hasBind = key != org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN && key != -1;
-            float currentAlpha = bindBoxAlphaAnimations.getOrDefault(module, 0f);
-            float targetAlpha = hasBind ? 1f : 0f;
-            bindBoxAlphaAnimations.put(module, animateTowards(currentAlpha, targetAlpha, BIND_WIDTH_ANIM_SPEED, deltaTime));
         }
     }
 

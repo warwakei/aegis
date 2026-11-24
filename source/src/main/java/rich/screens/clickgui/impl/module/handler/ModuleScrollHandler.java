@@ -17,7 +17,7 @@ public class ModuleScrollHandler {
     private static final float SCROLL_SPEED = 12f;
     private static final float FADE_SPEED = 8f;
     private static final float CORNER_INSET = 3f;
-    private static final float MODULE_ITEM_HEIGHT = 22f;
+    private static final float MODULE_ITEM_HEIGHT = 24f;
 
     public void resetModuleScroll() {
         moduleTargetScroll = moduleDisplayScroll = 0;
@@ -49,7 +49,7 @@ public class ModuleScrollHandler {
         long currentTime = System.currentTimeMillis();
         float deltaTime = Math.min((currentTime - lastScrollUpdateTime) / 1000f, 0.1f);
 
-        float maxModuleScroll = Math.max(0, moduleCount * 24f - moduleListHeight + 10);
+        float maxModuleScroll = Math.max(0, moduleCount * (MODULE_ITEM_HEIGHT + 2) - moduleListHeight + 10);
         float maxSettingScroll = Math.max(0, totalSettingHeight - settingsPanelHeight + 45);
 
         moduleScrollTopFade = updateFade(moduleScrollTopFade, moduleDisplayScroll < -0.5f, deltaTime);
@@ -67,7 +67,7 @@ public class ModuleScrollHandler {
 
     public void handleModuleScroll(double vertical, float listHeight, int moduleCount) {
         float effectiveHeight = listHeight - CORNER_INSET * 2 - 2;
-        float maxScroll = Math.max(0, moduleCount * 24f - effectiveHeight + 10);
+        float maxScroll = Math.max(0, moduleCount * (MODULE_ITEM_HEIGHT + 2) - effectiveHeight + 10);
         moduleTargetScroll = Math.max(-maxScroll, Math.min(0, moduleTargetScroll + vertical * 25));
     }
 

@@ -1,5 +1,6 @@
 package rich.util.render;
 
+import com.mojang.blaze3d.textures.GpuTextureView;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.texture.Sprite;
@@ -215,7 +216,7 @@ public class Render2D {
         float[] thicknesses = {thickness, thickness, thickness, thickness, thickness, thickness, thickness, thickness};
         float[] radii = {0, 0, 0, 0};
         Initialization.getInstance().getManager().getRenderCore().getOutlinePipeline()
-                .drawOutline(x, y, width, height, colors, thicknesses, radii, 3.0f);
+                .drawOutline(x, y, width, height, colors, thicknesses, radii);
     }
 
     public static void outline(float x, float y, float width, float height, float thickness, int color, float radius) {
@@ -223,7 +224,7 @@ public class Render2D {
         float[] thicknesses = {thickness, thickness, thickness, thickness, thickness, thickness, thickness, thickness};
         float[] radii = {radius, radius, radius, radius};
         Initialization.getInstance().getManager().getRenderCore().getOutlinePipeline()
-                .drawOutline(x, y, width, height, colors, thicknesses, radii, 3.0f);
+                .drawOutline(x, y, width, height, colors, thicknesses, radii);
     }
 
     public static void outline(float x, float y, float width, float height, float thickness, int color,
@@ -232,7 +233,7 @@ public class Render2D {
         float[] thicknesses = {thickness, thickness, thickness, thickness, thickness, thickness, thickness, thickness};
         float[] radii = {topLeft, topRight, bottomRight, bottomLeft};
         Initialization.getInstance().getManager().getRenderCore().getOutlinePipeline()
-                .drawOutline(x, y, width, height, colors, thicknesses, radii, 3.0f);
+                .drawOutline(x, y, width, height, colors, thicknesses, radii);
     }
 
     public static void gradientOutline(float x, float y, float width, float height, float thickness,
@@ -240,7 +241,7 @@ public class Render2D {
         float[] thicknesses = {thickness, thickness, thickness, thickness, thickness, thickness, thickness, thickness};
         float[] radii = {radius, radius, radius, radius};
         Initialization.getInstance().getManager().getRenderCore().getOutlinePipeline()
-                .drawOutline(x, y, width, height, colors, thicknesses, radii, 3.0f);
+                .drawOutline(x, y, width, height, colors, thicknesses, radii);
     }
 
     public static void blur(float x, float y, float width, float height, float blurRadius, int tintColor) {
@@ -336,14 +337,14 @@ public class Render2D {
         drawSprite(sprite, x, y, width, height, color, false);
     }
 
-    public static void drawFramebufferTexture(int textureId, float x, float y, float width, float height,
+    public static void drawFramebufferTexture(GpuTextureView textureView, float x, float y, float width, float height,
                                               float r, float g, float b, float a) {
         int color = ((int)(a * 255) << 24) | ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);
         int[] colors = {color, color, color, color};
         float[] radii = {0, 0, 0, 0};
 
         Initialization.getInstance().getManager().getRenderCore().getTexturePipeline()
-                .drawFramebufferTexture(textureId, x, y, width, height, colors, radii, a);
+                .drawFramebufferTexture(textureView, x, y, width, height, colors, radii, a);
     }
 
     public static void glowOutline(float x, float y, float width, float height, float thickness,

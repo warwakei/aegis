@@ -39,6 +39,12 @@ public class GuiAnimation {
     }
 
     public Double getOutput() {
+        // SPRING-изинги не доходят до 1.0 к концу анимации (1 - e^-1.5 * cos(0.3pi) ≈ 0.869),
+        // из-за чего панель навсегда оставалась на ~87% альфы. По завершении отдаём точное значение.
+        if (isDone()) {
+            return direction == Direction.FORWARDS ? value : 0.0;
+        }
+
         double progress = Math.min(1.0, (double) counter.getTime() / ms);
         double eased = easing.ease(progress);
 

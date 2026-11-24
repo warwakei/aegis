@@ -41,13 +41,15 @@ replay_*.log
 *.jfr
 
 # aegis-runclient runtime ( рядом со скриптом )
-resourcepacks/
-shaders/
+# ВАЖНО: только корень репозитория! Без ведущего "/" шаблон "shaders/"
+# матчится на любом уровне и прячет src/main/resources/assets/rich/shaders/
+/resourcepacks/
+/shaders/
 
 # loom run cache in run dir (repo root)
-.fabric/
-logs/
-registry_dump.txt
+/.fabric/
+/logs/
+/registry_dump.txt
 
 # client runtime dirs (repo-root run)
 /.mods/

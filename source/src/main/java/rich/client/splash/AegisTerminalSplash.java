@@ -73,7 +73,7 @@ public final class AegisTerminalSplash {
         try {
             ProcessBuilder pb;
             if (isWindowsTerminalAvailable()) {
-                pb = new ProcessBuilder("wt", "--title", "AEGIS NEO", "--", exePath().toString(), "--splash", PROGRESS.toString());
+                pb = new ProcessBuilder("wt", "-F", "--title", "AEGIS NEO", "--", exePath().toString(), "--splash", PROGRESS.toString());
             } else {
                 pb = new ProcessBuilder(exePath().toString(), "--splash", PROGRESS.toString());
             }
@@ -107,7 +107,7 @@ public final class AegisTerminalSplash {
         try {
             ProcessBuilder pb;
             if (isWindowsTerminalAvailable()) {
-                pb = new ProcessBuilder("wt", "--title", "AEGIS NEO", "--", exePath().toString(), "--goodbye");
+                pb = new ProcessBuilder("wt", "-F", "--title", "AEGIS NEO", "--", exePath().toString(), "--goodbye");
             } else {
                 pb = new ProcessBuilder(exePath().toString(), "--goodbye");
             }

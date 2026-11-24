@@ -71,7 +71,7 @@ public class SettingsPanelRenderer {
         Fonts.BOLD.draw(selectedModule.getName(), x + 8, y + 8, 7, ClickGuiPalette.textPrimary(alphaMultiplier));
         String desc = selectedModule.getDescription();
         if (desc != null && !desc.isEmpty()) {
-            renderHeaderDescription(selectedModule, desc, x, y, width, alphaMultiplier, delta);
+            renderHeaderDescription(selectedModule, desc, x, y, width, alphaMultiplier, delta, guiScale);
         }
         // полоска разделитель с акцентом
         float sepPulse = (float) (Math.sin(System.currentTimeMillis() / 2000.0) * 0.5 + 0.5);
@@ -198,7 +198,7 @@ public class SettingsPanelRenderer {
      * Описание модуля в шапке: если текст влезает — рисуем статично,
      * если нет — прокрутка туда-обратно (как в настройках модулей).
      */
-    private void renderHeaderDescription(ModuleStructure module, String desc, float x, float y, float width, float alphaMultiplier, float deltaTime) {
+    private void renderHeaderDescription(ModuleStructure module, String desc, float x, float y, float width, float alphaMultiplier, float deltaTime, int guiScale) {
         float iconX = x + 8;
         float descX = x + 15;
         float descY = y + 20;
@@ -226,7 +226,7 @@ public class SettingsPanelRenderer {
         float maxScroll = descWidth - availableWidth + 5;
         float currentScroll = descScrollOffset * maxScroll;
 
-        Scissor.enable(descX - 1, descY - 2, availableWidth + 3, 10, 2);
+        Scissor.enable(descX - 1, descY - 2, availableWidth + 3, 10, guiScale);
         Fonts.BOLD.draw(desc, descX - currentScroll, descY, 5, ClickGuiPalette.textMuted(alphaMultiplier));
         Scissor.disable();
     }
@@ -262,9 +262,10 @@ public class SettingsPanelRenderer {
     }
 
     private void renderScrollFade(float x, float y, float w, float h, float topFade, float bottomFade, int alpha, int size) {
+        // верхний фейд: максимум у верхней кромки, сходит на нет вниз
         if (topFade > 0.01f) {
             for (int i = 0; i < size; i++) {
-                float smoothProgress = (float) Math.sin((i / (float) size) * Math.PI / 2);
+                float smoothProgress = (float) Math.cos((i / (float) size) * Math.PI / 2);
                 float fadeAlpha = alpha * topFade * smoothProgress;
                 Render2D.rect(x, y + i, w, 1, new Color(0, 0, 0, (int) fadeAlpha).getRGB(), 0);
             }

@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import rich.IMinecraft;
 import rich.Initialization;
 import rich.modules.module.ModuleStructure;
+import rich.screens.clickgui.impl.feedback.GuiToastManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -325,6 +326,11 @@ public class SearchHandler implements IMinecraft {
             case GLFW.GLFW_KEY_ENTER -> {
                 if (selectedSearchModule != null) {
                     selectedSearchModule.switchState();
+                    if (selectedSearchModule.isState()) {
+                        GuiToastManager.show(selectedSearchModule.getName() + " включён", GuiToastManager.Kind.ENABLED);
+                    } else {
+                        GuiToastManager.show(selectedSearchModule.getName() + " выключен", GuiToastManager.Kind.DISABLED);
+                    }
                 }
                 return true;
             }

@@ -330,7 +330,7 @@ public class ColorComponent extends AbstractSettingComponent {
         Render2D.rect(scaledX + 0.5f, scaledY + 0.5f, 9, 9, applyAlpha(previewColor).getRGB(), 15);
         int outlineAlpha = clamp((int)((255 + previewHoverAnimation * 60) * alphaMultiplier));
 
-        Render2D.outline(scaledX, scaledY, 10, 10, 1f, new Color(125, 125, 125, outlineAlpha).getRGB(), 15);
+        Render2D.outline(scaledX, scaledY, 10, 10, 0.5f, new Color(125, 125, 125, outlineAlpha).getRGB(), 15);
     }
 
     private void renderColorPicker(DrawContext context, int mouseX, int mouseY, float deltaTime) {

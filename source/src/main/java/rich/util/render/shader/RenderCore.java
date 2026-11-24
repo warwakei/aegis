@@ -33,6 +33,7 @@ public class RenderCore {
     private boolean fontsLoaded = false;
     private boolean arcInitialized = false;
     private boolean arcOutlineInitialized = false;
+    private boolean warmupDone = false;
 
     public RenderCore() {
         this.rectPipeline = new RectPipeline();
@@ -51,12 +52,26 @@ public class RenderCore {
 
     public void init() {
         LoadingStages.COMPILING_CORE_SHADERS.update();
-        compileAllPipelines();
+        // Пайплайны нельзя собирать здесь: init() вызывается из конструктора MinecraftClient,
+        // когда первая загрузка ресурсов ещё идёт и ShaderLoader ещё не знает исходников.
+        // Прогрев делается в warmup(), когда reload уже завершён.
 
         LoadingStages.LOADING_FONTS.update();
         ensureFontsLoaded();
         ensureArcInitialized();
         ensureArcOutlineInitialized();
+    }
+
+    /** Собирает пайплайны. Вызывать только после завершения загрузки ресурсов. */
+    public void warmup() {
+        if (warmupDone) return;
+        warmupDone = true;
+        if (MinecraftClient.getInstance() == null || MinecraftClient.getInstance().getResourceManager() == null) return;
+        try {
+            compileAllPipelines();
+        } catch (Throwable ignored) {
+            // не роняем клиент из-за прогрева
+        }
     }
 
     private void compileAllPipelines() {
@@ -93,8 +108,7 @@ public class RenderCore {
                 2f, 2f, 18f, 10f,
                 new int[]{0x00000000},
                 new float[]{1f},
-                new float[]{2f, 2f, 2f, 2f},
-                1f
+                new float[]{2f, 2f, 2f, 2f}
         )));
 
         tasks.add(new CompileTask("GlowOutline", () -> glowOutlinePipeline.drawGlowOutline(

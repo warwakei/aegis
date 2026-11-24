@@ -57,6 +57,8 @@ public class ModuleRepository {
                 .add(new BlockOverlay())
                 .add(new HitSound())
                 .add(new ClickPearl())
+                .add(new PearlFollow())
+                .add(new SchematicPrinter())
                 .add(new JumpCircle())
                 .add(new ItemScroller())
                 .add(new TargetStrafe())

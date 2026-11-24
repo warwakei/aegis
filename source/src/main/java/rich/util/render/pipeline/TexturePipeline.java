@@ -8,9 +8,12 @@ import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTexture;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.GpuSampler;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gl.UniformType;
 import net.minecraft.client.render.VertexFormats;
@@ -103,14 +106,10 @@ public class TexturePipeline {
             return;
         }
 
-        int textureGlId;
+        GpuTextureView textureView;
         try {
-            GpuTexture gpuTexture = texture.getGlTexture();
-            if (gpuTexture == null) {
-                return;
-            }
-            textureGlId = getTextureGlId(gpuTexture);
-            if (textureGlId <= 0) {
+            textureView = texture.getGlTextureView();
+            if (textureView == null) {
                 return;
             }
         } catch (Exception e) {
@@ -127,12 +126,12 @@ public class TexturePipeline {
         prepareUniformData(x, y, width, height, u0, v0, u1, v1,
                 fixedScreenWidth, fixedScreenHeight, FIXED_GUI_SCALE,
                 colors, radii, smoothness, rotation);
-        uploadAndDraw(client, textureGlId);
+        uploadAndDraw(client, textureView);
     }
 
-    public void drawFramebufferTexture(int textureId, float x, float y, float width, float height,
+    public void drawFramebufferTexture(GpuTextureView textureView, float x, float y, float width, float height,
                                        int[] colors, float[] radii, float alpha) {
-        if (textureId <= 0) {
+        if (textureView == null) {
             return;
         }
 
@@ -151,7 +150,7 @@ public class TexturePipeline {
         prepareUniformData(x, y, width, height, 0, 0, 1, 1,
                 fixedScreenWidth, fixedScreenHeight, FIXED_GUI_SCALE,
                 colors, radii, 1f, 0f);
-        uploadAndDraw(client, textureId);
+        uploadAndDraw(client, textureView);
     }
 
     private void prepareUniformData(float x, float y, float w, float h,
@@ -202,7 +201,7 @@ public class TexturePipeline {
         dataBuffer.flip();
     }
 
-    private void uploadAndDraw(MinecraftClient client, int textureGlId) {
+    private void uploadAndDraw(MinecraftClient client, GpuTextureView textureView) {
         int size = dataBuffer.remaining();
         if (uniformBuffer == null || uniformBuffer.size() < size) {
             if (uniformBuffer != null) {
@@ -223,8 +222,11 @@ public class TexturePipeline {
                         MODEL_OFFSET,
                         TEXTURE_MATRIX);
 
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureGlId);
+        // у текстур с мип-цепочкой (аватар/фон профиля) просим трилинейную фильтрацию,
+        // иначе мипмапы просто не используются и уменьшение снова даёт рябь
+        GpuSampler sampler = textureView.mipLevels() > 1
+                ? RenderSystem.getSamplerCache().get(FilterMode.LINEAR, true)
+                : RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
 
         try (RenderPass renderPass = encoder.createRenderPass(
                 () -> "minecraft:texture_pass",
@@ -239,39 +241,10 @@ public class TexturePipeline {
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
             renderPass.setUniform("TextureData", uniformBuffer);
+            renderPass.bindTexture("Sampler0", textureView, sampler);
 
             renderPass.draw(0, 6);
         }
-
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-    }
-
-    private int getTextureGlId(GpuTexture gpuTexture) {
-        try {
-            var field = gpuTexture.getClass().getDeclaredField("id");
-            field.setAccessible(true);
-            return field.getInt(gpuTexture);
-        } catch (Exception e1) {
-            try {
-                var field = gpuTexture.getClass().getDeclaredField("glId");
-                field.setAccessible(true);
-                return field.getInt(gpuTexture);
-            } catch (Exception e2) {
-                try {
-                    for (var f : gpuTexture.getClass().getDeclaredFields()) {
-                        if (f.getType() == int.class) {
-                            f.setAccessible(true);
-                            int value = f.getInt(gpuTexture);
-                            if (value > 0) {
-                                return value;
-                            }
-                        }
-                    }
-                } catch (Exception e3) {
-                }
-            }
-        }
-        return 0;
     }
 
     public void flush() {

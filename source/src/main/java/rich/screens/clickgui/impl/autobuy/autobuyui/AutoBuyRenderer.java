@@ -3,7 +3,8 @@ package rich.screens.clickgui.impl.autobuy.autobuyui;
 import net.minecraft.client.gui.DrawContext;
 import rich.IMinecraft;
 import rich.modules.module.category.ModuleCategory;
-import rich.screens.clickgui.impl.background.BackgroundComponent;
+import rich.screens.clickgui.ClickGuiLayout;
+import rich.util.render.layout.Bounds;
 
 public class AutoBuyRenderer implements IMinecraft {
 
@@ -69,13 +70,10 @@ public class AutoBuyRenderer implements IMinecraft {
 
         if (categoryAlpha <= 0.01f && !pendingSlideOut) return;
 
-        float panelX = bgX + 92f;
-        float panelY = bgY + 38f;
-        float panelW = BackgroundComponent.BG_WIDTH - 100f;
-        float panelH = BackgroundComponent.BG_HEIGHT - 46f;
+        Bounds panel = ClickGuiLayout.contentPanel(bgX, bgY);
 
-        autoBuyComponent.position(panelX, panelY);
-        autoBuyComponent.size(panelW, panelH);
+        autoBuyComponent.position(panel.x(), panel.y());
+        autoBuyComponent.size(panel.w(), panel.h());
         autoBuyComponent.resetHover();
         autoBuyComponent.render(context, mouseX, mouseY, delta, guiScale, alphaMultiplier * categoryAlpha);
     }
@@ -109,12 +107,9 @@ public class AutoBuyRenderer implements IMinecraft {
         if (categoryAlpha < 0.5f) return false;
         if (autoBuyComponent.isSlidingOut()) return false;
 
-        float panelX = bgX + 92f;
-        float panelY = bgY + 38f;
-        float panelW = BackgroundComponent.BG_WIDTH - 100f;
-        float panelH = BackgroundComponent.BG_HEIGHT - 46f;
+        Bounds panel = ClickGuiLayout.contentPanel(bgX, bgY);
 
-        return autoBuyComponent.mouseClicked(mouseX, mouseY, button, panelX, panelY, panelW, panelH);
+        return autoBuyComponent.mouseClicked(mouseX, mouseY, button, panel.x(), panel.y(), panel.w(), panel.h());
     }
 
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
@@ -126,12 +121,9 @@ public class AutoBuyRenderer implements IMinecraft {
         if (categoryAlpha < 0.5f) return false;
         if (autoBuyComponent.isSlidingOut()) return false;
 
-        float panelX = bgX + 92f;
-        float panelY = bgY + 38f;
-        float panelW = BackgroundComponent.BG_WIDTH - 100f;
-        float panelH = BackgroundComponent.BG_HEIGHT - 46f;
+        Bounds panel = ClickGuiLayout.contentPanel(bgX, bgY);
 
-        return autoBuyComponent.mouseScrolled(mouseX, mouseY, amount, panelX, panelY, panelW, panelH);
+        return autoBuyComponent.mouseScrolled(mouseX, mouseY, amount, panel.x(), panel.y(), panel.w(), panel.h());
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

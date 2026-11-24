@@ -2,6 +2,7 @@ package rich.screens.clickgui.impl.configs;
 
 import net.minecraft.client.gui.DrawContext;
 import rich.modules.module.category.ModuleCategory;
+import rich.screens.clickgui.ClickGuiLayout;
 import rich.screens.clickgui.impl.configs.handler.ConfigAnimationHandler;
 import rich.screens.clickgui.impl.configs.handler.ConfigDataHandler;
 import rich.screens.clickgui.impl.configs.render.ConfigCreateBoxRenderer;
@@ -14,10 +15,10 @@ import java.awt.*;
 
 public class ConfigsRenderer {
 
-    public static final float PANEL_X_OFFSET = 92f;
-    public static final float PANEL_Y_OFFSET = 38f;
-    public static final float PANEL_WIDTH = 298f;
-    public static final float PANEL_HEIGHT = 204f;
+    public static final float PANEL_X_OFFSET = ClickGuiLayout.CONTENT_X;
+    public static final float PANEL_Y_OFFSET = ClickGuiLayout.CONTENT_Y;
+    public static final float PANEL_WIDTH = ClickGuiLayout.CONTENT_W;
+    public static final float PANEL_HEIGHT = ClickGuiLayout.CONTENT_H;
     public static final float CORNER_RADIUS = 6f;
 
     private final ConfigAnimationHandler animationHandler;

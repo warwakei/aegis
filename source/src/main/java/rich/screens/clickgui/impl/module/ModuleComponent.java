@@ -7,6 +7,7 @@ import rich.IMinecraft;
 import rich.modules.module.ModuleStructure;
 import rich.modules.module.category.ModuleCategory;
 import rich.modules.module.setting.SettingComponentAdder;
+import rich.screens.clickgui.impl.feedback.GuiToastManager;
 import rich.screens.clickgui.impl.module.handler.ModuleAnimationHandler;
 import rich.screens.clickgui.impl.module.handler.ModuleBindHandler;
 import rich.screens.clickgui.impl.module.handler.ModuleFavoriteHandler;
@@ -93,6 +94,21 @@ public class ModuleComponent implements IMinecraft {
     public void toggleFavorite(ModuleStructure module) {
         favoriteHandler.toggleFavorite(module, displayModules, animationHandler);
         rebuildDisplayList();
+        if (module.isFavorite()) {
+            GuiToastManager.show(module.getName() + " добавлен в избранное", GuiToastManager.Kind.FAVORITE);
+        } else {
+            GuiToastManager.show(module.getName() + " убран из избранного", GuiToastManager.Kind.INFO);
+        }
+    }
+
+    /** Тост при включении/выключении модуля кликом из GUI. */
+    public void switchModuleWithFeedback(ModuleStructure module) {
+        module.switchState();
+        if (module.isState()) {
+            GuiToastManager.show(module.getName() + " включён", GuiToastManager.Kind.ENABLED);
+        } else {
+            GuiToastManager.show(module.getName() + " выключен", GuiToastManager.Kind.DISABLED);
+        }
     }
 
     public void selectModuleFromSearch(ModuleStructure module) {
@@ -191,5 +207,28 @@ public class ModuleComponent implements IMinecraft {
 
     public boolean isTransitioning() {
         return animationHandler.isCategoryTransitioning();
+    }
+
+    /**
+     * Описание настройки под курсором для тултипа. Возвращает null,
+     * если ховера нет или компонент занят (раскрыт список, идёт ввод/драг).
+     */
+    public AbstractSettingComponent getTooltipTargetAt(double mouseX, double mouseY) {
+        for (AbstractSettingComponent c : settingComponents) {
+            if (!c.getSetting().isVisible()) continue;
+            if (mouseY < c.y || mouseY > c.y + c.height) continue;
+            if (mouseX < c.x || mouseX > c.x + c.width) continue;
+
+            if (c instanceof SelectComponent select && select.getTotalHeight() > c.height + 1f) return null;
+            if (c instanceof MultiSelectComponent multi && multi.getTotalHeight() > c.height + 1f) return null;
+            if (c instanceof ColorComponent color && (color.isExpanded() || color.isDragging() || color.isHexInputActive())) return null;
+            if (c instanceof SliderComponent slider && slider.isInputMode()) return null;
+            if (c instanceof BindComponent bind && bind.isListening()) return null;
+            if (c instanceof TextComponent && TextComponent.typing) return null;
+
+            String description = c.getSetting().getDescription();
+            return description != null && !description.isEmpty() ? c : null;
+        }
+        return null;
     }
 }

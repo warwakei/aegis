@@ -40,10 +40,12 @@ public enum LoadingStages {
     public void update() {
         SplashScreenManager.updateProgress(progress, message);
         // dramatic pacing for the splash (18-44s total across all stages)
-        try {
-            Thread.sleep(800 + (int)(Math.random() * 1400));
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        if (SplashScreenManager.isEnabled()) {
+            try {
+                Thread.sleep(800 + (int)(Math.random() * 1400));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
         if (this == COMPLETE) {
             SplashScreenManager.complete();

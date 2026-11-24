@@ -5,4 +5,9 @@ public class Version {
     public static final String VERSION = "${version}";
     public static final String CODENAME = "Neo";
     public static final String FULL_NAME = NAME + " " + VERSION + " \"" + CODENAME + "\"";
+
+    /** Сплешскрин включён (false в сборке -Pnosplash). */
+    public static final boolean SPLASH_ENABLED = ${splashEnabled};
+    /** Требовать мод aegis_updater при запуске (false в сборке -Pnosplash). */
+    public static final boolean UPDATER_REQUIRED = ${updaterRequired};
 }
